@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CreateJS export from lobby</title>
+
+<script src="libs/easeljs-0.6.0.min.js"></script>
+<script src="libs/tweenjs-0.4.0.min.js"></script>
+<script src="libs/movieclip-0.6.0.min.js"></script>
+<script src="libs/preloadjs-0.3.0.min.js"></script>
+<script src="lobby.js"></script>
+
+<script>
+var canvas, stage, exportRoot;
+
+function init() {
+	canvas = document.getElementById("canvas");
+	images = images||{};
+
+	var manifest = [
+		{src:"images/Bitmap4.png", id:"Bitmap4"},
+		{src:"images/Bitmap5.png", id:"Bitmap5"},
+		{src:"images/Bitmap6.png", id:"Bitmap6"},
+		{src:"images/Bitmap7.png", id:"Bitmap7"},
+		{src:"images/Bitmap8.png", id:"Bitmap8"},
+		{src:"images/greenbox.png", id:"greenbox"}
+	];
+
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", handleFileLoad);
+	loader.addEventListener("complete", handleComplete);
+	loader.loadManifest(manifest);
+}
+
+function handleFileLoad(evt) {
+	if (evt.item.type == "image") { images[evt.item.id] = evt.result; }
+}
+
+function handleComplete() {
+	exportRoot = new lib.lobby();
+
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);
+	stage.update();
+
+	createjs.Ticker.setFPS(60);
+	createjs.Ticker.addEventListener("tick", stage);
+}
+</script>
+</head>
+
+<body onload="init();" style="background-color:#D4D4D4">
+	<canvas id="canvas" width="1536" height="2048" style="background-color:#ffffff"></canvas>
+</body>
+</html>

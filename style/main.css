@@ -1,0 +1,53 @@
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    -ms-user-select: none;
+    user-select: none;
+    -ms-scroll-translation: vertical-to-horizontal;
+    -ms-content-zooming: none;
+    scroll-translation: vertical-to-horizontal;
+    content-zooming: none;
+    overflow: hidden;
+
+    
+
+}
+
+/*@-webkit-viewport{width:768px}
+@-moz-viewport{width:768px}
+@-ms-viewport{width:768px}
+@-o-viewport{width:768px}
+@viewport   {width:768px}*/
+
+
+body, a {
+    font-family: 'exo';
+    text-align: center;
+    background-color: Gray;
+    color: white;
+}
+
+#myCanvas {
+    backface-visibility: hidden;
+    background: gray;
+
+    image-rendering: optimizeSpeed; 
+    image-rendering: -moz-crisp-edges; 
+    image-rendering: -webkit-optimize-contrast!important; /* Webkit  */
+    /*  (Safari now, Chrome soon)      */
+    
+    -ms-interpolation-mode: nearest-neighbor; 
+    -webkit-interpolation-mode: nearest-neighbor
+}
+
+@font-face {
+    font-family: Exo;
+    src: url(../assets/font/Exo2.0-Regular.woff);
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Exo;
+    src: url(../assets/font/Exo2.0-Bold.woff);
+    font-weight: bold;
+}

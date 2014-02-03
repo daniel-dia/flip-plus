@@ -1,0 +1,452 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{8A606442-EDF6-4E11-9E0C-8E02ABC48B30}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="assets\images_0.25x\BackBt.png" />
+    <Content Include="assets\images_0.25x\lobbyImages\Bitmap4.png" />
+    <Content Include="assets\images_0.25x\lobbyImages\Bitmap5.png" />
+    <Content Include="assets\images_0.25x\lobbyImages\Bitmap6.png" />
+    <Content Include="assets\images_0.25x\lobbyImages\Bitmap7.png" />
+    <Content Include="assets\images_0.25x\lobbyImages\Bitmap8.png" />
+    <Content Include="assets\images_0.25x\lobbyImages\greenbox.png" />
+    <Content Include="assets\images_0.25x\MenuBt.png" />
+    <Content Include="assets\images_0.25x\mybots\05.jpg" />
+    <Content Include="assets\images_0.25x\mybots\greenbox.png" />
+    <Content Include="assets\images_0.25x\mybots\greenshadow.png" />
+    <Content Include="assets\images_0.25x\mybots\mybotsbg.png" />
+    <Content Include="assets\images_0.25x\mybots\trash01.png" />
+    <Content Include="assets\images_0.25x\mybots\trash02.png" />
+    <Content Include="assets\images_0.25x\mybots\trash03.png" />
+    <Content Include="assets\images_0.25x\mybots\trash04.png" />
+    <Content Include="assets\images_0.25x\mybots\trash05.png" />
+    <Content Include="assets\images_0.25x\mybots\trash06.png" />
+    <Content Include="assets\images_0.25x\partshud.png" />
+    <Content Include="assets\images_0.25x\partsicon.png" />
+    <Content Include="assets\images_0.25x\projects\bg.jpg" />
+    <Content Include="assets\images_0.25x\projects\projectActiveBg.png" />
+    <Content Include="assets\images_0.25x\puzzle\bg.jpg" />
+    <Content Include="assets\images_0.25x\puzzle\btplay1.png" />
+    <Content Include="assets\images_0.25x\puzzle\btplay2.png" />
+    <Content Include="assets\images_0.25x\puzzle\btplay3.png" />
+    <Content Include="assets\images_0.25x\puzzle\btpowerup.png" />
+    <Content Include="assets\images_0.25x\puzzle\btrestartpause.png" />
+    <Content Include="assets\images_0.25x\puzzle\btsair.png" />
+    <Content Include="assets\images_0.25x\puzzle\btsom1.png" />
+    <Content Include="assets\images_0.25x\puzzle\btsom2.png" />
+    <Content Include="assets\images_0.25x\puzzle\iconehint.png" />
+    <Content Include="assets\images_0.25x\puzzle\iconemoves.png" />
+    <Content Include="assets\images_0.25x\puzzle\iconepause.png" />
+    <Content Include="assets\images_0.25x\puzzle\iconeplay.png" />
+    <Content Include="assets\images_0.25x\puzzle\iconepuzzle.png" />
+    <Content Include="assets\images_0.25x\puzzle\iconerestart.png" />
+    <Content Include="assets\images_0.25x\puzzle\iconeskip.png" />
+    <Content Include="assets\images_0.25x\puzzle\iconetime.png" />
+    <Content Include="assets\images_0.25x\puzzle\paginacaopuzzle.png" />
+    <Content Include="assets\images_0.25x\puzzle\painelpuzzle1.png" />
+    <Content Include="assets\images_0.25x\puzzle\painelpuzzle2.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile0.png" />
+    <Content Include="assets\images_0.25x\puzzle\tilex.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_combo_1.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_combo_2.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_combo_3.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_combo_4.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_puzzle_1.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_puzzle_2.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_puzzle_3.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_puzzle_4.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_time_1.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_time_2.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_time_3.png" />
+    <Content Include="assets\images_0.25x\puzzle\tile_time_4.png" />
+    <Content Include="assets\images_0.25x\Temp\btback01.png" />
+    <Content Include="assets\images_0.25x\Temp\btpage.png" />
+    <Content Include="assets\images_0.25x\Temp\btproject01.png" />
+    <Content Include="assets\images_0.25x\Temp\btproject02.png" />
+    <Content Include="assets\images_0.25x\Temp\btstar01.png" />
+    <Content Include="assets\images_0.25x\Temp\btstar02.png" />
+    <Content Include="assets\images_0.25x\Temp\page01.png" />
+    <Content Include="assets\images_0.25x\Temp\page02.png" />
+    <Content Include="assets\images_0.25x\Temp\projectblueprint01.png" />
+    <Content Include="assets\images_0.25x\Temp\projectblueprint02.png" />
+    <Content Include="assets\images_0.25x\Temp\projectscreen.png" />
+    <Content Include="assets\images_0.25x\Temp\rob01.png" />
+    <Content Include="assets\images_0.25x\Temp\robblueprint01.png" />
+    <Content Include="assets\images_0.25x\workshop\basefases.png" />
+    <Content Include="assets\images_0.25x\workshop\bgworkshop.png" />
+    <Content Include="assets\images_0.25x\workshop\estrelaworkshop.png" />
+    <Content Include="assets\images_0.25x\workshop\faseamarela.png" />
+    <Content Include="assets\images_0.25x\workshop\faseamarelaf.png" />
+    <Content Include="assets\images_0.25x\workshop\faseroxa.png" />
+    <Content Include="assets\images_0.25x\workshop\faseroxaf.png" />
+    <Content Include="assets\images_0.25x\workshop\faseverde.png" />
+    <Content Include="assets\images_0.25x\workshop\faseverdef.png" />
+    <Content Include="assets\images_0.25x\workshop\paginacaoworkshop.png" />
+    <Content Include="assets\images_0.25x\workshop\painelworkshop.png" />
+    <Content Include="assets\images_0.25x\workshop\skip.png" />
+    <Content Include="assets\images_0.5x\BackBt.png" />
+    <Content Include="assets\images_0.5x\lobbyImages\Bitmap4.png" />
+    <Content Include="assets\images_0.5x\lobbyImages\Bitmap5.png" />
+    <Content Include="assets\images_0.5x\lobbyImages\Bitmap6.png" />
+    <Content Include="assets\images_0.5x\lobbyImages\Bitmap7.png" />
+    <Content Include="assets\images_0.5x\lobbyImages\Bitmap8.png" />
+    <Content Include="assets\images_0.5x\lobbyImages\greenbox.png" />
+    <Content Include="assets\images_0.5x\MenuBt.png" />
+    <Content Include="assets\images_0.5x\mybots\05.jpg" />
+    <Content Include="assets\images_0.5x\mybots\greenbox.png" />
+    <Content Include="assets\images_0.5x\mybots\greenshadow.png" />
+    <Content Include="assets\images_0.5x\mybots\mybotsbg.png" />
+    <Content Include="assets\images_0.5x\mybots\trash01.png" />
+    <Content Include="assets\images_0.5x\mybots\trash02.png" />
+    <Content Include="assets\images_0.5x\mybots\trash03.png" />
+    <Content Include="assets\images_0.5x\mybots\trash04.png" />
+    <Content Include="assets\images_0.5x\mybots\trash05.png" />
+    <Content Include="assets\images_0.5x\mybots\trash06.png" />
+    <Content Include="assets\images_0.5x\partshud.png" />
+    <Content Include="assets\images_0.5x\partsicon.png" />
+    <Content Include="assets\images_0.5x\projects\bg.jpg" />
+    <Content Include="assets\images_0.5x\projects\projectActiveBg.png" />
+    <Content Include="assets\images_0.5x\puzzle\bg.jpg" />
+    <Content Include="assets\images_0.5x\puzzle\btplay1.png" />
+    <Content Include="assets\images_0.5x\puzzle\btplay2.png" />
+    <Content Include="assets\images_0.5x\puzzle\btplay3.png" />
+    <Content Include="assets\images_0.5x\puzzle\btpowerup.png" />
+    <Content Include="assets\images_0.5x\puzzle\btrestartpause.png" />
+    <Content Include="assets\images_0.5x\puzzle\btsair.png" />
+    <Content Include="assets\images_0.5x\puzzle\btsom1.png" />
+    <Content Include="assets\images_0.5x\puzzle\btsom2.png" />
+    <Content Include="assets\images_0.5x\puzzle\iconehint.png" />
+    <Content Include="assets\images_0.5x\puzzle\iconemoves.png" />
+    <Content Include="assets\images_0.5x\puzzle\iconepause.png" />
+    <Content Include="assets\images_0.5x\puzzle\iconeplay.png" />
+    <Content Include="assets\images_0.5x\puzzle\iconepuzzle.png" />
+    <Content Include="assets\images_0.5x\puzzle\iconerestart.png" />
+    <Content Include="assets\images_0.5x\puzzle\iconeskip.png" />
+    <Content Include="assets\images_0.5x\puzzle\iconetime.png" />
+    <Content Include="assets\images_0.5x\puzzle\paginacaopuzzle.png" />
+    <Content Include="assets\images_0.5x\puzzle\painelpuzzle1.png" />
+    <Content Include="assets\images_0.5x\puzzle\painelpuzzle2.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile0.png" />
+    <Content Include="assets\images_0.5x\puzzle\tilex.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_combo_1.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_combo_2.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_combo_3.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_combo_4.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_puzzle_1.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_puzzle_2.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_puzzle_3.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_puzzle_4.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_time_1.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_time_2.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_time_3.png" />
+    <Content Include="assets\images_0.5x\puzzle\tile_time_4.png" />
+    <Content Include="assets\images_0.5x\Temp\btback01.png" />
+    <Content Include="assets\images_0.5x\Temp\btpage.png" />
+    <Content Include="assets\images_0.5x\Temp\btproject01.png" />
+    <Content Include="assets\images_0.5x\Temp\btproject02.png" />
+    <Content Include="assets\images_0.5x\Temp\btstar01.png" />
+    <Content Include="assets\images_0.5x\Temp\btstar02.png" />
+    <Content Include="assets\images_0.5x\Temp\page01.png" />
+    <Content Include="assets\images_0.5x\Temp\page02.png" />
+    <Content Include="assets\images_0.5x\Temp\projectblueprint01.png" />
+    <Content Include="assets\images_0.5x\Temp\projectblueprint02.png" />
+    <Content Include="assets\images_0.5x\Temp\projectscreen.png" />
+    <Content Include="assets\images_0.5x\Temp\rob01.png" />
+    <Content Include="assets\images_0.5x\Temp\robblueprint01.png" />
+    <Content Include="assets\images_0.5x\workshop\basefases.png" />
+    <Content Include="assets\images_0.5x\workshop\bgworkshop.png" />
+    <Content Include="assets\images_0.5x\workshop\estrelaworkshop.png" />
+    <Content Include="assets\images_0.5x\workshop\faseamarela.png" />
+    <Content Include="assets\images_0.5x\workshop\faseamarelaf.png" />
+    <Content Include="assets\images_0.5x\workshop\faseroxa.png" />
+    <Content Include="assets\images_0.5x\workshop\faseroxaf.png" />
+    <Content Include="assets\images_0.5x\workshop\faseverde.png" />
+    <Content Include="assets\images_0.5x\workshop\faseverdef.png" />
+    <Content Include="assets\images_0.5x\workshop\paginacaoworkshop.png" />
+    <Content Include="assets\images_0.5x\workshop\painelworkshop.png" />
+    <Content Include="assets\images_0.5x\workshop\skip.png" />
+    <Content Include="assets\images_1x\BackBt.png" />
+    <Content Include="assets\images_1x\lobbyImages\Bitmap4.png" />
+    <Content Include="assets\images_1x\lobbyImages\Bitmap5.png" />
+    <Content Include="assets\images_1x\lobbyImages\Bitmap6.png" />
+    <Content Include="assets\images_1x\lobbyImages\Bitmap7.png" />
+    <Content Include="assets\images_1x\lobbyImages\Bitmap8.png" />
+    <Content Include="assets\images_1x\lobbyImages\greenbox.png" />
+    <Content Include="assets\images_1x\MenuBt.png" />
+    <Content Include="assets\images_1x\mybots\05.jpg" />
+    <Content Include="assets\images_1x\mybots\greenbox.png" />
+    <Content Include="assets\images_1x\mybots\greenshadow.png" />
+    <Content Include="assets\images_1x\mybots\mybotsbg.png" />
+    <Content Include="assets\images_1x\mybots\trash01.png" />
+    <Content Include="assets\images_1x\mybots\trash02.png" />
+    <Content Include="assets\images_1x\mybots\trash03.png" />
+    <Content Include="assets\images_1x\mybots\trash04.png" />
+    <Content Include="assets\images_1x\mybots\trash05.png" />
+    <Content Include="assets\images_1x\mybots\trash06.png" />
+    <Content Include="assets\images_1x\partshud.png" />
+    <Content Include="assets\images_1x\partsicon.png" />
+    <Content Include="assets\images_1x\projects\bg.jpg" />
+    <Content Include="assets\images_1x\projects\projectActiveBg.png" />
+    <Content Include="assets\images_1x\puzzle\bg.jpg" />
+    <Content Include="assets\images_1x\puzzle\btplay1.png" />
+    <Content Include="assets\images_1x\puzzle\btplay2.png" />
+    <Content Include="assets\images_1x\puzzle\btplay3.png" />
+    <Content Include="assets\images_1x\puzzle\btpowerup.png" />
+    <Content Include="assets\images_1x\puzzle\btrestartpause.png" />
+    <Content Include="assets\images_1x\puzzle\btsair.png" />
+    <Content Include="assets\images_1x\puzzle\btsom1.png" />
+    <Content Include="assets\images_1x\puzzle\btsom2.png" />
+    <Content Include="assets\images_1x\puzzle\iconehint.png" />
+    <Content Include="assets\images_1x\puzzle\iconemoves.png" />
+    <Content Include="assets\images_1x\puzzle\iconepause.png" />
+    <Content Include="assets\images_1x\puzzle\iconeplay.png" />
+    <Content Include="assets\images_1x\puzzle\iconepuzzle.png" />
+    <Content Include="assets\images_1x\puzzle\iconerestart.png" />
+    <Content Include="assets\images_1x\puzzle\iconeskip.png" />
+    <Content Include="assets\images_1x\puzzle\iconetime.png" />
+    <Content Include="assets\images_1x\puzzle\paginacaopuzzle.png" />
+    <Content Include="assets\images_1x\puzzle\painelpuzzle1.png" />
+    <Content Include="assets\images_1x\puzzle\painelpuzzle2.png" />
+    <Content Include="assets\images_1x\puzzle\tile0.png" />
+    <Content Include="assets\images_1x\puzzle\tilex.png" />
+    <Content Include="assets\images_1x\puzzle\tile_combo_1.png" />
+    <Content Include="assets\images_1x\puzzle\tile_combo_2.png" />
+    <Content Include="assets\images_1x\puzzle\tile_combo_3.png" />
+    <Content Include="assets\images_1x\puzzle\tile_combo_4.png" />
+    <Content Include="assets\images_1x\puzzle\tile_puzzle_1.png" />
+    <Content Include="assets\images_1x\puzzle\tile_puzzle_2.png" />
+    <Content Include="assets\images_1x\puzzle\tile_puzzle_3.png" />
+    <Content Include="assets\images_1x\puzzle\tile_puzzle_4.png" />
+    <Content Include="assets\images_1x\puzzle\tile_time_1.png" />
+    <Content Include="assets\images_1x\puzzle\tile_time_2.png" />
+    <Content Include="assets\images_1x\puzzle\tile_time_3.png" />
+    <Content Include="assets\images_1x\puzzle\tile_time_4.png" />
+    <Content Include="assets\images_1x\Temp\btback01.png" />
+    <Content Include="assets\images_1x\Temp\btpage.png" />
+    <Content Include="assets\images_1x\Temp\btproject01.png" />
+    <Content Include="assets\images_1x\Temp\btproject02.png" />
+    <Content Include="assets\images_1x\Temp\btstar01.png" />
+    <Content Include="assets\images_1x\Temp\btstar02.png" />
+    <Content Include="assets\images_1x\Temp\page01.png" />
+    <Content Include="assets\images_1x\Temp\page02.png" />
+    <Content Include="assets\images_1x\Temp\projectblueprint01.png" />
+    <Content Include="assets\images_1x\Temp\projectblueprint02.png" />
+    <Content Include="assets\images_1x\Temp\projectscreen.png" />
+    <Content Include="assets\images_1x\Temp\rob01.png" />
+    <Content Include="assets\images_1x\Temp\robblueprint01.png" />
+    <Content Include="assets\images_1x\workshop\basefases.png" />
+    <Content Include="assets\images_1x\workshop\bgworkshop.png" />
+    <Content Include="assets\images_1x\workshop\estrelaworkshop.png" />
+    <Content Include="assets\images_1x\workshop\faseamarela.png" />
+    <Content Include="assets\images_1x\workshop\faseamarelaf.png" />
+    <Content Include="assets\images_1x\workshop\faseroxa.png" />
+    <Content Include="assets\images_1x\workshop\faseroxaf.png" />
+    <Content Include="assets\images_1x\workshop\faseverde.png" />
+    <Content Include="assets\images_1x\workshop\faseverdef.png" />
+    <Content Include="assets\images_1x\workshop\paginacaoworkshop.png" />
+    <Content Include="assets\images_1x\workshop\painelworkshop.png" />
+    <Content Include="assets\images_1x\workshop\skip.png" />
+    <Content Include="assets\Lobby.js" />
+    <Content Include="assets\pr.jpg" />
+    <Content Include="assets\RobotsAssets.js" />
+    <TypeScriptCompile Include="Preferences.ts" />
+    <Content Include="script.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="script\BitmapScalePath.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="default.htm" />
+    <Content Include="script\getQueryVariable.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="script\ImageHitAreaPatch.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="index.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <TypeScriptCompile Include="lib\Inertia.ts" />
+    <TypeScriptCompile Include="lib\SmokeFX.ts" />
+    <TypeScriptCompile Include="src\Menu\SlideShow.ts" />
+    <TypeScriptCompile Include="src\Menu\View\Popup.ts" />
+    <TypeScriptCompile Include="src\Menu\View\ProjectView.ts" />
+    <TypeScriptCompile Include="src\Menu\View\RobotPreview.ts" />
+    <TypeScriptCompile Include="src\UserData\ItensData.ts" />
+    <TypeScriptCompile Include="src\UserData\StoryData.ts" />
+    <TypeScriptCompile Include="src\GamePlay\Views\GameplayMenu.ts" />
+    <TypeScriptCompile Include="src\GamePlay\Views\StatusArea.ts" />
+    <TypeScriptCompile Include="src\Menu\LevelsMenu.ts" />
+    <Content Include="lib\createjs-2013.09.25.min.js" />
+    <Content Include="lib\createjs-2013.12.12.min.js" />
+    <Content Include="lib\movieclip-0.6.1.min.js" />
+    <Content Include="lib\timer.js" />
+    <TypeScriptCompile Include="src\UserData\SettingsData.ts" />
+    <TypeScriptCompile Include="src\Menu\Loading.ts" />
+    <TypeScriptCompile Include="src\Menu\SoundMenu.ts" />
+    <TypeScriptCompile Include="src\Menu\OptionsMenu.ts" />
+    <TypeScriptCompile Include="src\Menu\ProjectsMenu.ts" />
+    <TypeScriptCompile Include="src\Menu\View\PartsIndicator.ts" />
+    <TypeScriptCompile Include="src\Menu\View\ProjectItem.ts" />
+    <TypeScriptCompile Include="src\Menu\View\ProjectProgressIndicator.ts" />
+    <TypeScriptCompile Include="src\Menu\View\ProjectStarsIndicator.ts" />
+    <TypeScriptCompile Include="src\Menu\View\Terminal.ts" />
+    <TypeScriptCompile Include="src\Menu\View\ScreenMenu.ts" />
+    <TypeScriptCompile Include="src\Projects\Project.ts" />
+    <TypeScriptCompile Include="src\UserData\TimersData.ts" />
+    <TypeScriptCompile Include="src\Parts\PartsManager.ts" />
+    <TypeScriptCompile Include="src\Projects\ProjectManager.ts" />
+    <Content Include="src\UserData\ProjectsData.ts" />
+    <TypeScriptCompile Include="lib\soundjs.d.ts" />
+    <TypeScriptCompile Include="lib\preloadjs.d.ts" />
+    <TypeScriptCompile Include="Gbase\UI\Label.ts" />
+    <Content Include="Gbase\UI\Label.js">
+      <DependentUpon>Label.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Gbase\UI\UIItem.ts" />
+    <Content Include="Gbase\UI\UIItem.js">
+      <DependentUpon>UIItem.ts</DependentUpon>
+    </Content>
+    <Content Include="Projects.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\bolinhas.js" />
+    <Content Include="assets\bolinhas.png" />
+    <Content Include="assets\bt.png" />
+    <Content Include="assets\green.js" />
+    <Content Include="assets\green.png" />
+    <Content Include="assets\green_bg_main.png" />
+    <Content Include="assets\green_bg.png" />
+    <Content Include="assets\Ground.png" />
+    <Content Include="assets\locked.jpg" />
+    <Content Include="assets\prize.png" />
+    <Content Include="assets\win.jpg" />
+    <TypeScriptCompile Include="src\Robots\RobotsLobby.ts" />
+    <TypeScriptCompile Include="src\Assets.ts" />
+    <Content Include="assets\anim test.png" />
+    <Content Include="assets\animtest.png" />
+    <Content Include="assets\simple.js" />
+    <Content Include="assets\simple.png" />
+    <TypeScriptCompile Include="src\Menu\MainMenu.ts" />
+    <TypeScriptCompile Include="src\GamePlay\Views\Overlay.ts" />
+    <TypeScriptCompile Include="Gbase\Game.ts" />
+    <TypeScriptCompile Include="src\Utils\Effects.ts" />
+    <TypeScriptCompile Include="src\GamePlay\LevelScreen.ts" />
+    <TypeScriptCompile Include="src\GamePlay\Puzzle.ts" />
+    <TypeScriptCompile Include="src\GamePlay\TimeAttack.ts" />
+    <TypeScriptCompile Include="src\Projects\Level.ts" />
+    <TypeScriptCompile Include="Gbase\UI\Grid.ts" />
+    <Content Include="Gbase\UI\Grid.js">
+      <DependentUpon>Grid.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="src\InvertCrossGame.ts" />
+    <TypeScriptCompile Include="src\Menu\View\LevelThumb.ts" />
+    <TypeScriptCompile Include="src\Menu\View\LevelGrid.ts" />
+    <TypeScriptCompile Include="Gbase\UI\Button.ts" />
+    <TypeScriptCompile Include="Gbase\ScreenViewer.ts" />
+    <TypeScriptCompile Include="Gbase\UI\MenuContainer.ts" />
+    <Content Include="Gbase\UI\MenuContainer.js">
+      <DependentUpon>MenuContainer.ts</DependentUpon>
+    </Content>
+    <Content Include="Gbase\UI\Button.js">
+      <DependentUpon>Button.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="src\GamePlay\Model\Level.ts" />
+    <TypeScriptCompile Include="src\GamePlay\Model\Board.ts" />
+    <TypeScriptCompile Include="src\GamePlay\Tutorial.ts" />
+    <TypeScriptCompile Include="lib\easeljs.d.ts" />
+    <TypeScriptCompile Include="Gbase\ScreenState.ts" />
+    <Content Include="src\GamePlay\Model\Block.ts" />
+    <TypeScriptCompile Include="src\GamePlay\Views\BlockSprite.ts" />
+    <TypeScriptCompile Include="src\GamePlay\Views\BoardSprite.ts" />
+    <TypeScriptCompile Include="lib\tweenjs.d.ts" />
+    <Content Include="set.html" />
+    <Content Include="script\setMobileScale.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="style\main.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <TypeScriptCompile Include="_references.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="web.config" />
+    <Content Include="assets\font\Exo2.0-Bold.woff" />
+    <Content Include="assets\font\Exo2.0-Regular.woff" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="assets\sound\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>CrossInvert</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>15981</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:46659/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptOutFile>script.js</TypeScriptOutFile>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

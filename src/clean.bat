@@ -1,0 +1,1 @@
+del *.js,*.map /s
