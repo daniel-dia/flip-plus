@@ -91,20 +91,20 @@ module InvertCross {
                 { id: "puzzle/painelpuzzle2", src: imagePath + "puzzle/painelpuzzle2.png" },
                 { id: "puzzle/tile0", src: imagePath + "puzzle/tile0.png" },
 
-                { id: "puzzle/tile_puzzle_1", src: imagePath + "puzzle/tile_puzzle_1.png" },
-                { id: "puzzle/tile_puzzle_2", src: imagePath + "puzzle/tile_puzzle_2.png" },
-                { id: "puzzle/tile_puzzle_3", src: imagePath + "puzzle/tile_puzzle_3.png" },
-                { id: "puzzle/tile_puzzle_4", src: imagePath + "puzzle/tile_puzzle_4.png" },
+                { id: "puzzle/tile_yellow_1", src: imagePath + "puzzle/tile_yellow_1.png" },
+                { id: "puzzle/tile_yellow_2", src: imagePath + "puzzle/tile_yellow_2.png" },
+                { id: "puzzle/tile_yellow_3", src: imagePath + "puzzle/tile_yellow_3.png" },
+                { id: "puzzle/tile_yellow_4", src: imagePath + "puzzle/tile_yellow_4.png" },
 
-                { id: "puzzle/tile_time_1", src: imagePath + "puzzle/tile_time_1.png" },
-                { id: "puzzle/tile_time_2", src: imagePath + "puzzle/tile_time_2.png" },
-                { id: "puzzle/tile_time_3", src: imagePath + "puzzle/tile_time_3.png" },
-                { id: "puzzle/tile_time_4", src: imagePath + "puzzle/tile_time_4.png" },
+                { id: "puzzle/tile_green_1", src: imagePath + "puzzle/tile_green_1.png" },
+                { id: "puzzle/tile_green_2", src: imagePath + "puzzle/tile_green_2.png" },
+                { id: "puzzle/tile_green_3", src: imagePath + "puzzle/tile_green_3.png" },
+                { id: "puzzle/tile_green_4", src: imagePath + "puzzle/tile_green_4.png" },
 
-                { id: "puzzle/tile_combo_1", src: imagePath + "puzzle/tile_combo_1.png" },
-                { id: "puzzle/tile_combo_2", src: imagePath + "puzzle/tile_combo_2.png" },
-                { id: "puzzle/tile_combo_3", src: imagePath + "puzzle/tile_combo_3.png" },
-                { id: "puzzle/tile_combo_4", src: imagePath + "puzzle/tile_combo_4.png" },
+                { id: "puzzle/tile_purple_1", src: imagePath + "puzzle/tile_purple_1.png" },
+                { id: "puzzle/tile_purple_2", src: imagePath + "puzzle/tile_purple_2.png" },
+                { id: "puzzle/tile_purple_3", src: imagePath + "puzzle/tile_purple_3.png" },
+                { id: "puzzle/tile_purple_4", src: imagePath + "puzzle/tile_purple_4.png" },
                 { id: "puzzle/tilex", src: imagePath + "puzzle/tilex.png" },
 
 

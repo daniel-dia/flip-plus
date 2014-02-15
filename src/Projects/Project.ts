@@ -21,7 +21,8 @@ module InvertCross.Projects {
         public UserData: ProjectUserData;
 
         //indicates if game is avaliable in free mode
-        public free:boolean
+        public free: boolean
+
     }
 
     export class ProjectUserData {

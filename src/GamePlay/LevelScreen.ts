@@ -58,7 +58,7 @@ module InvertCross.GamePlay {
             this.addBackground(leveldata.theme);
 
             //initialize board sprites
-            this.initializeBoardSprites(leveldata.width, leveldata.height, leveldata.type, this.levelLogic.getBlocks());
+            this.initializeBoardSprites(leveldata.width, leveldata.height, leveldata.theme, this.levelLogic.getBlocks());
 
             //initialize overlay
             this.initializeOverlays();
@@ -100,10 +100,10 @@ module InvertCross.GamePlay {
 
         }
 
-        private initializeBoardSprites(width: number, height: number, type: string, blocks: any) {
+        private initializeBoardSprites(width: number, height: number, theme: string, blocks: any) {
 
             //AddBoard
-            this.boardSprite = new Views.BoardSprite(width, height, type);
+            this.boardSprite = new Views.BoardSprite(width, height, theme);
             this.view.addChild(this.boardSprite);
 
             this.boardSprite.x = DefaultWidth / 2;
@@ -116,18 +116,24 @@ module InvertCross.GamePlay {
 
         // user input ===============================================================================================================
 
+        //threat user input
         public userInput(col: number, row: number) {
+
+            //invert a cross
             this.levelLogic.invertCross(col, row);
 
+            //update sprites 
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
 
-
+            //verifies prize
             if (this.levelLogic.verifyPrize())
                 this.earnPrize(col, row);
 
-
-            if (this.levelLogic.verifyWin())
+            //verifies winning
+            if (this.levelLogic.verifyWin()) 
                 this.win(col, row);
+            
+
 
             this.levelLogic.moves++;
         }
@@ -164,7 +170,7 @@ module InvertCross.GamePlay {
                 this.menuOverlay.updateHint(InvertCrossaGame.itemsData.getItemQuantity("hint"));
             }
             else {
-                alert("no more hints");
+                this.popup.showtext("no more hints",3000);
             }
             
         }

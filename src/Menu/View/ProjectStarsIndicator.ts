@@ -3,7 +3,7 @@
 module InvertCross.Menu.View {
     export class ProjectStarsIndicator extends createjs.Container{
 
-        private projectsTypes: Array<string> = ["puzzle", "time", "combo"];
+        private projectsTypes: Array<string> = ["puzzle", "time", "moves"];
         private stars: Array<createjs.DisplayObject>;
         private project: Projects.Project;
 

@@ -115,7 +115,7 @@ module InvertCross.GamePlay.Views {
                  this.rightIconMC.timeline.gotoAndPlay(0);
         }
 
-        //set the behaviour of the puzzle , puzze, draw, combo, time
+        //set the behaviour of the puzzle , puzze, draw, moves, time
         public setMode(mode: string) {
             this.mode = mode;
 
@@ -130,7 +130,7 @@ module InvertCross.GamePlay.Views {
                     this.iconepuzzle.visible = false;
                     this.iconemoves.visible = false;
                     break;
-                case "combo":
+                case "moves":
                     this.iconetime.visible = false;
                     this.iconepuzzle.visible = false;
                     this.iconemoves.visible = true;

@@ -93,9 +93,9 @@ module InvertCross.Menu.View {
 
             //defines accentColor based on level type.
             var assetname = "faseamarela";
-            if (level.type == "puzzle") assetname = "faseverde";
-            if (level.type == "time") assetname = "faseroxa";
-            if (level.type == "combo") assetname = "faseamarela";
+            if (level.theme == "green") assetname = "faseverde";
+            if (level.theme == "purple") assetname = "faseroxa";
+            if (level.theme== "yellow") assetname = "faseamarela";
 
             var marginLeft = (spacing * level.width) / 2;
             var marginTop = (spacing * level.height) / 2;

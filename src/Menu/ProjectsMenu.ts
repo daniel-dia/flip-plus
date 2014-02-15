@@ -24,10 +24,15 @@ module InvertCross.Menu {
 
         private menu: View.ScreenMenu;
 
+
+        private popup: View.Popup;
+
         // Constructor
         constructor() {
             super();
             this.createObjects();
+            this.popup = new View.Popup();
+            this.view.addChild(this.popup);
         }
 
         //populate View
@@ -115,7 +120,7 @@ module InvertCross.Menu {
                 if (stars >= p.cost)
                     InvertCrossaGame.projectManager.unlockProject(p);
                 else
-                    alert("you only have " + stars + " stars. You need at least " + p.cost + "stars to unlock this project\n play more levels to earn stars.");
+                    this.popup.showtext("you only have " + stars + " stars. \nYou need at least " + p.cost + " stars \nto unlock this project\n play more levels to earn stars.",10000);
                 this.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());   
                 this.updateProjects();
             }

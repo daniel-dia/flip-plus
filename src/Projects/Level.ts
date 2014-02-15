@@ -28,6 +28,10 @@ module InvertCross.Projects {
         //the player left 6 3 and 1 inverted block on the puzze
         public prizes: number[];
 
+        // ================ specific for each type ===============================
+
+        public moves: number;
+
         //time is the time left used on timeAttack levels
         public time: number; 
 

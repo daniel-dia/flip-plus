@@ -1,12 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" /> 
-/// <reference path="../../lib/soundjs.d.ts" /> 
-
-/// <reference path="Views/Overlay.ts" />
-/// <reference path="Views/BoardSprite.ts" />
-
-/// <reference path="Model/Board.ts" />
-
-/// <reference path="../../Gbase/ScreenState.ts" /> 
 declare var Timer;
 declare var TimerEvent;
 

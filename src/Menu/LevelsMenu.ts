@@ -18,6 +18,7 @@ module InvertCross.Menu {
         private projectViews: Array<View.ProjectView>;
 
         private popup: View.Popup;
+        private message: View.Message;
 
         private projects;
 
@@ -50,7 +51,8 @@ module InvertCross.Menu {
             this.popup = new View.Popup();
             this.view.addChild(this.popup);
 
-            
+            this.message = new View.Message();
+            this.view.addChild(this.message);
         }
 
         //Adds menu to screen;
@@ -137,10 +139,10 @@ module InvertCross.Menu {
             }
 
             if (complete)
-                this.popup.showtext("WELL DONE !", 3000,1500);
+                this.message.showtext("WELL DONE !", 3000,500);
 
             if (loose)
-                this.popup.showtext("TRY AGAIN !", 3000);
+                this.message.showtext("TRY AGAIN !", 3000);
         }
     }
 }

@@ -12,7 +12,7 @@
 module InvertCross.Menu.View {
 
     // View Class
-    export class Popup extends Gbase.UI.UIItem{
+    export class Message extends Gbase.UI.UIItem{
 
         private text: createjs.Text;
         private closeinterval;
@@ -32,20 +32,15 @@ module InvertCross.Menu.View {
             //hide popup
             this.visible = false;
 
-            //add callback
-            this.addEventListener("click", () => {
-                this.closePopUp();
-                clearTimeout(this.closeinterval);
-            });
+            this.mouseEnabled = false;
 
         }
 
         //public method to invoke the popup
-        public showtext(text: string, timeout: number= 10000,delay:number=0) {
+        public showtext(text: string, timeout: number= 3000,delay:number=0) {
 
             //updates text
             this.text.text = text;
-            this.text.y = DefaultHeight/2 - this.text.getMeasuredHeight()/2
 
             //shows the popus
             this.closeinterval = setTimeout(() => {
@@ -61,12 +56,8 @@ module InvertCross.Menu.View {
 
         //method for close popup 
         private closePopUp() {
-
             //hide the popup{
             this.fadeOut();
-
-            //dispatch a event for parent objects
-            this.dispatchEvent("onclose");
         }
 
 
@@ -75,16 +66,15 @@ module InvertCross.Menu.View {
             
             //draw background
             var bg = new createjs.Shape();
-            bg.graphics.beginFill("rgba(0,0,0,0.5)").drawRect(0, 0, DefaultWidth, DefaultHeight).endFill();
-            bg.graphics.beginFill("rgb(100,100,100)").beginStroke("#FFF").setStrokeStyle(4).drawRect(DefaultWidth * .1, DefaultHeight*.4, DefaultWidth*.8, DefaultHeight*.2).endFill();
+            bg.graphics.beginFill("rgba(0,0,0,0.5)").drawRect(0, DefaultHeight*0.25, DefaultWidth, DefaultHeight*0.1).endFill();
             this.addChild(bg);
 
             //create a text
             this.text = new createjs.Text("TESTE", defaultFontFamilyNormal, defaultFontColor);
             this.text.textAlign = "center";
-           // this.text.textBaseline = "top";
+            this.text.textBaseline = "middle"
             this.text.x = DefaultWidth / 2;
-            this.text.y = DefaultHeight / 2;
+            this.text.y = DefaultHeight *0.3;
             this.addChild(this.text);
         }
     }
