@@ -28,7 +28,7 @@ module Gbase.UI {
             this.antX = this.x;
             this.antY = this.y;
             //this.mouseEnabled = false;
-
+            createjs.Tween.removeTweens(this);
             createjs.Tween.get(this).to({
                 scaleX: 0.5,
                 scaleY: 0.5,
@@ -62,6 +62,7 @@ module Gbase.UI {
             this.y = this.y + (this.centered ? 0 : (this.height / 4))
 
             this.mouseEnabled = false;
+            createjs.Tween.removeTweens(this);
             createjs.Tween.get(this).to({
                 scaleX: 1,
                 scaleY: 1,

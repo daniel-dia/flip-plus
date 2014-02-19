@@ -38,9 +38,19 @@ module InvertCross.Projects {
         //time is the number of puzzles to get solved
         public puzzlesToSolve: number; 
 
+        // ================ Tutorial =============================================
 
+        public tutorial: Array<tutorialStep>;
+
+        // ================ User data ============================================
 
         public userdata: LevelUserData;
+    }
+
+    export interface tutorialStep {
+        text?: string;
+        item?: string;
+        click?: number;
     }
 
 

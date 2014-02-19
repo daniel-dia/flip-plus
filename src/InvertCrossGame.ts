@@ -122,12 +122,12 @@ module InvertCross {
         private static createLevel(level: Projects.Level): GamePlay.LevelScreen{
 
             switch (level.type) {
-                case "puzzle": case "draw":  case "tutorial":
+                case "puzzle": case "draw":
                     return new GamePlay.Puzzle(level);
                 case "moves": case "combo":
                     return new GamePlay.Moves(level);
                 case "tutorial":
-                    //return new GamePlay.Tutorial(level);
+                    return new GamePlay.Tutorial(level);
                 case "time":
                     return new GamePlay.TimeAtack(level);
                 }

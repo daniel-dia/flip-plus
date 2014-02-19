@@ -132,8 +132,6 @@ module InvertCross.GamePlay {
             //verifies winning
             if (this.levelLogic.verifyWin()) 
                 this.win(col, row);
-            
-
 
             this.levelLogic.moves++;
         }

@@ -90,6 +90,7 @@ module InvertCross {
                 { id: "puzzle/painelpuzzle1", src: imagePath + "puzzle/painelpuzzle1.png" },
                 { id: "puzzle/painelpuzzle2", src: imagePath + "puzzle/painelpuzzle2.png" },
                 { id: "puzzle/tile0", src: imagePath + "puzzle/tile0.png" },
+                { id: "puzzle/indicator", src: imagePath + "puzzle/indicator.png" },
 
                 { id: "puzzle/tile_yellow_1", src: imagePath + "puzzle/tile_yellow_1.png" },
                 { id: "puzzle/tile_yellow_2", src: imagePath + "puzzle/tile_yellow_2.png" },

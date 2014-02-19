@@ -14,8 +14,6 @@ module InvertCross.GamePlay.Views {
 
         //---------------------------------------------------
 
-        //public sprite: createjs.Container; // container
-
         private container: createjs.Container;
         private stateImage: createjs.DisplayObject;
         
@@ -38,6 +36,9 @@ module InvertCross.GamePlay.Views {
         //block model
         private block: Model.Block;
         
+        //tutorialHighlighted
+        public tutorialHighLighted:boolean
+
         //Constructor
         constructor(col: number, row: number, theme: string) {
             super();
@@ -60,6 +61,9 @@ module InvertCross.GamePlay.Views {
             //set position
             this.x = col * BlockSprite.defaultBlockSize;
             this.y = row * BlockSprite.defaultBlockSize;
+
+            //set tutorial state
+            this.tutorialHighLighted = false;
         }
         
         public enableHint() {
@@ -145,6 +149,8 @@ module InvertCross.GamePlay.Views {
         //Load assets and adds it to the container
         private loadAssets(theme: string) {
 
+
+
             //load tiles
             var manifest = [
                 { name: "Nor", images: ["puzzle/tile_" + theme + "_1", "puzzle/tile_" + theme + "_2", "puzzle/tile_" + theme + "_3", "puzzle/tile_" + theme + "_4", ] },
@@ -163,10 +169,13 @@ module InvertCross.GamePlay.Views {
             }
 
             //load hint symbol
-
             this.hintimage = Assets.getImage("puzzle/iconehint");
             this.container.addChild(this.hintimage);
             this.hintimage.visible = false;
+
+        
+
+
         }
         
         //load a single asset and adds it to this
@@ -186,6 +195,31 @@ module InvertCross.GamePlay.Views {
             return asset;
         }
 
+        // =================== Tutorial Lock ===============================================================
+
+        public tutorialLock() {
+            this.mouseEnabled = false;
+            this.tutorialHighLighted = false;
+
+            
+        }
+
+        public tutorialUnlock() {
+            this.mouseEnabled = true;
+            this.tutorialHighLighted = false;
+
+        }
+
+
+        public tutorialHighLight() {
+            this.mouseEnabled = true;
+            this.tutorialHighLighted = true;
+        }
+
+        public tutorialBlur() {
+            this.mouseEnabled = true;
+            this.tutorialHighLighted = false;
+        }
 
         // =================== Animation ==========================================================
 

@@ -1,6 +1,3 @@
-/// <reference path="../../../lib/easeljs.d.ts" /> 
-/// <reference path="BlockSprite.ts" /> 
-
 module InvertCross.GamePlay.Views {
     export class BoardSprite extends createjs.Container {
         
@@ -12,6 +9,9 @@ module InvertCross.GamePlay.Views {
         private locked = false;
 
         private callback: (col: number, row: number) => void;
+
+        //indicator
+        private tutorialIndiatcor: createjs.Bitmap;
 
         constructor(width: number, height: number, theme: string) {
             super();
@@ -27,15 +27,23 @@ module InvertCross.GamePlay.Views {
             var boardWidth = width * BlockSprite.defaultBlockSize;
 
             this.regX =  boardWidth / 2;
-            this.regY =  boardHeight / 2;
+            this.regY = boardHeight / 2;
+
+            //load click indicator
+            this.tutorialIndiatcor = Assets.getImage("puzzle/indicator");
+            this.tutorialIndiatcor.mouseEnabled = false;
+            this.addChild(this.tutorialIndiatcor);
+            this.tutorialIndiatcor.visible = false;
 
         }
 
+        //initializes the effectss sprites
         public initializeEffects() {
             this.fx = new InvertCross.Effects();
             this.addChild(this.fx);
         }
 
+        //creates and add all blocks to the boardh
         private addBlocks(width: number, height: number, theme: string) {
             this.blocksSprites = [];
 
@@ -59,21 +67,30 @@ module InvertCross.GamePlay.Views {
 
                         var b: BlockSprite = <BlockSprite>event.target;
                         this.callback(b.col, b.row);
-                                                
+                                                                        
                         // play a Radom Sounds
                         var randomsound = Math.ceil(Math.random() * 3)
                         if (randomsound >= this.previousSound) randomsound++;
                         InvertCross.Assets.playSound("tile" + randomsound);
                         this.previousSound = randomsound;
 
+                        //tutorialrelease
+                        if (b.tutorialHighLighted) {
+
+                            this.tutorialRelease();
+                            this.dispatchEvent("ontutorialclick");
+                        }
+
                     });
 
+                    //moouse down
                     blockSprite.addEventListener("mousedown", (event: createjs.MouseEvent) => {
                         if (this.locked) return;
                         this.preInvertCross(<BlockSprite>event.target);
                     });
 
                     
+                    //mouse up
                     blockSprite.addEventListener("pressup", (event: createjs.MouseEvent) => {
                         this.preInvertRelease(<BlockSprite>event.target);
                     });
@@ -83,18 +100,64 @@ module InvertCross.GamePlay.Views {
             }
         }
 
+        //updates sprites in the board
         public updateSprites(blocks:Model.Block[][]) {
             for (var col = 0; col < this.blocksSprites.length; col++)
                 for (var row = 0; row < this.blocksSprites[col].length; row++)
                     this.blocksSprites[col][row].updateSprite(blocks[col][row]);
         }
 
+        //creates user input callback to the level
         public addInputCallback(callback: (col: number, row: number) => void) {
             this.callback = callback;
         }
 
+        //retuns a blocks by a absolute ID
         public getBlockById(id: number) :BlockSprite{
             return this.blocksSprites[Math.floor(id / this.boardWidth)][id % this.boardHeight];
+        }
+
+        //===================================================  Tutorial =================================================================
+
+        public tutorialHighlightBlocks(blockId: number) {
+            var blocksCount = this.boardWidth * this.boardHeight;
+        
+            for (var b = 0; b < blocksCount; b++) {
+                var block = this.getBlockById(b);
+                block.tutorialLock();
+            }
+        
+            var block = this.getBlockById(blockId);
+            block.tutorialHighLight();
+
+            this.tutorialIndiatcor.visible = true;
+            this.tutorialIndiatcor.x = block.x;
+            this.tutorialIndiatcor.y = block.y;
+            
+        }
+
+
+        public tutorialRelease() {
+            var blocksCount = this.boardWidth * this.boardHeight;
+
+            for (var b = 0; b < blocksCount; b++) {
+                var block = this.getBlockById(b);
+                block.tutorialUnlock();
+            }
+
+
+            this.tutorialIndiatcor.visible = false;
+
+
+        }
+
+        public tutorialLockBlocks() {
+            var blocksCount = this.boardWidth * this.boardHeight;
+
+            for (var b = 0; b < blocksCount; b++) {
+                var block = this.getBlockById(b);
+                block.tutorialHighLight();
+            }
         }
 
         //===================================================  Effects  =================================================================

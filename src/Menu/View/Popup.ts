@@ -55,7 +55,10 @@ module InvertCross.Menu.View {
             //create a interval for closing the popopu
             this.closeinterval = setTimeout(() => {
                 this.closePopUp();
-            }, timeout+delay);
+            }, timeout + delay);
+
+            //dispatch a event for parent objects
+            this.dispatchEvent("onshow");
         }
 
 
@@ -80,7 +83,7 @@ module InvertCross.Menu.View {
             this.addChild(bg);
 
             //create a text
-            this.text = new createjs.Text("TESTE", defaultFontFamilyNormal, defaultFontColor);
+            this.text = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
             this.text.textAlign = "center";
            // this.text.textBaseline = "top";
             this.text.x = DefaultWidth / 2;

@@ -3,7 +3,7 @@
 module InvertCross.Menu.View {
     export class ProjectStarsIndicator extends createjs.Container{
 
-        private projectsTypes: Array<string> = ["puzzle", "time", "moves"];
+        private projectsThemes: Array<string> = ["green", "purple", "yellow"];
         private stars: Array<createjs.DisplayObject>;
         private project: Projects.Project;
 
@@ -17,7 +17,7 @@ module InvertCross.Menu.View {
         private createObjects() {
             this.stars = [];   
 
-            for (var i = 0; i < this.projectsTypes.length; i++) {
+            for (var i = 0; i < this.projectsThemes.length; i++) {
                 this.stars[i] = this.createStar(i);
                 this.stars[i].visible = false;
             }
@@ -46,15 +46,15 @@ module InvertCross.Menu.View {
             var starsInfo = new Object();
 
             //shows only existent levels
-            for (var i = 0; i < this.projectsTypes.length; i++)
+            for (var i = 0; i < this.projectsThemes.length; i++)
                 for (var l = 0; l < project.levels.length; l++)
-                    if (this.projectsTypes[i] == project.levels[l].type)
+                    if (this.projectsThemes[i] == project.levels[l].theme)
                         starsInfo[i] = true;
 
             //hide uncompleted.
-            for (var i = 0; i < this.projectsTypes.length; i++)
+            for (var i = 0; i < this.projectsThemes.length; i++)
                 for (var l = 0; l < project.levels.length; l++)
-                    if (this.projectsTypes[i] == project.levels[l].type)
+                    if (this.projectsThemes[i] == project.levels[l].theme)
                         if (!project.levels[l].userdata.solved)
                             starsInfo[i] = false;
 
