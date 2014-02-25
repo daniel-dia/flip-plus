@@ -8,7 +8,11 @@ declare var images: any;
 // Module
 module InvertCross.Menu {
     // Class
+
     export class Loading extends Gbase.ScreenState {
+
+        public loaded: () => any;
+
         constructor() {
             super();
             this.initializeImages()
@@ -33,7 +37,7 @@ module InvertCross.Menu {
             
             //creates load complete action
             loader.addEventListener("complete", (evt: Object): boolean => {
-                InvertCrossaGame.showMainMenu();
+                if (this.loaded) this.loaded();
                 return true;
             });
         }

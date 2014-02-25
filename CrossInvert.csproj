@@ -284,6 +284,7 @@
     <TypeScriptCompile Include="lib\SmokeFX.ts" />
     <TypeScriptCompile Include="src\GamePlay\Moves.ts" />
     <TypeScriptCompile Include="src\Menu\SlideShow.ts" />
+    <TypeScriptCompile Include="src\Menu\TitleScreen.ts" />
     <TypeScriptCompile Include="src\Menu\View\Message.ts" />
     <TypeScriptCompile Include="src\Menu\View\Popup.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProjectView.ts" />

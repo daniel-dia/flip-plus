@@ -36,6 +36,16 @@ module InvertCross {
                 { id: "MenuBt", src: imagePath + "MenuBt.png" },
                 { id: "BackBt", src: imagePath + "BackBt.png" },
 
+                //title
+                { id: "title/LogoScreen", src: imagePath + "title/LogoScreen.jpg" },
+
+                //intro
+                { src: "intro/bot.png", id: "bot" },
+                { src: "intro/Bot01.png", id: "Bot01" },
+                { src: "intro/botLight.png", id: "botLight" },
+                { src: "intro/fundoEscuro.jpg", id: "fundoEscuro" },
+                { src: "intro/mybotsbg.jpg", id: "mybotsbg" },
+
                 //projects
                 { id: "projects/bg", src: imagePath + "projects/bg.jpg" },
                 { id: "projects/projectActiveBg", src: imagePath + "projects/projectActiveBg.png" },

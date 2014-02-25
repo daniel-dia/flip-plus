@@ -1,16 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" />
-/// <reference path="../../lib/SmokeFX.ts" />
-
-/// <reference path="../InvertCrossGame.ts" /> 
-
-/// <reference path="../GamePlay/Model/Level.ts" /> 
-
-/// <reference path="view/terminal.ts" />
-
-/// <reference path="../../Gbase/UI/MenuContainer.ts" /> 
-/// <reference path="../../Gbase/ScreenState.ts" /> 
-/// <reference path="../Robots/RobotsLobby.ts" /> 
-
 module InvertCross.Menu {
 
     export class MainMenu extends Gbase.ScreenState {

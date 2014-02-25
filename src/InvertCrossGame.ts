@@ -1,25 +1,3 @@
-///<reference path="../Gbase/Game.ts" />
-
-///<reference path="Projects/ProjectManager.ts" />
-///<reference path="Parts/partsManager.ts" />
-
-/// <reference path="userdata/projectsdata.ts" />
-/// <reference path="userdata/settingsdata.ts" />
-/// <reference path="userdata/storydata.ts" />
-/// <reference path="userdata/timersdata.ts" />
-
-/// <reference path="GamePlay/LevelScreen.ts" /> 
-/// <reference path="GamePlay/Puzzle.ts" />
-/// <reference path="GamePlay/TimeAttack.ts" />
-    
-/// <reference path="Menu/Loading.ts" />
-/// <reference path="Menu/MainMenu.ts" />
-/// <reference path="Menu/OptionsMenu.ts" />
-/// <reference path="Menu/ProjectsMenu.ts" />
-/// <reference path="Menu/LevelsMenu.ts" />
-
-/// <reference path="Assets.ts" />
-
 declare var levelsData; 
 
 window.onload = function () { InvertCross.InvertCrossaGame.InvertCrossInitilize(); };
@@ -35,23 +13,23 @@ module InvertCross {
         public static settings: UserData.SettingsData;
         public static timersData:   UserData.TimersData;
         public static itemsData: UserData.ItensData;
-               
+        public static storyData: UserData.StoryData;
+                       
         //Managers
         public static projectManager: Projects.ProjectManager;
         public static partsManager: Parts.PartsManager;
         
         // Screens
+        private static titleScreen: Gbase.ScreenState;
         private static projectsMenu: Gbase.ScreenState;
         private static levelsMenu:   Gbase.ScreenState;
         private static levelScreeen: Gbase.ScreenState;
-        
-        
         public static mainScreen: Menu.MainMenu;
         public static optionsMenu: Gbase.ScreenState;
+        public static loadingScreen: Menu.Loading;
 
         // ----------------------------- Initialization -------------------------------------------//
 
-        public static loadingScreen: Gbase.ScreenState;
 
         public static InvertCrossInitilize() {
 
@@ -65,22 +43,21 @@ module InvertCross {
             InvertCrossaGame.userData = new UserData.ProjectsData();
             InvertCrossaGame.settings = new UserData.SettingsData();
             InvertCrossaGame.itemsData = new UserData.ItensData();
+            InvertCrossaGame.storyData = new UserData.StoryData();
+            InvertCrossaGame.timersData = new UserData.TimersData();
 
             //managers
             InvertCrossaGame.partsManager = new Parts.PartsManager();
             InvertCrossaGame.projectManager = new Projects.ProjectManager(levelsData);
             
-            //userData
-            //TODO baguncado.. essa classe esta relacionada com projectsManager, que eh iniciado depois.
-            //o metodo initialize all timers seria melhor que nao estivesse lah.
-            InvertCrossaGame.timersData = new UserData.TimersData();
-
             //go to First Screen
             InvertCrossaGame.loadingScreen = new InvertCross.Menu.Loading();
-            InvertCross.InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
-
+            InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
+            InvertCrossaGame.loadingScreen.loaded = () => {
+                InvertCrossaGame.showTitleScreen();
+            }
+            
             //TODO tirar daqui
-            //InvertCrossaGame.partsManager.addParts(10);
             if(InvertCrossaGame.itemsData.getItemQuantity("hint") == 0)
                 InvertCrossaGame.itemsData.saveQuantityItem("hint", 5);
         }
@@ -169,6 +146,11 @@ module InvertCross {
             
         }
 
+        public static showTitleScreen() {
+            if (!InvertCrossaGame.titleScreen) InvertCrossaGame.titleScreen = new Menu.TitleScreen();
+            InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.titleScreen);
+        }
+        
         public static replayLevel() {
             var currentLevel = InvertCrossaGame.projectManager.getCurrentLevel();
             InvertCrossaGame.showLevel(currentLevel);
