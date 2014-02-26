@@ -12,18 +12,7 @@
 
             //add event to go to main menu
             this.view.addEventListener("click", () => {
-
-                //verifica se é a primeira vez que está jogando.
-                if (InvertCrossaGame.storyData.getStoryPlayed("firstPlay")) {
-
-                    var sl = new SlideShow([]);
-                    sl.onfinish = () => {
-                        InvertCrossaGame.showProjectLevelsMenu(null);
-                    }
-
-                } else {
-                    InvertCrossaGame.showMainMenu();
-                }
+                InvertCrossaGame.showMainMenu();
             });
         }
     }

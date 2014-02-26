@@ -5,7 +5,7 @@ declare var lib: any;
 module InvertCross.Robots {
 
     // Controller Class
-    export class RobotsLobby extends createjs.Container {
+    export class MyBots extends createjs.Container {
 
         public lobbyMc: createjs.Container;
       
@@ -16,8 +16,9 @@ module InvertCross.Robots {
             super();
             this.initializeGraphics();
             this.initializeNames();
-            //TODO, arrumar essa gambiarra sem vergonha                        
-            setTimeout(() => { this.initializeUserFeedback(); },100);
+
+            ////TODO, arrumar essa gambiarra sem vergonha                        
+            //setTimeout(() => { this.initializeUserFeedback(); },100);
         }
 
         //loads and add lobby graphics to the view
@@ -40,7 +41,7 @@ module InvertCross.Robots {
         }
 
         //adds a user feedback for click action
-        private initializeUserFeedback() {//TODO mudar nome
+        private initializeUserFeedback() {
             InvertCrossaGame.stage.update();
             for (var c = 0; c < this.lobbyMc.getNumChildren(); c++) {
                 var robot = <createjs.MovieClip>this.lobbyMc.getChildAt(c);;

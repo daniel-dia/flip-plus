@@ -217,8 +217,6 @@ module InvertCross.Projects {
 
             project.UserData.complete = true;
             InvertCrossaGame.userData.saveProjectData(project);
-            InvertCrossaGame.completeProject(project);
-
         }
 
         //Updates user data project status

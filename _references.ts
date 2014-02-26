@@ -55,4 +55,4 @@
     /// <reference path="src/Projects/Project.ts" />
     /// <reference path="src/Projects/ProjectManager.ts" />
 
-    /// <reference path="src/Robots/RobotsLobby.ts" />
+    /// <reference path="src/Robots/MyBots.ts" />

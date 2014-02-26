@@ -1,11 +1,18 @@
+declare var lib: any;
+
 module InvertCross.Menu {
 
     export class MainMenu extends Gbase.ScreenState {
         // Constructor
 
-        private lobby: Robots.RobotsLobby;
+        private myBots: Robots.MyBots;
+        private intro: Intro;
+
         private terminal: View.Terminal;
         private menu: View.ScreenMenu;
+
+        private playBt: createjs.DisplayObject;
+        
 
         constructor() {
             super()
@@ -13,7 +20,9 @@ module InvertCross.Menu {
             var bg: createjs.Bitmap = InvertCross.Assets.getImage("mybots/mybotsbg");
             this.view.addChild(bg);
 
-            this.addRobotsLobby();
+            this.addIntro();
+
+            this.addMyBots();
 
             //this.addSmoke();
 
@@ -24,39 +33,69 @@ module InvertCross.Menu {
             this.addPlayButton();
         }
 
-
         public activate() {
             super.activate();
 
-            //play BgSound
-            Assets.playMusic("trilha");
+            //Verifies if it is the first time playing
+            if (!InvertCrossaGame.storyData.getStoryPlayed("intro")) {
+                this.intro.visible = true;
+                this.myBots.visible = false;
+                this.playBt.visible = false;
+                this.intro.playPart1();
 
-            //update menu
-            this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
-            this.menu.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());
+            }
+            else {
+                this.intro.visible = false;
+                this.playBt.visible = true;
+                this.myBots.visible = true;
+                
+                //play BgSound
+                Assets.playMusic("trilha");
 
-            //updates robots lobby
-            this.lobby.update();
+                //update menu
+                this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
+                this.menu.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());
+
+                //updates robots lobby
+                this.myBots.update();
+            }
         }
 
-        private addRobotsLobby() {
-            this.lobby = new Robots.RobotsLobby();
-            this.view.addChild(this.lobby);
-            this.lobby.addEventListener("robot", (e: createjs.Event) => {
+        private addIntro() {
+            this.intro = new Intro();
+            this.view.addChild(this.intro);
+
+            this.intro.addEventListener("readyToPlay", () => {
+                this.playBt.visible = true;
+            })
+
+            this.intro.addEventListener("end", () => {
+                this.playBt.visible = true;
+            })
+        }
+
+        private addMyBots() {
+            this.myBots = new Robots.MyBots();
+            this.view.addChild(this.myBots);
+            this.myBots.addEventListener("robot", (e: createjs.Event) => {
                 this.robotClick(<string>e.target)
             });
         }
 
         private addMenu() {
-            this.menu = new View.ScreenMenu(false);
+
+            this.menu = new View.ScreenMenu();
             
             this.view.addChild(this.menu);
             this.menu.addEventListener("menu", () => {
                 //TODO fazer camada intermediaria
                 InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu());
             });
-        }
 
+            this.menu.addEventListener("back", () => {InvertCross.InvertCrossaGame.showTitleScreen();});
+
+        }
+        
         private addTerminal() {
             this.terminal = new View.Terminal();
             this.terminal.x = 361;
@@ -66,12 +105,14 @@ module InvertCross.Menu {
 
         private addPlayButton() {
             var playBt = new Gbase.UI.TextButton("PLAY", () => {
-                this.playSlideShow();
+                InvertCross.InvertCrossaGame.showProjectsMenu();
             }, null, defaultFontFamilyHighlight, highlightFontColor)
-            
+
             this.view.addChild(playBt);
             playBt.x = 800;
-            playBt.y = 1139
+            playBt.y = 1139;
+
+            this.playBt = playBt;
         }
 
         //TODO: it shoud not be here
@@ -125,7 +166,7 @@ module InvertCross.Menu {
         //------------Robots Behaviour ---------------------------------
 
         public openRobot(robot: string) {
-            this.lobby.openRobot(robot);
+            this.myBots.openRobot(robot);
         }
 
         private robotClick(robot: string) {
@@ -140,7 +181,7 @@ module InvertCross.Menu {
             var s = new SlideShow(["sl1", "sl2", "sl3"]);
             InvertCrossaGame.screenViewer.switchScreen(s);
             s.onfinish = () => {
-                InvertCross.InvertCrossaGame.showProjectsMenu();
+                
             }
         }
 

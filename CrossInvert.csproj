@@ -260,6 +260,7 @@
     <Content Include="assets\images_1x\workshop\paginacaoworkshop.png" />
     <Content Include="assets\images_1x\workshop\painelworkshop.png" />
     <Content Include="assets\images_1x\workshop\skip.png" />
+    <Content Include="assets\Intro.js" />
     <Content Include="assets\Lobby.js" />
     <Content Include="assets\pr.jpg" />
     <Content Include="assets\RobotsAssets.js" />
@@ -283,6 +284,7 @@
     <TypeScriptCompile Include="lib\Inertia.ts" />
     <TypeScriptCompile Include="lib\SmokeFX.ts" />
     <TypeScriptCompile Include="src\GamePlay\Moves.ts" />
+    <TypeScriptCompile Include="src\Menu\IntroScreen.ts" />
     <TypeScriptCompile Include="src\Menu\SlideShow.ts" />
     <TypeScriptCompile Include="src\Menu\TitleScreen.ts" />
     <TypeScriptCompile Include="src\Menu\View\Message.ts" />
@@ -338,7 +340,7 @@
     <Content Include="assets\locked.jpg" />
     <Content Include="assets\prize.png" />
     <Content Include="assets\win.jpg" />
-    <TypeScriptCompile Include="src\Robots\RobotsLobby.ts" />
+    <TypeScriptCompile Include="src\Robots\MyBots.ts" />
     <TypeScriptCompile Include="src\Assets.ts" />
     <Content Include="assets\anim test.png" />
     <Content Include="assets\animtest.png" />

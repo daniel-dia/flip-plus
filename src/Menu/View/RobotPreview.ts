@@ -23,12 +23,12 @@ module InvertCross.Menu.View {
         //create graphics
         private createGraphics(project: InvertCross.Projects.Project) {
             var size: number = 800;
-            var fill = this.addChild(Assets.getImage("mybots/RobotPreviewFill"));
-            var stroke = this.addChild(Assets.getImage("mybots/RobotPreview"));
-            
-            fill.regX = stroke.regX = fill.getBounds().width/2;
-            fill.regY = stroke.regY = fill.getBounds().height;
+            var fill = this.addChild(Assets.getImage("myBots/" + project.name + "_fill"));
+            var stroke = this.addChild(Assets.getImage("myBots/" + project.name + "_stroke"));
 
+            fill.regX = stroke.regX = fill.getBounds().width / 2;
+                fill.regY = stroke.regY = fill.getBounds().height;
+            
             this.addChild(fill);
             this.addChild(stroke);
 
@@ -51,11 +51,8 @@ module InvertCross.Menu.View {
         
         //animate
         public animateLevelComplete(color: string= "#ffcc2e") {
-            //var oldValue = this.project.UserData.percent - 0.1;
-            var newValue = this.project.UserData.percent;
 
-            //this.percentMask.scaleY = oldValue;
-            
+            var newValue = this.project.UserData.percent;
 
             var boxShape = new createjs.Shape();
             boxShape.graphics.beginFill(color).drawRect(-500, -500, 1000, 1000);

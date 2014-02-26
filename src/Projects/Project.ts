@@ -7,6 +7,9 @@ module InvertCross.Projects {
         //this will be the id for this chapter. the id must be unique. it will be referenced by the user saved data
         public name: string;
 
+        //this will be the id for this chapter. the id must be unique. it will be referenced by the user saved data
+        public nickName: string;
+
         //all the Levels belonging to this chapter
         public levels: Level[];
 

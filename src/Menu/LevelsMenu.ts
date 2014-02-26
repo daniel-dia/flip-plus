@@ -69,8 +69,10 @@ module InvertCross.Menu {
 
         }
 
+        //inertia fx
         private offset = 0;
-        private lastx  = 0;
+        private lastx = 0;
+
         //adds all projects in swipe view
         private addProjects(projects) {
             
@@ -120,16 +122,6 @@ module InvertCross.Menu {
         public activate(parameters?: any) {
             super.activate();
 
-            var complete = false;
-            var direction = -1;
-            var loose = false;
-
-            if (parameters) {
-                if(parameters.complete ) complete = parameters.complete;
-                if (parameters.direction) direction = parameters.direction;
-                if (parameters.loose) loose = parameters.loose;
-            }
-            
             this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
             this.menu.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());
 
@@ -138,11 +130,15 @@ module InvertCross.Menu {
                     this.projectViews[pv].activate(parameters);
             }
 
-            if (complete)
+            //makes win or loose animation
+            if (parameters && parameters.complete)
                 this.message.showtext("WELL DONE !", 3000,500);
 
-            if (loose)
+            if (parameters && parameters.loose)
                 this.message.showtext("TRY AGAIN !", 3000);
+
+            //verifies if player completes the project
+
         }
     }
 }

@@ -150,15 +150,14 @@ module InvertCross {
             if (!InvertCrossaGame.titleScreen) InvertCrossaGame.titleScreen = new Menu.TitleScreen();
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.titleScreen);
         }
-        
+
         public static replayLevel() {
             var currentLevel = InvertCrossaGame.projectManager.getCurrentLevel();
             InvertCrossaGame.showLevel(currentLevel);
         }
 
-        public static completeProject(project:Projects.Project) {
+        public static completeProjectk(project:Projects.Project) {
             InvertCrossaGame.screenViewer.switchScreen(this.mainScreen);
-            this.mainScreen.openRobot(project.name);
         }
 
         public static endGame() {
