@@ -51,6 +51,7 @@ module InvertCross.Menu.View {
 
         public updateProjectInfo() {
 
+            InvertCrossaGame.projectManager.unlockProject(this.project);
 
             if (this.project.UserData.unlocked) {
                 this.progressIndicator.visible = true;

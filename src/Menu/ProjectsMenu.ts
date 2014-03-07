@@ -1,14 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" />
-
-/// <reference path="View/PartsIndicator.ts" /> 
-
-/// <reference path="view/screenmenu.ts" />
-/// <reference path="../../Gbase/UI/MenuContainer.ts" /> 
-/// <reference path="../../Gbase/UI/Grid.ts" /> 
-/// <reference path="../../Gbase/UI/Button.ts" /> 
-
-/// <reference path="View/ProjectItem.ts" /> 
-
 module InvertCross.Menu {
 
     // Class
@@ -31,9 +20,9 @@ module InvertCross.Menu {
         constructor() {
             super();
             this.createObjects();
-            this.popup = new View.Popup();
-            this.view.addChild(this.popup);
         }
+
+        
 
         //populate View
         private createObjects() {
@@ -46,7 +35,13 @@ module InvertCross.Menu {
             this.createPaginationButtons();
 
             //this.partsIndicator.updateAmount(InvertCrossaGame.partsManager.getBallance());
+            this.createPopup();
+        }
 
+        //creates a popup
+        private createPopup() {
+            this.popup = new View.Popup();
+            this.view.addChild(this.popup);
         }
 
         //Adds defaultMenu to screen
@@ -117,12 +112,13 @@ module InvertCross.Menu {
                 
                 var stars = InvertCrossaGame.projectManager.getStarsCount();
 
-                if (stars >= p.cost)
-                    InvertCrossaGame.projectManager.unlockProject(p);
-                else
-                    this.popup.showtext("you only have " + stars + " stars. \nYou need at least " + p.cost + " stars \nto unlock this project\n play more levels to earn stars.",10000);
-                this.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());   
-                this.updateProjects();
+                if (stars < p.cost)
+                    this.popup.showtext("you only have " + stars + " stars. \nYou need at least " + p.cost + " stars \nto unlock this project\n play more levels to earn stars.", 10000);
+                //else
+                //  InvertCrossaGame.projectManager.unlockProject(p);
+                                    
+                //this.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());   
+                //this.updateProjects();
             }
         }
 

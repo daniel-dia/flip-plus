@@ -14,7 +14,6 @@ module InvertCross.GamePlay {
         }
 
         //create tutorial steps and callbacks
-        //TODO fazer os callbacks
         private executeTutorialActions(step: Projects.tutorialStep) {
 
             //creates a tutorial step
@@ -41,7 +40,6 @@ module InvertCross.GamePlay {
                     this.boardSprite.removeEventListener("ontutorialclick", listener3);
                 });
             }
-                    
         }
 
         private playNextTurorialStep() {

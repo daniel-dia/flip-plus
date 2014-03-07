@@ -181,9 +181,9 @@ module InvertCross.Projects {
         //----------------------------- Actions -----------------------------------------------------
 
         //unlock a project based on user parts ballance
-        public unlockProject(project: Project): boolean {
+        public unlockProject(project: Project) {
 
-            //verifies if money was propery taken
+           // //verifies if money was propery taken
             if (this.getStarsCount() >= project.cost) {
 
                 //unlock project user data
@@ -194,12 +194,8 @@ module InvertCross.Projects {
                 //save user data
                 InvertCrossaGame.userData.saveProjectData(project);
                 InvertCrossaGame.userData.saveLevelData(project.levels[0]);
-                return true;
-            }
-            else {
-                return false;
-            }
 
+           }
         }
 
         //unlock a level inside a project
@@ -255,8 +251,12 @@ module InvertCross.Projects {
                 if (temp[i]) stars++;
             }
 
+            //updates project stars count
             project.UserData.stars = stars;
 
+
+            this.unlockProject(project);
+            
             //TODO, something better than it
             //complete Project
             if (solvedLevels == project.levels.length)
