@@ -1,4 +1,4 @@
-/// <reference path="../lib/easeljs.d.ts" />
+﻿/// <reference path="../lib/easeljs.d.ts" />
 /// <reference path="../lib/soundjs.d.ts" /> 
  
 /// <reference path="userdata/storydata.ts" />
@@ -37,7 +37,22 @@ module InvertCross {
                 { id: "BackBt", src: imagePath + "BackBt.png" },
 
                 //title
-                { id: "title/LogoScreen", src: imagePath + "title/LogoScreen.jpg" },
+                //{ id: "title/LogoScreen", src: imagePath + "title/LogoScreen.jpg" },
+                { src: imagePath + "logo/bandeira1.png", id: "bandeira1" },
+                { src: imagePath + "logo/bandeira2.png", id: "bandeira2" },
+                { src: imagePath + "logo/bandeira3.png", id: "bandeira3" },
+                { src: imagePath + "logo/Cenario.jpg", id: "Cenario" },
+                { src: imagePath + "logo/Cenário.jpg", id: "Cenário" },
+                { src: imagePath + "logo/coqueiro02.png", id: "coqueiro02" },
+                { src: imagePath + "logo/coqueiro1.png", id: "coqueiro1" },
+                { src: imagePath + "logo/coqueiro2.png", id: "coqueiro2" },
+                { src: imagePath + "logo/logo.png", id: "logo" },
+                { src: imagePath + "logo/matoareia.png", id: "matoareia" },
+                { src: imagePath + "logo/onda01.png", id: "onda01" },
+                { src: imagePath + "logo/onda02.png", id: "onda02" },
+                { src: imagePath + "logo/onda04.png", id: "onda04" },
+                { src: imagePath + "logo/vagalume.png", id: "vagalume" },
+
 
                 //intro
                 { src: imagePath + "intro/bot.png", id: "bot" },
@@ -104,6 +119,27 @@ module InvertCross {
                 { src: imagePath + "myBots/Bot18.png", id: "myBots/Bot18" },
                 { src: imagePath + "myBots/Bot18_fill.png", id: "myBots/Bot18_fill" },
                 { src: imagePath + "myBots/Bot18_stroke.png", id: "myBots/Bot18_stroke" },
+
+
+                { src: imagePath + "myBots/Bot01.png", id: "Bot01" },
+                { src: imagePath + "myBots/Bot02.png", id: "Bot02" },
+                { src: imagePath + "myBots/Bot03.png", id: "Bot03" },
+                { src: imagePath + "myBots/Bot04.png", id: "Bot04" },
+                { src: imagePath + "myBots/Bot05.png", id: "Bot05" },
+                { src: imagePath + "myBots/Bot06.png", id: "Bot06" },
+                { src: imagePath + "myBots/Bot07.png", id: "Bot07" },
+                { src: imagePath + "myBots/Bot08.png", id: "Bot08" },
+                { src: imagePath + "myBots/Bot09.png", id: "Bot09" },
+                { src: imagePath + "myBots/Bot10.png", id: "Bot10" },
+                { src: imagePath + "myBots/Bot11.png", id: "Bot11" },
+                { src: imagePath + "myBots/Bot12.png", id: "Bot12" },
+                { src: imagePath + "myBots/Bot13.png", id: "Bot13" },
+                { src: imagePath + "myBots/Bot14.png", id: "Bot14" },
+                { src: imagePath + "myBots/Bot15.png", id: "Bot15" },
+                { src: imagePath + "myBots/Bot16.png", id: "Bot16" },
+                { src: imagePath + "myBots/Bot17.png", id: "Bot17" },
+                { src: imagePath + "myBots/Bot18.png", id: "Bot18" },
+
                 { src: imagePath + "myBots/Breenbox.png", id: "myBots/greenbox" },
                 { src: imagePath + "myBots/Breenshadow.png", id: "myBots/greenshadow" },
                 { src: imagePath + "myBots/Bybotsbg.jpg", id: "myBots/mybotsbg.jpg" },

@@ -21,7 +21,7 @@
 
 
 body, a {
-    font-family: 'exo';
+    font-family: 'Exo 2.0';
     text-align: center;
     background-color: Gray;
     color: white;
@@ -41,13 +41,13 @@ body, a {
 }
 
 @font-face {
-    font-family: Exo;
+    font-family: Exo 2.0;
     src: url(../assets/font/Exo2.0-Regular.woff);
     font-weight: normal;
 }
 
 @font-face {
-    font-family: Exo;
+    font-family: Exo 2.0;
     src: url(../assets/font/Exo2.0-Bold.woff);
     font-weight: bold;
 }

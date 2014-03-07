@@ -262,6 +262,8 @@
     <Content Include="assets\images_1x\workshop\skip.png" />
     <Content Include="assets\Intro.js" />
     <Content Include="assets\Lobby.js" />
+    <Content Include="assets\LogoScreen.js" />
+    <Content Include="assets\MyBots.js" />
     <Content Include="assets\pr.jpg" />
     <Content Include="assets\RobotsAssets.js" />
     <TypeScriptCompile Include="Preferences.ts" />
@@ -331,21 +333,10 @@
     </Content>
     <Content Include="assets\bolinhas.js" />
     <Content Include="assets\bolinhas.png" />
-    <Content Include="assets\bt.png" />
     <Content Include="assets\green.js" />
-    <Content Include="assets\green.png" />
-    <Content Include="assets\green_bg_main.png" />
-    <Content Include="assets\green_bg.png" />
-    <Content Include="assets\Ground.png" />
-    <Content Include="assets\locked.jpg" />
-    <Content Include="assets\prize.png" />
-    <Content Include="assets\win.jpg" />
     <TypeScriptCompile Include="src\Robots\MyBots.ts" />
     <TypeScriptCompile Include="src\Assets.ts" />
-    <Content Include="assets\anim test.png" />
-    <Content Include="assets\animtest.png" />
     <Content Include="assets\simple.js" />
-    <Content Include="assets\simple.png" />
     <TypeScriptCompile Include="src\Menu\MainMenu.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\Overlay.ts" />
     <TypeScriptCompile Include="Gbase\Game.ts" />

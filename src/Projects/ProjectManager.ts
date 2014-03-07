@@ -213,10 +213,15 @@ module InvertCross.Projects {
         //Finish a project.
         public completeProject(project: Project): void {
 
+            //TODO colocar isso em outro lugar
+            //set played the intro when a project is complete
+            InvertCrossaGame.storyData.setStoryPlayed("intro");
+
             if (project.UserData.complete == true) return;
 
             project.UserData.complete = true;
             InvertCrossaGame.userData.saveProjectData(project);
+
         }
 
         //Updates user data project status
@@ -232,7 +237,7 @@ module InvertCross.Projects {
 
             //count solved levels
             for (var l = 0; l < project.levels.length; l++)
-                if (project.levels[l].userdata.solved)
+                if (project.levels[l].userdata.solved || project.levels[l].userdata.skip)
                     solvedLevels++;
 
             //calculate percentage
@@ -243,8 +248,8 @@ module InvertCross.Projects {
             var temp: Object = new Object;
             for (var l = 0; l < project.levels.length; l++) {
                 var level: Level = project.levels[l];
-                if (temp[level.type] == null) temp[level.type] = true;
-                if (!level.userdata.solved) temp[level.type] = false;;
+                if (temp[level.type] == null) temp[level.theme] = true;
+                if (!level.userdata.solved) temp[level.theme] = false;;
             }
             for (var i in temp) {
                 if (temp[i]) stars++;

@@ -50,7 +50,7 @@ module InvertCross {
                 this.fpsMeter.text = Math.floor(createjs.Ticker.getMeasuredFPS()) + " FPS";
 
             });
-            createjs.Ticker.setFPS(60);
+            createjs.Ticker.setFPS(30);
 
             this.screenViewer = new InvertCross.ScreenViewer(this.stage);
             this.stage.addChild(this.screenViewer.viewer);
