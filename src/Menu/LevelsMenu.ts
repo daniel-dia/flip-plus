@@ -15,7 +15,7 @@ module InvertCross.Menu {
 
         private menu: View.ScreenMenu;
         private projectsContaier: createjs.Container;
-        private projectViews: Array<View.ProjectView>;
+        private projectViews: Array<View.ProjectWorkshopView>;
 
         private popup: View.Popup;
         private message: View.Message;
@@ -84,7 +84,7 @@ module InvertCross.Menu {
 
             //add every project
             for (var p in projects) {
-                var projectView = new View.ProjectView(projects[p]);
+                var projectView = new View.ProjectWorkshopView(projects[p]);
                 this.projectViews.push(projectView);
                 projectsContainer.addChild(projectView);
                 projectView.activate();

@@ -1,7 +1,3 @@
-/// <reference path="../../../lib/easeljs.d.ts" />
-/// <reference path="ProjectProgressIndicator.ts" />
-/// <reference path="ProjectStarsIndicator.ts" />
-
 module InvertCross.Menu.View {
 
     export class ProjectItem extends Gbase.UI.Button {
@@ -49,16 +45,29 @@ module InvertCross.Menu.View {
             this.createHitArea();
         }
 
+        //updates based on porject 
         public updateProjectInfo() {
 
+            //verifica se o projeto pode ser destravado
+            //TODO. nao devia acessar metodo global aqui
             InvertCrossaGame.projectManager.unlockProject(this.project);
 
             if (this.project.UserData.unlocked) {
+
                 this.progressIndicator.visible = true;
                 this.lockedIndicator.visible = false;
                 this.progressIndicator.updateProjectInfo(this.project.UserData.percent);
 
                 this.starsIndicator.updateProjectInfo();
+
+                //if is new (unlocked and not played) do an animation
+                if (this.project.UserData.percent == 0 && this.project.UserData.unlocked) {
+                    this.set({ scaleX: 1, scaleY: 1 })
+                    createjs.Tween.get(this, { loop: true })
+                        .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                        .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
+
+                }
  
             }
             else {

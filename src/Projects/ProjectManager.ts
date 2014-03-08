@@ -1,13 +1,3 @@
-
-///<reference path="Project.ts" />
-///<reference path="Level.ts" />
-
-///<reference path="../InvertCrossGame.ts" />
-
-///<reference path="../GamePlay/LevelScreen.ts" />
-///<reference path="../GamePlay/Puzzle.ts" />
-///<reference path="../GamePlay/TimeAttack.ts" />
-
 module InvertCross.Projects {
 
     // Controls projects and Levels.
@@ -28,8 +18,6 @@ module InvertCross.Projects {
 
         constructor(data: any) {
             this.loadProjects(data);
-
-            
         }
 
         private loadProjects(data: any) {
@@ -254,10 +242,9 @@ module InvertCross.Projects {
             //updates project stars count
             project.UserData.stars = stars;
 
-
+            //verifies if level can be ulocked
             this.unlockProject(project);
             
-            //TODO, something better than it
             //complete Project
             if (solvedLevels == project.levels.length)
                 this.completeProject(project);

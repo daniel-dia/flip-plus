@@ -21,9 +21,7 @@ module InvertCross.Menu {
             super();
             this.createObjects();
         }
-
         
-
         //populate View
         private createObjects() {
 
@@ -111,14 +109,9 @@ module InvertCross.Menu {
             else {
                 
                 var stars = InvertCrossaGame.projectManager.getStarsCount();
-
                 if (stars < p.cost)
                     this.popup.showtext("you only have " + stars + " stars. \nYou need at least " + p.cost + " stars \nto unlock this project\n play more levels to earn stars.", 10000);
-                //else
-                //  InvertCrossaGame.projectManager.unlockProject(p);
-                                    
-                //this.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());   
-                //this.updateProjects();
+                
             }
         }
 

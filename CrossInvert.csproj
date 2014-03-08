@@ -291,7 +291,7 @@
     <TypeScriptCompile Include="src\Menu\TitleScreen.ts" />
     <TypeScriptCompile Include="src\Menu\View\Message.ts" />
     <TypeScriptCompile Include="src\Menu\View\Popup.ts" />
-    <TypeScriptCompile Include="src\Menu\View\ProjectView.ts" />
+    <TypeScriptCompile Include="src\Menu\View\ProjectWorkshopView.ts" />
     <TypeScriptCompile Include="src\Menu\View\RobotPreview.ts" />
     <TypeScriptCompile Include="src\UserData\ItensData.ts" />
     <TypeScriptCompile Include="src\UserData\StoryData.ts" />

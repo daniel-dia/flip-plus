@@ -1,15 +1,3 @@
-/// <reference path="../../../lib/easeljs.d.ts" />
-
-/// <reference path="../../InvertCrossGame.ts" /> 
-
-/// <reference path="../../GamePlay/Model/Level.ts" /> 
-
-/// <reference path="../../userdata/projectsdata.ts" />
-
-/// <reference path="../../../Gbase/ScreenState.ts" /> 
-/// <reference path="../../../Gbase/UI/Grid.ts" /> 
-/// <reference path="../../../Gbase/UI/Button.ts" /> 
-
 module InvertCross.Menu.View {
 
     export class LevelThumb extends Gbase.UI.Button {
@@ -61,8 +49,8 @@ module InvertCross.Menu.View {
             if (u.unlocked && !u.solved && !u.skip) {
                 this.set({ scaleX: 1, scaleY: 1 })
                 createjs.Tween.get(this, { loop: true })
-                    .to({ scaleX: 1.14, scaleY: 1.14 }, 700  ,createjs.Ease.sineInOut)
-                    .to({ scaleX: 1, scaleY: 1 }, 700  ,createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500  ,createjs.Ease.sineInOut)
+                    .to({ scaleX: 1, scaleY: 1 }, 500  ,createjs.Ease.sineInOut)
            }
       
         } 

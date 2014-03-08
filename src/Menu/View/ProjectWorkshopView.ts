@@ -1,17 +1,7 @@
-/// <reference path="../../../lib/easeljs.d.ts" />
-                   
-/// <reference path="LevelGrid.ts" /> 
-                    
-/// <reference path="../../../Gbase/UI/MenuContainer.ts" /> 
-/// <reference path="../../../Gbase/UI/Grid.ts" /> 
-/// <reference path="../../../Gbase/UI/Button.ts" /> 
-
-
-
 module InvertCross.Menu.View {
 
     // Class
-    export class ProjectView extends createjs.Container {
+    export class ProjectWorkshopView extends createjs.Container {
 
         private project: Projects.Project;
 
