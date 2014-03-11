@@ -1,18 +1,3 @@
-
-/// <reference path="../../lib/easeljs.d.ts" /> 
-/// <reference path="../../lib/soundjs.d.ts" /> 
-
-/// <reference path="../../Gbase/ScreenState.ts" /> 
-
-/// <reference path="Model/Level.ts" />
-
-/// <reference path="Views/Overlay.ts" />
-/// <reference path="Views/BoardSprite.ts" />
-/// <reference path="Views/StatusArea.ts" />
-/// <reference path="Views/GamePlayMenu.ts" />
-
-/// <reference path="../Utils/Effects.ts" /> 
-
 module InvertCross.GamePlay {
 
     //Controller
@@ -81,14 +66,13 @@ module InvertCross.GamePlay {
 
             this.menuOverlay.addEventListener("pause", () => { this.pauseGame(); });
             this.menuOverlay.addEventListener("unpause", () => { this.unPauseGame(); });
-            this.menuOverlay.addEventListener("hint", () => { });
-            this.menuOverlay.addEventListener("restart", () => { InvertCrossaGame.replayLevel(); });
-            this.menuOverlay.addEventListener("skip", () => { this.skip(); });
+            this.menuOverlay.addEventListener("restart", (e: createjs.Event) => { InvertCrossaGame.replayLevel(); });
+            this.menuOverlay.addEventListener("skip", (e: createjs.Event) => { this.skip(); });
+            this.menuOverlay.addEventListener("hint", (e: createjs.Event) => { this.hint(e.target); });
             this.menuOverlay.addEventListener("back", () => { InvertCrossaGame.exitLevel(); });
-            this.menuOverlay.addEventListener("hint", () => { this.hint(); });
             this.menuOverlay.y = 1800;
 
-            this.menuOverlay.updateHint(InvertCrossaGame.itemsData.getItemQuantity("hint"));
+            this.menuOverlay.updateButtonLabel("hint",InvertCrossaGame.itemsData.getItemQuantity("hint"));
 
             var levels: Projects.Level[] = InvertCrossaGame.projectManager.getCurrentProject().levels;
 
@@ -110,7 +94,7 @@ module InvertCross.GamePlay {
             this.boardSprite.y = DefaultHeight / 2;
             
             this.boardSprite.addInputCallback((col: number, row: number) => { this.userInput(col, row); })
-            //there is no custom Event. so this is the fastest option
+            //TODO create a custom event
 
         }
 
@@ -153,19 +137,22 @@ module InvertCross.GamePlay {
             InvertCrossaGame.skipLevel();
         }
 
-        private hint() {
-
+        private hint(blockId?) {
+            
             var hintsQuantity = InvertCrossaGame.itemsData.getItemQuantity("hint") 
             if (hintsQuantity > 0) {
 
-                var invertedBlocks = this.levelLogic.board.getInvertedBlocks();
-                var hint = Math.floor(Math.random() * invertedBlocks.length);
-                this.boardSprite.getBlockById(invertedBlocks[hint]).enableHint();
+                if (blockId==undefined) {
+                    var invertedBlocks = this.levelLogic.board.getInvertedBlocks();
+                    var index = Math.floor(Math.random() * invertedBlocks.length);
+                    blockId = invertedBlocks[index];
+                }
 
+                this.boardSprite.getBlockById(blockId).enableHint();
                 hintsQuantity--;
                 InvertCrossaGame.itemsData.saveQuantityItem("hint", hintsQuantity);
+                this.menuOverlay.updateButtonLabel("hint", InvertCrossaGame.itemsData.getItemQuantity("hint"));
 
-                this.menuOverlay.updateHint(InvertCrossaGame.itemsData.getItemQuantity("hint"));
             }
             else {
                 this.popup.showtext("no more hints",3000);
@@ -243,7 +230,6 @@ module InvertCross.GamePlay {
         public activate(parameters?: any) {
 
             super.activate(parameters);
-
             if (parameters) this.animatePuzzle(parameters);
 
         }

@@ -117,8 +117,6 @@ module InvertCross.GamePlay.Views {
 
         public show() {
             super.show();
-            //this.confirm.visible=false;
-            //this.leaveButton.visible = true;
         }
 
     }

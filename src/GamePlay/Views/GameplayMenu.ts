@@ -1,45 +1,71 @@
-/// <reference path="../../../lib/easeljs.d.ts" /> 
-/// <reference path="../../../Gbase/UI/Button.ts" /> 
-
-//An attempt was made to use an object that is not, or is no longer, usable. 
 module InvertCross.GamePlay.Views {
-
 
     export class GamePlayMenu extends Gbase.UI.UIItem{
 
         private overlayMenu: Gbase.UI.UIItem;
         private pauseMenu: Gbase.UI.UIItem;
 
-        private hitnBt: Gbase.UI.IconButton;
-        private skipBt: Gbase.UI.IconButton;
+        private buttons: any;
+        private parameters: any;
+
+        private tutorial_highlightSprite: createjs.DisplayObject;
 
         constructor() {
             super();
-            
+
             this.createGamePlayMenu();
             this.createPauseMenu();
+
+            this.tutorial_highlightSprite = Assets.getImage("puzzle/indicator");
+            this.tutorial_highlightSprite.visible = false;
+            this.tutorial_highlightSprite.regX = this.tutorial_highlightSprite.regY= 90;
+            this.tutorial_highlightSprite.mouseEnabled = false;
+            this.addChild(this.tutorial_highlightSprite)
         } 
 
+        //creates all menu butons 
         private createGamePlayMenu() {
             this.overlayMenu = new Gbase.UI.UIItem();
             this.overlayMenu.width = 2*DefaultWidth;
             this.overlayMenu.height = 0;
 
-            var restBt = new Gbase.UI.IconButton("puzzle/iconerestart", "", "puzzle/btrestartpause", () => { this.dispatchEvent("restart"); }); this.overlayMenu.addChild(restBt), restBt.x = 200;
-            this.hitnBt = new Gbase.UI.IconButton("puzzle/iconehint", "0", "puzzle/btpowerup", () => { this.dispatchEvent("hint"); }); this.overlayMenu.addChild(this.hitnBt), this.hitnBt.x = 600;
-            this.skipBt = new Gbase.UI.IconButton("puzzle/iconeskip", "0", "puzzle/btpowerup", () => { this.dispatchEvent("skip"); }); this.overlayMenu.addChild(this.skipBt), this.skipBt.x = 1000;
+            this.addButtons(["restart","hint","skip"])
+
             var pausBt = new Gbase.UI.IconButton("puzzle/iconepause", "", "puzzle/btrestartpause", () => { this.pause(); }); this.overlayMenu.addChild(pausBt), pausBt.x = 1400; 
 
             this.addChild(this.overlayMenu);
         }
 
-        public updateHint(value: number) {
-            this.hitnBt.text.text = value.toString();
+        // ================ Add Buttons ==========================================
+
+        private addButtons(buttons: Array<string>) {
+            this.buttons = new Object();
+            this.parameters = new Object();
+            var xstart = 200;
+            var xstep = 400;
+
+            for (var b in buttons) 
+                var bt = this.createItemButton(buttons[b], xstart + xstep * b);
         }
 
-        public updateSkip(value: number) {
-            this.skipBt.text.text = value.toString();
+        //creates a iitem button and its feedback pand parameters, and adds it to screensk
+        private createItemButton(buttonId: string,pos:number) :createjs.DisplayObject {
+            var button = new Gbase.UI.IconButton("puzzle/icone" + buttonId, "", "puzzle/btpowerup", () => {
+                this.dispatchEvent(buttonId, this.parameters[buttonId]);
+                this.parameters[buttonId] = null;
+            });
+            this.overlayMenu.addChild(button);
+            this.buttons[buttonId] = button;
+            button.x = pos;
+            return button;
         }
+
+        // updates buttons labels 
+        public updateButtonLabel(buttonId:string, value: number) {
+            this.buttons[buttonId].text.text = value.toString();
+        }
+
+        // ============== pause menus ============================================
 
         private createPauseMenu() {
             var pauseMenu = new Gbase.UI.UIItem();
@@ -81,6 +107,41 @@ module InvertCross.GamePlay.Views {
             this.dispatchEvent("unpause");
             this.overlayMenu.fadeIn();
             this.pauseMenu.fadeOut();
+        }
+
+        //================== tutorial ============================================
+
+        public tutorial_HighlightItem(itemId: string,parameter?:any) {
+
+            this.tutorial_lockAllButtons();
+            this.tutorial_unlockButton(itemId);
+
+            //highlight the item
+            this.tutorial_highlightSprite.visible = true;
+            this.tutorial_highlightSprite.x = this.buttons[itemId].x;
+            this.tutorial_highlightSprite.scaleX = this.tutorial_highlightSprite.scaleY = 1.6;
+
+            //define parameter for feedback
+            this.parameters[itemId] = parameter;
+        }
+
+        //lock all other buttons
+        public tutorial_lockAllButtons() {
+            this.tutorial_highlightSprite.visible = false;
+            for (var b in this.buttons)
+                this.buttons[b].mouseEnabled = false;
+        }
+
+        //lock all other buttons
+        public tutorial_unlockAllButtons() {
+            this.tutorial_highlightSprite.visible = false;
+            for (var b in this.buttons)
+                this.buttons[b].mouseEnabled = true;
+        }
+
+        //unlock desired button
+        public tutorial_unlockButton(itemId: string) {
+            this.buttons[itemId].mouseEnabled = true;
         }
 
     }

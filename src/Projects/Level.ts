@@ -51,6 +51,7 @@ module InvertCross.Projects {
         text?: string;
         item?: string;
         click?: number;
+        parameter?:any;
     }
 
 

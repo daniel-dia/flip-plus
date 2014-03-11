@@ -156,7 +156,7 @@ module InvertCross.GamePlay.Views {
 
             for (var b = 0; b < blocksCount; b++) {
                 var block = this.getBlockById(b);
-                block.tutorialHighLight();
+                block.tutorialLock();
             }
         }
 
