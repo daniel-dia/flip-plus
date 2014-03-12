@@ -1,13 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" />
-
-/// <reference path="View/LevelGrid.ts" /> 
-
-/// <reference path="../../Gbase/UI/MenuContainer.ts" /> 
-/// <reference path="../../Gbase/UI/Grid.ts" /> 
-/// <reference path="../../Gbase/UI/Button.ts" /> 
-
-
-
 module InvertCross.Menu {
 
     // Class
@@ -98,28 +88,19 @@ module InvertCross.Menu {
             //add Inertial movement
             Inertia.addInertia(projectsContainer, true, false, this.view);
 
-            //projectsContainer.addEventListener("onstop", () => {
-            //    var f = Math.floor((projectsContainer.x + DefaultWidth / 2) / DefaultWidth) * DefaultWidth
-            //    createjs.Tween.get(projectsContainer).to({ x: f }, 300, createjs.Ease.quadOut).call(() => {
-            //        for (var pv in this.projectViews) this.projectViews[pv].setRelativePos(this.projectViews[pv].x + projectsContainer.x);
-            //    });
-            //});
-
-
             var fin = (projects.length-1) * DefaultWidth;
             projectsContainer.addEventListener("onmoving", () => {
                 if (projectsContainer.x > 0) projectsContainer.x = 0;
                 if (projectsContainer.x < -fin) projectsContainer.x = - fin;
 
                 for (var pv in this.projectViews) this.projectViews[pv].setRelativePos(this.projectViews[pv].x + projectsContainer.x);
-                
-
-            });
+           });
         }
 
         //--Behaviour-----------------------------------------------------------
 
         public activate(parameters?: any) {
+
             super.activate();
 
             this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());

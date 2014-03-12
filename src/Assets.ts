@@ -22,7 +22,7 @@ module InvertCross {
 
         public static loadAssets(): createjs.LoadQueue {
 
-            if (!assetscale) assetscale = 1;
+            if (!assetscale) assetscale = 0.5;
 
             var imagePath = "assets/images_" + assetscale + "x/";
             var audioPath = "assets/sound/";
@@ -62,9 +62,56 @@ module InvertCross {
                 { src: imagePath + "intro/mybotsbg.jpg", id: "mybotsbg" },
 
                 //projects
-                { id: "projects/bg", src: imagePath + "projects/bg.jpg" },
-                { id: "projects/projectActiveBg", src: imagePath + "projects/projectActiveBg.png" },
+                { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
+                { id: "projects/slot1", src: imagePath + "projects/slot1.png" },
+                { id: "projects/slot2", src: imagePath + "projects/slot2.png" },
+                { id: "projects/slot3", src: imagePath + "projects/slot3.png" },
+                { id: "projects/slot0", src: imagePath + "projects/slot0.png" },
+                { id: "projects/slotl", src: imagePath + "projects/slotl.png" },
+                { id: "projects/star", src: imagePath + "projects/star.png" },
+                { id: "projects/pageon", src: imagePath + "projects/pageon.png" },
+                { id: "projects/pageoff", src: imagePath + "projects/pageoff.png" },
+                { id: "projects/bigslot1", src: imagePath + "projects/bigslot1.png" },
+                      
+                { id: "projects/bots/Bot01", src: imagePath + "projects/bots/bot1.png" },
+                { id: "projects/bots/Bot10", src: imagePath + "projects/bots/bot10.png" },
+                { id: "projects/bots/Bot11", src: imagePath + "projects/bots/bot11.png" },
+                { id: "projects/bots/Bot12", src: imagePath + "projects/bots/bot12.png" },
+                { id: "projects/bots/Bot13", src: imagePath + "projects/bots/bot13.png" },
+                { id: "projects/bots/Bot14", src: imagePath + "projects/bots/bot14.png" },
+                { id: "projects/bots/Bot15", src: imagePath + "projects/bots/bot15.png" },
+                { id: "projects/bots/Bot16", src: imagePath + "projects/bots/bot16.png" },
+                { id: "projects/bots/Bot17", src: imagePath + "projects/bots/bot17.png" },
+                { id: "projects/bots/Bot18", src: imagePath + "projects/bots/bot18.png" },
+                { id: "projects/bots/Bot02", src: imagePath + "projects/bots/bot2.png" },
+                { id: "projects/bots/Bot03", src: imagePath + "projects/bots/bot3.png" },
+                { id: "projects/bots/Bot04", src: imagePath + "projects/bots/bot4.png" },
+                { id: "projects/bots/Bot05", src: imagePath + "projects/bots/bot5.png" },
+                { id: "projects/bots/Bot06", src: imagePath + "projects/bots/bot6.png" },
+                { id: "projects/bots/Bot07", src: imagePath + "projects/bots/bot7.png" },
+                { id: "projects/bots/Bot08", src: imagePath + "projects/bots/bot8.png" },
+                { id: "projects/bots/Bot09", src: imagePath + "projects/bots/bot9.png" },
+                { id: "projects/bots/shadowBot01", src: imagePath + "projects/bots/botshadow1.png" },
+                { id: "projects/bots/shadowBot10", src: imagePath + "projects/bots/botshadow10.png" },
+                { id: "projects/bots/shadowBot11", src: imagePath + "projects/bots/botshadow11.png" },
+                { id: "projects/bots/shadowBot12", src: imagePath + "projects/bots/botshadow12.png" },
+                { id: "projects/bots/shadowBot13", src: imagePath + "projects/bots/botshadow13.png" },
+                { id: "projects/bots/shadowBot14", src: imagePath + "projects/bots/botshadow14.png" },
+                { id: "projects/bots/shadowBot15", src: imagePath + "projects/bots/botshadow15.png" },
+                { id: "projects/bots/shadowBot16", src: imagePath + "projects/bots/botshadow16.png" },
+                { id: "projects/bots/shadowBot17", src: imagePath + "projects/bots/botshadow17.png" },
+                { id: "projects/bots/shadowBot18", src: imagePath + "projects/bots/botshadow18.png" },
+                { id: "projects/bots/shadowBot02", src: imagePath + "projects/bots/botshadow2.png" },
+                { id: "projects/bots/shadowBot03", src: imagePath + "projects/bots/botshadow3.png" },
+                { id: "projects/bots/shadowBot04", src: imagePath + "projects/bots/botshadow4.png" },
+                { id: "projects/bots/shadowBot05", src: imagePath + "projects/bots/botshadow5.png" },
+                { id: "projects/bots/shadowBot06", src: imagePath + "projects/bots/botshadow6.png" },
+                { id: "projects/bots/shadowBot07", src: imagePath + "projects/bots/botshadow7.png" },
+                { id: "projects/bots/shadowBot08", src: imagePath + "projects/bots/botshadow8.png" },
+                { id: "projects/bots/shadowBot09", src: imagePath + "projects/bots/botshadow9.png" },
 
+
+                //workshop
                 { src: imagePath + "myBots/Bot01.png", id: "myBots/Bot01" },
                 { src: imagePath + "myBots/Bot01_fill.png", id: "myBots/Bot01_fill" },
                 { src: imagePath + "myBots/Bot01_stroke.png", id: "myBots/Bot01_stroke" },
@@ -153,70 +200,6 @@ module InvertCross {
                 { src: imagePath + "myBots/Brash05.png", id: "myBots/trash05" },
                 { src: imagePath + "myBots/Brash06.png", id: "myBots/trash06"},
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 //my bots
                 { id: "mybots/greenbox", src: imagePath + "mybots/greenbox.png" },
                 { id: "mybots/greenshadow", src: imagePath + "mybots/greenshadow.png" },
@@ -287,60 +270,9 @@ module InvertCross {
 
 
                 //Legacy
-                { id: "114", src: "assets/" + "114.png" },
-                { id: "57", src: "assets/" + "57.png" },
-                { id: "72", src: "assets/" + "72.png" },
-                { id: "acabouotempo", src: "assets/" + "acabouotempo.png" },
-                { id: "anim test", src: "assets/" + "anim test.png" },
-                { id: "animtest", src: "assets/" + "animtest.png" },
-                { id: "basebotoes1", src: "assets/" + "basebotoes1.png" },
-                { id: "basebotoes2", src: "assets/" + "basebotoes2.png" },
                 { id: "bolinhas", src: "assets/" + "bolinhas.png" },
-                { id: "botao2", src: "assets/" + "botao2.png" },
-                { id: "botao3", src: "assets/" + "botao3.png" },
-                { id: "botaodenovo", src: "assets/" + "botaodenovo.png" },
-                { id: "botaodenovo2", src: "assets/" + "botaodenovo2.png" },
-                { id: "botaofxoff", src: "assets/" + "botaofxoff.png" },
-                { id: "botaofxon", src: "assets/" + "botaofxon.png" },
-                { id: "botaojogar", src: "assets/" + "botaojogar.png" },
-                { id: "botaomenu", src: "assets/" + "botaomenu.png" },
-                { id: "botaomusicaoff", src: "assets/" + "botaomusicaoff.png" },
-                { id: "botaomusicaon", src: "assets/" + "botaomusicaon.png" },
-                { id: "botaoproximo", src: "assets/" + "botaoproximo.png" },
-                { id: "botaopular", src: "assets/" + "botaopular.png" },
-                { id: "botaopular2", src: "assets/" + "botaopular2.png" },
-                { id: "botaosettings", src: "assets/" + "botaosettings.png" },
-                { id: "botaosom", src: "assets/" + "botaosom.png" },
-                { id: "botaotrofeus", src: "assets/" + "botaotrofeus.png" },
-                { id: "botaovoltar", src: "assets/" + "botaovoltar.png" },
-                { id: "BoxBallon", src: "assets/" + "BoxBallon.png" },
-                { id: "boxesBg", src: "assets/" + "boxesBg.png" },
-                { id: "boxesBgTop", src: "assets/" + "boxesBgTop.png" },
-                { id: "bt", src: "assets/" + "bt.png" },
-                { id: "done01", src: "assets/" + "done01.png" },
-                { id: "fundoporcasparafusos", src: "assets/" + "fundoporcasparafusos.png" },
-                { id: "green", src: "assets/" + "green.png" },
-                { id: "green_bg", src: "assets/" + "green_bg.png" },
-                { id: "green_bg_main", src: "assets/" + "green_bg_main.png" },
-                { id: "Ground", src: "assets/" + "Ground.png" },
-                { id: "homeback", src: "assets/" + "homeback.png" },
-                { id: "icon", src: "assets/" + "icon.png" },
-                { id: "icon2", src: "assets/" + "icon2.png" },
-                { id: "iconebotaojogar", src: "assets/" + "iconebotaojogar.png" },
-                { id: "iconShadow", src: "assets/" + "iconShadow.png" },
-                { id: "luzfundo", src: "assets/" + "luzfundo.png" },
-                { id: "porcasparafusos1", src: "assets/" + "porcasparafusos1.png" },
-                { id: "porcasparafusos2", src: "assets/" + "porcasparafusos2.png" },
-                { id: "prize", src: "assets/" + "prize.png" },
-                { id: "simple", src: "assets/" + "simple.png" },
-                { id: "simpleC", src: "assets/" + "simpleC.png" },
                 { id: "smokePart", src: "assets/" + "smokePart.png" },
-                { id: "bggeneric", src: "assets/" + "bggeneric.jpg" },
-                { id: "green_bg", src: "assets/" + "green_bg.jpg" },
-                { id: "locked", src: "assets/" + "locked.jpg" },
-                { id: "pr", src: "assets/" + "pr.jpg" },
-                { id: "win", src: "assets/" + "win.jpg" }, 
-
+                
                 //lobby
                 { src: imagePath + "lobbyImages/greenbox.png", id: "greenbox" },
                 { src: imagePath + "lobbyImages/Bitmap4.png", id: "Bitmap4" },

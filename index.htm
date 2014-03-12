@@ -5,7 +5,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <meta name="viewport" content="user-scalable=no" />
-    <script src="script/setMobileScale.js"></script>
+    <!--<script src="script/setMobileScale.js"></script>-->
 
     <title>Invert Cross</title>
 
@@ -19,6 +19,7 @@
     <script src="script/BitmapScalePath.js"></script>
     <script src="script/getQueryVariable.js"></script>
     <script src="script/ImageHitAreaPatch.js"></script>
+    <script src="script/CocoonJStouchPathc.js"></script>
 
     <!-- Preferences ==========================================================================-->
     <script src="Preferences.js"></script>
@@ -36,7 +37,7 @@
     <script src="assets/MyBots.js"></script>
 
     <!-- code script -->
-    <script src="script.js"></script>
+    <script src="script/script.js"></script>
 
     <!-- style -->
     <link href="style/main.css" rel="stylesheet" />
@@ -45,6 +46,9 @@
 
 </head>
 <body>
-    <canvas id="myCanvas"></canvas>
+    <!--cocoonJS screenCanvas
+        http://support.ludei.com/hc/en-us/articles/201810268-ScreenCanvas
+        -->
+    <canvas id="myCanvas" screencanvas="true"></canvas>
 </body>
 </html>

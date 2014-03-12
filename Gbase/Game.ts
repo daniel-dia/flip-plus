@@ -42,15 +42,15 @@ module InvertCross {
             createjs.Touch.enable(this.stage);
             
             createjs.Ticker.addEventListener("tick", () => {
-                ctx.msImageSmoothingEnabled = false;
-                ctx.webkitImageSmoothingEnabled = false;
-                ctx.mozImageSmoothingEnabled = false;
+                //ctx.msImageSmoothingEnabled = false;
+                //ctx.webkitImageSmoothingEnabled = false;
+                //ctx.mozImageSmoothingEnabled = false;
 
                 this.stage.update();
                 this.fpsMeter.text = Math.floor(createjs.Ticker.getMeasuredFPS()) + " FPS";
-
             });
-            createjs.Ticker.setFPS(30);
+
+            createjs.Ticker.setFPS(60);
 
             this.screenViewer = new InvertCross.ScreenViewer(this.stage);
             this.stage.addChild(this.screenViewer.viewer);
@@ -73,7 +73,7 @@ module InvertCross {
                 if (res == "wvga") len = 480;
                 if (res == "xga") len = 768;
                 if (res == "vga") len = 480;
-                if (isNaN(len) || !len) len = window.innerWidth;
+                if (isNaN(len) || !len) len = 768;
             }
 
             var img = getQueryVariable("img");
@@ -81,7 +81,7 @@ module InvertCross {
                 case "1": assetscale = 1; break;
                 case "0.5": assetscale = 0.5; break;
                 case "0.25": assetscale = 0.25; break;
-                default: assetscale = 1;
+                default: assetscale = 0.5;
             }
 
             this.redim(len)
@@ -110,7 +110,7 @@ module InvertCross {
 
             this.screenViewer.updateScale(finalscale);
 
-            setMobileScale(devicewidth)
+            //setMobileScale(devicewidth)
         }
 
 

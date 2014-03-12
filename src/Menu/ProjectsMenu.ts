@@ -10,9 +10,8 @@ module InvertCross.Menu {
         private pages: createjs.Container[];
 
         private currentPageIndex: number = 0;
-
+        
         private menu: View.ScreenMenu;
-
 
         private popup: View.Popup;
 
@@ -25,7 +24,7 @@ module InvertCross.Menu {
         //populate View
         private createObjects() {
 
-            var bg: createjs.Bitmap = InvertCross.Assets.getImage("projects/bg");
+            var bg: createjs.Bitmap = InvertCross.Assets.getImage("projects/bgprojects");
             this.view.addChild(bg);
 
             this.addMenu();
@@ -56,10 +55,17 @@ module InvertCross.Menu {
 
         //adds projects objects to the view
         private addProjects() {
+
+            //grid properties
+            var xspacing = 500;
+            var yspacing = 960;
+            var rows = 2;
+            var cols = 3;
+
             //create grid
             this.projectsGrid = new createjs.Container();
             this.view.addChild(this.projectsGrid);
-            this.projectsGrid.x = 750/2;
+            this.projectsGrid.x = (DefaultWidth -xspacing*cols)/2 +xspacing/2;
             this.projectsGrid.y = 600;
 
             // create Pages
@@ -73,7 +79,7 @@ module InvertCross.Menu {
             for (var i = 0; i < projects.length; i++) {
 
                 //create current page
-                if (i % 4 == 0) {
+                if (i % (cols*rows) == 0) {
                     currentPage = new createjs.Container();
                     this.projectsGrid.addChild(currentPage);
                     this.pages.push(currentPage);
@@ -89,8 +95,9 @@ module InvertCross.Menu {
                 currentPage.addChild(pview);
 
                 //set item position
-                pview.x = 750 * (i%2);
-                pview.y = 750  * Math.floor((i % 4) / 2);
+                pview.x = xspacing * (i%cols);
+                pview.y = yspacing * Math.floor((i % (cols*rows)) / cols);
+
             }
         }
 
@@ -107,11 +114,9 @@ module InvertCross.Menu {
                 InvertCrossaGame.showProjectLevelsMenu(p);
 
             else {
-                
                 var stars = InvertCrossaGame.projectManager.getStarsCount();
                 if (stars < p.cost)
                     this.popup.showtext("you only have " + stars + " stars. \nYou need at least " + p.cost + " stars \nto unlock this project\n play more levels to earn stars.", 10000);
-                
             }
         }
 
@@ -139,7 +144,7 @@ module InvertCross.Menu {
             lb.addChild(lbs);
             lbs.graphics.beginFill("#0e253a").drawRect(-110, -110, 210, 210);
             lbs.graphics.beginFill("#FFF").lineTo(0, -100).lineTo(0, 100).lineTo(-100, 0);
-            lb.y = 1300;
+            lb.y = 1950;
             lb.x = DefaultWidth * 0.1;
             this.view.addChild(lb);
             lb.addEventListener("click", (e: MouseEvent) => { this.gotoPreviousPage() });
@@ -150,7 +155,7 @@ module InvertCross.Menu {
             rb.addChild(rbs);
             rbs.graphics.beginFill("#0e253a").drawRect(-110, -110, 210, 210);
             rbs.graphics.beginFill("#FFF").lineTo(0, -100).lineTo(0, 100).lineTo(100, 0);
-            rb.y = 1300;
+            rb.y = 1950;
             rb.x = DefaultWidth * 0.9;
             this.view.addChild(rb);
             rb.addEventListener("click", (e: MouseEvent) => { this.gotoNextPage() });

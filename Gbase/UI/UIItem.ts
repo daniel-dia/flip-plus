@@ -85,7 +85,7 @@ module Gbase.UI {
             var b = this.getBounds();
             
             if (b) hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
-            //Todo. se for texto colocar uma sobra. !
+            //TODO. se for texto colocar uma sobra. !
 
             this.hitArea = hit;
             

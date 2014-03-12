@@ -274,6 +274,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="default.htm" />
+    <Content Include="script\CocoonJStouchPathc.js" />
     <Content Include="script\getQueryVariable.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -317,6 +318,7 @@
     <TypeScriptCompile Include="src\UserData\TimersData.ts" />
     <TypeScriptCompile Include="src\Parts\PartsManager.ts" />
     <TypeScriptCompile Include="src\Projects\ProjectManager.ts" />
+    <Content Include="script\script.js" />
     <Content Include="src\UserData\ProjectsData.ts" />
     <TypeScriptCompile Include="lib\soundjs.d.ts" />
     <TypeScriptCompile Include="lib\preloadjs.d.ts" />
@@ -434,7 +436,7 @@
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptOutFile>script.js</TypeScriptOutFile>
+    <TypeScriptOutFile>script/script.js</TypeScriptOutFile>
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>

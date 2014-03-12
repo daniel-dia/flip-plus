@@ -1,9 +1,3 @@
-/// <reference path="../../../lib/easeljs.d.ts" />
-/// <reference path="../../Projects/Level.ts" /> 
-/// <reference path="../../userdata/projectsdata.ts" />
-/// <reference path="../../../Gbase/UI/Grid.ts" /> 
-/// <reference path="LevelThumb.ts" /> 
-
 module InvertCross.Menu.View {
 
     export class RobotPreview extends createjs.Container {
