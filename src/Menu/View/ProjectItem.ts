@@ -72,6 +72,7 @@ module InvertCross.Menu.View {
                 this.addChild(star);
                 star.x = 240;
                 star.y = 190;
+
                 //addsText
                 var tx = new createjs.Text(this.project.cost.toString(), "Bold 100px " + defaultFont , "#565656");
                 this.addChild(tx);
@@ -94,7 +95,8 @@ module InvertCross.Menu.View {
             //verifica se o projeto pode ser destravado
             //TODO. nao devia acessar metodo global aqui
             InvertCrossaGame.projectManager.unlockProject(this.project);
-                    
+               
+            //update the objects display     
             this.createObjects(this.project);
                 
             //if is new (unlocked and not played) do an animation
