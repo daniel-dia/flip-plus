@@ -61,14 +61,28 @@ module InvertCross.Menu.View {
 
             } else {
 
+
+                //adds Background
                 var bg = "projects/slotl";
                 var s: createjs.Bitmap = Assets.getImage(bg);
                 this.addChild(s);
+
+                //adds lock indicator
+                var star = Assets.getImage("projects/star");
+                this.addChild(star);
+                star.x = 240;
+                star.y = 190;
+                //addsText
+                var tx = new createjs.Text(this.project.cost.toString(), "Bold 100px " + defaultFont , "#565656");
+                this.addChild(tx);
+                tx.textAlign = "right";
+                tx.x = 220;
+                tx.y = 175;
+
             }
 
-            //lock indicator
-            //var lockedIndicator = new ProjectLockedIndicator(project.cost);
-            //this.addChild(lockedIndicator);
+            //cache object
+            this.cache(0, 0, 480, 480);
 
             //create hitArea
             this.createHitArea();

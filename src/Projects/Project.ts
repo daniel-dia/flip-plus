@@ -15,9 +15,6 @@ module InvertCross.Projects {
 
         //stars needed for unlock the project
         public cost: number;
-        
-        //cost for unlock the project
-        public requiredStars: number;
 
         //userData related to project
         //TODO - remove it from here, put in other class. UserData Class...

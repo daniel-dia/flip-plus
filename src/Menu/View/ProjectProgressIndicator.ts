@@ -1,7 +1,7 @@
 /// <reference path="../../../lib/easeljs.d.ts" />
 
 module InvertCross.Menu.View {
-    
+
     //View
     export class ProjectProgressIndicator extends createjs.Container {
 
@@ -13,7 +13,7 @@ module InvertCross.Menu.View {
             this.createObjects();
 
         }
-        
+
         //create objects
         private createObjects() {
             var bg: createjs.Shape = new createjs.Shape();
@@ -30,11 +30,11 @@ module InvertCross.Menu.View {
             this.progressBar = pbar;
 
         }
-        
- 
+
+
 
         // update object based on its info
-        public updateProjectInfo(progress:number) {
+        public updateProjectInfo(progress: number) {
             if (progress > 1) progress = 1;
             if (progress < 0) progress = 0;
 
@@ -42,27 +42,5 @@ module InvertCross.Menu.View {
             this.progressBar.scaleX = progress;
 
         }
-    }
-
-
-    export class ProjectLockedIndicator extends createjs.Container {
-        constructor(requiredStars:number) {
-            super();
-
-            var lockedShape: createjs.Shape = new createjs.Shape();
-            lockedShape.graphics.beginFill("#080").rect(0, 0, 120, 100);
-            lockedShape.x = -150;
-            lockedShape.y = 100;
-            this.addChild(lockedShape);
-
-            var costText: createjs.Text = new createjs.Text("lock   " + requiredStars, "60px Myriad Pro", "#FFF");
-            costText.x = -150 + 10;
-            costText.y = 130;
-            this.addChild(costText);
-            
-        }
-
-
-
     }
 }
