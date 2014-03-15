@@ -1,20 +1,20 @@
 module InvertCross.Menu {
 
-    // Class
     export class ProjectsMenu extends Gbase.ScreenState {
 
         private partsIndicator: View.PartsIndicator;
         private projectsGrid: createjs.Container;
 
         private projectsItens: View.ProjectItem[] = [];
-        private pages: createjs.Container[];
 
-        private currentPageIndex: number = 0;
-        
         private menu: View.ScreenMenu;
 
         private popup: View.Popup;
 
+        private pagesSwipe: PagesSwipe ;
+        private pages: Array<createjs.DisplayObject>;
+
+        //==================================== initialization ==============================================
         // Constructor
         constructor() {
             super();
@@ -29,7 +29,9 @@ module InvertCross.Menu {
 
             this.addMenu();
             this.addProjects();
-            this.createPaginationButtons();
+            this.pagesSwipe = new PagesSwipe(this.projectsGrid, this.pages);
+  
+            this.createPaginationButtons(this.projectsGrid);
 
             //this.partsIndicator.updateAmount(InvertCrossaGame.partsManager.getBallance());
             this.createPopup();
@@ -81,6 +83,11 @@ module InvertCross.Menu {
                 //create current page
                 if (i % (cols*rows) == 0) {
                     currentPage = new createjs.Container();
+
+                    var hit = new createjs.Container;
+                    hit.hitArea = (new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, DefaultWidth, DefaultHeight)));
+                    currentPage.addChild(hit);
+
                     this.projectsGrid.addChild(currentPage);
                     this.pages.push(currentPage);
                 }
@@ -95,7 +102,7 @@ module InvertCross.Menu {
                 currentPage.addChild(pview);
 
                 //set item position
-                pview.x = xspacing * (i%cols);
+                pview.x = xspacing * (i % cols) + 260;
                 pview.y = yspacing * Math.floor((i % (cols*rows)) / cols);
 
             }
@@ -103,7 +110,10 @@ module InvertCross.Menu {
 
         //Callback to the project item click
         private projectItemClick(e: MouseEvent) {
-            
+
+            //cancel click in case of drag
+            if (this.pagesSwipe.cancelClick) return;
+                
             //get proper project target
             var t: any = e.currentTarget;
             var pv = <View.ProjectItem> t;
@@ -120,13 +130,13 @@ module InvertCross.Menu {
             }
         }
 
+        //update all projects preview in the menu page
         private updateProjects() {
-            for (var i = 0; i < this.projectsItens.length; i++) {
-                var p = this.projectsItens[i];
-                p.updateProjectInfo();
-            }
+            for (var i = 0; i < this.projectsItens.length; i++) 
+                this.projectsItens[i].updateProjectInfo();
         }
 
+        //executes when activate the screen
         public activate() {
             super.activate();
             this.updateProjects();
@@ -135,9 +145,9 @@ module InvertCross.Menu {
             this.menu.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());
         }
 
-        //----------------------pages-----------------------------------------------//
-        
-        private createPaginationButtons() {
+
+        //=====================================================
+        private createPaginationButtons(pagesContainer: createjs.Container) {
             //create leftButton
             var lb: Gbase.UI.Button = new Gbase.UI.Button;
             var lbs: createjs.Shape = new createjs.Shape();
@@ -147,8 +157,8 @@ module InvertCross.Menu {
             lb.y = 1950;
             lb.x = DefaultWidth * 0.1;
             this.view.addChild(lb);
-            lb.addEventListener("click", (e: MouseEvent) => { this.gotoPreviousPage() });
-            
+            lb.addEventListener("click", (e: MouseEvent) => { this.pagesSwipe.gotoPreviousPage(pagesContainer) });
+
             //create right button
             var rb: Gbase.UI.Button = new Gbase.UI.Button;
             var rbs: createjs.Shape = new createjs.Shape();
@@ -158,37 +168,14 @@ module InvertCross.Menu {
             rb.y = 1950;
             rb.x = DefaultWidth * 0.9;
             this.view.addChild(rb);
-            rb.addEventListener("click", (e: MouseEvent) => { this.gotoNextPage() });
+            rb.addEventListener("click", (e: MouseEvent) => { this.pagesSwipe.gotoNextPage(pagesContainer) });
 
             //create pagination indicator
+            //TODO
+
 
             //goto defaul page
-            this.gotoPage(0);
-        }
-        
-        private gotoPage(pageId: number) {
-            for (var i = 0; i < this.pages.length; i++) 
-                this.pages[i].visible = false;
-
-            this.pages[pageId].visible = true;
-        }
-
-        private gotoNextPage() {
-            this.currentPageIndex++;
-            this.currentPageIndex = this.currentPageIndex % this.pages.length;
-
-            this.gotoPage(this.currentPageIndex);
-        }
-
-        private gotoPreviousPage() {
-            this.currentPageIndex--;
-            this.currentPageIndex += this.pages.length;
-
-            this.currentPageIndex = this.currentPageIndex % this.pages.length;
-
-            this.gotoPage(this.currentPageIndex);
-
-        }
-
+            this.pagesSwipe.gotoPage(pagesContainer, 0);
+        }           
     }
 }

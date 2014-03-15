@@ -15,11 +15,23 @@ module InvertCross.Menu.View {
         constructor(project: Projects.Project) {
             super();
             this.project = project;
-            this.addObjects(project);
             this.name = project.name;
+
+            //add hitArea
+            this.addHitArea();
+
+            //add levels information
+            this.addObjects(project);
+
         }
 
         //--------------------- Initialization ---------------------
+
+        private addHitArea(){
+            var hit = new createjs.Container;
+            hit.hitArea = (new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, DefaultWidth, DefaultHeight)));
+            this.addChild(hit);
+        }
 
         private addObjects(project: Projects.Project) {
           
@@ -87,10 +99,11 @@ module InvertCross.Menu.View {
                 if (project.UserData.unlocked) {
                     //Add Level Thumbs
                     this.levelGrid = new Menu.View.LevelGrid(project);
-                    this.levelGrid.addEventListener("levelClick", this.openLevel);
+                    this.levelGrid.addEventListener("levelClick", (e: createjs.Event) => { this.dispatchEvent("levelClick", e.target); });
                     this.levelGrid.x = 180;
                     this.levelGrid.y = 1538;
                     levelMachine.addChild(this.levelGrid);
+
                 }
                 else {
                     var text = new createjs.Text("LOCKED", defaultFontFamilyStrong, defaultFontColor);

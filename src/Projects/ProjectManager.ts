@@ -34,10 +34,14 @@ module InvertCross.Projects {
         // ------------------------------- manager Levels ----------------------------------------
 
         //get current Level 
-        public getCurrentLevel(): Level { return this.currentLevel; }
+        public getCurrentLevel(): Level {
+            return this.currentLevel;
+        }
 
         //set current level
-        public setCurrentLevel(level: Level) { this.currentLevel = level; }
+        public setCurrentLevel(level: Level) {
+            this.currentLevel = level;
+        }
 
         //skip a project
         public skipLevel(level: Level) {

@@ -110,7 +110,7 @@ module InvertCross {
 
             this.screenViewer.updateScale(finalscale);
 
-            //setMobileScale(devicewidth)
+            setMobileScale(devicewidth)
         }
 
 

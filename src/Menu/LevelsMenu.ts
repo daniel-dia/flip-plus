@@ -12,11 +12,14 @@ module InvertCross.Menu {
 
         private projects;
 
+        private pagesSwipe: PagesSwipe;
+
         // Constructor
         constructor(projects:Array<Projects.Project>) {
             super();
             this.projects = projects;
             this.addObjects();
+            this.pagesSwipe = new PagesSwipe(this.projectsContaier, this.projectViews);
         }
         
         //--------------------- Initialization ---------------------
@@ -25,24 +28,22 @@ module InvertCross.Menu {
             //add Background
             var bg = Assets.getImage("workshop/bgworkshop")
             this.view.addChild(bg);
-            var hit = new createjs.Shape();
-            hit.graphics.beginFill("F00").drawRect(0, 0, DefaultWidth, DefaultHeight);
-            bg.hitArea = hit;
-
-
+            
             this.view.mouseChildren = true;
-            //add menu
-            this.addMenu();
-
+            
             //adds Projects
             this.addProjects(this.projects);
 
-            //adds popup
+            //add menu
+            this.addMenu();
+            
+            //adds popup and messages
             this.popup = new View.Popup();
             this.view.addChild(this.popup);
 
             this.message = new View.Message();
             this.view.addChild(this.message);
+
         }
 
         //Adds menu to screen;
@@ -79,14 +80,12 @@ module InvertCross.Menu {
                 projectsContainer.addChild(projectView);
                 projectView.activate();
                 projectView.x = DefaultWidth * p; 
+                projectView.addEventListener("levelClick", (e:createjs.Event) => { this.openLevel(e) });
             }
 
             //add to view
             this.view.addChild(projectsContainer);
             this.projectsContaier = projectsContainer;
-
-            //add Inertial movement
-            Inertia.addInertia(projectsContainer, true, false, this.view);
 
             var fin = (projects.length-1) * DefaultWidth;
             projectsContainer.addEventListener("onmoving", () => {
@@ -96,6 +95,20 @@ module InvertCross.Menu {
                 for (var pv in this.projectViews) this.projectViews[pv].setRelativePos(this.projectViews[pv].x + projectsContainer.x);
            });
         }
+
+        private openLevel(event: createjs.Event) {
+
+            //cancel click in case of drag
+            if (this.pagesSwipe.cancelClick) return;
+
+            var level: Projects.Level = <Projects.Level>event.target['level'];
+            var parameters = event.target['parameters']
+
+            if (level != null)
+                if (level.userdata.unlocked)
+                    InvertCrossaGame.showLevel(level, parameters);
+        }
+
 
         //--Behaviour-----------------------------------------------------------
 
