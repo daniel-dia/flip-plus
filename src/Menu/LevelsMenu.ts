@@ -1,6 +1,5 @@
 module InvertCross.Menu {
 
-    // Class
     export class LevelsMenu extends Gbase.ScreenState {
 
         private menu: View.ScreenMenu;
@@ -10,16 +9,14 @@ module InvertCross.Menu {
         private popup: View.Popup;
         private message: View.Message;
 
-        private projects;
-
         private pagesSwipe: PagesSwipe;
 
         // Constructor
-        constructor(projects:Array<Projects.Project>) {
+        constructor() {
+
             super();
-            this.projects = projects;
             this.addObjects();
-            this.pagesSwipe = new PagesSwipe(this.projectsContaier, this.projectViews);
+            this.pagesSwipe = new PagesSwipe(this.projectsContaier, this.projectViews,DefaultWidth);
         }
         
         //--------------------- Initialization ---------------------
@@ -32,7 +29,7 @@ module InvertCross.Menu {
             this.view.mouseChildren = true;
             
             //adds Projects
-            this.addProjects(this.projects);
+            this.addProjects();
 
             //add menu
             this.addMenu();
@@ -65,8 +62,11 @@ module InvertCross.Menu {
         private lastx = 0;
 
         //adds all projects in swipe view
-        private addProjects(projects) {
+        private addProjects() {
             
+            //pega projetos
+            var projects = InvertCrossaGame.projectManager.getUnlockedProjects();
+
             //create projects container
             var projectsContainer = new createjs.Container();
 
@@ -116,14 +116,21 @@ module InvertCross.Menu {
 
             super.activate();
 
+            //updates stars and parts idicatorr
             this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
             this.menu.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());
 
-            for (var pv in this.projectViews) {
-                if (InvertCrossaGame.projectManager.getCurrentProject().name == this.projectViews[pv].name)
+            //update all projects views
+            for (var pv in this.projectViews) 
+                if (InvertCrossaGame.projectManager.getCurrentProject().name == this.projectViews[pv].name) {
+                    
+                    //activate current project
                     this.projectViews[pv].activate(parameters);
-            }
 
+                    //goto current project
+                    this.pagesSwipe.gotoPage(pv,false);
+                }
+            
             //makes win or loose animation
             if (parameters && parameters.complete)
                 this.message.showtext("WELL DONE !", 3000,500);

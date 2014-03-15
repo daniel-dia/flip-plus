@@ -16,16 +16,20 @@ module InvertCross.Projects {
 
         // ------------------------------- initialization ----------------------------------------//
 
-        constructor(data: any) {
+        constructor(data: Array<Project>) {
             this.loadProjects(data);
         }
 
-        private loadProjects(data: any) {
-            this.projects = <Array<Project>>levelsData;
+        private loadProjects(data: Array<Project>) {
+            
+            this.projects = data;
 
             //append the project name in each level.
-            for (var p in this.projects) for (var l in this.projects[p].levels)
+            for (var p in this.projects)
+                for (var l in this.projects[p].levels) {
                     this.projects[p].levels[l].name = this.projects[p].name + "/" + this.projects[p].levels[l].name;
+                    this.projects[p].levels[l].project = this.projects[p];
+                }
 
             //create a user data for each level/project
             InvertCrossaGame.userData.addUserData(this.projects);
@@ -41,6 +45,7 @@ module InvertCross.Projects {
         //set current level
         public setCurrentLevel(level: Level) {
             this.currentLevel = level;
+            this.setCurrentProject(level.project);
         }
 
         //skip a project
@@ -152,11 +157,24 @@ module InvertCross.Projects {
             var finishedProjects: Project[] = [];
 
             //verifies all projects and add the non complete to array, till reach max number
-            for (var i :number=0; i < this.projects.length; i++)
+            for (var i: number = 0; i < this.projects.length; i++)
                 if (this.projects[i].UserData.complete)
                     finishedProjects.push(this.projects[i]);
 
             return finishedProjects;
+        }
+
+        //get all unlockedProjects
+        public getUnlockedProjects(): Project[] {
+            //return array with avaliable projects
+            var unlockedProjects: Project[] = [];
+
+            //verifies all projects and add the non complete to array, till reach max number
+            for (var i: number = 0; i < this.projects.length; i++)
+                if (this.projects[i].UserData.unlocked)
+                    unlockedProjects.push(this.projects[i]);
+
+            return unlockedProjects;
         }
         
         //getProjectStars

@@ -73,20 +73,24 @@ module InvertCross {
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.projectsMenu);
         }
 
-        public static completeLevel() {
-            var t = new Transition;
-            t.type = "fade";
-            t.time = 500;
-            InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelsMenu, {complete:true}, t);
-        }
 
         public static showProjectLevelsMenu(project?: Projects.Project, parameters?: any) {
 
-            if (project == null) project = InvertCrossaGame.projectManager.getCurrentProject();
-            else InvertCrossaGame.projectManager.setCurrentProject(project);
+            if (project == null)
+                project = InvertCrossaGame.projectManager.getCurrentProject();
+            else
+                InvertCrossaGame.projectManager.setCurrentProject(project);
+
             if (project == null) return;
 
-            InvertCrossaGame.levelsMenu = new Menu.LevelsMenu(InvertCrossaGame.projectManager.getAllProjects());
+
+            
+            var projects = InvertCrossaGame.projectManager.getAllProjects()
+
+            if(InvertCrossaGame.levelsMenu) delete InvertCrossaGame.levelsMenu;
+
+            InvertCrossaGame.levelsMenu = new Menu.LevelsMenu();
+
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelsMenu,parameters);
         }
 
@@ -112,13 +116,16 @@ module InvertCross {
             return null;
         }
 
-        public static exitLevel(loose: boolean= false) {
+        public static completeLevel() {
+            this.showProjectLevelsMenu(null, { complete: true });
+        }
 
-            InvertCrossaGame.levelScreeen = null;
-            if (InvertCrossaGame.levelsMenu != null)
-                InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelsMenu, {loose:loose});
-            else
-                InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.mainScreen);
+        public static looseLevel() {
+            this.showProjectLevelsMenu(null, {loose:true });
+        }
+
+        public static exitLevel() {
+            this.showProjectLevelsMenu();
         }
 
         public static showNextLevel() {

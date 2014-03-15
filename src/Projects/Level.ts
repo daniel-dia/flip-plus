@@ -45,6 +45,11 @@ module InvertCross.Projects {
         // ================ User data ============================================
 
         public userdata: LevelUserData;
+
+        // ================ reference ============================================
+        // reference to the level project
+        public project: Project;
+
     }
 
     export interface tutorialStep {

@@ -4,16 +4,19 @@ module InvertCross {
     export class PagesSwipe {
 
         public cancelClick = false;
+        private pagesContainer: createjs.Container;
         private pages: createjs.DisplayObject[];
         private currentPageIndex: number = 0;
+        private pagewidth: number;
+        constructor(pagesContainer: createjs.Container, pages: Array<createjs.DisplayObject>, pageWidth:number) {
 
-        constructor(pagesContainer: createjs.Container, pages: Array<createjs.DisplayObject>) {
-
+            this.pagewidth = pageWidth;
+            this.pagesContainer = pagesContainer;
             this.pages = pages;
 
             //configure pages
             for (var i in pages)
-                pages[i].x = DefaultWidth * i;
+                pages[i].x = this.pagewidth * i;
 
             //adds event
             var xpos;
@@ -37,15 +40,15 @@ module InvertCross {
                 var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY)
 
                 //calculate the drag percentage.
-                var p = (pos.x - xpos + DefaultWidth * this.currentPageIndex) / DefaultWidth;
+                var p = (pos.x - xpos + this.pagewidth * this.currentPageIndex) / this.pagewidth;
 
                 //choses if goes to the next or previous page.
                 if (p < -0.25)
-                    this.gotoNextPage(pagesContainer);
+                    this.gotoNextPage();
                 else if (p > +0.25)
-                    this.gotoPreviousPage(pagesContainer);
+                    this.gotoPreviousPage();
                 else
-                    this.stayOnPage(pagesContainer);
+                    this.stayOnPage();
 
                 //release click for user
                 setTimeout(() => { this.cancelClick = false }, 100);
@@ -53,26 +56,31 @@ module InvertCross {
         }
 
         //----------------------pages-----------------------------------------------//
+        
+        public gotoPage(pageId: number, tween: boolean= true) {
+            this.currentPageIndex = pageId;
 
-        public stayOnPage(pagesContainer: createjs.Container) {
-            this.gotoPage(pagesContainer, this.currentPageIndex);
+            if (tween)
+                createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut);
+            else
+                this.pagesContainer.x = -this.pagewidth * pageId;
         }
 
-        public gotoPage(pagesContainer: createjs.Container, pageId: number) {
-            createjs.Tween.get(pagesContainer).to({ x: -DefaultWidth * pageId }, 250, createjs.Ease.quadOut);
+        public stayOnPage() {
+            this.gotoPage(this.currentPageIndex);
         }
 
-        public gotoNextPage(pagesContainer: createjs.Container) {
+        public gotoNextPage() {
             this.currentPageIndex++;
             if (this.currentPageIndex == this.pages.length) this.currentPageIndex = this.pages.length - 1;
 
-            this.gotoPage(pagesContainer, this.currentPageIndex);
+            this.gotoPage(this.currentPageIndex);
         }
 
-        public gotoPreviousPage(pagesContainer: createjs.Container) {
+        public gotoPreviousPage() {
             this.currentPageIndex--;
             if (this.currentPageIndex < 0) this.currentPageIndex = 0;
-            this.gotoPage(pagesContainer, this.currentPageIndex);
+            this.gotoPage(this.currentPageIndex);
         }
 
  

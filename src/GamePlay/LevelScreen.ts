@@ -186,7 +186,7 @@ module InvertCross.GamePlay {
 
             this.menuOverlay.fadeOut();
             this.boardSprite.lock();           
-            setTimeout(() => {InvertCrossaGame.exitLevel(true);}, 2000);;
+            setTimeout(() => {InvertCrossaGame.looseLevel();}, 2000);;
             this.boardSprite.looseEffect();
         }
 

@@ -682,7 +682,8 @@ var InvertCross;
             this.myCanvas.style.height = Math.floor(this.defaultHeight * finalscale) + "px";
 
             this.screenViewer.updateScale(finalscale);
-            //setMobileScale(devicewidth)
+
+            setMobileScale(devicewidth);
         };
         Game.defaultWidth = DefaultWidth;
         Game.defaultHeight = DefaultHeight;
@@ -1131,22 +1132,22 @@ var InvertCross;
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.projectsMenu);
         };
 
-        InvertCrossaGame.completeLevel = function () {
-            var t = new InvertCross.Transition;
-            t.type = "fade";
-            t.time = 500;
-            InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelsMenu, { complete: true }, t);
-        };
-
         InvertCrossaGame.showProjectLevelsMenu = function (project, parameters) {
             if (project == null)
                 project = InvertCrossaGame.projectManager.getCurrentProject();
             else
                 InvertCrossaGame.projectManager.setCurrentProject(project);
+
             if (project == null)
                 return;
 
-            InvertCrossaGame.levelsMenu = new InvertCross.Menu.LevelsMenu(InvertCrossaGame.projectManager.getAllProjects());
+            var projects = InvertCrossaGame.projectManager.getAllProjects();
+
+            if (InvertCrossaGame.levelsMenu)
+                delete InvertCrossaGame.levelsMenu;
+
+            InvertCrossaGame.levelsMenu = new InvertCross.Menu.LevelsMenu();
+
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelsMenu, parameters);
         };
 
@@ -1173,13 +1174,16 @@ var InvertCross;
             return null;
         };
 
-        InvertCrossaGame.exitLevel = function (loose) {
-            if (typeof loose === "undefined") { loose = false; }
-            InvertCrossaGame.levelScreeen = null;
-            if (InvertCrossaGame.levelsMenu != null)
-                InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelsMenu, { loose: loose });
-            else
-                InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.mainScreen);
+        InvertCrossaGame.completeLevel = function () {
+            this.showProjectLevelsMenu(null, { complete: true });
+        };
+
+        InvertCrossaGame.looseLevel = function () {
+            this.showProjectLevelsMenu(null, { loose: true });
+        };
+
+        InvertCrossaGame.exitLevel = function () {
+            this.showProjectLevelsMenu();
         };
 
         InvertCrossaGame.showNextLevel = function () {
@@ -1633,7 +1637,7 @@ var InvertCross;
                 this.menuOverlay.fadeOut();
                 this.boardSprite.lock();
                 setTimeout(function () {
-                    InvertCross.InvertCrossaGame.exitLevel(true);
+                    InvertCross.InvertCrossaGame.looseLevel();
                 }, 2000);
                 ;
                 this.boardSprite.looseEffect();
@@ -3208,36 +3212,32 @@ var InvertCross;
 var InvertCross;
 (function (InvertCross) {
     (function (Menu) {
-        // Class
         var LevelsMenu = (function (_super) {
             __extends(LevelsMenu, _super);
             // Constructor
-            function LevelsMenu(projects) {
+            function LevelsMenu() {
                 _super.call(this);
                 //inertia fx
                 this.offset = 0;
                 this.lastx = 0;
-                this.projects = projects;
                 this.addObjects();
+                this.pagesSwipe = new InvertCross.PagesSwipe(this.projectsContaier, this.projectViews, DefaultWidth);
             }
             //--------------------- Initialization ---------------------
             LevelsMenu.prototype.addObjects = function () {
                 //add Background
                 var bg = InvertCross.Assets.getImage("workshop/bgworkshop");
                 this.view.addChild(bg);
-                var hit = new createjs.Shape();
-                hit.graphics.beginFill("F00").drawRect(0, 0, DefaultWidth, DefaultHeight);
-                bg.hitArea = hit;
 
                 this.view.mouseChildren = true;
+
+                //adds Projects
+                this.addProjects();
 
                 //add menu
                 this.addMenu();
 
-                //adds Projects
-                this.addProjects(this.projects);
-
-                //adds popup
+                //adds popup and messages
                 this.popup = new InvertCross.Menu.View.Popup();
                 this.view.addChild(this.popup);
 
@@ -3262,8 +3262,11 @@ var InvertCross;
             };
 
             //adds all projects in swipe view
-            LevelsMenu.prototype.addProjects = function (projects) {
+            LevelsMenu.prototype.addProjects = function () {
                 var _this = this;
+                //pega projetos
+                var projects = InvertCross.InvertCrossaGame.projectManager.getUnlockedProjects();
+
                 //create projects container
                 var projectsContainer = new createjs.Container();
 
@@ -3276,14 +3279,14 @@ var InvertCross;
                     projectsContainer.addChild(projectView);
                     projectView.activate();
                     projectView.x = DefaultWidth * p;
+                    projectView.addEventListener("levelClick", function (e) {
+                        _this.openLevel(e);
+                    });
                 }
 
                 //add to view
                 this.view.addChild(projectsContainer);
                 this.projectsContaier = projectsContainer;
-
-                //add Inertial movement
-                Inertia.addInertia(projectsContainer, true, false, this.view);
 
                 var fin = (projects.length - 1) * DefaultWidth;
                 projectsContainer.addEventListener("onmoving", function () {
@@ -3297,17 +3300,35 @@ var InvertCross;
                 });
             };
 
+            LevelsMenu.prototype.openLevel = function (event) {
+                //cancel click in case of drag
+                if (this.pagesSwipe.cancelClick)
+                    return;
+
+                var level = event.target['level'];
+                var parameters = event.target['parameters'];
+
+                if (level != null)
+                    if (level.userdata.unlocked)
+                        InvertCross.InvertCrossaGame.showLevel(level, parameters);
+            };
+
             //--Behaviour-----------------------------------------------------------
             LevelsMenu.prototype.activate = function (parameters) {
                 _super.prototype.activate.call(this);
 
+                //updates stars and parts idicatorr
                 this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
                 this.menu.partsIndicator.updatePartsAmount(InvertCross.InvertCrossaGame.partsManager.getBallance());
 
-                for (var pv in this.projectViews) {
-                    if (InvertCross.InvertCrossaGame.projectManager.getCurrentProject().name == this.projectViews[pv].name)
+                for (var pv in this.projectViews)
+                    if (InvertCross.InvertCrossaGame.projectManager.getCurrentProject().name == this.projectViews[pv].name) {
+                        //activate current project
                         this.projectViews[pv].activate(parameters);
-                }
+
+                        //goto current project
+                        this.pagesSwipe.gotoPage(pv, false);
+                    }
 
                 //makes win or loose animation
                 if (parameters && parameters.complete)
@@ -3596,14 +3617,13 @@ var InvertCross;
 var InvertCross;
 (function (InvertCross) {
     (function (Menu) {
-        // Class
         var ProjectsMenu = (function (_super) {
             __extends(ProjectsMenu, _super);
+            //==================================== initialization ==============================================
             // Constructor
             function ProjectsMenu() {
                 _super.call(this);
                 this.projectsItens = [];
-                this.currentPageIndex = 0;
                 this.createObjects();
             }
             //populate View
@@ -3613,7 +3633,9 @@ var InvertCross;
 
                 this.addMenu();
                 this.addProjects();
-                this.createPaginationButtons();
+                this.pagesSwipe = new InvertCross.PagesSwipe(this.projectsGrid, this.pages, DefaultWidth);
+
+                this.createPaginationButtons(this.projectsGrid);
 
                 //this.partsIndicator.updateAmount(InvertCrossaGame.partsManager.getBallance());
                 this.createPopup();
@@ -3667,6 +3689,11 @@ var InvertCross;
                     //create current page
                     if (i % (cols * rows) == 0) {
                         currentPage = new createjs.Container();
+
+                        var hit = new createjs.Container;
+                        hit.hitArea = (new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, DefaultWidth, DefaultHeight)));
+                        currentPage.addChild(hit);
+
                         this.projectsGrid.addChild(currentPage);
                         this.pages.push(currentPage);
                     }
@@ -3683,13 +3710,17 @@ var InvertCross;
                     currentPage.addChild(pview);
 
                     //set item position
-                    pview.x = xspacing * (i % cols);
+                    pview.x = xspacing * (i % cols) + 260;
                     pview.y = yspacing * Math.floor((i % (cols * rows)) / cols);
                 }
             };
 
             //Callback to the project item click
             ProjectsMenu.prototype.projectItemClick = function (e) {
+                //cancel click in case of drag
+                if (this.pagesSwipe.cancelClick)
+                    return;
+
                 //get proper project target
                 var t = e.currentTarget;
                 var pv = t;
@@ -3704,13 +3735,13 @@ var InvertCross;
                 }
             };
 
+            //update all projects preview in the menu page
             ProjectsMenu.prototype.updateProjects = function () {
-                for (var i = 0; i < this.projectsItens.length; i++) {
-                    var p = this.projectsItens[i];
-                    p.updateProjectInfo();
-                }
+                for (var i = 0; i < this.projectsItens.length; i++)
+                    this.projectsItens[i].updateProjectInfo();
             };
 
+            //executes when activate the screen
             ProjectsMenu.prototype.activate = function () {
                 _super.prototype.activate.call(this);
                 this.updateProjects();
@@ -3719,8 +3750,8 @@ var InvertCross;
                 this.menu.partsIndicator.updatePartsAmount(InvertCross.InvertCrossaGame.partsManager.getBallance());
             };
 
-            //----------------------pages-----------------------------------------------//
-            ProjectsMenu.prototype.createPaginationButtons = function () {
+            //=====================================================
+            ProjectsMenu.prototype.createPaginationButtons = function (pagesContainer) {
                 var _this = this;
                 //create leftButton
                 var lb = new Gbase.UI.Button;
@@ -3732,7 +3763,7 @@ var InvertCross;
                 lb.x = DefaultWidth * 0.1;
                 this.view.addChild(lb);
                 lb.addEventListener("click", function (e) {
-                    _this.gotoPreviousPage();
+                    _this.pagesSwipe.gotoPreviousPage();
                 });
 
                 //create right button
@@ -3745,35 +3776,13 @@ var InvertCross;
                 rb.x = DefaultWidth * 0.9;
                 this.view.addChild(rb);
                 rb.addEventListener("click", function (e) {
-                    _this.gotoNextPage();
+                    _this.pagesSwipe.gotoNextPage();
                 });
 
                 //create pagination indicator
+                //TODO
                 //goto defaul page
-                this.gotoPage(0);
-            };
-
-            ProjectsMenu.prototype.gotoPage = function (pageId) {
-                for (var i = 0; i < this.pages.length; i++)
-                    this.pages[i].visible = false;
-
-                this.pages[pageId].visible = true;
-            };
-
-            ProjectsMenu.prototype.gotoNextPage = function () {
-                this.currentPageIndex++;
-                this.currentPageIndex = this.currentPageIndex % this.pages.length;
-
-                this.gotoPage(this.currentPageIndex);
-            };
-
-            ProjectsMenu.prototype.gotoPreviousPage = function () {
-                this.currentPageIndex--;
-                this.currentPageIndex += this.pages.length;
-
-                this.currentPageIndex = this.currentPageIndex % this.pages.length;
-
-                this.gotoPage(this.currentPageIndex);
+                this.pagesSwipe.gotoPage(0);
             };
             return ProjectsMenu;
         })(Gbase.ScreenState);
@@ -4238,14 +4247,28 @@ var InvertCross;
                         starsIndicator.scaleX = starsIndicator.scaleY = 0.7;
                         this.addChild(starsIndicator);
                     } else {
+                        //adds Background
                         var bg = "projects/slotl";
                         var s = InvertCross.Assets.getImage(bg);
                         this.addChild(s);
+
+                        //adds lock indicator
+                        var star = InvertCross.Assets.getImage("projects/star");
+                        this.addChild(star);
+                        star.x = 240;
+                        star.y = 190;
+
+                        //addsText
+                        var tx = new createjs.Text(this.project.cost.toString(), "Bold 100px " + defaultFont, "#565656");
+                        this.addChild(tx);
+                        tx.textAlign = "right";
+                        tx.x = 220;
+                        tx.y = 175;
                     }
 
-                    //lock indicator
-                    //var lockedIndicator = new ProjectLockedIndicator(project.cost);
-                    //this.addChild(lockedIndicator);
+                    //cache object
+                    this.cache(0, 0, 480, 480);
+
                     //create hitArea
                     this.createHitArea();
                 };
@@ -4256,6 +4279,7 @@ var InvertCross;
                     //TODO. nao devia acessar metodo global aqui
                     InvertCross.InvertCrossaGame.projectManager.unlockProject(this.project);
 
+                    //update the objects display
                     this.createObjects(this.project);
 
                     //if is new (unlocked and not played) do an animation
@@ -4315,26 +4339,6 @@ var InvertCross;
                 return ProjectProgressIndicator;
             })(createjs.Container);
             View.ProjectProgressIndicator = ProjectProgressIndicator;
-
-            var ProjectLockedIndicator = (function (_super) {
-                __extends(ProjectLockedIndicator, _super);
-                function ProjectLockedIndicator(requiredStars) {
-                    _super.call(this);
-
-                    var lockedShape = new createjs.Shape();
-                    lockedShape.graphics.beginFill("#080").rect(0, 0, 120, 100);
-                    lockedShape.x = -150;
-                    lockedShape.y = 100;
-                    this.addChild(lockedShape);
-
-                    var costText = new createjs.Text("lock   " + requiredStars, "60px Myriad Pro", "#FFF");
-                    costText.x = -150 + 10;
-                    costText.y = 130;
-                    this.addChild(costText);
-                }
-                return ProjectLockedIndicator;
-            })(createjs.Container);
-            View.ProjectLockedIndicator = ProjectLockedIndicator;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
@@ -4504,11 +4508,13 @@ var InvertCross;
                 this.loadProjects(data);
             }
             ProjectManager.prototype.loadProjects = function (data) {
-                this.projects = levelsData;
+                this.projects = data;
 
                 for (var p in this.projects)
-                    for (var l in this.projects[p].levels)
+                    for (var l in this.projects[p].levels) {
                         this.projects[p].levels[l].name = this.projects[p].name + "/" + this.projects[p].levels[l].name;
+                        this.projects[p].levels[l].project = this.projects[p];
+                    }
 
                 //create a user data for each level/project
                 InvertCross.InvertCrossaGame.userData.addUserData(this.projects);
@@ -4523,6 +4529,7 @@ var InvertCross;
             //set current level
             ProjectManager.prototype.setCurrentLevel = function (level) {
                 this.currentLevel = level;
+                this.setCurrentProject(level.project);
             };
 
             //skip a project
@@ -4639,6 +4646,18 @@ var InvertCross;
                         finishedProjects.push(this.projects[i]);
 
                 return finishedProjects;
+            };
+
+            //get all unlockedProjects
+            ProjectManager.prototype.getUnlockedProjects = function () {
+                //return array with avaliable projects
+                var unlockedProjects = [];
+
+                for (var i = 0; i < this.projects.length; i++)
+                    if (this.projects[i].UserData.unlocked)
+                        unlockedProjects.push(this.projects[i]);
+
+                return unlockedProjects;
             };
 
             //getProjectStars
@@ -5369,10 +5388,21 @@ var InvertCross;
                 function ProjectWorkshopView(project) {
                     _super.call(this);
                     this.project = project;
-                    this.addObjects(project);
                     this.name = project.name;
+
+                    //add hitArea
+                    this.addHitArea();
+
+                    //add levels information
+                    this.addObjects(project);
                 }
                 //--------------------- Initialization ---------------------
+                ProjectWorkshopView.prototype.addHitArea = function () {
+                    var hit = new createjs.Container;
+                    hit.hitArea = (new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, DefaultWidth, DefaultHeight)));
+                    this.addChild(hit);
+                };
+
                 ProjectWorkshopView.prototype.addObjects = function (project) {
                     //add Project levels
                     this.addProjectMachine(project);
@@ -5415,6 +5445,7 @@ var InvertCross;
 
                 //Adds level thumbs to the scene
                 ProjectWorkshopView.prototype.addProjectMachine = function (project) {
+                    var _this = this;
                     var levelMachine = new createjs.Container;
                     this.addChild(levelMachine);
                     this.levelsMahine = levelMachine;
@@ -5434,7 +5465,9 @@ var InvertCross;
                         if (project.UserData.unlocked) {
                             //Add Level Thumbs
                             this.levelGrid = new InvertCross.Menu.View.LevelGrid(project);
-                            this.levelGrid.addEventListener("levelClick", this.openLevel);
+                            this.levelGrid.addEventListener("levelClick", function (e) {
+                                _this.dispatchEvent("levelClick", e.target);
+                            });
                             this.levelGrid.x = 180;
                             this.levelGrid.y = 1538;
                             levelMachine.addChild(this.levelGrid);
@@ -5643,5 +5676,93 @@ var InvertCross;
         UserData.ItensData = ItensData;
     })(InvertCross.UserData || (InvertCross.UserData = {}));
     var UserData = InvertCross.UserData;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    // Class
+    var PagesSwipe = (function () {
+        function PagesSwipe(pagesContainer, pages, pageWidth) {
+            var _this = this;
+            this.cancelClick = false;
+            this.currentPageIndex = 0;
+            this.pagewidth = pageWidth;
+            this.pagesContainer = pagesContainer;
+            this.pages = pages;
+
+            for (var i in pages)
+                pages[i].x = this.pagewidth * i;
+
+            //adds event
+            var xpos;
+            var initialclick;
+
+            // records position on mouse down
+            pagesContainer.addEventListener("mousedown", function (e) {
+                var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                initialclick = pos.x;
+                xpos = pos.x - pagesContainer.x;
+            });
+
+            //drag the container
+            pagesContainer.addEventListener("pressmove", function (e) {
+                var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                pagesContainer.x = pos.x - xpos;
+                if (Math.abs(pos.x - initialclick) > 100)
+                    _this.cancelClick = true;
+            });
+
+            //verifies the relase point to tween to the next page
+            pagesContainer.addEventListener("pressup", function (e) {
+                var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+
+                //calculate the drag percentage.
+                var p = (pos.x - xpos + _this.pagewidth * _this.currentPageIndex) / _this.pagewidth;
+
+                //choses if goes to the next or previous page.
+                if (p < -0.25)
+                    _this.gotoNextPage();
+                else if (p > +0.25)
+                    _this.gotoPreviousPage();
+                else
+                    _this.stayOnPage();
+
+                //release click for user
+                setTimeout(function () {
+                    _this.cancelClick = false;
+                }, 100);
+            });
+        }
+        //----------------------pages-----------------------------------------------//
+        PagesSwipe.prototype.gotoPage = function (pageId, tween) {
+            if (typeof tween === "undefined") { tween = true; }
+            this.currentPageIndex = pageId;
+
+            if (tween)
+                createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut);
+            else
+                this.pagesContainer.x = -this.pagewidth * pageId;
+        };
+
+        PagesSwipe.prototype.stayOnPage = function () {
+            this.gotoPage(this.currentPageIndex);
+        };
+
+        PagesSwipe.prototype.gotoNextPage = function () {
+            this.currentPageIndex++;
+            if (this.currentPageIndex == this.pages.length)
+                this.currentPageIndex = this.pages.length - 1;
+
+            this.gotoPage(this.currentPageIndex);
+        };
+
+        PagesSwipe.prototype.gotoPreviousPage = function () {
+            this.currentPageIndex--;
+            if (this.currentPageIndex < 0)
+                this.currentPageIndex = 0;
+            this.gotoPage(this.currentPageIndex);
+        };
+        return PagesSwipe;
+    })();
+    InvertCross.PagesSwipe = PagesSwipe;
 })(InvertCross || (InvertCross = {}));
 //# sourceMappingURL=script.js.map

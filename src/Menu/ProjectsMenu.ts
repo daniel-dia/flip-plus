@@ -29,7 +29,7 @@ module InvertCross.Menu {
 
             this.addMenu();
             this.addProjects();
-            this.pagesSwipe = new PagesSwipe(this.projectsGrid, this.pages);
+            this.pagesSwipe = new PagesSwipe(this.projectsGrid, this.pages,DefaultWidth);
   
             this.createPaginationButtons(this.projectsGrid);
 
@@ -157,7 +157,7 @@ module InvertCross.Menu {
             lb.y = 1950;
             lb.x = DefaultWidth * 0.1;
             this.view.addChild(lb);
-            lb.addEventListener("click", (e: MouseEvent) => { this.pagesSwipe.gotoPreviousPage(pagesContainer) });
+            lb.addEventListener("click", (e: MouseEvent) => { this.pagesSwipe.gotoPreviousPage() });
 
             //create right button
             var rb: Gbase.UI.Button = new Gbase.UI.Button;
@@ -168,14 +168,14 @@ module InvertCross.Menu {
             rb.y = 1950;
             rb.x = DefaultWidth * 0.9;
             this.view.addChild(rb);
-            rb.addEventListener("click", (e: MouseEvent) => { this.pagesSwipe.gotoNextPage(pagesContainer) });
+            rb.addEventListener("click", (e: MouseEvent) => { this.pagesSwipe.gotoNextPage() });
 
             //create pagination indicator
             //TODO
 
 
             //goto defaul page
-            this.pagesSwipe.gotoPage(pagesContainer, 0);
+            this.pagesSwipe.gotoPage( 0);
         }           
     }
 }
