@@ -47,9 +47,10 @@ module InvertCross.GamePlay {
 
         //Overriding methods.
         public win(col: number, row: number) {
-            this.timer.stop();
 
             if (this.currentPuzzle >= this.puzzlesToSolve)
+
+                this.timer.stop();
                 super.win(col, row);
             else {
 
