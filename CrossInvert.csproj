@@ -267,9 +267,6 @@
     <Content Include="assets\pr.jpg" />
     <Content Include="assets\RobotsAssets.js" />
     <TypeScriptCompile Include="Preferences.ts" />
-    <Content Include="script.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="script\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -10,7 +10,7 @@ declare var assetscale: number;
 module InvertCross {
 
     export class Game {
-        
+
         public static screenViewer: ScreenViewer;
 
         public static stage: createjs.Stage;
@@ -27,7 +27,7 @@ module InvertCross {
         //-----------------------------------------------------------------------
 
         public static initialize() {
-            
+
             //var osCanvas = document.createElement("canvas"); // creates a new off-screen canvas element
             //var osContext = osCanvas.getContext('2d'); //the drawing context of the off-screen canvas element
 
@@ -36,11 +36,11 @@ module InvertCross {
 
             var ctx: any = this.myCanvas.getContext("2d");
 
-            
+
             this.stage = new createjs.Stage(this.myCanvas);
 
             createjs.Touch.enable(this.stage);
-            
+
             createjs.Ticker.addEventListener("tick", () => {
                 //ctx.msImageSmoothingEnabled = false;
                 //ctx.webkitImageSmoothingEnabled = false;
@@ -57,56 +57,45 @@ module InvertCross {
 
             //Framerate meter
             this.fpsMeter = new createjs.Text("Teste", " 18px Arial ", "#fff");
-            this.fpsMeter.x =0;
+            this.fpsMeter.x = 0;
             this.fpsMeter.y = 0;
             this.stage.addChild(this.fpsMeter);
 
 
-            //get screen size: TODO tirar daqui
-            var len = window.innerWidth;
-            var res = getQueryVariable("res");
-            if (res != null) {
-                len = parseInt(res);
-                if (res == "ipad") len = 1536;
-                if (res == "iphone") len = 640;
-                if (res == "wxga") len = 768;
-                if (res == "wvga") len = 480;
-                if (res == "xga") len = 768;
-                if (res == "vga") len = 480;
-                if (isNaN(len) || !len) len = 768;
-            }
+            //set screen size
 
-            var img = getQueryVariable("img");
-            switch (img) {
-                case "1": assetscale = 1; break;
-                case "0.5": assetscale = 0.5; break;
-                case "0.25": assetscale = 0.25; break;
-                default: assetscale = 0.5;
-            }
+            var r = parseInt(getQueryVariable("res"));
 
-            this.redim(len)
+            if (r) var windowWidth = r;
+            else var windowWidth = window.innerWidth;
 
-            //osCanvas.width = this.myCanvas.width; // match the off-screen canvas dimensions with that of #mainCanvas
-            //osCanvas.height = this.myCanvas.height;
+            assetscale = 1
+            if (windowWidth <= 1024) assetscale = 0.5;
+            if (windowWidth <= 480) assetscale = 0.25;
+
+            this.redim(windowWidth);
         }
 
         private static tick() {
             this.stage.update();
         }
 
-       private static redim(devicewidth:number) {
-             
-            var ctx = this.myCanvas.getContext("2d");
+        private static redim(devicewidth: number) {
 
-            var scalew = devicewidth / this.defaultWidth;
-            
-            var finalscale = scalew //> scaleh ? scaleh : scalew;
+            var finalscale = 1;
+
+            //if (devicewidth) {
+            //    var scalew = devicewidth / this.defaultWidth;
+            //    var scaleh = window.innerHeight / this.defaultHeight;
+            //    finalscale = scalew > scaleh ? scaleh : scalew;
+
+            finalscale = devicewidth / this.defaultWidth;
 
             this.myCanvas.width = devicewidth;
-            this.myCanvas.height = Math.floor(this.defaultHeight*finalscale);
+            this.myCanvas.height = Math.floor(this.defaultHeight * finalscale);
 
-            this.myCanvas.style.width = devicewidth+"px"
-            this.myCanvas.style.height = Math.floor(this.defaultHeight * finalscale) +"px";
+            this.myCanvas.style.width = devicewidth + "px"
+            this.myCanvas.style.height = Math.floor(this.defaultHeight * finalscale) + "px";
 
             this.screenViewer.updateScale(finalscale);
 

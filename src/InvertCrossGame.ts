@@ -82,7 +82,7 @@ module InvertCross {
                 InvertCrossaGame.projectManager.setCurrentProject(project);
 
             if (project == null) return;
-
+            
 
             
             var projects = InvertCrossaGame.projectManager.getAllProjects()

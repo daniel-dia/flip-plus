@@ -623,45 +623,21 @@ var InvertCross;
             this.fpsMeter.y = 0;
             this.stage.addChild(this.fpsMeter);
 
-            //get screen size: TODO tirar daqui
-            var len = window.innerWidth;
-            var res = getQueryVariable("res");
-            if (res != null) {
-                len = parseInt(res);
-                if (res == "ipad")
-                    len = 1536;
-                if (res == "iphone")
-                    len = 640;
-                if (res == "wxga")
-                    len = 768;
-                if (res == "wvga")
-                    len = 480;
-                if (res == "xga")
-                    len = 768;
-                if (res == "vga")
-                    len = 480;
-                if (isNaN(len) || !len)
-                    len = 768;
-            }
+            //set screen size
+            var r = parseInt(getQueryVariable("res"));
 
-            var img = getQueryVariable("img");
-            switch (img) {
-                case "1":
-                    assetscale = 1;
-                    break;
-                case "0.5":
-                    assetscale = 0.5;
-                    break;
-                case "0.25":
-                    assetscale = 0.25;
-                    break;
-                default:
-                    assetscale = 0.5;
-            }
+            if (r)
+                var windowWidth = r;
+            else
+                var windowWidth = window.innerWidth;
 
-            this.redim(len);
-            //osCanvas.width = this.myCanvas.width; // match the off-screen canvas dimensions with that of #mainCanvas
-            //osCanvas.height = this.myCanvas.height;
+            assetscale = 1;
+            if (windowWidth <= 1024)
+                assetscale = 0.5;
+            if (windowWidth <= 480)
+                assetscale = 0.25;
+
+            this.redim(windowWidth);
         };
 
         Game.tick = function () {
@@ -669,11 +645,13 @@ var InvertCross;
         };
 
         Game.redim = function (devicewidth) {
-            var ctx = this.myCanvas.getContext("2d");
+            var finalscale = 1;
 
-            var scalew = devicewidth / this.defaultWidth;
-
-            var finalscale = scalew;
+            //if (devicewidth) {
+            //    var scalew = devicewidth / this.defaultWidth;
+            //    var scaleh = window.innerHeight / this.defaultHeight;
+            //    finalscale = scalew > scaleh ? scaleh : scalew;
+            finalscale = devicewidth / this.defaultWidth;
 
             this.myCanvas.width = devicewidth;
             this.myCanvas.height = Math.floor(this.defaultHeight * finalscale);
