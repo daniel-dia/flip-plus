@@ -11,6 +11,9 @@ module InvertCross.Menu {
 
         private pagesSwipe: PagesSwipe;
 
+        //just to know when a user finished a project
+        private projectPreviousState: Object = {};
+
         // Constructor
         constructor() {
 
@@ -121,15 +124,32 @@ module InvertCross.Menu {
             this.menu.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());
 
             //update all projects views
-            for (var pv in this.projectViews) 
-                if (InvertCrossaGame.projectManager.getCurrentProject().name == this.projectViews[pv].name) {
+            for (var pv in this.projectViews) {
+                var project = InvertCrossaGame.projectManager.getProjectByName(this.projectViews[pv].name);
+
+                if (project == InvertCrossaGame.projectManager.getCurrentProject()) {
                     
                     //activate current project
                     this.projectViews[pv].activate(parameters);
 
                     //goto current project
-                    this.pagesSwipe.gotoPage(pv,false);
+                    this.pagesSwipe.gotoPage(pv, false);
+
+                    //if complete changes to myBotScreen
+                    if (project.UserData.complete && this.projectPreviousState[project.name]==false) {
+                        this.view.mouseEnabled = false;
+                        this.view.mouseChildren = false;
+                        setTimeout(() => {
+                            this.view.mouseEnabled = true;
+                            this.view.mouseChildren = true;
+                            InvertCrossaGame.showMainMenu();
+                        }, 2000);
+                    }
                 }
+                
+                //store last state
+                this.projectPreviousState[project.name] = project.UserData.complete;
+            }
             
             //makes win or loose animation
             if (parameters && parameters.complete)

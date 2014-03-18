@@ -76,6 +76,7 @@ module InvertCross {
 
         public static showProjectLevelsMenu(project?: Projects.Project, parameters?: any) {
 
+            //verifies the current projet
             if (project == null)
                 project = InvertCrossaGame.projectManager.getCurrentProject();
             else
@@ -83,14 +84,17 @@ module InvertCross {
 
             if (project == null) return;
             
-
-            
             var projects = InvertCrossaGame.projectManager.getAllProjects()
 
-            if(InvertCrossaGame.levelsMenu) delete InvertCrossaGame.levelsMenu;
+            //verifies if rebuild is necessary
+            if(parameters && parameters.rebuild)
+                delete InvertCrossaGame.levelsMenu;
+            
+            //create a new levels menu, if needed
+            if (InvertCrossaGame.levelsMenu==undefined)
+                InvertCrossaGame.levelsMenu = new Menu.LevelsMenu();
 
-            InvertCrossaGame.levelsMenu = new Menu.LevelsMenu();
-
+            //switch screens
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelsMenu,parameters);
         }
 

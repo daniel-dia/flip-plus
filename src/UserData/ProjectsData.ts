@@ -48,6 +48,7 @@ module InvertCross.UserData {
                 var ud = new Projects.ProjectUserData();
                 ud.unlocked = false;
                 ud.percent = 0;
+                ud.complete = false;
                 return ud;
             }
             else

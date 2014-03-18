@@ -184,8 +184,7 @@ module InvertCross.Menu.View {
                 if (parameters.direction) direction = parameters.direction;
             }
             
-            if (this.levelGrid)
-                this.levelGrid.updateUserData();
+            if (this.levelGrid) this.levelGrid.updateUserData();
 
             this.starsIndicator.updateProjectInfo();
             this.robotPreview.update(complete);

@@ -121,7 +121,7 @@ module InvertCross.Menu {
 
 
             if (p.UserData.unlocked)
-                InvertCrossaGame.showProjectLevelsMenu(p);
+                InvertCrossaGame.showProjectLevelsMenu(p, {rebuild:true});
 
             else {
                 var stars = InvertCrossaGame.projectManager.getStarsCount();
