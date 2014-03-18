@@ -130,7 +130,7 @@ module InvertCross.GamePlay.Views {
                     this.iconepuzzle.visible = false;
                     this.iconemoves.visible = false;
                     break;
-                case "moves":
+                case "moves": case "flip":
                     this.iconetime.visible = false;
                     this.iconepuzzle.visible = false;
                     this.iconemoves.visible = true;

@@ -109,7 +109,7 @@ module InvertCross {
             switch (level.type) {
                 case "puzzle": case "draw":
                     return new GamePlay.Puzzle(level);
-                case "moves": case "combo":
+                case "moves": case "flip": case "combo":
                     return new GamePlay.Moves(level);
                 case "tutorial":
                     return new GamePlay.Tutorial(level);

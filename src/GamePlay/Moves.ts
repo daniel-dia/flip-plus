@@ -21,7 +21,7 @@ module InvertCross.GamePlay {
 
             this.moves = this.levelData.moves;
 
-            this.popup.showtext("Solve this board with " + " moves", 3000);
+            this.popup.showtext("Solve this board with " +this.levelData.moves + " flips", 3000);
 
 
             this.statusArea.setMode("moves");
