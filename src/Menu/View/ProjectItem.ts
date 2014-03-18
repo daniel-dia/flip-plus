@@ -98,7 +98,7 @@ module InvertCross.Menu.View {
                
             //update the objects display     
             this.createObjects(this.project);
-                
+
             //if is new (unlocked and not played) do an animation
             if (this.project.UserData.percent == 0 && this.project.UserData.unlocked) {
                 this.set({ scaleX: 1, scaleY: 1 })
@@ -106,6 +106,8 @@ module InvertCross.Menu.View {
                     .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
                     .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
             }
+            else
+                this.scaleX = this.scaleY = 1;
 
 
         }
