@@ -28,7 +28,11 @@ module InvertCross.Menu.View {
             this.x = DefaultWidth / 2;
             this.y = DefaultHeight / 2;
             this.centralize();
-            
+
+            //set Hit Area
+            var hit = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0,0, DefaultWidth, DefaultHeight));
+            this.hitArea = hit;
+
             //hide popup
             this.visible = false;
 
@@ -77,15 +81,16 @@ module InvertCross.Menu.View {
         private drawObject() {
             
             //draw background
-            var bg = new createjs.Shape();
-            bg.graphics.beginFill("rgba(0,0,0,0.5)").drawRect(0, 0, DefaultWidth, DefaultHeight).endFill();
-            bg.graphics.beginFill("rgb(100,100,100)").beginStroke("#FFF").setStrokeStyle(4).drawRect(DefaultWidth * .1, DefaultHeight*.4, DefaultWidth*.8, DefaultHeight*.2).endFill();
+            var bg = Assets.getImage("popups/popup")
+            bg.x = 0;
+            bg.y = 100;
             this.addChild(bg);
+
 
             //create a text
             this.text = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
             this.text.textAlign = "center";
-           // this.text.textBaseline = "top";
+            this.text.textBaseline = "middle";
             this.text.x = DefaultWidth / 2;
             this.text.y = DefaultHeight / 2;
             this.addChild(this.text);

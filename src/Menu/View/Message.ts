@@ -65,8 +65,9 @@ module InvertCross.Menu.View {
         private drawObject() {
             
             //draw background
-            var bg = new createjs.Shape();
-            bg.graphics.beginFill("rgba(0,0,0,0.5)").drawRect(0, DefaultHeight*0.25, DefaultWidth, DefaultHeight*0.1).endFill();
+            var bg = Assets.getImage("popups/popup")
+            bg.x = 0;
+            bg.y = 100;
             this.addChild(bg);
 
             //create a text

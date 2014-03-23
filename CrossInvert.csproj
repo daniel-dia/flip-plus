@@ -261,12 +261,13 @@
     <Content Include="assets\images_1x\workshop\painelworkshop.png" />
     <Content Include="assets\images_1x\workshop\skip.png" />
     <Content Include="assets\Intro.js" />
-    <Content Include="assets\Lobby.js" />
     <Content Include="assets\LogoScreen.js" />
     <Content Include="assets\MyBots.js" />
     <Content Include="assets\pr.jpg" />
     <Content Include="assets\RobotsAssets.js" />
     <TypeScriptCompile Include="Preferences.ts" />
+    <Content Include="assets\touch.js" />
+    <Content Include="assets\touch.png" />
     <Content Include="script\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -332,10 +333,8 @@
     </Content>
     <Content Include="assets\bolinhas.js" />
     <Content Include="assets\bolinhas.png" />
-    <Content Include="assets\green.js" />
     <TypeScriptCompile Include="src\Robots\MyBots.ts" />
     <TypeScriptCompile Include="src\Assets.ts" />
-    <Content Include="assets\simple.js" />
     <TypeScriptCompile Include="src\Menu\MainMenu.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\Overlay.ts" />
     <TypeScriptCompile Include="Gbase\Game.ts" />

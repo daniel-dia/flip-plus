@@ -51,6 +51,8 @@ module InvertCross.GamePlay {
             //adds popup
             this.popup = new Menu.View.Popup();
             this.view.addChild(this.popup)
+            this.popup.addEventListener("onshow", () => { this.boardSprite.mouseEnabled = false; });
+            this.popup.addEventListener("onclose", () => { this.boardSprite.mouseEnabled = true; });
 
         }
 
@@ -166,7 +168,7 @@ module InvertCross.GamePlay {
 
             this.menuOverlay.fadeOut();
             this.boardSprite.lock();
-            setTimeout(() => { this.boardSprite.winEffect(col, row) }, 100);
+            setTimeout(() => { this.boardSprite.winEffect(col, row) }, 200);
 
             this.menuOverlay.fadeOut();
             Assets.playSound("win");
@@ -175,11 +177,11 @@ module InvertCross.GamePlay {
                 InvertCrossaGame.completeLevel()
 
                 createjs.Tween.removeTweens(this.boardSprite);
-                createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0}, 500, createjs.Ease.quadIn).call(() => {
+                createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0}, 300, createjs.Ease.quadIn).call(() => {
                     this.boardSprite.visible = false;
                 });
 
-            }, 600);
+            }, 2000);
         }
 
         loose() {

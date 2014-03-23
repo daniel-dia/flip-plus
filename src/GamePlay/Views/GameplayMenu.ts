@@ -16,9 +16,9 @@ module InvertCross.GamePlay.Views {
             this.createGamePlayMenu();
             this.createPauseMenu();
 
-            this.tutorial_highlightSprite = Assets.getImage("puzzle/indicator");
+            this.tutorial_highlightSprite = Assets.getMovieClip("touch");
             this.tutorial_highlightSprite.visible = false;
-            this.tutorial_highlightSprite.regX = this.tutorial_highlightSprite.regY= 90;
+            //this.tutorial_highlightSprite.regX = this.tutorial_highlightSprite.regY= -90;
             this.tutorial_highlightSprite.mouseEnabled = false;
             this.addChild(this.tutorial_highlightSprite)
         } 
@@ -119,8 +119,7 @@ module InvertCross.GamePlay.Views {
             //highlight the item
             this.tutorial_highlightSprite.visible = true;
             this.tutorial_highlightSprite.x = this.buttons[itemId].x;
-            this.tutorial_highlightSprite.scaleX = this.tutorial_highlightSprite.scaleY = 1.6;
-
+           
             //define parameter for feedback
             this.parameters[itemId] = parameter;
         }

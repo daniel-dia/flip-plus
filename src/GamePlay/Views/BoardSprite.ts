@@ -11,7 +11,7 @@ module InvertCross.GamePlay.Views {
         private callback: (col: number, row: number) => void;
 
         //indicator
-        private tutorialIndiatcor: createjs.Bitmap;
+        private tutorialIndiatcor: createjs.Sprite;
 
         constructor(width: number, height: number, theme: string) {
             super();
@@ -30,10 +30,12 @@ module InvertCross.GamePlay.Views {
             this.regY = boardHeight / 2;
 
             //load click indicator
-            this.tutorialIndiatcor = Assets.getImage("puzzle/indicator");
+            this.tutorialIndiatcor = Assets.getMovieClip("touch");
+            this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -85;
             this.tutorialIndiatcor.mouseEnabled = false;
             this.addChild(this.tutorialIndiatcor);
             this.tutorialIndiatcor.visible = false;
+
 
         }
 
