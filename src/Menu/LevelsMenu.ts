@@ -151,15 +151,7 @@ module InvertCross.Menu {
                 this.projectPreviousState[project.name] = project.UserData.complete;
             }
             
-            //makes win or loose animation
-            if (parameters && parameters.complete)
-                this.message.showtext("WELL DONE !", 3000,500);
-
-            if (parameters && parameters.loose)
-                this.message.showtext("TRY AGAIN !", 3000);
-
-            //verifies if player completes the project
-
+            
         }
     }
 }

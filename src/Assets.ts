@@ -269,6 +269,7 @@ module InvertCross {
 
                 //popup
                 { id: "popups/popup", src: imagePath + "popups/popup.png" },
+                { id: "popups/message", src: imagePath + "popups/message.png" },
                 { id: "popups/popupTutorial", src: imagePath + "popups/popupTutorial.png" },
 
                 //Legacy

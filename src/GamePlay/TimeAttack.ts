@@ -35,7 +35,10 @@ module InvertCross.GamePlay {
                 if (this.currentTime <= 0) {
                     this.statusArea.setText3("END");
                     // this.boardSprite.visible = false;
-                    super.loose();
+
+                    this.message.showtext("Time's up");
+                    this.loose();
+
                     this.timer.stop();
                 }
             });
@@ -108,7 +111,7 @@ module InvertCross.GamePlay {
 
             this.boardSprite.visible = false;
             //shows popup
-            this.popup.showtext("Solve " + this.levelData.puzzlesToSolve + " boards \n in " + this.levelData.time + " seconds"); 
+            this.popup.showTimeAttack("Time Attack", "Solve ", this.levelData.puzzlesToSolve.toString(), this.levelData.time.toString()); 
             this.popup.addEventListener("onclose", () => {
 
                 this.boardSprite.visible = true;

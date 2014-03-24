@@ -1,27 +1,14 @@
-/// <reference path="../../../lib/easeljs.d.ts" />
-
-/// <reference path="../../../Gbase/UI/MenuContainer.ts" /> 
-/// <reference path="../../../Gbase/UI/Grid.ts" /> 
-/// <reference path="../../../Gbase/UI/Button.ts" />
-
-/// <reference path="../../Assets.ts" /> 
-
-// Module
-
-
 module InvertCross.Menu.View {
 
     // View Class
     export class Message extends Gbase.UI.UIItem{
 
-        private text: createjs.Text;
         private closeinterval;
 
         //class contructor
         constructor() {
             super();
-            this.drawObject();
-            
+              
             //centralize the popup on screen
             this.width = DefaultWidth;
             this.height = DefaultHeight;
@@ -39,8 +26,35 @@ module InvertCross.Menu.View {
         //public method to invoke the popup
         public showtext(text: string, timeout: number= 3000,delay:number=0) {
 
+            //clean everything
+            this.removeAllChildren();
+
+            //draw background
+            var bg = Assets.getImage("popups/message")
+            bg.x = 0;
+            bg.y = 100;
+            this.addChild(bg);
+
+            //create a text
+            //create a titleShadow
+            var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+            titleShadow.textAlign = "center";
+            titleShadow.textBaseline = "middle";
+            titleShadow.x = DefaultWidth / 2;
+            this.addChild(titleShadow);
+
+            //create a title
+            var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
+            titleDO.textAlign = "center";
+            titleDO.textBaseline = "middle";
+            titleDO.x = DefaultWidth / 2;
+            this.addChild(titleDO);
+
+            titleShadow.y = titleDO.y = DefaultHeight * 0.3;
+            titleShadow.y += 15;
+
             //updates text
-            this.text.text = text;
+            titleDO.text = titleShadow.text = text.toUpperCase();
 
             //shows the popus
             this.closeinterval = setTimeout(() => {
@@ -58,25 +72,6 @@ module InvertCross.Menu.View {
         private closePopUp() {
             //hide the popup{
             this.fadeOut();
-        }
-
-
-        //desenha os objetos do popup
-        private drawObject() {
-            
-            //draw background
-            var bg = Assets.getImage("popups/popup")
-            bg.x = 0;
-            bg.y = 100;
-            this.addChild(bg);
-
-            //create a text
-            this.text = new createjs.Text("TESTE", defaultFontFamilyNormal, defaultFontColor);
-            this.text.textAlign = "center";
-            this.text.textBaseline = "middle"
-            this.text.x = DefaultWidth / 2;
-            this.text.y = DefaultHeight *0.3;
-            this.addChild(this.text);
         }
     }
 }

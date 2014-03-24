@@ -14,9 +14,7 @@ module InvertCross.Menu.View {
     // View Class
     export class Popup extends Gbase.UI.UIItem{
 
-        private text: createjs.Text;
         private closeinterval;
-
         //class contructor
         constructor() {
             super();
@@ -45,16 +43,208 @@ module InvertCross.Menu.View {
         }
 
         //public method to invoke the popup
-        public showtext(text: string, timeout: number= 10000,delay:number=0) {
+        public showtext(title:string, text?: string, timeout: number= 7000,delay:number=0) {
 
-            //updates text
-            this.text.text = text;
-            this.text.y = DefaultHeight/2 - this.text.getMeasuredHeight()/2
+            this.showsPopup(timeout, delay);
+
+            //clean display Object
+            this.removeAllChildren();
+
+            //draw background
+            var bg = Assets.getImage("popups/popup")
+            bg.x = 0;
+            bg.y = 100;
+            this.addChild(bg);
+
+            //create a titleShadow
+            var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+            titleShadow.textAlign = "center";
+            titleShadow.textBaseline = "middle";
+            titleShadow.x = DefaultWidth / 2; 
+            this.addChild(titleShadow);
+
+            //create a title
+            var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
+            titleDO.textAlign = "center";
+            titleDO.textBaseline = "middle";
+            titleDO.x = DefaultWidth / 2;
+            this.addChild(titleDO);
+
+            //create a text
+            var textDO = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
+            textDO.textAlign = "center";
+            textDO.textBaseline = "middle";
+            textDO.x = DefaultWidth / 2;
+            this.addChild(textDO);
+
+
+            //updates title and text values
+            titleShadow.text  = titleDO.text = title.toUpperCase();
+            textDO.text = text;
+
+            var b = DefaultHeight / 2 - 500;
+
+            titleDO.y = 0 + b + 50
+            titleShadow.y = titleDO.y + 15;
+            textDO.y = 300;
+            
+       }
+        
+        public showTimeAttack(title: string, text: string,boards:string, time:string, timeout: number= 7000, delay: number= 0) {
+
+            this.showsPopup(timeout, delay);
+
+            //clean display Object
+            this.removeAllChildren();
+
+            //draw background
+            var bg = Assets.getImage("popups/popup")
+            bg.x = 0;
+            bg.y = 100;
+            this.addChild(bg);
+
+            //create a titleShadow
+            var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor );
+            titleShadow.textAlign = "center";
+            titleShadow.textBaseline = "middle";
+            titleShadow.x = DefaultWidth / 2; 
+            this.addChild(titleShadow);
+
+            //create a title
+            var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
+            titleDO.textAlign = "center";
+            titleDO.textBaseline = "middle";
+            titleDO.x = DefaultWidth / 2;
+            this.addChild(titleDO);
+
+            //create a text
+            var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+            textDO.textAlign = "center";
+            textDO.textBaseline = "middle";
+            textDO.x = DefaultWidth / 2;
+            this.addChild(textDO);
+
+            //create a text
+            var textDO1 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+            textDO1.textAlign = "center";
+            textDO1.textBaseline = "middle";
+            textDO1.x = DefaultWidth / 2;
+            this.addChild(textDO1);
+
+            //create a text
+            var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+            textDO2.textAlign = "center";
+            textDO2.textBaseline = "middle";
+            textDO2.x = DefaultWidth / 2;
+            this.addChild(textDO2);
+
+            //create a text
+            var timeDO = new createjs.Text("", defaultNumberHighlight, "white");
+            timeDO.textAlign = "center";
+            timeDO.textBaseline = "middle";
+            timeDO.x = DefaultWidth / 2;
+            this.addChild(timeDO);
+
+            //create a text
+            var boardsDO = new createjs.Text("", defaultNumberHighlight, "white");
+            boardsDO.textAlign = "center";
+            boardsDO.textBaseline = "middle";
+            boardsDO.x = DefaultWidth / 2;
+            this.addChild(boardsDO);
+
+
+            //updates title and text values
+            titleShadow.text = titleDO.text = title.toUpperCase();
+            textDO.text = text;
+            textDO1.text = "boards in";
+            textDO2.text = "seconds";
+            timeDO.text = time;
+            boardsDO.text = boards;
+
+            var b = DefaultHeight / 2 - 500;
+
+            titleDO.y = 0 + b + 50
+            titleShadow.y = titleDO.y + 15 ;
+            textDO.y = 300 + b;
+            textDO1.y = 450 + b;
+            textDO2.y = 600 + b;
+            timeDO.y = 450+b;
+            boardsDO.y = 450+b;
+
+            timeDO.x = 500;
+            boardsDO.x = DefaultWidth- 500;
+        }
+        
+        public showflips(title: string, text: string, flips: string, timeout: number= 7000, delay: number= 0) {
+            this.showsPopup(timeout, delay);
+
+            //clean display Object
+            this.removeAllChildren();
+
+            //draw background
+            var bg = Assets.getImage("popups/popup")
+            bg.x = 0;
+            bg.y = 100;
+            this.addChild(bg);
+
+            //create a titleShadow
+            var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+            titleShadow.textAlign = "center";
+            titleShadow.textBaseline = "middle";
+            titleShadow.x = DefaultWidth / 2; 
+            this.addChild(titleShadow);
+
+            //create a title
+            var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
+            titleDO.textAlign = "center";
+            titleDO.textBaseline = "middle";
+            titleDO.x = DefaultWidth / 2;
+            this.addChild(titleDO);
+
+            //create a text
+            var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+            textDO.textAlign = "center";
+            textDO.textBaseline = "middle";
+            textDO.x = DefaultWidth / 2;
+            this.addChild(textDO);
+
+            //create a text
+            var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+            textDO2.textAlign = "center";
+            textDO2.textBaseline = "middle";
+            textDO2.x = DefaultWidth / 2;
+            this.addChild(textDO2);
+
+            //create a text
+            var flipsDO = new createjs.Text("", defaultNumberHighlight, "white");
+            flipsDO.textAlign = "center";
+            flipsDO.textBaseline = "middle";
+            flipsDO.x = DefaultWidth / 2;
+            this.addChild(flipsDO);
+
+            //updates title and text values
+            titleShadow.text = titleDO.text = title.toUpperCase();
+            textDO.text = text;
+            textDO2.text = "flips or less";
+            flipsDO.text = flips;
+
+            var b = DefaultHeight / 2 - 500;
+
+            titleDO.y = 0 + b + 50
+            titleShadow.y = titleDO.y + 15;
+            textDO.y = 300 + b;
+            textDO2.y = 600 + b;
+            flipsDO.y = 450 + b;
+
+                        
+        }
+
+        private showsPopup(timeout:number, delay:number) {
 
             //shows the popus
             this.closeinterval = setTimeout(() => {
                 this.fadeIn();
-            },delay);;
+            }, delay);;
 
             //create a interval for closing the popopu
             this.closeinterval = setTimeout(() => {
@@ -65,7 +255,6 @@ module InvertCross.Menu.View {
             this.dispatchEvent("onshow");
         }
 
-
         //method for close popup 
         private closePopUp() {
 
@@ -75,25 +264,12 @@ module InvertCross.Menu.View {
             //dispatch a event for parent objects
             this.dispatchEvent("onclose");
         }
-
-
+        
         //desenha os objetos do popup
         private drawObject() {
             
-            //draw background
-            var bg = Assets.getImage("popups/popup")
-            bg.x = 0;
-            bg.y = 100;
-            this.addChild(bg);
 
 
-            //create a text
-            this.text = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
-            this.text.textAlign = "center";
-            this.text.textBaseline = "middle";
-            this.text.x = DefaultWidth / 2;
-            this.text.y = DefaultHeight / 2;
-            this.addChild(this.text);
         }
     }
 }

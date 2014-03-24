@@ -126,7 +126,7 @@ module InvertCross.Menu {
             else {
                 var stars = InvertCrossaGame.projectManager.getStarsCount();
                 if (stars < p.cost)
-                    this.popup.showtext("you only have " + stars + " stars. \nYou need at least " + p.cost + " stars \nto unlock this project\n play more levels to earn stars.", 10000);
+                    this.popup.showtext("Not enught stars.","you only have " + stars + " stars. \nYou need at least " + p.cost + " stars \nto unlock this project\n play more levels to earn stars.", 10000);
             }
         }
 

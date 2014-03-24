@@ -16,7 +16,7 @@ module InvertCross.GamePlay {
 
             //create for text step
             if (step.text) {
-                this.popup.showtext(step.text, 3000);
+                this.popup.showtext(step.text);
                 var listener = this.popup.addEventListener("onclose", () => {
                     this.playNextTurorialStep();
                     this.popup.removeEventListener("onclose", listener);

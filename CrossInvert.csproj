@@ -284,6 +284,7 @@
     </Content>
     <TypeScriptCompile Include="lib\Inertia.ts" />
     <TypeScriptCompile Include="lib\SmokeFX.ts" />
+    <TypeScriptCompile Include="resources.ts" />
     <TypeScriptCompile Include="src\GamePlay\Moves.ts" />
     <TypeScriptCompile Include="src\Menu\IntroScreen.ts" />
     <TypeScriptCompile Include="src\Menu\SlideShow.ts" />

@@ -21,7 +21,7 @@ module InvertCross.GamePlay {
 
             this.moves = this.levelData.moves;
 
-            this.popup.showtext("Solve this board with " +this.levelData.moves + " flips", 3000);
+            this.popup.showflips("Flip Challenge","Solve this board in ", this.levelData.moves.toString());
 
 
             this.statusArea.setMode("moves");
@@ -38,8 +38,10 @@ module InvertCross.GamePlay {
                 this.moves--;
                 this.statusArea.setText3(this.moves.toString());
 
-                if (this.moves <= 0)
+                if (this.moves <= 0){
+                    this.message.showtext("no more moves");
                     this.loose();
+                    }
             }
             
         }

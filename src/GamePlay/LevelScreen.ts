@@ -11,6 +11,7 @@ module InvertCross.GamePlay {
         public menuOverlay: Views.GamePlayMenu;
         public statusArea: Views.StatusArea;
         public popup: Menu.View.Popup;
+        public message: Menu.View.Message;
 
         //Level
         public levelLogic: Model.Level; //friendly
@@ -47,6 +48,10 @@ module InvertCross.GamePlay {
 
             //initialize overlay
             this.initializeOverlays();
+
+            //adds message
+            this.message = new Menu.View.Message();
+            this.view.addChild(this.message);
 
             //adds popup
             this.popup = new Menu.View.Popup();
@@ -157,12 +162,14 @@ module InvertCross.GamePlay {
 
             }
             else {
-                this.popup.showtext("no more hints",3000);
+                this.popup.showtext("no more hints");
             }
             
         }
 
         win(col: number, row: number) {
+
+            this.message.showtext("Well done!",3000,1500);
 
             InvertCrossaGame.projectManager.completeLevel(this.levelData);
 
@@ -181,14 +188,14 @@ module InvertCross.GamePlay {
                     this.boardSprite.visible = false;
                 });
 
-            }, 2000);
+            },4000);
         }
 
         loose() {
 
             this.menuOverlay.fadeOut();
             this.boardSprite.lock();           
-            setTimeout(() => {InvertCrossaGame.looseLevel();}, 2000);;
+            setTimeout(() => {InvertCrossaGame.looseLevel();}, 3000);;
             this.boardSprite.looseEffect();
         }
 
