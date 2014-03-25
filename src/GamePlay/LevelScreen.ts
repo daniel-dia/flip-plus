@@ -188,7 +188,7 @@ module InvertCross.GamePlay {
                     this.boardSprite.visible = false;
                 });
 
-            },4000);
+            },3000);
         }
 
         loose() {

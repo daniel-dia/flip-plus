@@ -1628,7 +1628,7 @@ var InvertCross;
                     createjs.Tween.get(_this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 300, createjs.Ease.quadIn).call(function () {
                         _this.boardSprite.visible = false;
                     });
-                }, 4000);
+                }, 3000);
             };
 
             LevelScreen.prototype.loose = function () {
