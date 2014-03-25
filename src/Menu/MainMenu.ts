@@ -36,6 +36,9 @@ module InvertCross.Menu {
         public activate() {
             super.activate();
 
+            //play BgSound
+            Assets.playMusic("trilha");
+
             //Verifies if it is the first time playing
             if (!InvertCrossaGame.storyData.getStoryPlayed("intro")) {
                 this.intro.visible = true;
@@ -44,13 +47,19 @@ module InvertCross.Menu {
                 this.intro.playPart1();
 
             }
-            else {
+            else if (!InvertCrossaGame.storyData.getStoryPlayed("intro2")) {
+                InvertCrossaGame.storyData.setStoryPlayed("intro2")
+                this.intro.visible = true;
+                this.myBots.visible = false;
+                this.playBt.visible = false;
+                this.intro.playPart2();
+
+            } else
+            {
                 this.intro.visible = false;
                 this.playBt.visible = true;
                 this.myBots.visible = true;
                 
-                //play BgSound
-                Assets.playMusic("trilha");
 
                 //update menu
                 this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());

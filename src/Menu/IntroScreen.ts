@@ -30,7 +30,7 @@ module InvertCross.Menu {
                         break;
 
                     case "end":
-                        InvertCrossaGame.storyData.setStoryPlayed("intro");
+                        InvertCrossaGame.showProjectsMenu();
                         this.dispatchEvent("end");
                         break;
                 }
