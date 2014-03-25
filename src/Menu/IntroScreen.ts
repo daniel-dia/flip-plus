@@ -8,7 +8,7 @@ module InvertCross.Menu {
         constructor() {
             super();
 
-            this.popup = new Menu.View.Popup();
+            this.popup = new Menu.View.PopupBot();
 
             this.introMc = new lib.Intro();
             this.addChild(this.introMc);

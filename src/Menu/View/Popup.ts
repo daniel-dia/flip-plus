@@ -239,7 +239,7 @@ module InvertCross.Menu.View {
                         
         }
 
-        private showsPopup(timeout:number, delay:number) {
+        showsPopup(timeout:number, delay:number) {
 
             //shows the popus
             this.closeinterval = setTimeout(() => {
