@@ -741,7 +741,6 @@ var InvertCross;
                 { src: imagePath + "intro/Bot01.png", id: "Bot01" },
                 { src: imagePath + "intro/botLight.png", id: "botLight" },
                 { src: imagePath + "intro/fundoEscuro.jpg", id: "fundoEscuro" },
-                { src: imagePath + "intro/mybotsbg.jpg", id: "mybotsbg" },
                 //projects
                 { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
                 { id: "projects/slot1", src: imagePath + "projects/slot1.png" },
@@ -753,6 +752,7 @@ var InvertCross;
                 { id: "projects/pageon", src: imagePath + "projects/pageon.png" },
                 { id: "projects/pageoff", src: imagePath + "projects/pageoff.png" },
                 { id: "projects/bigslot1", src: imagePath + "projects/bigslot1.png" },
+                //projects
                 { id: "projects/bots/Bot01", src: imagePath + "projects/bots/bot1.png" },
                 { id: "projects/bots/Bot10", src: imagePath + "projects/bots/bot10.png" },
                 { id: "projects/bots/Bot11", src: imagePath + "projects/bots/bot11.png" },
@@ -844,61 +844,64 @@ var InvertCross;
                 { src: imagePath + "myBots/Bot18.png", id: "myBots/Bot18" },
                 { src: imagePath + "myBots/Bot18_fill.png", id: "myBots/Bot18_fill" },
                 { src: imagePath + "myBots/Bot18_stroke.png", id: "myBots/Bot18_stroke" },
-                { src: imagePath + "myBots/Bot01.png", id: "Bot01" },
-                { src: imagePath + "myBots/Bot02.png", id: "Bot02" },
-                { src: imagePath + "myBots/Bot03.png", id: "Bot03" },
-                { src: imagePath + "myBots/Bot04.png", id: "Bot04" },
-                { src: imagePath + "myBots/Bot05.png", id: "Bot05" },
-                { src: imagePath + "myBots/Bot06.png", id: "Bot06" },
-                { src: imagePath + "myBots/Bot07.png", id: "Bot07" },
-                { src: imagePath + "myBots/Bot08.png", id: "Bot08" },
-                { src: imagePath + "myBots/Bot09.png", id: "Bot09" },
-                { src: imagePath + "myBots/Bot10.png", id: "Bot10" },
-                { src: imagePath + "myBots/Bot11.png", id: "Bot11" },
-                { src: imagePath + "myBots/Bot12.png", id: "Bot12" },
-                { src: imagePath + "myBots/Bot13.png", id: "Bot13" },
-                { src: imagePath + "myBots/Bot14.png", id: "Bot14" },
-                { src: imagePath + "myBots/Bot15.png", id: "Bot15" },
-                { src: imagePath + "myBots/Bot16.png", id: "Bot16" },
-                { src: imagePath + "myBots/Bot17.png", id: "Bot17" },
-                { src: imagePath + "myBots/Bot18.png", id: "Bot18" },
-                { src: imagePath + "myBots/Breenbox.png", id: "myBots/greenbox" },
-                { src: imagePath + "myBots/Breenshadow.png", id: "myBots/greenshadow" },
-                { src: imagePath + "myBots/Bybotsbg.jpg", id: "myBots/mybotsbg.jpg" },
-                { src: imagePath + "myBots/Bybotsbg.png", id: "myBots/mybotsbg" },
-                { src: imagePath + "myBots/BobotPreview.png", id: "myBots/RobotPreview" },
-                { src: imagePath + "myBots/BobotPreviewFill.png", id: "myBots/RobotPreviewFill" },
-                { src: imagePath + "myBots/Brash01.png", id: "myBots/trash01" },
-                { src: imagePath + "myBots/Brash02.png", id: "myBots/trash02" },
-                { src: imagePath + "myBots/Brash03.png", id: "myBots/trash03" },
-                { src: imagePath + "myBots/Brash04.png", id: "myBots/trash04" },
-                { src: imagePath + "myBots/Brash05.png", id: "myBots/trash05" },
-                { src: imagePath + "myBots/Brash06.png", id: "myBots/trash06" },
-                //my bots
-                { id: "mybots/greenbox", src: imagePath + "mybots/greenbox.png" },
-                { id: "mybots/greenshadow", src: imagePath + "mybots/greenshadow.png" },
-                { id: "mybots/mybotsbg", src: imagePath + "mybots/mybotsbg.png" },
-                { id: "mybots/trash01", src: imagePath + "mybots/trash01.png" },
-                { id: "mybots/trash02", src: imagePath + "mybots/trash02.png" },
-                { id: "mybots/trash03", src: imagePath + "mybots/trash03.png" },
-                { id: "mybots/trash04", src: imagePath + "mybots/trash04.png" },
-                { id: "mybots/trash05", src: imagePath + "mybots/trash05.png" },
-                { id: "mybots/trash06", src: imagePath + "mybots/trash06.png" },
-                { id: "mybots/RobotPreviewFill", src: imagePath + "mybots/RobotPreviewFill.png" },
-                { id: "mybots/RobotPreview", src: imagePath + "mybots/RobotPreview.png" },
+                //bots
+                { src: imagePath + "mybots/mybotsbg.jpg", id: "mybotsbg" },
+                { src: imagePath + "mybots/Bot01.png", id: "Bot01" },
+                { src: imagePath + "mybots/Bot02.png", id: "Bot02" },
+                { src: imagePath + "mybots/Bot03.png", id: "Bot03" },
+                { src: imagePath + "mybots/Bot04.png", id: "Bot04" },
+                { src: imagePath + "mybots/Bot05.png", id: "Bot05" },
+                { src: imagePath + "mybots/Bot06.png", id: "Bot06" },
+                { src: imagePath + "mybots/Bot07.png", id: "Bot07" },
+                { src: imagePath + "mybots/Bot08.png", id: "Bot08" },
+                { src: imagePath + "mybots/Bot09.png", id: "Bot09" },
+                { src: imagePath + "mybots/Bot10.png", id: "Bot10" },
+                { src: imagePath + "mybots/Bot11.png", id: "Bot11" },
+                { src: imagePath + "mybots/Bot12.png", id: "Bot12" },
+                { src: imagePath + "mybots/Bot13.png", id: "Bot13" },
+                { src: imagePath + "mybots/Bot14.png", id: "Bot14" },
+                { src: imagePath + "mybots/Bot15.png", id: "Bot15" },
+                { src: imagePath + "mybots/Bot16.png", id: "Bot16" },
+                { src: imagePath + "mybots/Bot17.png", id: "Bot17" },
+                { src: imagePath + "mybots/Bot18.png", id: "Bot18" },
                 //workshow
                 { id: "workshop/basefases", src: imagePath + "workshop/basefases.png" },
                 { id: "workshop/bgworkshop", src: imagePath + "workshop/bgworkshop.png" },
                 { id: "workshop/estrelaworkshop", src: imagePath + "workshop/estrelaworkshop.png" },
-                { id: "workshop/faseamarelaf", src: imagePath + "workshop/faseamarelaf.png" },
-                { id: "workshop/faseamarela", src: imagePath + "workshop/faseamarela.png" },
-                { id: "workshop/faseroxaf", src: imagePath + "workshop/faseroxaf.png" },
-                { id: "workshop/faseroxa", src: imagePath + "workshop/faseroxa.png" },
-                { id: "workshop/faseverdef", src: imagePath + "workshop/faseverdef.png" },
-                { id: "workshop/faseverde", src: imagePath + "workshop/faseverde.png" },
-                { id: "workshop/skip", src: imagePath + "workshop/skip.png" },
+                { id: "workshop/faseamarela1", src: imagePath + "workshop/faseamarela1.png" },
+                { id: "workshop/faseamarela2", src: imagePath + "workshop/faseamarela2.png" },
+                { id: "workshop/faseamarela3", src: imagePath + "workshop/faseamarela3.png" },
+                { id: "workshop/faseamarelaflip1", src: imagePath + "workshop/faseamarelaflip1.png" },
+                { id: "workshop/faseamarelaflip2", src: imagePath + "workshop/faseamarelaflip2.png" },
+                { id: "workshop/faseamarelaflip3", src: imagePath + "workshop/faseamarelaflip3.png" },
+                { id: "workshop/faseamarelatime1", src: imagePath + "workshop/faseamarelatime1.png" },
+                { id: "workshop/faseamarelatime2", src: imagePath + "workshop/faseamarelatime2.png" },
+                { id: "workshop/faseamarelatime3", src: imagePath + "workshop/faseamarelatime3.png" },
+                { id: "workshop/faseroxa1", src: imagePath + "workshop/faseroxa1.png" },
+                { id: "workshop/faseroxa2", src: imagePath + "workshop/faseroxa2.png" },
+                { id: "workshop/faseroxa3", src: imagePath + "workshop/faseroxa3.png" },
+                { id: "workshop/faseroxaflip1", src: imagePath + "workshop/faseroxaflip1.png" },
+                { id: "workshop/faseroxaflip2", src: imagePath + "workshop/faseroxaflip2.png" },
+                { id: "workshop/faseroxaflip3", src: imagePath + "workshop/faseroxaflip3.png" },
+                { id: "workshop/faseroxatime1", src: imagePath + "workshop/faseroxatime1.png" },
+                { id: "workshop/faseroxatime2", src: imagePath + "workshop/faseroxatime2.png" },
+                { id: "workshop/faseroxatime3", src: imagePath + "workshop/faseroxatime3.png" },
+                { id: "workshop/faseverde1", src: imagePath + "workshop/faseverde1.png" },
+                { id: "workshop/faseverde2", src: imagePath + "workshop/faseverde2.png" },
+                { id: "workshop/faseverde3", src: imagePath + "workshop/faseverde3.png" },
+                { id: "workshop/faseverdeflip1", src: imagePath + "workshop/faseverdeflip1.png" },
+                { id: "workshop/faseverdeflip2", src: imagePath + "workshop/faseverdeflip2.png" },
+                { id: "workshop/faseverdeflip3", src: imagePath + "workshop/faseverdeflip3.png" },
+                { id: "workshop/faseverdetime1", src: imagePath + "workshop/faseverdetime1.png" },
+                { id: "workshop/faseverdetime2", src: imagePath + "workshop/faseverdetime2.png" },
+                { id: "workshop/faseverdetime3", src: imagePath + "workshop/faseverdetime3.png" },
+                { id: "workshop/iconeskip", src: imagePath + "workshop/iconeskip.png" },
                 { id: "workshop/paginacaoworkshop", src: imagePath + "workshop/paginacaoworkshop.png" },
                 { id: "workshop/painelworkshop", src: imagePath + "workshop/painelworkshop.png" },
+                { id: "workshop/skip", src: imagePath + "workshop/skip.png" },
+                { id: "workshop/stargreen", src: imagePath + "workshop/stargreen.png" },
+                { id: "workshop/starpurple", src: imagePath + "workshop/starpurple.png" },
+                { id: "workshop/staryellow", src: imagePath + "workshop/staryellow.png" },
                 //puzzle
                 { id: "puzzle/bg", src: imagePath + "puzzle/bg.jpg" },
                 { id: "puzzle/btplay1", src: imagePath + "puzzle/btplay1.png" },
@@ -935,16 +938,13 @@ var InvertCross;
                 { id: "puzzle/tile_purple_3", src: imagePath + "puzzle/tile_purple_3.png" },
                 { id: "puzzle/tile_purple_4", src: imagePath + "puzzle/tile_purple_4.png" },
                 { id: "puzzle/tilex", src: imagePath + "puzzle/tilex.png" },
+                //popup
+                { id: "popups/popup", src: imagePath + "popups/popup.png" },
+                { id: "popups/message", src: imagePath + "popups/message.png" },
+                { id: "popups/popupTutorial", src: imagePath + "popups/popupbot.png" },
                 //Legacy
                 { id: "bolinhas", src: "assets/" + "bolinhas.png" },
                 { id: "smokePart", src: "assets/" + "smokePart.png" },
-                //lobby
-                { src: imagePath + "lobbyImages/greenbox.png", id: "greenbox" },
-                { src: imagePath + "lobbyImages/Bitmap4.png", id: "Bitmap4" },
-                { src: imagePath + "lobbyImages/Bitmap5.png", id: "Bitmap5" },
-                { src: imagePath + "lobbyImages/Bitmap6.png", id: "Bitmap6" },
-                { src: imagePath + "lobbyImages/Bitmap7.png", id: "Bitmap7" },
-                { src: imagePath + "lobbyImages/Bitmap8.png", id: "Bitmap8" },
                 //slides
                 { src: imagePath + "slides/sl1.jpg", id: "sl1" },
                 { src: imagePath + "slides/sl2.jpg", id: "sl2" },
@@ -1111,6 +1111,7 @@ var InvertCross;
         };
 
         InvertCrossaGame.showProjectLevelsMenu = function (project, parameters) {
+            //verifies the current projet
             if (project == null)
                 project = InvertCrossaGame.projectManager.getCurrentProject();
             else
@@ -1121,11 +1122,15 @@ var InvertCross;
 
             var projects = InvertCrossaGame.projectManager.getAllProjects();
 
-            if (InvertCrossaGame.levelsMenu)
+            //verifies if rebuild is necessary
+            if (parameters && parameters.rebuild)
                 delete InvertCrossaGame.levelsMenu;
 
-            InvertCrossaGame.levelsMenu = new InvertCross.Menu.LevelsMenu();
+            //create a new levels menu, if needed
+            if (InvertCrossaGame.levelsMenu == undefined)
+                InvertCrossaGame.levelsMenu = new InvertCross.Menu.LevelsMenu();
 
+            //switch screens
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelsMenu, parameters);
         };
 
@@ -1141,6 +1146,7 @@ var InvertCross;
                 case "draw":
                     return new InvertCross.GamePlay.Puzzle(level);
                 case "moves":
+                case "flip":
                 case "combo":
                     return new InvertCross.GamePlay.Moves(level);
                 case "tutorial":
@@ -1412,6 +1418,7 @@ var InvertCross;
                     var ud = new InvertCross.Projects.ProjectUserData();
                     ud.unlocked = false;
                     ud.percent = 0;
+                    ud.complete = false;
                     return ud;
                 } else
                     return JSON.parse(value);
@@ -1463,6 +1470,7 @@ var InvertCross;
             }
             // Create Scene ===============================================================================================================
             LevelScreen.prototype.createScene = function (leveldata) {
+                var _this = this;
                 //creates a Background
                 this.addBackground(leveldata.theme);
 
@@ -1472,9 +1480,19 @@ var InvertCross;
                 //initialize overlay
                 this.initializeOverlays();
 
+                //adds message
+                this.message = new InvertCross.Menu.View.Message();
+                this.view.addChild(this.message);
+
                 //adds popup
                 this.popup = new InvertCross.Menu.View.Popup();
                 this.view.addChild(this.popup);
+                this.popup.addEventListener("onshow", function () {
+                    _this.boardSprite.mouseEnabled = false;
+                });
+                this.popup.addEventListener("onclose", function () {
+                    _this.boardSprite.mouseEnabled = true;
+                });
             };
 
             LevelScreen.prototype.addBackground = function (theme) {
@@ -1584,19 +1602,21 @@ var InvertCross;
                     InvertCross.InvertCrossaGame.itemsData.saveQuantityItem("hint", hintsQuantity);
                     this.menuOverlay.updateButtonLabel("hint", InvertCross.InvertCrossaGame.itemsData.getItemQuantity("hint"));
                 } else {
-                    this.popup.showtext("no more hints", 3000);
+                    this.popup.showtext("no more hints");
                 }
             };
 
             LevelScreen.prototype.win = function (col, row) {
                 var _this = this;
+                this.message.showtext("Well done!", 3000, 1500);
+
                 InvertCross.InvertCrossaGame.projectManager.completeLevel(this.levelData);
 
                 this.menuOverlay.fadeOut();
                 this.boardSprite.lock();
                 setTimeout(function () {
                     _this.boardSprite.winEffect(col, row);
-                }, 100);
+                }, 200);
 
                 this.menuOverlay.fadeOut();
                 InvertCross.Assets.playSound("win");
@@ -1605,10 +1625,10 @@ var InvertCross;
                     InvertCross.InvertCrossaGame.completeLevel();
 
                     createjs.Tween.removeTweens(_this.boardSprite);
-                    createjs.Tween.get(_this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(function () {
+                    createjs.Tween.get(_this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 300, createjs.Ease.quadIn).call(function () {
                         _this.boardSprite.visible = false;
                     });
-                }, 600);
+                }, 4000);
             };
 
             LevelScreen.prototype.loose = function () {
@@ -1616,7 +1636,7 @@ var InvertCross;
                 this.boardSprite.lock();
                 setTimeout(function () {
                     InvertCross.InvertCrossaGame.looseLevel();
-                }, 2000);
+                }, 3000);
                 ;
                 this.boardSprite.looseEffect();
             };
@@ -1684,7 +1704,7 @@ var InvertCross;
 
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
 
-                this.popup.showtext("fill this board", 3000);
+                this.popup.showtext("fill this board");
             }
             return Puzzle;
         })(InvertCross.GamePlay.LevelScreen);
@@ -1724,7 +1744,9 @@ var InvertCross;
                         _this.statusArea.setText3("END");
 
                         // this.boardSprite.visible = false;
-                        _super.prototype.loose.call(_this);
+                        _this.message.showtext("Time's up");
+                        _this.loose();
+
                         _this.timer.stop();
                     }
                 });
@@ -1737,11 +1759,10 @@ var InvertCross;
             //Overriding methods.
             TimeAtack.prototype.win = function (col, row) {
                 var _this = this;
-                this.timer.stop();
-
-                if (this.currentPuzzle >= this.puzzlesToSolve)
+                if (this.currentPuzzle >= this.puzzlesToSolve) {
+                    this.timer.stop();
                     _super.prototype.win.call(this, col, row);
-                else {
+                } else {
                     //animate board and switch
                     var defaultX = this.boardSprite.x;
                     createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
@@ -1796,7 +1817,7 @@ var InvertCross;
                 this.boardSprite.visible = false;
 
                 //shows popup
-                this.popup.showtext("Solve " + this.levelData.puzzlesToSolve + " boards \n in " + this.levelData.time + " seconds");
+                this.popup.showTimeAttack("Time Attack", "Solve ", this.levelData.puzzlesToSolve.toString(), this.levelData.time.toString());
                 this.popup.addEventListener("onclose", function () {
                     _this.boardSprite.visible = true;
 
@@ -1828,7 +1849,7 @@ var InvertCross;
                 var _this = this;
                 //create for text step
                 if (step.text) {
-                    this.popup.showtext(step.text, 3000);
+                    this.popup.showtext(step.text);
                     var listener = this.popup.addEventListener("onclose", function () {
                         _this.playNextTurorialStep();
                         _this.popup.removeEventListener("onclose", listener);
@@ -2417,7 +2438,8 @@ var InvertCross;
                     this.regY = boardHeight / 2;
 
                     //load click indicator
-                    this.tutorialIndiatcor = InvertCross.Assets.getImage("puzzle/indicator");
+                    this.tutorialIndiatcor = InvertCross.Assets.getMovieClip("touch");
+                    this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -85;
                     this.tutorialIndiatcor.mouseEnabled = false;
                     this.addChild(this.tutorialIndiatcor);
                     this.tutorialIndiatcor.visible = false;
@@ -2904,9 +2926,10 @@ var InvertCross;
                     this.createGamePlayMenu();
                     this.createPauseMenu();
 
-                    this.tutorial_highlightSprite = InvertCross.Assets.getImage("puzzle/indicator");
+                    this.tutorial_highlightSprite = InvertCross.Assets.getMovieClip("touch");
                     this.tutorial_highlightSprite.visible = false;
-                    this.tutorial_highlightSprite.regX = this.tutorial_highlightSprite.regY = 90;
+
+                    //this.tutorial_highlightSprite.regX = this.tutorial_highlightSprite.regY= -90;
                     this.tutorial_highlightSprite.mouseEnabled = false;
                     this.addChild(this.tutorial_highlightSprite);
                 }
@@ -3019,7 +3042,6 @@ var InvertCross;
                     //highlight the item
                     this.tutorial_highlightSprite.visible = true;
                     this.tutorial_highlightSprite.x = this.buttons[itemId].x;
-                    this.tutorial_highlightSprite.scaleX = this.tutorial_highlightSprite.scaleY = 1.6;
 
                     //define parameter for feedback
                     this.parameters[itemId] = parameter;
@@ -3169,6 +3191,7 @@ var InvertCross;
                             this.iconemoves.visible = false;
                             break;
                         case "moves":
+                        case "flip":
                             this.iconetime.visible = false;
                             this.iconepuzzle.visible = false;
                             this.iconemoves.visible = true;
@@ -3195,6 +3218,8 @@ var InvertCross;
             // Constructor
             function LevelsMenu() {
                 _super.call(this);
+                //just to know when a user finished a project
+                this.projectPreviousState = {};
                 //inertia fx
                 this.offset = 0;
                 this.lastx = 0;
@@ -3293,28 +3318,38 @@ var InvertCross;
 
             //--Behaviour-----------------------------------------------------------
             LevelsMenu.prototype.activate = function (parameters) {
+                var _this = this;
                 _super.prototype.activate.call(this);
 
                 //updates stars and parts idicatorr
                 this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
                 this.menu.partsIndicator.updatePartsAmount(InvertCross.InvertCrossaGame.partsManager.getBallance());
 
-                for (var pv in this.projectViews)
-                    if (InvertCross.InvertCrossaGame.projectManager.getCurrentProject().name == this.projectViews[pv].name) {
+                for (var pv in this.projectViews) {
+                    var project = InvertCross.InvertCrossaGame.projectManager.getProjectByName(this.projectViews[pv].name);
+
+                    if (project == InvertCross.InvertCrossaGame.projectManager.getCurrentProject()) {
                         //activate current project
                         this.projectViews[pv].activate(parameters);
 
                         //goto current project
                         this.pagesSwipe.gotoPage(pv, false);
+
+                        //if complete changes to myBotScreen
+                        if (project.UserData.complete && this.projectPreviousState[project.name] == false) {
+                            this.view.mouseEnabled = false;
+                            this.view.mouseChildren = false;
+                            setTimeout(function () {
+                                _this.view.mouseEnabled = true;
+                                _this.view.mouseChildren = true;
+                                InvertCross.InvertCrossaGame.showMainMenu();
+                            }, 2000);
+                        }
                     }
 
-                //makes win or loose animation
-                if (parameters && parameters.complete)
-                    this.message.showtext("WELL DONE !", 3000, 500);
-
-                if (parameters && parameters.loose)
-                    this.message.showtext("TRY AGAIN !", 3000);
-                //verifies if player completes the project
+                    //store last state
+                    this.projectPreviousState[project.name] = project.UserData.complete;
+                }
             };
             return LevelsMenu;
         })(Gbase.ScreenState);
@@ -3330,7 +3365,7 @@ var InvertCross;
             function MainMenu() {
                 _super.call(this);
 
-                var bg = InvertCross.Assets.getImage("mybots/mybotsbg");
+                var bg = InvertCross.Assets.getImage("mybotsbg");
                 this.view.addChild(bg);
 
                 this.addIntro();
@@ -3347,19 +3382,25 @@ var InvertCross;
             MainMenu.prototype.activate = function () {
                 _super.prototype.activate.call(this);
 
+                //play BgSound
+                InvertCross.Assets.playMusic("trilha");
+
                 //Verifies if it is the first time playing
                 if (!InvertCross.InvertCrossaGame.storyData.getStoryPlayed("intro")) {
                     this.intro.visible = true;
                     this.myBots.visible = false;
                     this.playBt.visible = false;
                     this.intro.playPart1();
+                } else if (!InvertCross.InvertCrossaGame.storyData.getStoryPlayed("intro2")) {
+                    InvertCross.InvertCrossaGame.storyData.setStoryPlayed("intro2");
+                    this.intro.visible = true;
+                    this.myBots.visible = false;
+                    this.playBt.visible = false;
+                    this.intro.playPart2();
                 } else {
                     this.intro.visible = false;
                     this.playBt.visible = true;
                     this.myBots.visible = true;
-
-                    //play BgSound
-                    InvertCross.Assets.playMusic("trilha");
 
                     //update menu
                     this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
@@ -3705,11 +3746,11 @@ var InvertCross;
                 var p = pv.project;
 
                 if (p.UserData.unlocked)
-                    InvertCross.InvertCrossaGame.showProjectLevelsMenu(p);
+                    InvertCross.InvertCrossaGame.showProjectLevelsMenu(p, { rebuild: true });
                 else {
                     var stars = InvertCross.InvertCrossaGame.projectManager.getStarsCount();
                     if (stars < p.cost)
-                        this.popup.showtext("you only have " + stars + " stars. \nYou need at least " + p.cost + " stars \nto unlock this project\n play more levels to earn stars.", 10000);
+                        this.popup.showtext("Not enught stars.", "you only have " + stars + " stars. \nYou need at least " + p.cost + " stars \nto unlock this project\n play more levels to earn stars.", 10000);
                 }
             };
 
@@ -3901,9 +3942,6 @@ var InvertCross;
                     this.name = level.name;
                     this.theme = level.theme;
 
-                    this.thumb = new createjs.Container();
-                    this.addChild(this.thumb);
-
                     this.skiped = this.createSkip();
                     this.addChild(this.skiped);
 
@@ -3915,27 +3953,11 @@ var InvertCross;
                     var u = this.level.userdata;
                     this.skiped.visible = u.skip;
 
-                    while (this.thumb.getNumChildren() > 0)
-                        this.thumb.removeChild(this.thumb.getChildAt(0));
-                    this.thumb.addChild(this.createThumbs(this.level));
+                    //create a new thumb
+                    this.createThumbs(this.level);
 
                     //cache thumb
                     this.cache(-99, -102, 198, 204);
-
-                    //create bounce effect if is active
-                    this.scaleX = this.scaleY = 1;
-                    if (u.unlocked && !u.solved && !u.skip) {
-                        this.set({ scaleX: 1, scaleY: 1 });
-                        createjs.Tween.get(this, { loop: true }).to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut);
-                    }
-                };
-
-                //Create a Lock Symbol instead of level Thumb
-                LevelThumb.prototype.createLocked = function () {
-                    var img = InvertCross.Assets.getImage("locked.jpg");
-                    img.x = img.y = 33;
-                    img.scaleX = img.scaleY = 0.3;
-                    return img;
                 };
 
                 //create a skip tag
@@ -3948,12 +3970,51 @@ var InvertCross;
 
                 //Create a container with a level thumbnail and evel name
                 LevelThumb.prototype.createThumbs = function (level) {
+                    this.removeAllChildren();
+
                     var thumbContainer = new Gbase.UI.Button();
 
-                    var spacing = 45;
-                    var size = 40;
+                    var color1;
+                    var color2;
+                    var assetSufix;
 
-                    //defines accentColor based on level type.
+                    var assetName = this.defineAssetName(level);
+
+                    //defines thumb state
+                    if (level.userdata.unlocked && level.userdata.solved || level.userdata.skip) {
+                        assetSufix = "1";
+                        color1 = "rgba(255,255,255,0.5)";
+                        color2 = "rgba(0,0,0,0.3)";
+                    }
+
+                    if (!level.userdata.unlocked) {
+                        assetSufix = "2";
+                        color1 = "rgba(0,0,0,0.5)";
+                        color2 = "rgba(0,0,0,0.3)";
+                    }
+
+                    if (level.userdata.unlocked && !level.userdata.solved && !level.userdata.skip) {
+                        assetSufix = "3";
+                        color1 = "rgba(255,255,255,0.9)";
+                        color2 = "rgba(0,0,0,0.3)";
+
+                        //create bounce effect if is active
+                        this.set({ scaleX: 1, scaleY: 1 });
+                        createjs.Tween.get(this, { loop: true }).to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut);
+                    }
+
+                    //Adds Thumb Backgroud
+                    this.addChild(this.createBackgroud(level, assetName, assetSufix));
+
+                    //Adds Thumb Blocks
+                    this.addChild(this.createBlocks(level, color1, color2));
+
+                    //Adds thumb tags
+                    this.addChild(this.createTags(level, assetName, assetSufix));
+                };
+
+                //defines accentColor based on level type.
+                LevelThumb.prototype.defineAssetName = function (level) {
                     var assetname = "faseamarela";
                     if (level.theme == "green")
                         assetname = "faseverde";
@@ -3961,17 +4022,31 @@ var InvertCross;
                         assetname = "faseroxa";
                     if (level.theme == "yellow")
                         assetname = "faseamarela";
+                    return assetname;
+                };
+
+                //adds thumb background
+                LevelThumb.prototype.createBackgroud = function (level, assetName, assetSufix) {
+                    var sbg = InvertCross.Assets.getImage("workshop/" + assetName + assetSufix);
+                    sbg.regX = sbg.regY = 98;
+                    return sbg;
+                };
+
+                //adds thumb blocks
+                LevelThumb.prototype.createBlocks = function (level, color1, color2) {
+                    var spacing = 45;
+                    var size = 40;
 
                     var marginLeft = (spacing * level.width) / 2;
                     var marginTop = (spacing * level.height) / 2;
-
                     var totalSize = level.width * level.height;
                     var blocks = [];
 
                     for (var i = 0; i < totalSize; i++)
                         blocks[i] = false;
 
-                    if (level.type != "time") {
+                    //invert a crosses in the block
+                    if (level.blocksData)
                         for (var i = 0; i < level.blocksData.length; i++) {
                             var n = level.blocksData[i];
                             blocks[n] = !blocks[n];
@@ -3982,34 +4057,30 @@ var InvertCross;
                             if (n % level.width != level.width - 1)
                                 blocks[n + 1] = !blocks[n + 1];
                         }
-                    }
+                    var s = new createjs.Shape();
 
-                    var sbg = InvertCross.Assets.getImage("workshop/" + assetname + (level.userdata.solved ? "f" : ""));
-                    thumbContainer.addChild(sbg);
-                    sbg.regX = sbg.regY = 98;
-
-                    if (level.type != "time") {
-                        for (var col = 1; col < 4; col++) {
-                            for (var row = 1; row < 4; row++) {
-                                var s = new createjs.Shape();
-                                var color;
-
-                                if (!level.userdata.unlocked)
-                                    if (blocks[col * level.width + row])
-                                        color = "rgba(0,0,0,0.5)";
-                                    else
-                                        color = "rgba(0,0,0,0.3)";
-                                else if (blocks[col * level.width + row])
-                                    color = "rgba(255,255,255,0.9)";
-                                else
-                                    color = "rgba(0,0,0,0.3)";
-
-                                s.graphics.beginFill(color).drawRect(spacing * col - marginLeft, spacing * row - marginTop, size, size);
-                                thumbContainer.addChild(s);
-                            }
+                    for (var col = 1; col < 4; col++) {
+                        for (var row = 1; row < 4; row++) {
+                            var color;
+                            if (blocks[col * level.width + row])
+                                color = color1;
+                            else
+                                color = color2;
+                            s.graphics.beginFill(color).drawRect(spacing * col - marginLeft, spacing * row - marginTop, size, size);
                         }
                     }
-                    return thumbContainer;
+
+                    return s;
+                };
+
+                //Adds Thumb Tag
+                LevelThumb.prototype.createTags = function (level, assetName, assetSufix) {
+                    //TODO: essas string devem estar em um enum
+                    if (level.type == "time" || level.type == "flip") {
+                        var tag = InvertCross.Assets.getImage("workshop/" + assetName + level.type + assetSufix);
+                        tag.regX = tag.regY = 100;
+                        return tag;
+                    }
                 };
                 return LevelThumb;
             })(Gbase.UI.Button);
@@ -4264,7 +4335,8 @@ var InvertCross;
                     if (this.project.UserData.percent == 0 && this.project.UserData.unlocked) {
                         this.set({ scaleX: 1, scaleY: 1 });
                         createjs.Tween.get(this, { loop: true }).to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut);
-                    }
+                    } else
+                        this.scaleX = this.scaleY = 1;
                 };
                 return ProjectItem;
             })(Gbase.UI.Button);
@@ -4865,9 +4937,12 @@ var defaultFont = "'Exo 2.0'";
 
 var defaultFontFamilyNormal = " 80px  " + defaultFont;
 var defaultFontFamilyStrong = " 80px " + defaultFont;
-var defaultFontFamilyHighlight = " Bold 120px " + defaultFont;
+var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
+var defaultNumberHighlight = " 220px " + defaultFont;
 var defaultFontColor = "#FF6";
-var highlightFontColor = "#f0f95c";
+var highlightFontColor = "#f2cb46";
+var alternativeFontColor = "#3d8c9a";
+var shadowFontColor = "#1b4f5e";
 var fontLineOffset = 0.2;
 /// <reference path="easeljs.d.ts" />
 /// <reference path="tweenjs.d.ts" />
@@ -4981,7 +5056,7 @@ var InvertCross;
 
                 this.moves = this.levelData.moves;
 
-                this.popup.showtext("Solve this board with " + " moves", 3000);
+                this.popup.showflips("Flip Challenge", "Solve this board in ", this.levelData.moves.toString());
 
                 this.statusArea.setMode("moves");
                 this.statusArea.setText3(this.moves.toString());
@@ -4995,8 +5070,10 @@ var InvertCross;
                     this.moves--;
                     this.statusArea.setText3(this.moves.toString());
 
-                    if (this.moves <= 0)
+                    if (this.moves <= 0) {
+                        this.message.showtext("no more moves");
                         this.loose();
+                    }
                 }
             };
             return Moves;
@@ -5014,7 +5091,7 @@ var InvertCross;
                 var _this = this;
                 _super.call(this);
 
-                this.popup = new InvertCross.Menu.View.Popup();
+                this.popup = new InvertCross.Menu.View.PopupBot();
 
                 this.introMc = new lib.Intro();
                 this.addChild(this.introMc);
@@ -5035,7 +5112,7 @@ var InvertCross;
                             break;
 
                         case "end":
-                            InvertCross.InvertCrossaGame.storyData.setStoryPlayed("intro");
+                            InvertCross.InvertCrossaGame.showProjectsMenu();
                             _this.dispatchEvent("end");
                             break;
                     }
@@ -5183,15 +5260,9 @@ var InvertCross;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="../../../lib/easeljs.d.ts" />
 var InvertCross;
 (function (InvertCross) {
     (function (Menu) {
-        /// <reference path="../../../Gbase/UI/MenuContainer.ts" />
-        /// <reference path="../../../Gbase/UI/Grid.ts" />
-        /// <reference path="../../../Gbase/UI/Button.ts" />
-        /// <reference path="../../Assets.ts" />
-        // Module
         (function (View) {
             // View Class
             var Message = (function (_super) {
@@ -5199,7 +5270,6 @@ var InvertCross;
                 //class contructor
                 function Message() {
                     _super.call(this);
-                    this.drawObject();
 
                     //centralize the popup on screen
                     this.width = DefaultWidth;
@@ -5218,8 +5288,35 @@ var InvertCross;
                     if (typeof timeout === "undefined") { timeout = 3000; }
                     if (typeof delay === "undefined") { delay = 0; }
                     var _this = this;
+                    //clean everything
+                    this.removeAllChildren();
+
+                    //draw background
+                    var bg = InvertCross.Assets.getImage("popups/message");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+
+                    //create a text
+                    //create a titleShadow
+                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+                    titleShadow.textAlign = "center";
+                    titleShadow.textBaseline = "middle";
+                    titleShadow.x = DefaultWidth / 2;
+                    this.addChild(titleShadow);
+
+                    //create a title
+                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
+                    titleDO.textAlign = "center";
+                    titleDO.textBaseline = "middle";
+                    titleDO.x = DefaultWidth / 2;
+                    this.addChild(titleDO);
+
+                    titleShadow.y = titleDO.y = DefaultHeight * 0.3;
+                    titleShadow.y += 15;
+
                     //updates text
-                    this.text.text = text;
+                    titleDO.text = titleShadow.text = text.toUpperCase();
 
                     //shows the popus
                     this.closeinterval = setTimeout(function () {
@@ -5237,22 +5334,6 @@ var InvertCross;
                 Message.prototype.closePopUp = function () {
                     //hide the popup{
                     this.fadeOut();
-                };
-
-                //desenha os objetos do popup
-                Message.prototype.drawObject = function () {
-                    //draw background
-                    var bg = new createjs.Shape();
-                    bg.graphics.beginFill("rgba(0,0,0,0.5)").drawRect(0, DefaultHeight * 0.25, DefaultWidth, DefaultHeight * 0.1).endFill();
-                    this.addChild(bg);
-
-                    //create a text
-                    this.text = new createjs.Text("TESTE", defaultFontFamilyNormal, defaultFontColor);
-                    this.text.textAlign = "center";
-                    this.text.textBaseline = "middle";
-                    this.text.x = DefaultWidth / 2;
-                    this.text.y = DefaultHeight * 0.3;
-                    this.addChild(this.text);
                 };
                 return Message;
             })(Gbase.UI.UIItem);
@@ -5288,6 +5369,10 @@ var InvertCross;
                     this.y = DefaultHeight / 2;
                     this.centralize();
 
+                    //set Hit Area
+                    var hit = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, DefaultWidth, DefaultHeight));
+                    this.hitArea = hit;
+
                     //hide popup
                     this.visible = false;
 
@@ -5298,14 +5383,203 @@ var InvertCross;
                     });
                 }
                 //public method to invoke the popup
-                Popup.prototype.showtext = function (text, timeout, delay) {
-                    if (typeof timeout === "undefined") { timeout = 10000; }
+                Popup.prototype.showtext = function (title, text, timeout, delay) {
+                    if (typeof timeout === "undefined") { timeout = 7000; }
                     if (typeof delay === "undefined") { delay = 0; }
-                    var _this = this;
-                    //updates text
-                    this.text.text = text;
-                    this.text.y = DefaultHeight / 2 - this.text.getMeasuredHeight() / 2;
+                    this.showsPopup(timeout, delay);
 
+                    //clean display Object
+                    this.removeAllChildren();
+
+                    //draw background
+                    var bg = InvertCross.Assets.getImage("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+
+                    //create a titleShadow
+                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+                    titleShadow.textAlign = "center";
+                    titleShadow.textBaseline = "middle";
+                    titleShadow.x = DefaultWidth / 2;
+                    this.addChild(titleShadow);
+
+                    //create a title
+                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
+                    titleDO.textAlign = "center";
+                    titleDO.textBaseline = "middle";
+                    titleDO.x = DefaultWidth / 2;
+                    this.addChild(titleDO);
+
+                    //create a text
+                    var textDO = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
+                    textDO.textAlign = "center";
+                    textDO.textBaseline = "middle";
+                    textDO.x = DefaultWidth / 2;
+                    this.addChild(textDO);
+
+                    //updates title and text values
+                    titleShadow.text = titleDO.text = title.toUpperCase();
+                    textDO.text = text;
+
+                    var b = DefaultHeight / 2 - 500;
+
+                    titleDO.y = 0 + b + 50;
+                    titleShadow.y = titleDO.y + 15;
+                    textDO.y = 300;
+                };
+
+                Popup.prototype.showTimeAttack = function (title, text, boards, time, timeout, delay) {
+                    if (typeof timeout === "undefined") { timeout = 7000; }
+                    if (typeof delay === "undefined") { delay = 0; }
+                    this.showsPopup(timeout, delay);
+
+                    //clean display Object
+                    this.removeAllChildren();
+
+                    //draw background
+                    var bg = InvertCross.Assets.getImage("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+
+                    //create a titleShadow
+                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+                    titleShadow.textAlign = "center";
+                    titleShadow.textBaseline = "middle";
+                    titleShadow.x = DefaultWidth / 2;
+                    this.addChild(titleShadow);
+
+                    //create a title
+                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
+                    titleDO.textAlign = "center";
+                    titleDO.textBaseline = "middle";
+                    titleDO.x = DefaultWidth / 2;
+                    this.addChild(titleDO);
+
+                    //create a text
+                    var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+                    textDO.textAlign = "center";
+                    textDO.textBaseline = "middle";
+                    textDO.x = DefaultWidth / 2;
+                    this.addChild(textDO);
+
+                    //create a text
+                    var textDO1 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+                    textDO1.textAlign = "center";
+                    textDO1.textBaseline = "middle";
+                    textDO1.x = DefaultWidth / 2;
+                    this.addChild(textDO1);
+
+                    //create a text
+                    var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+                    textDO2.textAlign = "center";
+                    textDO2.textBaseline = "middle";
+                    textDO2.x = DefaultWidth / 2;
+                    this.addChild(textDO2);
+
+                    //create a text
+                    var timeDO = new createjs.Text("", defaultNumberHighlight, "white");
+                    timeDO.textAlign = "center";
+                    timeDO.textBaseline = "middle";
+                    timeDO.x = DefaultWidth / 2;
+                    this.addChild(timeDO);
+
+                    //create a text
+                    var boardsDO = new createjs.Text("", defaultNumberHighlight, "white");
+                    boardsDO.textAlign = "center";
+                    boardsDO.textBaseline = "middle";
+                    boardsDO.x = DefaultWidth / 2;
+                    this.addChild(boardsDO);
+
+                    //updates title and text values
+                    titleShadow.text = titleDO.text = title.toUpperCase();
+                    textDO.text = text;
+                    textDO1.text = "boards in";
+                    textDO2.text = "seconds";
+                    timeDO.text = time;
+                    boardsDO.text = boards;
+
+                    var b = DefaultHeight / 2 - 500;
+
+                    titleDO.y = 0 + b + 50;
+                    titleShadow.y = titleDO.y + 15;
+                    textDO.y = 300 + b;
+                    textDO1.y = 450 + b;
+                    textDO2.y = 600 + b;
+                    timeDO.y = 450 + b;
+                    boardsDO.y = 450 + b;
+
+                    timeDO.x = 500;
+                    boardsDO.x = DefaultWidth - 500;
+                };
+
+                Popup.prototype.showflips = function (title, text, flips, timeout, delay) {
+                    if (typeof timeout === "undefined") { timeout = 7000; }
+                    if (typeof delay === "undefined") { delay = 0; }
+                    this.showsPopup(timeout, delay);
+
+                    //clean display Object
+                    this.removeAllChildren();
+
+                    //draw background
+                    var bg = InvertCross.Assets.getImage("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+
+                    //create a titleShadow
+                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+                    titleShadow.textAlign = "center";
+                    titleShadow.textBaseline = "middle";
+                    titleShadow.x = DefaultWidth / 2;
+                    this.addChild(titleShadow);
+
+                    //create a title
+                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
+                    titleDO.textAlign = "center";
+                    titleDO.textBaseline = "middle";
+                    titleDO.x = DefaultWidth / 2;
+                    this.addChild(titleDO);
+
+                    //create a text
+                    var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+                    textDO.textAlign = "center";
+                    textDO.textBaseline = "middle";
+                    textDO.x = DefaultWidth / 2;
+                    this.addChild(textDO);
+
+                    //create a text
+                    var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+                    textDO2.textAlign = "center";
+                    textDO2.textBaseline = "middle";
+                    textDO2.x = DefaultWidth / 2;
+                    this.addChild(textDO2);
+
+                    //create a text
+                    var flipsDO = new createjs.Text("", defaultNumberHighlight, "white");
+                    flipsDO.textAlign = "center";
+                    flipsDO.textBaseline = "middle";
+                    flipsDO.x = DefaultWidth / 2;
+                    this.addChild(flipsDO);
+
+                    //updates title and text values
+                    titleShadow.text = titleDO.text = title.toUpperCase();
+                    textDO.text = text;
+                    textDO2.text = "flips or less";
+                    flipsDO.text = flips;
+
+                    var b = DefaultHeight / 2 - 500;
+
+                    titleDO.y = 0 + b + 50;
+                    titleShadow.y = titleDO.y + 15;
+                    textDO.y = 300 + b;
+                    textDO2.y = 600 + b;
+                    flipsDO.y = 450 + b;
+                };
+
+                Popup.prototype.showsPopup = function (timeout, delay) {
+                    var _this = this;
                     //shows the popus
                     this.closeinterval = setTimeout(function () {
                         _this.fadeIn();
@@ -5332,24 +5606,56 @@ var InvertCross;
 
                 //desenha os objetos do popup
                 Popup.prototype.drawObject = function () {
-                    //draw background
-                    var bg = new createjs.Shape();
-                    bg.graphics.beginFill("rgba(0,0,0,0.5)").drawRect(0, 0, DefaultWidth, DefaultHeight).endFill();
-                    bg.graphics.beginFill("rgb(100,100,100)").beginStroke("#FFF").setStrokeStyle(4).drawRect(DefaultWidth * .1, DefaultHeight * .4, DefaultWidth * .8, DefaultHeight * .2).endFill();
-                    this.addChild(bg);
-
-                    //create a text
-                    this.text = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
-                    this.text.textAlign = "center";
-
-                    // this.text.textBaseline = "top";
-                    this.text.x = DefaultWidth / 2;
-                    this.text.y = DefaultHeight / 2;
-                    this.addChild(this.text);
                 };
                 return Popup;
             })(Gbase.UI.UIItem);
             View.Popup = Popup;
+        })(Menu.View || (Menu.View = {}));
+        var View = Menu.View;
+    })(InvertCross.Menu || (InvertCross.Menu = {}));
+    var Menu = InvertCross.Menu;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (Menu) {
+        (function (View) {
+            // View Class
+            var PopupBot = (function (_super) {
+                __extends(PopupBot, _super);
+                function PopupBot() {
+                    _super.apply(this, arguments);
+                }
+                //public method to invoke the popup
+                PopupBot.prototype.showtext = function (text, timeout, delay) {
+                    if (typeof timeout === "undefined") { timeout = 3000; }
+                    if (typeof delay === "undefined") { delay = 0; }
+                    _super.prototype.showsPopup.call(this, timeout, delay);
+
+                    //clean everything
+                    this.removeAllChildren();
+
+                    //draw background
+                    var bg = InvertCross.Assets.getImage("popups/popupTutorial");
+                    bg.x = 150;
+                    bg.y = 250;
+                    this.addChild(bg);
+
+                    //create a text
+                    //create a titleShadow
+                    var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+                    textDO.textAlign = "center";
+                    textDO.textBaseline = "middle";
+                    textDO.x = DefaultWidth / 2;
+                    this.addChild(textDO);
+
+                    textDO.y = DefaultHeight * 0.3;
+
+                    //updates text
+                    textDO.text = text.toUpperCase();
+                };
+                return PopupBot;
+            })(InvertCross.Menu.View.Popup);
+            View.PopupBot = PopupBot;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
