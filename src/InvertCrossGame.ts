@@ -33,11 +33,6 @@ module InvertCross {
 
         public static InvertCrossInitilize() {
 
-            if(getQueryVariable("creator"))  {
-                var editorWindow = window.open("edit.html", "MsgWindow", "width=320,height=550");
-
-            }
-
             //initialize main class
             InvertCrossaGame.initialize();
 
@@ -60,8 +55,11 @@ module InvertCross {
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
 
             InvertCrossaGame.loadingScreen.loaded = () => {
-                if (getQueryVariable("creator")) 
-                    InvertCrossaGame.screenViewer.switchScreen(new GamePlay.LevelCreator(null,editorWindow));
+                if (document.URL.indexOf("Creator") > 0) {
+                    InvertCrossaGame.screenViewer.switchScreen(new GamePlay.LevelCreator(null, window));
+                    InvertCrossaGame.redim(420);
+                }
+
                 else
                     InvertCrossaGame.showTitleScreen();
             }

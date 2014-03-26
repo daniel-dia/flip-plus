@@ -68,6 +68,6 @@ input, select{
   }
 
 
-input.long, select.long {
+.long {
     width: 225px;
 }

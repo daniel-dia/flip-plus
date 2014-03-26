@@ -268,7 +268,7 @@
     <TypeScriptCompile Include="Preferences.ts" />
     <Content Include="assets\touch.js" />
     <Content Include="assets\touch.png" />
-    <Content Include="Edit.html" />
+    <Content Include="levelCreator.htm" />
     <Content Include="script\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

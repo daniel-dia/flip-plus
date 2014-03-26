@@ -5,9 +5,10 @@ module InvertCross.GamePlay {
         private static key = "customPuzzles";
 
         constructor(levelData: Projects.Level, editorWindow: Window) {
-            
-           this.editWindow = editorWindow;
 
+            this.editWindow = editorWindow;
+            InvertCrossaGame.redim(420);
+            InvertCrossaGame.redim = (n) => { };
             if (levelData == null) {
                 levelData = new Projects.Level();
                 levelData.width = 5;
@@ -67,8 +68,7 @@ module InvertCross.GamePlay {
 
             this.editWindow.document.getElementById("c_export").onclick = () => {
                 var exp = localStorage.getItem(LevelCreator.key);
-                clipboardData.setData("text", exp);
-                alert("levels copiados para clipboard");
+                (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value = exp;
             }
         }
 

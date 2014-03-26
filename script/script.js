@@ -634,7 +634,7 @@ var InvertCross;
             assetscale = 1;
             if (windowWidth <= 1024)
                 assetscale = 0.5;
-            if (windowWidth <= 480)
+            if (windowWidth <= 420)
                 assetscale = 0.25;
 
             this.redim(windowWidth);
@@ -660,8 +660,7 @@ var InvertCross;
             this.myCanvas.style.height = Math.floor(this.defaultHeight * finalscale) + "px";
 
             this.screenViewer.updateScale(finalscale);
-
-            setMobileScale(devicewidth);
+            //setMobileScale(devicewidth)
         };
         Game.defaultWidth = DefaultWidth;
         Game.defaultHeight = DefaultHeight;
@@ -1091,8 +1090,13 @@ var InvertCross;
             //go to First Screen
             InvertCrossaGame.loadingScreen = new InvertCross.Menu.Loading();
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
+
             InvertCrossaGame.loadingScreen.loaded = function () {
-                InvertCrossaGame.showTitleScreen();
+                if (document.URL.indexOf("Creator") > 0) {
+                    InvertCrossaGame.screenViewer.switchScreen(new InvertCross.GamePlay.LevelCreator(null, window));
+                    InvertCrossaGame.redim(420);
+                } else
+                    InvertCrossaGame.showTitleScreen();
             };
 
             //TODO tirar daqui
@@ -1527,13 +1531,15 @@ var InvertCross;
 
                 this.menuOverlay.updateButtonLabel("hint", InvertCross.InvertCrossaGame.itemsData.getItemQuantity("hint"));
 
-                var levels = InvertCross.InvertCrossaGame.projectManager.getCurrentProject().levels;
+                if (InvertCross.InvertCrossaGame.projectManager.getCurrentProject() != undefined) {
+                    var levels = InvertCross.InvertCrossaGame.projectManager.getCurrentProject().levels;
 
-                this.statusArea = new InvertCross.GamePlay.Views.StatusArea();
-                this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
-                this.statusArea.setText1("");
-                this.statusArea.setText3("");
-                this.view.addChild(this.statusArea);
+                    this.statusArea = new InvertCross.GamePlay.Views.StatusArea();
+                    this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
+                    this.statusArea.setText1("");
+                    this.statusArea.setText3("");
+                    this.view.addChild(this.statusArea);
+                }
             };
 
             LevelScreen.prototype.initializeBoardSprites = function (width, height, theme, blocks) {
@@ -2093,12 +2099,14 @@ var InvertCross;
                             this.blocks[col][row].state = false;
                         }
 
-                    for (var i = 0; i < invertedBlocks.length; i++) {
-                        var r = Math.floor(+invertedBlocks[i] / this.height);
-                        var c = invertedBlocks[i] - r * this.height;
-                        this.invertCross(r, c);
+                    if (invertedBlocks) {
+                        for (var i = 0; i < invertedBlocks.length; i++) {
+                            var r = Math.floor(+invertedBlocks[i] / this.height);
+                            var c = invertedBlocks[i] - r * this.height;
+                            this.invertCross(r, c);
+                        }
+                        this.initializePrizes(prizesCount, invertedBlocks.length);
                     }
-                    this.initializePrizes(prizesCount, invertedBlocks.length);
                 };
 
                 Board.prototype.setDrawBlocks = function (drawBlocks, cross) {
@@ -2567,11 +2575,11 @@ var InvertCross;
                     var w = this.boardWidth - 1;
                     if (row > 0)
                         this.blocksSprites[col][row - 1].animatePreInvert();
-                    if (row < w)
+                    if (row < h)
                         this.blocksSprites[col][row + 1].animatePreInvert();
                     if (col > 0)
                         this.blocksSprites[col - 1][row].animatePreInvert();
-                    if (col < h)
+                    if (col < w)
                         this.blocksSprites[col + 1][row].animatePreInvert();
                 };
 
@@ -2584,11 +2592,11 @@ var InvertCross;
                     var w = this.boardWidth - 1;
                     if (row > 0)
                         this.blocksSprites[col][row - 1].animatePreInvertRelease();
-                    if (row < w)
+                    if (row < h)
                         this.blocksSprites[col][row + 1].animatePreInvertRelease();
                     if (col > 0)
                         this.blocksSprites[col - 1][row].animatePreInvertRelease();
-                    if (col < h)
+                    if (col < w)
                         this.blocksSprites[col + 1][row].animatePreInvertRelease();
                 };
 
@@ -5079,6 +5087,161 @@ var InvertCross;
             return Moves;
         })(InvertCross.GamePlay.LevelScreen);
         GamePlay.Moves = Moves;
+    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
+    var GamePlay = InvertCross.GamePlay;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (GamePlay) {
+        var LevelCreator = (function (_super) {
+            __extends(LevelCreator, _super);
+            function LevelCreator(levelData, editorWindow) {
+                var _this = this;
+                this.editWindow = editorWindow;
+                InvertCross.InvertCrossaGame.redim(420);
+                InvertCross.InvertCrossaGame.redim = function (n) {
+                };
+                if (levelData == null) {
+                    levelData = new InvertCross.Projects.Level();
+                    levelData.width = 5;
+                    levelData.height = 5;
+                    levelData.blocksData = [];
+                    levelData.theme = "green";
+                }
+
+                _super.call(this, levelData);
+
+                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+                this.menuOverlay.visible = false;
+
+                this.updateSelectList();
+
+                this.editWindow.document.getElementById("c_create").onclick = function () {
+                    levelData = _this.getLevelDataFromForm();
+                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(levelData, _this.editWindow));
+                };
+
+                this.editWindow.document.getElementById("c_save").onclick = function () {
+                    var customData = _this.loadStored();
+                    var levelData = _this.getLevelDataFromForm();
+
+                    customData[levelData.name] = levelData;
+                    _this.saveStored(customData);
+
+                    _this.updateSelectList();
+                };
+
+                this.editWindow.document.getElementById("c_load").onclick = function () {
+                    var s = _this.loadStored();
+
+                    var selected = _this.editWindow.document.getElementById("c_select").value;
+                    var level = s[selected];
+
+                    if (level) {
+                        _this.setFormFromLevelData(level);
+                        InvertCross.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(level, _this.editWindow));
+                    }
+                };
+
+                this.editWindow.document.getElementById("c_delete").onclick = function () {
+                    var s = _this.loadStored();
+
+                    var selected = _this.editWindow.document.getElementById("c_select").value;
+                    delete s[selected];
+
+                    _this.saveStored(s);
+
+                    _this.updateSelectList();
+                };
+
+                this.editWindow.document.getElementById("c_export").onclick = function () {
+                    var exp = localStorage.getItem(LevelCreator.key);
+                    _this.editWindow.document.getElementById("c_exported").value = exp;
+                };
+            }
+            LevelCreator.prototype.loadStored = function () {
+                var s = localStorage.getItem(LevelCreator.key);
+                if (!s)
+                    return {};
+                else
+                    return JSON.parse(s);
+            };
+
+            LevelCreator.prototype.saveStored = function (value) {
+                localStorage.setItem(LevelCreator.key, JSON.stringify(value));
+            };
+
+            LevelCreator.prototype.updateSelectList = function () {
+                var s = this.loadStored();
+                this.editWindow.document.getElementById("c_select").options.length = 0;
+                for (var i in s) {
+                    var option = this.editWindow.document.createElement("option");
+                    option.text = i;
+                    this.editWindow.document.getElementById("c_select").add(option);
+                }
+            };
+
+            LevelCreator.prototype.getLevelDataFromForm = function () {
+                var levelData = new InvertCross.Projects.Level();
+
+                levelData.name = this.editWindow.document.getElementById("c_name").value;
+
+                levelData.width = parseInt(this.editWindow.document.getElementById("c_width").value);
+                levelData.height = parseInt(this.editWindow.document.getElementById("c_height").value);
+                levelData.type = this.editWindow.document.getElementById("c_type").value;
+                levelData.theme = this.editWindow.document.getElementById("c_theme").value;
+
+                levelData.moves = parseInt(this.editWindow.document.getElementById("c_flips").value);
+                levelData.time = parseInt(this.editWindow.document.getElementById("c_time").value);
+                levelData.puzzlesToSolve = parseInt(this.editWindow.document.getElementById("c_p_solve").value);
+
+                if (this.editWindow.document.getElementById("c_blocks").value)
+                    levelData.blocksData = JSON.parse(this.editWindow.document.getElementById("c_blocks").value);
+
+                return levelData;
+            };
+
+            LevelCreator.prototype.setFormFromLevelData = function (levelData) {
+                if (levelData.name)
+                    this.editWindow.document.getElementById("c_name").value = levelData.name;
+                if (levelData.width)
+                    this.editWindow.document.getElementById("c_width").value = levelData.width.toString();
+                if (levelData.height)
+                    this.editWindow.document.getElementById("c_height").value = levelData.height.toString();
+                if (levelData.type)
+                    this.editWindow.document.getElementById("c_type").value = levelData.type;
+                if (levelData.theme)
+                    this.editWindow.document.getElementById("c_theme").value = levelData.theme;
+
+                if (levelData.moves)
+                    this.editWindow.document.getElementById("c_flips").value = levelData.moves.toString();
+                if (levelData.time)
+                    this.editWindow.document.getElementById("c_time").value = levelData.time.toString();
+                if (levelData.puzzlesToSolve)
+                    this.editWindow.document.getElementById("c_p_solve").value = levelData.puzzlesToSolve.toString();
+
+                if (levelData.blocksData)
+                    this.editWindow.document.getElementById("c_blocks").value = JSON.stringify(levelData.blocksData);
+            };
+
+            //threat user input
+            LevelCreator.prototype.userInput = function (col, row) {
+                //invert a cross
+                this.levelLogic.invertCross(col, row);
+
+                //update sprites
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+
+                this.editWindow.document.getElementById("c_blocks").value = JSON.stringify(this.levelLogic.board.getInvertedBlocks());
+            };
+
+            LevelCreator.prototype.win = function (col, row) {
+            };
+            LevelCreator.key = "customPuzzles";
+            return LevelCreator;
+        })(InvertCross.GamePlay.LevelScreen);
+        GamePlay.LevelCreator = LevelCreator;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
 })(InvertCross || (InvertCross = {}));

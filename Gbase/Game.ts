@@ -71,7 +71,7 @@ module InvertCross {
 
             assetscale = 1
             if (windowWidth <= 1024) assetscale = 0.5;
-            if (windowWidth <= 480) assetscale = 0.25;
+            if (windowWidth <= 420) assetscale = 0.25;
 
             this.redim(windowWidth);
         }
@@ -80,7 +80,7 @@ module InvertCross {
             this.stage.update();
         }
 
-        private static redim(devicewidth: number) {
+        public static redim(devicewidth: number) {
 
             var finalscale = 1;
 
@@ -99,7 +99,7 @@ module InvertCross {
 
             this.screenViewer.updateScale(finalscale);
 
-            setMobileScale(devicewidth)
+            //setMobileScale(devicewidth)
         }
 
 
