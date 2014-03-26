@@ -173,9 +173,9 @@ module InvertCross.GamePlay.Views {
             var h = this.boardHeight - 1;
             var w = this.boardWidth - 1;
             if (row > 0) this.blocksSprites[col][row - 1].animatePreInvert();
-            if (row < w) this.blocksSprites[col][row + 1].animatePreInvert();
+            if (row < h) this.blocksSprites[col][row + 1].animatePreInvert();
             if (col > 0) this.blocksSprites[col - 1][row].animatePreInvert();
-            if (col < h) this.blocksSprites[col + 1][row].animatePreInvert();
+            if (col < w) this.blocksSprites[col + 1][row].animatePreInvert();
 
         }
 
@@ -187,9 +187,9 @@ module InvertCross.GamePlay.Views {
             var h = this.boardHeight - 1;
             var w = this.boardWidth - 1;
             if (row > 0) this.blocksSprites[col][row - 1].animatePreInvertRelease();
-            if (row < w) this.blocksSprites[col][row + 1].animatePreInvertRelease();
+            if (row < h) this.blocksSprites[col][row + 1].animatePreInvertRelease();
             if (col > 0) this.blocksSprites[col - 1][row].animatePreInvertRelease();
-            if (col < h) this.blocksSprites[col + 1][row].animatePreInvertRelease();
+            if (col < w) this.blocksSprites[col + 1][row].animatePreInvertRelease();
         }
   
         public radiusEffect(originCol: number, originRow: number) {
