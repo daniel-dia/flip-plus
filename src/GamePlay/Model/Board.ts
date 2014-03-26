@@ -104,12 +104,14 @@ module InvertCross.GamePlay.Model {
                 this.blocks[col][row].state = false;
             }
 
-            for (var i: number = 0; i < invertedBlocks.length; i++) {
-                var r = Math.floor(+invertedBlocks[i]/this.height);
-                var c = invertedBlocks[i]-r*this.height;
-                this.invertCross(r, c);
+            if (invertedBlocks) {
+                for (var i: number = 0; i < invertedBlocks.length; i++) {
+                    var r = Math.floor(+invertedBlocks[i] / this.height);
+                    var c = invertedBlocks[i] - r * this.height;
+                    this.invertCross(r, c);
+                }
+                this.initializePrizes(prizesCount, invertedBlocks.length);
             }
-            this.initializePrizes(prizesCount, invertedBlocks.length);
         }
 
         public setDrawBlocks(drawBlocks: number[],cross:boolean=true) {

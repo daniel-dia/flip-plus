@@ -1,7 +1,7 @@
 module InvertCross.GamePlay {
 
     //Controller
-    export class LevelScreen extends Gbase.ScreenState {
+        export class LevelScreen extends Gbase.ScreenState {
 
         //Display Sprites
         public boardSprite: Views.BoardSprite;
@@ -81,13 +81,15 @@ module InvertCross.GamePlay {
 
             this.menuOverlay.updateButtonLabel("hint",InvertCrossaGame.itemsData.getItemQuantity("hint"));
 
-            var levels: Projects.Level[] = InvertCrossaGame.projectManager.getCurrentProject().levels;
+            if (InvertCrossaGame.projectManager.getCurrentProject() != undefined) {
+                var levels: Projects.Level[] = InvertCrossaGame.projectManager.getCurrentProject().levels;
 
-            this.statusArea = new Views.StatusArea();
-            this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
-            this.statusArea.setText1("");
-            this.statusArea.setText3("");
-            this.view.addChild(this.statusArea);
+                this.statusArea = new Views.StatusArea();
+                this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
+                this.statusArea.setText1("");
+                this.statusArea.setText3("");
+                this.view.addChild(this.statusArea);
+            }
 
         }
 

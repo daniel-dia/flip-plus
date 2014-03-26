@@ -21,8 +21,7 @@
 
 
 body, a {
-    font-family: 'Exo 2.0';
-    text-align: center;
+    font-family: 'Exo 2.0'; 
     background-color: Gray;
     color: white;
 }
@@ -50,4 +49,25 @@ body, a {
     font-family: Exo 2.0;
     src: url(../assets/font/Exo2.0-Bold.woff);
     font-weight: bold;
+}
+
+
+input, select{
+    padding:5px;
+    margin:2px;
+    border:none;
+}
+
+ input{
+    width:75px;
+}
+
+ 
+ select{
+    width:80px;
+  }
+
+
+input.long, select.long {
+    width: 225px;
 }
