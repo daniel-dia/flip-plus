@@ -151,7 +151,7 @@ module InvertCross.GamePlay {
             var hintsQuantity = InvertCrossaGame.itemsData.getItemQuantity("hint") 
             if (hintsQuantity > 0) {
 
-                if (blockId==undefined) {
+                if (typeof blockId !="number") {
                     var invertedBlocks = this.levelLogic.board.getInvertedBlocks();
                     var index = Math.floor(Math.random() * invertedBlocks.length);
                     blockId = invertedBlocks[index];

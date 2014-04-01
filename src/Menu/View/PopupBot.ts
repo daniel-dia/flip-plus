@@ -28,6 +28,7 @@ module InvertCross.Menu.View {
             //updates text
             textDO.text = text.toUpperCase();
 
+            this.addsClickIndicaator();
         }
     }
 }

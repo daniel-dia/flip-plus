@@ -51,7 +51,9 @@ module InvertCross.GamePlay.Views {
         //creates a iitem button and its feedback pand parameters, and adds it to screensk
         private createItemButton(buttonId: string,pos:number) :createjs.DisplayObject {
             var button = new Gbase.UI.IconButton("puzzle/icone" + buttonId, "", "puzzle/btpowerup", () => {
-                this.dispatchEvent(buttonId, this.parameters[buttonId]);
+                var parameter = null;
+                if (this.parameters) parameter = this.parameters[buttonId]
+                this.dispatchEvent(buttonId, parameter);
                 this.parameters[buttonId] = null;
             });
             this.overlayMenu.addChild(button);

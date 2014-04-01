@@ -54,6 +54,7 @@ module InvertCross.Projects {
 
     export interface tutorialStep {
         text?: string;
+        title?: string;
         item?: string;
         click?: number;
         parameter?:any;

@@ -86,8 +86,9 @@ module InvertCross.Menu.View {
 
             titleDO.y = 0 + b + 50
             titleShadow.y = titleDO.y + 15;
-            textDO.y = 300;
-            
+            textDO.y = b + 300;
+
+            this.addsClickIndicaator();
        }
         
         public showTimeAttack(title: string, text: string,boards:string, time:string, timeout: number= 7000, delay: number= 0) {
@@ -172,7 +173,9 @@ module InvertCross.Menu.View {
             boardsDO.y = 450+b;
 
             timeDO.x = 500;
-            boardsDO.x = DefaultWidth- 500;
+            boardsDO.x = DefaultWidth - 500;
+
+            this.addsClickIndicaator();
         }
         
         public showflips(title: string, text: string, flips: string, timeout: number= 7000, delay: number= 0) {
@@ -236,7 +239,8 @@ module InvertCross.Menu.View {
             textDO2.y = 600 + b;
             flipsDO.y = 450 + b;
 
-                        
+
+            this.addsClickIndicaator();
         }
 
         showsPopup(timeout:number, delay:number) {
@@ -255,6 +259,13 @@ module InvertCross.Menu.View {
             this.dispatchEvent("onshow");
         }
 
+        addsClickIndicaator() {
+            //add click indicator
+            var ind = Assets.getMovieClip("touch");
+            this.addChild(ind);
+            ind.x = 1350;
+            ind.y = 1100;
+        }
         //method for close popup 
         private closePopUp() {
 
