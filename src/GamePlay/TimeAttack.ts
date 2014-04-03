@@ -16,7 +16,7 @@ module InvertCross.GamePlay {
             this.puzzlesToSolve = levelData.puzzlesToSolve;
             this.currentTime = levelData.time;
 
-            this.randomBoard(3,5); 
+            this.randomBoard(levelData.randomMinMoves,levelData.randomMaxMoves); 
 
             this.statusArea.setMode("time");
             this.statusArea.setText3(levelData.time.toString());
@@ -62,7 +62,7 @@ module InvertCross.GamePlay {
                 createjs.Tween.get(this.boardSprite).to({ x: defaultX-DefaultWidth }, 250, createjs.Ease.quadIn).call(() => {
                  //   this.boardSprite.radiusEffect(col, row);
                     this.currentPuzzle++;
-                    this.randomBoard(0.9);
+                    this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves); 
                     this.boardSprite.x = defaultX + DefaultWidth;
                     createjs.Tween.get(this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut)
                 })
