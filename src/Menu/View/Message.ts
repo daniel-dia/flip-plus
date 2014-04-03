@@ -32,7 +32,7 @@ module InvertCross.Menu.View {
             //draw background
             var bg = Assets.getImage("popups/message")
             bg.x = 0;
-            bg.y = 100;
+            bg.y = DefaultHeight/2 -500;
             this.addChild(bg);
 
             //create a text
@@ -50,7 +50,7 @@ module InvertCross.Menu.View {
             titleDO.x = DefaultWidth / 2;
             this.addChild(titleDO);
 
-            titleShadow.y = titleDO.y = DefaultHeight * 0.3;
+            titleShadow.y = titleDO.y = DefaultHeight /2;
             titleShadow.y += 15;
 
             //updates text

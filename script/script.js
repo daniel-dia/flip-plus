@@ -1731,7 +1731,7 @@ var InvertCross;
                 this.puzzlesToSolve = levelData.puzzlesToSolve;
                 this.currentTime = levelData.time;
 
-                this.randomBoard(3, 5);
+                this.randomBoard(levelData.randomMinMoves, levelData.randomMaxMoves);
 
                 this.statusArea.setMode("time");
                 this.statusArea.setText3(levelData.time.toString());
@@ -1774,7 +1774,7 @@ var InvertCross;
                     createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
                         //   this.boardSprite.radiusEffect(col, row);
                         _this.currentPuzzle++;
-                        _this.randomBoard(0.9);
+                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
                         _this.boardSprite.x = defaultX + DefaultWidth;
                         createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
                     });
@@ -5472,7 +5472,7 @@ var InvertCross;
                     //draw background
                     var bg = InvertCross.Assets.getImage("popups/message");
                     bg.x = 0;
-                    bg.y = 100;
+                    bg.y = DefaultHeight / 2 - 500;
                     this.addChild(bg);
 
                     //create a text
@@ -5490,7 +5490,7 @@ var InvertCross;
                     titleDO.x = DefaultWidth / 2;
                     this.addChild(titleDO);
 
-                    titleShadow.y = titleDO.y = DefaultHeight * 0.3;
+                    titleShadow.y = titleDO.y = DefaultHeight / 2;
                     titleShadow.y += 15;
 
                     //updates text
