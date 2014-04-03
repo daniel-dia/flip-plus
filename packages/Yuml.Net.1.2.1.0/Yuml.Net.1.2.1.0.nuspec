@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Yuml.Net</id>
+    <version>1.2.1.0</version>
+    <authors>Ove Andersen</authors>
+    <owners>Ove Andersen</owners>
+    <projectUrl>http://www.eyecatch.no/projects/yumlnet/</projectUrl>
+    <iconUrl>http://www.eyecatch.no/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Library for generating UML diagrams from code using the yUML.me service.</description>
+    <releaseNotes />
+    <copyright>Copyright EyeCatch 2012</copyright>
+    <tags>uml</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Microsoft.Net.Http" version="2.0.20710.0" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
