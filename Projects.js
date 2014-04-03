@@ -22,10 +22,9 @@ var levelsData = [
             { "name": "05", "width": 5, "height": 5, "type": "tutorial", "theme": "yellow", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [2, 10, 12, 14, 22], tutorial: [{ text: "finish this board \nto complete S-N3S repairs!", title: "Bot S-N3S" }, { click: 2 }] }
         ], free: true
     },
-
     {
         nickName: "Robot02", name: "Bot02", cost: 02, levels: [
-            { "name": "01", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [4, 8, 16, 20] },
+            { "name": "01", "width": 5, "height": 5, "type": "draw", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [4, 8, 16, 20] },
             { "name": "02", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [7, 11, 13, 17] },
             { "name": "03", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [0, 4, 6, 12, 18, 20, 24] },
             { "name": "04", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [6, 8, 12, 16, 18] },

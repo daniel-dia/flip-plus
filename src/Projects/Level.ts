@@ -38,6 +38,12 @@ module InvertCross.Projects {
         //time is the number of puzzles to get solved
         public puzzlesToSolve: number; 
 
+        // ================ Random Generator =====================================
+
+        public randomMinMoves: number;
+
+        public randomMaxMoves: number;
+
         // ================ Tutorial =============================================
 
         public tutorial: Array<tutorialStep>;
@@ -57,7 +63,7 @@ module InvertCross.Projects {
         title?: string;
         item?: string;
         click?: number;
-        parameter?:any;
+        parameter?: any;
     }
 
 

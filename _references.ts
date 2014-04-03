@@ -1,5 +1,4 @@
-/// <reference path="lib/inertia.ts" />
-
+    /// <reference path="lib/inertia.ts" />
 
     /*Gbase*/
     /// <reference path="Gbase/UI/UIItem.ts" />

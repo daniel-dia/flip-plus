@@ -13,18 +13,18 @@ module InvertCross.GamePlay.Views {
         //indicator
         private tutorialIndiatcor: createjs.Sprite;
 
-        constructor(width: number, height: number, theme: string) {
+        constructor(levelWidth: number, levelHeight: number, levelTheme: string,levelType:string) {
             super();
 
-            this.addBlocks(width, height, theme);
-            this.boardHeight = height;
-            this.boardWidth = width;
+            this.addBlocks(levelWidth, levelHeight, levelTheme, levelType);
+            this.boardHeight = levelHeight;
+            this.boardWidth = levelWidth;
 
             this.initializeEffects();
 
             //Positioning board
-            var boardHeight = height * BlockSprite.defaultBlockSize;
-            var boardWidth = width * BlockSprite.defaultBlockSize;
+            var boardHeight = levelHeight * BlockSprite.defaultBlockSize;
+            var boardWidth = levelWidth * BlockSprite.defaultBlockSize;
 
             this.regX =  boardWidth / 2;
             this.regY = boardHeight / 2;
@@ -46,7 +46,7 @@ module InvertCross.GamePlay.Views {
         }
 
         //creates and add all blocks to the boardh
-        private addBlocks(width: number, height: number, theme: string) {
+        private addBlocks(width: number, height: number, theme: string,levelType:string) {
             this.blocksSprites = [];
 
             //todo:  Talvez esse trecho não seja de responsabilidade do ThemeLoader
@@ -55,7 +55,7 @@ module InvertCross.GamePlay.Views {
                 for (var row = 0; row < height; row++) {
 
                     //Creates block Sprite
-                    var blockSprite:BlockSprite = new BlockSprite(col,row,theme);
+                    var blockSprite:BlockSprite = new BlockSprite(col,row,theme,levelType);
 
                     this.blocksSprites[col][row] = blockSprite;
 

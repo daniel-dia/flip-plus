@@ -1,5 +1,5 @@
 module InvertCross.GamePlay {
-    export class LevelCreator extends LevelScreen {
+    export class LevelCreator extends Puzzle {
 
         private editWindow: Window;
         private static key = "customPuzzles";
@@ -109,6 +109,10 @@ module InvertCross.GamePlay {
             levelData.time = parseInt((<HTMLInputElement>this.editWindow.document.getElementById("c_time")).value);
             levelData.puzzlesToSolve = parseInt((<HTMLInputElement>this.editWindow.document.getElementById("c_p_solve")).value);
 
+            levelData.randomMaxMoves = parseInt((<HTMLInputElement>this.editWindow.document.getElementById("c_r_max")).value);
+            levelData.randomMinMoves = parseInt((<HTMLInputElement>this.editWindow.document.getElementById("c_r_min")).value);
+
+
             if ((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value)
                 levelData.blocksData = JSON.parse((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value);
 
@@ -127,6 +131,9 @@ module InvertCross.GamePlay {
             if (levelData.time) (<HTMLInputElement>this.editWindow.document.getElementById("c_time")).value = levelData.time.toString();
             if (levelData.puzzlesToSolve) (<HTMLInputElement>this.editWindow.document.getElementById("c_p_solve")).value = levelData.puzzlesToSolve.toString();
 
+            if (levelData.randomMaxMoves) (<HTMLInputElement>this.editWindow.document.getElementById("c_r_max")).value = levelData.randomMaxMoves.toString();
+            if (levelData.randomMinMoves) (<HTMLInputElement>this.editWindow.document.getElementById("c_r_min")).value = levelData.randomMinMoves.toString();
+            
             if (levelData.blocksData)
                 (<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value = JSON.stringify(levelData.blocksData);
 

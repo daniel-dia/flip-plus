@@ -44,7 +44,7 @@ module InvertCross.GamePlay {
             this.addBackground(leveldata.theme);
 
             //initialize board sprites
-            this.initializeBoardSprites(leveldata.width, leveldata.height, leveldata.theme, this.levelLogic.getBlocks());
+            this.initializeBoardSprites(leveldata.width, leveldata.height, leveldata.theme, this.levelLogic.getBlocks(),leveldata.type);
 
             //initialize overlay
             this.initializeOverlays();
@@ -93,10 +93,10 @@ module InvertCross.GamePlay {
 
         }
 
-        private initializeBoardSprites(width: number, height: number, theme: string, blocks: any) {
+        private initializeBoardSprites(width: number, height: number, theme: string, blocks: any,type:string) {
 
             //AddBoard
-            this.boardSprite = new Views.BoardSprite(width, height, theme);
+            this.boardSprite = new Views.BoardSprite(width, height, theme,type);
             this.view.addChild(this.boardSprite);
 
             this.boardSprite.x = DefaultWidth / 2;

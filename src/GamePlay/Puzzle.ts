@@ -14,8 +14,7 @@ module InvertCross.GamePlay {
             }
 
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-
-            this.popup.showtext("fill this board");
+                           
         }
 
     }

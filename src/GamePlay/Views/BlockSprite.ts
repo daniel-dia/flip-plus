@@ -35,14 +35,18 @@ module InvertCross.GamePlay.Views {
 
         //block model
         private block: Model.Block;
-        
+
+        //draw mode
+        private levelType: string;
+
         //tutorialHighlighted
         public tutorialHighLighted:boolean
 
         //Constructor
-        constructor(col: number, row: number, theme: string) {
+        constructor(col: number, row: number, theme: string, levelType: string) {
             super();
             
+            this.levelType = levelType;
             this.col = col;
             this.row = row;
 
@@ -94,7 +98,7 @@ module InvertCross.GamePlay.Views {
 
 
             //calculate new state
-            var newState: string = this.CalculateSpriteStatus(this.block.state, this.block.draw);
+            var newState: string = this.CalculateSpriteStatus(this.block.state, this.block.draw,this.levelType);
 
             //veifies if there was any change
             if (this.state == newState) return;
@@ -127,15 +131,17 @@ module InvertCross.GamePlay.Views {
         }
                   
         //calculate status baset on provided properties
-        private CalculateSpriteStatus(inverted: boolean, draw: boolean, drawMode:boolean=false): string {
+        private CalculateSpriteStatus(inverted: boolean, draw: boolean, levelType?:string): string {
             if (!draw) 
                 if (inverted)
-                    if (drawMode) return "Inv"
+                    if (levelType=="draw") return "null"
                     else return "Inv";
-                else return "Nor";
+                else
+                    if (levelType == "draw") return "Inv"
+                    else return "Nor";
             else 
                 if (inverted) return "DNor"
-                    else return "DInv";
+                    else return "Nor";
             //return "Nor";
         }  
         
@@ -155,8 +161,9 @@ module InvertCross.GamePlay.Views {
             var manifest = [
                 { name: "Nor", images: ["puzzle/tile_" + theme + "_1", "puzzle/tile_" + theme + "_2", "puzzle/tile_" + theme + "_3", "puzzle/tile_" + theme + "_4", ] },
                 { name: "Inv", images:  ["puzzle/tilex"] },
-                { name: "DNor", images: ["puzzle/tile_" + theme + "_1"] },
-                { name: "DInv", images: ["puzzle/tilex"] },
+                { name: "DNor", images: ["puzzle/tileD"] },
+                { name: "DInv", images: ["puzzle/tilexD"] },
+                { name: "null", images: ["puzzle/tile0"] },
             ];
 
             for (var state = 0; state < manifest.length; state++) {

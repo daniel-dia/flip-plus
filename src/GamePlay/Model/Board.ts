@@ -121,7 +121,7 @@ module InvertCross.GamePlay.Model {
                 for (var row = 0; row < this.height; row++)
                     this.blocks[col][row].draw = false;
                 
-
+            if(drawBlocks)
             for (var i: number = 0; i < drawBlocks.length; i++) {
                 var col = Math.floor(+drawBlocks[i] / this.height);
                 var row = drawBlocks[i] - col * this.height;

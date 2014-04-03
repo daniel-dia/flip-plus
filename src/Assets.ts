@@ -267,6 +267,10 @@ module InvertCross {
                 { id: "puzzle/tile_purple_4", src: imagePath + "puzzle/tile_purple_4.png" },
                 { id: "puzzle/tilex", src: imagePath + "puzzle/tilex.png" },
 
+                { id: "puzzle/tileD", src: imagePath + "puzzle/tileD.png" },
+                { id: "puzzle/tilexD", src: imagePath + "puzzle/tilexD.png" },
+
+
                 //popup
                 { id: "popups/popup", src: imagePath + "popups/popup.png" },
                 { id: "popups/message", src: imagePath + "popups/message.png" },
