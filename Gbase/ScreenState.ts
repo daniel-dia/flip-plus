@@ -1,8 +1,3 @@
-/// <reference path="../lib/easeljs.d.ts" />
-/// <reference path="../lib/soundjs.d.ts" />
-
-
-
 module Gbase {
     export class ScreenState {
 
@@ -10,11 +5,7 @@ module Gbase {
         public bgmusic:   createjs.SoundInstance;
 
         constructor() {
-            //this.defaultHeight = DefaultHeight;
-            //this.defaultWidth = DefaultWidth;
-
             this.view = new createjs.Container();
-
         }
 
         public activate(parameters?:any) {

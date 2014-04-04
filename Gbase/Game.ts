@@ -74,6 +74,10 @@ module InvertCross {
             if (windowWidth <= 420) assetscale = 0.25;
 
             this.redim(windowWidth);
+
+            //dev
+            this.redim(420);
+            assetscale = 1;
         }
 
         private static tick() {
