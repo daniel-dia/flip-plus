@@ -372,7 +372,6 @@
     <TypeScriptCompile Include="src\GamePlay\Views\BlockSprite.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\BoardSprite.ts" />
     <TypeScriptCompile Include="lib\tweenjs.d.ts" />
-    <Content Include="set.html" />
     <Content Include="script\setMobileScale.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

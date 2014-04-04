@@ -61,15 +61,17 @@ module InvertCross.Menu.View {
         private addStatus(project: Projects.Project) {
             this.statusArea = new createjs.Container();
             this.statusArea.regX = this.statusArea.x = DefaultWidth / 2;
-            var bg = Assets.getImage("workshop/painelworkshop");
-            bg.y = 150;
-            bg.x = (DefaultWidth - 845) / 2;
+            var bg = Assets.getImage("partshud")//workshop/painelworkshop");
+            bg.y = 00//150;
+            bg.x = DefaultWidth/ 2;
+            bg.scaleX = 2;
+            bg.regX = bg.getBounds().width/2;
             this.statusArea.addChild(bg);
 
             var l: createjs.Text = new createjs.Text(project.name.toUpperCase(), defaultFontFamilyStrong, "#FFF");
-            l.y = 250;
+            l.y = 0;//250;
             l.textAlign = "center";
-            l.textBaseline = "middle";
+            l.textBaseline = "top";
             l.x = DefaultWidth / 2;
             this.statusArea.addChild(l);
 

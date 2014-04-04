@@ -45,7 +45,7 @@ module InvertCross.Menu {
 
         //Adds defaultMenu to screen
         private addMenu() {
-            this.menu = new View.ScreenMenu();
+            this.menu = new View.ScreenMenu(true,true);
 
             //TODO fazer camada intermediaria
             //TODO o options sempre volta pro menu principal. O_o

@@ -21,17 +21,22 @@ module InvertCross.Menu.View {
 
         //create graphics
         private createGraphics(project: InvertCross.Projects.Project) {
+
             var size: number = 1000;
             this.fill = this.addChild(Assets.getImage("myBots/" + project.name + "_fill"));
             this.stroke = this.addChild(Assets.getImage("myBots/" + project.name + "_stroke"));
             this.complete = this.addChild(Assets.getImage("myBots/" + project.name));
 
-            this.fill.regX = this.complete.regX = this.stroke.regX = this.fill.getBounds().width / 2;
-            this.fill.regY = this.complete.regY =this.stroke.regY = this.fill.getBounds().height;
+            this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
+            this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
+
+            this.complete.regX = this.fill.regX - 50;
+            this.complete.regY = this.fill.regY - 50;
 
             this.addChild(this.fill);
             this.addChild(this.stroke);
             this.addChild(this.complete);
+
             this.complete.visible = false;
 
             //mask

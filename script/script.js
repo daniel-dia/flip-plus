@@ -3887,8 +3887,9 @@ var InvertCross;
                     _super.call(this);
                     this.createObjects(backVisible);
                 }
-                ScreenMenu.prototype.createObjects = function (backVisible) {
+                ScreenMenu.prototype.createObjects = function (backVisible, starsVisible) {
                     if (typeof backVisible === "undefined") { backVisible = true; }
+                    if (typeof starsVisible === "undefined") { starsVisible = false; }
                     var _this = this;
                     //adds menu button
                     var menuBt = new Gbase.UI.ImageButton("MenuBt", function () {
@@ -3916,6 +3917,7 @@ var InvertCross;
                     });
                     this.addChild(partsIndicator);
                     this.partsIndicator = partsIndicator;
+                    partsIndicator.visible = starsVisible;
                 };
                 return ScreenMenu;
             })(Gbase.UI.UIItem);

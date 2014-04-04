@@ -30,7 +30,7 @@ module InvertCross.Menu.View {
 
         //updates Parts indicator amount
         public updatePartsAmount(newQuantity: number, tween:boolean=true) {
-            this.partsTextField.text = newQuantity.toString();  
+            //this.partsTextField.text = newQuantity.toString();  
         }
 
         //updates Parts indicator amount
@@ -43,31 +43,34 @@ module InvertCross.Menu.View {
 
             //add Background
             var bg: createjs.Bitmap = Assets.getImage("partshud");
-            bg.scaleX = 2;
-            this.regX = bg.getBounds().width;
+            //bg.scaleX = 2;
+            this.regX = bg.getBounds().width/2;
             this.addChild(bg);
 
             this.infoCotainer = new createjs.Container();
 
-            var pi = Assets.getImage("partsicon");
+            //var pi = Assets.getImage("partsicon");
+            //this.partsTextField = new createjs.Text("0",defaultFontFamilyNormal,defaultFontColor);
+            //this.infoCotainer.addChild(pi);
+            //this.infoCotainer.addChild(this.partsTextField);
+            //pi.y = 20;
+            //pi.x = 320;
+            //this.partsTextField.y = 20;
+            //this.partsTextField.x = 470;
+
+
+            
             var si = Assets.getImage("starsicon");
-            this.partsTextField = new createjs.Text("0",defaultFontFamilyNormal,defaultFontColor);
             this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
 
-            this.infoCotainer.addChild(pi);
+
             this.infoCotainer.addChild(si); 
-            this.infoCotainer.addChild(this.partsTextField);
             this.infoCotainer.addChild(this.starsTextField);
      
-            pi.y = 20;
-            si.y = 20;
-            this.partsTextField.y = 20;
+            si.x = -30;
+            si.y = 14;
             this.starsTextField.y = 20;
-            
-            si.x = 000;
             this.starsTextField.x = 150;
-            pi.x = 320;
-            this.partsTextField.x = 470;
                         
             this.addChild(this.infoCotainer);
             this.infoCotainer.x = 70;

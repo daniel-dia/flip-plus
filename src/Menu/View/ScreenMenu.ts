@@ -8,12 +8,12 @@ module InvertCross.Menu.View {
 
         public partsIndicator:PartsIndicator;
 
-        constructor(backVisible:boolean=true) {
+        constructor(backVisible: boolean= true, starsVisible: boolean= false) {
             super();
-            this.createObjects(backVisible);
+            this.createObjects(backVisible, starsVisible);
         }
 
-        private createObjects(backVisible: boolean= true) {
+        private createObjects(backVisible: boolean= true, starsVisible: boolean= false) {
 
             //adds menu button
             var menuBt: Gbase.UI.ImageButton = new Gbase.UI.ImageButton("MenuBt", () => { this.dispatchEvent("menu", menuBt) });
@@ -28,6 +28,7 @@ module InvertCross.Menu.View {
             backBt.visible = backVisible;
             this.addChild(backBt);
 
+            
             //add a parts Indicator
             var partsIndicator: PartsIndicator = new PartsIndicator();
             partsIndicator.y = 0;
@@ -35,6 +36,7 @@ module InvertCross.Menu.View {
             partsIndicator.addEventListener("click", () => { this.dispatchEvent("parts"), partsIndicator });
             this.addChild(partsIndicator);
             this.partsIndicator = partsIndicator;
+            partsIndicator.visible = starsVisible
         }
 
         //TODO uma forma melhor que isso
