@@ -243,7 +243,10 @@ module InvertCross.Projects {
 
             //count solved levels
             for (var l = 0; l < project.levels.length; l++)
-                if (project.levels[l].userdata.solved || project.levels[l].userdata.skip)
+                if (project.levels[l].userdata.solved   ||
+                    project.levels[l].userdata.skip     ||
+                    project.levels[l].userdata.item     )
+
                     solvedLevels++;
 
             //calculate percentage
@@ -254,8 +257,10 @@ module InvertCross.Projects {
             var temp: Object = new Object;
             for (var l = 0; l < project.levels.length; l++) {
                 var level: Level = project.levels[l];
-                if (temp[level.type] == null) temp[level.theme] = true;
-                if (!level.userdata.solved) temp[level.theme] = false;;
+
+                if (temp[level.theme] == null) temp[level.theme] = true;
+
+                if (!level.userdata.solved || level.userdata.item) temp[level.theme] = false;
             }
             for (var i in temp) {
                 if (temp[i]) stars++;

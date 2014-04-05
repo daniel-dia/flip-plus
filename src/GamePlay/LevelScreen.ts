@@ -16,6 +16,9 @@ module InvertCross.GamePlay {
         //Level
         public levelLogic: Model.Level; //friendly
         public levelData: Projects.Level;
+        
+        //
+        usedItem: string;
 
         //Initialization methodos ===================================================================================================
 
@@ -118,7 +121,7 @@ module InvertCross.GamePlay {
 
         // user input ===============================================================================================================
 
-        //threat user input
+        // Threat user input
         public userInput(col: number, row: number) {
 
             //invert a cross
@@ -171,8 +174,7 @@ module InvertCross.GamePlay {
                 }
             }
         }
-
-
+        
         private hint(blockId?) {
 
             var itemQuantity = InvertCrossaGame.itemsData.getItemQuantity("hint")
@@ -185,22 +187,26 @@ module InvertCross.GamePlay {
                 }
 
                 this.boardSprite.getBlockById(blockId).enableHint();
-                itemQuantity--;
-                InvertCrossaGame.itemsData.setQuantityItem("hint", itemQuantity);
+                InvertCrossaGame.itemsData.decreaseItemQuantity("hint");
                 this.menuOverlay.updateButtonLabel("hint", InvertCrossaGame.itemsData.getItemQuantity("hint"));
-
+                this.usedItem = "hint";
             }
             else {
                 this.popup.showtext("no more hints");
             }
-
         }
 
         win(col: number, row: number) {
 
-            this.message.showtext("Well done!", 3000, 1500);
+            //verifies if user already completed this level and verifies if player used any item in the game
+            if (!this.levelData.userdata.solved)
+                this.levelData.userdata.item = this.usedItem;
 
+            //set model to complete level.
             InvertCrossaGame.projectManager.completeLevel(this.levelData);
+            
+            //change screen and animate.
+            this.message.showtext("Well done!", 3000, 1500);
 
             this.menuOverlay.fadeOut();
             this.boardSprite.lock();
@@ -216,7 +222,6 @@ module InvertCross.GamePlay {
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 300, createjs.Ease.quadIn).call(() => {
                     this.boardSprite.visible = false;
                 });
-
             }, 3000);
         }
 
@@ -228,8 +233,7 @@ module InvertCross.GamePlay {
             this.boardSprite.looseEffect();
         }
 
-
-        //Menus =====================================================================================================================
+        // Menus =====================================================================================================================
 
         pauseGame() {
 
@@ -263,7 +267,7 @@ module InvertCross.GamePlay {
             createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: DefaultWidth / 2, y: DefaultHeight / 2 }, 500, createjs.Ease.quadInOut);
         }
 
-        //Screen =================================================================================================================
+        // Screen =================================================================================================================
 
         public activate(parameters?: any) {
 

@@ -71,5 +71,6 @@ module InvertCross.Projects {
         public solved: boolean;
         public skip: boolean;
         public unlocked: boolean;
+        public item: string;
     }
 }

@@ -55,7 +55,7 @@ module InvertCross.Menu.View {
             for (var i = 0; i < this.projectsThemes.length; i++)
                 for (var l = 0; l < project.levels.length; l++)
                     if (this.projectsThemes[i] == project.levels[l].theme)
-                        if (!project.levels[l].userdata.solved)
+                        if (!project.levels[l].userdata.solved || project.levels[l].userdata.item)
                             starsInfo[i] = false;
 
             //update stars visibility

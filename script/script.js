@@ -1535,10 +1535,12 @@ var InvertCross;
                 //adds popup
                 this.popup = new InvertCross.Menu.View.Popup();
                 this.view.addChild(this.popup);
+
                 this.popup.addEventListener("onshow", function () {
                     _this.menuOverlay.fadeOut();
                     _this.boardSprite.mouseEnabled = false;
                 });
+
                 this.popup.addEventListener("onclose", function () {
                     _this.menuOverlay.fadeIn();
                     _this.boardSprite.mouseEnabled = true;
@@ -1605,7 +1607,7 @@ var InvertCross;
             };
 
             // user input ===============================================================================================================
-            //threat user input
+            // Threat user input
             LevelScreen.prototype.userInput = function (col, row) {
                 //invert a cross
                 this.levelLogic.invertCross(col, row);
@@ -1661,9 +1663,9 @@ var InvertCross;
                     }
 
                     this.boardSprite.getBlockById(blockId).enableHint();
-                    itemQuantity--;
-                    InvertCross.InvertCrossaGame.itemsData.setQuantityItem("hint", itemQuantity);
+                    InvertCross.InvertCrossaGame.itemsData.decreaseItemQuantity("hint");
                     this.menuOverlay.updateButtonLabel("hint", InvertCross.InvertCrossaGame.itemsData.getItemQuantity("hint"));
+                    this.usedItem = "hint";
                 } else {
                     this.popup.showtext("no more hints");
                 }
@@ -1671,9 +1673,15 @@ var InvertCross;
 
             LevelScreen.prototype.win = function (col, row) {
                 var _this = this;
-                this.message.showtext("Well done!", 3000, 1500);
+                //verifies if user already completed this level and verifies if player used any item in the game
+                if (!this.levelData.userdata.solved)
+                    this.levelData.userdata.item = this.usedItem;
 
+                //set model to complete level.
                 InvertCross.InvertCrossaGame.projectManager.completeLevel(this.levelData);
+
+                //change screen and animate.
+                this.message.showtext("Well done!", 3000, 1500);
 
                 this.menuOverlay.fadeOut();
                 this.boardSprite.lock();
@@ -1704,7 +1712,7 @@ var InvertCross;
                 this.boardSprite.looseEffect();
             };
 
-            //Menus =====================================================================================================================
+            // Menus =====================================================================================================================
             LevelScreen.prototype.pauseGame = function () {
                 var _this = this;
                 this.boardSprite.lock();
@@ -1736,7 +1744,7 @@ var InvertCross;
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: DefaultWidth / 2, y: DefaultHeight / 2 }, 500, createjs.Ease.quadInOut);
             };
 
-            //Screen =================================================================================================================
+            // Screen =================================================================================================================
             LevelScreen.prototype.activate = function (parameters) {
                 _super.prototype.activate.call(this, parameters);
                 if (parameters)
@@ -4086,7 +4094,14 @@ var InvertCross;
 
                 LevelThumb.prototype.createLevelModificator = function (level) {
                     if (level.userdata.skip) {
-                        var sk = InvertCross.Assets.getImage("workshop/skip");
+                        var sk = InvertCross.Assets.getImage("puzzle/iconeskip");
+                        sk.regX = sk.getBounds().width / 2;
+                        sk.regY = sk.getBounds().height / 2;
+                        return sk;
+                    }
+
+                    if (level.userdata.item == "hint") {
+                        var sk = InvertCross.Assets.getImage("puzzle/iconehint");
                         sk.regX = sk.getBounds().width / 2;
                         sk.regY = sk.getBounds().height / 2;
                         return sk;
@@ -4513,7 +4528,7 @@ var InvertCross;
                     for (var i = 0; i < this.projectsThemes.length; i++)
                         for (var l = 0; l < project.levels.length; l++)
                             if (this.projectsThemes[i] == project.levels[l].theme)
-                                if (!project.levels[l].userdata.solved)
+                                if (!project.levels[l].userdata.solved || project.levels[l].userdata.item)
                                     starsInfo[i] = false;
 
                     for (var i = 0; i < 3; i++) {
@@ -4781,7 +4796,7 @@ var InvertCross;
                 var solvedLevels = 0;
 
                 for (var l = 0; l < project.levels.length; l++)
-                    if (project.levels[l].userdata.solved || project.levels[l].userdata.skip)
+                    if (project.levels[l].userdata.solved || project.levels[l].userdata.skip || project.levels[l].userdata.item)
                         solvedLevels++;
 
                 //calculate percentage
@@ -4792,11 +4807,12 @@ var InvertCross;
                 var temp = new Object;
                 for (var l = 0; l < project.levels.length; l++) {
                     var level = project.levels[l];
-                    if (temp[level.type] == null)
+
+                    if (temp[level.theme] == null)
                         temp[level.theme] = true;
-                    if (!level.userdata.solved)
+
+                    if (!level.userdata.solved || level.userdata.item)
                         temp[level.theme] = false;
-                    ;
                 }
                 for (var i in temp) {
                     if (temp[i])
