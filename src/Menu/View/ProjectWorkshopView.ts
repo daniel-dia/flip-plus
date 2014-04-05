@@ -68,7 +68,7 @@ module InvertCross.Menu.View {
             bg.regX = bg.getBounds().width/2;
             this.statusArea.addChild(bg);
 
-            var l: createjs.Text = new createjs.Text(project.name.toUpperCase(), defaultFontFamilyStrong, "#FFF");
+            var l: createjs.Text = new createjs.Text(project.nickName.toUpperCase(), defaultFontFamilyStrong, defaultFontColor);
             l.y = 0;//250;
             l.textAlign = "center";
             l.textBaseline = "top";

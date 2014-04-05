@@ -23,9 +23,9 @@ module InvertCross.Menu.View {
         private createGraphics(project: InvertCross.Projects.Project) {
 
             var size: number = 1000;
-            this.fill = this.addChild(Assets.getImage("myBots/" + project.name + "_fill"));
-            this.stroke = this.addChild(Assets.getImage("myBots/" + project.name + "_stroke"));
-            this.complete = this.addChild(Assets.getImage("myBots/" + project.name));
+            this.fill = this.addChild(Assets.getImage("workshop/bots/" + project.name + "_fill"));
+            this.stroke = this.addChild(Assets.getImage("workshop/bots/" + project.name + "_stroke"));
+            this.complete = this.addChild(Assets.getImage("workshop/bots/" + project.name));
 
             this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
             this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
