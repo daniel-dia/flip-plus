@@ -35,7 +35,7 @@ module InvertCross.UserData {
             if (value < 1) return;
             var iq: number = this.getItemQuantity(item);
             if (iq<value) return;
-            this.setQuantityItem(item, value + iq);
+            this.setQuantityItem(item, iq-value);
         }
     }
 }

@@ -63,7 +63,6 @@ module InvertCross.Menu {
 
                 //update menu
                 this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
-                this.menu.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());
 
                 //updates robots lobby
                 this.myBots.update();

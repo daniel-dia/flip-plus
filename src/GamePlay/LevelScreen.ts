@@ -1,7 +1,7 @@
 module InvertCross.GamePlay {
 
     //Controller
-        export class LevelScreen extends Gbase.ScreenState {
+    export class LevelScreen extends Gbase.ScreenState {
 
         //Display Sprites
         public boardSprite: Views.BoardSprite;
@@ -22,7 +22,7 @@ module InvertCross.GamePlay {
         constructor(leveldata: Projects.Level) {
 
             super();
-            
+
             //Store level data;
             this.levelData = leveldata;
 
@@ -39,12 +39,12 @@ module InvertCross.GamePlay {
         // Create Scene ===============================================================================================================
 
         private createScene(leveldata: Projects.Level) {
-            
+
             //creates a Background
             this.addBackground(leveldata.theme);
 
             //initialize board sprites
-            this.initializeBoardSprites(leveldata.width, leveldata.height, leveldata.theme, this.levelLogic.getBlocks(),leveldata.type);
+            this.initializeBoardSprites(leveldata.width, leveldata.height, leveldata.theme, this.levelLogic.getBlocks(), leveldata.type);
 
             //initialize overlay
             this.initializeOverlays();
@@ -56,10 +56,12 @@ module InvertCross.GamePlay {
             //adds popup
             this.popup = new Menu.View.Popup();
             this.view.addChild(this.popup)
+
             this.popup.addEventListener("onshow", () => {
                 this.menuOverlay.fadeOut();
                 this.boardSprite.mouseEnabled = false;
             });
+
             this.popup.addEventListener("onclose", () => {
                 this.menuOverlay.fadeIn();
                 this.boardSprite.mouseEnabled = true;
@@ -85,7 +87,8 @@ module InvertCross.GamePlay {
             this.menuOverlay.addEventListener("back", () => { InvertCrossaGame.exitLevel(); });
             this.menuOverlay.y = 1800;
 
-            this.menuOverlay.updateButtonLabel("hint",InvertCrossaGame.itemsData.getItemQuantity("hint"));
+            this.menuOverlay.updateButtonLabel("hint", InvertCrossaGame.itemsData.getItemQuantity("hint"));
+            this.menuOverlay.updateButtonLabel("skip", InvertCrossaGame.itemsData.getItemQuantity("skip"));
 
             if (InvertCrossaGame.projectManager.getCurrentProject() != undefined) {
                 var levels: Projects.Level[] = InvertCrossaGame.projectManager.getCurrentProject().levels;
@@ -99,15 +102,15 @@ module InvertCross.GamePlay {
 
         }
 
-        private initializeBoardSprites(width: number, height: number, theme: string, blocks: any,type:string) {
+        private initializeBoardSprites(width: number, height: number, theme: string, blocks: any, type: string) {
 
             //AddBoard
-            this.boardSprite = new Views.BoardSprite(width, height, theme,type);
+            this.boardSprite = new Views.BoardSprite(width, height, theme, type);
             this.view.addChild(this.boardSprite);
 
             this.boardSprite.x = DefaultWidth / 2;
             this.boardSprite.y = DefaultHeight / 2;
-            
+
             this.boardSprite.addInputCallback((col: number, row: number) => { this.userInput(col, row); })
             //TODO create a custom event
 
@@ -129,7 +132,7 @@ module InvertCross.GamePlay {
                 this.earnPrize(col, row);
 
             //verifies winning
-            if (this.levelLogic.verifyWin()) 
+            if (this.levelLogic.verifyWin())
                 this.win(col, row);
 
             this.levelLogic.moves++;
@@ -141,43 +144,61 @@ module InvertCross.GamePlay {
 
             this.levelLogic.earnPrize();
             setTimeout(() => {
+
                 //playSound
                 Assets.playSound("prize");
+
                 //apply radius effect
                 this.boardSprite.radiusEffect(col, row)
+
             }, 50);
         }
 
         private skip() {
-            InvertCrossaGame.skipLevel();
+
+            if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
+                InvertCrossaGame.skipLevel();
+
+            } else {
+
+                var itemQuantity = InvertCrossaGame.itemsData.getItemQuantity("skip");
+                if (itemQuantity > 0) {
+                    InvertCrossaGame.itemsData.decreaseItemQuantity("skip");
+                    InvertCrossaGame.skipLevel();
+                }
+                else {
+                    this.popup.showtext("no more skips");
+                }
+            }
         }
 
-        private hint(blockId?) {
-            
-            var hintsQuantity = InvertCrossaGame.itemsData.getItemQuantity("hint") 
-            if (hintsQuantity > 0) {
 
-                if (typeof blockId !="number") {
+        private hint(blockId?) {
+
+            var itemQuantity = InvertCrossaGame.itemsData.getItemQuantity("hint")
+            if (itemQuantity > 0) {
+
+                if (typeof blockId != "number") {
                     var invertedBlocks = this.levelLogic.board.getInvertedBlocks();
                     var index = Math.floor(Math.random() * invertedBlocks.length);
                     blockId = invertedBlocks[index];
                 }
 
                 this.boardSprite.getBlockById(blockId).enableHint();
-                hintsQuantity--;
-                InvertCrossaGame.itemsData.setQuantityItem("hint", hintsQuantity);
+                itemQuantity--;
+                InvertCrossaGame.itemsData.setQuantityItem("hint", itemQuantity);
                 this.menuOverlay.updateButtonLabel("hint", InvertCrossaGame.itemsData.getItemQuantity("hint"));
 
             }
             else {
                 this.popup.showtext("no more hints");
             }
-            
+
         }
 
         win(col: number, row: number) {
 
-            this.message.showtext("Well done!",3000,1500);
+            this.message.showtext("Well done!", 3000, 1500);
 
             InvertCrossaGame.projectManager.completeLevel(this.levelData);
 
@@ -192,18 +213,18 @@ module InvertCross.GamePlay {
                 InvertCrossaGame.completeLevel()
 
                 createjs.Tween.removeTweens(this.boardSprite);
-                createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0}, 300, createjs.Ease.quadIn).call(() => {
+                createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 300, createjs.Ease.quadIn).call(() => {
                     this.boardSprite.visible = false;
                 });
 
-            },3000);
+            }, 3000);
         }
 
         loose() {
 
             this.menuOverlay.fadeOut();
-            this.boardSprite.lock();           
-            setTimeout(() => {InvertCrossaGame.looseLevel();}, 3000);;
+            this.boardSprite.lock();
+            setTimeout(() => { InvertCrossaGame.looseLevel(); }, 3000);;
             this.boardSprite.looseEffect();
         }
 
@@ -234,12 +255,12 @@ module InvertCross.GamePlay {
             createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, alpha: 1 }, 150, createjs.Ease.circOut);
         }
 
-        animatePuzzle(parameters){
-                this.boardSprite.x = parameters.x;
-                this.boardSprite.y = parameters.y;
-                this.boardSprite.scaleX = parameters.scaleX;
-                this.boardSprite.scaleY = parameters.scaleY;
-                createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: DefaultWidth / 2, y: DefaultHeight / 2 }, 500, createjs.Ease.quadInOut);
+        animatePuzzle(parameters) {
+            this.boardSprite.x = parameters.x;
+            this.boardSprite.y = parameters.y;
+            this.boardSprite.scaleX = parameters.scaleX;
+            this.boardSprite.scaleY = parameters.scaleY;
+            createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: DefaultWidth / 2, y: DefaultHeight / 2 }, 500, createjs.Ease.quadInOut);
         }
 
         //Screen =================================================================================================================

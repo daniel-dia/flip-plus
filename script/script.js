@@ -105,15 +105,14 @@ var Gbase;
                 this.animating = true;
                 this.antX = this.x;
                 this.antY = this.y;
-
-                //this.mouseEnabled = false;
+                this.mouseEnabled = false;
                 createjs.Tween.removeTweens(this);
                 createjs.Tween.get(this).to({
                     scaleX: 0.5,
                     scaleY: 0.5,
                     alpha: 0,
-                    x: this.antX + (this.centered ? 0 : (this.width / 4)),
-                    y: this.antY + (this.centered ? 0 : (this.height / 4))
+                    x: this.antX,
+                    y: this.antY
                 }, 200, createjs.Ease.quadIn).call(function () {
                     _this.visible = false;
                     _this.x = _this.antX;
@@ -136,7 +135,8 @@ var Gbase;
                     this.antY = this.y;
                 }
 
-                this.scaleX = 0.5, this.scaleY = 0.5, this.alpha = 0, this.x = this.x + (this.centered ? 0 : (this.width / 4)), this.y = this.y + (this.centered ? 0 : (this.height / 4));
+                this.scaleX = 0.5, this.scaleY = 0.5, this.alpha = 0, this.x = this.x;
+                this.y = this.y;
 
                 this.mouseEnabled = false;
                 createjs.Tween.removeTweens(this);
@@ -146,7 +146,7 @@ var Gbase;
                     alpha: 1,
                     x: this.antX,
                     y: this.antY
-                }, 200, createjs.Ease.quadOut).call(function () {
+                }, 400, createjs.Ease.quadOut).call(function () {
                     _this.mouseEnabled = true;
                     _this.animating = false;
                 });
@@ -673,34 +673,6 @@ var InvertCross;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
-    (function (UserData) {
-        var StoryData = (function () {
-            function StoryData() {
-                this.storyPrefix = "history_";
-                this.storyPlayed = "played";
-            }
-            StoryData.prototype.getStoryPlayed = function (storyId) {
-                var hist = localStorage.getItem(this.storyPrefix + storyId);
-                if (hist == this.storyPlayed)
-                    return true;
-                return false;
-            };
-
-            StoryData.prototype.setStoryPlayed = function (storyId) {
-                localStorage.setItem(this.storyPrefix + storyId, this.storyPlayed);
-            };
-            return StoryData;
-        })();
-        UserData.StoryData = StoryData;
-    })(InvertCross.UserData || (InvertCross.UserData = {}));
-    var UserData = InvertCross.UserData;
-})(InvertCross || (InvertCross = {}));
-/// <reference path="../lib/easeljs.d.ts" />
-/// <reference path="../lib/soundjs.d.ts" />
-/// <reference path="userdata/storydata.ts" />
-
-var InvertCross;
-(function (InvertCross) {
     // Class
     var Assets = (function () {
         function Assets() {
@@ -789,80 +761,80 @@ var InvertCross;
                 { id: "projects/bots/Bot17_shadow", src: imagePath + "projects/bots/Bot17_shadow.png" },
                 { id: "projects/bots/Bot18_shadow", src: imagePath + "projects/bots/Bot18_shadow.png" },
                 //workshop
-                { src: imagePath + "myBots/Bot01.png", id: "myBots/Bot01" },
-                { src: imagePath + "myBots/Bot02.png", id: "myBots/Bot02" },
-                { src: imagePath + "myBots/Bot03.png", id: "myBots/Bot03" },
-                { src: imagePath + "myBots/Bot04.png", id: "myBots/Bot04" },
-                { src: imagePath + "myBots/Bot05.png", id: "myBots/Bot05" },
-                { src: imagePath + "myBots/Bot06.png", id: "myBots/Bot06" },
-                { src: imagePath + "myBots/Bot07.png", id: "myBots/Bot07" },
-                { src: imagePath + "myBots/Bot08.png", id: "myBots/Bot08" },
-                { src: imagePath + "myBots/Bot09.png", id: "myBots/Bot09" },
-                { src: imagePath + "myBots/Bot10.png", id: "myBots/Bot10" },
-                { src: imagePath + "myBots/Bot11.png", id: "myBots/Bot11" },
-                { src: imagePath + "myBots/Bot12.png", id: "myBots/Bot12" },
-                { src: imagePath + "myBots/Bot13.png", id: "myBots/Bot13" },
-                { src: imagePath + "myBots/Bot14.png", id: "myBots/Bot14" },
-                { src: imagePath + "myBots/Bot15.png", id: "myBots/Bot15" },
-                { src: imagePath + "myBots/Bot16.png", id: "myBots/Bot16" },
-                { src: imagePath + "myBots/Bot17.png", id: "myBots/Bot17" },
-                { src: imagePath + "myBots/Bot18.png", id: "myBots/Bot18" },
-                { src: imagePath + "myBots/Bot01_fill.png", id: "myBots/Bot01_fill" },
-                { src: imagePath + "myBots/Bot02_fill.png", id: "myBots/Bot02_fill" },
-                { src: imagePath + "myBots/Bot03_fill.png", id: "myBots/Bot03_fill" },
-                { src: imagePath + "myBots/Bot04_fill.png", id: "myBots/Bot04_fill" },
-                { src: imagePath + "myBots/Bot05_fill.png", id: "myBots/Bot05_fill" },
-                { src: imagePath + "myBots/Bot06_fill.png", id: "myBots/Bot06_fill" },
-                { src: imagePath + "myBots/Bot07_fill.png", id: "myBots/Bot07_fill" },
-                { src: imagePath + "myBots/Bot08_fill.png", id: "myBots/Bot08_fill" },
-                { src: imagePath + "myBots/Bot09_fill.png", id: "myBots/Bot09_fill" },
-                { src: imagePath + "myBots/Bot10_fill.png", id: "myBots/Bot10_fill" },
-                { src: imagePath + "myBots/Bot11_fill.png", id: "myBots/Bot11_fill" },
-                { src: imagePath + "myBots/Bot12_fill.png", id: "myBots/Bot12_fill" },
-                { src: imagePath + "myBots/Bot13_fill.png", id: "myBots/Bot13_fill" },
-                { src: imagePath + "myBots/Bot09_fill.png", id: "myBots/Bot14_fill" },
-                { src: imagePath + "myBots/Bot15_fill.png", id: "myBots/Bot15_fill" },
-                { src: imagePath + "myBots/Bot09_fill.png", id: "myBots/Bot16_fill" },
-                { src: imagePath + "myBots/Bot17_fill.png", id: "myBots/Bot17_fill" },
-                { src: imagePath + "myBots/Bot18_fill.png", id: "myBots/Bot18_fill" },
-                { src: imagePath + "myBots/Bot01_stroke.png", id: "myBots/Bot01_stroke" },
-                { src: imagePath + "myBots/Bot02_stroke.png", id: "myBots/Bot02_stroke" },
-                { src: imagePath + "myBots/Bot03_stroke.png", id: "myBots/Bot03_stroke" },
-                { src: imagePath + "myBots/Bot04_stroke.png", id: "myBots/Bot04_stroke" },
-                { src: imagePath + "myBots/Bot05_stroke.png", id: "myBots/Bot05_stroke" },
-                { src: imagePath + "myBots/Bot06_stroke.png", id: "myBots/Bot06_stroke" },
-                { src: imagePath + "myBots/Bot07_stroke.png", id: "myBots/Bot07_stroke" },
-                { src: imagePath + "myBots/Bot08_stroke.png", id: "myBots/Bot08_stroke" },
-                { src: imagePath + "myBots/Bot09_stroke.png", id: "myBots/Bot09_stroke" },
-                { src: imagePath + "myBots/Bot10_stroke.png", id: "myBots/Bot10_stroke" },
-                { src: imagePath + "myBots/Bot11_stroke.png", id: "myBots/Bot11_stroke" },
-                { src: imagePath + "myBots/Bot12_stroke.png", id: "myBots/Bot12_stroke" },
-                { src: imagePath + "myBots/Bot13_stroke.png", id: "myBots/Bot13_stroke" },
-                { src: imagePath + "myBots/Bot09_stroke.png", id: "myBots/Bot14_stroke" },
-                { src: imagePath + "myBots/Bot15_stroke.png", id: "myBots/Bot15_stroke" },
-                { src: imagePath + "myBots/Bot09_stroke.png", id: "myBots/Bot16_stroke" },
-                { src: imagePath + "myBots/Bot17_stroke.png", id: "myBots/Bot17_stroke" },
-                { src: imagePath + "myBots/Bot18_stroke.png", id: "myBots/Bot18_stroke" },
+                { src: imagePath + "workshop/bots/Bot01.png", id: "workshop/bots/Bot01" },
+                { src: imagePath + "workshop/bots/Bot02.png", id: "workshop/bots/Bot02" },
+                { src: imagePath + "workshop/bots/Bot03.png", id: "workshop/bots/Bot03" },
+                { src: imagePath + "workshop/bots/Bot04.png", id: "workshop/bots/Bot04" },
+                { src: imagePath + "workshop/bots/Bot05.png", id: "workshop/bots/Bot05" },
+                { src: imagePath + "workshop/bots/Bot06.png", id: "workshop/bots/Bot06" },
+                { src: imagePath + "workshop/bots/Bot07.png", id: "workshop/bots/Bot07" },
+                { src: imagePath + "workshop/bots/Bot08.png", id: "workshop/bots/Bot08" },
+                { src: imagePath + "workshop/bots/Bot09.png", id: "workshop/bots/Bot09" },
+                { src: imagePath + "workshop/bots/Bot10.png", id: "workshop/bots/Bot10" },
+                { src: imagePath + "workshop/bots/Bot11.png", id: "workshop/bots/Bot11" },
+                { src: imagePath + "workshop/bots/Bot12.png", id: "workshop/bots/Bot12" },
+                { src: imagePath + "workshop/bots/Bot13.png", id: "workshop/bots/Bot13" },
+                { src: imagePath + "workshop/bots/Bot14.png", id: "workshop/bots/Bot14" },
+                { src: imagePath + "workshop/bots/Bot15.png", id: "workshop/bots/Bot15" },
+                { src: imagePath + "workshop/bots/Bot16.png", id: "workshop/bots/Bot16" },
+                { src: imagePath + "workshop/bots/Bot17.png", id: "workshop/bots/Bot17" },
+                { src: imagePath + "workshop/bots/Bot18.png", id: "workshop/bots/Bot18" },
+                { src: imagePath + "workshop/bots/Bot01_fill.png", id: "workshop/bots/Bot01_fill" },
+                { src: imagePath + "workshop/bots/Bot02_fill.png", id: "workshop/bots/Bot02_fill" },
+                { src: imagePath + "workshop/bots/Bot03_fill.png", id: "workshop/bots/Bot03_fill" },
+                { src: imagePath + "workshop/bots/Bot04_fill.png", id: "workshop/bots/Bot04_fill" },
+                { src: imagePath + "workshop/bots/Bot05_fill.png", id: "workshop/bots/Bot05_fill" },
+                { src: imagePath + "workshop/bots/Bot06_fill.png", id: "workshop/bots/Bot06_fill" },
+                { src: imagePath + "workshop/bots/Bot07_fill.png", id: "workshop/bots/Bot07_fill" },
+                { src: imagePath + "workshop/bots/Bot08_fill.png", id: "workshop/bots/Bot08_fill" },
+                { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot09_fill" },
+                { src: imagePath + "workshop/bots/Bot10_fill.png", id: "workshop/bots/Bot10_fill" },
+                { src: imagePath + "workshop/bots/Bot11_fill.png", id: "workshop/bots/Bot11_fill" },
+                { src: imagePath + "workshop/bots/Bot12_fill.png", id: "workshop/bots/Bot12_fill" },
+                { src: imagePath + "workshop/bots/Bot13_fill.png", id: "workshop/bots/Bot13_fill" },
+                { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot14_fill" },
+                { src: imagePath + "workshop/bots/Bot15_fill.png", id: "workshop/bots/Bot15_fill" },
+                { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot16_fill" },
+                { src: imagePath + "workshop/bots/Bot17_fill.png", id: "workshop/bots/Bot17_fill" },
+                { src: imagePath + "workshop/bots/Bot18_fill.png", id: "workshop/bots/Bot18_fill" },
+                { src: imagePath + "workshop/bots/Bot01_stroke.png", id: "workshop/bots/Bot01_stroke" },
+                { src: imagePath + "workshop/bots/Bot02_stroke.png", id: "workshop/bots/Bot02_stroke" },
+                { src: imagePath + "workshop/bots/Bot03_stroke.png", id: "workshop/bots/Bot03_stroke" },
+                { src: imagePath + "workshop/bots/Bot04_stroke.png", id: "workshop/bots/Bot04_stroke" },
+                { src: imagePath + "workshop/bots/Bot05_stroke.png", id: "workshop/bots/Bot05_stroke" },
+                { src: imagePath + "workshop/bots/Bot06_stroke.png", id: "workshop/bots/Bot06_stroke" },
+                { src: imagePath + "workshop/bots/Bot07_stroke.png", id: "workshop/bots/Bot07_stroke" },
+                { src: imagePath + "workshop/bots/Bot08_stroke.png", id: "workshop/bots/Bot08_stroke" },
+                { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot09_stroke" },
+                { src: imagePath + "workshop/bots/Bot10_stroke.png", id: "workshop/bots/Bot10_stroke" },
+                { src: imagePath + "workshop/bots/Bot11_stroke.png", id: "workshop/bots/Bot11_stroke" },
+                { src: imagePath + "workshop/bots/Bot12_stroke.png", id: "workshop/bots/Bot12_stroke" },
+                { src: imagePath + "workshop/bots/Bot13_stroke.png", id: "workshop/bots/Bot13_stroke" },
+                { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot14_stroke" },
+                { src: imagePath + "workshop/bots/Bot15_stroke.png", id: "workshop/bots/Bot15_stroke" },
+                { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot16_stroke" },
+                { src: imagePath + "workshop/bots/Bot17_stroke.png", id: "workshop/bots/Bot17_stroke" },
+                { src: imagePath + "workshop/bots/Bot18_stroke.png", id: "workshop/bots/Bot18_stroke" },
                 //My bots
-                { src: imagePath + "mybots/mybotsbg.jpg", id: "mybotsbg" },
-                { src: imagePath + "mybots/Bot01.png", id: "Bot01" },
-                { src: imagePath + "mybots/Bot02.png", id: "Bot02" },
-                { src: imagePath + "mybots/Bot03.png", id: "Bot03" },
-                { src: imagePath + "mybots/Bot04.png", id: "Bot04" },
-                { src: imagePath + "mybots/Bot05.png", id: "Bot05" },
-                { src: imagePath + "mybots/Bot06.png", id: "Bot06" },
-                { src: imagePath + "mybots/Bot07.png", id: "Bot07" },
-                { src: imagePath + "mybots/Bot08.png", id: "Bot08" },
-                { src: imagePath + "mybots/Bot09.png", id: "Bot09" },
-                { src: imagePath + "mybots/Bot10.png", id: "Bot10" },
-                { src: imagePath + "mybots/Bot11.png", id: "Bot11" },
-                { src: imagePath + "mybots/Bot12.png", id: "Bot12" },
-                { src: imagePath + "mybots/Bot13.png", id: "Bot13" },
-                { src: imagePath + "mybots/Bot14.png", id: "Bot14" },
-                { src: imagePath + "mybots/Bot15.png", id: "Bot15" },
-                { src: imagePath + "mybots/Bot16.png", id: "Bot16" },
-                { src: imagePath + "mybots/Bot17.png", id: "Bot17" },
-                { src: imagePath + "mybots/Bot18.png", id: "Bot18" },
+                { src: imagePath + "myBots/mybotsbg.jpg", id: "mybotsbg" },
+                { src: imagePath + "myBots/Bot01.png", id: "Bot01" },
+                { src: imagePath + "myBots/Bot02.png", id: "Bot02" },
+                { src: imagePath + "myBots/Bot03.png", id: "Bot03" },
+                { src: imagePath + "myBots/Bot04.png", id: "Bot04" },
+                { src: imagePath + "myBots/Bot05.png", id: "Bot05" },
+                { src: imagePath + "myBots/Bot06.png", id: "Bot06" },
+                { src: imagePath + "myBots/Bot07.png", id: "Bot07" },
+                { src: imagePath + "myBots/Bot08.png", id: "Bot08" },
+                { src: imagePath + "myBots/Bot09.png", id: "Bot09" },
+                { src: imagePath + "myBots/Bot10.png", id: "Bot10" },
+                { src: imagePath + "myBots/Bot11.png", id: "Bot11" },
+                { src: imagePath + "myBots/Bot12.png", id: "Bot12" },
+                { src: imagePath + "myBots/Bot13.png", id: "Bot13" },
+                { src: imagePath + "myBots/Bot14.png", id: "Bot14" },
+                { src: imagePath + "myBots/Bot15.png", id: "Bot15" },
+                { src: imagePath + "myBots/Bot16.png", id: "Bot16" },
+                { src: imagePath + "myBots/Bot17.png", id: "Bot17" },
+                { src: imagePath + "myBots/Bot18.png", id: "Bot18" },
                 //workshow
                 { id: "workshop/basefases", src: imagePath + "workshop/basefases.png" },
                 { id: "workshop/bgworkshop", src: imagePath + "workshop/bgworkshop.png" },
@@ -1074,13 +1046,12 @@ var InvertCross;
 
             //userData
             InvertCrossaGame.userData = new InvertCross.UserData.ProjectsData();
-            InvertCrossaGame.settings = new InvertCross.UserData.SettingsData();
-            InvertCrossaGame.itemsData = new InvertCross.UserData.ItensData();
-            InvertCrossaGame.storyData = new InvertCross.UserData.StoryData();
-            InvertCrossaGame.timersData = new InvertCross.UserData.TimersData();
+            InvertCrossaGame.settings = new InvertCross.UserData.Settings();
+            InvertCrossaGame.itemsData = new InvertCross.UserData.Items();
+            InvertCrossaGame.storyData = new InvertCross.UserData.Story();
+            InvertCrossaGame.timersData = new InvertCross.UserData.Timers();
 
             //managers
-            InvertCrossaGame.partsManager = new InvertCross.Parts.PartsManager();
             InvertCrossaGame.projectManager = new InvertCross.Projects.ProjectManager(levelsData);
 
             //go to First Screen
@@ -1096,8 +1067,14 @@ var InvertCross;
             };
 
             //TODO tirar daqui
-            if (InvertCrossaGame.itemsData.getItemQuantity("hint") == 0)
-                InvertCrossaGame.itemsData.saveQuantityItem("hint", 5);
+            if (InvertCrossaGame.itemsData.getItemQuantity("hint") <= 0)
+                InvertCrossaGame.itemsData.setQuantityItem("hint", 5);
+
+            if (InvertCrossaGame.itemsData.getItemQuantity("skip") <= 0)
+                InvertCrossaGame.itemsData.setQuantityItem("skip", 5);
+
+            if (InvertCrossaGame.itemsData.getItemQuantity("skip") <= 0)
+                InvertCrossaGame.itemsData.setQuantityItem("skip", 5);
         };
 
         // ----------------------------- Game Methods ---------------------------------------------//
@@ -1184,7 +1161,7 @@ var InvertCross;
             var currentLevel = InvertCrossaGame.projectManager.getCurrentLevel();
 
             InvertCrossaGame.projectManager.skipLevel(currentLevel);
-            this.showNextLevel();
+            this.showProjectLevelsMenu();
         };
 
         InvertCrossaGame.showMainMenu = function () {
@@ -1224,36 +1201,46 @@ var InvertCross;
 (function (InvertCross) {
     (function (UserData) {
         // Class
-        var SettingsData = (function () {
-            function SettingsData() {
-                this.soundFX = true;
-                this.music = true;
-                this.soundFX = (localStorage.getItem("sfx") != "false");
-                this.music = (localStorage.getItem("mus") != "false");
-            }
-            SettingsData.prototype.getMusic = function () {
-                return this.music;
-            };
-            SettingsData.prototype.getSoundfx = function () {
-                return this.soundFX;
-            };
-
-            SettingsData.prototype.setSoundfX = function (value) {
-                localStorage.setItem("sfx", "" + value);
-                this.soundFX = value;
-            };
-
-            SettingsData.prototype.setMusic = function (value) {
-                localStorage.setItem("mus", "" + value);
-                this.music = value;
-                if (!value)
-                    InvertCross.Assets.stopMusic();
+        var Items = (function () {
+            function Items() {
+                var data = localStorage.getItem(storagePrefix + "items");
+                if (data)
+                    this.itensDictionary = JSON.parse(data);
                 else
-                    InvertCross.Assets.playMusic("");
+                    this.itensDictionary = new Object();
+            }
+            Items.prototype.getItemQuantity = function (item) {
+                if (this.itensDictionary[item])
+                    return this.itensDictionary[item];
+                else
+                    return 0;
             };
-            return SettingsData;
+
+            Items.prototype.setQuantityItem = function (item, value) {
+                this.itensDictionary[item] = value;
+                localStorage.setItem(storagePrefix + "items", JSON.stringify(this.itensDictionary));
+            };
+
+            Items.prototype.increaseItemQuantity = function (item, value) {
+                if (typeof value === "undefined") { value = 1; }
+                if (value < 1)
+                    return;
+                var iq = this.getItemQuantity(item);
+                this.setQuantityItem(item, value + iq);
+            };
+
+            Items.prototype.decreaseItemQuantity = function (item, value) {
+                if (typeof value === "undefined") { value = 1; }
+                if (value < 1)
+                    return;
+                var iq = this.getItemQuantity(item);
+                if (iq < value)
+                    return;
+                this.setQuantityItem(item, iq - value);
+            };
+            return Items;
         })();
-        UserData.SettingsData = SettingsData;
+        UserData.Items = Items;
     })(InvertCross.UserData || (InvertCross.UserData = {}));
     var UserData = InvertCross.UserData;
 })(InvertCross || (InvertCross = {}));
@@ -1261,9 +1248,70 @@ var InvertCross;
 (function (InvertCross) {
     (function (UserData) {
         // Class
-        var TimersData = (function () {
+        var Settings = (function () {
+            function Settings() {
+                this.soundFX = true;
+                this.music = true;
+                this.soundFX = (localStorage.getItem("sfx") != "false");
+                this.music = (localStorage.getItem("mus") != "false");
+            }
+            Settings.prototype.getMusic = function () {
+                return this.music;
+            };
+            Settings.prototype.getSoundfx = function () {
+                return this.soundFX;
+            };
+
+            Settings.prototype.setSoundfX = function (value) {
+                localStorage.setItem("sfx", "" + value);
+                this.soundFX = value;
+            };
+
+            Settings.prototype.setMusic = function (value) {
+                localStorage.setItem("mus", "" + value);
+                this.music = value;
+                if (!value)
+                    InvertCross.Assets.stopMusic();
+                else
+                    InvertCross.Assets.playMusic("");
+            };
+            return Settings;
+        })();
+        UserData.Settings = Settings;
+    })(InvertCross.UserData || (InvertCross.UserData = {}));
+    var UserData = InvertCross.UserData;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (UserData) {
+        var Story = (function () {
+            function Story() {
+                this.storyPrefix = "history_";
+                this.storyPlayed = "played";
+            }
+            Story.prototype.getStoryPlayed = function (storyId) {
+                var hist = localStorage.getItem(this.storyPrefix + storyId);
+                if (hist == this.storyPlayed)
+                    return true;
+                return false;
+            };
+
+            Story.prototype.setStoryPlayed = function (storyId) {
+                localStorage.setItem(this.storyPrefix + storyId, this.storyPlayed);
+            };
+            return Story;
+        })();
+        UserData.Story = Story;
+    })(InvertCross.UserData || (InvertCross.UserData = {}));
+    var UserData = InvertCross.UserData;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (UserData) {
+        // Class
+        var Timers = (function () {
             //Constructor
-            function TimersData() {
+            function Timers() {
                 //load timers from storage
                 this.timers = this.loadTimers();
 
@@ -1274,7 +1322,7 @@ var InvertCross;
                 //sync at first use
                 this.syncLastTime();
             }
-            TimersData.prototype.initializeAllTimers = function () {
+            Timers.prototype.initializeAllTimers = function () {
                 //    var fp = InvertCrossaGame.projectManager.getFinihedProjects();
                 //    for (var p in fp) {
                 //        var name = fp[p].name;
@@ -1289,7 +1337,7 @@ var InvertCross;
             };
 
             //Get if timers is ready
-            TimersData.prototype.getTimer = function (name) {
+            Timers.prototype.getTimer = function (name) {
                 if (this.timers[name] == null)
                     return null;
 
@@ -1298,7 +1346,7 @@ var InvertCross;
 
             //sets a new timer
             //only sets if timer is spanned //TODO eh esta palavra mesmo?
-            TimersData.prototype.setTimer = function (name, minutes) {
+            Timers.prototype.setTimer = function (name, minutes) {
                 //verifies if timer is active
                 if (this.getTimer(name) > 0)
                     return;
@@ -1315,7 +1363,7 @@ var InvertCross;
 
             //get last time between now and last utilization time
             //to avoid adjusting the clock cheat
-            TimersData.prototype.getLastTime = function () {
+            Timers.prototype.getLastTime = function () {
                 //verifies if last utilization time is greater than time now
                 if (Date.now() > this.lastTime)
                     return Date.now();
@@ -1324,7 +1372,7 @@ var InvertCross;
             };
 
             //at firts use, sync last utilizatio time.
-            TimersData.prototype.syncLastTime = function () {
+            Timers.prototype.syncLastTime = function () {
                 var now = Date.now();
 
                 //caches lastTime
@@ -1339,12 +1387,12 @@ var InvertCross;
 
             //------------------------Storage--------------------------
             //save timers to local storage
-            TimersData.prototype.saveTimers = function (timers) {
+            Timers.prototype.saveTimers = function (timers) {
                 localStorage.setItem("Timers", JSON.stringify(timers));
             };
 
             //load timers from local storage
-            TimersData.prototype.loadTimers = function () {
+            Timers.prototype.loadTimers = function () {
                 var value = localStorage.getItem("Timers");
                 if (value)
                     return JSON.parse(value);
@@ -1353,20 +1401,20 @@ var InvertCross;
             };
 
             //store the last utilization time,
-            TimersData.prototype.saveLastTime = function (time) {
+            Timers.prototype.saveLastTime = function (time) {
                 localStorage.setItem("LastTime", time.toString());
             };
 
             //loads and set the last utilization time,
-            TimersData.prototype.loadLastTime = function () {
+            Timers.prototype.loadLastTime = function () {
                 var value = localStorage.getItem("LastTime");
                 if (!value)
                     value = Date.now();
                 return value;
             };
-            return TimersData;
+            return Timers;
         })();
-        UserData.TimersData = TimersData;
+        UserData.Timers = Timers;
     })(InvertCross.UserData || (InvertCross.UserData = {}));
     var UserData = InvertCross.UserData;
 })(InvertCross || (InvertCross = {}));
@@ -1488,9 +1536,11 @@ var InvertCross;
                 this.popup = new InvertCross.Menu.View.Popup();
                 this.view.addChild(this.popup);
                 this.popup.addEventListener("onshow", function () {
+                    _this.menuOverlay.fadeOut();
                     _this.boardSprite.mouseEnabled = false;
                 });
                 this.popup.addEventListener("onclose", function () {
+                    _this.menuOverlay.fadeIn();
                     _this.boardSprite.mouseEnabled = true;
                 });
             };
@@ -1526,6 +1576,7 @@ var InvertCross;
                 this.menuOverlay.y = 1800;
 
                 this.menuOverlay.updateButtonLabel("hint", InvertCross.InvertCrossaGame.itemsData.getItemQuantity("hint"));
+                this.menuOverlay.updateButtonLabel("skip", InvertCross.InvertCrossaGame.itemsData.getItemQuantity("skip"));
 
                 if (InvertCross.InvertCrossaGame.projectManager.getCurrentProject() != undefined) {
                     var levels = InvertCross.InvertCrossaGame.projectManager.getCurrentProject().levels;
@@ -1587,12 +1638,22 @@ var InvertCross;
             };
 
             LevelScreen.prototype.skip = function () {
-                InvertCross.InvertCrossaGame.skipLevel();
+                if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
+                    InvertCross.InvertCrossaGame.skipLevel();
+                } else {
+                    var itemQuantity = InvertCross.InvertCrossaGame.itemsData.getItemQuantity("skip");
+                    if (itemQuantity > 0) {
+                        InvertCross.InvertCrossaGame.itemsData.decreaseItemQuantity("skip");
+                        InvertCross.InvertCrossaGame.skipLevel();
+                    } else {
+                        this.popup.showtext("no more skips");
+                    }
+                }
             };
 
             LevelScreen.prototype.hint = function (blockId) {
-                var hintsQuantity = InvertCross.InvertCrossaGame.itemsData.getItemQuantity("hint");
-                if (hintsQuantity > 0) {
+                var itemQuantity = InvertCross.InvertCrossaGame.itemsData.getItemQuantity("hint");
+                if (itemQuantity > 0) {
                     if (typeof blockId != "number") {
                         var invertedBlocks = this.levelLogic.board.getInvertedBlocks();
                         var index = Math.floor(Math.random() * invertedBlocks.length);
@@ -1600,8 +1661,8 @@ var InvertCross;
                     }
 
                     this.boardSprite.getBlockById(blockId).enableHint();
-                    hintsQuantity--;
-                    InvertCross.InvertCrossaGame.itemsData.saveQuantityItem("hint", hintsQuantity);
+                    itemQuantity--;
+                    InvertCross.InvertCrossaGame.itemsData.setQuantityItem("hint", itemQuantity);
                     this.menuOverlay.updateButtonLabel("hint", InvertCross.InvertCrossaGame.itemsData.getItemQuantity("hint"));
                 } else {
                     this.popup.showtext("no more hints");
@@ -1817,7 +1878,7 @@ var InvertCross;
                 this.boardSprite.visible = false;
 
                 //shows popup
-                this.popup.showTimeAttack("Time Attack", "Solve ", this.levelData.puzzlesToSolve.toString(), this.levelData.time.toString());
+                this.popup.showTimeAttack("Time Attack", "Solve ", this.levelData.puzzlesToSolve.toString(), this.levelData.time.toString(), "boards in", "seconds");
                 this.popup.addEventListener("onclose", function () {
                     _this.boardSprite.visible = true;
 
@@ -2931,14 +2992,16 @@ var InvertCross;
 
                     this.createGamePlayMenu();
                     this.createPauseMenu();
-
+                    this.addTutorialIndicator();
+                }
+                //adds tutorial touch indicator
+                GamePlayMenu.prototype.addTutorialIndicator = function () {
                     this.tutorial_highlightSprite = InvertCross.Assets.getMovieClip("touch");
                     this.tutorial_highlightSprite.visible = false;
-
-                    //this.tutorial_highlightSprite.regX = this.tutorial_highlightSprite.regY= -90;
                     this.tutorial_highlightSprite.mouseEnabled = false;
                     this.addChild(this.tutorial_highlightSprite);
-                }
+                };
+
                 //creates all menu butons
                 GamePlayMenu.prototype.createGamePlayMenu = function () {
                     var _this = this;
@@ -3269,7 +3332,6 @@ var InvertCross;
                 this.menu.addEventListener("back", function () {
                     InvertCross.InvertCrossaGame.showProjectsMenu();
                 });
-                this.menu.partsIndicator.updatePartsAmount(InvertCross.InvertCrossaGame.partsManager.getBallance());
                 this.view.addChild(this.menu);
             };
 
@@ -3332,7 +3394,6 @@ var InvertCross;
 
                 //updates stars and parts idicatorr
                 this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
-                this.menu.partsIndicator.updatePartsAmount(InvertCross.InvertCrossaGame.partsManager.getBallance());
 
                 for (var pv in this.projectViews) {
                     var project = InvertCross.InvertCrossaGame.projectManager.getProjectByName(this.projectViews[pv].name);
@@ -3413,7 +3474,6 @@ var InvertCross;
 
                     //update menu
                     this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
-                    this.menu.partsIndicator.updatePartsAmount(InvertCross.InvertCrossaGame.partsManager.getBallance());
 
                     //updates robots lobby
                     this.myBots.update();
@@ -3775,7 +3835,6 @@ var InvertCross;
                 this.updateProjects();
 
                 this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
-                this.menu.partsIndicator.updatePartsAmount(InvertCross.InvertCrossaGame.partsManager.getBallance());
             };
 
             //=====================================================
@@ -3953,31 +4012,16 @@ var InvertCross;
                     this.level = level;
                     this.name = level.name;
                     this.theme = level.theme;
-
-                    this.skiped = this.createSkip();
-                    this.addChild(this.skiped);
-
-                    this.height = this.width = 150;
-                    this.createHitArea();
                 }
                 //updates thumbnail with user data information
                 LevelThumb.prototype.updateUserData = function () {
-                    var u = this.level.userdata;
-                    this.skiped.visible = u.skip;
-
                     //create a new thumb
                     this.createThumbs(this.level);
 
                     //cache thumb
                     this.cache(-99, -102, 198, 204);
-                };
 
-                //create a skip tag
-                LevelThumb.prototype.createSkip = function () {
-                    var sk = InvertCross.Assets.getImage("workshop/skip");
-                    sk.regX = sk.getBounds().width / 2;
-                    sk.regY = sk.getBounds().height / 2;
-                    return sk;
+                    this.createHitArea();
                 };
 
                 //Create a container with a level thumbnail and evel name
@@ -4023,6 +4067,9 @@ var InvertCross;
 
                     //Adds thumb tags
                     this.addChild(this.createTags(level, assetName, assetSufix));
+
+                    //Adds level modificator
+                    this.addChild(this.createLevelModificator(level));
                 };
 
                 //defines accentColor based on level type.
@@ -4035,6 +4082,15 @@ var InvertCross;
                     if (level.theme == "yellow")
                         assetname = "faseamarela";
                     return assetname;
+                };
+
+                LevelThumb.prototype.createLevelModificator = function (level) {
+                    if (level.userdata.skip) {
+                        var sk = InvertCross.Assets.getImage("workshop/skip");
+                        sk.regX = sk.getBounds().width / 2;
+                        sk.regY = sk.getBounds().height / 2;
+                        return sk;
+                    }
                 };
 
                 //adds thumb background
@@ -4482,62 +4538,6 @@ var InvertCross;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
-    (function (Parts) {
-        // Model
-        var PartsManager = (function () {
-            function PartsManager() {
-                this.ballance = 0;
-                this.loadParts();
-            }
-            //Use parts from user amount
-            PartsManager.prototype.useParts = function (parts) {
-                if (parts > this.ballance)
-                    return 0;
-
-                this.ballance -= parts;
-
-                this.saveParts();
-
-                return parts;
-            };
-
-            //add parts to user amount
-            PartsManager.prototype.addParts = function (parts) {
-                this.ballance += parts;
-                this.saveParts();
-            };
-
-            //get total balance
-            PartsManager.prototype.getBallance = function () {
-                return this.ballance;
-            };
-
-            //---------------------------- user data storage ----------------------
-            //save parts data to storage
-            PartsManager.prototype.saveParts = function () {
-                try  {
-                    localStorage.setItem("partsa", this.ballance.toString());
-                } catch (e) {
-                    alert(e);
-                }
-            };
-
-            //loads parts data from storage
-            PartsManager.prototype.loadParts = function () {
-                var b = localStorage.getItem("partsa");
-                if (b == null)
-                    this.ballance = 0;
-                else
-                    this.ballance = parseInt(b);
-            };
-            return PartsManager;
-        })();
-        Parts.PartsManager = PartsManager;
-    })(InvertCross.Parts || (InvertCross.Parts = {}));
-    var Parts = InvertCross.Parts;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
     (function (Projects) {
         // Class
         // Data Object - Model
@@ -4951,11 +4951,13 @@ var defaultFontFamilyNormal = " 80px  " + defaultFont;
 var defaultFontFamilyStrong = " 80px " + defaultFont;
 var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
 var defaultNumberHighlight = " 220px " + defaultFont;
+
 var defaultFontColor = "#FF6";
 var highlightFontColor = "#f2cb46";
 var alternativeFontColor = "#3d8c9a";
 var shadowFontColor = "#1b4f5e";
-var fontLineOffset = 0.2;
+
+var storagePrefix = "flipp_";
 /// <reference path="easeljs.d.ts" />
 /// <reference path="tweenjs.d.ts" />
 var SmokeFX;
@@ -5054,6 +5056,11 @@ var InvertCross;
             __extends(Moves, _super);
             function Moves(levelData) {
                 _super.call(this, levelData);
+                this.currentPuzzle = 1;
+                this.puzzlesToSolve = 0;
+
+                this.puzzlesToSolve = levelData.puzzlesToSolve;
+                this.moves = this.levelData.moves;
 
                 this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
 
@@ -5066,9 +5073,7 @@ var InvertCross;
 
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
 
-                this.moves = this.levelData.moves;
-
-                this.popup.showflips("Flip Challenge", "Solve this board in ", this.levelData.moves.toString());
+                this.popup.showTimeAttack("Flip Challenge", "Solve", this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), "boards in ", "flips");
 
                 this.statusArea.setMode("moves");
                 this.statusArea.setText3(this.moves.toString());
@@ -5087,6 +5092,48 @@ var InvertCross;
                         this.loose();
                     }
                 }
+            };
+
+            //Overriding methods.
+            Moves.prototype.win = function (col, row) {
+                var _this = this;
+                if (this.currentPuzzle >= this.puzzlesToSolve) {
+                    _super.prototype.win.call(this, col, row);
+                } else {
+                    //animate board and switch
+                    var defaultX = this.boardSprite.x;
+                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
+                        _this.currentPuzzle++;
+                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
+                        _this.boardSprite.x = defaultX + DefaultWidth;
+                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
+                    });
+                }
+            };
+
+            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
+                if (typeof minMoves === "undefined") { minMoves = 2; }
+                if (typeof maxMoves === "undefined") { maxMoves = 5; }
+                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+
+                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
+                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
+                var inverted = [];
+
+                for (var m = 0; m < moves; m++) {
+                    var index = Math.floor(Math.random() * (lenght));
+                    while (inverted[index] == true)
+                        index = (index + 1) % lenght;
+                    inverted[index] = true;
+                }
+
+                for (var i = 0; i < lenght; i++) {
+                    if (inverted[i] == true)
+                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
+                }
+
+                this.levelLogic.board.initializePrizes(2);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             };
             return Moves;
         })(InvertCross.GamePlay.LevelScreen);
@@ -5611,7 +5658,7 @@ var InvertCross;
                     this.addsClickIndicaator();
                 };
 
-                Popup.prototype.showTimeAttack = function (title, text, boards, time, timeout, delay) {
+                Popup.prototype.showTimeAttack = function (title, text, boards, time, text2, text3, timeout, delay) {
                     if (typeof timeout === "undefined") { timeout = 7000; }
                     if (typeof delay === "undefined") { delay = 0; }
                     this.showsPopup(timeout, delay);
@@ -5677,8 +5724,8 @@ var InvertCross;
                     //updates title and text values
                     titleShadow.text = titleDO.text = title.toUpperCase();
                     textDO.text = text;
-                    textDO1.text = "boards in";
-                    textDO2.text = "seconds";
+                    textDO1.text = text2;
+                    textDO2.text = text3;
                     timeDO.text = time;
                     boardsDO.text = boards;
 
@@ -5915,7 +5962,7 @@ var InvertCross;
                     bg.regX = bg.getBounds().width / 2;
                     this.statusArea.addChild(bg);
 
-                    var l = new createjs.Text(project.name.toUpperCase(), defaultFontFamilyStrong, "#FFF");
+                    var l = new createjs.Text(project.nickName.toUpperCase(), defaultFontFamilyStrong, defaultFontColor);
                     l.y = 0; //250;
                     l.textAlign = "center";
                     l.textBaseline = "top";
@@ -6060,9 +6107,9 @@ var InvertCross;
                 //create graphics
                 RobotPreview.prototype.createGraphics = function (project) {
                     var size = 1000;
-                    this.fill = this.addChild(InvertCross.Assets.getImage("myBots/" + project.name + "_fill"));
-                    this.stroke = this.addChild(InvertCross.Assets.getImage("myBots/" + project.name + "_stroke"));
-                    this.complete = this.addChild(InvertCross.Assets.getImage("myBots/" + project.name));
+                    this.fill = this.addChild(InvertCross.Assets.getImage("workshop/bots/" + project.name + "_fill"));
+                    this.stroke = this.addChild(InvertCross.Assets.getImage("workshop/bots/" + project.name + "_stroke"));
+                    this.complete = this.addChild(InvertCross.Assets.getImage("workshop/bots/" + project.name));
 
                     this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
                     this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
@@ -6133,35 +6180,6 @@ var InvertCross;
         var View = Menu.View;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (UserData) {
-        // Class
-        var ItensData = (function () {
-            function ItensData() {
-                var data = localStorage.getItem("items");
-                if (data)
-                    this.itensDictionary = JSON.parse(data);
-                else
-                    this.itensDictionary = new Object();
-            }
-            ItensData.prototype.getItemQuantity = function (item) {
-                if (this.itensDictionary[item])
-                    return this.itensDictionary[item];
-                else
-                    return 0;
-            };
-
-            ItensData.prototype.saveQuantityItem = function (item, value) {
-                this.itensDictionary[item] = value;
-                localStorage.setItem("items", JSON.stringify(this.itensDictionary));
-            };
-            return ItensData;
-        })();
-        UserData.ItensData = ItensData;
-    })(InvertCross.UserData || (InvertCross.UserData = {}));
-    var UserData = InvertCross.UserData;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {

@@ -1,4 +1,4 @@
-﻿var DefaultWidth = 1536;
+var DefaultWidth = 1536;
 var DefaultHeight = 2048 - 8;
 var defaultFont = "'Exo 2.0'";
 

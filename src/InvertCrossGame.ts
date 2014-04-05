@@ -17,7 +17,6 @@ module InvertCross {
                        
         //Managers
         public static projectManager: Projects.ProjectManager;
-        public static partsManager: Parts.ItemsManager;
         
         // Screens
         private static titleScreen: Gbase.ScreenState;
@@ -47,7 +46,6 @@ module InvertCross {
             InvertCrossaGame.timersData = new UserData.Timers();
 
             //managers
-            InvertCrossaGame.partsManager = new Parts.ItemsManager();
             InvertCrossaGame.projectManager = new Projects.ProjectManager(levelsData);
             
             //go to First Screen
@@ -65,13 +63,13 @@ module InvertCross {
             }
             
             //TODO tirar daqui
-            if(InvertCrossaGame.itemsData.getItemQuantity("hint") == 0)
+            if (InvertCrossaGame.itemsData.getItemQuantity("hint") <= 0)
                 InvertCrossaGame.itemsData.setQuantityItem("hint", 5);
 
-            if (InvertCrossaGame.itemsData.getItemQuantity("skip") == 0)
+            if (InvertCrossaGame.itemsData.getItemQuantity("skip") <= 0)
                 InvertCrossaGame.itemsData.setQuantityItem("skip", 5);
 
-            if (InvertCrossaGame.itemsData.getItemQuantity("skip") == 0)
+            if (InvertCrossaGame.itemsData.getItemQuantity("skip") <= 0)
                 InvertCrossaGame.itemsData.setQuantityItem("skip", 5);
         }
 

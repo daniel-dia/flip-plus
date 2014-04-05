@@ -55,7 +55,6 @@ module InvertCross.Menu {
             
             this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu()); });
             this.menu.addEventListener("back", () => { InvertCross.InvertCrossaGame.showProjectsMenu();});
-            this.menu.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());
             this.view.addChild(this.menu);
 
         }
@@ -121,7 +120,6 @@ module InvertCross.Menu {
 
             //updates stars and parts idicatorr
             this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
-            this.menu.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());
 
             //update all projects views
             for (var pv in this.projectViews) {

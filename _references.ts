@@ -15,9 +15,10 @@
     /// <reference path="src/Utils/Effects.ts" />
     /// <reference path="src/InvertCrossGame.ts" />
 
-    /// <reference path="src/UserData/SettingsData.ts" />
-    /// <reference path="src/UserData/StoryData.ts" />
-    /// <reference path="src/UserData/TimersData.ts" />
+    /// <reference path="src/UserData/Items.ts" />
+    /// <reference path="src/UserData/Settings.ts" />
+    /// <reference path="src/UserData/Story.ts" />
+    /// <reference path="src/UserData/Timers.ts" />
     /// <reference path="src/UserData/ProjectsData.ts" />
 
     /// <reference path="src/GamePlay/LevelScreen.ts" />
@@ -49,7 +50,6 @@
     /// <reference path="src/Menu/View/ProjectProgressIndicator.ts" />
     /// <reference path="src/Menu/View/ProjectStarsIndicator.ts" />
 
-    /// <reference path="src/Parts/PartsManager.ts" />
     /// <reference path="src/Projects/Level.ts" />
     /// <reference path="src/Projects/Project.ts" />
     /// <reference path="src/Projects/ProjectManager.ts" />

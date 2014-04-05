@@ -15,13 +15,17 @@ module InvertCross.GamePlay.Views {
 
             this.createGamePlayMenu();
             this.createPauseMenu();
+            this.addTutorialIndicator();
+         
+        } 
 
+        //adds tutorial touch indicator
+        private addTutorialIndicator() {
             this.tutorial_highlightSprite = Assets.getMovieClip("touch");
             this.tutorial_highlightSprite.visible = false;
-            //this.tutorial_highlightSprite.regX = this.tutorial_highlightSprite.regY= -90;
             this.tutorial_highlightSprite.mouseEnabled = false;
             this.addChild(this.tutorial_highlightSprite)
-        } 
+        }
 
         //creates all menu butons 
         private createGamePlayMenu() {
@@ -31,7 +35,9 @@ module InvertCross.GamePlay.Views {
 
             this.addButtons(["restart","hint","skip"])
 
-            var pausBt = new Gbase.UI.IconButton("puzzle/iconepause", "", "puzzle/btrestartpause", () => { this.pause(); }); this.overlayMenu.addChild(pausBt), pausBt.x = 1400; 
+            var pausBt = new Gbase.UI.IconButton("puzzle/iconepause", "", "puzzle/btrestartpause", () => { this.pause(); });
+            this.overlayMenu.addChild(pausBt),
+            pausBt.x = 1400; 
 
             this.addChild(this.overlayMenu);
         }

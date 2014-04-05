@@ -1,10 +1,4 @@
-﻿/// <reference path="../lib/easeljs.d.ts" />
-/// <reference path="../lib/soundjs.d.ts" /> 
- 
-/// <reference path="userdata/storydata.ts" />
-
-
-declare var images: any;
+﻿declare var images: any;
 declare var Media: any;
 declare var assetscale: number;
 

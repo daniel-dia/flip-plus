@@ -142,7 +142,6 @@ module InvertCross.Menu {
             this.updateProjects();
 
             this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
-            this.menu.partsIndicator.updatePartsAmount(InvertCrossaGame.partsManager.getBallance());
         }
 
 
