@@ -33,8 +33,8 @@ module Gbase.UI {
                 scaleX: 0.5,
                 scaleY: 0.5,
                 alpha: 0,
-                x: this.antX + (this.centered ? 0 : (this.width / 4)),
-                y: this.antY + (this.centered ? 0 : (this.height / 4))
+                x: this.antX,
+                y: this.antY,
             },200, createjs.Ease.quadIn).call(() => {
                     this.visible = false;
                     this.x = this.antX;
@@ -58,8 +58,8 @@ module Gbase.UI {
             this.scaleX = 0.5,
             this.scaleY = 0.5,
             this.alpha = 0,
-            this.x = this.x + (this.centered ? 0 : (this.width / 4)),
-            this.y = this.y + (this.centered ? 0 : (this.height / 4))
+            this.x = this.x;
+            this.y = this.y;
 
             this.mouseEnabled = false;
             createjs.Tween.removeTweens(this);
@@ -69,7 +69,7 @@ module Gbase.UI {
                 alpha: 1,
                 x: this.antX,
                 y: this.antY,
-            }, 200,createjs.Ease.quadOut)
+            }, 400,createjs.Ease.quadOut)
 
                 .call(() => {
                     this.mouseEnabled = true;

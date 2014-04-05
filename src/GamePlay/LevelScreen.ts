@@ -56,8 +56,14 @@ module InvertCross.GamePlay {
             //adds popup
             this.popup = new Menu.View.Popup();
             this.view.addChild(this.popup)
-            this.popup.addEventListener("onshow", () => { this.boardSprite.mouseEnabled = false; });
-            this.popup.addEventListener("onclose", () => { this.boardSprite.mouseEnabled = true; });
+            this.popup.addEventListener("onshow", () => {
+                this.menuOverlay.fadeOut();
+                this.boardSprite.mouseEnabled = false;
+            });
+            this.popup.addEventListener("onclose", () => {
+                this.menuOverlay.fadeIn();
+                this.boardSprite.mouseEnabled = true;
+            });
 
         }
 

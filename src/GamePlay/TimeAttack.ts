@@ -111,7 +111,7 @@ module InvertCross.GamePlay {
 
             this.boardSprite.visible = false;
             //shows popup
-            this.popup.showTimeAttack("Time Attack", "Solve ", this.levelData.puzzlesToSolve.toString(), this.levelData.time.toString()); 
+            this.popup.showTimeAttack("Time Attack", "Solve ", this.levelData.puzzlesToSolve.toString(), this.levelData.time.toString(),"boards in","seconds"); 
             this.popup.addEventListener("onclose", () => {
 
                 this.boardSprite.visible = true;

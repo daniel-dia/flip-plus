@@ -91,7 +91,7 @@ module InvertCross.Menu.View {
             this.addsClickIndicaator();
        }
         
-        public showTimeAttack(title: string, text: string,boards:string, time:string, timeout: number= 7000, delay: number= 0) {
+        public showTimeAttack(title: string, text: string,boards:string, time:string,text2:string,text3:string, timeout: number= 7000, delay: number= 0) {
 
             this.showsPopup(timeout, delay);
 
@@ -157,8 +157,8 @@ module InvertCross.Menu.View {
             //updates title and text values
             titleShadow.text = titleDO.text = title.toUpperCase();
             textDO.text = text;
-            textDO1.text = "boards in";
-            textDO2.text = "seconds";
+            textDO1.text = text2;
+            textDO2.text = text3;
             timeDO.text = time;
             boardsDO.text = boards;
 
