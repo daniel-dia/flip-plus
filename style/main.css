@@ -8,9 +8,6 @@
     scroll-translation: vertical-to-horizontal;
     content-zooming: none;
     overflow: hidden;
-
-    
-
 }
 
 /*@-webkit-viewport{width:768px}
@@ -22,7 +19,7 @@
 
 body, a {
     font-family: 'Exo 2.0'; 
-    background-color: Gray;
+    background-color: #222;
     color: white;
 }
 
@@ -52,22 +49,22 @@ body, a {
 }
 
 
-input, select{
-    padding:5px;
-    margin:2px;
-    border:none;
+.small, td{
+    width:60px!important;
 }
 
- input{
-    width:75px;
+.medium{
+	width:90px;
 }
-
- 
- select{
-    width:80px;
-  }
-
-
-.long {
-    width: 225px;
+.almost{
+width:120px;
+}
+.long { 
+width:200px
+}
+td{
+	vertical-align:top
+}
+.hc {
+    height:180px;
 }

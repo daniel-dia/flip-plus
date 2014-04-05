@@ -45,7 +45,7 @@ module InvertCross.GamePlay {
             this.editWindow.document.getElementById("c_load").onclick = () => {
                 var s = this.loadStored();
 
-                var selected = (<HTMLSelectElement>this.editWindow.document.getElementById("c_select")).value;
+                var selected = (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).value;
                 var level = s[selected];
 
                 if (level) {
@@ -58,7 +58,7 @@ module InvertCross.GamePlay {
             this.editWindow.document.getElementById("c_delete").onclick = () => {
                 var s = this.loadStored();
 
-                var selected = (<HTMLSelectElement>this.editWindow.document.getElementById("c_select")).value;
+                var selected = (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).value;
                 delete s[selected];
 
                 this.saveStored(s)
@@ -69,6 +69,13 @@ module InvertCross.GamePlay {
             this.editWindow.document.getElementById("c_export").onclick = () => {
                 var exp = localStorage.getItem(LevelCreator.key);
                 (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value = exp;
+            }
+
+
+            this.editWindow.document.getElementById("c_import").onclick = () => {
+                var exp = (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value;
+                localStorage.setItem(LevelCreator.key, exp);
+                this.updateSelectList();
             }
         }
 
@@ -86,11 +93,11 @@ module InvertCross.GamePlay {
 
         private updateSelectList() {
             var s = this.loadStored();
-            (<HTMLSelectElement>this.editWindow.document.getElementById("c_select")).options.length = 0;
+            (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).options.length = 0;
             for (var i in s) {
                 var option = this.editWindow.document.createElement("option");
                 option.text = i;
-                (<HTMLSelectElement>this.editWindow.document.getElementById("c_select")).add(option);
+                (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).add(option);
             }
         }
 
@@ -113,8 +120,8 @@ module InvertCross.GamePlay {
             levelData.randomMinMoves = parseInt((<HTMLInputElement>this.editWindow.document.getElementById("c_r_min")).value);
 
 
-            if ((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value)
-                levelData.blocksData = JSON.parse((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value);
+            //if ((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value)
+            //    levelData.blocksData = JSON.parse((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value);
 
             return levelData;
         }

@@ -40,74 +40,122 @@
     <!-- style -->
     <link href="style/main.css" rel="stylesheet" />
 
+
 </head>
 <body>
+    <h1>Level Editor</h1>
     <table>
         <tr>
             <td>
-                <canvas id="myCanvas" screencanvas="true" style="width:320px"></canvas>
+                <canvas id="myCanvas" screencanvas="true" style="width: 320px"></canvas>
             </td>
-            <td>
-                <h1>Level Editor</h1>
-                <hr />
-                <h2>Create New</h2>
+            <td class="auto-style1">
+
                 <table>
-
                     <tr>
-                        <td>Name</td>
-                        <td> <input id="c_name" /></td>
-                        <td colspan="2">   </td>
-                    </tr>
-                    <tr>
-                        <td>Width</td>
-                        <td> <input id="c_width" /></td>
-                        <td>Height</td>
-                        <td> <input id="c_height" /></td>
-                    </tr>
-                    <tr>
-                        <td>Type</td>
-                        <td><select id="c_type" name="D1"><option value="puzzle">Puzzle</option><option value="draw">Draw</option><option value="moves">Flips</option><option value="time">Time Attack</option></select></td>
-
-                        <td>Theme</td>
-                        <td>
-                            <select id="c_theme" name="D1"><option value="green">Green</option><option value="yellow">Yellow</option><option value="purple">Purple</option></select>
+                        <td class="auto-style3" colspan="4">
+                            <h2>Level</h2>
                         </td>
+                        <td rowspan="10">
+                           </td>
+                        <td class="auto-style3">
+                            <h2>Storage</h2>
+                        </td>
+                        <td rowspan="10">
+                           </td>
+                        <td class="auto-style3">
+                            <h2>Export</h2>
+                        </td>
+                    </tr>
                     <tr>
-                        <td>Fips</td>
-                        <td> <input id="c_flips" /></td>
+                        <td class="small">Name </td>
+                        <td class="small">
+                            <input class="small" id="c_name" /></td>
+                        <td class="small">
+                            <input class="small" id="c_r_min1" style="visibility: hidden" /></td>
+                        <td class="small"></td>
+                        <td class="small">Level</td>
+                        <td>Data</td>
+                    </tr>
+                    <tr>
+                        <td class="small">Width</td>
+                        <td class="small">
+                            <input class="small" id="c_width" /></td>
+                        <td class="small">Height</td>
+                        <td class="small">
+                            <input class="small" id="c_height" /></td>
+                        <td rowspan="6" class="small">
+                            <select name="D3" multiple class="almost hc" id="c_select_level"></select></td>
+                        <td rowspan="6">
+                            <textarea name="S1" class="almost hc" id="c_exported"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td class="small">Type</td>
+                        <td class="small">
+                            <select name="D1" class="small" id="c_type">
+                                <option value="puzzle">Puzzle</option>
+                                <option value="draw">Draw</option>
+                                <option value="moves">Flips</option>
+                                <option value="time">Time Attack</option>
+                            </select></td>
 
-                        <td>Time</td>
-                        <td> <input id="c_time" /></td>
+                        <td class="small">Theme</td>
+                        <td class="small">
+                            <select name="D1" class="small" id="c_theme">
+                                <option value="green">Green</option>
+                                <option value="yellow">Yellow</option>
+                                <option value="purple">Purple</option>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
-                        <td>to Sove</td>
-                        <td> <input id="c_p_solve" /></td>
-                    </tr>
-                    <tr>
-                        <td>Rnd Min</td>
-                        <td> <input id="c_r_min" /></td>
+                        <td class="small">Fips</td>
+                        <td class="small">
+                            <input class="small" id="c_flips" /></td>
 
-                        <td>Rnd Max</td>
-                        <td> <input id="c_r_max" /></td>
+                        <td class="small">Time</td>
+                        <td class="small">
+                            <input class="small" id="c_time" /></td>
                     </tr>
                     <tr>
-                        <td>Blocks</td>
-                        <td colspan="3"> <input id="c_blocks" class="long" /></td>
+                        <td class="small">to Sove</td>
+                        <td colspan="3" class="small">
+                            <input class="small" id="c_p_solve" /></td>
+
+                    </tr>
+                    <tr>
+                        <td class="small">Rn Min</td>
+                        <td class="small">
+                            <input class="small" id="c_r_min" /></td>
+
+                        <td class="small">Rn Max</td>
+                        <td class="small">
+                            <input class="small" id="c_r_max" /></td>
+                    </tr>
+                    <tr>
+                        <td class="small">Blocs</td>
+                        <td colspan="3">
+                            <input id="c_blocks" class="long" /></td>
+                    </tr>
+                    <tr>
+                        <td class="small">&nbsp;</td>
+                        <td colspan="3">&nbsp;</td>
+                        <td>
+                            &nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="small">
+                            <input class="small" id="c_r_min0" style="visibility: hidden" /></td>
+                        <td colspan="3"><input type="button" id="c_create" value="Create New" class="long" /></td>
+                        <td>
+                            <input type="button" class="small" id="c_save" value="Save" /><input type="button" class="small" id="c_load" value="Load" /><input type="button" class="small" id="c_delete" value="Delete" /></td>
+                        <td><input type="button" class="small" id="c_export" value="Export" /><input type="button" class="small" id="c_import" value="Import" /></td>
                     </tr>
                 </table>
-
-                <input type="button" id="c_create" value="Create" />
-                <hr />
-
-                <input type="button" id="c_save" value="Save" />
-                <input type="button" id="c_load" value="Load" />
-                <input type="button" id="c_delete" value="Delete" /><br />
-                <select multiple id="c_select" class="long" ></select>
-                <hr />
-                <input type="button" id="c_export" value="Export" class="long" /><br />
-                <textarea id="c_exported" class="long"></textarea>
             </td>
         </tr>
+
     </table>
 
 </body>

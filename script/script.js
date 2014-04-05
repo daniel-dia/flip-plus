@@ -488,14 +488,10 @@ var Gbase;
     })(Gbase.UI || (Gbase.UI = {}));
     var UI = Gbase.UI;
 })(Gbase || (Gbase = {}));
-/// <reference path="../lib/easeljs.d.ts" />
-/// <reference path="../lib/soundjs.d.ts" />
 var Gbase;
 (function (Gbase) {
     var ScreenState = (function () {
         function ScreenState() {
-            //this.defaultHeight = DefaultHeight;
-            //this.defaultWidth = DefaultWidth;
             this.view = new createjs.Container();
         }
         ScreenState.prototype.activate = function (parameters) {
@@ -638,6 +634,10 @@ var InvertCross;
                 assetscale = 0.25;
 
             this.redim(windowWidth);
+
+            //dev
+            this.redim(420);
+            assetscale = 1;
         };
 
         Game.tick = function () {
@@ -716,7 +716,7 @@ var InvertCross;
                 //common
                 { id: "partshud", src: imagePath + "partshud.png" },
                 { id: "partsicon", src: imagePath + "partsicon.png" },
-                { id: "starsicon", src: imagePath + "starsicon.png" },
+                { id: "starsicon", src: imagePath + "staricon.png" },
                 { id: "MenuBt", src: imagePath + "MenuBt.png" },
                 { id: "BackBt", src: imagePath + "BackBt.png" },
                 //title
@@ -752,98 +752,98 @@ var InvertCross;
                 { id: "projects/pageoff", src: imagePath + "projects/pageoff.png" },
                 { id: "projects/bigslot1", src: imagePath + "projects/bigslot1.png" },
                 //projects
-                { id: "projects/bots/Bot01", src: imagePath + "projects/bots/bot1.png" },
-                { id: "projects/bots/Bot10", src: imagePath + "projects/bots/bot10.png" },
-                { id: "projects/bots/Bot11", src: imagePath + "projects/bots/bot11.png" },
-                { id: "projects/bots/Bot12", src: imagePath + "projects/bots/bot12.png" },
-                { id: "projects/bots/Bot13", src: imagePath + "projects/bots/bot13.png" },
-                { id: "projects/bots/Bot14", src: imagePath + "projects/bots/bot14.png" },
-                { id: "projects/bots/Bot15", src: imagePath + "projects/bots/bot15.png" },
-                { id: "projects/bots/Bot16", src: imagePath + "projects/bots/bot16.png" },
-                { id: "projects/bots/Bot17", src: imagePath + "projects/bots/bot17.png" },
-                { id: "projects/bots/Bot18", src: imagePath + "projects/bots/bot18.png" },
-                { id: "projects/bots/Bot02", src: imagePath + "projects/bots/bot2.png" },
-                { id: "projects/bots/Bot03", src: imagePath + "projects/bots/bot3.png" },
-                { id: "projects/bots/Bot04", src: imagePath + "projects/bots/bot4.png" },
-                { id: "projects/bots/Bot05", src: imagePath + "projects/bots/bot5.png" },
-                { id: "projects/bots/Bot06", src: imagePath + "projects/bots/bot6.png" },
-                { id: "projects/bots/Bot07", src: imagePath + "projects/bots/bot7.png" },
-                { id: "projects/bots/Bot08", src: imagePath + "projects/bots/bot8.png" },
-                { id: "projects/bots/Bot09", src: imagePath + "projects/bots/bot9.png" },
-                { id: "projects/bots/shadowBot01", src: imagePath + "projects/bots/botshadow1.png" },
-                { id: "projects/bots/shadowBot10", src: imagePath + "projects/bots/botshadow10.png" },
-                { id: "projects/bots/shadowBot11", src: imagePath + "projects/bots/botshadow11.png" },
-                { id: "projects/bots/shadowBot12", src: imagePath + "projects/bots/botshadow12.png" },
-                { id: "projects/bots/shadowBot13", src: imagePath + "projects/bots/botshadow13.png" },
-                { id: "projects/bots/shadowBot14", src: imagePath + "projects/bots/botshadow14.png" },
-                { id: "projects/bots/shadowBot15", src: imagePath + "projects/bots/botshadow15.png" },
-                { id: "projects/bots/shadowBot16", src: imagePath + "projects/bots/botshadow16.png" },
-                { id: "projects/bots/shadowBot17", src: imagePath + "projects/bots/botshadow17.png" },
-                { id: "projects/bots/shadowBot18", src: imagePath + "projects/bots/botshadow18.png" },
-                { id: "projects/bots/shadowBot02", src: imagePath + "projects/bots/botshadow2.png" },
-                { id: "projects/bots/shadowBot03", src: imagePath + "projects/bots/botshadow3.png" },
-                { id: "projects/bots/shadowBot04", src: imagePath + "projects/bots/botshadow4.png" },
-                { id: "projects/bots/shadowBot05", src: imagePath + "projects/bots/botshadow5.png" },
-                { id: "projects/bots/shadowBot06", src: imagePath + "projects/bots/botshadow6.png" },
-                { id: "projects/bots/shadowBot07", src: imagePath + "projects/bots/botshadow7.png" },
-                { id: "projects/bots/shadowBot08", src: imagePath + "projects/bots/botshadow8.png" },
-                { id: "projects/bots/shadowBot09", src: imagePath + "projects/bots/botshadow9.png" },
+                { id: "projects/bots/Bot01", src: imagePath + "projects/bots/Bot01.png" },
+                { id: "projects/bots/Bot02", src: imagePath + "projects/bots/Bot02.png" },
+                { id: "projects/bots/Bot03", src: imagePath + "projects/bots/Bot03.png" },
+                { id: "projects/bots/Bot04", src: imagePath + "projects/bots/Bot04.png" },
+                { id: "projects/bots/Bot05", src: imagePath + "projects/bots/Bot05.png" },
+                { id: "projects/bots/Bot06", src: imagePath + "projects/bots/Bot06.png" },
+                { id: "projects/bots/Bot07", src: imagePath + "projects/bots/Bot07.png" },
+                { id: "projects/bots/Bot08", src: imagePath + "projects/bots/Bot08.png" },
+                { id: "projects/bots/Bot09", src: imagePath + "projects/bots/Bot09.png" },
+                { id: "projects/bots/Bot10", src: imagePath + "projects/bots/Bot10.png" },
+                { id: "projects/bots/Bot11", src: imagePath + "projects/bots/Bot11.png" },
+                { id: "projects/bots/Bot12", src: imagePath + "projects/bots/Bot12.png" },
+                { id: "projects/bots/Bot13", src: imagePath + "projects/bots/Bot13.png" },
+                { id: "projects/bots/Bot14", src: imagePath + "projects/bots/Bot14.png" },
+                { id: "projects/bots/Bot15", src: imagePath + "projects/bots/Bot15.png" },
+                { id: "projects/bots/Bot16", src: imagePath + "projects/bots/Bot16.png" },
+                { id: "projects/bots/Bot17", src: imagePath + "projects/bots/Bot17.png" },
+                { id: "projects/bots/Bot18", src: imagePath + "projects/bots/Bot18.png" },
+                { id: "projects/bots/Bot01_shadow", src: imagePath + "projects/bots/Bot01_shadow.png" },
+                { id: "projects/bots/Bot02_shadow", src: imagePath + "projects/bots/Bot02_shadow.png" },
+                { id: "projects/bots/Bot03_shadow", src: imagePath + "projects/bots/Bot03_shadow.png" },
+                { id: "projects/bots/Bot04_shadow", src: imagePath + "projects/bots/Bot04_shadow.png" },
+                { id: "projects/bots/Bot05_shadow", src: imagePath + "projects/bots/Bot05_shadow.png" },
+                { id: "projects/bots/Bot06_shadow", src: imagePath + "projects/bots/Bot06_shadow.png" },
+                { id: "projects/bots/Bot07_shadow", src: imagePath + "projects/bots/Bot07_shadow.png" },
+                { id: "projects/bots/Bot08_shadow", src: imagePath + "projects/bots/Bot08_shadow.png" },
+                { id: "projects/bots/Bot09_shadow", src: imagePath + "projects/bots/Bot09_shadow.png" },
+                { id: "projects/bots/Bot10_shadow", src: imagePath + "projects/bots/Bot10_shadow.png" },
+                { id: "projects/bots/Bot11_shadow", src: imagePath + "projects/bots/Bot11_shadow.png" },
+                { id: "projects/bots/Bot12_shadow", src: imagePath + "projects/bots/Bot12_shadow.png" },
+                { id: "projects/bots/Bot13_shadow", src: imagePath + "projects/bots/Bot13_shadow.png" },
+                { id: "projects/bots/Bot14_shadow", src: imagePath + "projects/bots/Bot14_shadow.png" },
+                { id: "projects/bots/Bot15_shadow", src: imagePath + "projects/bots/Bot15_shadow.png" },
+                { id: "projects/bots/Bot16_shadow", src: imagePath + "projects/bots/Bot16_shadow.png" },
+                { id: "projects/bots/Bot17_shadow", src: imagePath + "projects/bots/Bot17_shadow.png" },
+                { id: "projects/bots/Bot18_shadow", src: imagePath + "projects/bots/Bot18_shadow.png" },
                 //workshop
                 { src: imagePath + "myBots/Bot01.png", id: "myBots/Bot01" },
-                { src: imagePath + "myBots/Bot01_fill.png", id: "myBots/Bot01_fill" },
-                { src: imagePath + "myBots/Bot01_stroke.png", id: "myBots/Bot01_stroke" },
                 { src: imagePath + "myBots/Bot02.png", id: "myBots/Bot02" },
-                { src: imagePath + "myBots/Bot02_fill.png", id: "myBots/Bot02_fill" },
-                { src: imagePath + "myBots/Bot02_stroke.png", id: "myBots/Bot02_stroke" },
                 { src: imagePath + "myBots/Bot03.png", id: "myBots/Bot03" },
-                { src: imagePath + "myBots/Bot03_fill.png", id: "myBots/Bot03_fill" },
-                { src: imagePath + "myBots/Bot03_stroke.png", id: "myBots/Bot03_stroke" },
                 { src: imagePath + "myBots/Bot04.png", id: "myBots/Bot04" },
-                { src: imagePath + "myBots/Bot04_fill.png", id: "myBots/Bot04_fill" },
-                { src: imagePath + "myBots/Bot04_stroke.png", id: "myBots/Bot04_stroke" },
                 { src: imagePath + "myBots/Bot05.png", id: "myBots/Bot05" },
-                { src: imagePath + "myBots/Bot05_fill.png", id: "myBots/Bot05_fill" },
-                { src: imagePath + "myBots/Bot05_stroke.png", id: "myBots/Bot05_stroke" },
                 { src: imagePath + "myBots/Bot06.png", id: "myBots/Bot06" },
-                { src: imagePath + "myBots/Bot06_fill.png", id: "myBots/Bot06_fill" },
-                { src: imagePath + "myBots/Bot06_stroke.png", id: "myBots/Bot06_stroke" },
                 { src: imagePath + "myBots/Bot07.png", id: "myBots/Bot07" },
-                { src: imagePath + "myBots/Bot07_fill.png", id: "myBots/Bot07_fill" },
-                { src: imagePath + "myBots/Bot07_stroke.png", id: "myBots/Bot07_stroke" },
                 { src: imagePath + "myBots/Bot08.png", id: "myBots/Bot08" },
-                { src: imagePath + "myBots/Bot08_fill.png", id: "myBots/Bot08_fill" },
-                { src: imagePath + "myBots/Bot08_stroke.png", id: "myBots/Bot08_stroke" },
                 { src: imagePath + "myBots/Bot09.png", id: "myBots/Bot09" },
-                { src: imagePath + "myBots/Bot09_fill.png", id: "myBots/Bot09_fill" },
-                { src: imagePath + "myBots/Bot09_stroke.png", id: "myBots/Bot09_stroke" },
                 { src: imagePath + "myBots/Bot10.png", id: "myBots/Bot10" },
-                { src: imagePath + "myBots/Bot10_fill.png", id: "myBots/Bot10_fill" },
-                { src: imagePath + "myBots/Bot10_stroke.png", id: "myBots/Bot10_stroke" },
                 { src: imagePath + "myBots/Bot11.png", id: "myBots/Bot11" },
-                { src: imagePath + "myBots/Bot10_fill.png", id: "myBots/Bot11_fill" },
-                { src: imagePath + "myBots/Bot10_stroke.png", id: "myBots/Bot11_stroke" },
                 { src: imagePath + "myBots/Bot12.png", id: "myBots/Bot12" },
-                { src: imagePath + "myBots/Bot10_fill.png", id: "myBots/Bot12_fill" },
-                { src: imagePath + "myBots/Bot10_stroke.png", id: "myBots/Bot12_stroke" },
                 { src: imagePath + "myBots/Bot13.png", id: "myBots/Bot13" },
-                { src: imagePath + "myBots/Bot13_fill.png", id: "myBots/Bot13_fill" },
-                { src: imagePath + "myBots/Bot13_stroke.png", id: "myBots/Bot13_stroke" },
                 { src: imagePath + "myBots/Bot14.png", id: "myBots/Bot14" },
-                { src: imagePath + "myBots/Bot14_fill.png", id: "myBots/Bot14_fill" },
-                { src: imagePath + "myBots/Bot14_stroke.png", id: "myBots/Bot14_stroke" },
                 { src: imagePath + "myBots/Bot15.png", id: "myBots/Bot15" },
-                { src: imagePath + "myBots/Bot15_fill.png", id: "myBots/Bot15_fill" },
-                { src: imagePath + "myBots/Bot15_stroke.png", id: "myBots/Bot15_stroke" },
                 { src: imagePath + "myBots/Bot16.png", id: "myBots/Bot16" },
-                { src: imagePath + "myBots/Bot16_fill.png", id: "myBots/Bot16_fill" },
-                { src: imagePath + "myBots/Bot16_stroke.png", id: "myBots/Bot16_stroke" },
                 { src: imagePath + "myBots/Bot17.png", id: "myBots/Bot17" },
-                { src: imagePath + "myBots/Bot17_fill.png", id: "myBots/Bot17_fill" },
-                { src: imagePath + "myBots/Bot17_stroke.png", id: "myBots/Bot17_stroke" },
                 { src: imagePath + "myBots/Bot18.png", id: "myBots/Bot18" },
+                { src: imagePath + "myBots/Bot01_fill.png", id: "myBots/Bot01_fill" },
+                { src: imagePath + "myBots/Bot02_fill.png", id: "myBots/Bot02_fill" },
+                { src: imagePath + "myBots/Bot03_fill.png", id: "myBots/Bot03_fill" },
+                { src: imagePath + "myBots/Bot04_fill.png", id: "myBots/Bot04_fill" },
+                { src: imagePath + "myBots/Bot05_fill.png", id: "myBots/Bot05_fill" },
+                { src: imagePath + "myBots/Bot06_fill.png", id: "myBots/Bot06_fill" },
+                { src: imagePath + "myBots/Bot07_fill.png", id: "myBots/Bot07_fill" },
+                { src: imagePath + "myBots/Bot08_fill.png", id: "myBots/Bot08_fill" },
+                { src: imagePath + "myBots/Bot09_fill.png", id: "myBots/Bot09_fill" },
+                { src: imagePath + "myBots/Bot10_fill.png", id: "myBots/Bot10_fill" },
+                { src: imagePath + "myBots/Bot11_fill.png", id: "myBots/Bot11_fill" },
+                { src: imagePath + "myBots/Bot12_fill.png", id: "myBots/Bot12_fill" },
+                { src: imagePath + "myBots/Bot13_fill.png", id: "myBots/Bot13_fill" },
+                { src: imagePath + "myBots/Bot09_fill.png", id: "myBots/Bot14_fill" },
+                { src: imagePath + "myBots/Bot15_fill.png", id: "myBots/Bot15_fill" },
+                { src: imagePath + "myBots/Bot09_fill.png", id: "myBots/Bot16_fill" },
+                { src: imagePath + "myBots/Bot17_fill.png", id: "myBots/Bot17_fill" },
                 { src: imagePath + "myBots/Bot18_fill.png", id: "myBots/Bot18_fill" },
+                { src: imagePath + "myBots/Bot01_stroke.png", id: "myBots/Bot01_stroke" },
+                { src: imagePath + "myBots/Bot02_stroke.png", id: "myBots/Bot02_stroke" },
+                { src: imagePath + "myBots/Bot03_stroke.png", id: "myBots/Bot03_stroke" },
+                { src: imagePath + "myBots/Bot04_stroke.png", id: "myBots/Bot04_stroke" },
+                { src: imagePath + "myBots/Bot05_stroke.png", id: "myBots/Bot05_stroke" },
+                { src: imagePath + "myBots/Bot06_stroke.png", id: "myBots/Bot06_stroke" },
+                { src: imagePath + "myBots/Bot07_stroke.png", id: "myBots/Bot07_stroke" },
+                { src: imagePath + "myBots/Bot08_stroke.png", id: "myBots/Bot08_stroke" },
+                { src: imagePath + "myBots/Bot09_stroke.png", id: "myBots/Bot09_stroke" },
+                { src: imagePath + "myBots/Bot10_stroke.png", id: "myBots/Bot10_stroke" },
+                { src: imagePath + "myBots/Bot11_stroke.png", id: "myBots/Bot11_stroke" },
+                { src: imagePath + "myBots/Bot12_stroke.png", id: "myBots/Bot12_stroke" },
+                { src: imagePath + "myBots/Bot13_stroke.png", id: "myBots/Bot13_stroke" },
+                { src: imagePath + "myBots/Bot09_stroke.png", id: "myBots/Bot14_stroke" },
+                { src: imagePath + "myBots/Bot15_stroke.png", id: "myBots/Bot15_stroke" },
+                { src: imagePath + "myBots/Bot09_stroke.png", id: "myBots/Bot16_stroke" },
+                { src: imagePath + "myBots/Bot17_stroke.png", id: "myBots/Bot17_stroke" },
                 { src: imagePath + "myBots/Bot18_stroke.png", id: "myBots/Bot18_stroke" },
-                //bots
+                //My bots
                 { src: imagePath + "mybots/mybotsbg.jpg", id: "mybotsbg" },
                 { src: imagePath + "mybots/Bot01.png", id: "Bot01" },
                 { src: imagePath + "mybots/Bot02.png", id: "Bot02" },
@@ -945,13 +945,7 @@ var InvertCross;
                 { id: "popups/popupTutorial", src: imagePath + "popups/popupbot.png" },
                 //Legacy
                 { id: "bolinhas", src: "assets/" + "bolinhas.png" },
-                { id: "smokePart", src: "assets/" + "smokePart.png" },
-                //slides
-                { src: imagePath + "slides/sl1.jpg", id: "sl1" },
-                { src: imagePath + "slides/sl2.jpg", id: "sl2" },
-                { src: imagePath + "slides/sl3.jpg", id: "sl3" },
-                { src: imagePath + "slides/sl4.jpg", id: "sl4" },
-                { src: imagePath + "slides/sl5.jpg", id: "sl5" }
+                { id: "smokePart", src: "assets/" + "smokePart.png" }
             ];
 
             //create a image array
@@ -3683,7 +3677,7 @@ var InvertCross;
 
             //Adds defaultMenu to screen
             ProjectsMenu.prototype.addMenu = function () {
-                this.menu = new InvertCross.Menu.View.ScreenMenu();
+                this.menu = new InvertCross.Menu.View.ScreenMenu(true, true);
 
                 //TODO fazer camada intermediaria
                 //TODO o options sempre volta pro menu principal. O_o
@@ -3882,10 +3876,11 @@ var InvertCross;
         (function (View) {
             var ScreenMenu = (function (_super) {
                 __extends(ScreenMenu, _super);
-                function ScreenMenu(backVisible) {
+                function ScreenMenu(backVisible, starsVisible) {
                     if (typeof backVisible === "undefined") { backVisible = true; }
+                    if (typeof starsVisible === "undefined") { starsVisible = false; }
                     _super.call(this);
-                    this.createObjects(backVisible);
+                    this.createObjects(backVisible, starsVisible);
                 }
                 ScreenMenu.prototype.createObjects = function (backVisible, starsVisible) {
                     if (typeof backVisible === "undefined") { backVisible = true; }
@@ -4206,7 +4201,7 @@ var InvertCross;
                 //updates Parts indicator amount
                 PartsIndicator.prototype.updatePartsAmount = function (newQuantity, tween) {
                     if (typeof tween === "undefined") { tween = true; }
-                    this.partsTextField.text = newQuantity.toString();
+                    //this.partsTextField.text = newQuantity.toString();
                 };
 
                 //updates Parts indicator amount
@@ -4219,31 +4214,31 @@ var InvertCross;
                 PartsIndicator.prototype.buildView = function () {
                     //add Background
                     var bg = InvertCross.Assets.getImage("partshud");
-                    bg.scaleX = 2;
-                    this.regX = bg.getBounds().width;
+
+                    //bg.scaleX = 2;
+                    this.regX = bg.getBounds().width / 2;
                     this.addChild(bg);
 
                     this.infoCotainer = new createjs.Container();
 
-                    var pi = InvertCross.Assets.getImage("partsicon");
+                    //var pi = Assets.getImage("partsicon");
+                    //this.partsTextField = new createjs.Text("0",defaultFontFamilyNormal,defaultFontColor);
+                    //this.infoCotainer.addChild(pi);
+                    //this.infoCotainer.addChild(this.partsTextField);
+                    //pi.y = 20;
+                    //pi.x = 320;
+                    //this.partsTextField.y = 20;
+                    //this.partsTextField.x = 470;
                     var si = InvertCross.Assets.getImage("starsicon");
-                    this.partsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
                     this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
 
-                    this.infoCotainer.addChild(pi);
                     this.infoCotainer.addChild(si);
-                    this.infoCotainer.addChild(this.partsTextField);
                     this.infoCotainer.addChild(this.starsTextField);
 
-                    pi.y = 20;
-                    si.y = 20;
-                    this.partsTextField.y = 20;
+                    si.x = -30;
+                    si.y = 14;
                     this.starsTextField.y = 20;
-
-                    si.x = 000;
                     this.starsTextField.x = 150;
-                    pi.x = 320;
-                    this.partsTextField.x = 470;
 
                     this.addChild(this.infoCotainer);
                     this.infoCotainer.x = 70;
@@ -4302,7 +4297,7 @@ var InvertCross;
                         if (this.project.UserData.complete)
                             var botImage = InvertCross.Assets.getImage("projects/bots/" + this.project.name);
                         else
-                            var botImage = InvertCross.Assets.getImage("projects/bots/shadow" + this.project.name);
+                            var botImage = InvertCross.Assets.getImage("projects/bots/" + this.project.name + "_shadow");
                         this.addChild(botImage);
 
                         //and stars
@@ -5144,7 +5139,7 @@ var InvertCross;
                 this.editWindow.document.getElementById("c_load").onclick = function () {
                     var s = _this.loadStored();
 
-                    var selected = _this.editWindow.document.getElementById("c_select").value;
+                    var selected = _this.editWindow.document.getElementById("c_select_level").value;
                     var level = s[selected];
 
                     if (level) {
@@ -5156,7 +5151,7 @@ var InvertCross;
                 this.editWindow.document.getElementById("c_delete").onclick = function () {
                     var s = _this.loadStored();
 
-                    var selected = _this.editWindow.document.getElementById("c_select").value;
+                    var selected = _this.editWindow.document.getElementById("c_select_level").value;
                     delete s[selected];
 
                     _this.saveStored(s);
@@ -5167,6 +5162,12 @@ var InvertCross;
                 this.editWindow.document.getElementById("c_export").onclick = function () {
                     var exp = localStorage.getItem(LevelCreator.key);
                     _this.editWindow.document.getElementById("c_exported").value = exp;
+                };
+
+                this.editWindow.document.getElementById("c_import").onclick = function () {
+                    var exp = _this.editWindow.document.getElementById("c_exported").value;
+                    localStorage.setItem(LevelCreator.key, exp);
+                    _this.updateSelectList();
                 };
             }
             LevelCreator.prototype.loadStored = function () {
@@ -5183,11 +5184,11 @@ var InvertCross;
 
             LevelCreator.prototype.updateSelectList = function () {
                 var s = this.loadStored();
-                this.editWindow.document.getElementById("c_select").options.length = 0;
+                this.editWindow.document.getElementById("c_select_level").options.length = 0;
                 for (var i in s) {
                     var option = this.editWindow.document.createElement("option");
                     option.text = i;
-                    this.editWindow.document.getElementById("c_select").add(option);
+                    this.editWindow.document.getElementById("c_select_level").add(option);
                 }
             };
 
@@ -5208,9 +5209,8 @@ var InvertCross;
                 levelData.randomMaxMoves = parseInt(this.editWindow.document.getElementById("c_r_max").value);
                 levelData.randomMinMoves = parseInt(this.editWindow.document.getElementById("c_r_min").value);
 
-                if (this.editWindow.document.getElementById("c_blocks").value)
-                    levelData.blocksData = JSON.parse(this.editWindow.document.getElementById("c_blocks").value);
-
+                //if ((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value)
+                //    levelData.blocksData = JSON.parse((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value);
                 return levelData;
             };
 
@@ -5908,15 +5908,17 @@ var InvertCross;
                 ProjectWorkshopView.prototype.addStatus = function (project) {
                     this.statusArea = new createjs.Container();
                     this.statusArea.regX = this.statusArea.x = DefaultWidth / 2;
-                    var bg = InvertCross.Assets.getImage("workshop/painelworkshop");
-                    bg.y = 150;
-                    bg.x = (DefaultWidth - 845) / 2;
+                    var bg = InvertCross.Assets.getImage("partshud");
+                    bg.y = 00;
+                    bg.x = DefaultWidth / 2;
+                    bg.scaleX = 2;
+                    bg.regX = bg.getBounds().width / 2;
                     this.statusArea.addChild(bg);
 
                     var l = new createjs.Text(project.name.toUpperCase(), defaultFontFamilyStrong, "#FFF");
-                    l.y = 250;
+                    l.y = 0; //250;
                     l.textAlign = "center";
-                    l.textBaseline = "middle";
+                    l.textBaseline = "top";
                     l.x = DefaultWidth / 2;
                     this.statusArea.addChild(l);
 
@@ -6062,12 +6064,16 @@ var InvertCross;
                     this.stroke = this.addChild(InvertCross.Assets.getImage("myBots/" + project.name + "_stroke"));
                     this.complete = this.addChild(InvertCross.Assets.getImage("myBots/" + project.name));
 
-                    this.fill.regX = this.complete.regX = this.stroke.regX = this.fill.getBounds().width / 2;
-                    this.fill.regY = this.complete.regY = this.stroke.regY = this.fill.getBounds().height;
+                    this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
+                    this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
+
+                    this.complete.regX = this.fill.regX - 50;
+                    this.complete.regY = this.fill.regY - 50;
 
                     this.addChild(this.fill);
                     this.addChild(this.stroke);
                     this.addChild(this.complete);
+
                     this.complete.visible = false;
 
                     //mask
