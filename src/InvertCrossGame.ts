@@ -10,14 +10,14 @@ module InvertCross {
 
         //userData
         public static userData: UserData.ProjectsData;
-        public static settings: UserData.SettingsData;
-        public static timersData:   UserData.TimersData;
-        public static itemsData: UserData.ItensData;
-        public static storyData: UserData.StoryData;
+        public static settings: UserData.Settings;
+        public static timersData:   UserData.Timers;
+        public static itemsData: UserData.Items;
+        public static storyData: UserData.Story;
                        
         //Managers
         public static projectManager: Projects.ProjectManager;
-        public static partsManager: Parts.PartsManager;
+        public static partsManager: Parts.ItemsManager;
         
         // Screens
         private static titleScreen: Gbase.ScreenState;
@@ -41,13 +41,13 @@ module InvertCross {
                        
             //userData
             InvertCrossaGame.userData = new UserData.ProjectsData();
-            InvertCrossaGame.settings = new UserData.SettingsData();
-            InvertCrossaGame.itemsData = new UserData.ItensData();
-            InvertCrossaGame.storyData = new UserData.StoryData();
-            InvertCrossaGame.timersData = new UserData.TimersData();
+            InvertCrossaGame.settings = new UserData.Settings();
+            InvertCrossaGame.itemsData = new UserData.Items();
+            InvertCrossaGame.storyData = new UserData.Story();
+            InvertCrossaGame.timersData = new UserData.Timers();
 
             //managers
-            InvertCrossaGame.partsManager = new Parts.PartsManager();
+            InvertCrossaGame.partsManager = new Parts.ItemsManager();
             InvertCrossaGame.projectManager = new Projects.ProjectManager(levelsData);
             
             //go to First Screen
@@ -66,7 +66,13 @@ module InvertCross {
             
             //TODO tirar daqui
             if(InvertCrossaGame.itemsData.getItemQuantity("hint") == 0)
-                InvertCrossaGame.itemsData.saveQuantityItem("hint", 5);
+                InvertCrossaGame.itemsData.setQuantityItem("hint", 5);
+
+            if (InvertCrossaGame.itemsData.getItemQuantity("skip") == 0)
+                InvertCrossaGame.itemsData.setQuantityItem("skip", 5);
+
+            if (InvertCrossaGame.itemsData.getItemQuantity("skip") == 0)
+                InvertCrossaGame.itemsData.setQuantityItem("skip", 5);
         }
 
         // ----------------------------- Game Methods ---------------------------------------------//

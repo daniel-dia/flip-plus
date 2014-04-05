@@ -27,7 +27,7 @@ module Gbase.UI {
             this.animating = true;
             this.antX = this.x;
             this.antY = this.y;
-            //this.mouseEnabled = false;
+            this.mouseEnabled = false;
             createjs.Tween.removeTweens(this);
             createjs.Tween.get(this).to({
                 scaleX: 0.5,

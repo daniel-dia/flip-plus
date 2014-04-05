@@ -165,7 +165,7 @@ module InvertCross.GamePlay {
 
                 this.boardSprite.getBlockById(blockId).enableHint();
                 hintsQuantity--;
-                InvertCrossaGame.itemsData.saveQuantityItem("hint", hintsQuantity);
+                InvertCrossaGame.itemsData.setQuantityItem("hint", hintsQuantity);
                 this.menuOverlay.updateButtonLabel("hint", InvertCrossaGame.itemsData.getItemQuantity("hint"));
 
             }

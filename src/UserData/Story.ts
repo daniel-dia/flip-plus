@@ -1,6 +1,6 @@
 module InvertCross.UserData {
 
-    export class StoryData {
+    export class Story {
 
         private storyPrefix = "history_";
         private storyPlayed = "played";

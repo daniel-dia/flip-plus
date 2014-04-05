@@ -1,7 +1,7 @@
 module InvertCross.UserData {
 
     // Class
-    export class SettingsData {
+    export class Settings {
 
         private soundFX: boolean = true;
         private music: boolean = true;

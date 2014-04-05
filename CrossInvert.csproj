@@ -875,8 +875,8 @@
     <TypeScriptCompile Include="src\Menu\View\PopupBot.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProjectWorkshopView.ts" />
     <TypeScriptCompile Include="src\Menu\View\RobotPreview.ts" />
-    <TypeScriptCompile Include="src\UserData\ItensData.ts" />
-    <TypeScriptCompile Include="src\UserData\StoryData.ts" />
+    <TypeScriptCompile Include="src\UserData\Items.ts" />
+    <TypeScriptCompile Include="src\UserData\Story.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\GameplayMenu.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\StatusArea.ts" />
     <TypeScriptCompile Include="src\Menu\LevelsMenu.ts" />
@@ -884,7 +884,7 @@
     <Content Include="lib\createjs-2013.12.12.min.js" />
     <Content Include="lib\movieclip-0.6.1.min.js" />
     <Content Include="lib\timer.js" />
-    <TypeScriptCompile Include="src\UserData\SettingsData.ts" />
+    <TypeScriptCompile Include="src\UserData\Settings.ts" />
     <TypeScriptCompile Include="src\Menu\Loading.ts" />
     <TypeScriptCompile Include="src\Menu\SoundMenu.ts" />
     <TypeScriptCompile Include="src\Menu\OptionsMenu.ts" />
@@ -896,8 +896,7 @@
     <TypeScriptCompile Include="src\Menu\View\Terminal.ts" />
     <TypeScriptCompile Include="src\Menu\View\ScreenMenu.ts" />
     <TypeScriptCompile Include="src\Projects\Project.ts" />
-    <TypeScriptCompile Include="src\UserData\TimersData.ts" />
-    <TypeScriptCompile Include="src\Parts\PartsManager.ts" />
+    <TypeScriptCompile Include="src\UserData\Timers.ts" />
     <TypeScriptCompile Include="src\Projects\ProjectManager.ts" />
     <Content Include="script\script.js" />
     <Content Include="src\UserData\ProjectsData.ts" />

@@ -2,7 +2,7 @@
 module InvertCross.UserData {
 
     // Class
-    export class TimersData {
+    export class Timers {
         
         private timers: Object
     
