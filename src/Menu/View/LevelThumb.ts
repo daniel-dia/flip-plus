@@ -37,8 +37,8 @@ module InvertCross.Menu.View {
 
             var thumbContainer: createjs.Container = new Gbase.UI.Button();
 
-            var color1:string;
-            var color2:string;
+            var color1: string;
+            var color2: string;
             var assetSufix: string;
 
             var assetName = this.defineAssetName(level);
@@ -50,7 +50,8 @@ module InvertCross.Menu.View {
                 color2 = "rgba(0,0,0,0.3)";
             }
 
-            if (!level.userdata.unlocked) {
+
+            if (!level.userdata.unlocked || level.userdata.skip || level.userdata.item) {
                 assetSufix = "2";
                 color1 = "rgba(0,0,0,0.5)";
                 color2 = "rgba(0,0,0,0.3)";
@@ -67,7 +68,7 @@ module InvertCross.Menu.View {
            }
 
             //Adds Thumb Backgroud
-            this.addChild( this.createBackgroud(level,assetName,assetSufix));
+            this.addChild(this.createBackgroud(level, assetName, assetSufix));
 
             //Adds Thumb Blocks
             this.addChild(this.createBlocks(level,color1,color2));
