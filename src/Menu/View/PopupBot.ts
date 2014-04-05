@@ -4,7 +4,7 @@ module InvertCross.Menu.View {
     export class PopupBot extends Popup{
 
         //public method to invoke the popup
-        public showtext(text: string, timeout: number= 3000,delay:number=0) {
+        public showtext(text: string, timeout: number= 5000,delay:number=0) {
             super.showsPopup(timeout, delay);
             //clean everything
             this.removeAllChildren();
@@ -29,6 +29,14 @@ module InvertCross.Menu.View {
             textDO.text = text.toUpperCase();
 
             this.addsClickIndicaator();
+        }
+
+        addsClickIndicaator() {
+            //add click indicator
+            var ind = Assets.getMovieClip("touch");
+            this.addChild(ind);
+            ind.x = 1250;
+            ind.y = 900;
         }
     }
 }

@@ -266,6 +266,7 @@ module InvertCross.Menu.View {
             ind.x = 1350;
             ind.y = 1100;
         }
+
         //method for close popup 
         private closePopUp() {
 
