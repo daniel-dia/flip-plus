@@ -4051,7 +4051,7 @@ var InvertCross;
                         color2 = "rgba(0,0,0,0.3)";
                     }
 
-                    if (!level.userdata.unlocked) {
+                    if (!level.userdata.unlocked || level.userdata.skip || level.userdata.item) {
                         assetSufix = "2";
                         color1 = "rgba(0,0,0,0.5)";
                         color2 = "rgba(0,0,0,0.3)";
@@ -5884,7 +5884,7 @@ var InvertCross;
                 }
                 //public method to invoke the popup
                 PopupBot.prototype.showtext = function (text, timeout, delay) {
-                    if (typeof timeout === "undefined") { timeout = 3000; }
+                    if (typeof timeout === "undefined") { timeout = 5000; }
                     if (typeof delay === "undefined") { delay = 0; }
                     _super.prototype.showsPopup.call(this, timeout, delay);
 
@@ -5911,6 +5911,14 @@ var InvertCross;
                     textDO.text = text.toUpperCase();
 
                     this.addsClickIndicaator();
+                };
+
+                PopupBot.prototype.addsClickIndicaator = function () {
+                    //add click indicator
+                    var ind = InvertCross.Assets.getMovieClip("touch");
+                    this.addChild(ind);
+                    ind.x = 1250;
+                    ind.y = 900;
                 };
                 return PopupBot;
             })(InvertCross.Menu.View.Popup);
