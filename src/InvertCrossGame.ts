@@ -153,7 +153,7 @@ module InvertCross {
             var currentLevel = InvertCrossaGame.projectManager.getCurrentLevel();
 
             InvertCrossaGame.projectManager.skipLevel(currentLevel);
-            this.showNextLevel();
+            this.showProjectLevelsMenu();
         }
         
         public static showMainMenu() {

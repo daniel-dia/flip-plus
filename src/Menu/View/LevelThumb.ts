@@ -7,10 +7,6 @@ module InvertCross.Menu.View {
         //Display Objects
         private badges: createjs.DisplayObject;
 
-        private locked: createjs.DisplayObject;
-        private active: createjs.DisplayObject;
-        private skiped: createjs.DisplayObject;
-
         private level: Projects.Level;
 
         // Constructor
@@ -19,33 +15,20 @@ module InvertCross.Menu.View {
             this.level = level;
             this.name = level.name;
             this.theme = level.theme;
-            
-            this.skiped = this.createSkip();
-            this.addChild(this.skiped);
-
-            this.height = this.width = 150;
-            this.createHitArea();
         }
         
         //updates thumbnail with user data information
         public updateUserData() {
-            var u = this.level.userdata;
-            this.skiped.visible = u.skip;
 
             //create a new thumb
             this.createThumbs(this.level);
 
             //cache thumb
             this.cache(-99, -102, 198, 204);
-        } 
 
-        //create a skip tag
-        private createSkip(): createjs.DisplayObject {
-            var sk: createjs.Bitmap = Assets.getImage("workshop/skip");
-            sk.regX = sk.getBounds().width/2;
-            sk.regY = sk.getBounds().height/2;
-            return sk;
-        }
+
+            this.createHitArea();
+        } 
 
         //Create a container with a level thumbnail and evel name
         private createThumbs(level: InvertCross.Projects.Level) {
@@ -92,6 +75,8 @@ module InvertCross.Menu.View {
             //Adds thumb tags
             this.addChild(this.createTags(level,assetName,assetSufix));
 
+            //Adds level modificator
+            this.addChild(this.createLevelModificator(level));
         }
 
         //defines accentColor based on level type.
@@ -102,7 +87,18 @@ module InvertCross.Menu.View {
             if (level.theme == "yellow") assetname = "faseamarela";
             return assetname;
         }
-        
+
+        private createLevelModificator(level: Projects.Level):createjs.DisplayObject {
+            if (level.userdata.skip) {
+
+                var sk: createjs.Bitmap = Assets.getImage("workshop/skip");
+                sk.regX = sk.getBounds().width / 2;
+                sk.regY = sk.getBounds().height / 2;
+                return sk;
+            }
+                
+        }
+
         //adds thumb background
         private createBackgroud(level: Projects.Level,assetName,assetSufix): createjs.DisplayObject {
 
