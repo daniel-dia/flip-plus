@@ -252,7 +252,7 @@ var Gbase;
                 }
             };
             return Grid;
-        })(Gbase.UI.UIItem);
+        })(UI.UIItem);
         UI.Grid = Grid;
     })(Gbase.UI || (Gbase.UI = {}));
     var UI = Gbase.UI;
@@ -316,7 +316,7 @@ var Gbase;
                 });
             };
             return Button;
-        })(Gbase.UI.UIItem);
+        })(UI.UIItem);
         UI.Button = Button;
 
         var ImageButton = (function (_super) {
@@ -436,7 +436,7 @@ var Gbase;
                 this.addChild(this.textField);
             }
             return Label;
-        })(Gbase.UI.UIItem);
+        })(UI.UIItem);
         UI.Label = Label;
     })(Gbase.UI || (Gbase.UI = {}));
     var UI = Gbase.UI;
@@ -463,7 +463,7 @@ var Gbase;
             //adds a text object
             MenuContainer.prototype.addLabel = function (text) {
                 var textObj;
-                textObj = new Gbase.UI.Label(text);
+                textObj = new UI.Label(text);
                 this.addObject(textObj);
                 return textObj.textField;
             };
@@ -471,19 +471,19 @@ var Gbase;
             //creates a button object
             MenuContainer.prototype.addButton = function (text, event) {
                 if (typeof event === "undefined") { event = null; }
-                var buttonObj = new Gbase.UI.TextButton(text, event);
+                var buttonObj = new UI.TextButton(text, event);
                 this.addObject(buttonObj);
                 return buttonObj;
             };
 
             MenuContainer.prototype.addOutButton = function (text, event) {
                 if (typeof event === "undefined") { event = null; }
-                var buttonObj = new Gbase.UI.TextButton(text, event);
+                var buttonObj = new UI.TextButton(text, event);
                 this.addObject(buttonObj);
                 return buttonObj;
             };
             return MenuContainer;
-        })(Gbase.UI.Grid);
+        })(UI.Grid);
         UI.MenuContainer = MenuContainer;
     })(Gbase.UI || (Gbase.UI = {}));
     var UI = Gbase.UI;
@@ -589,9 +589,9 @@ var InvertCross;
         }
         //-----------------------------------------------------------------------
         Game.initialize = function () {
-            var _this = this;
             //var osCanvas = document.createElement("canvas"); // creates a new off-screen canvas element
             //var osContext = osCanvas.getContext('2d'); //the drawing context of the off-screen canvas element
+            var _this = this;
             this.myCanvas = document.getElementById("myCanvas");
 
             var ctx = this.myCanvas.getContext("2d");
@@ -992,6 +992,22 @@ var InvertCross;
     })();
     InvertCross.Assets = Assets;
 })(InvertCross || (InvertCross = {}));
+///depreciated
+/* public static initSound(): boolean {
+// if initializeDefaultPlugins returns false, we cannot play sound in this browser
+if (!createjs.Sound.initializeDefaultPlugins()) { return false; }
+var manifest = [
+];
+//createjs.Sound.addEventListener("loadComplete", (event: any): boolean => {
+//    return true;
+//});
+createjs.Sound.registerManifest(manifest);
+//wp7 8 compatibility cordova
+//this.mediaDic = new Object();
+//for (var i = 0; i < manifest.length; i++)
+//    this.mediaDic[manifest[i].id] = new Media(manifest[i].src);
+return true;
+}*/
 ///<reference path="../../lib/easeljs.d.ts" />
 ///<reference path="../../lib/tweenjs.d.ts" />
 var InvertCross;
@@ -1004,8 +1020,8 @@ var InvertCross;
         }
         // cast an effect
         Effects.prototype.castEffect = function (x, y, effect, scale) {
-            if (typeof scale === "undefined") { scale = 1; }
             var _this = this;
+            if (typeof scale === "undefined") { scale = 1; }
             var fx = InvertCross.Assets.getMovieClip(effect);
             this.addChild(fx);
             fx.mouseEnabled = false;
@@ -1509,7 +1525,7 @@ var InvertCross;
                 this.levelData = leveldata;
 
                 //initializate level Model
-                this.levelLogic = new InvertCross.GamePlay.Model.Level(leveldata);
+                this.levelLogic = new GamePlay.Model.Level(leveldata);
 
                 //play BgSound
                 InvertCross.Assets.stopMusic();
@@ -1554,7 +1570,7 @@ var InvertCross;
             LevelScreen.prototype.initializeOverlays = function () {
                 var _this = this;
                 //intialize  menu overlay
-                this.menuOverlay = new InvertCross.GamePlay.Views.GamePlayMenu();
+                this.menuOverlay = new GamePlay.Views.GamePlayMenu();
                 this.view.addChild(this.menuOverlay);
 
                 this.menuOverlay.addEventListener("pause", function () {
@@ -1583,7 +1599,7 @@ var InvertCross;
                 if (InvertCross.InvertCrossaGame.projectManager.getCurrentProject() != undefined) {
                     var levels = InvertCross.InvertCrossaGame.projectManager.getCurrentProject().levels;
 
-                    this.statusArea = new InvertCross.GamePlay.Views.StatusArea();
+                    this.statusArea = new GamePlay.Views.StatusArea();
                     this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
                     this.statusArea.setText1("");
                     this.statusArea.setText3("");
@@ -1594,7 +1610,7 @@ var InvertCross;
             LevelScreen.prototype.initializeBoardSprites = function (width, height, theme, blocks, type) {
                 var _this = this;
                 //AddBoard
-                this.boardSprite = new InvertCross.GamePlay.Views.BoardSprite(width, height, theme, type);
+                this.boardSprite = new GamePlay.Views.BoardSprite(width, height, theme, type);
                 this.view.addChild(this.boardSprite);
 
                 this.boardSprite.x = DefaultWidth / 2;
@@ -1693,10 +1709,9 @@ var InvertCross;
                 InvertCross.Assets.playSound("win");
 
                 setTimeout(function () {
-                    InvertCross.InvertCrossaGame.completeLevel();
-
                     createjs.Tween.removeTweens(_this.boardSprite);
-                    createjs.Tween.get(_this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 300, createjs.Ease.quadIn).call(function () {
+                    createjs.Tween.get(_this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(function () {
+                        InvertCross.InvertCrossaGame.completeLevel();
                         _this.boardSprite.visible = false;
                     });
                 }, 3000);
@@ -1776,7 +1791,7 @@ var InvertCross;
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             }
             return Puzzle;
-        })(InvertCross.GamePlay.LevelScreen);
+        })(GamePlay.LevelScreen);
         GamePlay.Puzzle = Puzzle;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
@@ -1897,7 +1912,7 @@ var InvertCross;
                 });
             };
             return TimeAtack;
-        })(InvertCross.GamePlay.LevelScreen);
+        })(GamePlay.LevelScreen);
         GamePlay.TimeAtack = TimeAtack;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
@@ -1967,7 +1982,7 @@ var InvertCross;
                 this.playNextTurorialStep();
             };
             return Tutorial;
-        })(InvertCross.GamePlay.Puzzle);
+        })(GamePlay.Puzzle);
         GamePlay.Tutorial = Tutorial;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
@@ -2019,7 +2034,7 @@ var InvertCross;
                     this.timeSpent = 0;
                     this.points = 0;
                     //creates a board
-                    this.board = new InvertCross.GamePlay.Model.Board(leveldata.width, leveldata.height);
+                    this.board = new Model.Board(leveldata.width, leveldata.height);
                 }
                 //Model methods =======================================================================================================================
                 Level.prototype.getBlocks = function () {
@@ -2078,7 +2093,7 @@ var InvertCross;
                     for (var col = 0; col < width; col++) {
                         this.blocks[col] = [];
                         for (var row = 0; row < height; row++) {
-                            var b = new InvertCross.GamePlay.Model.Block(col, row);
+                            var b = new Model.Block(col, row);
                             this.blocks[col][row] = b;
                         }
                     }
@@ -2470,8 +2485,8 @@ var InvertCross;
                 };
 
                 BlockSprite.prototype.applyHideEffect = function (delay, hide) {
-                    if (typeof hide === "undefined") { hide = true; }
                     var _this = this;
+                    if (typeof hide === "undefined") { hide = true; }
                     createjs.Tween.get(this.container).wait(delay).to({ scaleX: 1.1, scaleY: 1.1 }, 60, createjs.Ease.linear).call(function () {
                         if (_this.state == "DNor" || hide == false)
                             createjs.Tween.get(_this.container).to({ scaleX: 1, scaleY: 1 }, 60, createjs.Ease.linear);
@@ -2506,15 +2521,15 @@ var InvertCross;
                     this.initializeEffects();
 
                     //Positioning board
-                    var boardHeight = levelHeight * InvertCross.GamePlay.Views.BlockSprite.defaultBlockSize;
-                    var boardWidth = levelWidth * InvertCross.GamePlay.Views.BlockSprite.defaultBlockSize;
+                    var boardHeight = levelHeight * Views.BlockSprite.defaultBlockSize;
+                    var boardWidth = levelWidth * Views.BlockSprite.defaultBlockSize;
 
                     this.regX = boardWidth / 2;
                     this.regY = boardHeight / 2;
 
                     //load click indicator
                     this.tutorialIndiatcor = InvertCross.Assets.getMovieClip("touch");
-                    this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -85;
+                    this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -55;
                     this.tutorialIndiatcor.mouseEnabled = false;
                     this.addChild(this.tutorialIndiatcor);
                     this.tutorialIndiatcor.visible = false;
@@ -2534,7 +2549,7 @@ var InvertCross;
                         this.blocksSprites[col] = [];
                         for (var row = 0; row < height; row++) {
                             //Creates block Sprite
-                            var blockSprite = new InvertCross.GamePlay.Views.BlockSprite(col, row, theme, levelType);
+                            var blockSprite = new Views.BlockSprite(col, row, theme, levelType);
 
                             this.blocksSprites[col][row] = blockSprite;
 
@@ -2756,8 +2771,8 @@ var InvertCross;
                 };
 
                 BoardSprite.prototype.applyHideEffect = function (col, row, delay, fx) {
-                    if (typeof fx === "undefined") { fx = true; }
                     var _this = this;
+                    if (typeof fx === "undefined") { fx = true; }
                     if (col < 0)
                         return;
                     if (row < 0)
@@ -3321,21 +3336,21 @@ var InvertCross;
                 this.addMenu();
 
                 //adds popup and messages
-                this.popup = new InvertCross.Menu.View.Popup();
+                this.popup = new Menu.View.Popup();
                 this.view.addChild(this.popup);
 
-                this.message = new InvertCross.Menu.View.Message();
+                this.message = new Menu.View.Message();
                 this.view.addChild(this.message);
             };
 
             //Adds menu to screen;
             LevelsMenu.prototype.addMenu = function () {
-                this.menu = new InvertCross.Menu.View.ScreenMenu();
+                this.menu = new Menu.View.ScreenMenu();
 
                 //TODO fazer camada intermediaria
                 //TODO o options sempre volta pro menu principal. O_o
                 this.menu.addEventListener("menu", function () {
-                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new InvertCross.Menu.OptionsMenu());
+                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
                 });
                 this.menu.addEventListener("back", function () {
                     InvertCross.InvertCrossaGame.showProjectsMenu();
@@ -3356,7 +3371,7 @@ var InvertCross;
                 this.projectViews = new Array();
 
                 for (var p in projects) {
-                    var projectView = new InvertCross.Menu.View.ProjectWorkshopView(projects[p]);
+                    var projectView = new Menu.View.ProjectWorkshopView(projects[p]);
                     this.projectViews.push(projectView);
                     projectsContainer.addChild(projectView);
                     projectView.activate();
@@ -3490,7 +3505,7 @@ var InvertCross;
 
             MainMenu.prototype.addIntro = function () {
                 var _this = this;
-                this.intro = new InvertCross.Menu.Intro();
+                this.intro = new Menu.Intro();
                 this.view.addChild(this.intro);
 
                 this.intro.addEventListener("readyToPlay", function () {
@@ -3512,12 +3527,12 @@ var InvertCross;
             };
 
             MainMenu.prototype.addMenu = function () {
-                this.menu = new InvertCross.Menu.View.ScreenMenu();
+                this.menu = new Menu.View.ScreenMenu();
 
                 this.view.addChild(this.menu);
                 this.menu.addEventListener("menu", function () {
                     //TODO fazer camada intermediaria
-                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new InvertCross.Menu.OptionsMenu());
+                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
                 });
 
                 this.menu.addEventListener("back", function () {
@@ -3526,7 +3541,7 @@ var InvertCross;
             };
 
             MainMenu.prototype.addTerminal = function () {
-                this.terminal = new InvertCross.Menu.View.Terminal();
+                this.terminal = new Menu.View.Terminal();
                 this.terminal.x = 361;
                 this.terminal.y = 451;
                 this.view.addChild(this.terminal);
@@ -3604,7 +3619,7 @@ var InvertCross;
 
             //------------slide show---------------------------------------
             MainMenu.prototype.playSlideShow = function () {
-                var s = new InvertCross.Menu.SlideShow(["sl1", "sl2", "sl3"]);
+                var s = new Menu.SlideShow(["sl1", "sl2", "sl3"]);
                 InvertCross.InvertCrossaGame.screenViewer.switchScreen(s);
                 s.onfinish = function () {
                 };
@@ -3696,7 +3711,7 @@ var InvertCross;
                 //add Label
                 mc.addLabel("Options");
 
-                mc.addObject(new InvertCross.Menu.SoundMenu());
+                mc.addObject(new Menu.SoundMenu());
 
                 //add Other Buttons
                 mc.addButton("Erase Data", function () {
@@ -3739,18 +3754,18 @@ var InvertCross;
 
             //creates a popup
             ProjectsMenu.prototype.createPopup = function () {
-                this.popup = new InvertCross.Menu.View.Popup();
+                this.popup = new Menu.View.Popup();
                 this.view.addChild(this.popup);
             };
 
             //Adds defaultMenu to screen
             ProjectsMenu.prototype.addMenu = function () {
-                this.menu = new InvertCross.Menu.View.ScreenMenu(true, true);
+                this.menu = new Menu.View.ScreenMenu(true, true);
 
                 //TODO fazer camada intermediaria
                 //TODO o options sempre volta pro menu principal. O_o
                 this.menu.addEventListener("menu", function () {
-                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new InvertCross.Menu.OptionsMenu());
+                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
                 });
                 this.menu.addEventListener("back", function () {
                     InvertCross.InvertCrossaGame.showMainMenu();
@@ -3794,7 +3809,7 @@ var InvertCross;
                         this.pages.push(currentPage);
                     }
 
-                    var pview = new InvertCross.Menu.View.ProjectItem(projects[i]);
+                    var pview = new Menu.View.ProjectItem(projects[i]);
 
                     //add click event to the item
                     pview.addEventListener("click", function (e) {
@@ -3950,9 +3965,9 @@ var InvertCross;
                     this.createObjects(backVisible, starsVisible);
                 }
                 ScreenMenu.prototype.createObjects = function (backVisible, starsVisible) {
+                    var _this = this;
                     if (typeof backVisible === "undefined") { backVisible = true; }
                     if (typeof starsVisible === "undefined") { starsVisible = false; }
-                    var _this = this;
                     //adds menu button
                     var menuBt = new Gbase.UI.ImageButton("MenuBt", function () {
                         _this.dispatchEvent("menu", menuBt);
@@ -3971,7 +3986,7 @@ var InvertCross;
                     this.addChild(backBt);
 
                     //add a parts Indicator
-                    var partsIndicator = new InvertCross.Menu.View.PartsIndicator();
+                    var partsIndicator = new View.PartsIndicator();
                     partsIndicator.y = 0;
                     partsIndicator.x = DefaultWidth / 2;
                     partsIndicator.addEventListener("click", function () {
@@ -4203,7 +4218,7 @@ var InvertCross;
                         this.challangesMap[level.name] = level;
 
                         //create a thumb
-                        var challangeThumb = new InvertCross.Menu.View.LevelThumb(level);
+                        var challangeThumb = new View.LevelThumb(level);
                         this.thumbs.push(challangeThumb);
                         challangeThumb.rotation = Math.random() * 3 - 1.5; //Little angle random.
                         challangeThumb.set({ alpha: 0, scaleX: 1.3, scaleY: 1.3 }); //animate
@@ -4372,7 +4387,7 @@ var InvertCross;
                         this.addChild(botImage);
 
                         //and stars
-                        var starsIndicator = new InvertCross.Menu.View.ProjectStarsIndicator(project);
+                        var starsIndicator = new View.ProjectStarsIndicator(project);
                         starsIndicator.updateProjectInfo();
                         starsIndicator.y = 350;
                         starsIndicator.x = 30;
@@ -4959,6 +4974,55 @@ var InvertCross;
     })(InvertCross.Robots || (InvertCross.Robots = {}));
     var Robots = InvertCross.Robots;
 })(InvertCross || (InvertCross = {}));
+/// <reference path="lib/inertia.ts" />
+/*Gbase*/
+/// <reference path="Gbase/UI/UIItem.ts" />
+/// <reference path="Gbase/UI/Grid.ts" />
+/// <reference path="Gbase/UI/Button.ts" />
+/// <reference path="Gbase/UI/MenuContainer.ts" />
+/// <reference path="Gbase/UI/Label.ts" />
+/// <reference path="Gbase/ScreenViewer.ts" />
+/// <reference path="Gbase/ScreenState.ts" />
+/// <reference path="Gbase/Game.ts" />
+/*scripts*/
+/// <reference path="src/Assets.ts" />
+/// <reference path="src/Utils/Effects.ts" />
+/// <reference path="src/InvertCrossGame.ts" />
+/// <reference path="src/UserData/Items.ts" />
+/// <reference path="src/UserData/Settings.ts" />
+/// <reference path="src/UserData/Story.ts" />
+/// <reference path="src/UserData/Timers.ts" />
+/// <reference path="src/UserData/ProjectsData.ts" />
+/// <reference path="src/GamePlay/LevelScreen.ts" />
+/// <reference path="src/GamePlay/Puzzle.ts" />
+/// <reference path="src/GamePlay/TimeAttack.ts" />
+/// <reference path="src/GamePlay/Tutorial.ts" />
+/// <reference path="src/GamePlay/Model/Block.ts" />
+/// <reference path="src/GamePlay/Model/Board.ts" />
+/// <reference path="src/GamePlay/Model/Level.ts" />
+/// <reference path="src/GamePlay/Views/BlockSprite.ts" />
+/// <reference path="src/GamePlay/Views/BoardSprite.ts" />
+/// <reference path="src/GamePlay/Views/Overlay.ts" />
+/// <reference path="src/GamePlay/Views/GameplayMenu.ts" />
+/// <reference path="src/GamePlay/Views/StatusArea.ts" />
+/// <reference path="src/Menu/LevelsMenu.ts" />
+/// <reference path="src/Menu/Loading.ts" />
+/// <reference path="src/Menu/MainMenu.ts" />
+/// <reference path="src/Menu/OptionsMenu.ts" />
+/// <reference path="src/Menu/ProjectsMenu.ts" />
+/// <reference path="src/Menu/SoundMenu.ts" />
+/// <reference path="src/Menu/View/Terminal.ts" />
+/// <reference path="src/Menu/View/ScreenMenu.ts" />
+/// <reference path="src/Menu/View/LevelGrid.ts" />
+/// <reference path="src/Menu/View/LevelThumb.ts" />
+/// <reference path="src/Menu/View/PartsIndicator.ts" />
+/// <reference path="src/Menu/View/ProjectItem.ts" />
+/// <reference path="src/Menu/View/ProjectProgressIndicator.ts" />
+/// <reference path="src/Menu/View/ProjectStarsIndicator.ts" />
+/// <reference path="src/Projects/Level.ts" />
+/// <reference path="src/Projects/Project.ts" />
+/// <reference path="src/Projects/ProjectManager.ts" />
+/// <reference path="src/Robots/MyBots.ts" />
 var DefaultWidth = 1536;
 var DefaultHeight = 2048 - 8;
 var defaultFont = "'Exo 2.0'";
@@ -5152,7 +5216,7 @@ var InvertCross;
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             };
             return Moves;
-        })(InvertCross.GamePlay.LevelScreen);
+        })(GamePlay.LevelScreen);
         GamePlay.Moves = Moves;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
@@ -5320,7 +5384,7 @@ var InvertCross;
             };
             LevelCreator.key = "customPuzzles";
             return LevelCreator;
-        })(InvertCross.GamePlay.Puzzle);
+        })(GamePlay.Puzzle);
         GamePlay.LevelCreator = LevelCreator;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
@@ -5334,7 +5398,7 @@ var InvertCross;
                 var _this = this;
                 _super.call(this);
 
-                this.popup = new InvertCross.Menu.View.PopupBot();
+                this.popup = new Menu.View.PopupBot();
 
                 this.introMc = new lib.Intro();
                 this.addChild(this.introMc);
@@ -5343,7 +5407,7 @@ var InvertCross;
                 this.introMc.addEventListener("onstop", function (e) {
                     switch (e.target) {
                         case "d1":
-                            _this.popup.showtext("N3-S needs \n repair");
+                            _this.popup.showBotText("N3-S needs \n repair");
                             break;
 
                         case "readyToPlay":
@@ -5351,7 +5415,7 @@ var InvertCross;
                             break;
 
                         case "d2":
-                            _this.popup.showtext("alone = bad\nfriends=good");
+                            _this.popup.showBotText("alone = bad\nfriends=good");
                             break;
 
                         case "end":
@@ -5528,9 +5592,9 @@ var InvertCross;
                 }
                 //public method to invoke the popup
                 Message.prototype.showtext = function (text, timeout, delay) {
+                    var _this = this;
                     if (typeof timeout === "undefined") { timeout = 3000; }
                     if (typeof delay === "undefined") { delay = 0; }
-                    var _this = this;
                     //clean everything
                     this.removeAllChildren();
 
@@ -5883,7 +5947,7 @@ var InvertCross;
                     _super.apply(this, arguments);
                 }
                 //public method to invoke the popup
-                PopupBot.prototype.showtext = function (text, timeout, delay) {
+                PopupBot.prototype.showBotText = function (text, timeout, delay) {
                     if (typeof timeout === "undefined") { timeout = 5000; }
                     if (typeof delay === "undefined") { delay = 0; }
                     _super.prototype.showsPopup.call(this, timeout, delay);
@@ -5921,7 +5985,7 @@ var InvertCross;
                     ind.y = 900;
                 };
                 return PopupBot;
-            })(InvertCross.Menu.View.Popup);
+            })(View.Popup);
             View.PopupBot = PopupBot;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
@@ -5967,7 +6031,7 @@ var InvertCross;
 
                 //create projetview control
                 ProjectWorkshopView.prototype.addRobotPreview = function (project) {
-                    this.robotPreview = new InvertCross.Menu.View.RobotPreview(project);
+                    this.robotPreview = new View.RobotPreview(project);
 
                     this.robotPreview.x = DefaultWidth / 2;
                     this.robotPreview.y = 1270;
@@ -6009,7 +6073,7 @@ var InvertCross;
                     levelMachine.addChild(baseFases);
 
                     //Add Stars
-                    this.starsIndicator = new InvertCross.Menu.View.ProjectStarsIndicator(project);
+                    this.starsIndicator = new View.ProjectStarsIndicator(project);
                     this.starsIndicator.x = 1115;
                     this.starsIndicator.y = 1334;
                     levelMachine.addChild(this.starsIndicator);
@@ -6017,7 +6081,7 @@ var InvertCross;
                     if ((!InvertCross.InvertCrossaGame.isFree() && project.free) || InvertCross.InvertCrossaGame.isFree()) {
                         if (project.UserData.unlocked) {
                             //Add Level Thumbs
-                            this.levelGrid = new InvertCross.Menu.View.LevelGrid(project);
+                            this.levelGrid = new Menu.View.LevelGrid(project);
                             this.levelGrid.addEventListener("levelClick", function (e) {
                                 _this.dispatchEvent("levelClick", e.target);
                             });
@@ -6170,8 +6234,8 @@ var InvertCross;
 
                 //animate
                 RobotPreview.prototype.animateLevelComplete = function (color) {
-                    if (typeof color === "undefined") { color = "#ffcc2e"; }
                     var _this = this;
+                    if (typeof color === "undefined") { color = "#ffcc2e"; }
                     var newValue = this.project.UserData.percent;
 
                     //boxShape zoom out to the bot
