@@ -3,7 +3,7 @@
 module InvertCross.Menu {
     export class Intro extends createjs.Container {
         private introMc: createjs.MovieClip;
-        private popup: View.Popup;
+        private popup: View.PopupBot;
 
         constructor() {
             super();
@@ -18,7 +18,7 @@ module InvertCross.Menu {
 
                 switch (<string>e.target) {
                     case "d1":
-                        this.popup.showtext("N3-S needs \n repair");
+                        this.popup.showBotText("N3-S needs \n repair");
                         break;
 
                     case "readyToPlay":
@@ -26,7 +26,7 @@ module InvertCross.Menu {
                         break;
 
                     case "d2":
-                        this.popup.showtext("alone = bad\nfriends=good");
+                        this.popup.showBotText("alone = bad\nfriends=good");
                         break;
 
                     case "end":

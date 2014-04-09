@@ -4,7 +4,7 @@ module InvertCross.Menu.View {
     export class PopupBot extends Popup{
 
         //public method to invoke the popup
-        public showtext(text: string, timeout: number= 5000,delay:number=0) {
+        public showBotText(text: string, timeout: number= 5000, delay:number=0) {
             super.showsPopup(timeout, delay);
             //clean everything
             this.removeAllChildren();
