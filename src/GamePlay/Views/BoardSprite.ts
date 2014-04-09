@@ -31,7 +31,7 @@ module InvertCross.GamePlay.Views {
 
             //load click indicator
             this.tutorialIndiatcor = Assets.getMovieClip("touch");
-            this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -85;
+            this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -55;
             this.tutorialIndiatcor.mouseEnabled = false;
             this.addChild(this.tutorialIndiatcor);
             this.tutorialIndiatcor.visible = false;

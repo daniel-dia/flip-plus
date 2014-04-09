@@ -60,8 +60,6 @@ module InvertCross.Menu.View {
                     this.percentMask.scaleY = this.project.UserData.percent;
             else
                 this.animateLevelComplete();
-
-
         }
 
         

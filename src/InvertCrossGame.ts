@@ -131,8 +131,8 @@ module InvertCross {
             return null;
         }
 
-        public static completeLevel() {
-            this.showProjectLevelsMenu(null, { complete: true });
+        public static completeLevel(complete:boolean=false) {
+            this.showProjectLevelsMenu(null, { complete: complete});
         }
 
         public static looseLevel() {
@@ -153,11 +153,11 @@ module InvertCross {
                 InvertCrossaGame.exitLevel();
         }
 
-        public static skipLevel() {
+        public static skipLevel(complete: boolean= false) {
             var currentLevel = InvertCrossaGame.projectManager.getCurrentLevel();
 
             InvertCrossaGame.projectManager.skipLevel(currentLevel);
-            this.showProjectLevelsMenu();
+            this.showProjectLevelsMenu(null, { complete: complete });
         }
         
         public static showMainMenu() {

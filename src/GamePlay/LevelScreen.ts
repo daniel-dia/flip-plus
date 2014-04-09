@@ -157,6 +157,7 @@ module InvertCross.GamePlay {
             }, 50);
         }
 
+        //skips the level
         private skip() {
 
             if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
@@ -167,7 +168,7 @@ module InvertCross.GamePlay {
                 var itemQuantity = InvertCrossaGame.itemsData.getItemQuantity("skip");
                 if (itemQuantity > 0) {
                     InvertCrossaGame.itemsData.decreaseItemQuantity("skip");
-                    InvertCrossaGame.skipLevel();
+                    InvertCrossaGame.skipLevel(true);
                 }
                 else {
                     this.popup.showtext("no more skips");
@@ -202,6 +203,10 @@ module InvertCross.GamePlay {
             if (!this.levelData.userdata.solved)
                 this.levelData.userdata.item = this.usedItem;
 
+            //verifies if is the first time cimpletting the level
+            var complete1stTime = false;
+            if (!this.levelData.userdata.solved) complete1stTime = true;
+
             //set model to complete level.
             InvertCrossaGame.projectManager.completeLevel(this.levelData);
             
@@ -216,10 +221,11 @@ module InvertCross.GamePlay {
             Assets.playSound("win");
 
             setTimeout(() => {
-                InvertCrossaGame.completeLevel()
+              
 
                 createjs.Tween.removeTweens(this.boardSprite);
-                createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 300, createjs.Ease.quadIn).call(() => {
+                createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(() => {
+                    InvertCrossaGame.completeLevel(complete1stTime)
                     this.boardSprite.visible = false;
                 });
             }, 3000);
