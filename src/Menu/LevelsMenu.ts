@@ -19,7 +19,7 @@ module InvertCross.Menu {
 
             super();
             this.addObjects();
-            this.pagesSwipe = new PagesSwipe(this.projectsContaier, this.projectViews,DefaultWidth);
+            this.pagesSwipe = new PagesSwipe(this.projectsContaier, this.projectViews,DefaultWidth,200,1500);
         }
         
         //--------------------- Initialization ---------------------

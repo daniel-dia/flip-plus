@@ -8,7 +8,7 @@ module InvertCross {
         private pages: createjs.DisplayObject[];
         private currentPageIndex: number = 0;
         private pagewidth: number;
-        constructor(pagesContainer: createjs.Container, pages: Array<createjs.DisplayObject>, pageWidth:number) {
+        constructor(pagesContainer: createjs.Container, pages: Array<createjs.DisplayObject>, pageWidth: number, minY?: number, maxY?: number) {
 
             this.pagewidth = pageWidth;
             this.pagesContainer = pagesContainer;
@@ -21,37 +21,48 @@ module InvertCross {
             //adds event
             var xpos;
             var initialclick;
+            var moving: boolean = false;
+
             // records position on mouse down
             pagesContainer.addEventListener("mousedown", (e: createjs.MouseEvent) => {
+
                 var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY)
-                initialclick = pos.x;
-                xpos = pos.x - pagesContainer.x;
+                if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
+                    initialclick = pos.x;
+                    xpos = pos.x - pagesContainer.x;
+                    moving = true;
+                }
             })
 
             //drag the container
             pagesContainer.addEventListener("pressmove", (e: createjs.MouseEvent) => {
-                var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY)
-                pagesContainer.x = pos.x - xpos;
-                if (Math.abs(pos.x - initialclick) > 100) this.cancelClick = true;
+                if (moving) {
+                    var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                    pagesContainer.x = pos.x - xpos;
+                    if (Math.abs(pos.x - initialclick) > 100) this.cancelClick = true;
+                }
             })
 
             //verifies the relase point to tween to the next page
             pagesContainer.addEventListener("pressup", (e: createjs.MouseEvent) => {
-                var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY)
+                if (moving) {
+                    moving = false;
+                    var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
 
-                //calculate the drag percentage.
-                var p = (pos.x - xpos + this.pagewidth * this.currentPageIndex) / this.pagewidth;
+                    //calculate the drag percentage.
+                    var p = (pos.x - xpos + this.pagewidth * this.currentPageIndex) / this.pagewidth;
 
-                //choses if goes to the next or previous page.
-                if (p < -0.25)
-                    this.gotoNextPage();
-                else if (p > +0.25)
-                    this.gotoPreviousPage();
-                else
-                    this.stayOnPage();
+                    //choses if goes to the next or previous page.
+                    if (p < -0.25)
+                        this.gotoNextPage();
+                    else if (p > +0.25)
+                        this.gotoPreviousPage();
+                    else
+                        this.stayOnPage();
 
-                //release click for user
-                setTimeout(() => { this.cancelClick = false }, 100);
+                    //release click for user
+                    setTimeout(() => { this.cancelClick = false }, 100);
+                }
             })
         }
 

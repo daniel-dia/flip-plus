@@ -230,8 +230,8 @@ module InvertCross.GamePlay {
                 //remove all tweens
                 createjs.Tween.removeTweens(this.boardSprite);
                 //cache board
-                var b= this.boardSprite.getBounds();
-                this.boardSprite.cache(b.x, b.y, b.width, b.height);
+                var bounds = this.boardSprite.getBounds();
+                this.boardSprite.cache(bounds.x, bounds.y, bounds.width, bounds.height);
                 //animate to out
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(() => {
                     this.boardSprite.visible = false;
