@@ -81,7 +81,7 @@ module InvertCross {
     }
 
     export class Transition {
-        public time: number = 200;
+        public time: number = 500;
         public type: string = "fade"; // none,fade
     }
 }

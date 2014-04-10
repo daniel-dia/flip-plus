@@ -164,7 +164,6 @@ module InvertCross.GamePlay {
                 InvertCrossaGame.skipLevel();
 
             } else {
-
                 var itemQuantity = InvertCrossaGame.itemsData.getItemQuantity("skip");
                 if (itemQuantity > 0) {
                     InvertCrossaGame.itemsData.decreaseItemQuantity("skip");
@@ -199,6 +198,9 @@ module InvertCross.GamePlay {
 
         win(col: number, row: number) {
 
+            //play a win sound
+            Assets.playSound("win");
+
             //verifies if user already completed this level and verifies if player used any item in the game
             if (!this.levelData.userdata.solved)
                 this.levelData.userdata.item = this.usedItem;
@@ -211,24 +213,36 @@ module InvertCross.GamePlay {
             InvertCrossaGame.projectManager.completeLevel(this.levelData);
             
             //change screen and animate.
-            this.message.showtext("Well done!", 3000, 1500);
+            this.message.showtext("Well done!", 1000, 800);
 
+            //hide all menus
             this.menuOverlay.fadeOut();
             this.boardSprite.lock();
-            setTimeout(() => { this.boardSprite.winEffect(col, row) }, 200);
 
-            this.menuOverlay.fadeOut();
-            Assets.playSound("win");
+            //apply effect on sprites
+            setTimeout(() => {
+                this.boardSprite.winEffect(col, row)
+            }, 200);
 
+            //animates board to fade out;
             setTimeout(() => {
               
-
+                //remove all tweens
                 createjs.Tween.removeTweens(this.boardSprite);
+                //cache board
+                var b= this.boardSprite.getBounds();
+                this.boardSprite.cache(b.x, b.y, b.width, b.height);
+                //animate to out
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(() => {
-                    InvertCrossaGame.completeLevel(complete1stTime)
                     this.boardSprite.visible = false;
-                });
-            }, 3000);
+                    this.boardSprite.uncache();
+                })
+
+                //switch screen
+                InvertCrossaGame.completeLevel(complete1stTime)
+                
+                
+            }, 1800);
         }
 
         loose() {
