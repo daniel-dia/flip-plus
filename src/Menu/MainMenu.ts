@@ -100,7 +100,7 @@ module InvertCross.Menu {
                 InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu());
             });
 
-            this.menu.addEventListener("back", () => {InvertCross.InvertCrossaGame.showTitleScreen();});
+            this.menu.addEventListener("back", () => {this.back() });
 
         }
         
@@ -121,6 +121,10 @@ module InvertCross.Menu {
             playBt.y = 1139;
 
             this.playBt = playBt;
+        }
+
+        public back() {
+            InvertCross.InvertCrossaGame.showTitleScreen();
         }
 
         //TODO: it shoud not be here

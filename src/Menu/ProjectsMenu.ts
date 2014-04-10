@@ -50,7 +50,7 @@ module InvertCross.Menu {
             //TODO fazer camada intermediaria
             //TODO o options sempre volta pro menu principal. O_o
             this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu()); });
-            this.menu.addEventListener("back", () =>{InvertCross.InvertCrossaGame.showMainMenu();});
+            this.menu.addEventListener("back", () => { this.back()});
             this.partsIndicator = this.menu.partsIndicator;
             this.view.addChild(this.menu);
         }
@@ -144,7 +144,9 @@ module InvertCross.Menu {
             this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
         }
 
-
+        public back(){
+            InvertCross.InvertCrossaGame.showMainMenu();
+        }
         //=====================================================
         private createPaginationButtons(pagesContainer: createjs.Container) {
             //create leftButton

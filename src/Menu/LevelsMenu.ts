@@ -57,7 +57,7 @@ module InvertCross.Menu {
             //TODO o options sempre volta pro menu principal. O_o
             
             this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu()); });
-            this.menu.addEventListener("back", () => { InvertCross.InvertCrossaGame.showProjectsMenu();});
+            this.menu.addEventListener("back", () => { this.back();});
             this.view.addChild(this.menu);
 
         }
@@ -99,9 +99,6 @@ module InvertCross.Menu {
 
                 for (var pv in this.projectViews) this.projectViews[pv].setRelativePos(this.projectViews[pv].x + projectsContainer.x);
             });
-
-            
-
         }
 
         private openLevel(event: createjs.Event) {
@@ -117,6 +114,9 @@ module InvertCross.Menu {
                     InvertCrossaGame.showLevel(level, parameters);
         }
 
+        public back() {
+            InvertCross.InvertCrossaGame.showProjectsMenu();
+        }
         // ----------------------- pagination -------------------------------------------------------
         private createPaginationButtons(pagesContainer: createjs.Container) {
             //create leftButton

@@ -119,6 +119,10 @@ module InvertCross.GamePlay {
 
         }
 
+        public back() {
+            pauseGame();
+        }
+
         // user input ===============================================================================================================
 
         // Threat user input

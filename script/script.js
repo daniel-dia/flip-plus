@@ -501,6 +501,9 @@ var Gbase;
         ScreenState.prototype.desactivate = function (parameters) {
             this.view.visible = false;
         };
+
+        ScreenState.prototype.back = function () {
+        };
         return ScreenState;
     })();
     Gbase.ScreenState = ScreenState;
@@ -571,7 +574,7 @@ var InvertCross;
 
     var Transition = (function () {
         function Transition() {
-            this.time = 200;
+            this.time = 500;
             this.type = "fade";
         }
         return Transition;
@@ -723,6 +726,7 @@ var InvertCross;
                 { id: "projects/pageon", src: imagePath + "projects/pageon.png" },
                 { id: "projects/pageoff", src: imagePath + "projects/pageoff.png" },
                 { id: "projects/bigslot1", src: imagePath + "projects/bigslot1.png" },
+                { id: "projects/btpage", src: imagePath + "projects/btpage.png" },
                 //projects
                 { id: "projects/bots/Bot01", src: imagePath + "projects/bots/Bot01.png" },
                 { id: "projects/bots/Bot02", src: imagePath + "projects/bots/Bot02.png" },
@@ -1151,8 +1155,9 @@ var InvertCross;
             return null;
         };
 
-        InvertCrossaGame.completeLevel = function () {
-            this.showProjectLevelsMenu(null, { complete: true });
+        InvertCrossaGame.completeLevel = function (complete) {
+            if (typeof complete === "undefined") { complete = false; }
+            this.showProjectLevelsMenu(null, { complete: complete });
         };
 
         InvertCrossaGame.looseLevel = function () {
@@ -1173,11 +1178,12 @@ var InvertCross;
                 InvertCrossaGame.exitLevel();
         };
 
-        InvertCrossaGame.skipLevel = function () {
+        InvertCrossaGame.skipLevel = function (complete) {
+            if (typeof complete === "undefined") { complete = false; }
             var currentLevel = InvertCrossaGame.projectManager.getCurrentLevel();
 
             InvertCrossaGame.projectManager.skipLevel(currentLevel);
-            this.showProjectLevelsMenu();
+            this.showProjectLevelsMenu(null, { complete: complete });
         };
 
         InvertCrossaGame.showMainMenu = function () {
@@ -1655,6 +1661,7 @@ var InvertCross;
                 }, 50);
             };
 
+            //skips the level
             LevelScreen.prototype.skip = function () {
                 if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
                     InvertCross.InvertCrossaGame.skipLevel();
@@ -1662,7 +1669,7 @@ var InvertCross;
                     var itemQuantity = InvertCross.InvertCrossaGame.itemsData.getItemQuantity("skip");
                     if (itemQuantity > 0) {
                         InvertCross.InvertCrossaGame.itemsData.decreaseItemQuantity("skip");
-                        InvertCross.InvertCrossaGame.skipLevel();
+                        InvertCross.InvertCrossaGame.skipLevel(true);
                     } else {
                         this.popup.showtext("no more skips");
                     }
@@ -1689,32 +1696,51 @@ var InvertCross;
 
             LevelScreen.prototype.win = function (col, row) {
                 var _this = this;
+                //play a win sound
+                InvertCross.Assets.playSound("win");
+
                 //verifies if user already completed this level and verifies if player used any item in the game
                 if (!this.levelData.userdata.solved)
                     this.levelData.userdata.item = this.usedItem;
+
+                //verifies if is the first time cimpletting the level
+                var complete1stTime = false;
+                if (!this.levelData.userdata.solved)
+                    complete1stTime = true;
 
                 //set model to complete level.
                 InvertCross.InvertCrossaGame.projectManager.completeLevel(this.levelData);
 
                 //change screen and animate.
-                this.message.showtext("Well done!", 3000, 1500);
+                this.message.showtext("Well done!", 1000, 800);
 
+                //hide all menus
                 this.menuOverlay.fadeOut();
                 this.boardSprite.lock();
+
+                //apply effect on sprites
                 setTimeout(function () {
                     _this.boardSprite.winEffect(col, row);
                 }, 200);
 
-                this.menuOverlay.fadeOut();
-                InvertCross.Assets.playSound("win");
-
+                //animates board to fade out;
                 setTimeout(function () {
+                    //remove all tweens
                     createjs.Tween.removeTweens(_this.boardSprite);
+
+                    //cache board
+                    var bounds = _this.boardSprite.getBounds();
+                    _this.boardSprite.cache(bounds.x, bounds.y, bounds.width, bounds.height);
+
+                    //animate to out
                     createjs.Tween.get(_this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(function () {
-                        InvertCross.InvertCrossaGame.completeLevel();
                         _this.boardSprite.visible = false;
+                        _this.boardSprite.uncache();
                     });
-                }, 3000);
+
+                    //switch screen
+                    InvertCross.InvertCrossaGame.completeLevel(complete1stTime);
+                }, 1800);
             };
 
             LevelScreen.prototype.loose = function () {
@@ -3319,7 +3345,9 @@ var InvertCross;
                 this.offset = 0;
                 this.lastx = 0;
                 this.addObjects();
-                this.pagesSwipe = new InvertCross.PagesSwipe(this.projectsContaier, this.projectViews, DefaultWidth);
+
+                this.pagesSwipe = new InvertCross.PagesSwipe(this.projectsContaier, this.projectViews, DefaultWidth, 200, 1500);
+                this.createPaginationButtons(this.projectsContaier);
             }
             //--------------------- Initialization ---------------------
             LevelsMenu.prototype.addObjects = function () {
@@ -3345,6 +3373,7 @@ var InvertCross;
 
             //Adds menu to screen;
             LevelsMenu.prototype.addMenu = function () {
+                var _this = this;
                 this.menu = new Menu.View.ScreenMenu();
 
                 //TODO fazer camada intermediaria
@@ -3353,7 +3382,7 @@ var InvertCross;
                     InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
                 });
                 this.menu.addEventListener("back", function () {
-                    InvertCross.InvertCrossaGame.showProjectsMenu();
+                    _this.back();
                 });
                 this.view.addChild(this.menu);
             };
@@ -3408,6 +3437,36 @@ var InvertCross;
                 if (level != null)
                     if (level.userdata.unlocked)
                         InvertCross.InvertCrossaGame.showLevel(level, parameters);
+            };
+
+            LevelsMenu.prototype.back = function () {
+                InvertCross.InvertCrossaGame.showProjectsMenu();
+            };
+
+            // ----------------------- pagination -------------------------------------------------------
+            LevelsMenu.prototype.createPaginationButtons = function (pagesContainer) {
+                var _this = this;
+                //create leftButton
+                var lb = new Gbase.UI.ImageButton("projects/btpage", function () {
+                    _this.pagesSwipe.gotoPreviousPage();
+                });
+                lb.y = 1050;
+                lb.x = DefaultWidth * 0.1;
+                this.view.addChild(lb);
+
+                //create right button
+                var rb = new Gbase.UI.ImageButton("projects/btpage", function () {
+                    _this.pagesSwipe.gotoNextPage();
+                });
+                rb.y = 1050;
+                rb.x = DefaultWidth * 0.9;
+                rb.scaleX = -1;
+                this.view.addChild(rb);
+
+                //create pagination indicator
+                //TODO
+                //goto defaul page
+                this.pagesSwipe.gotoPage(0);
             };
 
             //--Behaviour-----------------------------------------------------------
@@ -3527,6 +3586,7 @@ var InvertCross;
             };
 
             MainMenu.prototype.addMenu = function () {
+                var _this = this;
                 this.menu = new Menu.View.ScreenMenu();
 
                 this.view.addChild(this.menu);
@@ -3536,7 +3596,7 @@ var InvertCross;
                 });
 
                 this.menu.addEventListener("back", function () {
-                    InvertCross.InvertCrossaGame.showTitleScreen();
+                    _this.back();
                 });
             };
 
@@ -3557,6 +3617,10 @@ var InvertCross;
                 playBt.y = 1139;
 
                 this.playBt = playBt;
+            };
+
+            MainMenu.prototype.back = function () {
+                InvertCross.InvertCrossaGame.showTitleScreen();
             };
 
             //TODO: it shoud not be here
@@ -3760,6 +3824,7 @@ var InvertCross;
 
             //Adds defaultMenu to screen
             ProjectsMenu.prototype.addMenu = function () {
+                var _this = this;
                 this.menu = new Menu.View.ScreenMenu(true, true);
 
                 //TODO fazer camada intermediaria
@@ -3768,7 +3833,7 @@ var InvertCross;
                     InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
                 });
                 this.menu.addEventListener("back", function () {
-                    InvertCross.InvertCrossaGame.showMainMenu();
+                    _this.back();
                 });
                 this.partsIndicator = this.menu.partsIndicator;
                 this.view.addChild(this.menu);
@@ -3860,34 +3925,29 @@ var InvertCross;
                 this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
             };
 
+            ProjectsMenu.prototype.back = function () {
+                InvertCross.InvertCrossaGame.showMainMenu();
+            };
+
             //=====================================================
             ProjectsMenu.prototype.createPaginationButtons = function (pagesContainer) {
                 var _this = this;
                 //create leftButton
-                var lb = new Gbase.UI.Button;
-                var lbs = new createjs.Shape();
-                lb.addChild(lbs);
-                lbs.graphics.beginFill("#0e253a").drawRect(-110, -110, 210, 210);
-                lbs.graphics.beginFill("#FFF").lineTo(0, -100).lineTo(0, 100).lineTo(-100, 0);
+                var lb = new Gbase.UI.ImageButton("projects/btpage", function () {
+                    _this.pagesSwipe.gotoPreviousPage();
+                });
                 lb.y = 1950;
                 lb.x = DefaultWidth * 0.1;
                 this.view.addChild(lb);
-                lb.addEventListener("click", function (e) {
-                    _this.pagesSwipe.gotoPreviousPage();
-                });
 
                 //create right button
-                var rb = new Gbase.UI.Button;
-                var rbs = new createjs.Shape();
-                rb.addChild(rbs);
-                rbs.graphics.beginFill("#0e253a").drawRect(-110, -110, 210, 210);
-                rbs.graphics.beginFill("#FFF").lineTo(0, -100).lineTo(0, 100).lineTo(100, 0);
-                rb.y = 1950;
-                rb.x = DefaultWidth * 0.9;
-                this.view.addChild(rb);
-                rb.addEventListener("click", function (e) {
+                var rb = new Gbase.UI.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoNextPage();
                 });
+                rb.y = 1950;
+                rb.x = DefaultWidth * 0.9;
+                rb.scaleX = -1;
+                this.view.addChild(rb);
 
                 //create pagination indicator
                 //TODO
@@ -5023,21 +5083,6 @@ var InvertCross;
 /// <reference path="src/Projects/Project.ts" />
 /// <reference path="src/Projects/ProjectManager.ts" />
 /// <reference path="src/Robots/MyBots.ts" />
-var DefaultWidth = 1536;
-var DefaultHeight = 2048 - 8;
-var defaultFont = "'Exo 2.0'";
-
-var defaultFontFamilyNormal = " 80px  " + defaultFont;
-var defaultFontFamilyStrong = " 80px " + defaultFont;
-var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
-var defaultNumberHighlight = " 220px " + defaultFont;
-
-var defaultFontColor = "#FF6";
-var highlightFontColor = "#f2cb46";
-var alternativeFontColor = "#3d8c9a";
-var shadowFontColor = "#1b4f5e";
-
-var storagePrefix = "flipp_";
 /// <reference path="easeljs.d.ts" />
 /// <reference path="tweenjs.d.ts" />
 var SmokeFX;
@@ -5129,98 +5174,21 @@ var SmokeFX;
     })(createjs.Container);
     SmokeFX.SmokeFXEmmiter = SmokeFXEmmiter;
 })(SmokeFX || (SmokeFX = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (GamePlay) {
-        var Moves = (function (_super) {
-            __extends(Moves, _super);
-            function Moves(levelData) {
-                _super.call(this, levelData);
-                this.currentPuzzle = 1;
-                this.puzzlesToSolve = 0;
+var DefaultWidth = 1536;
+var DefaultHeight = 2048 - 8;
+var defaultFont = "'Exo 2.0'";
 
-                this.puzzlesToSolve = levelData.puzzlesToSolve;
-                this.moves = this.levelData.moves;
+var defaultFontFamilyNormal = " 80px  " + defaultFont;
+var defaultFontFamilyStrong = " 80px " + defaultFont;
+var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
+var defaultNumberHighlight = " 220px " + defaultFont;
 
-                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+var defaultFontColor = "#FF6";
+var highlightFontColor = "#f2cb46";
+var alternativeFontColor = "#3d8c9a";
+var shadowFontColor = "#1b4f5e";
 
-                if (levelData.type == "draw") {
-                    if (levelData.drawData == null)
-                        this.levelLogic.board.setDrawBlocks(levelData.blocksData);
-                    else
-                        this.levelLogic.board.setDrawBlocks(levelData.drawData, false);
-                }
-
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-
-                this.popup.showTimeAttack("Flip Challenge", "Solve", this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), "boards in ", "flips");
-
-                this.statusArea.setMode("moves");
-                this.statusArea.setText3(this.moves.toString());
-            }
-            //threat user input
-            Moves.prototype.userInput = function (col, row) {
-                _super.prototype.userInput.call(this, col, row);
-
-                //loses game, if moves is over
-                if (!this.levelLogic.verifyWin()) {
-                    this.moves--;
-                    this.statusArea.setText3(this.moves.toString());
-
-                    if (this.moves <= 0) {
-                        this.message.showtext("no more moves");
-                        this.loose();
-                    }
-                }
-            };
-
-            //Overriding methods.
-            Moves.prototype.win = function (col, row) {
-                var _this = this;
-                if (this.currentPuzzle >= this.puzzlesToSolve) {
-                    _super.prototype.win.call(this, col, row);
-                } else {
-                    //animate board and switch
-                    var defaultX = this.boardSprite.x;
-                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
-                        _this.currentPuzzle++;
-                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
-                        _this.boardSprite.x = defaultX + DefaultWidth;
-                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
-                    });
-                }
-            };
-
-            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
-                if (typeof minMoves === "undefined") { minMoves = 2; }
-                if (typeof maxMoves === "undefined") { maxMoves = 5; }
-                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
-
-                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
-                var inverted = [];
-
-                for (var m = 0; m < moves; m++) {
-                    var index = Math.floor(Math.random() * (lenght));
-                    while (inverted[index] == true)
-                        index = (index + 1) % lenght;
-                    inverted[index] = true;
-                }
-
-                for (var i = 0; i < lenght; i++) {
-                    if (inverted[i] == true)
-                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
-                }
-
-                this.levelLogic.board.initializePrizes(2);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-            };
-            return Moves;
-        })(GamePlay.LevelScreen);
-        GamePlay.Moves = Moves;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
+var storagePrefix = "flipp_";
 var InvertCross;
 (function (InvertCross) {
     (function (GamePlay) {
@@ -5386,6 +5354,98 @@ var InvertCross;
             return LevelCreator;
         })(GamePlay.Puzzle);
         GamePlay.LevelCreator = LevelCreator;
+    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
+    var GamePlay = InvertCross.GamePlay;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (GamePlay) {
+        var Moves = (function (_super) {
+            __extends(Moves, _super);
+            function Moves(levelData) {
+                _super.call(this, levelData);
+                this.currentPuzzle = 1;
+                this.puzzlesToSolve = 0;
+
+                this.puzzlesToSolve = levelData.puzzlesToSolve;
+                this.moves = this.levelData.moves;
+
+                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+
+                if (levelData.type == "draw") {
+                    if (levelData.drawData == null)
+                        this.levelLogic.board.setDrawBlocks(levelData.blocksData);
+                    else
+                        this.levelLogic.board.setDrawBlocks(levelData.drawData, false);
+                }
+
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+
+                this.popup.showTimeAttack("Flip Challenge", "Solve", this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), "boards in ", "flips");
+
+                this.statusArea.setMode("moves");
+                this.statusArea.setText3(this.moves.toString());
+            }
+            //threat user input
+            Moves.prototype.userInput = function (col, row) {
+                _super.prototype.userInput.call(this, col, row);
+
+                //loses game, if moves is over
+                if (!this.levelLogic.verifyWin()) {
+                    this.moves--;
+                    this.statusArea.setText3(this.moves.toString());
+
+                    if (this.moves <= 0) {
+                        this.message.showtext("no more moves");
+                        this.loose();
+                    }
+                }
+            };
+
+            //Overriding methods.
+            Moves.prototype.win = function (col, row) {
+                var _this = this;
+                if (this.currentPuzzle >= this.puzzlesToSolve) {
+                    _super.prototype.win.call(this, col, row);
+                } else {
+                    //animate board and switch
+                    var defaultX = this.boardSprite.x;
+                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
+                        _this.currentPuzzle++;
+                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
+                        _this.boardSprite.x = defaultX + DefaultWidth;
+                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
+                    });
+                }
+            };
+
+            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
+                if (typeof minMoves === "undefined") { minMoves = 2; }
+                if (typeof maxMoves === "undefined") { maxMoves = 5; }
+                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+
+                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
+                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
+                var inverted = [];
+
+                for (var m = 0; m < moves; m++) {
+                    var index = Math.floor(Math.random() * (lenght));
+                    while (inverted[index] == true)
+                        index = (index + 1) % lenght;
+                    inverted[index] = true;
+                }
+
+                for (var i = 0; i < lenght; i++) {
+                    if (inverted[i] == true)
+                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
+                }
+
+                this.levelLogic.board.initializePrizes(2);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+            };
+            return Moves;
+        })(GamePlay.LevelScreen);
+        GamePlay.Moves = Moves;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
 })(InvertCross || (InvertCross = {}));
@@ -6273,7 +6333,7 @@ var InvertCross;
 (function (InvertCross) {
     // Class
     var PagesSwipe = (function () {
-        function PagesSwipe(pagesContainer, pages, pageWidth) {
+        function PagesSwipe(pagesContainer, pages, pageWidth, minY, maxY) {
             var _this = this;
             this.cancelClick = false;
             this.currentPageIndex = 0;
@@ -6287,41 +6347,50 @@ var InvertCross;
             //adds event
             var xpos;
             var initialclick;
+            var moving = false;
 
             // records position on mouse down
             pagesContainer.addEventListener("mousedown", function (e) {
                 var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
-                initialclick = pos.x;
-                xpos = pos.x - pagesContainer.x;
+                if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
+                    initialclick = pos.x;
+                    xpos = pos.x - pagesContainer.x;
+                    moving = true;
+                }
             });
 
             //drag the container
             pagesContainer.addEventListener("pressmove", function (e) {
-                var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
-                pagesContainer.x = pos.x - xpos;
-                if (Math.abs(pos.x - initialclick) > 100)
-                    _this.cancelClick = true;
+                if (moving) {
+                    var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                    pagesContainer.x = pos.x - xpos;
+                    if (Math.abs(pos.x - initialclick) > 100)
+                        _this.cancelClick = true;
+                }
             });
 
             //verifies the relase point to tween to the next page
             pagesContainer.addEventListener("pressup", function (e) {
-                var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                if (moving) {
+                    moving = false;
+                    var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
 
-                //calculate the drag percentage.
-                var p = (pos.x - xpos + _this.pagewidth * _this.currentPageIndex) / _this.pagewidth;
+                    //calculate the drag percentage.
+                    var p = (pos.x - xpos + _this.pagewidth * _this.currentPageIndex) / _this.pagewidth;
 
-                //choses if goes to the next or previous page.
-                if (p < -0.25)
-                    _this.gotoNextPage();
-                else if (p > +0.25)
-                    _this.gotoPreviousPage();
-                else
-                    _this.stayOnPage();
+                    //choses if goes to the next or previous page.
+                    if (p < -0.25)
+                        _this.gotoNextPage();
+                    else if (p > +0.25)
+                        _this.gotoPreviousPage();
+                    else
+                        _this.stayOnPage();
 
-                //release click for user
-                setTimeout(function () {
-                    _this.cancelClick = false;
-                }, 100);
+                    //release click for user
+                    setTimeout(function () {
+                        _this.cancelClick = false;
+                    }, 100);
+                }
             });
         }
         //----------------------pages-----------------------------------------------//

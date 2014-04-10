@@ -16,6 +16,7 @@ module Gbase {
             this.view.visible = false;
         }
 
+        public back():void {  }
      
     }
 }
