@@ -64,6 +64,7 @@ module InvertCross {
                 { id: "projects/pageon", src: imagePath + "projects/pageon.png" },
                 { id: "projects/pageoff", src: imagePath + "projects/pageoff.png" },
                 { id: "projects/bigslot1", src: imagePath + "projects/bigslot1.png" },
+                { id: "projects/btpage", src: imagePath + "projects/btpage.png" },
                       
                 //projects
                 { id: "projects/bots/Bot01", src: imagePath + "projects/bots/Bot01.png"},

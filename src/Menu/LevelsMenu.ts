@@ -19,7 +19,10 @@ module InvertCross.Menu {
 
             super();
             this.addObjects();
-            this.pagesSwipe = new PagesSwipe(this.projectsContaier, this.projectViews,DefaultWidth,200,1500);
+
+            this.pagesSwipe = new PagesSwipe(this.projectsContaier, this.projectViews, DefaultWidth, 200, 1500);
+            this.createPaginationButtons(this.projectsContaier)
+
         }
         
         //--------------------- Initialization ---------------------
@@ -95,7 +98,10 @@ module InvertCross.Menu {
                 if (projectsContainer.x < -fin) projectsContainer.x = - fin;
 
                 for (var pv in this.projectViews) this.projectViews[pv].setRelativePos(this.projectViews[pv].x + projectsContainer.x);
-           });
+            });
+
+            
+
         }
 
         private openLevel(event: createjs.Event) {
@@ -111,7 +117,28 @@ module InvertCross.Menu {
                     InvertCrossaGame.showLevel(level, parameters);
         }
 
+        // ----------------------- pagination -------------------------------------------------------
+        private createPaginationButtons(pagesContainer: createjs.Container) {
+            //create leftButton
+            var lb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
+            lb.y = 1050;
+            lb.x = DefaultWidth * 0.1;
+            this.view.addChild(lb);
 
+            //create right button
+            var rb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
+            rb.y = 1050;
+            rb.x = DefaultWidth * 0.9;
+            rb.scaleX = -1;
+            this.view.addChild(rb);
+
+            //create pagination indicator
+            //TODO
+
+
+            //goto defaul page
+            this.pagesSwipe.gotoPage(0);
+        }           
         //--Behaviour-----------------------------------------------------------
 
         public activate(parameters?: any) {

@@ -148,33 +148,24 @@ module InvertCross.Menu {
         //=====================================================
         private createPaginationButtons(pagesContainer: createjs.Container) {
             //create leftButton
-            var lb: Gbase.UI.Button = new Gbase.UI.Button;
-            var lbs: createjs.Shape = new createjs.Shape();
-            lb.addChild(lbs);
-            lbs.graphics.beginFill("#0e253a").drawRect(-110, -110, 210, 210);
-            lbs.graphics.beginFill("#FFF").lineTo(0, -100).lineTo(0, 100).lineTo(-100, 0);
+            var lb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
             lb.y = 1950;
             lb.x = DefaultWidth * 0.1;
             this.view.addChild(lb);
-            lb.addEventListener("click", (e: MouseEvent) => { this.pagesSwipe.gotoPreviousPage() });
-
+            
             //create right button
-            var rb: Gbase.UI.Button = new Gbase.UI.Button;
-            var rbs: createjs.Shape = new createjs.Shape();
-            rb.addChild(rbs);
-            rbs.graphics.beginFill("#0e253a").drawRect(-110, -110, 210, 210);
-            rbs.graphics.beginFill("#FFF").lineTo(0, -100).lineTo(0, 100).lineTo(100, 0);
+            var rb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
             rb.y = 1950;
             rb.x = DefaultWidth * 0.9;
+            rb.scaleX = -1;
             this.view.addChild(rb);
-            rb.addEventListener("click", (e: MouseEvent) => { this.pagesSwipe.gotoNextPage() });
 
             //create pagination indicator
             //TODO
 
 
             //goto defaul page
-            this.pagesSwipe.gotoPage( 0);
+            this.pagesSwipe.gotoPage(0);
         }           
     }
 }
