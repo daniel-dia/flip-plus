@@ -63,7 +63,6 @@ module InvertCross {
 
 
             //set screen size
-
             var r = parseInt(getQueryVariable("res"));
 
             if (r) var windowWidth = r;
@@ -73,11 +72,12 @@ module InvertCross {
             if (windowWidth <= 1024) assetscale = 0.5;
             if (windowWidth <= 420) assetscale = 0.25;
 
+            console.log("using scale at " + assetscale + "x");
             this.redim(windowWidth);
 
             //dev
-            this.redim(420);
-            assetscale = 1;
+            //this.redim(420);
+            //assetscale = 1;
         }
 
         private static tick() {
@@ -103,7 +103,10 @@ module InvertCross {
 
             this.screenViewer.updateScale(finalscale);
 
-            //setMobileScale(devicewidth)
+            setMobileScale(devicewidth)
+
+            console.log("start " + devicewidth + "px width resolution");
+
         }
 
 

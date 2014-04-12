@@ -20,8 +20,8 @@
     <TypeScriptCompile Include="Preferences.ts" />
     <Content Include="assets\bolinhas.js" />
     <Content Include="assets\bolinhas.png" />
-    <Content Include="assets\font\Exo2.0-Bold.woff" />
-    <Content Include="assets\font\Exo2.0-Regular.woff" />
+    <Content Include="fonts\Exo2.0-Bold.woff" />
+    <Content Include="fonts\Exo2.0-Regular.woff" />
     <Content Include="assets\images_0.25x\BackBt.png" />
     <Content Include="assets\images_0.25x\intro\bot.png" />
     <Content Include="assets\images_0.25x\intro\Bot01.png" />
@@ -898,6 +898,7 @@
     <TypeScriptCompile Include="src\Projects\Project.ts" />
     <TypeScriptCompile Include="src\UserData\Timers.ts" />
     <TypeScriptCompile Include="src\Projects\ProjectManager.ts" />
+    <Content Include="script\plataform.js" />
     <Content Include="script\script.js" />
     <Content Include="src\UserData\ProjectsData.ts" />
     <TypeScriptCompile Include="lib\soundjs.d.ts" />
@@ -959,10 +960,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />
-    <Content Include="assets\font\exo.woff" />
-    <Content Include="assets\font\Exo2.0-Bold.otf" />
-    <Content Include="assets\font\Exo2.0-Regular.otf" />
+    <Content Include="fonts\exo.woff" />
+    <Content Include="fonts\Exo2.0-Bold.otf" />
+    <Content Include="fonts\Exo2.0-Regular.otf" />
     <Content Include="assets\resize.bat" />
+    <Content Include="fonts\Exo 2.0.ttf" />
+    <Content Include="fonts\Exo.ttf" />
+    <Content Include="fonts\Exo2.0-Bold.ttf" />
+    <Content Include="fonts\Exo2.0-Regular.ttf" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

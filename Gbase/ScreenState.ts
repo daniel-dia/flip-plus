@@ -1,3 +1,5 @@
+declare function exitApp():void;
+
 module Gbase {
     export class ScreenState {
 
@@ -16,7 +18,9 @@ module Gbase {
             this.view.visible = false;
         }
 
-        public back():void {  }
+        public back(): void {
+            exitApp();
+        }
      
     }
 }

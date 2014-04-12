@@ -503,6 +503,7 @@ var Gbase;
         };
 
         ScreenState.prototype.back = function () {
+            exitApp();
         };
         return ScreenState;
     })();
@@ -574,7 +575,7 @@ var InvertCross;
 
     var Transition = (function () {
         function Transition() {
-            this.time = 500;
+            this.time = 300;
             this.type = "fade";
         }
         return Transition;
@@ -636,11 +637,11 @@ var InvertCross;
             if (windowWidth <= 420)
                 assetscale = 0.25;
 
+            console.log("using scale at " + assetscale + "x");
             this.redim(windowWidth);
-
             //dev
-            this.redim(420);
-            assetscale = 1;
+            //this.redim(420);
+            //assetscale = 1;
         };
 
         Game.tick = function () {
@@ -663,7 +664,10 @@ var InvertCross;
             this.myCanvas.style.height = Math.floor(this.defaultHeight * finalscale) + "px";
 
             this.screenViewer.updateScale(finalscale);
-            //setMobileScale(devicewidth)
+
+            setMobileScale(devicewidth);
+
+            console.log("start " + devicewidth + "px width resolution");
         };
         Game.defaultWidth = DefaultWidth;
         Game.defaultHeight = DefaultHeight;
@@ -1626,6 +1630,10 @@ var InvertCross;
                     _this.userInput(col, row);
                 });
                 //TODO create a custom event
+            };
+
+            LevelScreen.prototype.back = function () {
+                this.pauseGame();
             };
 
             // user input ===============================================================================================================
@@ -5083,6 +5091,21 @@ var InvertCross;
 /// <reference path="src/Projects/Project.ts" />
 /// <reference path="src/Projects/ProjectManager.ts" />
 /// <reference path="src/Robots/MyBots.ts" />
+var DefaultWidth = 1536;
+var DefaultHeight = 2048 - 8;
+var defaultFont = "'Exo 2.0'";
+
+var defaultFontFamilyNormal = " 80px  " + defaultFont;
+var defaultFontFamilyStrong = " 80px " + defaultFont;
+var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
+var defaultNumberHighlight = " 220px " + defaultFont;
+
+var defaultFontColor = "#FF6";
+var highlightFontColor = "#f2cb46";
+var alternativeFontColor = "#3d8c9a";
+var shadowFontColor = "#1b4f5e";
+
+var storagePrefix = "flipp_";
 /// <reference path="easeljs.d.ts" />
 /// <reference path="tweenjs.d.ts" />
 var SmokeFX;
@@ -5174,21 +5197,98 @@ var SmokeFX;
     })(createjs.Container);
     SmokeFX.SmokeFXEmmiter = SmokeFXEmmiter;
 })(SmokeFX || (SmokeFX = {}));
-var DefaultWidth = 1536;
-var DefaultHeight = 2048 - 8;
-var defaultFont = "'Exo 2.0'";
+var InvertCross;
+(function (InvertCross) {
+    (function (GamePlay) {
+        var Moves = (function (_super) {
+            __extends(Moves, _super);
+            function Moves(levelData) {
+                _super.call(this, levelData);
+                this.currentPuzzle = 1;
+                this.puzzlesToSolve = 0;
 
-var defaultFontFamilyNormal = " 80px  " + defaultFont;
-var defaultFontFamilyStrong = " 80px " + defaultFont;
-var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
-var defaultNumberHighlight = " 220px " + defaultFont;
+                this.puzzlesToSolve = levelData.puzzlesToSolve;
+                this.moves = this.levelData.moves;
 
-var defaultFontColor = "#FF6";
-var highlightFontColor = "#f2cb46";
-var alternativeFontColor = "#3d8c9a";
-var shadowFontColor = "#1b4f5e";
+                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
 
-var storagePrefix = "flipp_";
+                if (levelData.type == "draw") {
+                    if (levelData.drawData == null)
+                        this.levelLogic.board.setDrawBlocks(levelData.blocksData);
+                    else
+                        this.levelLogic.board.setDrawBlocks(levelData.drawData, false);
+                }
+
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+
+                this.popup.showTimeAttack("Flip Challenge", "Solve", this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), "boards in ", "flips");
+
+                this.statusArea.setMode("moves");
+                this.statusArea.setText3(this.moves.toString());
+            }
+            //threat user input
+            Moves.prototype.userInput = function (col, row) {
+                _super.prototype.userInput.call(this, col, row);
+
+                //loses game, if moves is over
+                if (!this.levelLogic.verifyWin()) {
+                    this.moves--;
+                    this.statusArea.setText3(this.moves.toString());
+
+                    if (this.moves <= 0) {
+                        this.message.showtext("no more moves");
+                        this.loose();
+                    }
+                }
+            };
+
+            //Overriding methods.
+            Moves.prototype.win = function (col, row) {
+                var _this = this;
+                if (this.currentPuzzle >= this.puzzlesToSolve) {
+                    _super.prototype.win.call(this, col, row);
+                } else {
+                    //animate board and switch
+                    var defaultX = this.boardSprite.x;
+                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
+                        _this.currentPuzzle++;
+                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
+                        _this.boardSprite.x = defaultX + DefaultWidth;
+                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
+                    });
+                }
+            };
+
+            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
+                if (typeof minMoves === "undefined") { minMoves = 2; }
+                if (typeof maxMoves === "undefined") { maxMoves = 5; }
+                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+
+                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
+                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
+                var inverted = [];
+
+                for (var m = 0; m < moves; m++) {
+                    var index = Math.floor(Math.random() * (lenght));
+                    while (inverted[index] == true)
+                        index = (index + 1) % lenght;
+                    inverted[index] = true;
+                }
+
+                for (var i = 0; i < lenght; i++) {
+                    if (inverted[i] == true)
+                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
+                }
+
+                this.levelLogic.board.initializePrizes(2);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+            };
+            return Moves;
+        })(GamePlay.LevelScreen);
+        GamePlay.Moves = Moves;
+    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
+    var GamePlay = InvertCross.GamePlay;
+})(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
     (function (GamePlay) {
@@ -5354,98 +5454,6 @@ var InvertCross;
             return LevelCreator;
         })(GamePlay.Puzzle);
         GamePlay.LevelCreator = LevelCreator;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (GamePlay) {
-        var Moves = (function (_super) {
-            __extends(Moves, _super);
-            function Moves(levelData) {
-                _super.call(this, levelData);
-                this.currentPuzzle = 1;
-                this.puzzlesToSolve = 0;
-
-                this.puzzlesToSolve = levelData.puzzlesToSolve;
-                this.moves = this.levelData.moves;
-
-                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
-
-                if (levelData.type == "draw") {
-                    if (levelData.drawData == null)
-                        this.levelLogic.board.setDrawBlocks(levelData.blocksData);
-                    else
-                        this.levelLogic.board.setDrawBlocks(levelData.drawData, false);
-                }
-
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-
-                this.popup.showTimeAttack("Flip Challenge", "Solve", this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), "boards in ", "flips");
-
-                this.statusArea.setMode("moves");
-                this.statusArea.setText3(this.moves.toString());
-            }
-            //threat user input
-            Moves.prototype.userInput = function (col, row) {
-                _super.prototype.userInput.call(this, col, row);
-
-                //loses game, if moves is over
-                if (!this.levelLogic.verifyWin()) {
-                    this.moves--;
-                    this.statusArea.setText3(this.moves.toString());
-
-                    if (this.moves <= 0) {
-                        this.message.showtext("no more moves");
-                        this.loose();
-                    }
-                }
-            };
-
-            //Overriding methods.
-            Moves.prototype.win = function (col, row) {
-                var _this = this;
-                if (this.currentPuzzle >= this.puzzlesToSolve) {
-                    _super.prototype.win.call(this, col, row);
-                } else {
-                    //animate board and switch
-                    var defaultX = this.boardSprite.x;
-                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
-                        _this.currentPuzzle++;
-                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
-                        _this.boardSprite.x = defaultX + DefaultWidth;
-                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
-                    });
-                }
-            };
-
-            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
-                if (typeof minMoves === "undefined") { minMoves = 2; }
-                if (typeof maxMoves === "undefined") { maxMoves = 5; }
-                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
-
-                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
-                var inverted = [];
-
-                for (var m = 0; m < moves; m++) {
-                    var index = Math.floor(Math.random() * (lenght));
-                    while (inverted[index] == true)
-                        index = (index + 1) % lenght;
-                    inverted[index] = true;
-                }
-
-                for (var i = 0; i < lenght; i++) {
-                    if (inverted[i] == true)
-                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
-                }
-
-                this.levelLogic.board.initializePrizes(2);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-            };
-            return Moves;
-        })(GamePlay.LevelScreen);
-        GamePlay.Moves = Moves;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
 })(InvertCross || (InvertCross = {}));

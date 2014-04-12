@@ -12,7 +12,7 @@ module InvertCross {
 
         //TODO add Comment Here
         public viewer: createjs.Container;
-        private currentScreen: Gbase.ScreenState;
+        public currentScreen: Gbase.ScreenState;
 
         constructor(stage: createjs.Stage) {
             this.viewer = new createjs.Container();
@@ -81,7 +81,7 @@ module InvertCross {
     }
 
     export class Transition {
-        public time: number = 500;
+        public time: number = 300;
         public type: string = "fade"; // none,fade
     }
 }

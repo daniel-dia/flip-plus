@@ -120,7 +120,8 @@ module InvertCross.GamePlay {
         }
 
         public back() {
-            pauseGame();
+            this.pauseGame();
+
         }
 
         // user input ===============================================================================================================
