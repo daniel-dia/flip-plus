@@ -1,5 +1,3 @@
-///<reference path="../../../lib/easeljs.d.ts" />
-
 module InvertCross.Menu.View {
     export class ProjectStarsIndicator extends createjs.Container{
 

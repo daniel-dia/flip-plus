@@ -1,6 +1,3 @@
-///<reference path="../../lib/easeljs.d.ts" />
-///<reference path="../../lib/tweenjs.d.ts" />
-
 module InvertCross{
 
     // Class

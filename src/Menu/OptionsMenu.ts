@@ -1,11 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" />
-
-/// <reference path="../Menu/SoundMenu.ts" /> 
-
-/// <reference path="../../Gbase/UI/MenuContainer.ts" /> 
-/// <reference path="../../Gbase/UI/Grid.ts" /> 
-/// <reference path="../../Gbase/UI/Button.ts" /> 
-
 module InvertCross.Menu {
     export class OptionsMenu extends Gbase.ScreenState {
         constructor() {

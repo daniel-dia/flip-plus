@@ -1,5 +1,3 @@
-/// <reference path="../../../lib/easeljs.d.ts" />
-
 module InvertCross.GamePlay.Views {
 
     export class StatusArea extends createjs.Container{

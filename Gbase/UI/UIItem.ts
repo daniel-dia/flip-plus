@@ -1,5 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" />
-
 module Gbase.UI {
 
     // Class

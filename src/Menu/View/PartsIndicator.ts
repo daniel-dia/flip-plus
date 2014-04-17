@@ -1,14 +1,3 @@
-/// <reference path="../../../lib/easeljs.d.ts" />
-
-/// <reference path="../../../Gbase/UI/MenuContainer.ts" /> 
-/// <reference path="../../../Gbase/UI/Grid.ts" /> 
-/// <reference path="../../../Gbase/UI/Button.ts" />
-
-/// <reference path="../../Assets.ts" /> 
- 
-// Module
-
-
 module InvertCross.Menu.View {
 
     // View Class

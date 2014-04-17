@@ -1,8 +1,3 @@
-///<reference path="../lib/easeljs.d.ts" />
-
-///<reference path="ScreenState.ts" /> 
-///<reference path="ScreenViewer.ts" /> 
-
 declare function getQueryVariable(variable: string);
 declare function setMobileScale(a: number);
 declare var assetscale: number;

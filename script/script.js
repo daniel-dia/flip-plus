@@ -76,7 +76,6 @@
     };
     return Inertia;
 })();
-/// <reference path="../../lib/easeljs.d.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -170,8 +169,6 @@ var Gbase;
     })(Gbase.UI || (Gbase.UI = {}));
     var UI = Gbase.UI;
 })(Gbase || (Gbase = {}));
-/// <reference path="../../lib/easeljs.d.ts" />
-/// <reference path="UIItem.ts" />
 var Gbase;
 (function (Gbase) {
     (function (UI) {
@@ -257,9 +254,6 @@ var Gbase;
     })(Gbase.UI || (Gbase.UI = {}));
     var UI = Gbase.UI;
 })(Gbase || (Gbase = {}));
-/// <reference path="../../lib/easeljs.d.ts" />
-/// <reference path="../../lib/tweenjs.d.ts" />
-/// <reference path="UIItem.ts" />
 var Gbase;
 (function (Gbase) {
     (function (UI) {
@@ -414,40 +408,6 @@ var Gbase;
 })(Gbase || (Gbase = {}));
 var Gbase;
 (function (Gbase) {
-    /// <reference path="../../lib/easeljs.d.ts" />
-    /// <reference path="../../lib/tweenjs.d.ts" />
-    /// <reference path="UIItem.ts" />
-    // Module
-    (function (UI) {
-        var Label = (function (_super) {
-            __extends(Label, _super);
-            //public container: createjs.Container;
-            function Label(text, font, color) {
-                if (typeof text === "undefined") { text = ""; }
-                if (typeof font === "undefined") { font = "600 90px Myriad Pro"; }
-                if (typeof color === "undefined") { color = "#82e790"; }
-                _super.call(this);
-                text = text.toUpperCase();
-
-                //add text into it.
-                this.textField = new createjs.Text(text, defaultFontFamilyNormal, color);
-                this.textField.textBaseline = "middle";
-                this.textField.textAlign = "center";
-                this.addChild(this.textField);
-            }
-            return Label;
-        })(UI.UIItem);
-        UI.Label = Label;
-    })(Gbase.UI || (Gbase.UI = {}));
-    var UI = Gbase.UI;
-})(Gbase || (Gbase = {}));
-/// <reference path="../../lib/easeljs.d.ts" />
-/// <reference path="Grid.ts" />
-/// <reference path="UIItem.ts" />
-/// <reference path="Button.ts" />
-/// <reference path="Label.ts" />
-var Gbase;
-(function (Gbase) {
     (function (UI) {
         var MenuContainer = (function (_super) {
             __extends(MenuContainer, _super);
@@ -490,27 +450,29 @@ var Gbase;
 })(Gbase || (Gbase = {}));
 var Gbase;
 (function (Gbase) {
-    var ScreenState = (function () {
-        function ScreenState() {
-            this.view = new createjs.Container();
-        }
-        ScreenState.prototype.activate = function (parameters) {
-            this.view.visible = true;
-        };
+    (function (UI) {
+        var Label = (function (_super) {
+            __extends(Label, _super);
+            //public container: createjs.Container;
+            function Label(text, font, color) {
+                if (typeof text === "undefined") { text = ""; }
+                if (typeof font === "undefined") { font = "600 90px Myriad Pro"; }
+                if (typeof color === "undefined") { color = "#82e790"; }
+                _super.call(this);
+                text = text.toUpperCase();
 
-        ScreenState.prototype.desactivate = function (parameters) {
-            this.view.visible = false;
-        };
-
-        ScreenState.prototype.back = function () {
-            exitApp();
-        };
-        return ScreenState;
-    })();
-    Gbase.ScreenState = ScreenState;
+                //add text into it.
+                this.textField = new createjs.Text(text, defaultFontFamilyNormal, color);
+                this.textField.textBaseline = "middle";
+                this.textField.textAlign = "center";
+                this.addChild(this.textField);
+            }
+            return Label;
+        })(UI.UIItem);
+        UI.Label = Label;
+    })(Gbase.UI || (Gbase.UI = {}));
+    var UI = Gbase.UI;
 })(Gbase || (Gbase = {}));
-/// <reference path="../lib/easeljs.d.ts" />
-/// <reference path="ScreenState.ts" />
 var InvertCross;
 (function (InvertCross) {
     // Class
@@ -582,10 +544,27 @@ var InvertCross;
     })();
     InvertCross.Transition = Transition;
 })(InvertCross || (InvertCross = {}));
-///<reference path="../lib/easeljs.d.ts" />
-///<reference path="ScreenState.ts" />
-///<reference path="ScreenViewer.ts" />
+var Gbase;
+(function (Gbase) {
+    var ScreenState = (function () {
+        function ScreenState() {
+            this.view = new createjs.Container();
+        }
+        ScreenState.prototype.activate = function (parameters) {
+            this.view.visible = true;
+        };
 
+        ScreenState.prototype.desactivate = function (parameters) {
+            this.view.visible = false;
+        };
+
+        ScreenState.prototype.back = function () {
+            exitApp();
+        };
+        return ScreenState;
+    })();
+    Gbase.ScreenState = ScreenState;
+})(Gbase || (Gbase = {}));
 var InvertCross;
 (function (InvertCross) {
     var Game = (function () {
@@ -1016,8 +995,6 @@ createjs.Sound.registerManifest(manifest);
 //    this.mediaDic[manifest[i].id] = new Media(manifest[i].src);
 return true;
 }*/
-///<reference path="../../lib/easeljs.d.ts" />
-///<reference path="../../lib/tweenjs.d.ts" />
 var InvertCross;
 (function (InvertCross) {
     // Class
@@ -2305,10 +2282,6 @@ var InvertCross;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="../../../lib/easeljs.d.ts" />
-/// <reference path="../../../lib/tweenjs.d.ts" />
-/// <reference path="../../Assets.ts" />
-
 var InvertCross;
 (function (InvertCross) {
     (function (GamePlay) {
@@ -2861,74 +2834,9 @@ var InvertCross;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="../../lib/easeljs.d.ts" />
-var InvertCross;
-(function (InvertCross) {
-    /// <reference path="../InvertCrossGame.ts" />
-    (function (Menu) {
-        var SoundMenu = (function (_super) {
-            __extends(SoundMenu, _super);
-            // Constructor
-            function SoundMenu() {
-                _super.call(this);
-
-                this.createObjects();
-            }
-            SoundMenu.prototype.createObjects = function () {
-                var sfxon = new Gbase.UI.IconButton("botaofxon.png", "", "botaosom.png", function () {
-                    InvertCross.InvertCrossaGame.settings.setSoundfX(false);
-                    sfxon.visible = false;
-                    sfxoff.visible = true;
-                });
-                var sfxoff = new Gbase.UI.IconButton("botaofxoff.png", "", "botaosom.png", function () {
-                    InvertCross.InvertCrossaGame.settings.setSoundfX(true);
-                    sfxoff.visible = false;
-                    sfxon.visible = true;
-                });
-                var muson = new Gbase.UI.IconButton("botaomusicaon.png", "", "botaosom.png", function () {
-                    InvertCross.InvertCrossaGame.settings.setMusic(false);
-                    muson.visible = false;
-                    musoff.visible = true;
-                });
-                var musoff = new Gbase.UI.IconButton("botaomusicaoff.png", "", "botaosom.png", function () {
-                    InvertCross.InvertCrossaGame.settings.setMusic(true);
-                    musoff.visible = false;
-                    muson.visible = true;
-                });
-
-                musoff.visible = !InvertCross.InvertCrossaGame.settings.getMusic();
-                muson.visible = InvertCross.InvertCrossaGame.settings.getMusic();
-                sfxoff.visible = !InvertCross.InvertCrossaGame.settings.getSoundfx();
-                sfxon.visible = InvertCross.InvertCrossaGame.settings.getSoundfx();
-
-                //Add Sound Buttons
-                var soundMenuOn = new Gbase.UI.Grid(2, 1, 600, 372, null, true);
-                var soundMenuOff = new Gbase.UI.Grid(2, 1, 600, 372, null, true);
-                soundMenuOn.addObject(sfxon);
-                soundMenuOn.addObject(muson);
-                soundMenuOff.addObject(sfxoff);
-                soundMenuOff.addObject(musoff);
-
-                this.addChild(soundMenuOff);
-                this.addChild(soundMenuOn);
-
-                this.regX = 300;
-                this.regY = 186;
-            };
-            return SoundMenu;
-        })(createjs.Container);
-        Menu.SoundMenu = SoundMenu;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-/// <reference path="../../../lib/easeljs.d.ts" />
-/// <reference path="../../../Gbase/UI/MenuContainer.ts" />
-/// <reference path="../../../Gbase/UI/Grid.ts" />
-/// <reference path="../../../Gbase/UI/Button.ts" />
 var InvertCross;
 (function (InvertCross) {
     (function (GamePlay) {
-        /// <reference path="../../Menu/SoundMenu.ts" />
         (function (Views) {
             var Overlay = (function (_super) {
                 __extends(Overlay, _super);
@@ -3202,7 +3110,6 @@ var InvertCross;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="../../../lib/easeljs.d.ts" />
 var InvertCross;
 (function (InvertCross) {
     (function (GamePlay) {
@@ -3519,6 +3426,46 @@ var InvertCross;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
+    // Module
+    (function (Menu) {
+        // Class
+        var Loading = (function (_super) {
+            __extends(Loading, _super);
+            function Loading() {
+                _super.call(this);
+                this.initializeImages();
+            }
+            Loading.prototype.initializeImages = function () {
+                var _this = this;
+                var loader = InvertCross.Assets.loadAssets();
+                var text = new createjs.Text("", "600 90px Myriad Pro", "#FFF");
+                text.x = DefaultWidth / 2;
+                text.y = DefaultHeight / 2;
+                text.textAlign = "center";
+
+                this.view.addChild(text);
+
+                //add update% functtion
+                loader.addEventListener("progress", function (evt) {
+                    text.text = "Loading\n" + Math.floor(evt["progress"] * 100).toString() + "%";
+                    return true;
+                });
+
+                //creates load complete action
+                loader.addEventListener("complete", function (evt) {
+                    if (_this.loaded)
+                        _this.loaded();
+                    return true;
+                });
+            };
+            return Loading;
+        })(Gbase.ScreenState);
+        Menu.Loading = Loading;
+    })(InvertCross.Menu || (InvertCross.Menu = {}));
+    var Menu = InvertCross.Menu;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
     (function (Menu) {
         var MainMenu = (function (_super) {
             __extends(MainMenu, _super);
@@ -3702,58 +3649,8 @@ var InvertCross;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="../../lib/easeljs.d.ts" />
-/// <reference path="../../lib/preloadjs.d.ts" />
-/// <reference path="MainMenu.ts" />
-/// <reference path="../Assets.ts" />
-
 var InvertCross;
 (function (InvertCross) {
-    // Module
-    (function (Menu) {
-        // Class
-        var Loading = (function (_super) {
-            __extends(Loading, _super);
-            function Loading() {
-                _super.call(this);
-                this.initializeImages();
-            }
-            Loading.prototype.initializeImages = function () {
-                var _this = this;
-                var loader = InvertCross.Assets.loadAssets();
-                var text = new createjs.Text("", "600 90px Myriad Pro", "#FFF");
-                text.x = DefaultWidth / 2;
-                text.y = DefaultHeight / 2;
-                text.textAlign = "center";
-
-                this.view.addChild(text);
-
-                //add update% functtion
-                loader.addEventListener("progress", function (evt) {
-                    text.text = "Loading\n" + Math.floor(evt["progress"] * 100).toString() + "%";
-                    return true;
-                });
-
-                //creates load complete action
-                loader.addEventListener("complete", function (evt) {
-                    if (_this.loaded)
-                        _this.loaded();
-                    return true;
-                });
-            };
-            return Loading;
-        })(Gbase.ScreenState);
-        Menu.Loading = Loading;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-/// <reference path="../../lib/easeljs.d.ts" />
-var InvertCross;
-(function (InvertCross) {
-    /// <reference path="../Menu/SoundMenu.ts" />
-    /// <reference path="../../Gbase/UI/MenuContainer.ts" />
-    /// <reference path="../../Gbase/UI/Grid.ts" />
-    /// <reference path="../../Gbase/UI/Button.ts" />
     (function (Menu) {
         var OptionsMenu = (function (_super) {
             __extends(OptionsMenu, _super);
@@ -3968,8 +3865,64 @@ var InvertCross;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="../../../lib/easeljs.d.ts" />
-/// <reference path="../../../lib/tweenjs.d.ts" />
+var InvertCross;
+(function (InvertCross) {
+    (function (Menu) {
+        var SoundMenu = (function (_super) {
+            __extends(SoundMenu, _super);
+            // Constructor
+            function SoundMenu() {
+                _super.call(this);
+
+                this.createObjects();
+            }
+            SoundMenu.prototype.createObjects = function () {
+                var sfxon = new Gbase.UI.IconButton("botaofxon.png", "", "botaosom.png", function () {
+                    InvertCross.InvertCrossaGame.settings.setSoundfX(false);
+                    sfxon.visible = false;
+                    sfxoff.visible = true;
+                });
+                var sfxoff = new Gbase.UI.IconButton("botaofxoff.png", "", "botaosom.png", function () {
+                    InvertCross.InvertCrossaGame.settings.setSoundfX(true);
+                    sfxoff.visible = false;
+                    sfxon.visible = true;
+                });
+                var muson = new Gbase.UI.IconButton("botaomusicaon.png", "", "botaosom.png", function () {
+                    InvertCross.InvertCrossaGame.settings.setMusic(false);
+                    muson.visible = false;
+                    musoff.visible = true;
+                });
+                var musoff = new Gbase.UI.IconButton("botaomusicaoff.png", "", "botaosom.png", function () {
+                    InvertCross.InvertCrossaGame.settings.setMusic(true);
+                    musoff.visible = false;
+                    muson.visible = true;
+                });
+
+                musoff.visible = !InvertCross.InvertCrossaGame.settings.getMusic();
+                muson.visible = InvertCross.InvertCrossaGame.settings.getMusic();
+                sfxoff.visible = !InvertCross.InvertCrossaGame.settings.getSoundfx();
+                sfxon.visible = InvertCross.InvertCrossaGame.settings.getSoundfx();
+
+                //Add Sound Buttons
+                var soundMenuOn = new Gbase.UI.Grid(2, 1, 600, 372, null, true);
+                var soundMenuOff = new Gbase.UI.Grid(2, 1, 600, 372, null, true);
+                soundMenuOn.addObject(sfxon);
+                soundMenuOn.addObject(muson);
+                soundMenuOff.addObject(sfxoff);
+                soundMenuOff.addObject(musoff);
+
+                this.addChild(soundMenuOff);
+                this.addChild(soundMenuOn);
+
+                this.regX = 300;
+                this.regY = 186;
+            };
+            return SoundMenu;
+        })(createjs.Container);
+        Menu.SoundMenu = SoundMenu;
+    })(InvertCross.Menu || (InvertCross.Menu = {}));
+    var Menu = InvertCross.Menu;
+})(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
     (function (Menu) {
@@ -4018,8 +3971,6 @@ var InvertCross;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="../../../lib/easeljs.d.ts" />
-/// <reference path="../../assets.ts" />
 var InvertCross;
 (function (InvertCross) {
     (function (Menu) {
@@ -4074,22 +4025,74 @@ var InvertCross;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
-    (function (Projects) {
-        var Level = (function () {
-            function Level() {
-            }
-            return Level;
-        })();
-        Projects.Level = Level;
+    (function (Menu) {
+        (function (View) {
+            var LevelGrid = (function (_super) {
+                __extends(LevelGrid, _super);
+                //Constructor
+                function LevelGrid(chapter) {
+                    _super.call(this, 5, 2, 1190, 476);
+                    this.challangesMap = new Object();
+                    this.thumbs = [];
+                    this.currentChapter = chapter;
+                    this.createChapterSet(chapter);
+                }
+                //create a chapter menu, containing a lot o challanges
+                LevelGrid.prototype.createChapterSet = function (chapter) {
+                    var _this = this;
+                    for (var i = 0; i < chapter.levels.length; i++) {
+                        //get current chapter
+                        var level = chapter.levels[i];
 
-        var LevelUserData = (function () {
-            function LevelUserData() {
-            }
-            return LevelUserData;
-        })();
-        Projects.LevelUserData = LevelUserData;
-    })(InvertCross.Projects || (InvertCross.Projects = {}));
-    var Projects = InvertCross.Projects;
+                        //save it on the map, (for click feedback)
+                        this.challangesMap[level.name] = level;
+
+                        //create a thumb
+                        var challangeThumb = new View.LevelThumb(level);
+                        this.thumbs.push(challangeThumb);
+                        challangeThumb.rotation = Math.random() * 3 - 1.5; //Little angle random.
+                        challangeThumb.set({ alpha: 0, scaleX: 1.3, scaleY: 1.3 }); //animate
+                        createjs.Tween.get(challangeThumb).wait(50 + i * 50).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadIn);
+
+                        //Add object on grid
+                        this.addObject(challangeThumb);
+
+                        //add the click event listener
+                        challangeThumb.addEventListener("click", function (e) {
+                            ;
+                            var tg = (e.currentTarget);
+                            var level = _this.challangesMap[tg.name];
+
+                            var parameters = {
+                                x: tg.x + tg.parent.x,
+                                y: tg.y + tg.parent.y,
+                                scaleX: 0.3,
+                                scaleY: 0.3
+                            };
+
+                            _this.dispatchEvent("levelClick", {
+                                level: level,
+                                parameters: parameters
+                            });
+                        });
+                    }
+                };
+
+                LevelGrid.prototype.updateUserData = function () {
+                    for (var i = 0; i < this.thumbs.length; i++) {
+                        var level = this.challangesMap[this.thumbs[i].name];
+                        var chapter = this.currentChapter;
+
+                        this.thumbs[i].updateUserData();
+                    }
+                };
+                return LevelGrid;
+            })(Gbase.UI.Grid);
+            View.LevelGrid = LevelGrid;
+        })(Menu.View || (Menu.View = {}));
+        var View = Menu.View;
+    })(InvertCross.Menu || (InvertCross.Menu = {}));
+    var Menu = InvertCross.Menu;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
@@ -4256,91 +4259,9 @@ var InvertCross;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="../../../lib/easeljs.d.ts" />
-/// <reference path="../../Projects/Level.ts" />
-/// <reference path="../../userdata/projectsdata.ts" />
-/// <reference path="../../../Gbase/UI/Grid.ts" />
-/// <reference path="LevelThumb.ts" />
 var InvertCross;
 (function (InvertCross) {
     (function (Menu) {
-        (function (View) {
-            var LevelGrid = (function (_super) {
-                __extends(LevelGrid, _super);
-                //Constructor
-                function LevelGrid(chapter) {
-                    _super.call(this, 5, 2, 1190, 476);
-                    this.challangesMap = new Object();
-                    this.thumbs = [];
-                    this.currentChapter = chapter;
-                    this.createChapterSet(chapter);
-                }
-                //create a chapter menu, containing a lot o challanges
-                LevelGrid.prototype.createChapterSet = function (chapter) {
-                    var _this = this;
-                    for (var i = 0; i < chapter.levels.length; i++) {
-                        //get current chapter
-                        var level = chapter.levels[i];
-
-                        //save it on the map, (for click feedback)
-                        this.challangesMap[level.name] = level;
-
-                        //create a thumb
-                        var challangeThumb = new View.LevelThumb(level);
-                        this.thumbs.push(challangeThumb);
-                        challangeThumb.rotation = Math.random() * 3 - 1.5; //Little angle random.
-                        challangeThumb.set({ alpha: 0, scaleX: 1.3, scaleY: 1.3 }); //animate
-                        createjs.Tween.get(challangeThumb).wait(50 + i * 50).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadIn);
-
-                        //Add object on grid
-                        this.addObject(challangeThumb);
-
-                        //add the click event listener
-                        challangeThumb.addEventListener("click", function (e) {
-                            ;
-                            var tg = (e.currentTarget);
-                            var level = _this.challangesMap[tg.name];
-
-                            var parameters = {
-                                x: tg.x + tg.parent.x,
-                                y: tg.y + tg.parent.y,
-                                scaleX: 0.3,
-                                scaleY: 0.3
-                            };
-
-                            _this.dispatchEvent("levelClick", {
-                                level: level,
-                                parameters: parameters
-                            });
-                        });
-                    }
-                };
-
-                LevelGrid.prototype.updateUserData = function () {
-                    for (var i = 0; i < this.thumbs.length; i++) {
-                        var level = this.challangesMap[this.thumbs[i].name];
-                        var chapter = this.currentChapter;
-
-                        this.thumbs[i].updateUserData();
-                    }
-                };
-                return LevelGrid;
-            })(Gbase.UI.Grid);
-            View.LevelGrid = LevelGrid;
-        })(Menu.View || (Menu.View = {}));
-        var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-/// <reference path="../../../lib/easeljs.d.ts" />
-var InvertCross;
-(function (InvertCross) {
-    (function (Menu) {
-        /// <reference path="../../../Gbase/UI/MenuContainer.ts" />
-        /// <reference path="../../../Gbase/UI/Grid.ts" />
-        /// <reference path="../../../Gbase/UI/Button.ts" />
-        /// <reference path="../../Assets.ts" />
-        // Module
         (function (View) {
             // View Class
             var PartsIndicator = (function (_super) {
@@ -4512,7 +4433,6 @@ var InvertCross;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="../../../lib/easeljs.d.ts" />
 var InvertCross;
 (function (InvertCross) {
     (function (Menu) {
@@ -4560,7 +4480,6 @@ var InvertCross;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
 })(InvertCross || (InvertCross = {}));
-///<reference path="../../../lib/easeljs.d.ts" />
 var InvertCross;
 (function (InvertCross) {
     (function (Menu) {
@@ -4633,6 +4552,25 @@ var InvertCross;
         var View = Menu.View;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (Projects) {
+        var Level = (function () {
+            function Level() {
+            }
+            return Level;
+        })();
+        Projects.Level = Level;
+
+        var LevelUserData = (function () {
+            function LevelUserData() {
+            }
+            return LevelUserData;
+        })();
+        Projects.LevelUserData = LevelUserData;
+    })(InvertCross.Projects || (InvertCross.Projects = {}));
+    var Projects = InvertCross.Projects;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
@@ -4918,8 +4856,6 @@ var InvertCross;
     })(InvertCross.Projects || (InvertCross.Projects = {}));
     var Projects = InvertCross.Projects;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="../../lib/easeljs.d.ts" />
-
 var InvertCross;
 (function (InvertCross) {
     (function (Robots) {
@@ -5091,23 +5027,6 @@ var InvertCross;
 /// <reference path="src/Projects/Project.ts" />
 /// <reference path="src/Projects/ProjectManager.ts" />
 /// <reference path="src/Robots/MyBots.ts" />
-var DefaultWidth = 1536;
-var DefaultHeight = 2048 - 8;
-var defaultFont = "'Exo 2.0'";
-
-var defaultFontFamilyNormal = " 80px  " + defaultFont;
-var defaultFontFamilyStrong = " 80px " + defaultFont;
-var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
-var defaultNumberHighlight = " 220px " + defaultFont;
-
-var defaultFontColor = "#FF6";
-var highlightFontColor = "#f2cb46";
-var alternativeFontColor = "#3d8c9a";
-var shadowFontColor = "#1b4f5e";
-
-var storagePrefix = "flipp_";
-/// <reference path="easeljs.d.ts" />
-/// <reference path="tweenjs.d.ts" />
 var SmokeFX;
 (function (SmokeFX) {
     // Class
@@ -5197,6 +5116,21 @@ var SmokeFX;
     })(createjs.Container);
     SmokeFX.SmokeFXEmmiter = SmokeFXEmmiter;
 })(SmokeFX || (SmokeFX = {}));
+var DefaultWidth = 1536;
+var DefaultHeight = 2048 - 8;
+var defaultFont = "'Exo 2.0'";
+
+var defaultFontFamilyNormal = " 80px  " + defaultFont;
+var defaultFontFamilyStrong = " 80px " + defaultFont;
+var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
+var defaultNumberHighlight = " 220px " + defaultFont;
+
+var defaultFontColor = "#FF6";
+var highlightFontColor = "#f2cb46";
+var alternativeFontColor = "#3d8c9a";
+var shadowFontColor = "#1b4f5e";
+
+var storagePrefix = "flipp_";
 var InvertCross;
 (function (InvertCross) {
     (function (GamePlay) {
@@ -5718,15 +5652,9 @@ var InvertCross;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="../../../lib/easeljs.d.ts" />
 var InvertCross;
 (function (InvertCross) {
     (function (Menu) {
-        /// <reference path="../../../Gbase/UI/MenuContainer.ts" />
-        /// <reference path="../../../Gbase/UI/Grid.ts" />
-        /// <reference path="../../../Gbase/UI/Button.ts" />
-        /// <reference path="../../Assets.ts" />
-        // Module
         (function (View) {
             // View Class
             var Popup = (function (_super) {

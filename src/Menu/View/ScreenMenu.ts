@@ -1,7 +1,3 @@
-
-/// <reference path="../../../lib/easeljs.d.ts" />
-/// <reference path="../../assets.ts" />
-
 module InvertCross.Menu.View {
 
     export class ScreenMenu extends Gbase.UI.UIItem{

@@ -1,6 +1,3 @@
-/// <reference path="easeljs.d.ts" /> 
-/// <reference path="tweenjs.d.ts" /> 
-
 module SmokeFX {
 
     // Class

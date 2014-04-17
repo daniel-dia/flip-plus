@@ -1,7 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" />
-/// <reference path="../../lib/tweenjs.d.ts" />
-/// <reference path="UIItem.ts" />
-// Module
 module Gbase.UI {
 
 

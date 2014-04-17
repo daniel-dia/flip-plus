@@ -1,6 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" />
-/// <reference path="UIItem.ts" />
-
 module Gbase.UI  {
 
     //this class alow user to arrange objects in a grid forrmat

@@ -1,8 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" />
-/// <reference path="../../lib/preloadjs.d.ts" />
-/// <reference path="MainMenu.ts" />
-/// <reference path="../Assets.ts" />
-
 declare var images: any;
 
 // Module

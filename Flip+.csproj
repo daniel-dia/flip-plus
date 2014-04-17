@@ -17,7 +17,13 @@
     <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Preferences.ts" />
+    <TypeScriptCompile Include="script\typing\easeljs.d.ts" />
+    <TypeScriptCompile Include="lib\Inertia.ts" />
+    <TypeScriptCompile Include="script\typing\preloadjs.d.ts" />
+    <TypeScriptCompile Include="lib\SmokeFX.ts" />
+    <TypeScriptCompile Include="script\typing\soundjs.d.ts" />
+    <TypeScriptCompile Include="script\typing\tweenjs.d.ts" />
+    <TypeScriptCompile Include="src\Preferences.ts" />
     <Content Include="assets\bolinhas.js" />
     <Content Include="assets\bolinhas.png" />
     <Content Include="fonts\Exo2.0-Bold.woff" />
@@ -862,9 +868,7 @@
     <Content Include="index.htm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <TypeScriptCompile Include="lib\Inertia.ts" />
-    <TypeScriptCompile Include="lib\SmokeFX.ts" />
-    <TypeScriptCompile Include="resources.ts" />
+    <TypeScriptCompile Include="script\resources.ts" />
     <TypeScriptCompile Include="src\GamePlay\Moves.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelCreator.ts" />
     <TypeScriptCompile Include="src\Menu\IntroScreen.ts" />
@@ -880,10 +884,9 @@
     <TypeScriptCompile Include="src\GamePlay\Views\GameplayMenu.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\StatusArea.ts" />
     <TypeScriptCompile Include="src\Menu\LevelsMenu.ts" />
-    <Content Include="lib\createjs-2013.09.25.min.js" />
-    <Content Include="lib\createjs-2013.12.12.min.js" />
-    <Content Include="lib\movieclip-0.6.1.min.js" />
-    <Content Include="lib\timer.js" />
+    <Content Include="script\createjs-2013.12.12.min.js" />
+    <Content Include="script\movieclip-0.6.1.min.js" />
+    <Content Include="script\timer.js" />
     <TypeScriptCompile Include="src\UserData\Settings.ts" />
     <TypeScriptCompile Include="src\Menu\Loading.ts" />
     <TypeScriptCompile Include="src\Menu\SoundMenu.ts" />
@@ -901,8 +904,6 @@
     <Content Include="script\plataform.js" />
     <Content Include="script\script.js" />
     <Content Include="src\UserData\ProjectsData.ts" />
-    <TypeScriptCompile Include="lib\soundjs.d.ts" />
-    <TypeScriptCompile Include="lib\preloadjs.d.ts" />
     <TypeScriptCompile Include="Gbase\UI\Label.ts" />
     <Content Include="Gbase\UI\Label.js">
       <DependentUpon>Label.ts</DependentUpon>
@@ -911,7 +912,7 @@
     <Content Include="Gbase\UI\UIItem.js">
       <DependentUpon>UIItem.ts</DependentUpon>
     </Content>
-    <Content Include="Projects.js">
+    <Content Include="script\Projects.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="src\Robots\MyBots.ts" />
@@ -943,12 +944,10 @@
     <TypeScriptCompile Include="src\GamePlay\Model\Level.ts" />
     <TypeScriptCompile Include="src\GamePlay\Model\Board.ts" />
     <TypeScriptCompile Include="src\GamePlay\Tutorial.ts" />
-    <TypeScriptCompile Include="lib\easeljs.d.ts" />
     <TypeScriptCompile Include="Gbase\ScreenState.ts" />
     <Content Include="src\GamePlay\Model\Block.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\BlockSprite.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\BoardSprite.ts" />
-    <TypeScriptCompile Include="lib\tweenjs.d.ts" />
     <Content Include="script\setMobileScale.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

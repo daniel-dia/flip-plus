@@ -1,7 +1,3 @@
-/// <reference path="../lib/easeljs.d.ts" />
-/// <reference path="ScreenState.ts" />
-
-
 module InvertCross {
 
 

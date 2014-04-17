@@ -1,12 +1,3 @@
-/// <reference path="../../../lib/easeljs.d.ts" />
-/// <reference path="../../../Gbase/UI/MenuContainer.ts" /> 
-/// <reference path="../../../Gbase/UI/Grid.ts" /> 
-/// <reference path="../../../Gbase/UI/Button.ts" /> 
-              
-/// <reference path="../../Menu/SoundMenu.ts" /> 
-                     
-
-
 module InvertCross.GamePlay.Views {
 
     export class Overlay extends createjs.Container {

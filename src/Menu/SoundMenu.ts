@@ -1,7 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" />
-
-/// <reference path="../InvertCrossGame.ts" /> 
-
 module InvertCross.Menu {
     export class SoundMenu extends createjs.Container{
         // Constructor

@@ -1,10 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" /> 
-/// <reference path="Grid.ts" /> 
-/// <reference path="UIItem.ts" /> 
-/// <reference path="Button.ts" /> 
-/// <reference path="Label.ts" /> 
-
-
 module Gbase.UI {
 
     export class MenuContainer extends Grid{

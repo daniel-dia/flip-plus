@@ -1,5 +1,3 @@
-/// <reference path="../../lib/easeljs.d.ts" />
-
 declare var lib: any;
 
 module InvertCross.Robots {

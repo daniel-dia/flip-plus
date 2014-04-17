@@ -1,9 +1,3 @@
-/// <reference path="../../../lib/easeljs.d.ts" /> 
-/// <reference path="../../../lib/tweenjs.d.ts" /> 
-
-/// <reference path="../../Assets.ts" />
-
-
 declare var blockIn;
 declare var blockOut;
 
