@@ -84,6 +84,9 @@ module InvertCross.GamePlay {
         public win(col: number, row: number) {
 
 
+            if (this.tutorialStepsEnd.length == 0)
+                super.win(col, row);
+            else
 
             setTimeout(() => {
                 this.currentTutorialStep = 0;
@@ -92,8 +95,7 @@ module InvertCross.GamePlay {
                 this.playNextTurorialStep();
 
                 this.endTutorial = () => {
-                    //if tutorial is over unlock all board
-                    super.win(col, row);
+                    super.win(col, row, false);
                 }
 
             }, 500);

@@ -201,7 +201,7 @@ module InvertCross.GamePlay {
             }
         }
 
-        win(col: number, row: number) {
+        win(col: number, row: number,messageText:boolean=true) {
 
             //play a win sound
             Assets.playSound("win");
@@ -216,8 +216,9 @@ module InvertCross.GamePlay {
 
             //set model to complete level.
             InvertCrossaGame.projectManager.completeLevel(this.levelData);
-            
+
             //change screen and animate.
+            if (messageText)
             this.message.showtext("Well done!", 1000, 800);
 
             //hide all menus
