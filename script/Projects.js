@@ -15,7 +15,7 @@ var levelsData = [
     {
 
         nickName: "S-N3S", name: "Bot01", cost: 00, levels: [
-            { "name": "01", "width": 5, "height": 5, "type": "tutorial", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [12], tutorial: [ { text: "flip white squares to color squares", title: "The plus shape" }, { click: 12 }] },
+            { "name": "01", "width": 5, "height": 5, "type": "tutorial", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [12], tutorial: [{ text: "flip white squares to color squares", title: "The plus shape" }, { click: 12 }, {atEnd:true,  text: "-_-", title: "You Won" }] },
             { "name": "02", "width": 5, "height": 5, "type": "tutorial", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [8, 16], tutorial: [ { text: "to finish the board, you have to turn \nevery white block in color block", title: "Flip to build" }, { click: 8 }] },
             { "name": "03", "width": 5, "height": 5, "type": "tutorial", "theme": "purple", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [2, 12, 22], tutorial: [{ text: "the plus shape inverts the tile, \nwhite gets color and color gets white", title: "Flip to invert" }, { click: 2 }] },
             { "name": "04", "width": 5, "height": 5, "type": "tutorial", "theme": "purple", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [7, 12, 17], tutorial: [{ text: "the light bulb button gives you a hin", title: "hints" }, { item: "hint", parameter: 7 }, { click: 7 }] },

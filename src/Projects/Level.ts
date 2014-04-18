@@ -64,6 +64,7 @@ module InvertCross.Projects {
         item?: string;
         click?: number;
         parameter?: any;
+        atEnd?: boolean;
     }
 
 

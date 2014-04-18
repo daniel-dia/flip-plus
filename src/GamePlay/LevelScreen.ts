@@ -230,8 +230,11 @@ module InvertCross.GamePlay {
             }, 200);
 
             //animates board to fade out;
-            setTimeout(() => {
-              
+            setTimeout(() => { this.winSwitchScreen(complete1stTime) }, 1800);
+        }
+
+        winSwitchScreen(complete1stTime:boolean) { 
+
                 //remove all tweens
                 createjs.Tween.removeTweens(this.boardSprite);
                 //cache board
@@ -244,10 +247,7 @@ module InvertCross.GamePlay {
                 })
 
                 //switch screen
-                InvertCrossaGame.completeLevel(complete1stTime)
-                
-                
-            }, 1800);
+                InvertCrossaGame.completeLevel(complete1stTime);
         }
 
         loose() {

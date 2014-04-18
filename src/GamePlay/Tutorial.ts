@@ -2,13 +2,28 @@ module InvertCross.GamePlay {
     export class Tutorial extends Puzzle {
 
         private currentTutorialStep: number = 0;
+
         private tutorialSteps: Array<Projects.tutorialStep>;
+        private tutorialStepsEnd: Array<Projects.tutorialStep>;
+
+        private endTutorial:() =>any;
 
         constructor(levelData: Projects.Level) {
             super(levelData);
 
-            this.tutorialSteps = levelData.tutorial;
-          
+            this.tutorialSteps = [];
+            this.tutorialStepsEnd = []
+
+            this.endTutorial = () => {
+                this.boardSprite.tutorialRelease();
+            }
+
+            for (var t in levelData.tutorial) {
+                if (levelData.tutorial[t].atEnd)
+                    this.tutorialStepsEnd.push(levelData.tutorial[t]);
+                else
+                    this.tutorialSteps.push(levelData.tutorial[t]);
+            }
         }
 
         //create tutorial steps and callbacks
@@ -54,12 +69,9 @@ module InvertCross.GamePlay {
                 this.executeTutorialActions( this.tutorialSteps[this.currentTutorialStep]);
                 this.currentTutorialStep++;
             }
-
-            //if tutorial is over unlock all board
-            else {
-                this.boardSprite.tutorialRelease();
-                //alert("is over 9000");
-            }
+            else 
+                this.endTutorial();
+                
         }
 
         public activate(parameters?: any) {
@@ -67,6 +79,26 @@ module InvertCross.GamePlay {
 
             //start tutorial steps
             this.playNextTurorialStep();
+        }
+  
+        public win(col: number, row: number) {
+
+
+
+            setTimeout(() => {
+                this.currentTutorialStep = 0;
+                this.tutorialSteps = this.tutorialStepsEnd;
+
+                this.playNextTurorialStep();
+
+                this.endTutorial = () => {
+                    //if tutorial is over unlock all board
+                    super.win(col, row);
+                }
+
+            }, 500);
+
+          
         }
     }
 }

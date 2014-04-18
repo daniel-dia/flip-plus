@@ -71,8 +71,8 @@ module InvertCross {
             this.redim(windowWidth);
 
             //dev
-            //this.redim(420);
-            //assetscale = 1;
+            this.redim(420);
+            assetscale = 1;
         }
 
         private static tick() {
@@ -98,7 +98,7 @@ module InvertCross {
 
             this.screenViewer.updateScale(finalscale);
 
-            //setMobileScale(devicewidth)
+            setMobileScale(devicewidth)
 
             console.log("start " + devicewidth + "px width resolution");
 
