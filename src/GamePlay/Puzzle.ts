@@ -10,7 +10,7 @@ module InvertCross.GamePlay {
                 if (levelData.drawData == null)
                     this.levelLogic.board.setDrawBlocks(levelData.blocksData);
                 else
-                    this.levelLogic.board.setDrawBlocks(levelData.drawData, false);
+                    this.levelLogic.board.setDrawBlocks(levelData.drawData, true);
             }
 
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);

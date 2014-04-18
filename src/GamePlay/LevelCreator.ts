@@ -1,6 +1,8 @@
 module InvertCross.GamePlay {
     export class LevelCreator extends Puzzle {
 
+        private stateDraw
+
         private editWindow: Window;
         private static key = "customPuzzles";
 
@@ -119,9 +121,10 @@ module InvertCross.GamePlay {
             levelData.randomMaxMoves = parseInt((<HTMLInputElement>this.editWindow.document.getElementById("c_r_max")).value);
             levelData.randomMinMoves = parseInt((<HTMLInputElement>this.editWindow.document.getElementById("c_r_min")).value);
 
+            levelData.drawData = this.levelData.drawData;
 
-            //if ((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value)
-            //    levelData.blocksData = JSON.parse((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value);
+            if ((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value)
+                levelData.blocksData = JSON.parse((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value);
 
             return levelData;
         }
@@ -149,14 +152,32 @@ module InvertCross.GamePlay {
         //threat user input
         public userInput(col: number, row: number) {
 
-            //invert a cross
-            this.levelLogic.invertCross(col, row);
+
+            if ((<HTMLInputElement>document.getElementById("c_drawing")).checked) {
+              
+                var id = row + col * this.levelData.height;
+                if (!this.levelData.drawData) this.levelData.drawData = [];
+
+                var index = this.levelData.drawData.indexOf(id);
+                if (index >= 0)
+                    this.levelData.drawData.splice(index, 1);
+                else
+                    this.levelData.drawData.push(id);
+
+                this.levelLogic.board.setDrawBlocks(this.levelData.drawData);
+            }
+            else {
+
+                //invert a cross
+                this.levelLogic.invertCross(col, row);
+
+            }
 
             //update sprites 
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
 
-            (<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value = JSON.stringify( this.levelLogic.board.getInvertedBlocks());
-
+            (<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value = JSON.stringify(this.levelLogic.board.getInvertedBlocks());
+   
         }
 
         win(col: number, row: number) {

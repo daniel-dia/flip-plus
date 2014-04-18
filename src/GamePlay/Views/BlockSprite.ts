@@ -134,7 +134,7 @@ module InvertCross.GamePlay.Views {
                     if (levelType == "draw") return "Inv"
                     else return "Nor";
             else 
-                if (inverted) return "DNor"
+                if (!inverted) return "DNor"
                     else return "Nor";
             //return "Nor";
         }  

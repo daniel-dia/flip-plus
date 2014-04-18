@@ -644,8 +644,7 @@ var InvertCross;
 
             this.screenViewer.updateScale(finalscale);
 
-            setMobileScale(devicewidth);
-
+            //setMobileScale(devicewidth)
             console.log("start " + devicewidth + "px width resolution");
         };
         Game.defaultWidth = DefaultWidth;
@@ -1796,7 +1795,7 @@ var InvertCross;
                     if (levelData.drawData == null)
                         this.levelLogic.board.setDrawBlocks(levelData.blocksData);
                     else
-                        this.levelLogic.board.setDrawBlocks(levelData.drawData, false);
+                        this.levelLogic.board.setDrawBlocks(levelData.drawData, true);
                 }
 
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
@@ -2393,7 +2392,7 @@ var InvertCross;
                             return "Inv";
                         else
                             return "Nor";
-                    else if (inverted)
+                    else if (!inverted)
                         return "DNor";
                     else
                         return "Nor";
@@ -5338,8 +5337,11 @@ var InvertCross;
                 levelData.randomMaxMoves = parseInt(this.editWindow.document.getElementById("c_r_max").value);
                 levelData.randomMinMoves = parseInt(this.editWindow.document.getElementById("c_r_min").value);
 
-                //if ((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value)
-                //    levelData.blocksData = JSON.parse((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value);
+                levelData.drawData = this.levelData.drawData;
+
+                if (this.editWindow.document.getElementById("c_blocks").value)
+                    levelData.blocksData = JSON.parse(this.editWindow.document.getElementById("c_blocks").value);
+
                 return levelData;
             };
 
@@ -5373,8 +5375,22 @@ var InvertCross;
 
             //threat user input
             LevelCreator.prototype.userInput = function (col, row) {
-                //invert a cross
-                this.levelLogic.invertCross(col, row);
+                if (document.getElementById("c_drawing").checked) {
+                    var id = row + col * this.levelData.height;
+                    if (!this.levelData.drawData)
+                        this.levelData.drawData = [];
+
+                    var index = this.levelData.drawData.indexOf(id);
+                    if (index >= 0)
+                        this.levelData.drawData.splice(index, 1);
+                    else
+                        this.levelData.drawData.push(id);
+
+                    this.levelLogic.board.setDrawBlocks(this.levelData.drawData);
+                } else {
+                    //invert a cross
+                    this.levelLogic.invertCross(col, row);
+                }
 
                 //update sprites
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
