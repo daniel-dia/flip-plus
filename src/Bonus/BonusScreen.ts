@@ -3,20 +3,41 @@
     // Class
     export class BonusScreen extends Gbase.ScreenState {
 
-        itemArray: Array<string>;
-       
-        constructor(itemArray: Array<string>){
+        itemsArray: Array<string>;
+        footerContainer: createjs.Container;
+        menu: Menu.View.ScreenMenu;
+
+        public popup: Menu.View.Popup;
+        public message: Menu.View.Message;
+
+        constructor(itemsArray: Array<string>){
             super();
 
-            this.itemArray = itemArray;
+            this.itemsArray = itemsArray;
             
+            //adds scenary
+            this.addScene();
+
+            //adds footer and itens
+            this.addFooter(itemsArray);
+
+            //adds bonus objc
             this.addObjects();
 
             //adds menu
             this.addMenu();
+
+            //adds message
+            this.message = new Menu.View.Message();
+            this.view.addChild(this.message);
+
+            //adds popup
+            this.popup = new Menu.View.Popup();
+            this.view.addChild(this.popup)
         }
 
-        addObjects() {
+        //add Scene objects to the view
+        addScene() {
             //adds Background
             this.view.addChild(Assets.getImage("bonus1/bg_bonus1"));
 
@@ -27,38 +48,66 @@
             this.view.addChild(Assets.getImage(""));
         }
 
-        addFooter() {
+        //adds objects to the view <<interface>>
+        addObjects() {}
+
+        //create sa footer
+        addFooter(itemsArray: Array<string>) {
+            
+            this.footerContainer = new createjs.Container();
+
             //adds footer
             var footer = Assets.getImage("bonus1/hudbonus1_2");
-            this.view.addChild(footer);
-            footer.y = DefaultHeight - 291;
+            this.footerContainer.addChild(footer);
+            this.footerContainer.y = DefaultHeight - 291;
 
-            this.addItemsOnFooter();
+            //TODO must add texts
+            //adds Items to the footer
+            for (var i = 0; i < itemsArray.length; i++) {
+                var itemId = itemsArray[i];
+                var itemObj = Assets.getImage("puzzle/icon_" + itemId);
+
+                //positioning item
+                itemObj.y = 100;
+                itemObj.x = DefaultWidth / itemsArray.length * i + 90;
+                itemObj.name = itemId;
+                this.footerContainer.addChild(itemObj);
+            }
+
+            this.view.addChild(this.footerContainer);
         }
 
-        addItemsOnFooter() {
+        //animate a display object to the menu
+        animateItemObjectToFooter(itemObj: createjs.DisplayObject, itemId: string) {
 
+            var footerItem = this.footerContainer.getChildByName(itemId);
+
+            if (footerItem) 
+                createjs.Tween.get(itemObj).wait(500).to({
+                    x: footerItem.x + this.footerContainer.x,
+                    y: footerItem.y + this.footerContainer.y
+                }, 700, createjs.Ease.quadInOut);
         }
 
-        getFooterItemPosition(itemId: string) {
-
-        }
-
+        //adds menu to the view
         addMenu() {
-            var menu = new Menu.View.ScreenMenu();
-            menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu()); });
-            menu.addEventListener("back", () => { this.back(); });
-            this.view.addChild(menu);
+            this.menu = new Menu.View.ScreenMenu();
+            this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu()); });
+            this.menu.addEventListener("back", () => { this.back(); });
+            this.view.addChild(this.menu);
         }
+
+        //updates user Data with new Item
+        userAquireItem(itemId: string) {
+            InvertCrossaGame.itemsData.increaseItemQuantity(itemId);
+        }
+
+        //===========================================================
 
         activate(parameters?: any) {
             super.activate(parameters);
         }        
         
-        addItem(itemId: string) {
-            InvertCrossaGame.itemsData.increaseItemQuantity(itemId);
-        }
-
         back() {
             InvertCross.InvertCrossaGame.showProjectsMenu();
         }
