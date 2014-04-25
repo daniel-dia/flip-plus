@@ -20,8 +20,9 @@
         }
 
         //adds barrels to the scene
-        private addBarrels(barrelsCount:number=3) {
+        private addBarrels(barrelsCount:number=9, cols:number=3) {
 
+            //initialize arrays
             this.barrels = [];
             this.content = [];
 
@@ -36,13 +37,12 @@
                 barrelsContainer.addChild(barrel);
 
                 //positionning
-                barrel.y = DefaultHeight/2;
-                barrel.x = (b + 1) * DefaultWidth / (barrelsCount+1);
+                barrel.y = DefaultHeight / 2 + (Math.floor(b / cols) * 400) - 400;
+                barrel.x = (b%cols + 1) * DefaultWidth / (cols+1);
 
                 //save obj to local array
                 this.barrels.push(barrel);
-
-
+                
                 //instantiate a new container for barrelContent
                 var content = new createjs.Container();
                 content.x = barrel.x - 100;
@@ -56,8 +56,9 @@
             this.view.addChild(barrelsContainer);
         }
 
+        
         //shuffle a new Game
-        private setNewGame(itemsCount: number= 1,barrelsCount:number=3) {
+        private setNewGame(itemsCount: number= 3,barrelsCount:number=9) {
 
             //avoid errors
             if (itemsCount > barrelsCount) itemsCount = barrelsCount;
@@ -73,22 +74,34 @@
                 this.content[co].removeAllChildren();
 
             //clean all items
-            this.items = [];
+            this.items = this.randomItensInArray(itemsCount, barrelsCount);
+
+     
+        }
+
+        private randomItensInArray(itemsCount: number= 3, arrayLength: number= 9) : Array<string> {
+            var finalList: Array<string> = []
 
             //randomize itens in barrels
-            var list = [];
-            for (var b = 0; b < barrelsCount; b++) list.push(b);
+            var indexesLists = [];
+            for (var b = 0; b < arrayLength; b++) indexesLists.push(b);
 
             //for each item
             for (var i = 0; i < itemsCount; i++) {
+
                 //select and remove a barrel from a list, and set a item to it
-                var index = Math.floor(Math.random() * list.length);
-                var barrel = list[index];
-                list.splice(index);
+                var index = Math.floor(Math.random() * indexesLists.length);
+                var barrelId = indexesLists[index];
+                indexesLists.splice(index,1);
+
                 //set a random item to the selected barrel
-                this.items[barrel] = this.getRandomItem();
+                finalList[barrelId] = this.getRandomItem();
             }
+
+            return finalList;
         }
+
+
 
         //when player tap a barrel
         private barrelTap(event: createjs.MouseEvent) {
@@ -121,4 +134,7 @@
                 this.addItem(this.items[barrelId]);
         }
     }
+
+
+
 }   

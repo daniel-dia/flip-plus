@@ -70,9 +70,6 @@ module InvertCross {
             console.log("using scale at " + assetscale + "x");
             this.redim(windowWidth);
 
-            //dev
-            this.redim(420);
-            assetscale = 1;
         }
 
         private static tick() {
