@@ -29,7 +29,8 @@ module Gbase.UI {
 
         private onPressUp(Event: createjs.MouseEvent) {
             this.mouse = false;
-            createjs.Tween.removeTweens(this);
+            //createjs.Tween.removeTweens(this);
+            this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
             createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
         }
 
