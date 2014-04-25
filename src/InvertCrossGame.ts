@@ -109,6 +109,24 @@ module InvertCross {
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelsMenu,parameters);
         }
 
+        public static showBonus(bonusId: string) {
+            var bonusScreen: Bonus.BonusScreen;
+            switch (bonusId) {
+                case "Bonus1":
+                    bonusScreen = new Bonus.Bonus1();
+                    break;
+                case "Bonus2":
+                    bonusScreen = new Bonus.Bonus1();
+                    break;
+                case "Bonus3":
+                    bonusScreen = new Bonus.Bonus1();
+                    break;
+                default:
+            }
+
+            InvertCrossaGame.screenViewer.switchScreen(bonusScreen);
+        }
+
         public static showLevel(level: Projects.Level, parameters?: any) {
             InvertCrossaGame.projectManager.setCurrentLevel(level);
             InvertCrossaGame.levelScreeen = InvertCrossaGame.createLevel(level);

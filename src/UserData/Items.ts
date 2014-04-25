@@ -5,6 +5,10 @@ module InvertCross.UserData {
 
         private itensDictionary: any;
 
+        //defines existent Itens
+        //TODO shall not be in userData
+        public static itemsNames: Array<string> = ["hint", "skip", "solve", "time", "touch"];
+
         constructor() {
             var data = localStorage.getItem(storagePrefix + "items");
             if (data)

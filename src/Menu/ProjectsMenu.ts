@@ -12,7 +12,7 @@ module InvertCross.Menu {
         private popup: View.Popup;
 
         private pagesSwipe: PagesSwipe ;
-        private pages: Array<createjs.DisplayObject>;
+        private pages: Array<createjs.Container>;
 
         //==================================== initialization ==============================================
         // Constructor
@@ -29,6 +29,7 @@ module InvertCross.Menu {
 
             this.addMenu();
             this.addProjects();
+            this.addBonuses();
             this.pagesSwipe = new PagesSwipe(this.projectsGrid, this.pages,DefaultWidth);
   
             this.createPaginationButtons(this.projectsGrid);
@@ -105,6 +106,21 @@ module InvertCross.Menu {
                 pview.x = xspacing * (i % cols) + 260;
                 pview.y = yspacing * Math.floor((i % (cols*rows)) / cols);
 
+            }
+        }
+
+        //adds bonuses objects to the view
+        private addBonuses() {
+            for (var p = 0; p < this.pages.length; p++) {
+                var page = this.pages[p];
+
+                var bonusObj = new Gbase.UI.ImageButton("projects/bigslot1", () => {
+                    InvertCrossaGame.showBonus("Bonus1");
+                })
+
+                bonusObj.y = 480;
+                bonusObj.x = 768;
+                page.addChild(bonusObj);
             }
         }
 

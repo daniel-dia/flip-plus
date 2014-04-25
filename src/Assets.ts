@@ -53,6 +53,13 @@ module InvertCross {
                 { src: imagePath + "intro/botLight.png", id: "botLight" },
                 { src: imagePath + "intro/fundoEscuro.jpg", id: "fundoEscuro" },
 
+                //Bonus1
+                { src: imagePath + "bonus1/barril1.png", id: "bonus1/barril1" },
+                { src: imagePath + "bonus1/bg_bonus1.png", id: "bonus1/bg_bonus1" },
+                { src: imagePath + "bonus1/hudbonus1_1.png", id: "bonus1/hudbonus1_1" },
+                { src: imagePath + "bonus1/hudbonus1_2.png", id: "bonus1/hudbonus1_2" },
+                { src: imagePath + "bonus1/icone_lata.png", id: "bonus1/icone_lata" },
+
                 //projects
                 { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
                 { id: "projects/slot1", src: imagePath + "projects/slot1.png" },
@@ -243,6 +250,12 @@ module InvertCross {
                 { id: "puzzle/painelpuzzle2", src: imagePath + "puzzle/painelpuzzle2.png" },
                 { id: "puzzle/tile0", src: imagePath + "puzzle/tile0.png" },
                 { id: "puzzle/indicator", src: imagePath + "puzzle/indicator.png" },
+
+                { id: "puzzle/icon_hint", src: imagePath + "puzzle/icon_hint.png" },
+                { id: "puzzle/icon_time", src: imagePath + "puzzle/icon_time.png" },
+                { id: "puzzle/icon_skip", src: imagePath + "puzzle/icon_skip.png" },
+                { id: "puzzle/icon_touch", src: imagePath + "puzzle/icon_touch.png" },
+                { id: "puzzle/icon_solve", src: imagePath + "puzzle/icon_solve.png" },
 
                 { id: "puzzle/tile_yellow_1", src: imagePath + "puzzle/tile_yellow_1.png" },
                 { id: "puzzle/tile_yellow_2", src: imagePath + "puzzle/tile_yellow_2.png" },
