@@ -1,7 +1,7 @@
 ﻿module InvertCross.Bonus {
 
     // Class
-    export class Bonus1 extends BonusScreen {
+    export class BonusBarrel extends BonusScreen {
 
         private barrels: Array<createjs.DisplayObject>;
         private content: Array<createjs.Container>;
