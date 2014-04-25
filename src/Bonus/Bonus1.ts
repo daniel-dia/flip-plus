@@ -136,7 +136,7 @@
             barrelObj.mouseEnabled = false;
 
             //hide barrel
-            createjs.Tween.get(barrelObj).to({ alpha: 0 }, 300);
+            createjs.Tween.get(barrelObj).to({ alpha: 0 }, 300).call(() => { this.updateFooterValues(); });
 
             //show item in barrel
             this.content[barrelId].visible = true;

@@ -5,6 +5,8 @@
 
         itemsArray: Array<string>;
         footerContainer: createjs.Container;
+        footerTexts: Array<createjs.Text>;
+
         menu: Menu.View.ScreenMenu;
 
         public popup: Menu.View.Popup;
@@ -55,26 +57,46 @@
         addFooter(itemsArray: Array<string>) {
             
             this.footerContainer = new createjs.Container();
+            this.footerTexts = [];
 
             //adds footer
             var footer = Assets.getImage("bonus1/hudbonus1_2");
             this.footerContainer.addChild(footer);
             this.footerContainer.y = DefaultHeight - 291;
 
-            //TODO must add texts
             //adds Items to the footer
             for (var i = 0; i < itemsArray.length; i++) {
-                var itemId = itemsArray[i];
-                var itemObj = Assets.getImage("puzzle/icon_" + itemId);
 
-                //positioning item
+                var itemId = itemsArray[i];
+                
+                //add icon
+                var itemObj = Assets.getImage("puzzle/icon_" + itemId);
                 itemObj.y = 100;
                 itemObj.x = DefaultWidth / itemsArray.length * i + 90;
                 itemObj.name = itemId;
                 this.footerContainer.addChild(itemObj);
+
+                //TODO betterPositioning
+                //add text
+                var textObj = new createjs.Text("",defaultFont,defaultFontColor);
+                textObj.y = 100;
+                textObj.x = DefaultWidth / itemsArray.length * i + 190;
+                textObj.name = itemId + "_text";
+                this.footerTexts[itemId] = textObj;
+                this.footerContainer.addChild(textObj);
             }
 
             this.view.addChild(this.footerContainer);
+        }
+
+        //updates all footer labels based on user data
+        updateFooterValues() {
+            var itemsArray = UserData.Items.itemsNames;
+            for (var i = 0; i < itemsArray.length; i++) {
+                var itemId = itemsArray[i];
+                var textObj = this.footerTexts[itemId];
+                textObj.text = InvertCrossaGame.itemsData.getItemQuantity(itemId).toString();
+            }
         }
 
         //animate a display object to the menu
@@ -106,6 +128,8 @@
 
         activate(parameters?: any) {
             super.activate(parameters);
+
+            this.updateFooterValues();
         }        
         
         back() {
