@@ -55,8 +55,7 @@
 
             this.view.addChild(barrelsContainer);
         }
-
-        
+                
         //shuffle a new Game
         private setNewGame(itemsCount: number= 3,barrelsCount:number=9) {
 
@@ -76,9 +75,9 @@
             //clean all items
             this.items = this.randomItensInArray(itemsCount, barrelsCount);
 
-     
         }
 
+        //radomizes itens into a array
         private randomItensInArray(itemsCount: number= 3, arrayLength: number= 9) : Array<string> {
             var finalList: Array<string> = []
 
@@ -101,7 +100,14 @@
             return finalList;
         }
 
+        //get a random item from the items list
+        private getRandomItem(): string {
+            
+            var i = Math.floor(Math.random() * this.itemArray.length);
+            var itemId = this.itemArray[i];
 
+            return itemId;
+        }
 
         //when player tap a barrel
         private barrelTap(event: createjs.MouseEvent) {
@@ -127,7 +133,7 @@
             //delay and hida others barrels and show other barrels content
             for (var ba in this.barrels)
                 if (ba != barrelId)
-                    createjs.Tween.get(this.barrels[ba]).wait(1000  + ba * 300).to({ alpha: 0 }, 300);
+                    createjs.Tween.get(this.barrels[ba]).wait(1000  + ba * 300).to({ alpha: 0 }, 150);
 
             //verifies item
             if (this.items[barrelId]) 

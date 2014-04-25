@@ -92,14 +92,14 @@ module InvertCross.Menu.View {
         private createLevelModificator(level: Projects.Level):createjs.DisplayObject {
 
             if (level.userdata.skip) {
-                var sk: createjs.Bitmap = Assets.getImage("puzzle/iconeskip");
+                var sk: createjs.Bitmap = Assets.getImage("puzzle/icon_skip");
                 sk.regX = sk.getBounds().width / 2;
                 sk.regY = sk.getBounds().height / 2;
                 return sk;
             }
 
             if (level.userdata.item == "hint") {
-                var sk: createjs.Bitmap = Assets.getImage("puzzle/iconehint");
+                var sk: createjs.Bitmap = Assets.getImage("puzzle/icon_hint");
                 sk.regX = sk.getBounds().width / 2;
                 sk.regY = sk.getBounds().height / 2;
                 return sk;

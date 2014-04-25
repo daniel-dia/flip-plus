@@ -3,8 +3,13 @@
     // Class
     export class BonusScreen extends Gbase.ScreenState {
 
-        constructor(){
+        itemArray: Array<string>;
+       
+        constructor(itemArray: Array<string>){
             super();
+
+            this.itemArray = itemArray;
+            
             this.addObjects();
 
             //adds menu
@@ -18,13 +23,25 @@
             //adds header
             this.view.addChild(Assets.getImage("bonus1/hudbonus1_1"));
 
+            //adds itens hud
+            this.view.addChild(Assets.getImage(""));
+        }
+
+        addFooter() {
             //adds footer
             var footer = Assets.getImage("bonus1/hudbonus1_2");
             this.view.addChild(footer);
             footer.y = DefaultHeight - 291;
 
-            //adds itens hud
-            this.view.addChild(Assets.getImage(""));
+            this.addItemsOnFooter();
+        }
+
+        addItemsOnFooter() {
+
+        }
+
+        getFooterItemPosition(itemId: string) {
+
         }
 
         addMenu() {
@@ -42,19 +59,8 @@
             InvertCrossaGame.itemsData.increaseItemQuantity(itemId);
         }
 
-        getRandomItem():string{
-            var itemArray = UserData.Items.itemsNames;
-            var i = Math.floor(Math.random() * itemArray.length);
-            var itemId = itemArray[i];
-
-            return itemId;
-        }
-
         back() {
             InvertCross.InvertCrossaGame.showProjectsMenu();
         }
-      
-
-
     }
 }  
