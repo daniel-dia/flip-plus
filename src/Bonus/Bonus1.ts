@@ -10,7 +10,6 @@
         private items: Array<string>;
         private remaningInteraction: number;
 
-
         addObjects() {
 
             super.addObjects();
@@ -26,12 +25,22 @@
         }
 
         //adds barrels to the scene
-        private addBarrels(barrelsCount:number=9, cols:number=3) {
+        private addBarrels(barrelsCount:number=7, cols:number=3) {
 
             //initialize arrays
             this.barrels = [];
             this.content = [];
             this.contentShadow = [];
+
+            var positions = [
+                { x: 606, y: 528 },
+                { x: 1122, y: 600 },
+                { x: 331, y: 901 },
+                { x: 705, y: 1090 },
+                { x: 1258, y: 1000 },
+                { x: 440, y: 1520 },
+                { x: 1156, y: 1532 },
+            ]
 
             //creates a container
             var barrelsContainer = new createjs.Container();
@@ -43,10 +52,20 @@
                 //instantiate a new button with barrel asset
                 var barrel = new Gbase.UI.ImageButton("bonus1/barril1", (event:createjs.MouseEvent) => {this.barrelTap(event)});
                 barrelsContainer.addChild(barrel);
+                barrelsContainer.y = DefaultHeight / 2 - 1024;
 
                 //positionning
-                barrel.y = DefaultHeight / 2 + (Math.floor(b / cols) * 400) - 400;
-                barrel.x = (b%cols + 1) * DefaultWidth / (cols+1);
+                barrel.set(positions[b]);
+
+                //animate barrel
+                createjs.Tween.get(barrel, { loop: true })
+                    .wait(Math.random() * 2000)
+                    .to({ x: barrel.x - 30 }, 2000, createjs.Ease.quadInOut)
+                    .wait(Math.random() * 2000)
+                    .to({ x: barrel.x }, 2000, createjs.Ease.quadInOut)
+                    
+                //barrel.y = DefaultHeight / 2 + (Math.floor(b / cols) * 400) - 400;
+                //barrel.x = (b%cols + 1) * DefaultWidth / (cols+1);
 
                 //save obj to local array
                 this.barrels.push(barrel);
@@ -71,7 +90,9 @@
         }
                 
         //shuffle a new Game
-        private setNewGame(itemsCount: number= 3,barrelsCount:number=9) {
+        private setNewGame(itemsCount: number= 3) {
+
+            var barrelsCount: number = 7;
 
             //set barrels clicks
             this.remaningInteraction = 3;
@@ -187,7 +208,7 @@
             }, 1000);
 
             //back to the screen
-            setTimeout(() => { this.back(); }, 2500);
+            setTimeout(() => { this.back(); }, 4500);
 
         }
     }
