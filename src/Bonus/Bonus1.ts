@@ -5,6 +5,8 @@
 
         private barrels: Array<createjs.DisplayObject>;
         private content: Array<createjs.Container>;
+        private contentShadow: Array<createjs.DisplayObject>;
+
         private items: Array<string>;
         private remaningInteraction: number;
 
@@ -29,6 +31,7 @@
             //initialize arrays
             this.barrels = [];
             this.content = [];
+            this.contentShadow = [];
 
             //creates a container
             var barrelsContainer = new createjs.Container();
@@ -50,12 +53,18 @@
                 
                 //instantiate a new container for barrelContent
                 var content = new createjs.Container();
-                content.x = barrel.x - 100;
-                content.y = barrel.y - 100;
+                content.x = barrel.x - 50;
+                content.y = barrel.y - 150;
                 this.content.push(content);
                 this.view.addChild(content);
 
-                
+
+                //instantiate a new shadow for content
+                var shadow = new createjs.Shape(new createjs.Graphics().beginFill("rgba(0,0,0,0.3)").drawEllipse(0, 0, 150, 50));
+                shadow.x = content.x - 30;
+                shadow.y = content.y + 240;
+                this.contentShadow.push(shadow);
+                this.view.addChild(shadow);
             }
 
             this.view.addChild(barrelsContainer);
@@ -136,7 +145,7 @@
             barrelObj.mouseEnabled = false;
 
             //hide barrel
-            createjs.Tween.get(barrelObj).to({ alpha: 0 }, 300).call(() => { this.updateFooterValues(); });
+            createjs.Tween.get(barrelObj).to({ alpha: 0 }, 300);
 
             //show item in barrel
             this.content[barrelId].visible = true;
@@ -144,7 +153,11 @@
             //verifies item
             if (this.items[barrelId]) {
                 this.userAquireItem(this.items[barrelId]);
-                this.animateItemObjectToFooter(this.content[barrelId] , this.items[barrelId]);
+                this.animateItemObjectToFooter(this.content[barrelId], this.items[barrelId]);
+                createjs.Tween.get(this.contentShadow[barrelId]).to({alpha:0},600);
+            }
+            else {
+                this.animateItemObjectIdle(this.content[barrelId]);
             }
 
             //ends bonus game

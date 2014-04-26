@@ -4,7 +4,9 @@
     export class BonusScreen extends Gbase.ScreenState {
 
         itemsArray: Array<string>;
+
         footerContainer: createjs.Container;
+
         footerTexts: Array<createjs.Text>;
 
         menu: Menu.View.ScreenMenu;
@@ -72,14 +74,14 @@
                 //add icon
                 var itemObj = Assets.getImage("puzzle/icon_" + itemId);
                 itemObj.y = 100;
-                itemObj.x = DefaultWidth / itemsArray.length * i + 90;
+                itemObj.x = DefaultWidth / itemsArray.length * i + 40;
                 itemObj.name = itemId;
                 this.footerContainer.addChild(itemObj);
-
-                //TODO betterPositioning
+                
+                //TODO: add Max indicator
                 //add text
-                var textObj = new createjs.Text("",defaultFont,defaultFontColor);
-                textObj.y = 100;
+                var textObj = new createjs.Text("",defaultFontFamilyNormal,"white");
+                textObj.y = 120;
                 textObj.x = DefaultWidth / itemsArray.length * i + 190;
                 textObj.name = itemId + "_text";
                 this.footerTexts[itemId] = textObj;
@@ -103,12 +105,16 @@
         animateItemObjectToFooter(itemObj: createjs.DisplayObject, itemId: string) {
 
             var footerItem = this.footerContainer.getChildByName(itemId);
+            if (footerItem)
+                createjs.Tween.get(itemObj).
+                    to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
+                    to({ x: footerItem.x + this.footerContainer.x, y: footerItem.y + this.footerContainer.y }, 700, createjs.Ease.quadInOut).
+                    call(() => { this.updateFooterValues(); });
+        }
 
-            if (footerItem) 
-                createjs.Tween.get(itemObj).wait(500).to({
-                    x: footerItem.x + this.footerContainer.x,
-                    y: footerItem.y + this.footerContainer.y
-                }, 700, createjs.Ease.quadInOut);
+        //create a loop animation for a item
+        animateItemObjectIdle(itemObj: createjs.DisplayObject) {
+            createjs.Tween.get(itemObj, { loop: true }).to({ y: itemObj.y - 20 }, 500, createjs.Ease.quadInOut).to({ y: itemObj.y}, 500, createjs.Ease.quadInOut);
         }
 
         //adds menu to the view
