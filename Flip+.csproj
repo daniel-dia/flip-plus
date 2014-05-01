@@ -31,6 +31,8 @@
     <TypeScriptCompile Include="src\Preferences.ts" />
     <Content Include="assets\bolinhas.js" />
     <Content Include="assets\bolinhas.png" />
+    <Content Include="assets\Bonus1.js" />
+    <Content Include="assets\Bonus1.png" />
     <Content Include="assets\images_0.25x\BackBt.png" />
     <Content Include="assets\images_0.25x\bonus1\barril1.png" />
     <Content Include="assets\images_0.25x\bonus1\bg_bonus1.png" />
