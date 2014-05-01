@@ -80,7 +80,7 @@ module InvertCross.Menu.View {
             this.addsClickIndicaator();
        }
         
-        public showTimeAttack(title: string, text: string,boards:string, time:string,text2:string,text3:string, timeout: number= 7000, delay: number= 0) {
+        public showTimeAttack(title: string, text: string, time: string, boards:string,text2:string,text3:string, timeout: number= 7000, delay: number= 0) {
 
             this.showsPopup(timeout, delay);
 

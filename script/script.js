@@ -6256,7 +6256,7 @@ var InvertCross;
                     this.addsClickIndicaator();
                 };
 
-                Popup.prototype.showTimeAttack = function (title, text, boards, time, text2, text3, timeout, delay) {
+                Popup.prototype.showTimeAttack = function (title, text, time, boards, text2, text3, timeout, delay) {
                     if (typeof timeout === "undefined") { timeout = 7000; }
                     if (typeof delay === "undefined") { delay = 0; }
                     this.showsPopup(timeout, delay);
