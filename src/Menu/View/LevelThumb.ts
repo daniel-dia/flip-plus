@@ -37,6 +37,8 @@ module InvertCross.Menu.View {
 
             var thumbContainer: createjs.Container = new Gbase.UI.Button();
 
+            createjs.Tween.removeTweens(this);
+
             var color1: string;
             var color2: string;
             var assetSufix: string;
@@ -57,6 +59,7 @@ module InvertCross.Menu.View {
                 color2 = "rgba(0,0,0,0.3)";
             }
 
+            
             if (level.userdata.unlocked && !level.userdata.solved && !level.userdata.skip) {
                 assetSufix = "3";
                 color1 = "rgba(255,255,255,0.9)";

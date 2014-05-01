@@ -4543,6 +4543,8 @@ var InvertCross;
 
                     var thumbContainer = new Gbase.UI.Button();
 
+                    createjs.Tween.removeTweens(this);
+
                     var color1;
                     var color2;
                     var assetSufix;
