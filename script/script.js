@@ -2427,7 +2427,7 @@ var InvertCross;
                     }
 
                     //load hint symbol
-                    this.hintimage = InvertCross.Assets.getImage("puzzle/iconehint");
+                    this.hintimage = InvertCross.Assets.getImage("puzzle/icon_hint");
                     this.container.addChild(this.hintimage);
                     this.hintimage.visible = false;
                 };

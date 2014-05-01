@@ -170,7 +170,7 @@ module InvertCross.GamePlay.Views {
             }
 
             //load hint symbol
-            this.hintimage = Assets.getImage("puzzle/iconehint");
+            this.hintimage = Assets.getImage("puzzle/icon_hint");
             this.container.addChild(this.hintimage);
             this.hintimage.visible = false;
 
