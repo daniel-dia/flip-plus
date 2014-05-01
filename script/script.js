@@ -3672,9 +3672,8 @@ var InvertCross;
                 this.offset = 0;
                 this.lastx = 0;
                 this.addObjects();
-
-                this.pagesSwipe = new InvertCross.PagesSwipe(this.projectsContaier, this.projectViews, DefaultWidth, 200, 1500);
-                this.createPaginationButtons(this.projectsContaier);
+                this.pagesSwipe = new InvertCross.PagesSwipe(this.projectsContainer, this.projectViews, DefaultWidth, 200, 1500);
+                this.createPaginationButtons(this.projectsContainer);
             }
             //--------------------- Initialization ---------------------
             LevelsMenu.prototype.addObjects = function () {
@@ -3739,18 +3738,13 @@ var InvertCross;
 
                 //add to view
                 this.view.addChild(projectsContainer);
-                this.projectsContaier = projectsContainer;
-
-                var fin = (projects.length - 1) * DefaultWidth;
-                projectsContainer.addEventListener("onmoving", function () {
-                    if (projectsContainer.x > 0)
-                        projectsContainer.x = 0;
-                    if (projectsContainer.x < -fin)
-                        projectsContainer.x = -fin;
-
-                    for (var pv in _this.projectViews)
-                        _this.projectViews[pv].setRelativePos(_this.projectViews[pv].x + projectsContainer.x);
-                });
+                this.projectsContainer = projectsContainer;
+                //var fin = (projects.length-1) * DefaultWidth;
+                //projectsContainer.addEventListener("onmoving", () => {
+                //    if (projectsContainer.x > 0) projectsContainer.x = 0;
+                //    if (projectsContainer.x < -fin) projectsContainer.x = - fin;
+                //    for (var pv in this.projectViews) this.projectViews[pv].setRelativePos(this.projectViews[pv].x + projectsContainer.x);
+                //});
             };
 
             LevelsMenu.prototype.openLevel = function (event) {
@@ -3789,11 +3783,8 @@ var InvertCross;
                 rb.x = DefaultWidth * 0.9;
                 rb.scaleX = -1;
                 this.view.addChild(rb);
-
                 //create pagination indicator
                 //TODO
-                //goto defaul page
-                this.pagesSwipe.gotoPage(0);
             };
 
             //--Behaviour-----------------------------------------------------------

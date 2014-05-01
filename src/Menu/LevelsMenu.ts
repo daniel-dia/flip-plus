@@ -3,7 +3,7 @@ module InvertCross.Menu {
     export class LevelsMenu extends Gbase.ScreenState {
 
         private menu: View.ScreenMenu;
-        private projectsContaier: createjs.Container;
+        private projectsContainer: createjs.Container;
         private projectViews: Array<View.ProjectWorkshopView>;
 
         private popup: View.Popup;
@@ -19,9 +19,9 @@ module InvertCross.Menu {
 
             super();
             this.addObjects();
-
-            this.pagesSwipe = new PagesSwipe(this.projectsContaier, this.projectViews, DefaultWidth, 200, 1500);
-            this.createPaginationButtons(this.projectsContaier)
+            this.pagesSwipe = new PagesSwipe(this.projectsContainer, this.projectViews, DefaultWidth, 200, 1500);
+            this.createPaginationButtons(this.projectsContainer)
+            
 
         }
         
@@ -90,15 +90,15 @@ module InvertCross.Menu {
 
             //add to view
             this.view.addChild(projectsContainer);
-            this.projectsContaier = projectsContainer;
+            this.projectsContainer = projectsContainer;
 
-            var fin = (projects.length-1) * DefaultWidth;
-            projectsContainer.addEventListener("onmoving", () => {
-                if (projectsContainer.x > 0) projectsContainer.x = 0;
-                if (projectsContainer.x < -fin) projectsContainer.x = - fin;
+            //var fin = (projects.length-1) * DefaultWidth;
+            //projectsContainer.addEventListener("onmoving", () => {
+            //    if (projectsContainer.x > 0) projectsContainer.x = 0;
+            //    if (projectsContainer.x < -fin) projectsContainer.x = - fin;
 
-                for (var pv in this.projectViews) this.projectViews[pv].setRelativePos(this.projectViews[pv].x + projectsContainer.x);
-            });
+            //    for (var pv in this.projectViews) this.projectViews[pv].setRelativePos(this.projectViews[pv].x + projectsContainer.x);
+            //});
         }
 
         private openLevel(event: createjs.Event) {
@@ -134,10 +134,6 @@ module InvertCross.Menu {
 
             //create pagination indicator
             //TODO
-
-
-            //goto defaul page
-            this.pagesSwipe.gotoPage(0);
         }           
         //--Behaviour-----------------------------------------------------------
 
