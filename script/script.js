@@ -1,81 +1,18 @@
-﻿var Inertia = (function () {
-    function Inertia() {
-    }
-    //Adds a inertial drag movement to a Display Object
-    Inertia.addInertia = function (target, moveX, moveY, eventOrigin, inertiaFactor) {
-        if (typeof moveX === "undefined") { moveX = true; }
-        if (typeof moveY === "undefined") { moveY = true; }
-        if (typeof inertiaFactor === "undefined") { inertiaFactor = 0.95; }
-        var pivotX = 0;
-        var pivotY = 0;
-        var oldPosX = 0;
-        var oldPosY = 0;
-        var speedX = 0;
-        var speedY = 0;
+﻿var DefaultWidth = 1536;
+var DefaultHeight = 2048 - 8;
+var defaultFont = "'Exo 2.0'";
 
-        var inertiaInterval;
+var defaultFontFamilyNormal = " 80px  " + defaultFont;
+var defaultFontFamilyStrong = " 80px " + defaultFont;
+var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
+var defaultNumberHighlight = " 220px " + defaultFont;
 
-        var mouseDown = false;
+var defaultFontColor = "#FF6";
+var highlightFontColor = "#f2cb46";
+var alternativeFontColor = "#3d8c9a";
+var shadowFontColor = "#1b4f5e";
 
-        if (!eventOrigin)
-            eventOrigin = target;
-
-        eventOrigin.addEventListener("mousedown", function (evt) {
-            clearInterval(inertiaInterval);
-            speedX = speedY = 0;
-            oldPosX = target.x;
-            oldPosY = target.y;
-
-            var pos = eventOrigin.globalToLocal(evt.stageX, evt.stageY);
-
-            pivotX = pos.x - target.x;
-            pivotY = pos.y - target.y;
-
-            mouseDown = true;
-
-            inertiaInterval = setInterval(function () {
-                if (moveX)
-                    speedX = speedX * inertiaFactor;
-                if (moveY)
-                    speedY = speedY * inertiaFactor;
-
-                target.x += speedX;
-                target.y += speedY;
-
-                target.dispatchEvent("onmoving");
-
-                if (mouseDown == false && Math.abs(speedX) + Math.abs(speedY) < 5) {
-                    clearInterval(inertiaInterval);
-                    target.dispatchEvent("onstop");
-                }
-            }, 1000 / createjs.Ticker.getFPS());
-        });
-
-        eventOrigin.addEventListener("pressmove", function (evt) {
-            var pos = eventOrigin.globalToLocal(evt.stageX, evt.stageY);
-
-            if (moveX)
-                target.x = pos.x - pivotX;
-            if (moveY)
-                target.y = pos.y - pivotY;
-
-            target.dispatchEvent("onmoving");
-
-            speedX = target.x - oldPosX;
-            speedY = target.y - oldPosY;
-
-            oldPosX = target.x;
-            oldPosY = target.y;
-
-            mouseDown = true;
-        });
-
-        eventOrigin.addEventListener("pressup", function (evt) {
-            mouseDown = false;
-        });
-    };
-    return Inertia;
-})();
+var storagePrefix = "flipp_";
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -620,17 +557,14 @@ var InvertCross;
 
             console.log("using scale at " + assetscale + "x");
             this.redim(windowWidth);
-
-            //dev
-            this.redim(420);
-            assetscale = 1;
         };
 
         Game.tick = function () {
             this.stage.update();
         };
 
-        Game.redim = function (devicewidth) {
+        Game.redim = function (devicewidth, updateCSS) {
+            if (typeof updateCSS === "undefined") { updateCSS = true; }
             var finalscale = 1;
 
             //if (devicewidth) {
@@ -647,7 +581,8 @@ var InvertCross;
 
             this.screenViewer.updateScale(finalscale);
 
-            setMobileScale(devicewidth);
+            if (updateCSS)
+                setMobileScale(devicewidth);
 
             console.log("start " + devicewidth + "px width resolution");
         };
@@ -862,10 +797,8 @@ var InvertCross;
                 { id: "workshop/faseverdetime1", src: imagePath + "workshop/faseverdetime1.png" },
                 { id: "workshop/faseverdetime2", src: imagePath + "workshop/faseverdetime2.png" },
                 { id: "workshop/faseverdetime3", src: imagePath + "workshop/faseverdetime3.png" },
-                { id: "workshop/iconeskip", src: imagePath + "workshop/iconeskip.png" },
                 { id: "workshop/paginacaoworkshop", src: imagePath + "workshop/paginacaoworkshop.png" },
                 { id: "workshop/painelworkshop", src: imagePath + "workshop/painelworkshop.png" },
-                { id: "workshop/skip", src: imagePath + "workshop/skip.png" },
                 { id: "workshop/stargreen", src: imagePath + "workshop/stargreen.png" },
                 { id: "workshop/starpurple", src: imagePath + "workshop/starpurple.png" },
                 { id: "workshop/staryellow", src: imagePath + "workshop/staryellow.png" },
@@ -879,14 +812,11 @@ var InvertCross;
                 { id: "puzzle/btsair", src: imagePath + "puzzle/btsair.png" },
                 { id: "puzzle/btsom1", src: imagePath + "puzzle/btsom1.png" },
                 { id: "puzzle/btsom2", src: imagePath + "puzzle/btsom2.png" },
-                { id: "puzzle/iconehint", src: imagePath + "puzzle/iconehint.png" },
                 { id: "puzzle/iconemoves", src: imagePath + "puzzle/iconemoves.png" },
                 { id: "puzzle/iconepause", src: imagePath + "puzzle/iconepause.png" },
                 { id: "puzzle/iconeplay", src: imagePath + "puzzle/iconeplay.png" },
                 { id: "puzzle/iconepuzzle", src: imagePath + "puzzle/iconepuzzle.png" },
                 { id: "puzzle/iconerestart", src: imagePath + "puzzle/iconerestart.png" },
-                { id: "puzzle/iconeskip", src: imagePath + "puzzle/iconeskip.png" },
-                { id: "puzzle/iconetime", src: imagePath + "puzzle/iconetime.png" },
                 { id: "puzzle/paginacaopuzzle", src: imagePath + "puzzle/paginacaopuzzle.png" },
                 { id: "puzzle/painelpuzzle1", src: imagePath + "puzzle/painelpuzzle1.png" },
                 { id: "puzzle/painelpuzzle2", src: imagePath + "puzzle/painelpuzzle2.png" },
@@ -1130,13 +1060,13 @@ var InvertCross;
             var bonusScreen;
             switch (bonusId) {
                 case "Bonus1":
-                    bonusScreen = new InvertCross.Bonus.Bonus1();
+                    bonusScreen = new InvertCross.Bonus.BonusBarrel(InvertCross.UserData.Items.itemsNames);
                     break;
                 case "Bonus2":
-                    bonusScreen = new InvertCross.Bonus.Bonus1();
+                    bonusScreen = new InvertCross.Bonus.BonusBarrel(InvertCross.UserData.Items.itemsNames);
                     break;
                 case "Bonus3":
-                    bonusScreen = new InvertCross.Bonus.Bonus1();
+                    bonusScreen = new InvertCross.Bonus.BonusBarrel(InvertCross.UserData.Items.itemsNames);
                     break;
                 default:
             }
@@ -3066,7 +2996,7 @@ var InvertCross;
                 //creates a iitem button and its feedback pand parameters, and adds it to screensk
                 GamePlayMenu.prototype.createItemButton = function (buttonId, pos) {
                     var _this = this;
-                    var button = new Gbase.UI.IconButton("puzzle/icone" + buttonId, "", "puzzle/btpowerup", function () {
+                    var button = new Gbase.UI.IconButton("puzzle/icon_" + buttonId, "", "puzzle/btpowerup", function () {
                         var parameter = null;
                         if (_this.parameters)
                             parameter = _this.parameters[buttonId];
@@ -3313,6 +3243,420 @@ var InvertCross;
         var Views = GamePlay.Views;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (Bonus) {
+        // Class
+        var BonusScreen = (function (_super) {
+            __extends(BonusScreen, _super);
+            function BonusScreen(itemsArray) {
+                _super.call(this);
+
+                this.itemsArray = itemsArray;
+
+                //adds scenary
+                this.addScene();
+
+                //adds footer and itens
+                this.addFooter(itemsArray);
+
+                //adds bonus objc
+                this.addObjects();
+
+                //adds menu
+                this.addMenu();
+
+                //adds message
+                this.message = new InvertCross.Menu.View.Message();
+                this.view.addChild(this.message);
+
+                //adds popup
+                this.popup = new InvertCross.Menu.View.Popup();
+                this.view.addChild(this.popup);
+            }
+            //add Scene objects to the view
+            BonusScreen.prototype.addScene = function () {
+                //adds Background
+                this.view.addChild(InvertCross.Assets.getImage("bonus1/bg_bonus1"));
+
+                //adds header
+                this.view.addChild(InvertCross.Assets.getImage("bonus1/hudbonus1_1"));
+
+                //adds itens hud
+                this.view.addChild(InvertCross.Assets.getImage(""));
+            };
+
+            //adds objects to the view <<interface>>
+            BonusScreen.prototype.addObjects = function () {
+            };
+
+            //create sa footer
+            BonusScreen.prototype.addFooter = function (itemsArray) {
+                this.footerContainer = new createjs.Container();
+                this.footerTexts = [];
+
+                //adds footer
+                var footer = InvertCross.Assets.getImage("bonus1/hudbonus1_2");
+                this.footerContainer.addChild(footer);
+                this.footerContainer.y = DefaultHeight - 291;
+
+                for (var i = 0; i < itemsArray.length; i++) {
+                    var itemId = itemsArray[i];
+
+                    //add icon
+                    var itemObj = InvertCross.Assets.getImage("puzzle/icon_" + itemId);
+                    itemObj.y = 100;
+                    itemObj.x = DefaultWidth / itemsArray.length * i + 40;
+                    itemObj.name = itemId;
+                    this.footerContainer.addChild(itemObj);
+
+                    //TODO: add Max indicator
+                    //add text
+                    var textObj = new createjs.Text("", defaultFontFamilyNormal, "white");
+                    textObj.y = 120;
+                    textObj.x = DefaultWidth / itemsArray.length * i + 190;
+                    textObj.name = itemId + "_text";
+                    this.footerTexts[itemId] = textObj;
+                    this.footerContainer.addChild(textObj);
+                }
+
+                this.view.addChild(this.footerContainer);
+            };
+
+            //updates all footer labels based on user data
+            BonusScreen.prototype.updateFooterValues = function () {
+                var itemsArray = InvertCross.UserData.Items.itemsNames;
+                for (var i = 0; i < itemsArray.length; i++) {
+                    var itemId = itemsArray[i];
+                    var textObj = this.footerTexts[itemId];
+                    textObj.text = InvertCross.InvertCrossaGame.itemsData.getItemQuantity(itemId).toString();
+                }
+            };
+
+            //animate a display object to the menu
+            BonusScreen.prototype.animateItemObjectToFooter = function (itemObj, itemId) {
+                var _this = this;
+                var footerItem = this.footerContainer.getChildByName(itemId);
+                if (footerItem)
+                    createjs.Tween.get(itemObj).to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).to({ x: footerItem.x + this.footerContainer.x, y: footerItem.y + this.footerContainer.y }, 700, createjs.Ease.quadInOut).call(function () {
+                        _this.updateFooterValues();
+                    });
+            };
+
+            //create a loop animation for a item
+            BonusScreen.prototype.animateItemObjectIdle = function (itemObj) {
+                createjs.Tween.get(itemObj, { loop: true }).to({ y: itemObj.y - 20 }, 500, createjs.Ease.quadInOut).to({ y: itemObj.y }, 500, createjs.Ease.quadInOut);
+            };
+
+            //adds menu to the view
+            BonusScreen.prototype.addMenu = function () {
+                var _this = this;
+                this.menu = new InvertCross.Menu.View.ScreenMenu();
+                this.menu.addEventListener("menu", function () {
+                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new InvertCross.Menu.OptionsMenu());
+                });
+                this.menu.addEventListener("back", function () {
+                    _this.back();
+                });
+                this.view.addChild(this.menu);
+            };
+
+            //updates user Data with new Item
+            BonusScreen.prototype.userAquireItem = function (itemId) {
+                InvertCross.InvertCrossaGame.itemsData.increaseItemQuantity(itemId);
+            };
+
+            //===========================================================
+            BonusScreen.prototype.activate = function (parameters) {
+                _super.prototype.activate.call(this, parameters);
+
+                this.updateFooterValues();
+            };
+
+            BonusScreen.prototype.back = function () {
+                InvertCross.InvertCrossaGame.showProjectsMenu();
+            };
+            return BonusScreen;
+        })(Gbase.ScreenState);
+        Bonus.BonusScreen = BonusScreen;
+    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
+    var Bonus = InvertCross.Bonus;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (Bonus) {
+        // Class
+        var BonusBarrel = (function (_super) {
+            __extends(BonusBarrel, _super);
+            function BonusBarrel() {
+                _super.apply(this, arguments);
+            }
+            BonusBarrel.prototype.addObjects = function () {
+                _super.prototype.addObjects.call(this);
+                this.addBarrels();
+            };
+
+            BonusBarrel.prototype.activate = function (parameters) {
+                _super.prototype.activate.call(this, parameters);
+                this.setNewGame();
+
+                this.popup.showtext("Pick 3 Barrels", "Some Barrels has hiddens items");
+            };
+
+            //adds barrels to the scene
+            BonusBarrel.prototype.addBarrels = function (barrelsCount, cols) {
+                var _this = this;
+                if (typeof barrelsCount === "undefined") { barrelsCount = 7; }
+                if (typeof cols === "undefined") { cols = 3; }
+                //initialize arrays
+                this.barrels = [];
+                this.content = [];
+                this.contentShadow = [];
+
+                var positions = [
+                    { x: 606, y: 528 },
+                    { x: 1122, y: 600 },
+                    { x: 331, y: 901 },
+                    { x: 705, y: 1090 },
+                    { x: 1258, y: 1000 },
+                    { x: 440, y: 1520 },
+                    { x: 1156, y: 1532 }
+                ];
+
+                //creates a container
+                var barrelsContainer = new createjs.Container();
+
+                for (var b = 0; b < barrelsCount; b++) {
+                    //TODO adds animation
+                    //instantiate a new button with barrel asset
+                    var barrel = new Gbase.UI.ImageButton("bonus1/barril1", function (event) {
+                        _this.barrelTap(event);
+                    });
+                    barrelsContainer.addChild(barrel);
+                    barrelsContainer.y = DefaultHeight / 2 - 1024;
+
+                    //positionning
+                    barrel.set(positions[b]);
+
+                    //animate barrel
+                    createjs.Tween.get(barrel, { loop: true }).wait(Math.random() * 2000).to({ x: barrel.x - 30 }, 2000, createjs.Ease.quadInOut).wait(Math.random() * 2000).to({ x: barrel.x }, 2000, createjs.Ease.quadInOut);
+
+                    //barrel.y = DefaultHeight / 2 + (Math.floor(b / cols) * 400) - 400;
+                    //barrel.x = (b%cols + 1) * DefaultWidth / (cols+1);
+                    //save obj to local array
+                    this.barrels.push(barrel);
+
+                    //instantiate a new container for barrelContent
+                    var content = new createjs.Container();
+                    content.x = barrel.x - 50;
+                    content.y = barrel.y - 150;
+                    this.content.push(content);
+                    this.view.addChild(content);
+
+                    //instantiate a new shadow for content
+                    var shadow = new createjs.Shape(new createjs.Graphics().beginFill("rgba(0,0,0,0.3)").drawEllipse(0, 0, 150, 50));
+                    shadow.x = content.x - 30;
+                    shadow.y = content.y + 240;
+                    this.contentShadow.push(shadow);
+                    this.view.addChild(shadow);
+                }
+
+                this.view.addChild(barrelsContainer);
+            };
+
+            //shuffle a new Game
+            BonusBarrel.prototype.setNewGame = function (itemsCount) {
+                if (typeof itemsCount === "undefined") { itemsCount = 3; }
+                var barrelsCount = 7;
+
+                //set barrels clicks
+                this.remaningInteraction = 3;
+
+                //avoid errors
+                if (itemsCount > barrelsCount)
+                    itemsCount = barrelsCount;
+
+                for (var ba in this.barrels) {
+                    this.barrels[ba].visible = true;
+                    this.barrels[ba].mouseEnabled = true;
+                }
+
+                for (var co in this.content)
+                    this.content[co].removeAllChildren();
+
+                //clean all items
+                this.items = this.randomItensInArray(itemsCount, barrelsCount);
+
+                for (var b = 0; b < this.barrels.length; b++) {
+                    //show the item
+                    if (this.items[b])
+                        this.content[b].addChild(InvertCross.Assets.getImage("puzzle/icon_" + this.items[b]));
+                    else
+                        this.content[b].addChild(InvertCross.Assets.getImage("bonus1/icone_lata"));
+
+                    //hidesItem
+                    this.content[b].visible = false;
+                }
+            };
+
+            //radomizes itens into a array
+            BonusBarrel.prototype.randomItensInArray = function (itemsCount, arrayLength) {
+                if (typeof itemsCount === "undefined") { itemsCount = 3; }
+                if (typeof arrayLength === "undefined") { arrayLength = 9; }
+                var finalList = [];
+
+                //randomize itens in barrels
+                var indexesLists = [];
+                for (var b = 0; b < arrayLength; b++)
+                    indexesLists.push(b);
+
+                for (var i = 0; i < itemsCount; i++) {
+                    //select and remove a barrel from a list, and set a item to it
+                    var index = Math.floor(Math.random() * indexesLists.length);
+                    var barrelId = indexesLists[index];
+                    indexesLists.splice(index, 1);
+
+                    //set a random item to the selected barrel
+                    finalList[barrelId] = this.getRandomItem();
+                }
+
+                return finalList;
+            };
+
+            //get a random item from the items list
+            BonusBarrel.prototype.getRandomItem = function () {
+                var i = Math.floor(Math.random() * this.itemsArray.length);
+                var itemId = this.itemsArray[i];
+
+                return itemId;
+            };
+
+            //when player tap a barrel
+            BonusBarrel.prototype.barrelTap = function (event) {
+                //identify tapped barrel
+                var barrelId = this.barrels.indexOf(event.currentTarget);
+                var barrelObj = this.barrels[barrelId];
+
+                //remove barrel mouse interactivity
+                barrelObj.mouseEnabled = false;
+
+                //hide barrel
+                createjs.Tween.get(barrelObj).to({ alpha: 0 }, 300);
+
+                //show item in barrel
+                this.content[barrelId].visible = true;
+
+                //verifies item
+                if (this.items[barrelId]) {
+                    this.userAquireItem(this.items[barrelId]);
+                    this.animateItemObjectToFooter(this.content[barrelId], this.items[barrelId]);
+                    createjs.Tween.get(this.contentShadow[barrelId]).to({ alpha: 0 }, 600);
+                } else {
+                    this.animateItemObjectIdle(this.content[barrelId]);
+                }
+
+                //ends bonus game
+                this.remaningInteraction--;
+                if (this.remaningInteraction <= 0)
+                    this.endBonus();
+            };
+
+            //finalizes bonus game
+            BonusBarrel.prototype.endBonus = function () {
+                var _this = this;
+                //lock menu interaction
+                this.menu.fadeOut();
+
+                for (var barrel in this.barrels)
+                    this.barrels[barrel].mouseEnabled = false;
+
+                for (var b = 0; b < this.barrels.length; b++)
+                    this.content[b].visible = true;
+
+                //delay and hide others barrels and show other barrels content
+                setTimeout(function () {
+                    for (var barrel in _this.barrels)
+                        createjs.Tween.get(_this.barrels[barrel]).wait(barrel * 100).to({ alpha: 0 }, 150);
+                }, 1000);
+
+                //back to the screen
+                setTimeout(function () {
+                    _this.back();
+                }, 4500);
+            };
+            return BonusBarrel;
+        })(Bonus.BonusScreen);
+        Bonus.BonusBarrel = BonusBarrel;
+    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
+    var Bonus = InvertCross.Bonus;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (Bonus) {
+        // Class
+        var Bonus2 = (function (_super) {
+            __extends(Bonus2, _super);
+            function Bonus2() {
+                _super.apply(this, arguments);
+            }
+            Bonus2.prototype.addObjects = function () {
+                _super.prototype.addObjects.call(this);
+            };
+            return Bonus2;
+        })(Bonus.BonusScreen);
+        Bonus.Bonus2 = Bonus2;
+    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
+    var Bonus = InvertCross.Bonus;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (Bonus) {
+        // Class
+        var Bonus3 = (function (_super) {
+            __extends(Bonus3, _super);
+            function Bonus3() {
+                _super.apply(this, arguments);
+            }
+            Bonus3.prototype.addObjects = function () {
+                _super.prototype.addObjects.call(this);
+            };
+            return Bonus3;
+        })(Bonus.BonusScreen);
+        Bonus.Bonus3 = Bonus3;
+    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
+    var Bonus = InvertCross.Bonus;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (Bonus) {
+        // Class
+        var BonusManager = (function () {
+            function BonusManager() {
+                this.bonusTimers = [];
+            }
+            //set time for bonus
+            BonusManager.prototype.setBonustime = function (bonusId, time) {
+                if (typeof bonusId === "undefined") { bonusId = "bonus"; }
+                if (!time)
+                    time = Date.now();
+                this.bonusTimers[bonusId] = time;
+            };
+
+            //get seconds left to the next release
+            BonusManager.prototype.getBonusSecondsLeft = function (bonusId) {
+                if (typeof bonusId === "undefined") { bonusId = "bonus"; }
+                var time = this.bonusTimers[bonusId];
+                if (time)
+                    return Math.floor(time - Date.now() / 1000);
+                else
+                    return 0;
+            };
+            return BonusManager;
+        })();
+        Bonus.BonusManager = BonusManager;
+    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
+    var Bonus = InvertCross.Bonus;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
@@ -4264,14 +4608,14 @@ var InvertCross;
 
                 LevelThumb.prototype.createLevelModificator = function (level) {
                     if (level.userdata.skip) {
-                        var sk = InvertCross.Assets.getImage("puzzle/iconeskip");
+                        var sk = InvertCross.Assets.getImage("puzzle/icon_skip");
                         sk.regX = sk.getBounds().width / 2;
                         sk.regY = sk.getBounds().height / 2;
                         return sk;
                     }
 
-                    if (level.userdata.item == "hint") {
-                        var sk = InvertCross.Assets.getImage("puzzle/iconehint");
+                    if (level.userdata.item) {
+                        var sk = InvertCross.Assets.getImage("puzzle/icon_" + level.userdata.item);
                         sk.regX = sk.getBounds().width / 2;
                         sk.regY = sk.getBounds().height / 2;
                         return sk;
@@ -5062,7 +5406,7 @@ var InvertCross;
     })(InvertCross.Robots || (InvertCross.Robots = {}));
     var Robots = InvertCross.Robots;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="lib/inertia.ts" />
+/// <reference path="src/preferences.ts" />
 /*Gbase*/
 /// <reference path="Gbase/UI/UIItem.ts" />
 /// <reference path="Gbase/UI/Grid.ts" />
@@ -5093,6 +5437,11 @@ var InvertCross;
 /// <reference path="src/GamePlay/Views/Overlay.ts" />
 /// <reference path="src/GamePlay/Views/GameplayMenu.ts" />
 /// <reference path="src/GamePlay/Views/StatusArea.ts" />
+/// <reference path="src/bonus/bonusscreen.ts" />
+/// <reference path="src/bonus/bonus1.ts" />
+/// <reference path="src/bonus/bonus2.ts" />
+/// <reference path="src/bonus/bonus3.ts" />
+/// <reference path="src/bonus/bonusmanager.ts" />
 /// <reference path="src/Menu/LevelsMenu.ts" />
 /// <reference path="src/Menu/Loading.ts" />
 /// <reference path="src/Menu/MainMenu.ts" />
@@ -5111,6 +5460,84 @@ var InvertCross;
 /// <reference path="src/Projects/Project.ts" />
 /// <reference path="src/Projects/ProjectManager.ts" />
 /// <reference path="src/Robots/MyBots.ts" />
+var Inertia = (function () {
+    function Inertia() {
+    }
+    //Adds a inertial drag movement to a Display Object
+    Inertia.addInertia = function (target, moveX, moveY, eventOrigin, inertiaFactor) {
+        if (typeof moveX === "undefined") { moveX = true; }
+        if (typeof moveY === "undefined") { moveY = true; }
+        if (typeof inertiaFactor === "undefined") { inertiaFactor = 0.95; }
+        var pivotX = 0;
+        var pivotY = 0;
+        var oldPosX = 0;
+        var oldPosY = 0;
+        var speedX = 0;
+        var speedY = 0;
+
+        var inertiaInterval;
+
+        var mouseDown = false;
+
+        if (!eventOrigin)
+            eventOrigin = target;
+
+        eventOrigin.addEventListener("mousedown", function (evt) {
+            clearInterval(inertiaInterval);
+            speedX = speedY = 0;
+            oldPosX = target.x;
+            oldPosY = target.y;
+
+            var pos = eventOrigin.globalToLocal(evt.stageX, evt.stageY);
+
+            pivotX = pos.x - target.x;
+            pivotY = pos.y - target.y;
+
+            mouseDown = true;
+
+            inertiaInterval = setInterval(function () {
+                if (moveX)
+                    speedX = speedX * inertiaFactor;
+                if (moveY)
+                    speedY = speedY * inertiaFactor;
+
+                target.x += speedX;
+                target.y += speedY;
+
+                target.dispatchEvent("onmoving");
+
+                if (mouseDown == false && Math.abs(speedX) + Math.abs(speedY) < 5) {
+                    clearInterval(inertiaInterval);
+                    target.dispatchEvent("onstop");
+                }
+            }, 1000 / createjs.Ticker.getFPS());
+        });
+
+        eventOrigin.addEventListener("pressmove", function (evt) {
+            var pos = eventOrigin.globalToLocal(evt.stageX, evt.stageY);
+
+            if (moveX)
+                target.x = pos.x - pivotX;
+            if (moveY)
+                target.y = pos.y - pivotY;
+
+            target.dispatchEvent("onmoving");
+
+            speedX = target.x - oldPosX;
+            speedY = target.y - oldPosY;
+
+            oldPosX = target.x;
+            oldPosY = target.y;
+
+            mouseDown = true;
+        });
+
+        eventOrigin.addEventListener("pressup", function (evt) {
+            mouseDown = false;
+        });
+    };
+    return Inertia;
+})();
 var SmokeFX;
 (function (SmokeFX) {
     // Class
@@ -5200,276 +5627,6 @@ var SmokeFX;
     })(createjs.Container);
     SmokeFX.SmokeFXEmmiter = SmokeFXEmmiter;
 })(SmokeFX || (SmokeFX = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (Bonus) {
-        // Class
-        var Bonus1 = (function (_super) {
-            __extends(Bonus1, _super);
-            function Bonus1() {
-                _super.apply(this, arguments);
-            }
-            Bonus1.prototype.addObjects = function () {
-                _super.prototype.addObjects.call(this);
-                this.addBarrels();
-            };
-
-            Bonus1.prototype.activate = function (parameters) {
-                _super.prototype.activate.call(this, parameters);
-                this.setNewGame();
-            };
-
-            //adds barrels to the scene
-            Bonus1.prototype.addBarrels = function (barrelsCount) {
-                var _this = this;
-                if (typeof barrelsCount === "undefined") { barrelsCount = 3; }
-                this.barrels = [];
-                this.content = [];
-
-                //creates a container
-                var barrelsContainer = new createjs.Container();
-
-                for (var b = 0; b < barrelsCount; b++) {
-                    //instantiate a new button with barrel asset
-                    var barrel = new Gbase.UI.ImageButton("bonus1/barril1", function (event) {
-                        _this.barrelTap(event);
-                    });
-                    barrelsContainer.addChild(barrel);
-
-                    //positionning
-                    barrel.y = DefaultHeight / 2;
-                    barrel.x = (b + 1) * DefaultWidth / (barrelsCount + 1);
-
-                    //save obj to local array
-                    this.barrels.push(barrel);
-
-                    //instantiate a new container for barrelContent
-                    var content = new createjs.Container();
-                    content.x = barrel.x - 100;
-                    content.y = barrel.y - 100;
-                    this.content.push(content);
-                    this.view.addChild(content);
-                }
-
-                this.view.addChild(barrelsContainer);
-            };
-
-            //shuffle a new Game
-            Bonus1.prototype.setNewGame = function (itemsCount, barrelsCount) {
-                if (typeof itemsCount === "undefined") { itemsCount = 1; }
-                if (typeof barrelsCount === "undefined") { barrelsCount = 3; }
-                //avoid errors
-                if (itemsCount > barrelsCount)
-                    itemsCount = barrelsCount;
-
-                for (var ba in this.barrels) {
-                    this.barrels[ba].visible = true;
-                    this.barrels[ba].mouseEnabled = true;
-                }
-
-                for (var co in this.content)
-                    this.content[co].removeAllChildren();
-
-                //clean all items
-                this.items = [];
-
-                //randomize itens in barrels
-                var list = [];
-                for (var b = 0; b < barrelsCount; b++)
-                    list.push(b);
-
-                for (var i = 0; i < itemsCount; i++) {
-                    //select and remove a barrel from a list, and set a item to it
-                    var index = Math.floor(Math.random() * list.length);
-                    var barrel = list[index];
-                    list.splice(index);
-
-                    //set a random item to the selected barrel
-                    this.items[barrel] = this.getRandomItem();
-                }
-            };
-
-            //when player tap a barrel
-            Bonus1.prototype.barrelTap = function (event) {
-                //identify tapped barrel
-                var barrelId = this.barrels.indexOf(event.currentTarget);
-                var barrelObj = this.barrels[barrelId];
-
-                for (var b = 0; b < this.barrels.length; b++)
-                    //show the item
-                    if (this.items[b])
-                        this.content[b].addChild(InvertCross.Assets.getImage("puzzle/icon_" + this.items[b]));
-                    else
-                        this.content[b].addChild(InvertCross.Assets.getImage("bonus1/icone_lata"));
-
-                for (var ba in this.barrels)
-                    this.barrels[ba].mouseEnabled = false;
-
-                //hide barrel
-                createjs.Tween.get(barrelObj).to({ alpha: 0 }, 300);
-
-                for (var ba in this.barrels)
-                    if (ba != barrelId)
-                        createjs.Tween.get(this.barrels[ba]).wait(1000 + ba * 300).to({ alpha: 0 }, 300);
-
-                //verifies item
-                if (this.items[barrelId])
-                    this.addItem(this.items[barrelId]);
-            };
-            return Bonus1;
-        })(Bonus.BonusScreen);
-        Bonus.Bonus1 = Bonus1;
-    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
-    var Bonus = InvertCross.Bonus;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (Bonus) {
-        // Class
-        var Bonus2 = (function (_super) {
-            __extends(Bonus2, _super);
-            function Bonus2() {
-                _super.apply(this, arguments);
-            }
-            Bonus2.prototype.addObjects = function () {
-                _super.prototype.addObjects.call(this);
-            };
-            return Bonus2;
-        })(Bonus.BonusScreen);
-        Bonus.Bonus2 = Bonus2;
-    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
-    var Bonus = InvertCross.Bonus;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (Bonus) {
-        // Class
-        var Bonus3 = (function (_super) {
-            __extends(Bonus3, _super);
-            function Bonus3() {
-                _super.apply(this, arguments);
-            }
-            Bonus3.prototype.addObjects = function () {
-                _super.prototype.addObjects.call(this);
-            };
-            return Bonus3;
-        })(Bonus.BonusScreen);
-        Bonus.Bonus3 = Bonus3;
-    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
-    var Bonus = InvertCross.Bonus;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (Bonus) {
-        // Class
-        var BonusManager = (function () {
-            function BonusManager() {
-                this.bonusTimers = [];
-            }
-            //set time for bonus
-            BonusManager.prototype.setBonustime = function (bonusId, time) {
-                if (typeof bonusId === "undefined") { bonusId = "bonus"; }
-                if (!time)
-                    time = Date.now();
-                this.bonusTimers[bonusId] = time;
-            };
-
-            //get seconds left to the next release
-            BonusManager.prototype.getBonusSecondsLeft = function (bonusId) {
-                if (typeof bonusId === "undefined") { bonusId = "bonus"; }
-                var time = this.bonusTimers[bonusId];
-                if (time)
-                    return Math.floor(time - Date.now() / 1000);
-                else
-                    return 0;
-            };
-            return BonusManager;
-        })();
-        Bonus.BonusManager = BonusManager;
-    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
-    var Bonus = InvertCross.Bonus;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (Bonus) {
-        // Class
-        var BonusScreen = (function (_super) {
-            __extends(BonusScreen, _super);
-            function BonusScreen() {
-                _super.call(this);
-                this.addObjects();
-
-                //adds menu
-                this.addMenu();
-            }
-            BonusScreen.prototype.addObjects = function () {
-                //adds Background
-                this.view.addChild(InvertCross.Assets.getImage("bonus1/bg_bonus1"));
-
-                //adds header
-                this.view.addChild(InvertCross.Assets.getImage("bonus1/hudbonus1_1"));
-
-                //adds footer
-                var footer = InvertCross.Assets.getImage("bonus1/hudbonus1_2");
-                this.view.addChild(footer);
-                footer.y = DefaultHeight - 291;
-
-                //adds itens hud
-                this.view.addChild(InvertCross.Assets.getImage(""));
-            };
-
-            BonusScreen.prototype.addMenu = function () {
-                var _this = this;
-                var menu = new InvertCross.Menu.View.ScreenMenu();
-                menu.addEventListener("menu", function () {
-                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new InvertCross.Menu.OptionsMenu());
-                });
-                menu.addEventListener("back", function () {
-                    _this.back();
-                });
-                this.view.addChild(menu);
-            };
-
-            BonusScreen.prototype.activate = function (parameters) {
-                _super.prototype.activate.call(this, parameters);
-            };
-
-            BonusScreen.prototype.addItem = function (itemId) {
-                InvertCross.InvertCrossaGame.itemsData.increaseItemQuantity(itemId);
-            };
-
-            BonusScreen.prototype.getRandomItem = function () {
-                var itemArray = InvertCross.UserData.Items.itemsNames;
-                var i = Math.floor(Math.random() * itemArray.length);
-                var itemId = itemArray[i];
-
-                return itemId;
-            };
-
-            BonusScreen.prototype.back = function () {
-                InvertCross.InvertCrossaGame.showProjectsMenu();
-            };
-            return BonusScreen;
-        })(Gbase.ScreenState);
-        Bonus.BonusScreen = BonusScreen;
-    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
-    var Bonus = InvertCross.Bonus;
-})(InvertCross || (InvertCross = {}));
-var DefaultWidth = 1536;
-var DefaultHeight = 2048 - 8;
-var defaultFont = "'Exo 2.0'";
-
-var defaultFontFamilyNormal = " 80px  " + defaultFont;
-var defaultFontFamilyStrong = " 80px " + defaultFont;
-var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
-var defaultNumberHighlight = " 220px " + defaultFont;
-
-var defaultFontColor = "#FF6";
-var highlightFontColor = "#f2cb46";
-var alternativeFontColor = "#3d8c9a";
-var shadowFontColor = "#1b4f5e";
-
-var storagePrefix = "flipp_";
 var InvertCross;
 (function (InvertCross) {
     (function (GamePlay) {
@@ -5570,7 +5727,7 @@ var InvertCross;
             function LevelCreator(levelData, editorWindow) {
                 var _this = this;
                 this.editWindow = editorWindow;
-                InvertCross.InvertCrossaGame.redim(420);
+                InvertCross.InvertCrossaGame.redim(420, false);
                 InvertCross.InvertCrossaGame.redim = function (n) {
                 };
                 if (levelData == null) {
@@ -5628,8 +5785,17 @@ var InvertCross;
                 };
 
                 this.editWindow.document.getElementById("c_export").onclick = function () {
+                    var levelsArray = [];
+
                     var exp = localStorage.getItem(LevelCreator.key);
-                    _this.editWindow.document.getElementById("c_exported").value = exp;
+
+                    if (exp) {
+                        var levels = JSON.parse(exp);
+                        for (var l in levels)
+                            levelsArray.push(levels[l]);
+
+                        _this.editWindow.document.getElementById("c_exported").value = JSON.stringify(levelsArray);
+                    }
                 };
 
                 this.editWindow.document.getElementById("c_import").onclick = function () {

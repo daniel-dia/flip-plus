@@ -98,8 +98,8 @@ module InvertCross.Menu.View {
                 return sk;
             }
 
-            if (level.userdata.item == "hint") {
-                var sk: createjs.Bitmap = Assets.getImage("puzzle/icon_hint");
+            if (level.userdata.item) {
+                var sk: createjs.Bitmap = Assets.getImage("puzzle/icon_" + level.userdata.item);
                 sk.regX = sk.getBounds().width / 2;
                 sk.regY = sk.getBounds().height / 2;
                 return sk;

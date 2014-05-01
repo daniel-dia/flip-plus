@@ -917,6 +917,7 @@
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
     <TypeScriptOutFile>script/script.js</TypeScriptOutFile>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>

@@ -1,4 +1,4 @@
-/// <reference path="lib/inertia.ts" />
+/// <reference path="src/preferences.ts" />
 /*Gbase*/
 /// <reference path="Gbase/UI/UIItem.ts" />
 /// <reference path="Gbase/UI/Grid.ts" />
@@ -29,6 +29,11 @@
 /// <reference path="src/GamePlay/Views/Overlay.ts" />
 /// <reference path="src/GamePlay/Views/GameplayMenu.ts" />
 /// <reference path="src/GamePlay/Views/StatusArea.ts" />
+/// <reference path="src/bonus/bonusscreen.ts" />
+/// <reference path="src/bonus/bonus1.ts" />
+/// <reference path="src/bonus/bonus2.ts" />
+/// <reference path="src/bonus/bonus3.ts" />
+/// <reference path="src/bonus/bonusmanager.ts" />
 /// <reference path="src/Menu/LevelsMenu.ts" />
 /// <reference path="src/Menu/Loading.ts" />
 /// <reference path="src/Menu/MainMenu.ts" />

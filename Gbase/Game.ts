@@ -76,7 +76,7 @@ module InvertCross {
             this.stage.update();
         }
 
-        public static redim(devicewidth: number) {
+        public static redim(devicewidth: number,updateCSS:boolean=true) {
 
             var finalscale = 1;
 
@@ -95,6 +95,7 @@ module InvertCross {
 
             this.screenViewer.updateScale(finalscale);
 
+            if(updateCSS)
             setMobileScale(devicewidth)
 
             console.log("start " + devicewidth + "px width resolution");

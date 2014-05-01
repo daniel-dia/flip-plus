@@ -9,7 +9,7 @@ module InvertCross.GamePlay {
         constructor(levelData: Projects.Level, editorWindow: Window) {
 
             this.editWindow = editorWindow;
-            InvertCrossaGame.redim(420);
+            InvertCrossaGame.redim(420,false);
             InvertCrossaGame.redim = (n) => { };
             if (levelData == null) {
                 levelData = new Projects.Level();
@@ -69,10 +69,21 @@ module InvertCross.GamePlay {
             }
 
             this.editWindow.document.getElementById("c_export").onclick = () => {
-                var exp = localStorage.getItem(LevelCreator.key);
-                (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value = exp;
-            }
 
+                var levelsArray = [];
+
+                var exp = localStorage.getItem(LevelCreator.key);
+
+                if (exp) {
+                    var levels = JSON.parse(exp);
+                    for (var l in levels) 
+                        levelsArray.push(levels[l]);
+                    
+                    (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value = JSON.stringify(levelsArray);
+
+                }
+
+            }
 
             this.editWindow.document.getElementById("c_import").onclick = () => {
                 var exp = (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value;
