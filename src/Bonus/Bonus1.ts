@@ -10,11 +10,13 @@
         private items: Array<string>;
         private remaningInteraction: number;
 
-        addObjects() {
+        constructor(itemsArray: Array<string>, sufix: string= "1") {
+            super(itemsArray, "1");
+        }
 
+        addObjects() {
             super.addObjects();
             this.addBarrels();
-
         }
 
         activate(parameters?: any) {
@@ -33,7 +35,7 @@
             this.contentShadow = [];
 
             var positions = [
-                { x: 12, y: 402 },
+                { x: 120, y: 402 },
                 { x: 927, y: 350 },
                 { x: 562, y: 646 },
                 { x: 195, y: 872 },
@@ -70,7 +72,9 @@
                 barrel.regY = 180;
 
                 barrel.x+= 180;
-                barrel.y+= 180;
+                barrel.y += 180;
+
+                if(Math.random() > 0.5) barrel.scaleX = -1;
 
                 //animate barrel
                 createjs.Tween.get(barrel, { loop: true })
@@ -224,5 +228,6 @@
             setTimeout(() => { this.back(); }, 4500);
 
         }
+
     }
 }   

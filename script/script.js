@@ -549,7 +549,6 @@ var InvertCross;
             else
                 var windowWidth = window.innerWidth;
 
-            assetscale = 1;
             if (windowWidth <= 1024)
                 assetscale = 0.5;
             if (windowWidth <= 420)
@@ -885,11 +884,16 @@ var Assets = (function () {
     };
 
     Assets.getSrite = function (name) {
-        var data = { images: [this.getImage(name)], frames: spriteSheets[name] };
+        var data = spriteSheets[name];
+        for (var i in data.images)
+            if (typeof data.images[i] == "string")
+                data.images[i] = this.getImage(data.images[i]);
 
         var spritesheet = new createjs.SpriteSheet(data);
 
-        return new createjs.Sprite(spritesheet);
+        var sprite = new createjs.Sprite(spritesheet);
+        sprite.play();
+        return sprite;
     };
 
     Assets.playSound = function (name) {
@@ -3255,13 +3259,14 @@ var InvertCross;
         // Class
         var BonusScreen = (function (_super) {
             __extends(BonusScreen, _super);
-            function BonusScreen(itemsArray) {
+            function BonusScreen(itemsArray, sufix) {
+                if (typeof sufix === "undefined") { sufix = "1"; }
                 _super.call(this);
 
                 this.itemsArray = itemsArray;
 
                 //adds scenary
-                this.addScene();
+                this.addScene(sufix);
 
                 //adds footer and itens
                 this.addFooter(itemsArray);
@@ -3281,15 +3286,13 @@ var InvertCross;
                 this.view.addChild(this.popup);
             }
             //add Scene objects to the view
-            BonusScreen.prototype.addScene = function () {
+            BonusScreen.prototype.addScene = function (sufix) {
+                if (typeof sufix === "undefined") { sufix = "1"; }
                 //adds Background
-                this.view.addChild(Assets.getBitmap("bonus1/bg_bonus1"));
+                this.view.addChild(Assets.getBitmap("bonus1/bg_bonus" + sufix));
 
                 //adds header
-                this.view.addChild(Assets.getBitmap("bonus1/hudbonus1_1"));
-
-                //adds itens hud
-                this.view.addChild(Assets.getBitmap(""));
+                this.view.addChild(Assets.getBitmap("bonus1/hudbonus" + sufix));
             };
 
             //adds objects to the view <<interface>>
@@ -3394,8 +3397,9 @@ var InvertCross;
         // Class
         var BonusBarrel = (function (_super) {
             __extends(BonusBarrel, _super);
-            function BonusBarrel() {
-                _super.apply(this, arguments);
+            function BonusBarrel(itemsArray, sufix) {
+                if (typeof sufix === "undefined") { sufix = "1"; }
+                _super.call(this, itemsArray, "1");
             }
             BonusBarrel.prototype.addObjects = function () {
                 _super.prototype.addObjects.call(this);
@@ -3412,7 +3416,7 @@ var InvertCross;
             //adds barrels to the scene
             BonusBarrel.prototype.addBarrels = function (barrelsCount, cols) {
                 var _this = this;
-                if (typeof barrelsCount === "undefined") { barrelsCount = 7; }
+                if (typeof barrelsCount === "undefined") { barrelsCount = 8; }
                 if (typeof cols === "undefined") { cols = 3; }
                 //initialize arrays
                 this.barrels = [];
@@ -3420,37 +3424,46 @@ var InvertCross;
                 this.contentShadow = [];
 
                 var positions = [
-                    { x: 606, y: 528 },
-                    { x: 1122, y: 600 },
-                    { x: 331, y: 901 },
-                    { x: 705, y: 1090 },
-                    { x: 1258, y: 1000 },
-                    { x: 440, y: 1520 },
-                    { x: 1156, y: 1532 }
+                    { x: 12, y: 402 },
+                    { x: 927, y: 350 },
+                    { x: 562, y: 646 },
+                    { x: 195, y: 872 },
+                    { x: 1056, y: 784 },
+                    { x: 632, y: 1142 },
+                    { x: 137, y: 1322 },
+                    { x: 1047, y: 1347 }
                 ];
 
                 //creates a container
                 var barrelsContainer = new createjs.Container();
 
                 for (var b = 0; b < barrelsCount; b++) {
-                    //TODO adds animation
-                    //instantiate a new button with barrel asset
-                    var barrel = new createjs.Container();
+                    var barrel = new Gbase.UI.Button();
                     barrel.addEventListener("click", function (event) {
                         _this.barrelTap(event);
                     });
-                    barrel.addChild(Assets.getSrite("Bonus1/Barrel" + (b + 1)));
+                    var spriteBarrel = Assets.getSrite("Bonus1/Barrel" + (b + 1));
+                    spriteBarrel.gotoAndPlay(Math.random() * 120);
+                    barrel.addChild(spriteBarrel);
+                    var spriteWater = Assets.getSrite("Bonus1/agua");
+                    barrel.addChild(spriteWater);
+                    spriteWater.gotoAndPlay(Math.random() * 120);
+
                     barrelsContainer.addChild(barrel);
                     barrelsContainer.y = DefaultHeight / 2 - 1024;
 
                     //positionning
                     barrel.set(positions[b]);
 
+                    barrel.regX = 180;
+                    barrel.regY = 180;
+
+                    barrel.x += 180;
+                    barrel.y += 180;
+
                     //animate barrel
                     createjs.Tween.get(barrel, { loop: true }).wait(Math.random() * 2000).to({ x: barrel.x - 30 }, 2000, createjs.Ease.quadInOut).wait(Math.random() * 2000).to({ x: barrel.x }, 2000, createjs.Ease.quadInOut);
 
-                    //barrel.y = DefaultHeight / 2 + (Math.floor(b / cols) * 400) - 400;
-                    //barrel.x = (b%cols + 1) * DefaultWidth / (cols+1);
                     //save obj to local array
                     this.barrels.push(barrel);
 
@@ -3464,7 +3477,7 @@ var InvertCross;
                     //instantiate a new shadow for content
                     var shadow = new createjs.Shape(new createjs.Graphics().beginFill("rgba(0,0,0,0.3)").drawEllipse(0, 0, 150, 50));
                     shadow.x = content.x - 30;
-                    shadow.y = content.y + 240;
+                    shadow.y = content.y + 220;
                     this.contentShadow.push(shadow);
                     this.view.addChild(shadow);
                 }
@@ -3604,8 +3617,9 @@ var InvertCross;
         // Class
         var Bonus2 = (function (_super) {
             __extends(Bonus2, _super);
-            function Bonus2() {
-                _super.apply(this, arguments);
+            function Bonus2(itemsArray, sufix) {
+                if (typeof sufix === "undefined") { sufix = "1"; }
+                _super.call(this, itemsArray, "2");
             }
             Bonus2.prototype.addObjects = function () {
                 _super.prototype.addObjects.call(this);
@@ -3622,8 +3636,9 @@ var InvertCross;
         // Class
         var Bonus3 = (function (_super) {
             __extends(Bonus3, _super);
-            function Bonus3() {
-                _super.apply(this, arguments);
+            function Bonus3(itemsArray, sufix) {
+                if (typeof sufix === "undefined") { sufix = "1"; }
+                _super.call(this, itemsArray, "3");
             }
             Bonus3.prototype.addObjects = function () {
                 _super.prototype.addObjects.call(this);
@@ -4213,7 +4228,7 @@ var InvertCross;
                     var page = this.pages[p];
 
                     var bonusObj = new Gbase.UI.ImageButton("projects/bigslot1", function () {
-                        InvertCross.InvertCrossaGame.showBonus("Bonus1");
+                        InvertCross.InvertCrossaGame.showBonus("Bonus" + (p + 1));
                     });
 
                     bonusObj.y = 480;

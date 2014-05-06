@@ -115,6 +115,8 @@ module InvertCross.Menu {
                 var page = this.pages[p];
 
                 var bonusObj = new Gbase.UI.ImageButton("projects/bigslot1", () => {
+                    //cancel click in case of drag
+                    if (this.pagesSwipe.cancelClick) return;
                     InvertCrossaGame.showBonus("Bonus1");
                 })
 

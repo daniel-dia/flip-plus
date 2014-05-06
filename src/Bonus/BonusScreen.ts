@@ -14,13 +14,13 @@
         public popup: Menu.View.Popup;
         public message: Menu.View.Message;
 
-        constructor(itemsArray: Array<string>){
+        constructor(itemsArray: Array<string>,sufix:string="1"){
             super();
 
             this.itemsArray = itemsArray;
             
             //adds scenary
-            this.addScene();
+            this.addScene(sufix);
 
             //adds footer and itens
             this.addFooter(itemsArray);
@@ -41,15 +41,12 @@
         }
 
         //add Scene objects to the view
-        addScene() {
+        addScene(sufix:string="1") {
             //adds Background
-            this.view.addChild(Assets.getBitmap("bonus1/bg_bonus1"));
+            this.view.addChild(Assets.getBitmap("bonus1/bg_bonus" + sufix));
 
             //adds header
-            this.view.addChild(Assets.getBitmap("bonus1/hudbonus1_1"));
-
-            //adds itens hud
-            this.view.addChild(Assets.getBitmap(""));
+            this.view.addChild(Assets.getBitmap("bonus1/hudbonus"+sufix));
         }
 
         //adds objects to the view <<interface>>
