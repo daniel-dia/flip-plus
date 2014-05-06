@@ -28,7 +28,7 @@ module InvertCross.Menu.View {
 
                 //background
                 var bg = "projects/slot" + (this.project.UserData.stars ? this.project.UserData.stars : 0);
-                var s: createjs.Bitmap = Assets.getImage(bg);
+                var s: createjs.Bitmap = Assets.getBitmap(bg);
                 this.addChild(s);
 
                 //robot name text
@@ -45,9 +45,9 @@ module InvertCross.Menu.View {
 
                 //robot image
                 if (this.project.UserData.complete)
-                    var botImage = Assets.getImage("projects/bots/" + this.project.name);
+                    var botImage = Assets.getBitmap("projects/bots/" + this.project.name);
                 else
-                    var botImage = Assets.getImage("projects/bots/" + this.project.name +"_shadow");
+                    var botImage = Assets.getBitmap("projects/bots/" + this.project.name +"_shadow");
                 this.addChild(botImage);
 
 
@@ -64,11 +64,11 @@ module InvertCross.Menu.View {
 
                 //adds Background
                 var bg = "projects/slotl";
-                var s: createjs.Bitmap = Assets.getImage(bg);
+                var s: createjs.Bitmap = Assets.getBitmap(bg);
                 this.addChild(s);
 
                 //adds lock indicator
-                var star = Assets.getImage("projects/star");
+                var star = Assets.getBitmap("projects/star");
                 this.addChild(star);
                 star.x = 240;
                 star.y = 190;

@@ -43,7 +43,7 @@ module InvertCross.Menu {
 
             //load all images in images array
             for (var s in slides) {
-                var image = Assets.getImage(slides[s]);
+                var image = Assets.getBitmap(slides[s]);
                 this.images.push(image);
                 this.view.addChild(image);
             }

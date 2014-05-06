@@ -88,7 +88,7 @@ module InvertCross.GamePlay.Views {
             pauseMenu.addChild(snd2Bt)
             pauseMenu.addChild(backBt)
 
-            var bt = Assets.getImage("puzzle/btplay2");
+            var bt = Assets.getBitmap("puzzle/btplay2");
             bt.regY = 87;
             bt.regX = 102;
             bt.x = 0;

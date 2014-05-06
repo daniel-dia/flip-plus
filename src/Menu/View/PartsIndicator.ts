@@ -31,7 +31,7 @@ module InvertCross.Menu.View {
         private buildView() {
 
             //add Background
-            var bg: createjs.Bitmap = Assets.getImage("partshud");
+            var bg: createjs.Bitmap = Assets.getBitmap("partshud");
             //bg.scaleX = 2;
             this.regX = bg.getBounds().width/2;
             this.addChild(bg);
@@ -49,7 +49,7 @@ module InvertCross.Menu.View {
 
 
             
-            var si = Assets.getImage("starsicon");
+            var si = Assets.getBitmap("starsicon");
             this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
 
 

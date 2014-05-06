@@ -64,7 +64,7 @@ module Gbase.UI {
             //adds image into it
             if (background != null) {
                 //TODO tirar createjs ASSETS daqui.
-                this.background = InvertCross.Assets.getImage(background);
+                this.background = Assets.getBitmap(background);
                 this.addChildAt(this.background, 0);
 
                 //Sets the image into the pivot center.
@@ -79,9 +79,6 @@ module Gbase.UI {
 
             }
         }
-
-
-
     }
 
     export class TextButton extends ImageButton {
@@ -125,7 +122,7 @@ module Gbase.UI {
             super(text, event, background, font, color);
 
             //loads icon Image
-            this.icon = InvertCross.Assets.getImage(icon);
+            this.icon = Assets.getBitmap(icon);
             this.addChild(this.icon);
 
             if (this.icon.image != null) {

@@ -25,7 +25,7 @@
         }
 
         //adds barrels to the scene
-        private addBarrels(barrelsCount:number=7, cols:number=3) {
+        private addBarrels(barrelsCount:number=8, cols:number=3) {
 
             //initialize arrays
             this.barrels = [];
@@ -33,13 +33,14 @@
             this.contentShadow = [];
 
             var positions = [
-                { x: 606, y: 528 },
-                { x: 1122, y: 600 },
-                { x: 331, y: 901 },
-                { x: 705, y: 1090 },
-                { x: 1258, y: 1000 },
-                { x: 440, y: 1520 },
-                { x: 1156, y: 1532 },
+                { x: 12, y: 402 },
+                { x: 927, y: 350 },
+                { x: 562, y: 646 },
+                { x: 195, y: 872 },
+                { x: 1056, y: 784 },
+                { x: 632, y: 1142 },
+                { x: 137, y: 1322 },
+                { x: 1047, y: 1347},
             ]
 
             //creates a container
@@ -48,14 +49,28 @@
             //adds 3 barrels
             for (var b = 0; b < barrelsCount; b++) {
 
-                //TODO adds animation
-                //instantiate a new button with barrel asset
-                var barrel = new Gbase.UI.ImageButton("bonus1/barril1", (event:createjs.MouseEvent) => {this.barrelTap(event)});
+                var barrel = new Gbase.UI.Button();
+                barrel.addEventListener("click", (event: createjs.MouseEvent) => { this.barrelTap(event) });
+                var spriteBarrel = Assets.getSrite("Bonus1/Barrel" + (b + 1));
+                spriteBarrel.gotoAndPlay(Math.random()*120)
+                barrel.addChild(spriteBarrel);
+                var spriteWater = Assets.getSrite("Bonus1/agua");
+                barrel.addChild(spriteWater);
+                spriteWater.gotoAndPlay(Math.random() * 120)
+  
+                
                 barrelsContainer.addChild(barrel);
                 barrelsContainer.y = DefaultHeight / 2 - 1024;
 
                 //positionning
                 barrel.set(positions[b]);
+
+
+                barrel.regX = 180;
+                barrel.regY = 180;
+
+                barrel.x+= 180;
+                barrel.y+= 180;
 
                 //animate barrel
                 createjs.Tween.get(barrel, { loop: true })
@@ -64,9 +79,6 @@
                     .wait(Math.random() * 2000)
                     .to({ x: barrel.x }, 2000, createjs.Ease.quadInOut)
                     
-                //barrel.y = DefaultHeight / 2 + (Math.floor(b / cols) * 400) - 400;
-                //barrel.x = (b%cols + 1) * DefaultWidth / (cols+1);
-
                 //save obj to local array
                 this.barrels.push(barrel);
                 
@@ -81,9 +93,10 @@
                 //instantiate a new shadow for content
                 var shadow = new createjs.Shape(new createjs.Graphics().beginFill("rgba(0,0,0,0.3)").drawEllipse(0, 0, 150, 50));
                 shadow.x = content.x - 30;
-                shadow.y = content.y + 240;
+                shadow.y = content.y + 220;
                 this.contentShadow.push(shadow);
                 this.view.addChild(shadow);
+                
             }
 
             this.view.addChild(barrelsContainer);
@@ -116,9 +129,9 @@
             //adds objects in barrel
             for (var b = 0; b < this.barrels.length; b++) {
                 //show the item
-                if (this.items[b]) this.content[b].addChild(Assets.getImage("puzzle/icon_" + this.items[b]));
+                if (this.items[b]) this.content[b].addChild(Assets.getBitmap("puzzle/icon_" + this.items[b]));
                 //or show a can
-                else this.content[b].addChild(Assets.getImage("bonus1/icone_lata"));
+                else this.content[b].addChild(Assets.getBitmap("bonus1/icone_lata"));
                 //hidesItem
                 this.content[b].visible = false;
             }

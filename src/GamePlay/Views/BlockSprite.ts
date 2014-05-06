@@ -170,7 +170,7 @@ module InvertCross.GamePlay.Views {
             }
 
             //load hint symbol
-            this.hintimage = Assets.getImage("puzzle/icon_hint");
+            this.hintimage = Assets.getBitmap("puzzle/icon_hint");
             this.container.addChild(this.hintimage);
             this.hintimage.visible = false;
 
@@ -182,7 +182,7 @@ module InvertCross.GamePlay.Views {
         //load a single asset and adds it to this
         private loadAsset(assetName: string): createjs.DisplayObject {
            
-            var asset: createjs.Bitmap = InvertCross.Assets.getImage(assetName);
+            var asset: createjs.Bitmap = Assets.getBitmap(assetName);
             asset.name = assetName;
         
             this.container.addChild(asset);

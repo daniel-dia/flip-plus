@@ -40,7 +40,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = Assets.getImage("popups/popup")
+            var bg = Assets.getBitmap("popups/popup")
             bg.x = 0;
             bg.y = 100;
             this.addChild(bg);
@@ -88,7 +88,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = Assets.getImage("popups/popup")
+            var bg = Assets.getBitmap("popups/popup")
             bg.x = 0;
             bg.y = 100;
             this.addChild(bg);
@@ -174,7 +174,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = Assets.getImage("popups/popup")
+            var bg = Assets.getBitmap("popups/popup")
             bg.x = 0;
             bg.y = 100;
             this.addChild(bg);

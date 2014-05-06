@@ -23,10 +23,6 @@ module InvertCross.Menu.View {
             //create a new thumb
             this.createThumbs(this.level);
 
-            //cache thumb
-            this.cache(-99, -102, 198, 204);
-
-
             this.createHitArea();
         } 
 
@@ -35,16 +31,15 @@ module InvertCross.Menu.View {
             
             this.removeAllChildren();
 
-            var thumbContainer: createjs.Container = new Gbase.UI.Button();
-
-            createjs.Tween.removeTweens(this);
-
             var color1: string;
             var color2: string;
             var assetSufix: string;
 
             var assetName = this.defineAssetName(level);
 
+            var thumbContainer: createjs.Container = new createjs.Container();
+            this.addChild(thumbContainer);
+            
             //defines thumb state
             if (level.userdata.unlocked && level.userdata.solved || level.userdata.skip) {
                 assetSufix = "1";
@@ -66,21 +61,27 @@ module InvertCross.Menu.View {
                 color2 = "rgba(0,0,0,0.3)";
 
                 //create bounce effect if is active
-                this.set({ scaleX: 1, scaleY: 1 })
-                createjs.Tween.get(this, { loop: true }).to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
+                thumbContainer.set({ scaleX: 1, scaleY: 1 })
+                createjs.Tween.get(thumbContainer, { loop: true })
+                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut);
            }
 
             //Adds Thumb Backgroud
-            this.addChild(this.createBackgroud(level, assetName, assetSufix));
+            thumbContainer.addChild(this.createBackgroud(level, assetName, assetSufix));
 
             //Adds Thumb Blocks
-            this.addChild(this.createBlocks(level,color1,color2));
+            thumbContainer.addChild(this.createBlocks(level,color1,color2));
 
             //Adds thumb tags
-            this.addChild(this.createTags(level,assetName,assetSufix));
+            thumbContainer.addChild(this.createTags(level,assetName,assetSufix));
 
             //Adds level modificator
-            this.addChild(this.createLevelModificator(level));
+            thumbContainer.addChild(this.createLevelModificator(level));
+
+            //cache thumb
+            thumbContainer.cache(-99, -102, 198, 204);
+
         }
 
         //defines accentColor based on level type.
@@ -95,14 +96,14 @@ module InvertCross.Menu.View {
         private createLevelModificator(level: Projects.Level):createjs.DisplayObject {
 
             if (level.userdata.skip) {
-                var sk: createjs.Bitmap = Assets.getImage("puzzle/icon_skip");
+                var sk: createjs.Bitmap = Assets.getBitmap("puzzle/icon_skip");
                 sk.regX = sk.getBounds().width / 2;
                 sk.regY = sk.getBounds().height / 2;
                 return sk;
             }
 
             if (level.userdata.item) {
-                var sk: createjs.Bitmap = Assets.getImage("puzzle/icon_" + level.userdata.item);
+                var sk: createjs.Bitmap = Assets.getBitmap("puzzle/icon_" + level.userdata.item);
                 sk.regX = sk.getBounds().width / 2;
                 sk.regY = sk.getBounds().height / 2;
                 return sk;
@@ -113,7 +114,7 @@ module InvertCross.Menu.View {
         //adds thumb background
         private createBackgroud(level: Projects.Level,assetName,assetSufix): createjs.DisplayObject {
 
-            var sbg: createjs.Bitmap = Assets.getImage("workshop/" + assetName + assetSufix);
+            var sbg: createjs.Bitmap = Assets.getBitmap("workshop/" + assetName + assetSufix);
             sbg.regX = sbg.regY = 98;
             return sbg;
         }
@@ -160,7 +161,7 @@ module InvertCross.Menu.View {
         private createTags(level: Projects.Level, assetName,assetSufix) :createjs.DisplayObject{
             //TODO: essas string devem estar em um enum
             if (level.type == "time" || level.type == "flip") {
-                var tag = Assets.getImage("workshop/" + assetName + level.type + assetSufix);
+                var tag = Assets.getBitmap("workshop/" + assetName + level.type + assetSufix);
                 tag.regX = tag.regY = 100;
                 return tag;
             }

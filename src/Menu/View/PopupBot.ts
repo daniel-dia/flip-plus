@@ -10,7 +10,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = Assets.getImage("popups/popupTutorial")
+            var bg = Assets.getBitmap("popups/popupTutorial")
             bg.x = 150;
             bg.y = 250;
             this.addChild(bg);

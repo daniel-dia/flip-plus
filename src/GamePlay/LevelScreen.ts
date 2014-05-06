@@ -33,7 +33,7 @@ module InvertCross.GamePlay {
             this.levelLogic = new Model.Level(leveldata);
 
             //play BgSound
-            InvertCross.Assets.stopMusic();
+            Assets.stopMusic();
 
             this.createScene(leveldata);
 
@@ -73,7 +73,7 @@ module InvertCross.GamePlay {
         }
 
         private addBackground(theme: string) {
-            this.view.addChild(InvertCross.Assets.getImage("puzzle/bg"));
+            this.view.addChild(Assets.getBitmap("puzzle/bg"));
         }
 
         private initializeOverlays() {

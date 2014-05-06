@@ -29,7 +29,7 @@ module InvertCross.Menu {
 
         private addObjects() {
             //add Background
-            var bg = Assets.getImage("workshop/bgworkshop")
+            var bg = Assets.getBitmap("workshop/bgworkshop")
             this.view.addChild(bg);
             
             this.view.mouseChildren = true;

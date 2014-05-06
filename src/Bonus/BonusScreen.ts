@@ -43,13 +43,13 @@
         //add Scene objects to the view
         addScene() {
             //adds Background
-            this.view.addChild(Assets.getImage("bonus1/bg_bonus1"));
+            this.view.addChild(Assets.getBitmap("bonus1/bg_bonus1"));
 
             //adds header
-            this.view.addChild(Assets.getImage("bonus1/hudbonus1_1"));
+            this.view.addChild(Assets.getBitmap("bonus1/hudbonus1_1"));
 
             //adds itens hud
-            this.view.addChild(Assets.getImage(""));
+            this.view.addChild(Assets.getBitmap(""));
         }
 
         //adds objects to the view <<interface>>
@@ -62,7 +62,7 @@
             this.footerTexts = [];
 
             //adds footer
-            var footer = Assets.getImage("bonus1/hudbonus1_2");
+            var footer = Assets.getBitmap("bonus1/hudbonus1_2");
             this.footerContainer.addChild(footer);
             this.footerContainer.y = DefaultHeight - 291;
 
@@ -72,7 +72,7 @@
                 var itemId = itemsArray[i];
                 
                 //add icon
-                var itemObj = Assets.getImage("puzzle/icon_" + itemId);
+                var itemObj = Assets.getBitmap("puzzle/icon_" + itemId);
                 itemObj.y = 100;
                 itemObj.x = DefaultWidth / itemsArray.length * i + 40;
                 itemObj.name = itemId;

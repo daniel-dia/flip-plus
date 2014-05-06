@@ -73,7 +73,7 @@ module InvertCross.GamePlay.Views {
                         // play a Radom Sounds
                         var randomsound = Math.ceil(Math.random() * 3)
                         if (randomsound >= this.previousSound) randomsound++;
-                        InvertCross.Assets.playSound("tile" + randomsound);
+                        Assets.playSound("tile" + randomsound);
                         this.previousSound = randomsound;
 
                         //tutorialrelease

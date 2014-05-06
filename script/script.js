@@ -264,7 +264,7 @@ var Gbase;
                 //adds image into it
                 if (background != null) {
                     //TODO tirar createjs ASSETS daqui.
-                    this.background = InvertCross.Assets.getImage(background);
+                    this.background = Assets.getBitmap(background);
                     this.addChildAt(this.background, 0);
 
                     //Sets the image into the pivot center.
@@ -330,7 +330,7 @@ var Gbase;
                 _super.call(this, text, event, background, font, color);
 
                 //loads icon Image
-                this.icon = InvertCross.Assets.getImage(icon);
+                this.icon = Assets.getBitmap(icon);
                 this.addChild(this.icon);
 
                 if (this.icon.image != null) {
@@ -554,7 +554,7 @@ var InvertCross;
                 assetscale = 0.5;
             if (windowWidth <= 420)
                 assetscale = 0.25;
-
+            assetscale = 1;
             console.log("using scale at " + assetscale + "x");
             this.redim(windowWidth);
         };
@@ -595,334 +595,339 @@ var InvertCross;
     })();
     InvertCross.Game = Game;
 })(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
-    // Class
-    var Assets = (function () {
-        function Assets() {
+// Class
+var Assets = (function () {
+    function Assets() {
+    }
+    Assets.loadAssets = function () {
+        if (!assetscale)
+            assetscale = 0.5;
+
+        var imagePath = "assets/images_" + assetscale + "x/";
+        var audioPath = "assets/sound/";
+
+        //create a image array
+        images = images || {};
+
+        //creates a preload queue
+        this.loader = new createjs.LoadQueue(false);
+
+        //install sound plug-in for sounds format
+        this.loader.installPlugin(createjs.Sound);
+
+        //create eventListeners
+        this.loader.addEventListener("fileload", function (evt) {
+            if (evt.item.type == "image")
+                images[evt.item.id] = evt.result;
+            return true;
+        });
+
+        var manifest = [
+            //common
+            { id: "partshud", src: imagePath + "partshud.png" },
+            { id: "partsicon", src: imagePath + "partsicon.png" },
+            { id: "starsicon", src: imagePath + "staricon.png" },
+            { id: "MenuBt", src: imagePath + "MenuBt.png" },
+            { id: "BackBt", src: imagePath + "BackBt.png" },
+            //title
+            //{ id: "title/LogoScreen", src: imagePath + "title/LogoScreen.jpg" },
+            { src: imagePath + "logo/bandeira1.png", id: "bandeira1" },
+            { src: imagePath + "logo/bandeira2.png", id: "bandeira2" },
+            { src: imagePath + "logo/bandeira3.png", id: "bandeira3" },
+            { src: imagePath + "logo/Cenario.jpg", id: "Cenario" },
+            { src: imagePath + "logo/Cenário.jpg", id: "Cenário" },
+            { src: imagePath + "logo/coqueiro02.png", id: "coqueiro02" },
+            { src: imagePath + "logo/coqueiro1.png", id: "coqueiro1" },
+            { src: imagePath + "logo/coqueiro2.png", id: "coqueiro2" },
+            { src: imagePath + "logo/logo.png", id: "logo" },
+            { src: imagePath + "logo/matoareia.png", id: "matoareia" },
+            { src: imagePath + "logo/onda01.png", id: "onda01" },
+            { src: imagePath + "logo/onda02.png", id: "onda02" },
+            { src: imagePath + "logo/onda04.png", id: "onda04" },
+            { src: imagePath + "logo/vagalume.png", id: "vagalume" },
+            //intro
+            { src: imagePath + "intro/bot.png", id: "bot" },
+            { src: imagePath + "intro/Bot01.png", id: "Bot01" },
+            { src: imagePath + "intro/botLight.png", id: "botLight" },
+            { src: imagePath + "intro/fundoEscuro.jpg", id: "fundoEscuro" },
+            //Bonus1
+            { src: imagePath + "bonus1/bg_bonus1.png", id: "bonus1/bg_bonus1" },
+            { src: imagePath + "bonus1/hudbonus1_1.png", id: "bonus1/hudbonus1_1" },
+            { src: imagePath + "bonus1/hudbonus1_2.png", id: "bonus1/hudbonus1_2" },
+            { src: imagePath + "bonus1/icone_lata.png", id: "bonus1/icone_lata" },
+            { src: imagePath + "bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
+            //projects
+            { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
+            { id: "projects/slot1", src: imagePath + "projects/slot1.png" },
+            { id: "projects/slot2", src: imagePath + "projects/slot2.png" },
+            { id: "projects/slot3", src: imagePath + "projects/slot3.png" },
+            { id: "projects/slot0", src: imagePath + "projects/slot0.png" },
+            { id: "projects/slotl", src: imagePath + "projects/slotl.png" },
+            { id: "projects/star", src: imagePath + "projects/star.png" },
+            { id: "projects/pageon", src: imagePath + "projects/pageon.png" },
+            { id: "projects/pageoff", src: imagePath + "projects/pageoff.png" },
+            { id: "projects/bigslot1", src: imagePath + "projects/bigslot1.png" },
+            { id: "projects/btpage", src: imagePath + "projects/btpage.png" },
+            //projects
+            { id: "projects/bots/Bot01", src: imagePath + "projects/bots/Bot01.png" },
+            { id: "projects/bots/Bot02", src: imagePath + "projects/bots/Bot02.png" },
+            { id: "projects/bots/Bot03", src: imagePath + "projects/bots/Bot03.png" },
+            { id: "projects/bots/Bot04", src: imagePath + "projects/bots/Bot04.png" },
+            { id: "projects/bots/Bot05", src: imagePath + "projects/bots/Bot05.png" },
+            { id: "projects/bots/Bot06", src: imagePath + "projects/bots/Bot06.png" },
+            { id: "projects/bots/Bot07", src: imagePath + "projects/bots/Bot07.png" },
+            { id: "projects/bots/Bot08", src: imagePath + "projects/bots/Bot08.png" },
+            { id: "projects/bots/Bot09", src: imagePath + "projects/bots/Bot09.png" },
+            { id: "projects/bots/Bot10", src: imagePath + "projects/bots/Bot10.png" },
+            { id: "projects/bots/Bot11", src: imagePath + "projects/bots/Bot11.png" },
+            { id: "projects/bots/Bot12", src: imagePath + "projects/bots/Bot12.png" },
+            { id: "projects/bots/Bot13", src: imagePath + "projects/bots/Bot13.png" },
+            { id: "projects/bots/Bot14", src: imagePath + "projects/bots/Bot14.png" },
+            { id: "projects/bots/Bot15", src: imagePath + "projects/bots/Bot15.png" },
+            { id: "projects/bots/Bot16", src: imagePath + "projects/bots/Bot16.png" },
+            { id: "projects/bots/Bot17", src: imagePath + "projects/bots/Bot17.png" },
+            { id: "projects/bots/Bot18", src: imagePath + "projects/bots/Bot18.png" },
+            { id: "projects/bots/Bot01_shadow", src: imagePath + "projects/bots/Bot01_shadow.png" },
+            { id: "projects/bots/Bot02_shadow", src: imagePath + "projects/bots/Bot02_shadow.png" },
+            { id: "projects/bots/Bot03_shadow", src: imagePath + "projects/bots/Bot03_shadow.png" },
+            { id: "projects/bots/Bot04_shadow", src: imagePath + "projects/bots/Bot04_shadow.png" },
+            { id: "projects/bots/Bot05_shadow", src: imagePath + "projects/bots/Bot05_shadow.png" },
+            { id: "projects/bots/Bot06_shadow", src: imagePath + "projects/bots/Bot06_shadow.png" },
+            { id: "projects/bots/Bot07_shadow", src: imagePath + "projects/bots/Bot07_shadow.png" },
+            { id: "projects/bots/Bot08_shadow", src: imagePath + "projects/bots/Bot08_shadow.png" },
+            { id: "projects/bots/Bot09_shadow", src: imagePath + "projects/bots/Bot09_shadow.png" },
+            { id: "projects/bots/Bot10_shadow", src: imagePath + "projects/bots/Bot10_shadow.png" },
+            { id: "projects/bots/Bot11_shadow", src: imagePath + "projects/bots/Bot11_shadow.png" },
+            { id: "projects/bots/Bot12_shadow", src: imagePath + "projects/bots/Bot12_shadow.png" },
+            { id: "projects/bots/Bot13_shadow", src: imagePath + "projects/bots/Bot13_shadow.png" },
+            { id: "projects/bots/Bot14_shadow", src: imagePath + "projects/bots/Bot14_shadow.png" },
+            { id: "projects/bots/Bot15_shadow", src: imagePath + "projects/bots/Bot15_shadow.png" },
+            { id: "projects/bots/Bot16_shadow", src: imagePath + "projects/bots/Bot16_shadow.png" },
+            { id: "projects/bots/Bot17_shadow", src: imagePath + "projects/bots/Bot17_shadow.png" },
+            { id: "projects/bots/Bot18_shadow", src: imagePath + "projects/bots/Bot18_shadow.png" },
+            //workshop
+            { src: imagePath + "workshop/bots/Bot01.png", id: "workshop/bots/Bot01" },
+            { src: imagePath + "workshop/bots/Bot02.png", id: "workshop/bots/Bot02" },
+            { src: imagePath + "workshop/bots/Bot03.png", id: "workshop/bots/Bot03" },
+            { src: imagePath + "workshop/bots/Bot04.png", id: "workshop/bots/Bot04" },
+            { src: imagePath + "workshop/bots/Bot05.png", id: "workshop/bots/Bot05" },
+            { src: imagePath + "workshop/bots/Bot06.png", id: "workshop/bots/Bot06" },
+            { src: imagePath + "workshop/bots/Bot07.png", id: "workshop/bots/Bot07" },
+            { src: imagePath + "workshop/bots/Bot08.png", id: "workshop/bots/Bot08" },
+            { src: imagePath + "workshop/bots/Bot09.png", id: "workshop/bots/Bot09" },
+            { src: imagePath + "workshop/bots/Bot10.png", id: "workshop/bots/Bot10" },
+            { src: imagePath + "workshop/bots/Bot11.png", id: "workshop/bots/Bot11" },
+            { src: imagePath + "workshop/bots/Bot12.png", id: "workshop/bots/Bot12" },
+            { src: imagePath + "workshop/bots/Bot13.png", id: "workshop/bots/Bot13" },
+            { src: imagePath + "workshop/bots/Bot14.png", id: "workshop/bots/Bot14" },
+            { src: imagePath + "workshop/bots/Bot15.png", id: "workshop/bots/Bot15" },
+            { src: imagePath + "workshop/bots/Bot16.png", id: "workshop/bots/Bot16" },
+            { src: imagePath + "workshop/bots/Bot17.png", id: "workshop/bots/Bot17" },
+            { src: imagePath + "workshop/bots/Bot18.png", id: "workshop/bots/Bot18" },
+            { src: imagePath + "workshop/bots/Bot01_fill.png", id: "workshop/bots/Bot01_fill" },
+            { src: imagePath + "workshop/bots/Bot02_fill.png", id: "workshop/bots/Bot02_fill" },
+            { src: imagePath + "workshop/bots/Bot03_fill.png", id: "workshop/bots/Bot03_fill" },
+            { src: imagePath + "workshop/bots/Bot04_fill.png", id: "workshop/bots/Bot04_fill" },
+            { src: imagePath + "workshop/bots/Bot05_fill.png", id: "workshop/bots/Bot05_fill" },
+            { src: imagePath + "workshop/bots/Bot06_fill.png", id: "workshop/bots/Bot06_fill" },
+            { src: imagePath + "workshop/bots/Bot07_fill.png", id: "workshop/bots/Bot07_fill" },
+            { src: imagePath + "workshop/bots/Bot08_fill.png", id: "workshop/bots/Bot08_fill" },
+            { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot09_fill" },
+            { src: imagePath + "workshop/bots/Bot10_fill.png", id: "workshop/bots/Bot10_fill" },
+            { src: imagePath + "workshop/bots/Bot11_fill.png", id: "workshop/bots/Bot11_fill" },
+            { src: imagePath + "workshop/bots/Bot12_fill.png", id: "workshop/bots/Bot12_fill" },
+            { src: imagePath + "workshop/bots/Bot13_fill.png", id: "workshop/bots/Bot13_fill" },
+            { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot14_fill" },
+            { src: imagePath + "workshop/bots/Bot15_fill.png", id: "workshop/bots/Bot15_fill" },
+            { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot16_fill" },
+            { src: imagePath + "workshop/bots/Bot17_fill.png", id: "workshop/bots/Bot17_fill" },
+            { src: imagePath + "workshop/bots/Bot18_fill.png", id: "workshop/bots/Bot18_fill" },
+            { src: imagePath + "workshop/bots/Bot01_stroke.png", id: "workshop/bots/Bot01_stroke" },
+            { src: imagePath + "workshop/bots/Bot02_stroke.png", id: "workshop/bots/Bot02_stroke" },
+            { src: imagePath + "workshop/bots/Bot03_stroke.png", id: "workshop/bots/Bot03_stroke" },
+            { src: imagePath + "workshop/bots/Bot04_stroke.png", id: "workshop/bots/Bot04_stroke" },
+            { src: imagePath + "workshop/bots/Bot05_stroke.png", id: "workshop/bots/Bot05_stroke" },
+            { src: imagePath + "workshop/bots/Bot06_stroke.png", id: "workshop/bots/Bot06_stroke" },
+            { src: imagePath + "workshop/bots/Bot07_stroke.png", id: "workshop/bots/Bot07_stroke" },
+            { src: imagePath + "workshop/bots/Bot08_stroke.png", id: "workshop/bots/Bot08_stroke" },
+            { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot09_stroke" },
+            { src: imagePath + "workshop/bots/Bot10_stroke.png", id: "workshop/bots/Bot10_stroke" },
+            { src: imagePath + "workshop/bots/Bot11_stroke.png", id: "workshop/bots/Bot11_stroke" },
+            { src: imagePath + "workshop/bots/Bot12_stroke.png", id: "workshop/bots/Bot12_stroke" },
+            { src: imagePath + "workshop/bots/Bot13_stroke.png", id: "workshop/bots/Bot13_stroke" },
+            { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot14_stroke" },
+            { src: imagePath + "workshop/bots/Bot15_stroke.png", id: "workshop/bots/Bot15_stroke" },
+            { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot16_stroke" },
+            { src: imagePath + "workshop/bots/Bot17_stroke.png", id: "workshop/bots/Bot17_stroke" },
+            { src: imagePath + "workshop/bots/Bot18_stroke.png", id: "workshop/bots/Bot18_stroke" },
+            //My bots
+            { src: imagePath + "myBots/mybotsbg.jpg", id: "mybotsbg" },
+            { src: imagePath + "myBots/Bot01.png", id: "Bot01" },
+            { src: imagePath + "myBots/Bot02.png", id: "Bot02" },
+            { src: imagePath + "myBots/Bot03.png", id: "Bot03" },
+            { src: imagePath + "myBots/Bot04.png", id: "Bot04" },
+            { src: imagePath + "myBots/Bot05.png", id: "Bot05" },
+            { src: imagePath + "myBots/Bot06.png", id: "Bot06" },
+            { src: imagePath + "myBots/Bot07.png", id: "Bot07" },
+            { src: imagePath + "myBots/Bot08.png", id: "Bot08" },
+            { src: imagePath + "myBots/Bot09.png", id: "Bot09" },
+            { src: imagePath + "myBots/Bot10.png", id: "Bot10" },
+            { src: imagePath + "myBots/Bot11.png", id: "Bot11" },
+            { src: imagePath + "myBots/Bot12.png", id: "Bot12" },
+            { src: imagePath + "myBots/Bot13.png", id: "Bot13" },
+            { src: imagePath + "myBots/Bot14.png", id: "Bot14" },
+            { src: imagePath + "myBots/Bot15.png", id: "Bot15" },
+            { src: imagePath + "myBots/Bot16.png", id: "Bot16" },
+            { src: imagePath + "myBots/Bot17.png", id: "Bot17" },
+            { src: imagePath + "myBots/Bot18.png", id: "Bot18" },
+            //workshow
+            { id: "workshop/basefases", src: imagePath + "workshop/basefases.png" },
+            { id: "workshop/bgworkshop", src: imagePath + "workshop/bgworkshop.png" },
+            { id: "workshop/estrelaworkshop", src: imagePath + "workshop/estrelaworkshop.png" },
+            { id: "workshop/faseamarela1", src: imagePath + "workshop/faseamarela1.png" },
+            { id: "workshop/faseamarela2", src: imagePath + "workshop/faseamarela2.png" },
+            { id: "workshop/faseamarela3", src: imagePath + "workshop/faseamarela3.png" },
+            { id: "workshop/faseamarelaflip1", src: imagePath + "workshop/faseamarelaflip1.png" },
+            { id: "workshop/faseamarelaflip2", src: imagePath + "workshop/faseamarelaflip2.png" },
+            { id: "workshop/faseamarelaflip3", src: imagePath + "workshop/faseamarelaflip3.png" },
+            { id: "workshop/faseamarelatime1", src: imagePath + "workshop/faseamarelatime1.png" },
+            { id: "workshop/faseamarelatime2", src: imagePath + "workshop/faseamarelatime2.png" },
+            { id: "workshop/faseamarelatime3", src: imagePath + "workshop/faseamarelatime3.png" },
+            { id: "workshop/faseroxa1", src: imagePath + "workshop/faseroxa1.png" },
+            { id: "workshop/faseroxa2", src: imagePath + "workshop/faseroxa2.png" },
+            { id: "workshop/faseroxa3", src: imagePath + "workshop/faseroxa3.png" },
+            { id: "workshop/faseroxaflip1", src: imagePath + "workshop/faseroxaflip1.png" },
+            { id: "workshop/faseroxaflip2", src: imagePath + "workshop/faseroxaflip2.png" },
+            { id: "workshop/faseroxaflip3", src: imagePath + "workshop/faseroxaflip3.png" },
+            { id: "workshop/faseroxatime1", src: imagePath + "workshop/faseroxatime1.png" },
+            { id: "workshop/faseroxatime2", src: imagePath + "workshop/faseroxatime2.png" },
+            { id: "workshop/faseroxatime3", src: imagePath + "workshop/faseroxatime3.png" },
+            { id: "workshop/faseverde1", src: imagePath + "workshop/faseverde1.png" },
+            { id: "workshop/faseverde2", src: imagePath + "workshop/faseverde2.png" },
+            { id: "workshop/faseverde3", src: imagePath + "workshop/faseverde3.png" },
+            { id: "workshop/faseverdeflip1", src: imagePath + "workshop/faseverdeflip1.png" },
+            { id: "workshop/faseverdeflip2", src: imagePath + "workshop/faseverdeflip2.png" },
+            { id: "workshop/faseverdeflip3", src: imagePath + "workshop/faseverdeflip3.png" },
+            { id: "workshop/faseverdetime1", src: imagePath + "workshop/faseverdetime1.png" },
+            { id: "workshop/faseverdetime2", src: imagePath + "workshop/faseverdetime2.png" },
+            { id: "workshop/faseverdetime3", src: imagePath + "workshop/faseverdetime3.png" },
+            { id: "workshop/paginacaoworkshop", src: imagePath + "workshop/paginacaoworkshop.png" },
+            { id: "workshop/painelworkshop", src: imagePath + "workshop/painelworkshop.png" },
+            { id: "workshop/stargreen", src: imagePath + "workshop/stargreen.png" },
+            { id: "workshop/starpurple", src: imagePath + "workshop/starpurple.png" },
+            { id: "workshop/staryellow", src: imagePath + "workshop/staryellow.png" },
+            //puzzle
+            { id: "puzzle/bg", src: imagePath + "puzzle/bg.jpg" },
+            { id: "puzzle/btplay1", src: imagePath + "puzzle/btplay1.png" },
+            { id: "puzzle/btplay2", src: imagePath + "puzzle/btplay2.png" },
+            { id: "puzzle/btplay3", src: imagePath + "puzzle/btplay3.png" },
+            { id: "puzzle/btpowerup", src: imagePath + "puzzle/btpowerup.png" },
+            { id: "puzzle/btrestartpause", src: imagePath + "puzzle/btrestartpause.png" },
+            { id: "puzzle/btsair", src: imagePath + "puzzle/btsair.png" },
+            { id: "puzzle/btsom1", src: imagePath + "puzzle/btsom1.png" },
+            { id: "puzzle/btsom2", src: imagePath + "puzzle/btsom2.png" },
+            { id: "puzzle/iconemoves", src: imagePath + "puzzle/iconemoves.png" },
+            { id: "puzzle/iconepause", src: imagePath + "puzzle/iconepause.png" },
+            { id: "puzzle/iconeplay", src: imagePath + "puzzle/iconeplay.png" },
+            { id: "puzzle/iconepuzzle", src: imagePath + "puzzle/iconepuzzle.png" },
+            { id: "puzzle/iconerestart", src: imagePath + "puzzle/iconerestart.png" },
+            { id: "puzzle/paginacaopuzzle", src: imagePath + "puzzle/paginacaopuzzle.png" },
+            { id: "puzzle/painelpuzzle1", src: imagePath + "puzzle/painelpuzzle1.png" },
+            { id: "puzzle/painelpuzzle2", src: imagePath + "puzzle/painelpuzzle2.png" },
+            { id: "puzzle/tile0", src: imagePath + "puzzle/tile0.png" },
+            { id: "puzzle/indicator", src: imagePath + "puzzle/indicator.png" },
+            { id: "puzzle/icon_hint", src: imagePath + "puzzle/icon_hint.png" },
+            { id: "puzzle/icon_time", src: imagePath + "puzzle/icon_time.png" },
+            { id: "puzzle/icon_skip", src: imagePath + "puzzle/icon_skip.png" },
+            { id: "puzzle/icon_touch", src: imagePath + "puzzle/icon_touch.png" },
+            { id: "puzzle/icon_solve", src: imagePath + "puzzle/icon_solve.png" },
+            { id: "puzzle/tile_yellow_1", src: imagePath + "puzzle/tile_yellow_1.png" },
+            { id: "puzzle/tile_yellow_2", src: imagePath + "puzzle/tile_yellow_2.png" },
+            { id: "puzzle/tile_yellow_3", src: imagePath + "puzzle/tile_yellow_3.png" },
+            { id: "puzzle/tile_yellow_4", src: imagePath + "puzzle/tile_yellow_4.png" },
+            { id: "puzzle/tile_green_1", src: imagePath + "puzzle/tile_green_1.png" },
+            { id: "puzzle/tile_green_2", src: imagePath + "puzzle/tile_green_2.png" },
+            { id: "puzzle/tile_green_3", src: imagePath + "puzzle/tile_green_3.png" },
+            { id: "puzzle/tile_green_4", src: imagePath + "puzzle/tile_green_4.png" },
+            { id: "puzzle/tile_purple_1", src: imagePath + "puzzle/tile_purple_1.png" },
+            { id: "puzzle/tile_purple_2", src: imagePath + "puzzle/tile_purple_2.png" },
+            { id: "puzzle/tile_purple_3", src: imagePath + "puzzle/tile_purple_3.png" },
+            { id: "puzzle/tile_purple_4", src: imagePath + "puzzle/tile_purple_4.png" },
+            { id: "puzzle/tilex", src: imagePath + "puzzle/tilex.png" },
+            { id: "puzzle/tileD", src: imagePath + "puzzle/tileD.png" },
+            { id: "puzzle/tilexD", src: imagePath + "puzzle/tilexD.png" },
+            //popup
+            { id: "popups/popup", src: imagePath + "popups/popup.png" },
+            { id: "popups/message", src: imagePath + "popups/message.png" },
+            { id: "popups/popupTutorial", src: imagePath + "popups/popupbot.png" },
+            //Legacy
+            { id: "bolinhas", src: "assets/" + "bolinhas.png" },
+            { id: "smokePart", src: "assets/" + "smokePart.png" }
+        ];
+
+        //loads entire manifest
+        this.loader.loadManifest(manifest);
+
+        return this.loader;
+    };
+
+    Assets.getBitmap = function (name) {
+        return new createjs.Bitmap(this.getImage(name));
+    };
+
+    Assets.getImage = function (name) {
+        return this.loader.getResult(name);
+    };
+
+    Assets.getMovieClip = function (name) {
+        var t = new window[name];
+        return t;
+    };
+
+    Assets.getSrite = function (name) {
+        var data = { images: [this.getImage(name)], frames: spriteSheets[name] };
+
+        var spritesheet = new createjs.SpriteSheet(data);
+
+        return new createjs.Sprite(spritesheet);
+    };
+
+    Assets.playSound = function (name) {
+        if (!InvertCross.InvertCrossaGame.settings.getSoundfx())
+            return;
+
+        //wp8// this.mediaDic[name].play()
+        createjs.Sound.play(name);
+    };
+
+    Assets.playMusic = function (name) {
+        if (!InvertCross.InvertCrossaGame.settings.getMusic())
+            return;
+
+        //WP8//var media = this.mediaDic[name];
+        if (name == "")
+            name = this.currentMusicname;
+        if (this.currentMusicname == name) {
+            if (this.currentMusic.playState == createjs.Sound.PLAY_SUCCEEDED)
+                return;
         }
-        Assets.loadAssets = function () {
-            if (!assetscale)
-                assetscale = 0.5;
 
-            var imagePath = "assets/images_" + assetscale + "x/";
-            var audioPath = "assets/sound/";
+        if (this.currentMusic != null)
+            this.currentMusic.stop();
 
-            var manifest = [
-                //common
-                { id: "partshud", src: imagePath + "partshud.png" },
-                { id: "partsicon", src: imagePath + "partsicon.png" },
-                { id: "starsicon", src: imagePath + "staricon.png" },
-                { id: "MenuBt", src: imagePath + "MenuBt.png" },
-                { id: "BackBt", src: imagePath + "BackBt.png" },
-                //title
-                //{ id: "title/LogoScreen", src: imagePath + "title/LogoScreen.jpg" },
-                { src: imagePath + "logo/bandeira1.png", id: "bandeira1" },
-                { src: imagePath + "logo/bandeira2.png", id: "bandeira2" },
-                { src: imagePath + "logo/bandeira3.png", id: "bandeira3" },
-                { src: imagePath + "logo/Cenario.jpg", id: "Cenario" },
-                { src: imagePath + "logo/Cenário.jpg", id: "Cenário" },
-                { src: imagePath + "logo/coqueiro02.png", id: "coqueiro02" },
-                { src: imagePath + "logo/coqueiro1.png", id: "coqueiro1" },
-                { src: imagePath + "logo/coqueiro2.png", id: "coqueiro2" },
-                { src: imagePath + "logo/logo.png", id: "logo" },
-                { src: imagePath + "logo/matoareia.png", id: "matoareia" },
-                { src: imagePath + "logo/onda01.png", id: "onda01" },
-                { src: imagePath + "logo/onda02.png", id: "onda02" },
-                { src: imagePath + "logo/onda04.png", id: "onda04" },
-                { src: imagePath + "logo/vagalume.png", id: "vagalume" },
-                //intro
-                { src: imagePath + "intro/bot.png", id: "bot" },
-                { src: imagePath + "intro/Bot01.png", id: "Bot01" },
-                { src: imagePath + "intro/botLight.png", id: "botLight" },
-                { src: imagePath + "intro/fundoEscuro.jpg", id: "fundoEscuro" },
-                //Bonus1
-                { src: imagePath + "bonus1/barril1.png", id: "bonus1/barril1" },
-                { src: imagePath + "bonus1/bg_bonus1.png", id: "bonus1/bg_bonus1" },
-                { src: imagePath + "bonus1/hudbonus1_1.png", id: "bonus1/hudbonus1_1" },
-                { src: imagePath + "bonus1/hudbonus1_2.png", id: "bonus1/hudbonus1_2" },
-                { src: imagePath + "bonus1/icone_lata.png", id: "bonus1/icone_lata" },
-                //projects
-                { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
-                { id: "projects/slot1", src: imagePath + "projects/slot1.png" },
-                { id: "projects/slot2", src: imagePath + "projects/slot2.png" },
-                { id: "projects/slot3", src: imagePath + "projects/slot3.png" },
-                { id: "projects/slot0", src: imagePath + "projects/slot0.png" },
-                { id: "projects/slotl", src: imagePath + "projects/slotl.png" },
-                { id: "projects/star", src: imagePath + "projects/star.png" },
-                { id: "projects/pageon", src: imagePath + "projects/pageon.png" },
-                { id: "projects/pageoff", src: imagePath + "projects/pageoff.png" },
-                { id: "projects/bigslot1", src: imagePath + "projects/bigslot1.png" },
-                { id: "projects/btpage", src: imagePath + "projects/btpage.png" },
-                //projects
-                { id: "projects/bots/Bot01", src: imagePath + "projects/bots/Bot01.png" },
-                { id: "projects/bots/Bot02", src: imagePath + "projects/bots/Bot02.png" },
-                { id: "projects/bots/Bot03", src: imagePath + "projects/bots/Bot03.png" },
-                { id: "projects/bots/Bot04", src: imagePath + "projects/bots/Bot04.png" },
-                { id: "projects/bots/Bot05", src: imagePath + "projects/bots/Bot05.png" },
-                { id: "projects/bots/Bot06", src: imagePath + "projects/bots/Bot06.png" },
-                { id: "projects/bots/Bot07", src: imagePath + "projects/bots/Bot07.png" },
-                { id: "projects/bots/Bot08", src: imagePath + "projects/bots/Bot08.png" },
-                { id: "projects/bots/Bot09", src: imagePath + "projects/bots/Bot09.png" },
-                { id: "projects/bots/Bot10", src: imagePath + "projects/bots/Bot10.png" },
-                { id: "projects/bots/Bot11", src: imagePath + "projects/bots/Bot11.png" },
-                { id: "projects/bots/Bot12", src: imagePath + "projects/bots/Bot12.png" },
-                { id: "projects/bots/Bot13", src: imagePath + "projects/bots/Bot13.png" },
-                { id: "projects/bots/Bot14", src: imagePath + "projects/bots/Bot14.png" },
-                { id: "projects/bots/Bot15", src: imagePath + "projects/bots/Bot15.png" },
-                { id: "projects/bots/Bot16", src: imagePath + "projects/bots/Bot16.png" },
-                { id: "projects/bots/Bot17", src: imagePath + "projects/bots/Bot17.png" },
-                { id: "projects/bots/Bot18", src: imagePath + "projects/bots/Bot18.png" },
-                { id: "projects/bots/Bot01_shadow", src: imagePath + "projects/bots/Bot01_shadow.png" },
-                { id: "projects/bots/Bot02_shadow", src: imagePath + "projects/bots/Bot02_shadow.png" },
-                { id: "projects/bots/Bot03_shadow", src: imagePath + "projects/bots/Bot03_shadow.png" },
-                { id: "projects/bots/Bot04_shadow", src: imagePath + "projects/bots/Bot04_shadow.png" },
-                { id: "projects/bots/Bot05_shadow", src: imagePath + "projects/bots/Bot05_shadow.png" },
-                { id: "projects/bots/Bot06_shadow", src: imagePath + "projects/bots/Bot06_shadow.png" },
-                { id: "projects/bots/Bot07_shadow", src: imagePath + "projects/bots/Bot07_shadow.png" },
-                { id: "projects/bots/Bot08_shadow", src: imagePath + "projects/bots/Bot08_shadow.png" },
-                { id: "projects/bots/Bot09_shadow", src: imagePath + "projects/bots/Bot09_shadow.png" },
-                { id: "projects/bots/Bot10_shadow", src: imagePath + "projects/bots/Bot10_shadow.png" },
-                { id: "projects/bots/Bot11_shadow", src: imagePath + "projects/bots/Bot11_shadow.png" },
-                { id: "projects/bots/Bot12_shadow", src: imagePath + "projects/bots/Bot12_shadow.png" },
-                { id: "projects/bots/Bot13_shadow", src: imagePath + "projects/bots/Bot13_shadow.png" },
-                { id: "projects/bots/Bot14_shadow", src: imagePath + "projects/bots/Bot14_shadow.png" },
-                { id: "projects/bots/Bot15_shadow", src: imagePath + "projects/bots/Bot15_shadow.png" },
-                { id: "projects/bots/Bot16_shadow", src: imagePath + "projects/bots/Bot16_shadow.png" },
-                { id: "projects/bots/Bot17_shadow", src: imagePath + "projects/bots/Bot17_shadow.png" },
-                { id: "projects/bots/Bot18_shadow", src: imagePath + "projects/bots/Bot18_shadow.png" },
-                //workshop
-                { src: imagePath + "workshop/bots/Bot01.png", id: "workshop/bots/Bot01" },
-                { src: imagePath + "workshop/bots/Bot02.png", id: "workshop/bots/Bot02" },
-                { src: imagePath + "workshop/bots/Bot03.png", id: "workshop/bots/Bot03" },
-                { src: imagePath + "workshop/bots/Bot04.png", id: "workshop/bots/Bot04" },
-                { src: imagePath + "workshop/bots/Bot05.png", id: "workshop/bots/Bot05" },
-                { src: imagePath + "workshop/bots/Bot06.png", id: "workshop/bots/Bot06" },
-                { src: imagePath + "workshop/bots/Bot07.png", id: "workshop/bots/Bot07" },
-                { src: imagePath + "workshop/bots/Bot08.png", id: "workshop/bots/Bot08" },
-                { src: imagePath + "workshop/bots/Bot09.png", id: "workshop/bots/Bot09" },
-                { src: imagePath + "workshop/bots/Bot10.png", id: "workshop/bots/Bot10" },
-                { src: imagePath + "workshop/bots/Bot11.png", id: "workshop/bots/Bot11" },
-                { src: imagePath + "workshop/bots/Bot12.png", id: "workshop/bots/Bot12" },
-                { src: imagePath + "workshop/bots/Bot13.png", id: "workshop/bots/Bot13" },
-                { src: imagePath + "workshop/bots/Bot14.png", id: "workshop/bots/Bot14" },
-                { src: imagePath + "workshop/bots/Bot15.png", id: "workshop/bots/Bot15" },
-                { src: imagePath + "workshop/bots/Bot16.png", id: "workshop/bots/Bot16" },
-                { src: imagePath + "workshop/bots/Bot17.png", id: "workshop/bots/Bot17" },
-                { src: imagePath + "workshop/bots/Bot18.png", id: "workshop/bots/Bot18" },
-                { src: imagePath + "workshop/bots/Bot01_fill.png", id: "workshop/bots/Bot01_fill" },
-                { src: imagePath + "workshop/bots/Bot02_fill.png", id: "workshop/bots/Bot02_fill" },
-                { src: imagePath + "workshop/bots/Bot03_fill.png", id: "workshop/bots/Bot03_fill" },
-                { src: imagePath + "workshop/bots/Bot04_fill.png", id: "workshop/bots/Bot04_fill" },
-                { src: imagePath + "workshop/bots/Bot05_fill.png", id: "workshop/bots/Bot05_fill" },
-                { src: imagePath + "workshop/bots/Bot06_fill.png", id: "workshop/bots/Bot06_fill" },
-                { src: imagePath + "workshop/bots/Bot07_fill.png", id: "workshop/bots/Bot07_fill" },
-                { src: imagePath + "workshop/bots/Bot08_fill.png", id: "workshop/bots/Bot08_fill" },
-                { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot09_fill" },
-                { src: imagePath + "workshop/bots/Bot10_fill.png", id: "workshop/bots/Bot10_fill" },
-                { src: imagePath + "workshop/bots/Bot11_fill.png", id: "workshop/bots/Bot11_fill" },
-                { src: imagePath + "workshop/bots/Bot12_fill.png", id: "workshop/bots/Bot12_fill" },
-                { src: imagePath + "workshop/bots/Bot13_fill.png", id: "workshop/bots/Bot13_fill" },
-                { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot14_fill" },
-                { src: imagePath + "workshop/bots/Bot15_fill.png", id: "workshop/bots/Bot15_fill" },
-                { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot16_fill" },
-                { src: imagePath + "workshop/bots/Bot17_fill.png", id: "workshop/bots/Bot17_fill" },
-                { src: imagePath + "workshop/bots/Bot18_fill.png", id: "workshop/bots/Bot18_fill" },
-                { src: imagePath + "workshop/bots/Bot01_stroke.png", id: "workshop/bots/Bot01_stroke" },
-                { src: imagePath + "workshop/bots/Bot02_stroke.png", id: "workshop/bots/Bot02_stroke" },
-                { src: imagePath + "workshop/bots/Bot03_stroke.png", id: "workshop/bots/Bot03_stroke" },
-                { src: imagePath + "workshop/bots/Bot04_stroke.png", id: "workshop/bots/Bot04_stroke" },
-                { src: imagePath + "workshop/bots/Bot05_stroke.png", id: "workshop/bots/Bot05_stroke" },
-                { src: imagePath + "workshop/bots/Bot06_stroke.png", id: "workshop/bots/Bot06_stroke" },
-                { src: imagePath + "workshop/bots/Bot07_stroke.png", id: "workshop/bots/Bot07_stroke" },
-                { src: imagePath + "workshop/bots/Bot08_stroke.png", id: "workshop/bots/Bot08_stroke" },
-                { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot09_stroke" },
-                { src: imagePath + "workshop/bots/Bot10_stroke.png", id: "workshop/bots/Bot10_stroke" },
-                { src: imagePath + "workshop/bots/Bot11_stroke.png", id: "workshop/bots/Bot11_stroke" },
-                { src: imagePath + "workshop/bots/Bot12_stroke.png", id: "workshop/bots/Bot12_stroke" },
-                { src: imagePath + "workshop/bots/Bot13_stroke.png", id: "workshop/bots/Bot13_stroke" },
-                { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot14_stroke" },
-                { src: imagePath + "workshop/bots/Bot15_stroke.png", id: "workshop/bots/Bot15_stroke" },
-                { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot16_stroke" },
-                { src: imagePath + "workshop/bots/Bot17_stroke.png", id: "workshop/bots/Bot17_stroke" },
-                { src: imagePath + "workshop/bots/Bot18_stroke.png", id: "workshop/bots/Bot18_stroke" },
-                //My bots
-                { src: imagePath + "myBots/mybotsbg.jpg", id: "mybotsbg" },
-                { src: imagePath + "myBots/Bot01.png", id: "Bot01" },
-                { src: imagePath + "myBots/Bot02.png", id: "Bot02" },
-                { src: imagePath + "myBots/Bot03.png", id: "Bot03" },
-                { src: imagePath + "myBots/Bot04.png", id: "Bot04" },
-                { src: imagePath + "myBots/Bot05.png", id: "Bot05" },
-                { src: imagePath + "myBots/Bot06.png", id: "Bot06" },
-                { src: imagePath + "myBots/Bot07.png", id: "Bot07" },
-                { src: imagePath + "myBots/Bot08.png", id: "Bot08" },
-                { src: imagePath + "myBots/Bot09.png", id: "Bot09" },
-                { src: imagePath + "myBots/Bot10.png", id: "Bot10" },
-                { src: imagePath + "myBots/Bot11.png", id: "Bot11" },
-                { src: imagePath + "myBots/Bot12.png", id: "Bot12" },
-                { src: imagePath + "myBots/Bot13.png", id: "Bot13" },
-                { src: imagePath + "myBots/Bot14.png", id: "Bot14" },
-                { src: imagePath + "myBots/Bot15.png", id: "Bot15" },
-                { src: imagePath + "myBots/Bot16.png", id: "Bot16" },
-                { src: imagePath + "myBots/Bot17.png", id: "Bot17" },
-                { src: imagePath + "myBots/Bot18.png", id: "Bot18" },
-                //workshow
-                { id: "workshop/basefases", src: imagePath + "workshop/basefases.png" },
-                { id: "workshop/bgworkshop", src: imagePath + "workshop/bgworkshop.png" },
-                { id: "workshop/estrelaworkshop", src: imagePath + "workshop/estrelaworkshop.png" },
-                { id: "workshop/faseamarela1", src: imagePath + "workshop/faseamarela1.png" },
-                { id: "workshop/faseamarela2", src: imagePath + "workshop/faseamarela2.png" },
-                { id: "workshop/faseamarela3", src: imagePath + "workshop/faseamarela3.png" },
-                { id: "workshop/faseamarelaflip1", src: imagePath + "workshop/faseamarelaflip1.png" },
-                { id: "workshop/faseamarelaflip2", src: imagePath + "workshop/faseamarelaflip2.png" },
-                { id: "workshop/faseamarelaflip3", src: imagePath + "workshop/faseamarelaflip3.png" },
-                { id: "workshop/faseamarelatime1", src: imagePath + "workshop/faseamarelatime1.png" },
-                { id: "workshop/faseamarelatime2", src: imagePath + "workshop/faseamarelatime2.png" },
-                { id: "workshop/faseamarelatime3", src: imagePath + "workshop/faseamarelatime3.png" },
-                { id: "workshop/faseroxa1", src: imagePath + "workshop/faseroxa1.png" },
-                { id: "workshop/faseroxa2", src: imagePath + "workshop/faseroxa2.png" },
-                { id: "workshop/faseroxa3", src: imagePath + "workshop/faseroxa3.png" },
-                { id: "workshop/faseroxaflip1", src: imagePath + "workshop/faseroxaflip1.png" },
-                { id: "workshop/faseroxaflip2", src: imagePath + "workshop/faseroxaflip2.png" },
-                { id: "workshop/faseroxaflip3", src: imagePath + "workshop/faseroxaflip3.png" },
-                { id: "workshop/faseroxatime1", src: imagePath + "workshop/faseroxatime1.png" },
-                { id: "workshop/faseroxatime2", src: imagePath + "workshop/faseroxatime2.png" },
-                { id: "workshop/faseroxatime3", src: imagePath + "workshop/faseroxatime3.png" },
-                { id: "workshop/faseverde1", src: imagePath + "workshop/faseverde1.png" },
-                { id: "workshop/faseverde2", src: imagePath + "workshop/faseverde2.png" },
-                { id: "workshop/faseverde3", src: imagePath + "workshop/faseverde3.png" },
-                { id: "workshop/faseverdeflip1", src: imagePath + "workshop/faseverdeflip1.png" },
-                { id: "workshop/faseverdeflip2", src: imagePath + "workshop/faseverdeflip2.png" },
-                { id: "workshop/faseverdeflip3", src: imagePath + "workshop/faseverdeflip3.png" },
-                { id: "workshop/faseverdetime1", src: imagePath + "workshop/faseverdetime1.png" },
-                { id: "workshop/faseverdetime2", src: imagePath + "workshop/faseverdetime2.png" },
-                { id: "workshop/faseverdetime3", src: imagePath + "workshop/faseverdetime3.png" },
-                { id: "workshop/paginacaoworkshop", src: imagePath + "workshop/paginacaoworkshop.png" },
-                { id: "workshop/painelworkshop", src: imagePath + "workshop/painelworkshop.png" },
-                { id: "workshop/stargreen", src: imagePath + "workshop/stargreen.png" },
-                { id: "workshop/starpurple", src: imagePath + "workshop/starpurple.png" },
-                { id: "workshop/staryellow", src: imagePath + "workshop/staryellow.png" },
-                //puzzle
-                { id: "puzzle/bg", src: imagePath + "puzzle/bg.jpg" },
-                { id: "puzzle/btplay1", src: imagePath + "puzzle/btplay1.png" },
-                { id: "puzzle/btplay2", src: imagePath + "puzzle/btplay2.png" },
-                { id: "puzzle/btplay3", src: imagePath + "puzzle/btplay3.png" },
-                { id: "puzzle/btpowerup", src: imagePath + "puzzle/btpowerup.png" },
-                { id: "puzzle/btrestartpause", src: imagePath + "puzzle/btrestartpause.png" },
-                { id: "puzzle/btsair", src: imagePath + "puzzle/btsair.png" },
-                { id: "puzzle/btsom1", src: imagePath + "puzzle/btsom1.png" },
-                { id: "puzzle/btsom2", src: imagePath + "puzzle/btsom2.png" },
-                { id: "puzzle/iconemoves", src: imagePath + "puzzle/iconemoves.png" },
-                { id: "puzzle/iconepause", src: imagePath + "puzzle/iconepause.png" },
-                { id: "puzzle/iconeplay", src: imagePath + "puzzle/iconeplay.png" },
-                { id: "puzzle/iconepuzzle", src: imagePath + "puzzle/iconepuzzle.png" },
-                { id: "puzzle/iconerestart", src: imagePath + "puzzle/iconerestart.png" },
-                { id: "puzzle/paginacaopuzzle", src: imagePath + "puzzle/paginacaopuzzle.png" },
-                { id: "puzzle/painelpuzzle1", src: imagePath + "puzzle/painelpuzzle1.png" },
-                { id: "puzzle/painelpuzzle2", src: imagePath + "puzzle/painelpuzzle2.png" },
-                { id: "puzzle/tile0", src: imagePath + "puzzle/tile0.png" },
-                { id: "puzzle/indicator", src: imagePath + "puzzle/indicator.png" },
-                { id: "puzzle/icon_hint", src: imagePath + "puzzle/icon_hint.png" },
-                { id: "puzzle/icon_time", src: imagePath + "puzzle/icon_time.png" },
-                { id: "puzzle/icon_skip", src: imagePath + "puzzle/icon_skip.png" },
-                { id: "puzzle/icon_touch", src: imagePath + "puzzle/icon_touch.png" },
-                { id: "puzzle/icon_solve", src: imagePath + "puzzle/icon_solve.png" },
-                { id: "puzzle/tile_yellow_1", src: imagePath + "puzzle/tile_yellow_1.png" },
-                { id: "puzzle/tile_yellow_2", src: imagePath + "puzzle/tile_yellow_2.png" },
-                { id: "puzzle/tile_yellow_3", src: imagePath + "puzzle/tile_yellow_3.png" },
-                { id: "puzzle/tile_yellow_4", src: imagePath + "puzzle/tile_yellow_4.png" },
-                { id: "puzzle/tile_green_1", src: imagePath + "puzzle/tile_green_1.png" },
-                { id: "puzzle/tile_green_2", src: imagePath + "puzzle/tile_green_2.png" },
-                { id: "puzzle/tile_green_3", src: imagePath + "puzzle/tile_green_3.png" },
-                { id: "puzzle/tile_green_4", src: imagePath + "puzzle/tile_green_4.png" },
-                { id: "puzzle/tile_purple_1", src: imagePath + "puzzle/tile_purple_1.png" },
-                { id: "puzzle/tile_purple_2", src: imagePath + "puzzle/tile_purple_2.png" },
-                { id: "puzzle/tile_purple_3", src: imagePath + "puzzle/tile_purple_3.png" },
-                { id: "puzzle/tile_purple_4", src: imagePath + "puzzle/tile_purple_4.png" },
-                { id: "puzzle/tilex", src: imagePath + "puzzle/tilex.png" },
-                { id: "puzzle/tileD", src: imagePath + "puzzle/tileD.png" },
-                { id: "puzzle/tilexD", src: imagePath + "puzzle/tilexD.png" },
-                //popup
-                { id: "popups/popup", src: imagePath + "popups/popup.png" },
-                { id: "popups/message", src: imagePath + "popups/message.png" },
-                { id: "popups/popupTutorial", src: imagePath + "popups/popupbot.png" },
-                //Legacy
-                { id: "bolinhas", src: "assets/" + "bolinhas.png" },
-                { id: "smokePart", src: "assets/" + "smokePart.png" }
-            ];
+        this.currentMusic = createjs.Sound.play(name, "none", 0, 0, -1);
 
-            //create a image array
-            images = images || {};
+        //wp8//this.currentMusic = media;
+        //wp8//media.play()
+        this.currentMusicname = name;
+    };
 
-            //creates a preload queue
-            this.loader = new createjs.LoadQueue(false);
-
-            //install sound plug-in for sounds format
-            this.loader.installPlugin(createjs.Sound);
-
-            //create eventListeners
-            this.loader.addEventListener("fileload", function (evt) {
-                if (evt.item.type == "image")
-                    images[evt.item.id] = evt.result;
-                return true;
-            });
-
-            //loads entire manifest
-            this.loader.loadManifest(manifest);
-
-            return this.loader;
-        };
-
-        Assets.getImage = function (name) {
-            var img = new createjs.Bitmap(this.loader.getResult(name));
-
-            //Bimg.scaleX = img.scaleY = 2;
-            return img;
-        };
-
-        Assets.getMovieClip = function (name) {
-            var t = new window[name];
-            return t;
-        };
-
-        Assets.playSound = function (name) {
-            if (!InvertCross.InvertCrossaGame.settings.getSoundfx())
-                return;
-
-            //wp8// this.mediaDic[name].play()
-            createjs.Sound.play(name);
-        };
-
-        Assets.playMusic = function (name) {
-            if (!InvertCross.InvertCrossaGame.settings.getMusic())
-                return;
-
-            //WP8//var media = this.mediaDic[name];
-            if (name == "")
-                name = this.currentMusicname;
-            if (this.currentMusicname == name) {
-                if (this.currentMusic.playState == createjs.Sound.PLAY_SUCCEEDED)
-                    return;
-            }
-
-            if (this.currentMusic != null)
-                this.currentMusic.stop();
-
-            this.currentMusic = createjs.Sound.play(name, "none", 0, 0, -1);
-
-            //wp8//this.currentMusic = media;
-            //wp8//media.play()
-            this.currentMusicname = name;
-        };
-
-        Assets.stopMusic = function () {
-            if (this.currentMusic != null)
-                this.currentMusic.stop();
-        };
-        return Assets;
-    })();
-    InvertCross.Assets = Assets;
-})(InvertCross || (InvertCross = {}));
+    Assets.stopMusic = function () {
+        if (this.currentMusic != null)
+            this.currentMusic.stop();
+    };
+    return Assets;
+})();
 ///depreciated
 /* public static initSound(): boolean {
 // if initializeDefaultPlugins returns false, we cannot play sound in this browser
@@ -951,7 +956,7 @@ var InvertCross;
         Effects.prototype.castEffect = function (x, y, effect, scale) {
             var _this = this;
             if (typeof scale === "undefined") { scale = 1; }
-            var fx = InvertCross.Assets.getMovieClip(effect);
+            var fx = Assets.getMovieClip(effect);
             this.addChild(fx);
             fx.mouseEnabled = false;
             fx.play();
@@ -1237,9 +1242,9 @@ var InvertCross;
                 localStorage.setItem("mus", "" + value);
                 this.music = value;
                 if (!value)
-                    InvertCross.Assets.stopMusic();
+                    Assets.stopMusic();
                 else
-                    InvertCross.Assets.playMusic("");
+                    Assets.playMusic("");
             };
             return Settings;
         })();
@@ -1478,7 +1483,7 @@ var InvertCross;
                 this.levelLogic = new GamePlay.Model.Level(leveldata);
 
                 //play BgSound
-                InvertCross.Assets.stopMusic();
+                Assets.stopMusic();
 
                 this.createScene(leveldata);
             }
@@ -1514,7 +1519,7 @@ var InvertCross;
             };
 
             LevelScreen.prototype.addBackground = function (theme) {
-                this.view.addChild(InvertCross.Assets.getImage("puzzle/bg"));
+                this.view.addChild(Assets.getBitmap("puzzle/bg"));
             };
 
             LevelScreen.prototype.initializeOverlays = function () {
@@ -1602,7 +1607,7 @@ var InvertCross;
                 this.levelLogic.earnPrize();
                 setTimeout(function () {
                     //playSound
-                    InvertCross.Assets.playSound("prize");
+                    Assets.playSound("prize");
 
                     //apply radius effect
                     _this.boardSprite.radiusEffect(col, row);
@@ -1646,7 +1651,7 @@ var InvertCross;
                 var _this = this;
                 if (typeof messageText === "undefined") { messageText = true; }
                 //play a win sound
-                InvertCross.Assets.playSound("win");
+                Assets.playSound("win");
 
                 //verifies if user already completed this level and verifies if player used any item in the game
                 if (!this.levelData.userdata.solved)
@@ -2427,14 +2432,14 @@ var InvertCross;
                     }
 
                     //load hint symbol
-                    this.hintimage = InvertCross.Assets.getImage("puzzle/icon_hint");
+                    this.hintimage = Assets.getBitmap("puzzle/icon_hint");
                     this.container.addChild(this.hintimage);
                     this.hintimage.visible = false;
                 };
 
                 //load a single asset and adds it to this
                 BlockSprite.prototype.loadAsset = function (assetName) {
-                    var asset = InvertCross.Assets.getImage(assetName);
+                    var asset = Assets.getBitmap(assetName);
                     asset.name = assetName;
 
                     this.container.addChild(asset);
@@ -2533,7 +2538,7 @@ var InvertCross;
                     this.regY = boardHeight / 2;
 
                     //load click indicator
-                    this.tutorialIndiatcor = InvertCross.Assets.getMovieClip("touch");
+                    this.tutorialIndiatcor = Assets.getMovieClip("touch");
                     this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -55;
                     this.tutorialIndiatcor.mouseEnabled = false;
                     this.addChild(this.tutorialIndiatcor);
@@ -2573,7 +2578,7 @@ var InvertCross;
                                 var randomsound = Math.ceil(Math.random() * 3);
                                 if (randomsound >= _this.previousSound)
                                     randomsound++;
-                                InvertCross.Assets.playSound("tile" + randomsound);
+                                Assets.playSound("tile" + randomsound);
                                 _this.previousSound = randomsound;
 
                                 //tutorialrelease
@@ -2959,7 +2964,7 @@ var InvertCross;
                 }
                 //adds tutorial touch indicator
                 GamePlayMenu.prototype.addTutorialIndicator = function () {
-                    this.tutorial_highlightSprite = InvertCross.Assets.getMovieClip("touch");
+                    this.tutorial_highlightSprite = Assets.getMovieClip("touch");
                     this.tutorial_highlightSprite.visible = false;
                     this.tutorial_highlightSprite.mouseEnabled = false;
                     this.addChild(this.tutorial_highlightSprite);
@@ -3041,7 +3046,7 @@ var InvertCross;
                     pauseMenu.addChild(snd2Bt);
                     pauseMenu.addChild(backBt);
 
-                    var bt = InvertCross.Assets.getImage("puzzle/btplay2");
+                    var bt = Assets.getBitmap("puzzle/btplay2");
                     bt.regY = 87;
                     bt.regX = 102;
                     bt.x = 0;
@@ -3121,9 +3126,9 @@ var InvertCross;
                 }
                 StatusArea.prototype.createSprites = function () {
                     //Background
-                    this.bg1 = InvertCross.Assets.getImage("puzzle/painelpuzzle2");
-                    this.bg2 = InvertCross.Assets.getImage("puzzle/painelpuzzle1");
-                    this.bg3 = InvertCross.Assets.getImage("puzzle/painelpuzzle2");
+                    this.bg1 = Assets.getBitmap("puzzle/painelpuzzle2");
+                    this.bg2 = Assets.getBitmap("puzzle/painelpuzzle1");
+                    this.bg3 = Assets.getBitmap("puzzle/painelpuzzle2");
                     this.bg3.scaleX = -1;
 
                     this.bg1.x = DefaultWidth * 0.01;
@@ -3143,9 +3148,9 @@ var InvertCross;
                     this.rightIcon = new createjs.Container();
                     var rightIconContainer = new createjs.Container();
 
-                    this.iconepuzzle = InvertCross.Assets.getImage("puzzle/iconepuzzle");
-                    this.iconemoves = InvertCross.Assets.getImage("puzzle/iconemoves");
-                    this.iconetime = InvertCross.Assets.getImage("puzzle/iconetime");
+                    this.iconepuzzle = Assets.getBitmap("puzzle/iconepuzzle");
+                    this.iconemoves = Assets.getBitmap("puzzle/iconemoves");
+                    this.iconetime = Assets.getBitmap("puzzle/iconetime");
 
                     this.iconepuzzle.x = DefaultWidth * 0.01 + 3;
 
@@ -3278,13 +3283,13 @@ var InvertCross;
             //add Scene objects to the view
             BonusScreen.prototype.addScene = function () {
                 //adds Background
-                this.view.addChild(InvertCross.Assets.getImage("bonus1/bg_bonus1"));
+                this.view.addChild(Assets.getBitmap("bonus1/bg_bonus1"));
 
                 //adds header
-                this.view.addChild(InvertCross.Assets.getImage("bonus1/hudbonus1_1"));
+                this.view.addChild(Assets.getBitmap("bonus1/hudbonus1_1"));
 
                 //adds itens hud
-                this.view.addChild(InvertCross.Assets.getImage(""));
+                this.view.addChild(Assets.getBitmap(""));
             };
 
             //adds objects to the view <<interface>>
@@ -3297,7 +3302,7 @@ var InvertCross;
                 this.footerTexts = [];
 
                 //adds footer
-                var footer = InvertCross.Assets.getImage("bonus1/hudbonus1_2");
+                var footer = Assets.getBitmap("bonus1/hudbonus1_2");
                 this.footerContainer.addChild(footer);
                 this.footerContainer.y = DefaultHeight - 291;
 
@@ -3305,7 +3310,7 @@ var InvertCross;
                     var itemId = itemsArray[i];
 
                     //add icon
-                    var itemObj = InvertCross.Assets.getImage("puzzle/icon_" + itemId);
+                    var itemObj = Assets.getBitmap("puzzle/icon_" + itemId);
                     itemObj.y = 100;
                     itemObj.x = DefaultWidth / itemsArray.length * i + 40;
                     itemObj.name = itemId;
@@ -3430,9 +3435,11 @@ var InvertCross;
                 for (var b = 0; b < barrelsCount; b++) {
                     //TODO adds animation
                     //instantiate a new button with barrel asset
-                    var barrel = new Gbase.UI.ImageButton("bonus1/barril1", function (event) {
+                    var barrel = new createjs.Container();
+                    barrel.addEventListener("click", function (event) {
                         _this.barrelTap(event);
                     });
+                    barrel.addChild(Assets.getSrite("Bonus1/Barrel" + (b + 1)));
                     barrelsContainer.addChild(barrel);
                     barrelsContainer.y = DefaultHeight / 2 - 1024;
 
@@ -3491,9 +3498,9 @@ var InvertCross;
                 for (var b = 0; b < this.barrels.length; b++) {
                     //show the item
                     if (this.items[b])
-                        this.content[b].addChild(InvertCross.Assets.getImage("puzzle/icon_" + this.items[b]));
+                        this.content[b].addChild(Assets.getBitmap("puzzle/icon_" + this.items[b]));
                     else
-                        this.content[b].addChild(InvertCross.Assets.getImage("bonus1/icone_lata"));
+                        this.content[b].addChild(Assets.getBitmap("bonus1/icone_lata"));
 
                     //hidesItem
                     this.content[b].visible = false;
@@ -3678,7 +3685,7 @@ var InvertCross;
             //--------------------- Initialization ---------------------
             LevelsMenu.prototype.addObjects = function () {
                 //add Background
-                var bg = InvertCross.Assets.getImage("workshop/bgworkshop");
+                var bg = Assets.getBitmap("workshop/bgworkshop");
                 this.view.addChild(bg);
 
                 this.view.mouseChildren = true;
@@ -3840,7 +3847,7 @@ var InvertCross;
             }
             Loading.prototype.initializeImages = function () {
                 var _this = this;
-                var loader = InvertCross.Assets.loadAssets();
+                var loader = Assets.loadAssets();
                 var text = new createjs.Text("", "600 90px Myriad Pro", "#FFF");
                 text.x = DefaultWidth / 2;
                 text.y = DefaultHeight / 2;
@@ -3875,7 +3882,7 @@ var InvertCross;
             function MainMenu() {
                 _super.call(this);
 
-                var bg = InvertCross.Assets.getImage("mybotsbg");
+                var bg = Assets.getBitmap("mybotsbg");
                 this.view.addChild(bg);
 
                 this.addIntro();
@@ -3893,7 +3900,7 @@ var InvertCross;
                 _super.prototype.activate.call(this);
 
                 //play BgSound
-                InvertCross.Assets.playMusic("trilha");
+                Assets.playMusic("trilha");
 
                 //Verifies if it is the first time playing
                 if (!InvertCross.InvertCrossaGame.storyData.getStoryPlayed("intro")) {
@@ -4111,7 +4118,7 @@ var InvertCross;
             }
             //populate View
             ProjectsMenu.prototype.createObjects = function () {
-                var bg = InvertCross.Assets.getImage("projects/bgprojects");
+                var bg = Assets.getBitmap("projects/bgprojects");
                 this.view.addChild(bg);
 
                 this.addMenu();
@@ -4531,9 +4538,6 @@ var InvertCross;
                     //create a new thumb
                     this.createThumbs(this.level);
 
-                    //cache thumb
-                    this.cache(-99, -102, 198, 204);
-
                     this.createHitArea();
                 };
 
@@ -4541,15 +4545,14 @@ var InvertCross;
                 LevelThumb.prototype.createThumbs = function (level) {
                     this.removeAllChildren();
 
-                    var thumbContainer = new Gbase.UI.Button();
-
-                    createjs.Tween.removeTweens(this);
-
                     var color1;
                     var color2;
                     var assetSufix;
 
                     var assetName = this.defineAssetName(level);
+
+                    var thumbContainer = new createjs.Container();
+                    this.addChild(thumbContainer);
 
                     //defines thumb state
                     if (level.userdata.unlocked && level.userdata.solved || level.userdata.skip) {
@@ -4570,21 +4573,24 @@ var InvertCross;
                         color2 = "rgba(0,0,0,0.3)";
 
                         //create bounce effect if is active
-                        this.set({ scaleX: 1, scaleY: 1 });
-                        createjs.Tween.get(this, { loop: true }).to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut);
+                        thumbContainer.set({ scaleX: 1, scaleY: 1 });
+                        createjs.Tween.get(thumbContainer, { loop: true }).to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut);
                     }
 
                     //Adds Thumb Backgroud
-                    this.addChild(this.createBackgroud(level, assetName, assetSufix));
+                    thumbContainer.addChild(this.createBackgroud(level, assetName, assetSufix));
 
                     //Adds Thumb Blocks
-                    this.addChild(this.createBlocks(level, color1, color2));
+                    thumbContainer.addChild(this.createBlocks(level, color1, color2));
 
                     //Adds thumb tags
-                    this.addChild(this.createTags(level, assetName, assetSufix));
+                    thumbContainer.addChild(this.createTags(level, assetName, assetSufix));
 
                     //Adds level modificator
-                    this.addChild(this.createLevelModificator(level));
+                    thumbContainer.addChild(this.createLevelModificator(level));
+
+                    //cache thumb
+                    thumbContainer.cache(-99, -102, 198, 204);
                 };
 
                 //defines accentColor based on level type.
@@ -4601,14 +4607,14 @@ var InvertCross;
 
                 LevelThumb.prototype.createLevelModificator = function (level) {
                     if (level.userdata.skip) {
-                        var sk = InvertCross.Assets.getImage("puzzle/icon_skip");
+                        var sk = Assets.getBitmap("puzzle/icon_skip");
                         sk.regX = sk.getBounds().width / 2;
                         sk.regY = sk.getBounds().height / 2;
                         return sk;
                     }
 
                     if (level.userdata.item) {
-                        var sk = InvertCross.Assets.getImage("puzzle/icon_" + level.userdata.item);
+                        var sk = Assets.getBitmap("puzzle/icon_" + level.userdata.item);
                         sk.regX = sk.getBounds().width / 2;
                         sk.regY = sk.getBounds().height / 2;
                         return sk;
@@ -4617,7 +4623,7 @@ var InvertCross;
 
                 //adds thumb background
                 LevelThumb.prototype.createBackgroud = function (level, assetName, assetSufix) {
-                    var sbg = InvertCross.Assets.getImage("workshop/" + assetName + assetSufix);
+                    var sbg = Assets.getBitmap("workshop/" + assetName + assetSufix);
                     sbg.regX = sbg.regY = 98;
                     return sbg;
                 };
@@ -4667,7 +4673,7 @@ var InvertCross;
                 LevelThumb.prototype.createTags = function (level, assetName, assetSufix) {
                     //TODO: essas string devem estar em um enum
                     if (level.type == "time" || level.type == "flip") {
-                        var tag = InvertCross.Assets.getImage("workshop/" + assetName + level.type + assetSufix);
+                        var tag = Assets.getBitmap("workshop/" + assetName + level.type + assetSufix);
                         tag.regX = tag.regY = 100;
                         return tag;
                     }
@@ -4709,7 +4715,7 @@ var InvertCross;
                 //add objects to View
                 PartsIndicator.prototype.buildView = function () {
                     //add Background
-                    var bg = InvertCross.Assets.getImage("partshud");
+                    var bg = Assets.getBitmap("partshud");
 
                     //bg.scaleX = 2;
                     this.regX = bg.getBounds().width / 2;
@@ -4725,7 +4731,7 @@ var InvertCross;
                     //pi.x = 320;
                     //this.partsTextField.y = 20;
                     //this.partsTextField.x = 470;
-                    var si = InvertCross.Assets.getImage("starsicon");
+                    var si = Assets.getBitmap("starsicon");
                     this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
 
                     this.infoCotainer.addChild(si);
@@ -4774,7 +4780,7 @@ var InvertCross;
                     if (this.project.UserData.unlocked) {
                         //background
                         var bg = "projects/slot" + (this.project.UserData.stars ? this.project.UserData.stars : 0);
-                        var s = InvertCross.Assets.getImage(bg);
+                        var s = Assets.getBitmap(bg);
                         this.addChild(s);
 
                         //robot name text
@@ -4791,9 +4797,9 @@ var InvertCross;
 
                         //robot image
                         if (this.project.UserData.complete)
-                            var botImage = InvertCross.Assets.getImage("projects/bots/" + this.project.name);
+                            var botImage = Assets.getBitmap("projects/bots/" + this.project.name);
                         else
-                            var botImage = InvertCross.Assets.getImage("projects/bots/" + this.project.name + "_shadow");
+                            var botImage = Assets.getBitmap("projects/bots/" + this.project.name + "_shadow");
                         this.addChild(botImage);
 
                         //and stars
@@ -4806,11 +4812,11 @@ var InvertCross;
                     } else {
                         //adds Background
                         var bg = "projects/slotl";
-                        var s = InvertCross.Assets.getImage(bg);
+                        var s = Assets.getBitmap(bg);
                         this.addChild(s);
 
                         //adds lock indicator
-                        var star = InvertCross.Assets.getImage("projects/star");
+                        var star = Assets.getBitmap("projects/star");
                         this.addChild(star);
                         star.x = 240;
                         star.y = 190;
@@ -4927,7 +4933,7 @@ var InvertCross;
 
                 //create a simple star object
                 ProjectStarsIndicator.prototype.createStar = function (id) {
-                    var s = InvertCross.Assets.getImage("workshop/estrelaworkshop");
+                    var s = Assets.getBitmap("workshop/estrelaworkshop");
                     s.x = id * 121;
                     this.addChild(s);
                     return s;
@@ -5623,98 +5629,6 @@ var SmokeFX;
 var InvertCross;
 (function (InvertCross) {
     (function (GamePlay) {
-        var Moves = (function (_super) {
-            __extends(Moves, _super);
-            function Moves(levelData) {
-                _super.call(this, levelData);
-                this.currentPuzzle = 1;
-                this.puzzlesToSolve = 0;
-
-                this.puzzlesToSolve = levelData.puzzlesToSolve;
-                this.moves = this.levelData.moves;
-
-                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
-
-                if (levelData.type == "draw") {
-                    if (levelData.drawData == null)
-                        this.levelLogic.board.setDrawBlocks(levelData.blocksData);
-                    else
-                        this.levelLogic.board.setDrawBlocks(levelData.drawData, false);
-                }
-
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-
-                this.popup.showTimeAttack("Flip Challenge", "Solve", this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), "boards in ", "flips");
-
-                this.statusArea.setMode("moves");
-                this.statusArea.setText3(this.moves.toString());
-            }
-            //threat user input
-            Moves.prototype.userInput = function (col, row) {
-                _super.prototype.userInput.call(this, col, row);
-
-                //loses game, if moves is over
-                if (!this.levelLogic.verifyWin()) {
-                    this.moves--;
-                    this.statusArea.setText3(this.moves.toString());
-
-                    if (this.moves <= 0) {
-                        this.message.showtext("no more moves");
-                        this.loose();
-                    }
-                }
-            };
-
-            //Overriding methods.
-            Moves.prototype.win = function (col, row) {
-                var _this = this;
-                if (this.currentPuzzle >= this.puzzlesToSolve) {
-                    _super.prototype.win.call(this, col, row);
-                } else {
-                    //animate board and switch
-                    var defaultX = this.boardSprite.x;
-                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
-                        _this.currentPuzzle++;
-                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
-                        _this.boardSprite.x = defaultX + DefaultWidth;
-                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
-                    });
-                }
-            };
-
-            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
-                if (typeof minMoves === "undefined") { minMoves = 2; }
-                if (typeof maxMoves === "undefined") { maxMoves = 5; }
-                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
-
-                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
-                var inverted = [];
-
-                for (var m = 0; m < moves; m++) {
-                    var index = Math.floor(Math.random() * (lenght));
-                    while (inverted[index] == true)
-                        index = (index + 1) % lenght;
-                    inverted[index] = true;
-                }
-
-                for (var i = 0; i < lenght; i++) {
-                    if (inverted[i] == true)
-                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
-                }
-
-                this.levelLogic.board.initializePrizes(2);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-            };
-            return Moves;
-        })(GamePlay.LevelScreen);
-        GamePlay.Moves = Moves;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (GamePlay) {
         var LevelCreator = (function (_super) {
             __extends(LevelCreator, _super);
             function LevelCreator(levelData, editorWindow) {
@@ -5908,6 +5822,98 @@ var InvertCross;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
+    (function (GamePlay) {
+        var Moves = (function (_super) {
+            __extends(Moves, _super);
+            function Moves(levelData) {
+                _super.call(this, levelData);
+                this.currentPuzzle = 1;
+                this.puzzlesToSolve = 0;
+
+                this.puzzlesToSolve = levelData.puzzlesToSolve;
+                this.moves = this.levelData.moves;
+
+                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+
+                if (levelData.type == "draw") {
+                    if (levelData.drawData == null)
+                        this.levelLogic.board.setDrawBlocks(levelData.blocksData);
+                    else
+                        this.levelLogic.board.setDrawBlocks(levelData.drawData, false);
+                }
+
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+
+                this.popup.showTimeAttack("Flip Challenge", "Solve", this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), "boards in ", "flips");
+
+                this.statusArea.setMode("moves");
+                this.statusArea.setText3(this.moves.toString());
+            }
+            //threat user input
+            Moves.prototype.userInput = function (col, row) {
+                _super.prototype.userInput.call(this, col, row);
+
+                //loses game, if moves is over
+                if (!this.levelLogic.verifyWin()) {
+                    this.moves--;
+                    this.statusArea.setText3(this.moves.toString());
+
+                    if (this.moves <= 0) {
+                        this.message.showtext("no more moves");
+                        this.loose();
+                    }
+                }
+            };
+
+            //Overriding methods.
+            Moves.prototype.win = function (col, row) {
+                var _this = this;
+                if (this.currentPuzzle >= this.puzzlesToSolve) {
+                    _super.prototype.win.call(this, col, row);
+                } else {
+                    //animate board and switch
+                    var defaultX = this.boardSprite.x;
+                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
+                        _this.currentPuzzle++;
+                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
+                        _this.boardSprite.x = defaultX + DefaultWidth;
+                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
+                    });
+                }
+            };
+
+            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
+                if (typeof minMoves === "undefined") { minMoves = 2; }
+                if (typeof maxMoves === "undefined") { maxMoves = 5; }
+                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+
+                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
+                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
+                var inverted = [];
+
+                for (var m = 0; m < moves; m++) {
+                    var index = Math.floor(Math.random() * (lenght));
+                    while (inverted[index] == true)
+                        index = (index + 1) % lenght;
+                    inverted[index] = true;
+                }
+
+                for (var i = 0; i < lenght; i++) {
+                    if (inverted[i] == true)
+                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
+                }
+
+                this.levelLogic.board.initializePrizes(2);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+            };
+            return Moves;
+        })(GamePlay.LevelScreen);
+        GamePlay.Moves = Moves;
+    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
+    var GamePlay = InvertCross.GamePlay;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
     (function (Menu) {
         var Intro = (function (_super) {
             __extends(Intro, _super);
@@ -5995,7 +6001,7 @@ var InvertCross;
                 this.images = new Array();
 
                 for (var s in slides) {
-                    var image = InvertCross.Assets.getImage(slides[s]);
+                    var image = Assets.getBitmap(slides[s]);
                     this.images.push(image);
                     this.view.addChild(image);
                 }
@@ -6116,7 +6122,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = InvertCross.Assets.getImage("popups/message");
+                    var bg = Assets.getBitmap("popups/message");
                     bg.x = 0;
                     bg.y = DefaultHeight / 2 - 500;
                     this.addChild(bg);
@@ -6210,7 +6216,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = InvertCross.Assets.getImage("popups/popup");
+                    var bg = Assets.getBitmap("popups/popup");
                     bg.x = 0;
                     bg.y = 100;
                     this.addChild(bg);
@@ -6258,7 +6264,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = InvertCross.Assets.getImage("popups/popup");
+                    var bg = Assets.getBitmap("popups/popup");
                     bg.x = 0;
                     bg.y = 100;
                     this.addChild(bg);
@@ -6345,7 +6351,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = InvertCross.Assets.getImage("popups/popup");
+                    var bg = Assets.getBitmap("popups/popup");
                     bg.x = 0;
                     bg.y = 100;
                     this.addChild(bg);
@@ -6421,7 +6427,7 @@ var InvertCross;
 
                 Popup.prototype.addsClickIndicaator = function () {
                     //add click indicator
-                    var ind = InvertCross.Assets.getMovieClip("touch");
+                    var ind = Assets.getMovieClip("touch");
                     this.addChild(ind);
                     ind.x = 1350;
                     ind.y = 1100;
@@ -6467,7 +6473,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = InvertCross.Assets.getImage("popups/popupTutorial");
+                    var bg = Assets.getBitmap("popups/popupTutorial");
                     bg.x = 150;
                     bg.y = 250;
                     this.addChild(bg);
@@ -6490,7 +6496,7 @@ var InvertCross;
 
                 PopupBot.prototype.addsClickIndicaator = function () {
                     //add click indicator
-                    var ind = InvertCross.Assets.getMovieClip("touch");
+                    var ind = Assets.getMovieClip("touch");
                     this.addChild(ind);
                     ind.x = 1250;
                     ind.y = 900;
@@ -6554,7 +6560,7 @@ var InvertCross;
                 ProjectWorkshopView.prototype.addStatus = function (project) {
                     this.statusArea = new createjs.Container();
                     this.statusArea.regX = this.statusArea.x = DefaultWidth / 2;
-                    var bg = InvertCross.Assets.getImage("partshud");
+                    var bg = Assets.getBitmap("partshud");
                     bg.y = 00;
                     bg.x = DefaultWidth / 2;
                     bg.scaleX = 2;
@@ -6579,7 +6585,7 @@ var InvertCross;
                     this.levelsMahine = levelMachine;
 
                     //add MachineBg
-                    var baseFases = InvertCross.Assets.getImage("workshop/basefases");
+                    var baseFases = Assets.getBitmap("workshop/basefases");
                     baseFases.y = DefaultHeight - 741;
                     levelMachine.addChild(baseFases);
 
@@ -6706,9 +6712,9 @@ var InvertCross;
                 //create graphics
                 RobotPreview.prototype.createGraphics = function (project) {
                     var size = 1000;
-                    this.fill = this.addChild(InvertCross.Assets.getImage("workshop/bots/" + project.name + "_fill"));
-                    this.stroke = this.addChild(InvertCross.Assets.getImage("workshop/bots/" + project.name + "_stroke"));
-                    this.complete = this.addChild(InvertCross.Assets.getImage("workshop/bots/" + project.name));
+                    this.fill = this.addChild(Assets.getBitmap("workshop/bots/" + project.name + "_fill"));
+                    this.stroke = this.addChild(Assets.getBitmap("workshop/bots/" + project.name + "_stroke"));
+                    this.complete = this.addChild(Assets.getBitmap("workshop/bots/" + project.name));
 
                     this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
                     this.fill.regY = this.stroke.regY = this.fill.getBounds().height;

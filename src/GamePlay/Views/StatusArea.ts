@@ -27,9 +27,9 @@ module InvertCross.GamePlay.Views {
         private createSprites() {
 
             //Background
-            this.bg1 = Assets.getImage("puzzle/painelpuzzle2");
-            this.bg2 = Assets.getImage("puzzle/painelpuzzle1");
-            this.bg3 = Assets.getImage("puzzle/painelpuzzle2"); this.bg3.scaleX = -1;
+            this.bg1 = Assets.getBitmap("puzzle/painelpuzzle2");
+            this.bg2 = Assets.getBitmap("puzzle/painelpuzzle1");
+            this.bg3 = Assets.getBitmap("puzzle/painelpuzzle2"); this.bg3.scaleX = -1;
 
             this.bg1.x = DefaultWidth * 0.01;
             this.bg2.x = DefaultWidth * 0.5; this.bg2.x -= this.bg2.getBounds().width / 2;
@@ -47,9 +47,9 @@ module InvertCross.GamePlay.Views {
             this.rightIcon = new createjs.Container();
             var rightIconContainer = new createjs.Container();
 
-            this.iconepuzzle = Assets.getImage("puzzle/iconepuzzle");
-            this.iconemoves = Assets.getImage("puzzle/iconemoves");
-            this.iconetime = Assets.getImage("puzzle/iconetime");
+            this.iconepuzzle = Assets.getBitmap("puzzle/iconepuzzle");
+            this.iconemoves = Assets.getBitmap("puzzle/iconemoves");
+            this.iconetime = Assets.getBitmap("puzzle/iconetime");
          
             this.iconepuzzle.x = DefaultWidth * 0.01 + 3;
 

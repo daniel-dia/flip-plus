@@ -32,7 +32,7 @@
     <Content Include="assets\bolinhas.js" />
     <Content Include="assets\bolinhas.png" />
     <Content Include="assets\Bonus1.js" />
-    <Content Include="assets\Bonus1.png" />
+    <Content Include="assets\images_1x\bonus1\Bonus1.png" />
     <Content Include="assets\images_0.25x\BackBt.png" />
     <Content Include="assets\images_0.25x\bonus1\barril1.png" />
     <Content Include="assets\images_0.25x\bonus1\bg_bonus1.png" />
@@ -732,6 +732,7 @@
     <Content Include="assets\images_1x\workshop\stargreen.png" />
     <Content Include="assets\images_1x\workshop\starpurple.png" />
     <Content Include="assets\images_1x\workshop\staryellow.png" />
+    <Content Include="assets\spritesheets.js" />
     <Content Include="fonts\Exo2.0-Bold.woff" />
     <Content Include="fonts\Exo2.0-Regular.woff" />
     <Content Include="assets\Intro.js" />
@@ -908,7 +909,7 @@
     <TypeScriptTarget>ES3</TypeScriptTarget>
     <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
-    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptModuleKind>none</TypeScriptModuleKind>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
