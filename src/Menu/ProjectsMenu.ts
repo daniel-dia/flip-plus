@@ -1,3 +1,4 @@
+
 module InvertCross.Menu {
 
     export class ProjectsMenu extends Gbase.ScreenState {

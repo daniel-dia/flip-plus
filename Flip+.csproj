@@ -813,7 +813,7 @@
     <Content Include="Gbase\UI\UIItem.js">
       <DependentUpon>UIItem.ts</DependentUpon>
     </Content>
-    <Content Include="script\Projects.js">
+    <Content Include="script\Levels.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="src\Robots\MyBots.ts" />

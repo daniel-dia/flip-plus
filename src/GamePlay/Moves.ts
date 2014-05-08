@@ -21,7 +21,9 @@ module InvertCross.GamePlay {
             }
 
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-
+            
+            //set default puzzles to solve
+            if (!this.levelData.puzzlesToSolve) this.levelData.puzzlesToSolve = 1;
             this.popup.showTimeAttack("Flip Challenge","Solve", this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(),"boards in ","flips"); 
 
             this.statusArea.setMode("moves");

@@ -8,6 +8,9 @@ module InvertCross {
 
         //TODO add Comment Here
         public viewer: createjs.Container;
+        public header: createjs.Container;
+        public footer: createjs.Container;
+        
         public currentScreen: Gbase.ScreenState;
 
         constructor(stage: createjs.Stage) {

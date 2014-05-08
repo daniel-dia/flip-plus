@@ -1,4 +1,6 @@
-﻿module InvertCross.Menu.View {
+﻿declare var bonusData: Array<any>;
+
+module InvertCross.Menu.View {
 
     export class BonusItem extends Gbase.UI.ImageButton {
 
@@ -17,10 +19,10 @@
             this.regX = 1430 / 2;
             this.regY = 410  / 2;
 
+            InvertCrossaGame.timersData.setTimer(this.bonusId.toString(), 0, 10);
+
             this.updateProjectInfo()
              
-
-            InvertCrossaGame.timersData.setTimer(this.bonusId.toString(),0,10);
         }
 
         //createObjects
@@ -34,18 +36,12 @@
 
             //if unlocked
             var stars = InvertCrossaGame.projectManager.getStarsCount();
-            if ( stars >= bonusStars[bonusId]) {
+            if ( stars >= bonusData[bonusId].cost) {
 
                 //background
                 var bg = "projects/" + bonusId;
                 var s: createjs.Bitmap = Assets.getBitmap(bg);
                 this.addChild(s);
-
-                //robot name text
-                //var title = new createjs.Text("Bonus " + bonusId, font, color);
-                //title.x = 14;
-                //title.y = 00;
-                //this.addChild(title)
 
                 //timer text 
                 this.timerText = new createjs.Text(("--:--:--").toString() , font, color);
@@ -56,8 +52,9 @@
                 this.addChild(this.timerText)
 
                 //auto updateObject
+                this.timerintervalTick();
                 if (this.updateInterval) clearInterval(this.updateInterval);
-                this.updateInterval = setInterval(() => { this.timerintervalTick(); }, 1000);
+                this.updateInterval = setInterval(() => { this.timerintervalTick(); }, 900);
 
             } else {
 
@@ -74,7 +71,7 @@
 
                 //addsText
                 //TODO da onde vai tirar as estrelas?
-                var tx = new createjs.Text(bonusStars[bonusId], "Bold 100px " + defaultFont, "#565656");
+                var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
                 this.addChild(tx);
                 tx.textAlign = "right";
                 tx.x = 650;
