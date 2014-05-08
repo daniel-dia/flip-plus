@@ -2,12 +2,12 @@
 
     export class BonusItem extends Gbase.UI.ImageButton {
 
-        private bonusId: number;
+        private bonusId: string;
         private timerText: createjs.Text;
 
         private updateInterval: number;
 
-        constructor(bonusId:number, action) {
+        constructor(bonusId:string, action) {
             super("projects/bigslot1", action);
             
             this.bonusId=bonusId
@@ -15,13 +15,12 @@
             this.x = 768;
             
             this.regX = 1430 / 2;
-            this.regY = 410 / 2;
+            this.regY = 410  / 2;
 
             this.updateProjectInfo()
+             
 
-            this.updateInterval = setInterval(() => { this.timerintervalTick(); }, 1000);
-
-            InvertCrossaGame.timersData.setTimer("bonus" + this.bonusId.toString(),0*this.bonusId);
+            InvertCrossaGame.timersData.setTimer(this.bonusId.toString(),0,10);
         }
 
         //createObjects
@@ -34,10 +33,11 @@
             this.removeAllChildren();
 
             //if unlocked
-            if (true) {
+            var stars = InvertCrossaGame.projectManager.getStarsCount();
+            if ( stars >= bonusStars[bonusId]) {
 
                 //background
-                var bg = "projects/bonus" + bonusId;
+                var bg = "projects/" + bonusId;
                 var s: createjs.Bitmap = Assets.getBitmap(bg);
                 this.addChild(s);
 
@@ -48,12 +48,16 @@
                 //this.addChild(title)
 
                 //timer text 
-                this.timerText = new createjs.Text(("0:58:45").toString() , font, color);
+                this.timerText = new createjs.Text(("--:--:--").toString() , font, color);
                 this.timerText.textBaseline = "middle";
                 this.timerText.textAlign= "center";
                 this.timerText.x = 970;
                 this.timerText.y = 180;
                 this.addChild(this.timerText)
+
+                //auto updateObject
+                if (this.updateInterval) clearInterval(this.updateInterval);
+                this.updateInterval = setInterval(() => { this.timerintervalTick(); }, 1000);
 
             } else {
 
@@ -70,12 +74,11 @@
 
                 //addsText
                 //TODO da onde vai tirar as estrelas?
-                var tx = new createjs.Text("1", "Bold 100px " + defaultFont, "#565656");
+                var tx = new createjs.Text(bonusStars[bonusId], "Bold 100px " + defaultFont, "#565656");
                 this.addChild(tx);
                 tx.textAlign = "right";
                 tx.x = 650;
                 tx.y = 135;
-
             }
 
             //create hitArea
@@ -86,25 +89,25 @@
         public updateProjectInfo() {
 
             //update the objects display     
-            this.createObjects(this.bonusId.toString());
+            this.createObjects(this.bonusId);
+        }
 
-            //if is unlocked and timer is done than play animation
-            if (false) {
-                this.set({ scaleX: 1, scaleY: 1 })
-                createjs.Tween.get(this, { loop: true })
+        private timerintervalTick() {
+
+            var time = InvertCrossaGame.timersData.getTimer(this.bonusId);
+
+            if (time == 0) {
+                this.timerText.text = "PLAY";
+
+                this.timerText.set({ scaleX: 1, scaleY: 1 })
+                createjs.Tween.get(this.timerText, { loop: true })
                     .to({ scaleX: 1.1, scaleY: 1.1 }, 500, createjs.Ease.sineInOut)
                     .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
             }
             else {
-                this.scaleX = this.scaleY = 1;
+                this.timerText.text = this.toHHMMSS(time);
+                this.timerText.scaleX = this.scaleY = 1;
             }
-
-
-        }
-
-        private timerintervalTick() {
-            var time = InvertCrossaGame.timersData.getTimer("bonus" + this.bonusId.toString());
-            this.timerText.text = this.toHHMMSS(time);
         }
 
         private toHHMMSS(sec_num:number):string {

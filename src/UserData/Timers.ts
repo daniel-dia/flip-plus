@@ -29,13 +29,13 @@ module InvertCross.UserData {
 
         //sets a new timer 
         //only sets if timer is spanned //TODO eh esta palavra mesmo?
-        public setTimer(name: string, minutes: number) {
+        public setTimer(name: string, minutes: number,seconds:number) {
 
             //verifies if timer is active
             //if (this.getTimer(name) > 0) return;
 
             //set time interval
-            var timeSpan: number = 1000 * 60 * minutes;
+            var timeSpan: number = 1000 * (60 * minutes + seconds);
 
             //set timer
             this.timers[name] = Date.now() + timeSpan;
@@ -78,24 +78,24 @@ module InvertCross.UserData {
 
         //save timers to local storage
         private saveTimers(timers: any) {
-            localStorage.setItem("Timers", JSON.stringify(timers));
+            localStorage.setItem(storagePrefix + "Timers", JSON.stringify(timers));
         }
 
         //load timers from local storage
         private loadTimers(): any {
-            var value = localStorage.getItem("Timers");
+            var value = localStorage.getItem(storagePrefix + "Timers");
             if (value) return JSON.parse(value);
             else return {};
         }
 
         //store the last utilization time,
         private saveLastTime(time:number) {
-            localStorage.setItem("LastTime", time.toString());
+            localStorage.setItem(storagePrefix + "LastTime", time.toString());
         }
 
         //loads and set the last utilization time,
         private loadLastTime(): number {
-            var value = localStorage.getItem("LastTime")
+            var value = localStorage.getItem(storagePrefix + "LastTime")
             if (!value) value = Date.now();
             return value;
         }

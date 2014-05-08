@@ -112,7 +112,7 @@ module InvertCross.Menu {
         //adds bonuses objects to the view
         private addBonuses() {
             for (var p = 0; p < this.pages.length; p++)
-                this.pages[p].addChild(new View.BonusItem(p +1, () => {
+                this.pages[p].addChild(new View.BonusItem("bonus" + (p+1), () => {
                     //cancel click in case of drag
                     if (this.pagesSwipe.cancelClick) return;
 
