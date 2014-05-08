@@ -24,10 +24,10 @@ module InvertCross.Menu.View {
             //clean all objects
             this.removeAllChildren();
 
-            if (this.project.UserData.unlocked) {
+            if (project.UserData.unlocked) {
 
                 //background
-                var bg = "projects/slot" + (this.project.UserData.stars ? this.project.UserData.stars : 0);
+                var bg = "projects/slot" + (project.UserData.stars ? project.UserData.stars : 0);
                 var s: createjs.Bitmap = Assets.getBitmap(bg);
                 this.addChild(s);
 
@@ -44,10 +44,10 @@ module InvertCross.Menu.View {
                 this.addChild(percenttext)
 
                 //robot image
-                if (this.project.UserData.complete)
-                    var botImage = Assets.getBitmap("projects/bots/" + this.project.name);
+                if (project.UserData.complete)
+                    var botImage = Assets.getBitmap("projects/bots/" + project.name);
                 else
-                    var botImage = Assets.getBitmap("projects/bots/" + this.project.name +"_shadow");
+                    var botImage = Assets.getBitmap("projects/bots/" + project.name +"_shadow");
                 this.addChild(botImage);
 
 
@@ -74,7 +74,7 @@ module InvertCross.Menu.View {
                 star.y = 190;
 
                 //addsText
-                var tx = new createjs.Text(this.project.cost.toString(), "Bold 100px " + defaultFont , "#565656");
+                var tx = new createjs.Text(project.cost.toString(), "Bold 100px " + defaultFont , "#565656");
                 this.addChild(tx);
                 tx.textAlign = "right";
                 tx.x = 220;

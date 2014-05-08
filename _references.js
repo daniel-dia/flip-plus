@@ -1,3 +1,7 @@
+/// <reference path="script/typing/easeljs.d.ts" />
+/// <reference path="script/typing/preloadjs.d.ts" />
+/// <reference path="script/typing/soundjs.d.ts" />
+/// <reference path="script/typing/tweenjs.d.ts" />
 /// <reference path="src/preferences.ts" />
 /*Gbase*/
 /// <reference path="Gbase/UI/UIItem.ts" />

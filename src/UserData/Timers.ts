@@ -11,33 +11,20 @@ module InvertCross.UserData {
             //load timers from storage
             this.timers = this.loadTimers();
 
-            //TODO. nao deve estar aqui. 
-            //initialize all timers
-            this.initializeAllTimers();
-
+         
             //sync at first use
             this.syncLastTime();
         }
-
-        private initializeAllTimers() {
-        //    var fp = InvertCrossaGame.projectManager.getFinihedProjects();
-        //    for (var p in fp) {
-        //        var name = fp[p].name;
-        //        if (this.timers[name] == null)
-        //            this.setTimer(name, fp[p].timer);
-        //    }
-        //    //TODO naaaaaaaao gambiarra 2
-        //    var name = "main";
-        //    if (this.timers[name] == null)
-        //        this.setTimer(name, 1);
-        //
-        }
-
+ 
         //Get if timers is ready
         public getTimer(name: string): number {
-            if (this.timers[name] == null) return null;
+            if (this.timers[name] == null) return 0;
 
-            return this.getLastTime() - this.timers[name];
+            var remaning = this.timers[name] - this.getLastTime();
+
+            if (remaning < 0) return 0;
+
+            return  Math.floor((this.timers[name] - this.getLastTime())/1000);
         }
 
         //sets a new timer 
@@ -45,7 +32,7 @@ module InvertCross.UserData {
         public setTimer(name: string, minutes: number) {
 
             //verifies if timer is active
-            if (this.getTimer(name) > 0) return;
+            //if (this.getTimer(name) > 0) return;
 
             //set time interval
             var timeSpan: number = 1000 * 60 * minutes;
