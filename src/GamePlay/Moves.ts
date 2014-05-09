@@ -1,9 +1,11 @@
-module InvertCross.GamePlay {
+﻿module InvertCross.GamePlay {
     export class Moves extends LevelScreen {
 
         private moves;
         private currentPuzzle: number = 1;
         private puzzlesToSolve: number = 0;
+
+        private lastTouchTime;
 
         constructor(levelData: Projects.Level) {
             super(levelData);
@@ -35,17 +37,25 @@ module InvertCross.GamePlay {
         public userInput(col: number, row: number) {
             super.userInput(col, row);
 
-            //loses game, if moves is over
-            if (!this.levelLogic.verifyWin()) {
-                this.moves--;
-                this.statusArea.setText3(this.moves.toString());
 
-                if (this.moves <= 0){
-                    this.message.showtext("no more moves");
-                    this.loose();
+                //verifies if is a multiTouch
+            if (Date.now() - this.lastTouchTime > 100 || !this.lastTouchTime)    
+                this.moves--;
+                
+            this.lastTouchTime = Date.now();
+
+            setTimeout(() => {
+                //loses game, if moves is over
+                if (!this.levelLogic.verifyWin()) {
+
+                    this.statusArea.setText3(this.moves.toString());
+
+                    if (this.moves <= 0) {
+                        this.message.showtext("no more moves");
+                        this.loose();
                     }
-            }
-            
+                }
+            }, 100);
         }
 
         //Overriding methods.

@@ -5831,18 +5831,26 @@ var InvertCross;
             }
             //threat user input
             Moves.prototype.userInput = function (col, row) {
+                var _this = this;
                 _super.prototype.userInput.call(this, col, row);
 
-                //loses game, if moves is over
-                if (!this.levelLogic.verifyWin()) {
+                //verifies if is a multiTouch
+                if (Date.now() - this.lastTouchTime > 100 || !this.lastTouchTime)
                     this.moves--;
-                    this.statusArea.setText3(this.moves.toString());
 
-                    if (this.moves <= 0) {
-                        this.message.showtext("no more moves");
-                        this.loose();
+                this.lastTouchTime = Date.now();
+
+                setTimeout(function () {
+                    //loses game, if moves is over
+                    if (!_this.levelLogic.verifyWin()) {
+                        _this.statusArea.setText3(_this.moves.toString());
+
+                        if (_this.moves <= 0) {
+                            _this.message.showtext("no more moves");
+                            _this.loose();
+                        }
                     }
-                }
+                }, 100);
             };
 
             //Overriding methods.
