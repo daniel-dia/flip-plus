@@ -124,6 +124,10 @@ module InvertCross {
                 default:
             }
 
+
+            //restart time
+            this.timersData.setTimer(bonusId, bonusData[bonusId].timeOut);
+
             InvertCrossaGame.screenViewer.switchScreen(bonusScreen);
         }
 
