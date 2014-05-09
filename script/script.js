@@ -657,6 +657,9 @@ var Assets = (function () {
             { src: imagePath + "bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
             //projects
             { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
+            { id: "projects/bonus1", src: imagePath + "projects/bonus1.png" },
+            { id: "projects/bonus2", src: imagePath + "projects/bonus2.png" },
+            { id: "projects/bonus3", src: imagePath + "projects/bonus3.png" },
             { id: "projects/slot1", src: imagePath + "projects/slot1.png" },
             { id: "projects/slot2", src: imagePath + "projects/slot2.png" },
             { id: "projects/slot3", src: imagePath + "projects/slot3.png" },
@@ -1022,7 +1025,7 @@ var InvertCross;
 
             //TODO tirar daqui
             if (InvertCrossaGame.itemsData.getItemQuantity("hint") <= 0)
-                InvertCrossaGame.itemsData.setQuantityItem("hint", 5);
+                InvertCrossaGame.itemsData.setQuantityItem("hint", 50);
 
             if (InvertCrossaGame.itemsData.getItemQuantity("skip") <= 0)
                 InvertCrossaGame.itemsData.setQuantityItem("skip", 5);
@@ -1290,44 +1293,29 @@ var InvertCross;
                 //load timers from storage
                 this.timers = this.loadTimers();
 
-                //TODO. nao deve estar aqui.
-                //initialize all timers
-                this.initializeAllTimers();
-
                 //sync at first use
                 this.syncLastTime();
             }
-            Timers.prototype.initializeAllTimers = function () {
-                //    var fp = InvertCrossaGame.projectManager.getFinihedProjects();
-                //    for (var p in fp) {
-                //        var name = fp[p].name;
-                //        if (this.timers[name] == null)
-                //            this.setTimer(name, fp[p].timer);
-                //    }
-                //    //TODO naaaaaaaao gambiarra 2
-                //    var name = "main";
-                //    if (this.timers[name] == null)
-                //        this.setTimer(name, 1);
-                //
-            };
-
             //Get if timers is ready
             Timers.prototype.getTimer = function (name) {
                 if (this.timers[name] == null)
-                    return null;
+                    return 0;
 
-                return this.getLastTime() - this.timers[name];
+                var remaning = this.timers[name] - this.getLastTime();
+
+                if (remaning < 0)
+                    return 0;
+
+                return Math.floor((this.timers[name] - this.getLastTime()) / 1000);
             };
 
             //sets a new timer
             //only sets if timer is spanned //TODO eh esta palavra mesmo?
-            Timers.prototype.setTimer = function (name, minutes) {
+            Timers.prototype.setTimer = function (name, minutes, seconds) {
                 //verifies if timer is active
-                if (this.getTimer(name) > 0)
-                    return;
-
+                //if (this.getTimer(name) > 0) return;
                 //set time interval
-                var timeSpan = 1000 * 60 * minutes;
+                var timeSpan = 1000 * (60 * minutes + seconds);
 
                 //set timer
                 this.timers[name] = Date.now() + timeSpan;
@@ -1363,12 +1351,12 @@ var InvertCross;
             //------------------------Storage--------------------------
             //save timers to local storage
             Timers.prototype.saveTimers = function (timers) {
-                localStorage.setItem("Timers", JSON.stringify(timers));
+                localStorage.setItem(storagePrefix + "Timers", JSON.stringify(timers));
             };
 
             //load timers from local storage
             Timers.prototype.loadTimers = function () {
-                var value = localStorage.getItem("Timers");
+                var value = localStorage.getItem(storagePrefix + "Timers");
                 if (value)
                     return JSON.parse(value);
                 else
@@ -1377,12 +1365,12 @@ var InvertCross;
 
             //store the last utilization time,
             Timers.prototype.saveLastTime = function (time) {
-                localStorage.setItem("LastTime", time.toString());
+                localStorage.setItem(storagePrefix + "LastTime", time.toString());
             };
 
             //loads and set the last utilization time,
             Timers.prototype.loadLastTime = function () {
-                var value = localStorage.getItem("LastTime");
+                var value = localStorage.getItem(storagePrefix + "LastTime");
                 if (!value)
                     value = Date.now();
                 return value;
@@ -1633,15 +1621,31 @@ var InvertCross;
                 }
             };
 
+            //set hint for a block
             LevelScreen.prototype.hint = function (blockId) {
                 var itemQuantity = InvertCross.InvertCrossaGame.itemsData.getItemQuantity("hint");
                 if (itemQuantity > 0) {
+                    //if the hint block is not pre defined
                     if (typeof blockId != "number") {
+                        //get all inverted blocks
+                        var filtredInvertedBlocks = [];
                         var invertedBlocks = this.levelLogic.board.getInvertedBlocks();
-                        var index = Math.floor(Math.random() * invertedBlocks.length);
-                        blockId = invertedBlocks[index];
+                        for (var i in invertedBlocks) {
+                            //remove the already hinted from the list
+                            if (!this.boardSprite.getBlockById(invertedBlocks[i]).isHintEnabled())
+                                filtredInvertedBlocks.push(invertedBlocks[i]);
+                        }
+
+                        //if theres no inverted itens, return
+                        if (filtredInvertedBlocks.length == 0)
+                            return;
+
+                        //randomly select one from the list
+                        var index = Math.floor(Math.random() * filtredInvertedBlocks.length);
+                        blockId = filtredInvertedBlocks[index];
                     }
 
+                    //enablehint for the selected block;
                     this.boardSprite.getBlockById(blockId).enableHint();
                     InvertCross.InvertCrossaGame.itemsData.decreaseItemQuantity("hint");
                     this.menuOverlay.updateButtonLabel("hint", InvertCross.InvertCrossaGame.itemsData.getItemQuantity("hint"));
@@ -2135,7 +2139,7 @@ var InvertCross;
                         for (var row = 0; row < this.height; row++) {
                             var b = this.blocks[col][row];
                             if (b.inverted)
-                                result.push(col * this.height + row);
+                                result.push(row * this.width + col);
                         }
                     return result;
                 };
@@ -2197,9 +2201,9 @@ var InvertCross;
 
                     if (invertedBlocks) {
                         for (var i = 0; i < invertedBlocks.length; i++) {
-                            var r = Math.floor(+invertedBlocks[i] / this.height);
-                            var c = invertedBlocks[i] - r * this.height;
-                            this.invertCross(r, c);
+                            var row = Math.floor(invertedBlocks[i] / this.width);
+                            var col = invertedBlocks[i] - row * this.width;
+                            this.invertCross(col, row);
                         }
                         this.initializePrizes(prizesCount, invertedBlocks.length);
                     }
@@ -2328,8 +2332,11 @@ var InvertCross;
                 }
                 BlockSprite.prototype.enableHint = function () {
                     this.hintEnalble = true;
-
                     this.updateSprite();
+                };
+
+                BlockSprite.prototype.isHintEnabled = function () {
+                    return this.hintEnalble;
                 };
 
                 //create the hitArea
@@ -2621,7 +2628,7 @@ var InvertCross;
 
                 //retuns a blocks by a absolute ID
                 BoardSprite.prototype.getBlockById = function (id) {
-                    return this.blocksSprites[Math.floor(id / this.boardWidth)][id % this.boardHeight];
+                    return this.blocksSprites[id % this.boardWidth][Math.floor(id / this.boardWidth)];
                 };
 
                 //===================================================  Tutorial =================================================================
@@ -3424,7 +3431,7 @@ var InvertCross;
                 this.contentShadow = [];
 
                 var positions = [
-                    { x: 12, y: 402 },
+                    { x: 120, y: 402 },
                     { x: 927, y: 350 },
                     { x: 562, y: 646 },
                     { x: 195, y: 872 },
@@ -3460,6 +3467,9 @@ var InvertCross;
 
                     barrel.x += 180;
                     barrel.y += 180;
+
+                    if (Math.random() > 0.5)
+                        barrel.scaleX = -1;
 
                     //animate barrel
                     createjs.Tween.get(barrel, { loop: true }).wait(Math.random() * 2000).to({ x: barrel.x - 30 }, 2000, createjs.Ease.quadInOut).wait(Math.random() * 2000).to({ x: barrel.x }, 2000, createjs.Ease.quadInOut);
@@ -4128,7 +4138,8 @@ var InvertCross;
             // Constructor
             function ProjectsMenu() {
                 _super.call(this);
-                this.projectsItens = [];
+                this.projectsItems = [];
+                this.bonusItems = [];
                 this.createObjects();
             }
             //populate View
@@ -4139,11 +4150,10 @@ var InvertCross;
                 this.addMenu();
                 this.addProjects();
                 this.addBonuses();
-                this.pagesSwipe = new InvertCross.PagesSwipe(this.projectsGrid, this.pages, DefaultWidth);
 
+                this.pagesSwipe = new InvertCross.PagesSwipe(this.projectsGrid, this.pages, DefaultWidth);
                 this.createPaginationButtons(this.projectsGrid);
 
-                //this.partsIndicator.updateAmount(InvertCrossaGame.partsManager.getBallance());
                 this.createPopup();
             };
 
@@ -4213,7 +4223,7 @@ var InvertCross;
                     });
 
                     //add item to scene
-                    this.projectsItens.push(pview);
+                    this.projectsItems.push(pview);
                     currentPage.addChild(pview);
 
                     //set item position
@@ -4224,17 +4234,20 @@ var InvertCross;
 
             //adds bonuses objects to the view
             ProjectsMenu.prototype.addBonuses = function () {
-                for (var p = 0; p < this.pages.length; p++) {
-                    var page = this.pages[p];
+                var _this = this;
+                for (var p = 0; p < this.pages.length; p++)
+                    this.pages[p].addChild(new Menu.View.BonusItem("bonus" + (p + 1), function () {
+                        //cancel click in case of drag
+                        if (_this.pagesSwipe.cancelClick)
+                            return;
 
-                    var bonusObj = new Gbase.UI.ImageButton("projects/bigslot1", function () {
-                        InvertCross.InvertCrossaGame.showBonus("Bonus" + (p + 1));
-                    });
+                        var timer = InvertCross.InvertCrossaGame.timersData.getTimer("bonus1");
 
-                    bonusObj.y = 480;
-                    bonusObj.x = 768;
-                    page.addChild(bonusObj);
-                }
+                        if (timer == 0)
+                            InvertCross.InvertCrossaGame.showBonus("Bonus1");
+                        else
+                            _this.showtimeWarning(timer.toString());
+                    }));
             };
 
             //Callback to the project item click
@@ -4253,26 +4266,28 @@ var InvertCross;
                 else {
                     var stars = InvertCross.InvertCrossaGame.projectManager.getStarsCount();
                     if (stars < p.cost)
-                        this.popup.showtext("Not enught stars.", "you only have " + stars + " stars. \nYou need at least " + p.cost + " stars \nto unlock this project\n play more levels to earn stars.", 10000);
+                        this.showStarWarning(stars, p.cost);
                 }
+            };
+
+            ProjectsMenu.prototype.showStarWarning = function (stars, cost) {
+                this.popup.showtext("Not enught stars.", "you only have " + stars.toString() + " stars. \nYou need at least " + cost.toString() + " stars \nto unlock this project\n play more levels to earn stars.", 10000);
+            };
+
+            ProjectsMenu.prototype.showtimeWarning = function (time) {
+                this.popup.showtext("Not Yet.", "You must wait " + time + "before play this bonus level", 10000);
             };
 
             //update all projects preview in the menu page
             ProjectsMenu.prototype.updateProjects = function () {
-                for (var i = 0; i < this.projectsItens.length; i++)
-                    this.projectsItens[i].updateProjectInfo();
+                for (var i = 0; i < this.projectsItems.length; i++)
+                    this.projectsItems[i].updateProjectInfo();
             };
 
-            //executes when activate the screen
-            ProjectsMenu.prototype.activate = function () {
-                _super.prototype.activate.call(this);
-                this.updateProjects();
-
-                this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
-            };
-
-            ProjectsMenu.prototype.back = function () {
-                InvertCross.InvertCrossaGame.showMainMenu();
+            //update all projects preview in the menu page
+            ProjectsMenu.prototype.updateBonuses = function () {
+                for (var i = 0; i < this.projectsItems.length; i++)
+                    this.projectsItems[i].updateProjectInfo();
             };
 
             //=====================================================
@@ -4299,6 +4314,21 @@ var InvertCross;
                 //TODO
                 //goto defaul page
                 this.pagesSwipe.gotoPage(0);
+            };
+
+            //=====================================================
+            //executes when activate the screen
+            ProjectsMenu.prototype.activate = function () {
+                _super.prototype.activate.call(this);
+
+                this.updateProjects();
+                this.updateBonuses();
+
+                this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
+            };
+
+            ProjectsMenu.prototype.back = function () {
+                InvertCross.InvertCrossaGame.showMainMenu();
             };
             return ProjectsMenu;
         })(Gbase.ScreenState);
@@ -4792,9 +4822,9 @@ var InvertCross;
                     //clean all objects
                     this.removeAllChildren();
 
-                    if (this.project.UserData.unlocked) {
+                    if (project.UserData.unlocked) {
                         //background
-                        var bg = "projects/slot" + (this.project.UserData.stars ? this.project.UserData.stars : 0);
+                        var bg = "projects/slot" + (project.UserData.stars ? project.UserData.stars : 0);
                         var s = Assets.getBitmap(bg);
                         this.addChild(s);
 
@@ -4811,10 +4841,10 @@ var InvertCross;
                         this.addChild(percenttext);
 
                         //robot image
-                        if (this.project.UserData.complete)
-                            var botImage = Assets.getBitmap("projects/bots/" + this.project.name);
+                        if (project.UserData.complete)
+                            var botImage = Assets.getBitmap("projects/bots/" + project.name);
                         else
-                            var botImage = Assets.getBitmap("projects/bots/" + this.project.name + "_shadow");
+                            var botImage = Assets.getBitmap("projects/bots/" + project.name + "_shadow");
                         this.addChild(botImage);
 
                         //and stars
@@ -4837,7 +4867,7 @@ var InvertCross;
                         star.y = 190;
 
                         //addsText
-                        var tx = new createjs.Text(this.project.cost.toString(), "Bold 100px " + defaultFont, "#565656");
+                        var tx = new createjs.Text(project.cost.toString(), "Bold 100px " + defaultFont, "#565656");
                         this.addChild(tx);
                         tx.textAlign = "right";
                         tx.x = 220;
@@ -5420,6 +5450,10 @@ var InvertCross;
     })(InvertCross.Robots || (InvertCross.Robots = {}));
     var Robots = InvertCross.Robots;
 })(InvertCross || (InvertCross = {}));
+/// <reference path="script/typing/easeljs.d.ts" />
+/// <reference path="script/typing/preloadjs.d.ts" />
+/// <reference path="script/typing/soundjs.d.ts" />
+/// <reference path="script/typing/tweenjs.d.ts" />
 /// <reference path="src/preferences.ts" />
 /*Gbase*/
 /// <reference path="Gbase/UI/UIItem.ts" />
@@ -5643,6 +5677,223 @@ var SmokeFX;
 })(SmokeFX || (SmokeFX = {}));
 var InvertCross;
 (function (InvertCross) {
+    (function (Menu) {
+        (function (View) {
+            var BonusItem = (function (_super) {
+                __extends(BonusItem, _super);
+                function BonusItem(bonusId, action) {
+                    _super.call(this, "projects/bigslot1", action);
+
+                    this.bonusId = bonusId;
+                    this.y = 470;
+                    this.x = 768;
+
+                    this.regX = 1430 / 2;
+                    this.regY = 410 / 2;
+
+                    InvertCross.InvertCrossaGame.timersData.setTimer(this.bonusId.toString(), 0, 10);
+
+                    this.updateProjectInfo();
+                }
+                //createObjects
+                BonusItem.prototype.createObjects = function (bonusId) {
+                    var _this = this;
+                    var color = "#cfe3ec";
+                    var font = "Bold 100px " + defaultFont;
+
+                    //clean all objects
+                    this.removeAllChildren();
+
+                    //if unlocked
+                    var stars = InvertCross.InvertCrossaGame.projectManager.getStarsCount();
+                    if (stars >= bonusData[bonusId].cost) {
+                        //background
+                        var bg = "projects/" + bonusId;
+                        var s = Assets.getBitmap(bg);
+                        this.addChild(s);
+
+                        //timer text
+                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
+                        this.timerText.textBaseline = "middle";
+                        this.timerText.textAlign = "center";
+                        this.timerText.x = 970;
+                        this.timerText.y = 180;
+                        this.addChild(this.timerText);
+
+                        //auto updateObject
+                        this.timerintervalTick();
+                        if (this.updateInterval)
+                            clearInterval(this.updateInterval);
+                        this.updateInterval = setInterval(function () {
+                            _this.timerintervalTick();
+                        }, 900);
+                    } else {
+                        //adds Background
+                        var bg = "projects/bigslot1";
+                        var s = Assets.getBitmap(bg);
+                        this.addChild(s);
+
+                        //adds lock indicator
+                        var star = Assets.getBitmap("projects/star");
+                        this.addChild(star);
+                        star.x = 670;
+                        star.y = 150;
+
+                        //addsText
+                        //TODO da onde vai tirar as estrelas?
+                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
+                        this.addChild(tx);
+                        tx.textAlign = "right";
+                        tx.x = 650;
+                        tx.y = 135;
+                    }
+
+                    //create hitArea
+                    this.createHitArea();
+                };
+
+                //updates based on porject
+                BonusItem.prototype.updateProjectInfo = function () {
+                    //update the objects display
+                    this.createObjects(this.bonusId);
+                };
+
+                BonusItem.prototype.timerintervalTick = function () {
+                    var time = InvertCross.InvertCrossaGame.timersData.getTimer(this.bonusId);
+
+                    if (time == 0) {
+                        this.timerText.text = "PLAY";
+
+                        this.timerText.set({ scaleX: 1, scaleY: 1 });
+                        createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut);
+                    } else {
+                        this.timerText.text = this.toHHMMSS(time);
+                        this.timerText.scaleX = this.scaleY = 1;
+                    }
+                };
+
+                BonusItem.prototype.toHHMMSS = function (sec_num) {
+                    var hours = Math.floor(sec_num / 3600);
+                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+                    if (hours < 10) {
+                        hours = 0 + hours;
+                    }
+                    if (minutes < 10) {
+                        minutes = 0 + minutes;
+                    }
+                    if (seconds < 10) {
+                        seconds = 0 + seconds;
+                    }
+                    var time = hours + ':' + minutes + ':' + seconds;
+                    return time;
+                };
+                return BonusItem;
+            })(Gbase.UI.ImageButton);
+            View.BonusItem = BonusItem;
+        })(Menu.View || (Menu.View = {}));
+        var View = Menu.View;
+    })(InvertCross.Menu || (InvertCross.Menu = {}));
+    var Menu = InvertCross.Menu;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (GamePlay) {
+        var Moves = (function (_super) {
+            __extends(Moves, _super);
+            function Moves(levelData) {
+                _super.call(this, levelData);
+                this.currentPuzzle = 1;
+                this.puzzlesToSolve = 0;
+
+                this.puzzlesToSolve = levelData.puzzlesToSolve;
+                this.moves = this.levelData.moves;
+
+                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+
+                if (levelData.type == "draw") {
+                    if (levelData.drawData == null)
+                        this.levelLogic.board.setDrawBlocks(levelData.blocksData);
+                    else
+                        this.levelLogic.board.setDrawBlocks(levelData.drawData, false);
+                }
+
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+
+                //set default puzzles to solve
+                if (!this.levelData.puzzlesToSolve)
+                    this.levelData.puzzlesToSolve = 1;
+                this.popup.showTimeAttack("Flip Challenge", "Solve", this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), "boards in ", "flips");
+
+                this.statusArea.setMode("moves");
+                this.statusArea.setText3(this.moves.toString());
+            }
+            //threat user input
+            Moves.prototype.userInput = function (col, row) {
+                _super.prototype.userInput.call(this, col, row);
+
+                //loses game, if moves is over
+                if (!this.levelLogic.verifyWin()) {
+                    this.moves--;
+                    this.statusArea.setText3(this.moves.toString());
+
+                    if (this.moves <= 0) {
+                        this.message.showtext("no more moves");
+                        this.loose();
+                    }
+                }
+            };
+
+            //Overriding methods.
+            Moves.prototype.win = function (col, row) {
+                var _this = this;
+                if (this.currentPuzzle >= this.puzzlesToSolve) {
+                    _super.prototype.win.call(this, col, row);
+                } else {
+                    //animate board and switch
+                    var defaultX = this.boardSprite.x;
+                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
+                        _this.currentPuzzle++;
+                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
+                        _this.boardSprite.x = defaultX + DefaultWidth;
+                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
+                    });
+                }
+            };
+
+            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
+                if (typeof minMoves === "undefined") { minMoves = 2; }
+                if (typeof maxMoves === "undefined") { maxMoves = 5; }
+                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+
+                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
+                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
+                var inverted = [];
+
+                for (var m = 0; m < moves; m++) {
+                    var index = Math.floor(Math.random() * (lenght));
+                    while (inverted[index] == true)
+                        index = (index + 1) % lenght;
+                    inverted[index] = true;
+                }
+
+                for (var i = 0; i < lenght; i++) {
+                    if (inverted[i] == true)
+                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
+                }
+
+                this.levelLogic.board.initializePrizes(2);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+            };
+            return Moves;
+        })(GamePlay.LevelScreen);
+        GamePlay.Moves = Moves;
+    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
+    var GamePlay = InvertCross.GamePlay;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
     (function (GamePlay) {
         var LevelCreator = (function (_super) {
             __extends(LevelCreator, _super);
@@ -5832,98 +6083,6 @@ var InvertCross;
             return LevelCreator;
         })(GamePlay.Puzzle);
         GamePlay.LevelCreator = LevelCreator;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (GamePlay) {
-        var Moves = (function (_super) {
-            __extends(Moves, _super);
-            function Moves(levelData) {
-                _super.call(this, levelData);
-                this.currentPuzzle = 1;
-                this.puzzlesToSolve = 0;
-
-                this.puzzlesToSolve = levelData.puzzlesToSolve;
-                this.moves = this.levelData.moves;
-
-                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
-
-                if (levelData.type == "draw") {
-                    if (levelData.drawData == null)
-                        this.levelLogic.board.setDrawBlocks(levelData.blocksData);
-                    else
-                        this.levelLogic.board.setDrawBlocks(levelData.drawData, false);
-                }
-
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-
-                this.popup.showTimeAttack("Flip Challenge", "Solve", this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), "boards in ", "flips");
-
-                this.statusArea.setMode("moves");
-                this.statusArea.setText3(this.moves.toString());
-            }
-            //threat user input
-            Moves.prototype.userInput = function (col, row) {
-                _super.prototype.userInput.call(this, col, row);
-
-                //loses game, if moves is over
-                if (!this.levelLogic.verifyWin()) {
-                    this.moves--;
-                    this.statusArea.setText3(this.moves.toString());
-
-                    if (this.moves <= 0) {
-                        this.message.showtext("no more moves");
-                        this.loose();
-                    }
-                }
-            };
-
-            //Overriding methods.
-            Moves.prototype.win = function (col, row) {
-                var _this = this;
-                if (this.currentPuzzle >= this.puzzlesToSolve) {
-                    _super.prototype.win.call(this, col, row);
-                } else {
-                    //animate board and switch
-                    var defaultX = this.boardSprite.x;
-                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
-                        _this.currentPuzzle++;
-                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
-                        _this.boardSprite.x = defaultX + DefaultWidth;
-                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
-                    });
-                }
-            };
-
-            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
-                if (typeof minMoves === "undefined") { minMoves = 2; }
-                if (typeof maxMoves === "undefined") { maxMoves = 5; }
-                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
-
-                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
-                var inverted = [];
-
-                for (var m = 0; m < moves; m++) {
-                    var index = Math.floor(Math.random() * (lenght));
-                    while (inverted[index] == true)
-                        index = (index + 1) % lenght;
-                    inverted[index] = true;
-                }
-
-                for (var i = 0; i < lenght; i++) {
-                    if (inverted[i] == true)
-                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
-                }
-
-                this.levelLogic.board.initializePrizes(2);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-            };
-            return Moves;
-        })(GamePlay.LevelScreen);
-        GamePlay.Moves = Moves;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
 })(InvertCross || (InvertCross = {}));

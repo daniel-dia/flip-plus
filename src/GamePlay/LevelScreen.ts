@@ -180,17 +180,34 @@ module InvertCross.GamePlay {
             }
         }
         
+        //set hint for a block
         private hint(blockId?) {
 
+            
             var itemQuantity = InvertCrossaGame.itemsData.getItemQuantity("hint")
             if (itemQuantity > 0) {
 
+                //if the hint block is not pre defined
                 if (typeof blockId != "number") {
+
+                    //get all inverted blocks
+                    var filtredInvertedBlocks = [];
                     var invertedBlocks = this.levelLogic.board.getInvertedBlocks();
-                    var index = Math.floor(Math.random() * invertedBlocks.length);
-                    blockId = invertedBlocks[index];
+                    for (var i in invertedBlocks) {
+                        //remove the already hinted from the list
+                        if (!this.boardSprite.getBlockById(invertedBlocks[i]).isHintEnabled())
+                            filtredInvertedBlocks.push(invertedBlocks[i]);
+                    }
+
+                    //if theres no inverted itens, return
+                    if (filtredInvertedBlocks.length == 0) return; 
+
+                    //randomly select one from the list
+                    var index = Math.floor(Math.random() * filtredInvertedBlocks.length);
+                    blockId = filtredInvertedBlocks[index];
                 }
 
+                //enablehint for the selected block;
                 this.boardSprite.getBlockById(blockId).enableHint();
                 InvertCrossaGame.itemsData.decreaseItemQuantity("hint");
                 this.menuOverlay.updateButtonLabel("hint", InvertCrossaGame.itemsData.getItemQuantity("hint"));

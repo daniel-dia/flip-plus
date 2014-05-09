@@ -64,7 +64,7 @@ module InvertCross {
             
             //TODO tirar daqui
             if (InvertCrossaGame.itemsData.getItemQuantity("hint") <= 0)
-                InvertCrossaGame.itemsData.setQuantityItem("hint", 5);
+                InvertCrossaGame.itemsData.setQuantityItem("hint", 50);
 
             if (InvertCrossaGame.itemsData.getItemQuantity("skip") <= 0)
                 InvertCrossaGame.itemsData.setQuantityItem("skip", 5);

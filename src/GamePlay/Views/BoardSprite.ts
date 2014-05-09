@@ -116,7 +116,7 @@ module InvertCross.GamePlay.Views {
 
         //retuns a blocks by a absolute ID
         public getBlockById(id: number) :BlockSprite{
-            return this.blocksSprites[id % this.boardWidth][Math.floor(id / this.boardHeight)];
+            return this.blocksSprites[id % this.boardWidth][Math.floor(id / this.boardWidth)];
         }
 
         //===================================================  Tutorial =================================================================

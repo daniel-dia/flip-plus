@@ -66,8 +66,11 @@ module InvertCross.GamePlay.Views {
         
         public enableHint() {
             this.hintEnalble = true;
-
             this.updateSprite();
+        }
+
+        public isHintEnabled(): boolean {
+            return this.hintEnalble;
         }
 
         //create the hitArea

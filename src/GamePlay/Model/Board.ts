@@ -46,7 +46,7 @@ module InvertCross.GamePlay.Model {
             for (var col = 0; col < this.width; col++)
                 for (var row = 0; row < this.height; row++) {
                     var b: Model.Block = this.blocks[col][row];
-                    if (b.inverted) result.push(col * this.height + row);
+                    if (b.inverted) result.push(row * this.width + col);
                 }
             return result;
         }
@@ -95,20 +95,20 @@ module InvertCross.GamePlay.Model {
 
         }
 
-
         public setInvertedBlocks(invertedBlocks:number[],prizesCount :number =2){
             var i: number = 0;
 
-            for (var col = 0; col < this.width; col++) for (var row = 0; row < this.height; row++) {
+            for (var col = 0; col < this.width; col++)
+                for (var row = 0; row < this.height; row++) {
                 this.blocks[col][row].inverted = false;
                 this.blocks[col][row].state = false;
             }
 
             if (invertedBlocks) {
                 for (var i: number = 0; i < invertedBlocks.length; i++) {
-                    var r = Math.floor(+invertedBlocks[i] / this.height);
-                    var c = invertedBlocks[i] - r * this.height;
-                    this.invertCross(r, c);
+                    var row = Math.floor(invertedBlocks[i] / this.width);
+                    var col = invertedBlocks[i] - row * this.width;
+                    this.invertCross(col, row);
                 }
                 this.initializePrizes(prizesCount, invertedBlocks.length);
             }
@@ -131,7 +131,6 @@ module InvertCross.GamePlay.Model {
                     
             }
         }
-
         
         //Distribuite Prizes Along Board
         public initializePrizes(prizesNumber: number, minMoves: number = 0) {
