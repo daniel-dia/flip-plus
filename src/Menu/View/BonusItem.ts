@@ -4,7 +4,7 @@ module InvertCross.Menu.View {
 
     export class BonusItem extends Gbase.UI.ImageButton {
 
-        private bonusId: string;
+        public bonusId: string;
         private timerText: createjs.Text;
 
         private updateInterval: number;
@@ -18,9 +18,7 @@ module InvertCross.Menu.View {
             
             this.regX = 1430 / 2;
             this.regY = 410  / 2;
-
-            InvertCrossaGame.timersData.setTimer(this.bonusId.toString(), 0, 10);
-
+            
             this.updateProjectInfo()
              
         }
@@ -96,15 +94,22 @@ module InvertCross.Menu.View {
             if (time == 0) {
                 this.timerText.text = "PLAY";
 
-                this.timerText.set({ scaleX: 1, scaleY: 1 })
-                createjs.Tween.get(this.timerText, { loop: true })
-                    .to({ scaleX: 1.1, scaleY: 1.1 }, 500, createjs.Ease.sineInOut)
-                    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
+                if(!createjs.Tween.hasActiveTweens(this.timerText)) {
+                    this.timerText.cache(-200, -50, 400, 100);
+                    this.timerText.set({ scaleX: 1, scaleY: 1 });
+                    createjs.Tween.get(this.timerText, { loop: true })
+                        .to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut)
+                        .to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
+                    }
             }
             else {
+                createjs.Tween.removeTweens(this.timerText);
                 this.timerText.text = this.toHHMMSS(time);
                 this.timerText.scaleX = this.scaleY = 1;
+                this.timerText.cache(-200, -50, 400, 100);
             }
+            
+            
         }
 
         private toHHMMSS(sec_num:number):string {

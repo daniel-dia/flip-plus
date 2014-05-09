@@ -92,7 +92,7 @@ var levelsData = [
 
 //time im minutes
 var bonusData = {
-    "bonus1": { id: "bonus1", cost: 3, timeOut: 24 * 60 },
-    "bonus2": { id: "bonus2", cost: 20, timeOut: 1.5 * 24 * 60 },
-    "bonus3": { id: "bonus3", cost: 30, timeOut: 2 * 24 * 6 }
+    "Bonus1": { id: "Bonus1", cost: 3, timeOut: 24 * 60 },
+    "Bonus2": { id: "Bonus2", cost: 20, timeOut: 1.5 * 24 * 60 },
+    "Bonus3": { id: "Bonus3", cost: 30, timeOut: 2 * 24 * 6 }
 }

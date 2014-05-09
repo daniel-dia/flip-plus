@@ -4236,15 +4236,16 @@ var InvertCross;
             ProjectsMenu.prototype.addBonuses = function () {
                 var _this = this;
                 for (var p = 0; p < this.pages.length; p++)
-                    this.pages[p].addChild(new Menu.View.BonusItem("bonus" + (p + 1), function () {
+                    this.pages[p].addChild(new Menu.View.BonusItem("bonus" + (p + 1), function (e) {
                         //cancel click in case of drag
                         if (_this.pagesSwipe.cancelClick)
                             return;
 
-                        var timer = InvertCross.InvertCrossaGame.timersData.getTimer("bonus1");
+                        var bonusId = e.currentTarget.bonusId;
+                        var timer = InvertCross.InvertCrossaGame.timersData.getTimer(bonusId);
 
                         if (timer == 0)
-                            InvertCross.InvertCrossaGame.showBonus("Bonus1");
+                            InvertCross.InvertCrossaGame.showBonus(bonusId);
                         else
                             _this.showtimeWarning(timer.toString());
                     }));
@@ -5764,11 +5765,15 @@ var InvertCross;
                     if (time == 0) {
                         this.timerText.text = "PLAY";
 
-                        this.timerText.set({ scaleX: 1, scaleY: 1 });
-                        createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut);
+                        if (!createjs.Tween.hasActiveTweens(this.timerText)) {
+                            this.timerText.cache(-200, -50, 400, 100);
+                            this.timerText.set({ scaleX: 1, scaleY: 1 });
+                            createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
+                        }
                     } else {
                         this.timerText.text = this.toHHMMSS(time);
                         this.timerText.scaleX = this.scaleY = 1;
+                        this.timerText.cache(-200, -50, 400, 100);
                     }
                 };
 

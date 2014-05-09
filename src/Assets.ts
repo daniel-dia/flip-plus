@@ -77,9 +77,9 @@ class Assets {
 
             //projects
             { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
-            { id: "projects/bonus1", src: imagePath + "projects/bonus1.png" },
-            { id: "projects/bonus2", src: imagePath + "projects/bonus2.png" },
-            { id: "projects/bonus3", src: imagePath + "projects/bonus3.png" },
+            { id: "projects/Bonus1", src: imagePath + "projects/Bonus1.png" },
+            { id: "projects/Bonus2", src: imagePath + "projects/Bonus2.png" },
+            { id: "projects/Bonus3", src: imagePath + "projects/Bonus3.png" },
             { id: "projects/slot1", src: imagePath + "projects/slot1.png" },
             { id: "projects/slot2", src: imagePath + "projects/slot2.png" },
             { id: "projects/slot3", src: imagePath + "projects/slot3.png" },

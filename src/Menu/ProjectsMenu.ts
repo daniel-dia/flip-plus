@@ -113,16 +113,16 @@ module InvertCross.Menu {
         //adds bonuses objects to the view
         private addBonuses() {
             for (var p = 0; p < this.pages.length; p++)
-                this.pages[p].addChild(new View.BonusItem("bonus" + (p+1), () => {
+
+                this.pages[p].addChild(new View.BonusItem("Bonus" + (p+1), (e:MouseEvent) => {
                     //cancel click in case of drag
                     if (this.pagesSwipe.cancelClick) return;
 
-                    var timer = InvertCrossaGame.timersData.getTimer("bonus1");
+                    var bonusId = (<View.BonusItem>e.currentTarget).bonusId;
+                    var timer = InvertCrossaGame.timersData.getTimer(bonusId);
 
-                    if(timer == 0)
-                        InvertCrossaGame.showBonus("Bonus1");
-                    else
-                        this.showtimeWarning(timer.toString());
+                    if (timer == 0) InvertCrossaGame.showBonus(bonusId);
+                    else this.showtimeWarning(timer.toString());
                 }));
         }
 
