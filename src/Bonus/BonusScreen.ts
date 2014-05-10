@@ -38,12 +38,15 @@
             //adds popup
             this.popup = new Menu.View.Popup();
             this.content.addChild(this.popup)
+
+            //bring content to front
+            this.view.setChildIndex(this.content, this.view.getNumChildren() - 1);
         }
 
         //add Scene objects to the view
         addScene(sufix:string="1") {
             //adds Background
-            this.content.addChild(Assets.getBitmap("bonus1/bg_bonus" + sufix));
+            this.background.addChild(Assets.getBitmap("bonus1/bg_bonus" + sufix));
 
             //adds header
             this.header.addChild(Assets.getBitmap("bonus1/hudbonus1_1"));
@@ -102,11 +105,15 @@
         animateItemObjectToFooter(itemObj: createjs.DisplayObject, itemId: string) {
 
             var footerItem = this.footerContainer.getChildByName(itemId);
-            if (footerItem)
+            if (footerItem) {
                 createjs.Tween.get(itemObj).
                     to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
-                    to({ x: footerItem.x + this.footerContainer.x, y: footerItem.y + this.footerContainer.y }, 700, createjs.Ease.quadInOut).
+                    to({
+                        x: footerItem.x + this.footer.x + this.footerContainer.x,
+                        y: footerItem.y + this.footer.y + this.footerContainer.y
+                    }, 700, createjs.Ease.quadInOut).
                     call(() => { this.updateFooterValues(); });
+            }
         }
 
         //create a loop animation for a item

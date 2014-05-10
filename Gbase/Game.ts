@@ -44,7 +44,7 @@ module InvertCross {
             this.stage.addChild(this.screenViewer.viewer);
 
             //Framerate meter
-            this.fpsMeter = new createjs.Text("Teste", " 18px Arial ", "#fff");
+            this.fpsMeter = new createjs.Text("FPS", " 18px Arial ", "#fff");
             this.fpsMeter.x = 0;
             this.fpsMeter.y = 0;
             this.stage.addChild(this.fpsMeter);

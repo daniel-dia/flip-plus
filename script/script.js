@@ -586,7 +586,7 @@ var InvertCross;
             this.stage.addChild(this.screenViewer.viewer);
 
             //Framerate meter
-            this.fpsMeter = new createjs.Text("Teste", " 18px Arial ", "#fff");
+            this.fpsMeter = new createjs.Text("FPS", " 18px Arial ", "#fff");
             this.fpsMeter.x = 0;
             this.fpsMeter.y = 0;
             this.stage.addChild(this.fpsMeter);
@@ -3336,12 +3336,15 @@ var InvertCross;
                 //adds popup
                 this.popup = new InvertCross.Menu.View.Popup();
                 this.content.addChild(this.popup);
+
+                //bring content to front
+                this.view.setChildIndex(this.content, this.view.getNumChildren() - 1);
             }
             //add Scene objects to the view
             BonusScreen.prototype.addScene = function (sufix) {
                 if (typeof sufix === "undefined") { sufix = "1"; }
                 //adds Background
-                this.content.addChild(Assets.getBitmap("bonus1/bg_bonus" + sufix));
+                this.background.addChild(Assets.getBitmap("bonus1/bg_bonus" + sufix));
 
                 //adds header
                 this.header.addChild(Assets.getBitmap("bonus1/hudbonus1_1"));
@@ -3398,10 +3401,14 @@ var InvertCross;
             BonusScreen.prototype.animateItemObjectToFooter = function (itemObj, itemId) {
                 var _this = this;
                 var footerItem = this.footerContainer.getChildByName(itemId);
-                if (footerItem)
-                    createjs.Tween.get(itemObj).to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).to({ x: footerItem.x + this.footerContainer.x, y: footerItem.y + this.footerContainer.y }, 700, createjs.Ease.quadInOut).call(function () {
+                if (footerItem) {
+                    createjs.Tween.get(itemObj).to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).to({
+                        x: footerItem.x + this.footer.x + this.footerContainer.x,
+                        y: footerItem.y + this.footer.y + this.footerContainer.y
+                    }, 700, createjs.Ease.quadInOut).call(function () {
                         _this.updateFooterValues();
                     });
+                }
             };
 
             //create a loop animation for a item
