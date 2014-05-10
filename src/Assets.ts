@@ -75,7 +75,7 @@ class Assets {
             { src: imagePath + "Bonus1/icone_lata.png", id: "Bonus1/icone_lata" },
             { src: imagePath + "Bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
 
-            { src: imagePath + "Bonus2/back.png", id: "Bonus2/back" },
+            { src: imagePath + "Bonus2/back.jpg", id: "Bonus2/back" },
             { src: imagePath + "Bonus2/header.png", id: "Bonus2/header" },
             { src: imagePath + "Bonus2/footer.png", id: "Bonus2/footer" },
             { src: imagePath + "Bonus2/bonuscard2.png", id: "Bonus2/bonuscard1" },

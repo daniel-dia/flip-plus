@@ -4,7 +4,7 @@
     export class Bonus2 extends BonusScreen {
 
         constructor(itemsArray: Array<string>, sufix: string= "1") {
-            super(itemsArray, "2");
+            super(itemsArray, "Bonus2");
         }
 
         addObjects() {
