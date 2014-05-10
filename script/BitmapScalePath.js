@@ -6,7 +6,7 @@ createjs.Bitmap.prototype.draw = function (ctx, ignoreCache) {
     ctx.save()
     ctx.scale(1/assetscale, 1/assetscale)
     if (rect) {
-        ctx.drawImage(this.image, rect.x, rect.y, rect.width, rect.height, 0, 0, rect.width, rect.height);
+        ctx.drawImage(this.image, rect.x * assetscale, rect.y * assetscale, rect.width * assetscale, rect.height * assetscale, 0, 0, rect.width /assetscale, rect.height / assetscale);
     } else {
         ctx.drawImage(this.image, 0, 0);
     }

@@ -691,11 +691,17 @@ var Assets = (function () {
             { src: imagePath + "intro/botLight.png", id: "botLight" },
             { src: imagePath + "intro/fundoEscuro.jpg", id: "fundoEscuro" },
             //Bonus1
-            { src: imagePath + "bonus1/bg_bonus1.png", id: "bonus1/bg_bonus1" },
-            { src: imagePath + "bonus1/hudbonus1_1.png", id: "bonus1/hudbonus1_1" },
-            { src: imagePath + "bonus1/hudbonus1_2.png", id: "bonus1/hudbonus1_2" },
-            { src: imagePath + "bonus1/icone_lata.png", id: "bonus1/icone_lata" },
-            { src: imagePath + "bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
+            { src: imagePath + "Bonus1/back.png", id: "Bonus1/back" },
+            { src: imagePath + "Bonus1/header.png", id: "Bonus1/header" },
+            { src: imagePath + "Bonus1/footer.png", id: "Bonus1/footer" },
+            { src: imagePath + "Bonus1/icone_lata.png", id: "Bonus1/icone_lata" },
+            { src: imagePath + "Bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
+            { src: imagePath + "Bonus2/back.png", id: "Bonus2/back" },
+            { src: imagePath + "Bonus2/header.png", id: "Bonus2/header" },
+            { src: imagePath + "Bonus2/footer.png", id: "Bonus2/footer" },
+            { src: imagePath + "Bonus2/bonuscard2.png", id: "Bonus2/bonuscard1" },
+            { src: imagePath + "Bonus2/bonuscard2.png", id: "Bonus2/bonuscard2" },
+            { src: imagePath + "Bonus2/baonusrat.png", id: "Bonus2/bonusrat" },
             //projects
             { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
             { id: "projects/Bonus1", src: imagePath + "projects/Bonus1.png" },
@@ -1115,10 +1121,10 @@ var InvertCross;
                     bonusScreen = new InvertCross.Bonus.BonusBarrel(InvertCross.UserData.Items.itemsNames);
                     break;
                 case "Bonus2":
-                    bonusScreen = new InvertCross.Bonus.BonusBarrel(InvertCross.UserData.Items.itemsNames);
+                    bonusScreen = new InvertCross.Bonus.Bonus2(InvertCross.UserData.Items.itemsNames);
                     break;
                 case "Bonus3":
-                    bonusScreen = new InvertCross.Bonus.BonusBarrel(InvertCross.UserData.Items.itemsNames);
+                    bonusScreen = new InvertCross.Bonus.Bonus3(InvertCross.UserData.Items.itemsNames);
                     break;
                 default:
             }
@@ -3311,14 +3317,14 @@ var InvertCross;
         // Class
         var BonusScreen = (function (_super) {
             __extends(BonusScreen, _super);
-            function BonusScreen(itemsArray, sufix) {
-                if (typeof sufix === "undefined") { sufix = "1"; }
+            function BonusScreen(itemsArray, bonusId) {
+                if (typeof bonusId === "undefined") { bonusId = "1"; }
                 _super.call(this);
 
                 this.itemsArray = itemsArray;
 
                 //adds scenary
-                this.addScene(sufix);
+                this.addScene(bonusId);
 
                 //adds footer and itens
                 this.addFooter(itemsArray);
@@ -3341,13 +3347,17 @@ var InvertCross;
                 this.view.setChildIndex(this.content, this.view.getNumChildren() - 1);
             }
             //add Scene objects to the view
-            BonusScreen.prototype.addScene = function (sufix) {
-                if (typeof sufix === "undefined") { sufix = "1"; }
+            BonusScreen.prototype.addScene = function (bonusId) {
                 //adds Background
-                this.background.addChild(Assets.getBitmap("bonus1/bg_bonus" + sufix));
+                this.background.addChild(Assets.getBitmap(bonusId + "/back"));
 
                 //adds header
-                this.header.addChild(Assets.getBitmap("bonus1/hudbonus1_1"));
+                this.header.addChild(Assets.getBitmap(bonusId + "/header"));
+
+                //adds footer
+                var footer = Assets.getBitmap(bonusId + "/footer");
+                this.footer.addChild(footer);
+                footer.y = -291;
             };
 
             //adds objects to the view <<interface>>
@@ -3357,12 +3367,8 @@ var InvertCross;
             //create sa footer
             BonusScreen.prototype.addFooter = function (itemsArray) {
                 this.footerContainer = new createjs.Container();
-                this.footerTexts = [];
-
-                //adds footer
-                var footer = Assets.getBitmap("bonus1/hudbonus1_2");
-                this.footerContainer.addChild(footer);
                 this.footerContainer.y = -291;
+                this.footerTexts = [];
 
                 for (var i = 0; i < itemsArray.length; i++) {
                     var itemId = itemsArray[i];
@@ -3458,7 +3464,7 @@ var InvertCross;
             __extends(BonusBarrel, _super);
             function BonusBarrel(itemsArray, sufix) {
                 if (typeof sufix === "undefined") { sufix = "1"; }
-                _super.call(this, itemsArray, "1");
+                _super.call(this, itemsArray, "Bonus1");
             }
             BonusBarrel.prototype.addObjects = function () {
                 _super.prototype.addObjects.call(this);

@@ -69,11 +69,19 @@ class Assets {
             { src: imagePath + "intro/fundoEscuro.jpg", id: "fundoEscuro" },
 
             //Bonus1
-            { src: imagePath + "bonus1/bg_bonus1.png", id: "bonus1/bg_bonus1" },
-            { src: imagePath + "bonus1/hudbonus1_1.png", id: "bonus1/hudbonus1_1" },
-            { src: imagePath + "bonus1/hudbonus1_2.png", id: "bonus1/hudbonus1_2" },
-            { src: imagePath + "bonus1/icone_lata.png", id: "bonus1/icone_lata" },
-            { src: imagePath + "bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
+            { src: imagePath + "Bonus1/back.png", id: "Bonus1/back" },
+            { src: imagePath + "Bonus1/header.png", id: "Bonus1/header" },
+            { src: imagePath + "Bonus1/footer.png", id: "Bonus1/footer" },
+            { src: imagePath + "Bonus1/icone_lata.png", id: "Bonus1/icone_lata" },
+            { src: imagePath + "Bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
+
+            { src: imagePath + "Bonus2/back.png", id: "Bonus2/back" },
+            { src: imagePath + "Bonus2/header.png", id: "Bonus2/header" },
+            { src: imagePath + "Bonus2/footer.png", id: "Bonus2/footer" },
+            { src: imagePath + "Bonus2/bonuscard2.png", id: "Bonus2/bonuscard1" },
+            { src: imagePath + "Bonus2/bonuscard2.png", id: "Bonus2/bonuscard2" },
+            { src: imagePath + "Bonus2/baonusrat.png", id: "Bonus2/bonusrat" },
+
 
             //projects
             { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },

@@ -113,10 +113,10 @@ module InvertCross {
                     bonusScreen = new Bonus.BonusBarrel(UserData.Items.itemsNames);
                     break;
                 case "Bonus2":
-                    bonusScreen = new Bonus.BonusBarrel(UserData.Items.itemsNames);
+                    bonusScreen = new Bonus.Bonus2(UserData.Items.itemsNames);
                     break;
                 case "Bonus3":
-                    bonusScreen = new Bonus.BonusBarrel(UserData.Items.itemsNames);
+                    bonusScreen = new Bonus.Bonus3(UserData.Items.itemsNames);
                     break;
                 default:
             }

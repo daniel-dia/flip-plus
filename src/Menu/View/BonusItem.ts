@@ -11,8 +11,8 @@ module InvertCross.Menu.View {
 
         constructor(bonusId:string, action) {
             super("projects/bigslot1", action);
-            
-            this.bonusId=bonusId
+
+            this.bonusId = bonusId;
             this.y = 470;
             this.x = 768;
             

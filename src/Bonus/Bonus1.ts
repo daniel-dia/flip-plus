@@ -11,7 +11,7 @@
         private remaningInteraction: number;
 
         constructor(itemsArray: Array<string>, sufix: string= "1") {
-            super(itemsArray, "1");
+            super(itemsArray, "Bonus1");
         }
 
         addObjects() {

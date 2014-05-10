@@ -14,13 +14,13 @@
         public popup: Menu.View.Popup;
         public message: Menu.View.Message;
 
-        constructor(itemsArray: Array<string>,sufix:string="1"){
+        constructor(itemsArray: Array<string>,bonusId:string="1"){
             super();
 
             this.itemsArray = itemsArray;
             
             //adds scenary
-            this.addScene(sufix);
+            this.addScene(bonusId);
 
             //adds footer and itens
             this.addFooter(itemsArray);
@@ -44,12 +44,18 @@
         }
 
         //add Scene objects to the view
-        addScene(sufix:string="1") {
+        addScene(bonusId:string) {
             //adds Background
-            this.background.addChild(Assets.getBitmap("bonus1/bg_bonus" + sufix));
+            this.background.addChild(Assets.getBitmap(bonusId+"/back"));
 
             //adds header
-            this.header.addChild(Assets.getBitmap("bonus1/hudbonus1_1"));
+            this.header.addChild(Assets.getBitmap(bonusId + "/header"));
+
+            //adds footer
+            var footer = Assets.getBitmap(bonusId + "/footer");
+            this.footer.addChild(footer);
+            footer.y = - 291;
+
         }
 
         //adds objects to the view <<interface>>
@@ -59,13 +65,9 @@
         addFooter(itemsArray: Array<string>) {
             
             this.footerContainer = new createjs.Container();
-            this.footerTexts = [];
-
-            //adds footer
-            var footer = Assets.getBitmap("bonus1/hudbonus1_2");
-            this.footerContainer.addChild(footer);
             this.footerContainer.y = - 291;
-
+            this.footerTexts = [];
+                    
             //adds Items to the footer
             for (var i = 0; i < itemsArray.length; i++) {
 
