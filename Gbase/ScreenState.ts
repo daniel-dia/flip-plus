@@ -30,6 +30,11 @@ module Gbase {
             this.content.visible = false;
         }
 
+        public redim(headerY: number, footerY: number) {
+            this.footer.y = footerY;
+            this.header.y = headerY;
+        }
+
         public back(): void {
             exitApp();
         }

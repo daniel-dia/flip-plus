@@ -23,15 +23,8 @@ module InvertCross {
 
         public static initialize() {
 
-            //var osCanvas = document.createElement("canvas"); // creates a new off-screen canvas element
-            //var osContext = osCanvas.getContext('2d'); //the drawing context of the off-screen canvas element
-
-
             this.myCanvas = <HTMLCanvasElement> document.getElementById("myCanvas");
-
             var ctx: any = this.myCanvas.getContext("2d");
-
-
             this.stage = new createjs.Stage(this.myCanvas);
 
             createjs.Touch.enable(this.stage);
@@ -56,7 +49,6 @@ module InvertCross {
             this.fpsMeter.y = 0;
             this.stage.addChild(this.fpsMeter);
 
-
             //set screen size
             var r = parseInt(getQueryVariable("res"));
 
@@ -66,11 +58,10 @@ module InvertCross {
             if (windowWidth <= 1024) assetscale = 0.5;
             if (windowWidth <= 420) assetscale = 0.25;
             assetscale = 1;
+
             console.log("using scale at " + assetscale + "x");
             this.redim(windowWidth,window.innerHeight);
             window.onresize = () => { this.redim(windowWidth, window.innerHeight); };
-        
-
         }
 
         private static tick() {
@@ -79,25 +70,12 @@ module InvertCross {
 
         public static redim(deviceWidth: number, deviceHeight: number,updateCSS:boolean=true) {
 
-            var finalscale = 1;
-
-            //if (devicewidth) {
-            //    var scalew = devicewidth / this.defaultWidth;
-            //    var scaleh = window.innerHeight / this.defaultHeight;
-            //    finalscale = scalew > scaleh ? scaleh : scalew;
-
-            finalscale = deviceWidth / this.defaultWidth;
-
             this.myCanvas.width = deviceWidth;
             this.myCanvas.height = deviceHeight;
 
-            //this.myCanvas.style.width = deviceWidth + "px"
-            //this.myCanvas.style.height = deviceHeight + "px";
-            
             this.screenViewer.updateViewerScale(window.innerWidth,window.innerHeight,DefaultWidth,DefaultHeight);
 
-            if(updateCSS)
-                setMobileScale(deviceWidth)
+            if(updateCSS) setMobileScale(deviceWidth)
         }
     }
 }

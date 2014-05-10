@@ -31,9 +31,7 @@ module InvertCross.Menu {
             //add Background
             var bg = Assets.getBitmap("workshop/bgworkshop")
             this.content.addChild(bg);
-            
-            this.content.mouseChildren = true;
-            
+                        
             //adds Projects
             this.addProjects();
 
@@ -58,7 +56,7 @@ module InvertCross.Menu {
             
             this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu()); });
             this.menu.addEventListener("back", () => { this.back();});
-            this.content.addChild(this.menu);
+            this.header.addChild(this.menu);
 
         }
 
@@ -86,19 +84,11 @@ module InvertCross.Menu {
                 projectView.activate();
                 projectView.x = DefaultWidth * p; 
                 projectView.addEventListener("levelClick", (e:createjs.Event) => { this.openLevel(e) });
-            }
+            }   
 
             //add to view
             this.content.addChild(projectsContainer);
             this.projectsContainer = projectsContainer;
-
-            //var fin = (projects.length-1) * DefaultWidth;
-            //projectsContainer.addEventListener("onmoving", () => {
-            //    if (projectsContainer.x > 0) projectsContainer.x = 0;
-            //    if (projectsContainer.x < -fin) projectsContainer.x = - fin;
-
-            //    for (var pv in this.projectViews) this.projectViews[pv].setRelativePos(this.projectViews[pv].x + projectsContainer.x);
-            //});
         }
 
         private openLevel(event: createjs.Event) {
@@ -123,19 +113,26 @@ module InvertCross.Menu {
             var lb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
             lb.y = 1050;
             lb.x = DefaultWidth * 0.1;
-            this.content.addChild(lb);
+            this.footer.addChild(lb);
 
             //create right button
             var rb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
             rb.y = 1050;
             rb.x = DefaultWidth * 0.9;
             rb.scaleX = -1;
-            this.content.addChild(rb);
+            this.footer.addChild(rb);
 
             //create pagination indicator
             //TODO
         }           
         //--Behaviour-----------------------------------------------------------
+
+        public redim(headerY: number, footerY: number) {
+            super.redim(headerY, footerY);
+
+            for (var pv in this.projectViews)
+                this.projectViews[pv].redim(headerY, footerY);
+        }
 
         public activate(parameters?: any) {
 
@@ -158,11 +155,11 @@ module InvertCross.Menu {
 
                     //if complete changes to myBotScreen
                     if (project.UserData.complete && this.projectPreviousState[project.name]==false) {
-                        this.content.mouseEnabled = false;
-                        this.content.mouseChildren = false;
+                        this.view.mouseEnabled = false;
+                        this.view.mouseChildren = false;
                         setTimeout(() => {
-                            this.content.mouseEnabled = true;
-                            this.content.mouseChildren = true;
+                            this.view.mouseEnabled = true;
+                            this.view.mouseChildren = true;
                             InvertCrossaGame.showMainMenu();
                         }, 2000);
                     }

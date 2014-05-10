@@ -54,7 +54,7 @@ module InvertCross.Menu {
             this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu()); });
             this.menu.addEventListener("back", () => { this.back()});
             this.partsIndicator = this.menu.partsIndicator;
-            this.content.addChild(this.menu);
+            this.header.addChild(this.menu);
         }
 
         //adds projects objects to the view
@@ -174,16 +174,16 @@ module InvertCross.Menu {
         private createPaginationButtons(pagesContainer: createjs.Container) {
             //create leftButton
             var lb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
-            lb.y = 1950;
+            lb.y = -100;
             lb.x = DefaultWidth * 0.1;
-            this.content.addChild(lb);
+            this.footer.addChild(lb);
 
             //create right button
             var rb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
-            rb.y = 1950;
+            rb.y = -100;
             rb.x = DefaultWidth * 0.9;
             rb.scaleX = -1;
-            this.content.addChild(rb);
+            this.footer.addChild(rb);
 
             //create pagination indicator
             //TODO

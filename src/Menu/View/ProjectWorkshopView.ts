@@ -87,13 +87,13 @@ module InvertCross.Menu.View {
 
             //add MachineBg
             var baseFases = Assets.getBitmap("workshop/basefases")
-            baseFases.y = DefaultHeight - 741;
+            baseFases.y = - 741;
             levelMachine.addChild(baseFases);
 
             //Add Stars
             this.starsIndicator = new View.ProjectStarsIndicator(project);
             this.starsIndicator.x = 1115;
-            this.starsIndicator.y = 1334;
+            this.starsIndicator.y = 1334 - 2048;
             levelMachine.addChild(this.starsIndicator);
 
             if ((!InvertCrossaGame.isFree() && project.free) || InvertCrossaGame.isFree()) {
@@ -103,14 +103,14 @@ module InvertCross.Menu.View {
                     this.levelGrid = new Menu.View.LevelGrid(project);
                     this.levelGrid.addEventListener("levelClick", (e: createjs.Event) => { this.dispatchEvent("levelClick", e.target); });
                     this.levelGrid.x = 180;
-                    this.levelGrid.y = 1538;
+                    this.levelGrid.y = 1538 - 2048;
                     levelMachine.addChild(this.levelGrid);
 
                 }
                 else {
                     var text = new createjs.Text("LOCKED", defaultFontFamilyStrong, defaultFontColor);
                     text.textAlign = "center";
-                    text.y = 1738;
+                    text.y = 1738 - 2048;
                     text.x = DefaultWidth / 2;
                     levelMachine.addChild(text);
                 }
@@ -118,7 +118,7 @@ module InvertCross.Menu.View {
                 //TODO mudar o nome disso.
                 var text = new createjs.Text("NOT FREE", defaultFontFamilyStrong, defaultFontColor);
                 text.textAlign = "center";
-                text.y = 1738;
+                text.y = 1738 - 2048;
                 text.x = DefaultWidth / 2;
                 levelMachine.addChild(text);
             }
@@ -134,7 +134,7 @@ module InvertCross.Menu.View {
         /*
         private animateIn(completeLevel: boolean= false, direction: number= -1) {
 
-            //animate status and machine
+            //animate status and machihine
             this.levelsMahine.y = 800;
             this.statusArea.scaleX = 0;
             createjs.Tween.get(this.levelsMahine).to({ y: 0 }, 400, createjs.Ease.quadOut)
@@ -174,6 +174,12 @@ module InvertCross.Menu.View {
             if (level != null)
                 if (level.userdata.unlocked)
                     InvertCrossaGame.showLevel(level, parameters);
+        }
+
+        public redim(headerY: number, footerY: number) {
+            this.levelsMahine.y = footerY;
+            this.statusArea.y = headerY;
+
         }
 
         public activate(parameters?: any) {

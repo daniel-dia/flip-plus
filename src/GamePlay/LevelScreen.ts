@@ -80,7 +80,7 @@ module InvertCross.GamePlay {
 
             //intialize  menu overlay
             this.menuOverlay = new Views.GamePlayMenu();
-            this.content.addChild(this.menuOverlay);
+            this.footer.addChild(this.menuOverlay);
 
             this.menuOverlay.addEventListener("pause", () => { this.pauseGame(); });
             this.menuOverlay.addEventListener("unpause", () => { this.unPauseGame(); });
@@ -88,10 +88,9 @@ module InvertCross.GamePlay {
             this.menuOverlay.addEventListener("skip", (e: createjs.Event) => { this.skip(); });
             this.menuOverlay.addEventListener("hint", (e: createjs.Event) => { this.hint(e.target); });
             this.menuOverlay.addEventListener("back", () => { InvertCrossaGame.exitLevel(); });
-            this.menuOverlay.y = 1800;
-
             this.menuOverlay.updateButtonLabel("hint", InvertCrossaGame.itemsData.getItemQuantity("hint"));
             this.menuOverlay.updateButtonLabel("skip", InvertCrossaGame.itemsData.getItemQuantity("skip"));
+            this.menuOverlay.y = -248;
 
             if (InvertCrossaGame.projectManager.getCurrentProject() != undefined) {
                 var levels: Projects.Level[] = InvertCrossaGame.projectManager.getCurrentProject().levels;
@@ -100,7 +99,7 @@ module InvertCross.GamePlay {
                 this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
                 this.statusArea.setText1("");
                 this.statusArea.setText3("");
-                this.content.addChild(this.statusArea);
+                this.header.addChild(this.statusArea);
             }
 
         }
