@@ -6,7 +6,7 @@ createjs.Bitmap.prototype.draw = function (ctx, ignoreCache) {
     ctx.save()
     ctx.scale(1/assetscale, 1/assetscale)
     if (rect) {
-        ctx.drawImage(this.image, rect.x * assetscale, rect.y * assetscale, rect.width * assetscale, rect.height * assetscale, 0, 0, rect.width /assetscale, rect.height / assetscale);
+        ctx.drawImage(this.image, rect.x * assetscale, rect.y * assetscale, rect.width * assetscale, rect.height * assetscale, 0, 0, rect.width, rect.height);
     } else {
         ctx.drawImage(this.image, 0, 0);
     }
@@ -32,4 +32,14 @@ createjs.DisplayObject.prototype.cache = function (x, y, width, height, scale) {
 	this._cacheOffsetY = y;
 	this._cacheScale = scale;
 	this.updateCache();
+};
+
+createjs.Sprite.prototype.draw = function (ctx, ignoreCache) {
+	if (this.DisplayObject_draw(ctx, ignoreCache)) { return true; }
+	this._normalizeFrame();
+	var o = this.spriteSheet.getFrame(this._currentFrame|0);
+	if (!o) { return false; }
+	var rect = o.rect;
+	ctx.drawImage(o.image, rect.x * assetscale, rect.y * assetscale, rect.width * assetscale, rect.height * assetscale, -o.regX , -o.regY , rect.width , rect.height );
+	return true;
 };
