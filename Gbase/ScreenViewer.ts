@@ -1,10 +1,6 @@
 module InvertCross {
-
-
     // Class
     export class ScreenViewer{
-
-
 
         //TODO add Comment Here
         public viewer: createjs.Container;
@@ -15,6 +11,9 @@ module InvertCross {
 
         constructor(stage: createjs.Stage) {
             this.viewer = new createjs.Container();
+            this.header = new createjs.Container();
+            this.footer = new createjs.Container();
+
         }
 
         public updateScale(scale: number) {
@@ -76,7 +75,6 @@ module InvertCross {
                 oldScreen = null;
             }
         }
-
     }
 
     export class Transition {

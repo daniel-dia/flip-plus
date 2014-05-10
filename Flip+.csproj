@@ -865,7 +865,6 @@
     <Content Include="fonts\Exo2.0-Regular.otf" />
     <Content Include="assets\resize.bat" />
     <Content Include="fonts\Exo 2.0.ttf" />
-    <Content Include="fonts\Exo.ttf" />
     <Content Include="fonts\Exo2.0-Bold.ttf" />
     <Content Include="fonts\Exo2.0-Regular.ttf" />
     <None Include="web.Debug.config">

@@ -657,9 +657,9 @@ var Assets = (function () {
             { src: imagePath + "bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
             //projects
             { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
-            { id: "projects/bonus1", src: imagePath + "projects/bonus1.png" },
-            { id: "projects/bonus2", src: imagePath + "projects/bonus2.png" },
-            { id: "projects/bonus3", src: imagePath + "projects/bonus3.png" },
+            { id: "projects/Bonus1", src: imagePath + "projects/Bonus1.png" },
+            { id: "projects/Bonus2", src: imagePath + "projects/Bonus2.png" },
+            { id: "projects/Bonus3", src: imagePath + "projects/Bonus3.png" },
             { id: "projects/slot1", src: imagePath + "projects/slot1.png" },
             { id: "projects/slot2", src: imagePath + "projects/slot2.png" },
             { id: "projects/slot3", src: imagePath + "projects/slot3.png" },
@@ -1083,6 +1083,9 @@ var InvertCross;
                 default:
             }
 
+            //restart time
+            this.timersData.setTimer(bonusId, bonusData[bonusId].timeOut);
+
             InvertCrossaGame.screenViewer.switchScreen(bonusScreen);
         };
 
@@ -1314,6 +1317,8 @@ var InvertCross;
             Timers.prototype.setTimer = function (name, minutes, seconds) {
                 //verifies if timer is active
                 //if (this.getTimer(name) > 0) return;
+                if (typeof minutes === "undefined") { minutes = 0; }
+                if (typeof seconds === "undefined") { seconds = 0; }
                 //set time interval
                 var timeSpan = 1000 * (60 * minutes + seconds);
 
@@ -4236,7 +4241,7 @@ var InvertCross;
             ProjectsMenu.prototype.addBonuses = function () {
                 var _this = this;
                 for (var p = 0; p < this.pages.length; p++)
-                    this.pages[p].addChild(new Menu.View.BonusItem("bonus" + (p + 1), function (e) {
+                    this.pages[p].addChild(new Menu.View.BonusItem("Bonus" + (p + 1), function (e) {
                         //cancel click in case of drag
                         if (_this.pagesSwipe.cancelClick)
                             return;
@@ -5692,8 +5697,6 @@ var InvertCross;
                     this.regX = 1430 / 2;
                     this.regY = 410 / 2;
 
-                    InvertCross.InvertCrossaGame.timersData.setTimer(this.bonusId.toString(), 0, 10);
-
                     this.updateProjectInfo();
                 }
                 //createObjects
@@ -5771,6 +5774,7 @@ var InvertCross;
                             createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
                         }
                     } else {
+                        createjs.Tween.removeTweens(this.timerText);
                         this.timerText.text = this.toHHMMSS(time);
                         this.timerText.scaleX = this.scaleY = 1;
                         this.timerText.cache(-200, -50, 400, 100);
