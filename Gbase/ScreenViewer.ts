@@ -37,12 +37,12 @@ module InvertCross {
                 if (transition.type == "fade") {
 
                     //fade between transitions
-                    newScreen.content.alpha = 0;
-                    newScreen.content.mouseEnabled = false;
-                    oldScreen.content.mouseEnabled = false;
-                    createjs.Tween.get(newScreen.content).to({ alpha: 1 }, transition.time).call(() => {
-                        newScreen.content.mouseEnabled = true;
-                        oldScreen.content.mouseEnabled = true;
+                    newScreen.view.alpha = 0;
+                    newScreen.view.mouseEnabled = false;
+                    oldScreen.view.mouseEnabled = false;
+                    createjs.Tween.get(newScreen.view).to({ alpha: 1 }, transition.time).call(() => {
+                        newScreen.view.mouseEnabled = true;
+                        oldScreen.view.mouseEnabled = true;
                         this.removeOldScreen(oldScreen)
                         oldScreen = null;
                     });
@@ -74,7 +74,7 @@ module InvertCross {
         private removeOldScreen(oldScreen:Gbase.ScreenState) {
             if (oldScreen!= null) {
                 oldScreen.desactivate();
-                this.viewer.removeChild(oldScreen.content);
+                this.viewer.removeChild(oldScreen.view);
                 oldScreen = null;
             }
         }
