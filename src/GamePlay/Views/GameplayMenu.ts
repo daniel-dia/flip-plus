@@ -21,7 +21,7 @@ module InvertCross.GamePlay.Views {
 
         //adds tutorial touch indicator
         private addTutorialIndicator() {
-            this.tutorial_highlightSprite = Assets.getMovieClip("touch");
+            this.tutorial_highlightSprite = Assets.getSprite("touch")
             this.tutorial_highlightSprite.visible = false;
             this.tutorial_highlightSprite.mouseEnabled = false;
             this.addChild(this.tutorial_highlightSprite)

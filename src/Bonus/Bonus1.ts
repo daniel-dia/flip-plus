@@ -53,10 +53,10 @@
 
                 var barrel = new Gbase.UI.Button();
                 barrel.addEventListener("click", (event: createjs.MouseEvent) => { this.barrelTap(event) });
-                var spriteBarrel = Assets.getSrite("Bonus1/Barrel" + (b + 1));
+                var spriteBarrel = Assets.getSprite("Bonus1/Barrel" + (b + 1));
                 spriteBarrel.gotoAndPlay(Math.random()*120)
                 barrel.addChild(spriteBarrel);
-                var spriteWater = Assets.getSrite("Bonus1/agua");
+                var spriteWater = Assets.getSprite("Bonus1/agua");
                 barrel.addChild(spriteWater);
                 spriteWater.gotoAndPlay(Math.random() * 120)
   

@@ -250,7 +250,7 @@ module InvertCross.Menu.View {
 
         addsClickIndicaator() {
             //add click indicator
-            var ind = Assets.getMovieClip("touch");
+            var ind = Assets.getSprite("touch")
             this.addChild(ind);
             ind.x = 1350;
             ind.y = 1100;

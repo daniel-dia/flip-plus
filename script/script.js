@@ -2600,7 +2600,7 @@ var InvertCross;
                     this.regY = boardHeight / 2;
 
                     //load click indicator
-                    this.tutorialIndiatcor = Assets.getMovieClip("touch");
+                    this.tutorialIndiatcor = Assets.getSprite("touch");
                     this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -55;
                     this.tutorialIndiatcor.mouseEnabled = false;
                     this.addChild(this.tutorialIndiatcor);
@@ -3026,7 +3026,7 @@ var InvertCross;
                 }
                 //adds tutorial touch indicator
                 GamePlayMenu.prototype.addTutorialIndicator = function () {
-                    this.tutorial_highlightSprite = Assets.getMovieClip("touch");
+                    this.tutorial_highlightSprite = Assets.getSprite("touch");
                     this.tutorial_highlightSprite.visible = false;
                     this.tutorial_highlightSprite.mouseEnabled = false;
                     this.addChild(this.tutorial_highlightSprite);
@@ -6668,7 +6668,7 @@ var InvertCross;
 
                 Popup.prototype.addsClickIndicaator = function () {
                     //add click indicator
-                    var ind = Assets.getMovieClip("touch");
+                    var ind = Assets.getSprite("touch");
                     this.addChild(ind);
                     ind.x = 1350;
                     ind.y = 1100;
@@ -6737,7 +6737,7 @@ var InvertCross;
 
                 PopupBot.prototype.addsClickIndicaator = function () {
                     //add click indicator
-                    var ind = Assets.getMovieClip("touch");
+                    var ind = Assets.getSprite("touch");
                     this.addChild(ind);
                     ind.x = 1250;
                     ind.y = 900;

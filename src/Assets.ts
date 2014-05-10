@@ -44,6 +44,7 @@ class Assets {
             { id: "starsicon", src: imagePath + "staricon.png" },
             { id: "MenuBt", src: imagePath + "MenuBt.png" },
             { id: "BackBt", src: imagePath + "BackBt.png" },
+            { id: "touch", src: imagePath + "touch.png" },
 
             //title
             //{ id: "title/LogoScreen", src: imagePath + "title/LogoScreen.jpg" },
@@ -343,7 +344,8 @@ class Assets {
         return t;
     }
 
-    public static getSrite(name: string): createjs.Sprite {
+    public static getSprite
+        (name: string): createjs.Sprite {
         var data = spriteSheets[name];
         for (var i in data.images) if(typeof data.images[i] == "string") data.images[i] = this.getImage(data.images[i]);
             

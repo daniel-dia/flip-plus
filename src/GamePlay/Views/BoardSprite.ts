@@ -30,7 +30,7 @@ module InvertCross.GamePlay.Views {
             this.regY = boardHeight / 2;
 
             //load click indicator
-            this.tutorialIndiatcor = Assets.getMovieClip("touch");
+            this.tutorialIndiatcor = Assets.getSprite("touch")
             this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -55;
             this.tutorialIndiatcor.mouseEnabled = false;
             this.addChild(this.tutorialIndiatcor);
