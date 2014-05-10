@@ -18,7 +18,7 @@ module InvertCross.Menu {
             super()
 
             var bg: createjs.Bitmap = Assets.getBitmap("mybotsbg");
-            this.view.addChild(bg);
+            this.content.addChild(bg);
 
             this.addIntro();
 
@@ -71,7 +71,7 @@ module InvertCross.Menu {
 
         private addIntro() {
             this.intro = new Intro();
-            this.view.addChild(this.intro);
+            this.content.addChild(this.intro);
 
             this.intro.addEventListener("readyToPlay", () => {
                 this.playBt.visible = true;
@@ -84,7 +84,7 @@ module InvertCross.Menu {
 
         private addMyBots() {
             this.myBots = new Robots.MyBots();
-            this.view.addChild(this.myBots);
+            this.content.addChild(this.myBots);
             this.myBots.addEventListener("robot", (e: createjs.Event) => {
                 this.robotClick(<string>e.target)
             });
@@ -94,7 +94,7 @@ module InvertCross.Menu {
 
             this.menu = new View.ScreenMenu();
             
-            this.view.addChild(this.menu);
+            this.content.addChild(this.menu);
             this.menu.addEventListener("menu", () => {
                 //TODO fazer camada intermediaria
                 InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu());
@@ -108,7 +108,7 @@ module InvertCross.Menu {
             this.terminal = new View.Terminal();
             this.terminal.x = 361;
             this.terminal.y = 451;
-            this.view.addChild(this.terminal);
+            this.content.addChild(this.terminal);
         }
 
         private addPlayButton() {
@@ -116,7 +116,7 @@ module InvertCross.Menu {
                 InvertCross.InvertCrossaGame.showProjectsMenu();
             }, null, defaultFontFamilyHighlight, highlightFontColor)
 
-            this.view.addChild(playBt);
+            this.content.addChild(playBt);
             playBt.x = 800;
             playBt.y = 1139;
 
@@ -142,7 +142,7 @@ module InvertCross.Menu {
             smokefx.speedVariationY = 11
             smokefx.x = 1536 / 2;
             smokefx.y = 1676 + 50;
-            this.view.addChild(smokefx);
+            this.content.addChild(smokefx);
 
             smokefx = new SmokeFX.SmokeFXEmmiter("assets/smokePart.png", 1536 / 2, 1);
             smokefx.aging = 4000;
@@ -156,7 +156,7 @@ module InvertCross.Menu {
             smokefx.speedVariationY = 11
             smokefx.x = 0;
             smokefx.y = 1676 + 50;
-            this.view.addChild(smokefx);
+            this.content.addChild(smokefx);
 
             smokefx = new SmokeFX.SmokeFXEmmiter("assets/smokePart.png", 1536, 1);
             smokefx.alpha = 1;
@@ -172,7 +172,7 @@ module InvertCross.Menu {
             smokefx.speedVariationY = 80
             smokefx.x = 0;
             smokefx.y = 1676;
-            this.view.addChild(smokefx);
+            this.content.addChild(smokefx);
         }
 
         //------------Robots Behaviour ---------------------------------

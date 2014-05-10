@@ -18,6 +18,7 @@ module InvertCross.UserData {
  
         //Get if timers is ready
         public getTimer(name: string): number {
+            return 0;
             if (this.timers[name] == null) return 0;
 
             var remaning = this.timers[name] - this.getLastTime();

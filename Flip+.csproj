@@ -867,6 +867,7 @@
     <Content Include="fonts\Exo 2.0.ttf" />
     <Content Include="fonts\Exo2.0-Bold.ttf" />
     <Content Include="fonts\Exo2.0-Regular.ttf" />
+    <None Include="flipplus.pubxml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

@@ -21,7 +21,7 @@ module InvertCross.Menu {
             text.y = DefaultHeight / 2;
             text.textAlign = "center"
              
-            this.view.addChild(text);
+            this.content.addChild(text);
 
 
             //add update% functtion

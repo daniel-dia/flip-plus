@@ -54,11 +54,11 @@ module InvertCross.GamePlay {
 
             //adds message
             this.message = new Menu.View.Message();
-            this.view.addChild(this.message);
+            this.content.addChild(this.message);
 
             //adds popup
             this.popup = new Menu.View.Popup();
-            this.view.addChild(this.popup)
+            this.content.addChild(this.popup)
 
             this.popup.addEventListener("onshow", () => {
                 this.menuOverlay.fadeOut();
@@ -73,14 +73,14 @@ module InvertCross.GamePlay {
         }
 
         private addBackground(theme: string) {
-            this.view.addChild(Assets.getBitmap("puzzle/bg"));
+            this.content.addChild(Assets.getBitmap("puzzle/bg"));
         }
 
         private initializeOverlays() {
 
             //intialize  menu overlay
             this.menuOverlay = new Views.GamePlayMenu();
-            this.view.addChild(this.menuOverlay);
+            this.content.addChild(this.menuOverlay);
 
             this.menuOverlay.addEventListener("pause", () => { this.pauseGame(); });
             this.menuOverlay.addEventListener("unpause", () => { this.unPauseGame(); });
@@ -100,7 +100,7 @@ module InvertCross.GamePlay {
                 this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
                 this.statusArea.setText1("");
                 this.statusArea.setText3("");
-                this.view.addChild(this.statusArea);
+                this.content.addChild(this.statusArea);
             }
 
         }
@@ -109,7 +109,7 @@ module InvertCross.GamePlay {
 
             //AddBoard
             this.boardSprite = new Views.BoardSprite(width, height, theme, type);
-            this.view.addChild(this.boardSprite);
+            this.content.addChild(this.boardSprite);
 
             this.boardSprite.x = DefaultWidth / 2;
             this.boardSprite.y = DefaultHeight / 2;

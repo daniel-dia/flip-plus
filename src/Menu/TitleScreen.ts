@@ -7,13 +7,13 @@ module InvertCross.Menu {
             super();
 
             //loads image
-            this.view.addChild(new lib.LogoScreen ());
+            this.content.addChild(new lib.LogoScreen ());
 
             //creates hitArea
-            this.view.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, DefaultWidth, DefaultHeight));
+            this.content.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, DefaultWidth, DefaultHeight));
 
             //add event to go to main menu
-            this.view.addEventListener("click", () => {
+            this.content.addEventListener("click", () => {
                 InvertCrossaGame.showMainMenu();
             });
         }

@@ -4,7 +4,7 @@
     export class BonusBarrel extends BonusScreen {
 
         private barrels: Array<createjs.DisplayObject>;
-        private content: Array<createjs.Container>;
+        private BarrelsItens: Array<createjs.Container>;
         private contentShadow: Array<createjs.DisplayObject>;
 
         private items: Array<string>;
@@ -31,7 +31,7 @@
 
             //initialize arrays
             this.barrels = [];
-            this.content = [];
+            this.BarrelsItens = [];
             this.contentShadow = [];
 
             var positions = [
@@ -87,23 +87,23 @@
                 this.barrels.push(barrel);
                 
                 //instantiate a new container for barrelContent
-                var content = new createjs.Container();
-                content.x = barrel.x - 50;
-                content.y = barrel.y - 150;
-                this.content.push(content);
-                this.view.addChild(content);
+                var barrelCcontent = new createjs.Container();
+                barrelCcontent.x = barrel.x - 50;
+                barrelCcontent.y = barrel.y - 150;
+                this.BarrelsItens.push(barrelCcontent);
+                this.content.addChild(barrelCcontent);
 
 
                 //instantiate a new shadow for content
                 var shadow = new createjs.Shape(new createjs.Graphics().beginFill("rgba(0,0,0,0.3)").drawEllipse(0, 0, 150, 50));
-                shadow.x = content.x - 30;
-                shadow.y = content.y + 220;
+                shadow.x = barrelCcontent.x - 30;
+                shadow.y = barrelCcontent.y + 220;
                 this.contentShadow.push(shadow);
-                this.view.addChild(shadow);
+                this.content.addChild(shadow);
                 
             }
 
-            this.view.addChild(barrelsContainer);
+            this.content.addChild(barrelsContainer);
         }
                 
         //shuffle a new Game
@@ -124,8 +124,8 @@
             }
 
             //show all contents
-            for (var co in this.content)
-                this.content[co].removeAllChildren();
+            for (var co in this.BarrelsItens)
+                this.BarrelsItens[co].removeAllChildren();
 
             //clean all items
             this.items = this.randomItensInArray(itemsCount, barrelsCount);
@@ -133,11 +133,11 @@
             //adds objects in barrel
             for (var b = 0; b < this.barrels.length; b++) {
                 //show the item
-                if (this.items[b]) this.content[b].addChild(Assets.getBitmap("puzzle/icon_" + this.items[b]));
+                if (this.items[b]) this.BarrelsItens[b].addChild(Assets.getBitmap("puzzle/icon_" + this.items[b]));
                 //or show a can
-                else this.content[b].addChild(Assets.getBitmap("bonus1/icone_lata"));
+                else this.BarrelsItens[b].addChild(Assets.getBitmap("bonus1/icone_lata"));
                 //hidesItem
-                this.content[b].visible = false;
+                this.BarrelsItens[b].visible = false;
             }
         }
 
@@ -186,16 +186,16 @@
             createjs.Tween.get(barrelObj).to({ alpha: 0 }, 300);
 
             //show item in barrel
-            this.content[barrelId].visible = true;
+            this.BarrelsItens[barrelId].visible = true;
 
             //verifies item
             if (this.items[barrelId]) {
                 this.userAquireItem(this.items[barrelId]);
-                this.animateItemObjectToFooter(this.content[barrelId], this.items[barrelId]);
+                this.animateItemObjectToFooter(this.BarrelsItens[barrelId], this.items[barrelId]);
                 createjs.Tween.get(this.contentShadow[barrelId]).to({alpha:0},600);
             }
             else {
-                this.animateItemObjectIdle(this.content[barrelId]);
+                this.animateItemObjectIdle(this.BarrelsItens[barrelId]);
             }
 
             //ends bonus game
@@ -216,7 +216,7 @@
  
             //adds objects in barrel
             for (var b = 0; b < this.barrels.length; b++)
-                this.content[b].visible = true;               
+                this.BarrelsItens[b].visible = true;               
 
             //delay and hide others barrels and show other barrels content
             setTimeout(() => {

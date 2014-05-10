@@ -33,20 +33,20 @@
 
             //adds message
             this.message = new Menu.View.Message();
-            this.view.addChild(this.message);
+            this.content.addChild(this.message);
 
             //adds popup
             this.popup = new Menu.View.Popup();
-            this.view.addChild(this.popup)
+            this.content.addChild(this.popup)
         }
 
         //add Scene objects to the view
         addScene(sufix:string="1") {
             //adds Background
-            this.view.addChild(Assets.getBitmap("bonus1/bg_bonus" + sufix));
+            this.content.addChild(Assets.getBitmap("bonus1/bg_bonus" + sufix));
 
             //adds header
-            this.view.addChild(Assets.getBitmap("bonus1/hudbonus"+sufix));
+            this.header.addChild(Assets.getBitmap("bonus1/hudbonus1_1"));
         }
 
         //adds objects to the view <<interface>>
@@ -61,7 +61,7 @@
             //adds footer
             var footer = Assets.getBitmap("bonus1/hudbonus1_2");
             this.footerContainer.addChild(footer);
-            this.footerContainer.y = DefaultHeight - 291;
+            this.footerContainer.y = - 291;
 
             //adds Items to the footer
             for (var i = 0; i < itemsArray.length; i++) {
@@ -85,7 +85,7 @@
                 this.footerContainer.addChild(textObj);
             }
 
-            this.view.addChild(this.footerContainer);
+            this.footer.addChild(this.footerContainer);
         }
 
         //updates all footer labels based on user data
@@ -119,7 +119,7 @@
             this.menu = new Menu.View.ScreenMenu();
             this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu()); });
             this.menu.addEventListener("back", () => { this.back(); });
-            this.view.addChild(this.menu);
+            this.content.addChild(this.menu);
         }
 
         //updates user Data with new Item

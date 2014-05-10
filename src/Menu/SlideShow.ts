@@ -22,17 +22,17 @@ module InvertCross.Menu {
             this.loadSlides(slides);
 
             //add hitarea
-            this.view.hitArea = new createjs.Shape(new createjs.Graphics().drawRect(0, 0, DefaultWidth, DefaultHeight));
+            this.content.hitArea = new createjs.Shape(new createjs.Graphics().drawRect(0, 0, DefaultWidth, DefaultHeight));
 
             //adds callback forrr touch
-            this.view.addEventListener("click", () => {
+            this.content.addEventListener("click", () => {
                 this.nextSlide();
             });
 
             //adds hitarea
             var s = new createjs.Shape();
             s.graphics.beginFill("#FFF").rect(0, 0, DefaultWidth, DefaultHeight);
-            this.view.hitArea = s;
+            this.content.hitArea = s;
         }
 
         //loadSlideShowImages
@@ -45,7 +45,7 @@ module InvertCross.Menu {
             for (var s in slides) {
                 var image = Assets.getBitmap(slides[s]);
                 this.images.push(image);
-                this.view.addChild(image);
+                this.content.addChild(image);
             }
         }
 

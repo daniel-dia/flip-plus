@@ -67,7 +67,9 @@ module InvertCross {
             if (windowWidth <= 420) assetscale = 0.25;
             assetscale = 1;
             console.log("using scale at " + assetscale + "x");
-            this.redim(windowWidth);
+            this.redim(windowWidth,window.innerHeight);
+            window.onresize = () => { this.redim(windowWidth, window.innerHeight); };
+        
 
         }
 
@@ -75,7 +77,7 @@ module InvertCross {
             this.stage.update();
         }
 
-        public static redim(devicewidth: number,updateCSS:boolean=true) {
+        public static redim(deviceWidth: number, deviceHeight: number,updateCSS:boolean=true) {
 
             var finalscale = 1;
 
@@ -84,24 +86,19 @@ module InvertCross {
             //    var scaleh = window.innerHeight / this.defaultHeight;
             //    finalscale = scalew > scaleh ? scaleh : scalew;
 
-            finalscale = devicewidth / this.defaultWidth;
+            finalscale = deviceWidth / this.defaultWidth;
 
-            this.myCanvas.width = devicewidth;
-            this.myCanvas.height = Math.floor(this.defaultHeight * finalscale);
+            this.myCanvas.width = deviceWidth;
+            this.myCanvas.height = deviceHeight;
 
-            this.myCanvas.style.width = devicewidth + "px"
-            this.myCanvas.style.height = Math.floor(this.defaultHeight * finalscale) + "px";
-
-            this.screenViewer.updateScale(finalscale);
+            //this.myCanvas.style.width = deviceWidth + "px"
+            //this.myCanvas.style.height = deviceHeight + "px";
+            
+            this.screenViewer.updateViewerScale(window.innerWidth,window.innerHeight,DefaultWidth,DefaultHeight);
 
             if(updateCSS)
-            setMobileScale(devicewidth)
-
-            console.log("start " + devicewidth + "px width resolution");
-
+                setMobileScale(deviceWidth)
         }
-
-
     }
 }
 

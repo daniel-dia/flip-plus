@@ -30,9 +30,9 @@ module InvertCross.Menu {
         private addObjects() {
             //add Background
             var bg = Assets.getBitmap("workshop/bgworkshop")
-            this.view.addChild(bg);
+            this.content.addChild(bg);
             
-            this.view.mouseChildren = true;
+            this.content.mouseChildren = true;
             
             //adds Projects
             this.addProjects();
@@ -42,10 +42,10 @@ module InvertCross.Menu {
             
             //adds popup and messages
             this.popup = new View.Popup();
-            this.view.addChild(this.popup);
+            this.content.addChild(this.popup);
 
             this.message = new View.Message();
-            this.view.addChild(this.message);
+            this.content.addChild(this.message);
 
         }
 
@@ -58,7 +58,7 @@ module InvertCross.Menu {
             
             this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu()); });
             this.menu.addEventListener("back", () => { this.back();});
-            this.view.addChild(this.menu);
+            this.content.addChild(this.menu);
 
         }
 
@@ -89,7 +89,7 @@ module InvertCross.Menu {
             }
 
             //add to view
-            this.view.addChild(projectsContainer);
+            this.content.addChild(projectsContainer);
             this.projectsContainer = projectsContainer;
 
             //var fin = (projects.length-1) * DefaultWidth;
@@ -123,14 +123,14 @@ module InvertCross.Menu {
             var lb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
             lb.y = 1050;
             lb.x = DefaultWidth * 0.1;
-            this.view.addChild(lb);
+            this.content.addChild(lb);
 
             //create right button
             var rb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
             rb.y = 1050;
             rb.x = DefaultWidth * 0.9;
             rb.scaleX = -1;
-            this.view.addChild(rb);
+            this.content.addChild(rb);
 
             //create pagination indicator
             //TODO
@@ -158,11 +158,11 @@ module InvertCross.Menu {
 
                     //if complete changes to myBotScreen
                     if (project.UserData.complete && this.projectPreviousState[project.name]==false) {
-                        this.view.mouseEnabled = false;
-                        this.view.mouseChildren = false;
+                        this.content.mouseEnabled = false;
+                        this.content.mouseChildren = false;
                         setTimeout(() => {
-                            this.view.mouseEnabled = true;
-                            this.view.mouseChildren = true;
+                            this.content.mouseEnabled = true;
+                            this.content.mouseChildren = true;
                             InvertCrossaGame.showMainMenu();
                         }, 2000);
                     }

@@ -1,18 +1,18 @@
 module InvertCross {
     // Class
     export class ScreenViewer{
-
+        
         //TODO add Comment Here
         public viewer: createjs.Container;
-        public header: createjs.Container;
-        public footer: createjs.Container;
-        
+
+        private headerPosition: number;
+        private footerPosition: number;
+        private viewerOffset: number;
+
         public currentScreen: Gbase.ScreenState;
 
         constructor(stage: createjs.Stage) {
             this.viewer = new createjs.Container();
-            this.header = new createjs.Container();
-            this.footer = new createjs.Container();
 
         }
 
@@ -33,17 +33,16 @@ module InvertCross {
             //if transition
             if (transition && oldScreen) {
 
-
                 //and transition = fade
                 if (transition.type == "fade") {
 
                     //fade between transitions
-                    newScreen.view.alpha = 0;
-                    newScreen.view.mouseEnabled = false;
-                    oldScreen.view.mouseEnabled = false;
-                    createjs.Tween.get(newScreen.view).to({ alpha: 1 }, transition.time).call(() => {
-                        newScreen.view.mouseEnabled = true;
-                        oldScreen.view.mouseEnabled = true;
+                    newScreen.content.alpha = 0;
+                    newScreen.content.mouseEnabled = false;
+                    oldScreen.content.mouseEnabled = false;
+                    createjs.Tween.get(newScreen.content).to({ alpha: 1 }, transition.time).call(() => {
+                        newScreen.content.mouseEnabled = true;
+                        oldScreen.content.mouseEnabled = true;
                         this.removeOldScreen(oldScreen)
                         oldScreen = null;
                     });
@@ -63,6 +62,10 @@ module InvertCross {
             //adds the new screen on viewer
             newScreen.activate(parameters);
             this.viewer.addChild(newScreen.view);
+
+            newScreen.header.y = this.headerPosition;
+            newScreen.footer.y = this.footerPosition;
+
             this.currentScreen = newScreen;
 
             
@@ -71,8 +74,29 @@ module InvertCross {
         private removeOldScreen(oldScreen:Gbase.ScreenState) {
             if (oldScreen!= null) {
                 oldScreen.desactivate();
-                this.viewer.removeChild(oldScreen.view);
+                this.viewer.removeChild(oldScreen.content);
                 oldScreen = null;
+            }
+        }
+
+        public updateViewerScale(realWidth: number, realHeight: number, defaultWidth: number, defaultHeight: number) {
+
+            var scale = realWidth / defaultWidth;
+            var currentHeight = realHeight / scale;
+            var currentWidth = realWidth / scale;
+
+            //set header and footer positions
+            this.headerPosition = -(currentHeight - defaultHeight) / 2;
+            this.footerPosition = defaultHeight + (currentHeight - defaultHeight) / 2;
+
+            //set the viewer offset to centralize in window
+            this.viewer.scaleX = this.viewer.scaleY = scale;
+            this.viewer.y = this.viewerOffset = (currentHeight - defaultHeight) / 2 * scale;
+
+            //updates current screen
+            if (this.currentScreen){
+                this.currentScreen.footer.y = this.footerPosition;
+                this.currentScreen.header.y = this.headerPosition;
             }
         }
     }

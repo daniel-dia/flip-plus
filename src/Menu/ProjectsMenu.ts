@@ -27,7 +27,7 @@ module InvertCross.Menu {
         private createObjects() {
 
             var bg: createjs.Bitmap = Assets.getBitmap("projects/bgprojects");
-            this.view.addChild(bg);
+            this.content.addChild(bg);
 
             this.addMenu();
             this.addProjects();
@@ -42,7 +42,7 @@ module InvertCross.Menu {
         //creates a popup
         private createPopup() {
             this.popup = new View.Popup();
-            this.view.addChild(this.popup);
+            this.content.addChild(this.popup);
         }
 
         //Adds defaultMenu to screen
@@ -54,7 +54,7 @@ module InvertCross.Menu {
             this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu()); });
             this.menu.addEventListener("back", () => { this.back()});
             this.partsIndicator = this.menu.partsIndicator;
-            this.view.addChild(this.menu);
+            this.content.addChild(this.menu);
         }
 
         //adds projects objects to the view
@@ -68,7 +68,7 @@ module InvertCross.Menu {
 
             //create grid
             this.projectsGrid = new createjs.Container();
-            this.view.addChild(this.projectsGrid);
+            this.content.addChild(this.projectsGrid);
             this.projectsGrid.x = (DefaultWidth -xspacing*cols)/2 +xspacing/2;
             this.projectsGrid.y = 600;
 
@@ -176,14 +176,14 @@ module InvertCross.Menu {
             var lb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
             lb.y = 1950;
             lb.x = DefaultWidth * 0.1;
-            this.view.addChild(lb);
+            this.content.addChild(lb);
 
             //create right button
             var rb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
             rb.y = 1950;
             rb.x = DefaultWidth * 0.9;
             rb.scaleX = -1;
-            this.view.addChild(rb);
+            this.content.addChild(rb);
 
             //create pagination indicator
             //TODO

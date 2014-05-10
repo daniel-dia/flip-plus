@@ -47,21 +47,18 @@ module InvertCross {
 
             //managers
             InvertCrossaGame.projectManager = new Projects.ProjectManager(levelsData);
-            
+
             //go to First Screen
             InvertCrossaGame.loadingScreen = new InvertCross.Menu.Loading();
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
 
             InvertCrossaGame.loadingScreen.loaded = () => {
-                if (document.URL.indexOf("Creator") > 0) {
+                if (document.URL.indexOf("Creator") > 0)
                     InvertCrossaGame.screenViewer.switchScreen(new GamePlay.LevelCreator(null, window));
-                    InvertCrossaGame.redim(420);
-                }
-
                 else
                     InvertCrossaGame.showTitleScreen();
             }
-            
+
             //TODO tirar daqui
             if (InvertCrossaGame.itemsData.getItemQuantity("hint") <= 0)
                 InvertCrossaGame.itemsData.setQuantityItem("hint", 50);
