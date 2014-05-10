@@ -30,7 +30,7 @@ module InvertCross.Menu {
         private addObjects() {
             //add Background
             var bg = Assets.getBitmap("workshop/bgworkshop")
-            this.content.addChild(bg);
+            this.background.addChild(bg);
                         
             //adds Projects
             this.addProjects();
@@ -127,8 +127,8 @@ module InvertCross.Menu {
         }           
         //--Behaviour-----------------------------------------------------------
 
-        public redim(headerY: number, footerY: number) {
-            super.redim(headerY, footerY);
+        public redim(headerY: number, footerY: number, width: number) {
+            super.redim(headerY, footerY, width);
 
             for (var pv in this.projectViews)
                 this.projectViews[pv].redim(headerY, footerY);

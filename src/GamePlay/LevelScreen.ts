@@ -73,7 +73,7 @@ module InvertCross.GamePlay {
         }
 
         private addBackground(theme: string) {
-            this.content.addChild(Assets.getBitmap("puzzle/bg"));
+            this.background.addChild(Assets.getBitmap("puzzle/bg"));
         }
 
         private initializeOverlays() {

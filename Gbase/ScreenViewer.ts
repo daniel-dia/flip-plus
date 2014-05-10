@@ -9,6 +9,9 @@ module InvertCross {
         private footerPosition: number;
         private viewerOffset: number;
 
+        private defaultWidth: number;
+
+
         public currentScreen: Gbase.ScreenState;
 
         constructor(stage: createjs.Stage) {
@@ -66,7 +69,7 @@ module InvertCross {
             this.currentScreen = newScreen;
 
             //updates current screen
-            if (this.currentScreen) this.currentScreen.redim(this.headerPosition, this.footerPosition);
+            if (this.currentScreen) this.currentScreen.redim(this.headerPosition, this.footerPosition,this.defaultWidth);
         }
 
         private removeOldScreen(oldScreen:Gbase.ScreenState) {
@@ -83,16 +86,18 @@ module InvertCross {
             var currentHeight = realHeight / scale;
             var currentWidth = realWidth / scale;
 
+            this.defaultWidth = defaultWidth;
+
             //set header and footer positions
             this.headerPosition = -(currentHeight - defaultHeight) / 2;
             this.footerPosition = defaultHeight + (currentHeight - defaultHeight) / 2;
-
+            
             //set the viewer offset to centralize in window
             this.viewer.scaleX = this.viewer.scaleY = scale;
             this.viewer.y = this.viewerOffset = (currentHeight - defaultHeight) / 2 * scale;
 
             //updates current screen
-            if (this.currentScreen) this.currentScreen.redim(this.headerPosition, this.footerPosition);
+            if (this.currentScreen) this.currentScreen.redim(this.headerPosition, this.footerPosition,this.defaultWidth);
         }
     }
 

@@ -18,7 +18,7 @@ module InvertCross.Menu {
             super()
 
             var bg: createjs.Bitmap = Assets.getBitmap("mybotsbg");
-            this.content.addChild(bg);
+            this.background.addChild(bg);
 
             this.addIntro();
 
@@ -93,15 +93,12 @@ module InvertCross.Menu {
         private addMenu() {
 
             this.menu = new View.ScreenMenu();
-            
-            this.content.addChild(this.menu);
+            this.menu.addEventListener("back", () => { this.back() });
             this.menu.addEventListener("menu", () => {
                 //TODO fazer camada intermediaria
                 InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu());
             });
-
-            this.menu.addEventListener("back", () => {this.back() });
-
+            this.header.addChild(this.menu);
         }
         
         private addTerminal() {
