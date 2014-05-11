@@ -132,10 +132,13 @@
 
             //adds objects in barrel
             for (var b = 0; b < this.barrels.length; b++) {
+
                 //show the item
                 if (this.items[b]) this.BarrelsItens[b].addChild(Assets.getBitmap("puzzle/icon_" + this.items[b]));
+
                 //or show a can
                 else this.BarrelsItens[b].addChild(Assets.getBitmap("bonus1/icone_lata"));
+
                 //hidesItem
                 this.BarrelsItens[b].visible = false;
             }

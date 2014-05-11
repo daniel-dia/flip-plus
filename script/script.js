@@ -669,6 +669,7 @@ var Assets = (function () {
             { id: "starsicon", src: imagePath + "staricon.png" },
             { id: "MenuBt", src: imagePath + "MenuBt.png" },
             { id: "BackBt", src: imagePath + "BackBt.png" },
+            { id: "touch", src: imagePath + "touch.png" },
             //title
             //{ id: "title/LogoScreen", src: imagePath + "title/LogoScreen.jpg" },
             { src: imagePath + "logo/bandeira1.png", id: "bandeira1" },
@@ -696,12 +697,12 @@ var Assets = (function () {
             { src: imagePath + "Bonus1/footer.png", id: "Bonus1/footer" },
             { src: imagePath + "Bonus1/icone_lata.png", id: "Bonus1/icone_lata" },
             { src: imagePath + "Bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
-            { src: imagePath + "Bonus2/back.png", id: "Bonus2/back" },
+            { src: imagePath + "Bonus2/back.jpg", id: "Bonus2/back" },
             { src: imagePath + "Bonus2/header.png", id: "Bonus2/header" },
             { src: imagePath + "Bonus2/footer.png", id: "Bonus2/footer" },
-            { src: imagePath + "Bonus2/bonuscard2.png", id: "Bonus2/bonuscard1" },
+            { src: imagePath + "Bonus2/bonuscard1.png", id: "Bonus2/bonuscard1" },
             { src: imagePath + "Bonus2/bonuscard2.png", id: "Bonus2/bonuscard2" },
-            { src: imagePath + "Bonus2/baonusrat.png", id: "Bonus2/bonusrat" },
+            { src: imagePath + "Bonus2/bonusrat.png", id: "Bonus2/bonusrat" },
             //projects
             { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
             { id: "projects/Bonus1", src: imagePath + "projects/Bonus1.png" },
@@ -933,7 +934,7 @@ var Assets = (function () {
         return t;
     };
 
-    Assets.getSrite = function (name) {
+    Assets.getSprite = function (name) {
         var data = spriteSheets[name];
         for (var i in data.images)
             if (typeof data.images[i] == "string")
@@ -3408,9 +3409,11 @@ var InvertCross;
                 var _this = this;
                 var footerItem = this.footerContainer.getChildByName(itemId);
                 if (footerItem) {
+                    var point = itemObj.parent.localToLocal(0, 0, this.content);
+
                     createjs.Tween.get(itemObj).to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).to({
-                        x: footerItem.x + this.footer.x + this.footerContainer.x,
-                        y: footerItem.y + this.footer.y + this.footerContainer.y
+                        x: footerItem.x + this.footer.x + this.footerContainer.x - point.x,
+                        y: footerItem.y + this.footer.y + this.footerContainer.y - point.y
                     }, 700, createjs.Ease.quadInOut).call(function () {
                         _this.updateFooterValues();
                     });
@@ -3507,10 +3510,10 @@ var InvertCross;
                     barrel.addEventListener("click", function (event) {
                         _this.barrelTap(event);
                     });
-                    var spriteBarrel = Assets.getSrite("Bonus1/Barrel" + (b + 1));
+                    var spriteBarrel = Assets.getSprite("Bonus1/Barrel" + (b + 1));
                     spriteBarrel.gotoAndPlay(Math.random() * 120);
                     barrel.addChild(spriteBarrel);
-                    var spriteWater = Assets.getSrite("Bonus1/agua");
+                    var spriteWater = Assets.getSprite("Bonus1/agua");
                     barrel.addChild(spriteWater);
                     spriteWater.gotoAndPlay(Math.random() * 120);
 
@@ -3687,10 +3690,143 @@ var InvertCross;
             __extends(Bonus2, _super);
             function Bonus2(itemsArray, sufix) {
                 if (typeof sufix === "undefined") { sufix = "1"; }
-                _super.call(this, itemsArray, "2");
+                _super.call(this, itemsArray, "Bonus2");
+
+                var cards = this.generateCards(12, 5, itemsArray);
+
+                this.addCards(cards);
             }
             Bonus2.prototype.addObjects = function () {
                 _super.prototype.addObjects.call(this);
+            };
+
+            //===============================================================================
+            Bonus2.prototype.pair = function (card1, card2) {
+                var _this = this;
+                if (card1.name == card2.name && card1 != card2) {
+                    this.userAquireItem(card1.name);
+                    this.userAquireItem(card1.name);
+
+                    this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
+                    this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
+                } else {
+                    this.content.mouseEnabled = false;
+                    setTimeout(function () {
+                        _this.closeCard(card1);
+                        _this.closeCard(card2);
+                        _this.content.mouseEnabled = true;
+                    }, 500);
+                }
+            };
+
+            Bonus2.prototype.closeOppened = function () {
+            };
+
+            //===============================================================================
+            Bonus2.prototype.cardClick = function (card) {
+                if (this.currentCard) {
+                    this.pair(this.currentCard, card);
+                    this.currentCard = null;
+                } else
+                    this.currentCard = card;
+
+                this.openCard(card);
+            };
+
+            Bonus2.prototype.addCards = function (cards) {
+                var _this = this;
+                var cols = 3;
+                var width = 450;
+                var height = 320;
+
+                var cardsContainer = new createjs.Container();
+                cardsContainer.x = 184 + 93 + 45;
+                cardsContainer.y = 135 + 400;
+
+                for (var c in cards) {
+                    var card = this.createCard(cards[c]);
+                    card.x = c % cols * width;
+                    card.y = Math.floor(c / cols) * height;
+                    cardsContainer.addChild(card);
+
+                    card.addEventListener("click", function (e) {
+                        _this.cardClick(e.currentTarget);
+                    });
+                }
+
+                this.content.addChild(cardsContainer);
+            };
+
+            Bonus2.prototype.generateCards = function (cardsCount, pairs, items) {
+                var cards = new Array();
+
+                for (var p = 0; p < pairs; p++) {
+                    var itemIndex = Math.floor(Math.random() * items.length);
+                    cards.push(items[itemIndex]);
+                    cards.push(items[itemIndex]);
+                }
+
+                for (var p = 0; p < cardsCount - pairs * 2; p++)
+                    cards.push(null);
+
+                //randomize cards
+                var randomizedCards = new Array();
+                while (cards.length > 0) {
+                    var index = Math.floor(Math.random() * cards.length);
+                    randomizedCards.push(cards[index]);
+                    cards.splice(index, 1);
+                }
+
+                return randomizedCards;
+            };
+
+            Bonus2.prototype.createCard = function (item) {
+                var card = new createjs.Container;
+                card.name = item;
+
+                //background
+                card.addChild(Assets.getBitmap("Bonus2/bonuscard2"));
+
+                //adds item Image or empty image
+                var itemImage = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
+                var itemDO = Assets.getBitmap(itemImage);
+                itemDO.name = "item";
+                itemDO.x = 368 / 2;
+                itemDO.y = 279 / 2;
+                itemDO.x -= itemDO.getBounds().width / 2;
+                itemDO.y -= itemDO.getBounds().height / 2;
+                card.addChild(itemDO);
+
+                //add cover image
+                var cover = new Gbase.UI.ImageButton("Bonus2/bonuscard1");
+                cover.x = 368 / 2;
+                cover.y = 279 / 2;
+                cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
+                cover.name = "cover";
+                card.addChild(cover);
+
+                //card.createHitArea();
+                card.regX = 184;
+                card.regY = 135;
+
+                return card;
+            };
+
+            Bonus2.prototype.openCard = function (card) {
+                var cover = card.getChildByName("cover");
+                createjs.Tween.removeTweens(cover);
+                createjs.Tween.get(cover).to({ scaleY: 0 }, 200, createjs.Ease.quadIn).call(function () {
+                    cover.visible = false;
+                });
+                card.mouseEnabled = false;
+            };
+
+            Bonus2.prototype.closeCard = function (card) {
+                var cover = card.getChildByName("cover");
+                cover.visible = true;
+                createjs.Tween.removeTweens(cover);
+                createjs.Tween.get(cover).to({ scaleY: 1 }, 200, createjs.Ease.quadIn);
+                card.mouseEnabled = true;
             };
             return Bonus2;
         })(Bonus.BonusScreen);
