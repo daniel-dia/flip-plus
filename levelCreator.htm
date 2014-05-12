@@ -1,44 +1,40 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="user-scalable=no" />
-    <title>Invert Cross</title>
+    <title>Flip +</title>
 
     <!-- Libs =================================================================================-->
     <script src="script/createjs-2013.12.12.min.js"></script>
     <script src="script/movieclip-0.6.1.min.js"></script>
     <script src="script/timer.js"></script>
- 
+
     <!-- Bitmap Scale patch ===================================================================-->
-    <script src="script/setMobileScale.js"></script>
     <script src="script/BitmapScalePath.js"></script>
+    <script src="script/setMobileScale.js"></script>
     <script src="script/getQueryVariable.js"></script>
     <script src="script/ImageHitAreaPatch.js"></script>
     <script src="script/CocoonJStouchPathc.js"></script>
-
-    <!-- Preferences ==========================================================================-->
-    <script src="src/Preferences.js"></script>
-    <script src="src/resources.js"></script>
 
     <!-- Projects Data ========================================================================-->
     <script src="script/Levels.js"></script>
 
     <!-- Assets ===============================================================================-->
-    <script src="assets/bolinhas.js"></script>
-    <script src="assets/Intro.js"></script>
-    <script src="assets/LogoScreen.js"></script>
+    <script src="assets/intro.js"></script>
     <script src="assets/MyBots.js"></script>
+    <script src="assets/LogoScreen.js"></script>
     <script src="assets/touch.js"></script>
+    <script src="assets/bolinhas.js"></script>
+    <script src="assets/spritesheets.js"></script>
+
 
     <!-- code script -->
     <script src="script/script.js"></script>
 
     <!-- style -->
     <link href="style/main.css" rel="stylesheet" />
-
 
 </head>
 <body>
@@ -55,13 +51,11 @@
                         <td class="auto-style3" colspan="4">
                             <h2>Level</h2>
                         </td>
-                        <td rowspan="10">
-                           </td>
+                        <td rowspan="10"></td>
                         <td class="auto-style3">
                             <h2>Storage</h2>
                         </td>
-                        <td rowspan="10">
-                           </td>
+                        <td rowspan="10"></td>
                         <td class="auto-style3">
                             <h2>Export</h2>
                         </td>
@@ -69,9 +63,11 @@
                     <tr>
                         <td class="small">Name </td>
                         <td class="small">
-                            <input class="small" id="c_name" /></td>
+                            <input class="small" id="c_name" />
+                        </td>
                         <td class="small">
-                            <input class="small" id="c_r_min1" style="visibility: hidden" /></td>
+                            <input class="small" id="c_r_min1" style="visibility: hidden" />
+                        </td>
                         <td class="small"></td>
                         <td class="small">Level</td>
                         <td>Data</td>
@@ -79,14 +75,18 @@
                     <tr>
                         <td class="small">Width</td>
                         <td class="small">
-                            <input class="small" id="c_width" /></td>
+                            <input class="small" id="c_width" />
+                        </td>
                         <td class="small">Height</td>
                         <td class="small">
-                            <input class="small" id="c_height" /></td>
+                            <input class="small" id="c_height" />
+                        </td>
                         <td rowspan="6" class="small">
-                            <select name="D3" multiple class="almost hc" id="c_select_level"></select></td>
+                            <select name="D3" multiple class="almost hc" id="c_select_level"></select>
+                        </td>
                         <td rowspan="6">
-                            <textarea name="S1" class="almost hc" id="c_exported"></textarea></td>
+                            <textarea name="S1" class="almost hc" id="c_exported"></textarea>
+                        </td>
                     </tr>
                     <tr>
                         <td class="small">Type</td>
@@ -96,7 +96,8 @@
                                 <option value="draw">Draw</option>
                                 <option value="moves">Moves</option>
                                 <option value="time">Time Attack</option>
-                            </select></td>
+                            </select>
+                        </td>
 
                         <td class="small">Theme</td>
                         <td class="small">
@@ -110,48 +111,54 @@
                     <tr>
                         <td class="small">Fips</td>
                         <td class="small">
-                            <input class="small" id="c_flips" /></td>
+                            <input class="small" id="c_flips" />
+                        </td>
 
                         <td class="small">Time</td>
                         <td class="small">
-                            <input class="small" id="c_time" /></td>
+                            <input class="small" id="c_time" />
+                        </td>
                     </tr>
                     <tr>
                         <td class="small">to Sove</td>
                         <td colspan="3" class="small">
-                            <input class="small" id="c_p_solve" /></td>
+                            <input class="small" id="c_p_solve" />
+                        </td>
 
                     </tr>
                     <tr>
                         <td class="small">Rn Min</td>
                         <td class="small">
-                            <input class="small" id="c_r_min" /></td>
+                            <input class="small" id="c_r_min" />
+                        </td>
 
                         <td class="small">Rn Max</td>
                         <td class="small">
-                            <input class="small" id="c_r_max" /></td>
+                            <input class="small" id="c_r_max" />
+                        </td>
                     </tr>
                     <tr>
                         <td class="small">Blocs</td>
                         <td colspan="3">
-                            <input id="c_blocks" class="long" /></td>
+                            <input id="c_blocks" class="long" />
+                        </td>
                     </tr>
                     <tr>
                         <td class="small">&nbsp;</td>
-                        <td colspan="3">                     <input type="checkbox" id="c_drawing">DrawMode<br></td>
+                        <td colspan="3"><input type="checkbox" id="c_drawing">DrawMode<br></td>
                         <td>
                             &nbsp;
                         </td>
-                        <td>
-       
-                        </td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="small">
-                            <input class="small" id="c_r_min0" style="visibility: hidden" /></td>
+                            <input class="small" id="c_r_min0" style="visibility: hidden" />
+                        </td>
                         <td colspan="3"><input type="button" id="c_create" value="Create New" class="long" /></td>
                         <td>
-                            <input type="button" class="small" id="c_save" value="Save" /><input type="button" class="small" id="c_load" value="Load" /><input type="button" class="small" id="c_delete" value="Delete" /></td>
+                            <input type="button" class="small" id="c_save" value="Save" /><input type="button" class="small" id="c_load" value="Load" /><input type="button" class="small" id="c_delete" value="Delete" />
+                        </td>
                         <td><input type="button" class="small" id="c_export" value="Export" /><input type="button" class="small" id="c_import" value="Import" /></td>
                     </tr>
                 </table>

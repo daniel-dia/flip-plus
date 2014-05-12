@@ -268,7 +268,7 @@ var Gbase;
                     this.addChildAt(this.background, 0);
 
                     //Sets the image into the pivot center.
-                    if (this.background.image != null) {
+                    if (this.background.getBounds()) {
                         this.width = this.background.getBounds().width;
                         this.height = this.background.getBounds().height;
                         this.background.regX = this.width / 2;
@@ -333,9 +333,9 @@ var Gbase;
                 this.icon = Assets.getBitmap(icon);
                 this.addChild(this.icon);
 
-                if (this.icon.image != null) {
+                if (this.icon.getBounds()) {
                     this.icon.regY = this.icon.getBounds().height / 2;
-                    this.icon.x = -(this.icon.getBounds().width + this.text.getMeasuredWidth()) / 2;
+                    this.icon.x = -(40 + this.icon.getBounds().width + this.text.getMeasuredWidth()) / 2;
                     this.text.x = this.icon.x + this.icon.getBounds().width;
                 }
             }
@@ -604,7 +604,6 @@ var InvertCross;
                 assetscale = 0.5;
             if (windowWidth <= 420)
                 assetscale = 0.25;
-            assetscale = 1;
 
             console.log("using scale at " + assetscale + "x");
             this.redim(windowWidth, window.innerHeight);
@@ -622,7 +621,7 @@ var InvertCross;
             this.myCanvas.width = deviceWidth;
             this.myCanvas.height = deviceHeight;
 
-            this.screenViewer.updateViewerScale(window.innerWidth, window.innerHeight, DefaultWidth, DefaultHeight);
+            this.screenViewer.updateViewerScale(deviceWidth, deviceHeight, DefaultWidth, DefaultHeight);
 
             if (updateCSS)
                 setMobileScale(deviceWidth);
@@ -766,6 +765,10 @@ var Assets = (function () {
             { id: "projects/bots/Bot18_shadow", src: imagePath + "projects/bots/Bot18_shadow.png" },
             */
             //workshop
+            { id: "workshop/workshop1", src: imagePath + "workshop/workshop1.png" },
+            { id: "workshop/workshop2", src: imagePath + "workshop/workshop2.png" },
+            { id: "workshop/workshop0", src: imagePath + "workshop/workshop0.png" },
+            /*
             { src: imagePath + "workshop/bots/Bot01.png", id: "workshop/bots/Bot01" },
             { src: imagePath + "workshop/bots/Bot02.png", id: "workshop/bots/Bot02" },
             { src: imagePath + "workshop/bots/Bot03.png", id: "workshop/bots/Bot03" },
@@ -820,6 +823,7 @@ var Assets = (function () {
             { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot16_stroke" },
             { src: imagePath + "workshop/bots/Bot17_stroke.png", id: "workshop/bots/Bot17_stroke" },
             { src: imagePath + "workshop/bots/Bot18_stroke.png", id: "workshop/bots/Bot18_stroke" },
+            
             //My bots
             { src: imagePath + "myBots/mybotsbg.jpg", id: "mybotsbg" },
             { src: imagePath + "myBots/Bot01.png", id: "Bot01" },
@@ -840,6 +844,7 @@ var Assets = (function () {
             { src: imagePath + "myBots/Bot16.png", id: "Bot16" },
             { src: imagePath + "myBots/Bot17.png", id: "Bot17" },
             { src: imagePath + "myBots/Bot18.png", id: "Bot18" },
+            
             //workshow
             { id: "workshop/basefases", src: imagePath + "workshop/basefases.png" },
             { id: "workshop/bgworkshop", src: imagePath + "workshop/bgworkshop.png" },
@@ -876,7 +881,10 @@ var Assets = (function () {
             { id: "workshop/stargreen", src: imagePath + "workshop/stargreen.png" },
             { id: "workshop/starpurple", src: imagePath + "workshop/starpurple.png" },
             { id: "workshop/staryellow", src: imagePath + "workshop/staryellow.png" },
+            */
             //puzzle
+            { id: "puzzle/Puzzle", src: imagePath + "puzzle/Puzzle.png" },
+            /*
             { id: "puzzle/bg", src: imagePath + "puzzle/bg.jpg" },
             { id: "puzzle/btplay1", src: imagePath + "puzzle/btplay1.png" },
             { id: "puzzle/btplay2", src: imagePath + "puzzle/btplay2.png" },
@@ -896,26 +904,32 @@ var Assets = (function () {
             { id: "puzzle/painelpuzzle2", src: imagePath + "puzzle/painelpuzzle2.png" },
             { id: "puzzle/tile0", src: imagePath + "puzzle/tile0.png" },
             { id: "puzzle/indicator", src: imagePath + "puzzle/indicator.png" },
+            
             { id: "puzzle/icon_hint", src: imagePath + "puzzle/icon_hint.png" },
             { id: "puzzle/icon_time", src: imagePath + "puzzle/icon_time.png" },
             { id: "puzzle/icon_skip", src: imagePath + "puzzle/icon_skip.png" },
             { id: "puzzle/icon_touch", src: imagePath + "puzzle/icon_touch.png" },
             { id: "puzzle/icon_solve", src: imagePath + "puzzle/icon_solve.png" },
+            
             { id: "puzzle/tile_yellow_1", src: imagePath + "puzzle/tile_yellow_1.png" },
             { id: "puzzle/tile_yellow_2", src: imagePath + "puzzle/tile_yellow_2.png" },
             { id: "puzzle/tile_yellow_3", src: imagePath + "puzzle/tile_yellow_3.png" },
             { id: "puzzle/tile_yellow_4", src: imagePath + "puzzle/tile_yellow_4.png" },
+            
             { id: "puzzle/tile_green_1", src: imagePath + "puzzle/tile_green_1.png" },
             { id: "puzzle/tile_green_2", src: imagePath + "puzzle/tile_green_2.png" },
             { id: "puzzle/tile_green_3", src: imagePath + "puzzle/tile_green_3.png" },
             { id: "puzzle/tile_green_4", src: imagePath + "puzzle/tile_green_4.png" },
+            
             { id: "puzzle/tile_purple_1", src: imagePath + "puzzle/tile_purple_1.png" },
             { id: "puzzle/tile_purple_2", src: imagePath + "puzzle/tile_purple_2.png" },
             { id: "puzzle/tile_purple_3", src: imagePath + "puzzle/tile_purple_3.png" },
             { id: "puzzle/tile_purple_4", src: imagePath + "puzzle/tile_purple_4.png" },
             { id: "puzzle/tilex", src: imagePath + "puzzle/tilex.png" },
+            
             { id: "puzzle/tileD", src: imagePath + "puzzle/tileD.png" },
             { id: "puzzle/tilexD", src: imagePath + "puzzle/tilexD.png" },
+            */
             //popup
             { id: "popups/popup", src: imagePath + "popups/popup.png" },
             { id: "popups/message", src: imagePath + "popups/message.png" },
@@ -1012,35 +1026,6 @@ createjs.Sound.registerManifest(manifest);
 //    this.mediaDic[manifest[i].id] = new Media(manifest[i].src);
 return true;
 }*/
-var InvertCross;
-(function (InvertCross) {
-    // Class
-    var Effects = (function (_super) {
-        __extends(Effects, _super);
-        function Effects() {
-            _super.apply(this, arguments);
-        }
-        // cast an effect
-        Effects.prototype.castEffect = function (x, y, effect, scale) {
-            var _this = this;
-            if (typeof scale === "undefined") { scale = 1; }
-            var fx = Assets.getMovieClip(effect);
-            this.addChild(fx);
-            fx.mouseEnabled = false;
-            fx.play();
-            fx.x = x;
-            fx.y = y;
-            fx.scaleY = fx.scaleX = scale;
-
-            fx.addEventListener("animationend", function (e) {
-                fx.stop();
-                _this.removeChild(fx);
-            });
-        };
-        return Effects;
-    })(createjs.Container);
-    InvertCross.Effects = Effects;
-})(InvertCross || (InvertCross = {}));
 window.onload = function () {
     InvertCross.InvertCrossaGame.InvertCrossInitilize();
 };
@@ -1077,9 +1062,9 @@ var InvertCross;
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
 
             InvertCrossaGame.loadingScreen.loaded = function () {
-                if (document.URL.indexOf("Creator") > 0)
+                if (document.URL.toUpperCase().indexOf("CREATOR") > 0) {
                     InvertCrossaGame.screenViewer.switchScreen(new InvertCross.GamePlay.LevelCreator(null, window));
-                else
+                } else
                     InvertCrossaGame.showTitleScreen();
             };
 
@@ -3055,7 +3040,7 @@ var InvertCross;
 
                     this.addButtons(["restart", "hint", "skip"]);
 
-                    var pausBt = new Gbase.UI.IconButton("puzzle/iconepause", "", "puzzle/btrestartpause", function () {
+                    var pausBt = new Gbase.UI.IconButton("puzzle/iconepause", "", "puzzle/btpowerup", function () {
                         _this.pause();
                     });
                     this.overlayMenu.addChild(pausBt), pausBt.x = 1400;
@@ -3087,6 +3072,7 @@ var InvertCross;
                     this.overlayMenu.addChild(button);
                     this.buttons[buttonId] = button;
                     button.x = pos;
+                    button.icon.x = -100;
                     return button;
                 };
 
@@ -3203,21 +3189,24 @@ var InvertCross;
                 StatusArea.prototype.createSprites = function () {
                     //Background
                     this.bg1 = Assets.getBitmap("puzzle/painelpuzzle2");
-                    this.bg2 = Assets.getBitmap("puzzle/painelpuzzle1");
+
+                    //this.bg2 = Assets.getBitmap("puzzle/painelpuzzle1");
                     this.bg3 = Assets.getBitmap("puzzle/painelpuzzle2");
                     this.bg3.scaleX = -1;
 
                     this.bg1.x = DefaultWidth * 0.01;
-                    this.bg2.x = DefaultWidth * 0.5;
-                    this.bg2.x -= this.bg2.getBounds().width / 2;
+
+                    //this.bg2.x = DefaultWidth * 0.5; this.bg2.x -= this.bg2.getBounds().width / 2;
                     this.bg3.x = DefaultWidth * 0.98;
 
                     this.bg1.y = 30;
-                    this.bg2.y = 30;
+
+                    //this.bg2.y = 30;
                     this.bg3.y = 30;
 
                     this.addChild(this.bg1);
-                    this.addChild(this.bg2);
+
+                    //this.addChild(this.bg2);
                     this.addChild(this.bg3);
 
                     //Icons
@@ -3277,7 +3266,7 @@ var InvertCross;
                     this.text1.text = text;
                 };
                 StatusArea.prototype.setText2 = function (text) {
-                    this.bg2.visible = !(text == "" || text == null);
+                    ;
                     this.text2.text = text;
                 };
 
@@ -5671,7 +5660,6 @@ var InvertCross;
 /// <reference path="Gbase/Game.ts" />
 /*scripts*/
 /// <reference path="src/Assets.ts" />
-/// <reference path="src/Utils/Effects.ts" />
 /// <reference path="src/InvertCrossGame.ts" />
 /// <reference path="src/UserData/Items.ts" />
 /// <reference path="src/UserData/Settings.ts" />
@@ -6116,6 +6104,8 @@ var InvertCross;
             function LevelCreator(levelData, editorWindow) {
                 var _this = this;
                 this.editWindow = editorWindow;
+                window.onresize = function () {
+                };
                 InvertCross.InvertCrossaGame.redim(420, 600, false);
                 InvertCross.InvertCrossaGame.redim = function (n) {
                 };
@@ -7107,9 +7097,9 @@ var InvertCross;
                 //create graphics
                 RobotPreview.prototype.createGraphics = function (project) {
                     var size = 1000;
-                    this.fill = this.addChild(Assets.getBitmap("workshop/bots/" + project.name + "_fill"));
-                    this.stroke = this.addChild(Assets.getBitmap("workshop/bots/" + project.name + "_stroke"));
-                    this.complete = this.addChild(Assets.getBitmap("workshop/bots/" + project.name));
+                    this.fill = this.addChild(Assets.getBitmap("workshop/" + project.name + "_fill"));
+                    this.stroke = this.addChild(Assets.getBitmap("workshop/" + project.name + "_stroke"));
+                    this.complete = this.addChild(Assets.getBitmap("workshop/" + project.name));
 
                     this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
                     this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
@@ -7180,6 +7170,35 @@ var InvertCross;
         var View = Menu.View;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    // Class
+    var Effects = (function (_super) {
+        __extends(Effects, _super);
+        function Effects() {
+            _super.apply(this, arguments);
+        }
+        // cast an effect
+        Effects.prototype.castEffect = function (x, y, effect, scale) {
+            var _this = this;
+            if (typeof scale === "undefined") { scale = 1; }
+            var fx = Assets.getMovieClip(effect);
+            this.addChild(fx);
+            fx.mouseEnabled = false;
+            fx.play();
+            fx.x = x;
+            fx.y = y;
+            fx.scaleY = fx.scaleX = scale;
+
+            fx.addEventListener("animationend", function (e) {
+                fx.stop();
+                _this.removeChild(fx);
+            });
+        };
+        return Effects;
+    })(createjs.Container);
+    InvertCross.Effects = Effects;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {

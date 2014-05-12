@@ -9,6 +9,7 @@ module InvertCross.GamePlay {
         constructor(levelData: Projects.Level, editorWindow: Window) {
 
             this.editWindow = editorWindow;
+            window.onresize = () => { };
             InvertCrossaGame.redim(420,600,false);
             InvertCrossaGame.redim = (n) => { };
             if (levelData == null) {

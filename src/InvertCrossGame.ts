@@ -53,8 +53,10 @@ module InvertCross {
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
 
             InvertCrossaGame.loadingScreen.loaded = () => {
-                if (document.URL.indexOf("Creator") > 0)
+                if (document.URL.toUpperCase().indexOf("CREATOR") > 0) {
                     InvertCrossaGame.screenViewer.switchScreen(new GamePlay.LevelCreator(null, window));
+
+                }
                 else
                     InvertCrossaGame.showTitleScreen();
             }

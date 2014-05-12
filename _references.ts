@@ -17,7 +17,6 @@
 
     /*scripts*/
     /// <reference path="src/Assets.ts" />
-    /// <reference path="src/Utils/Effects.ts" />
     /// <reference path="src/InvertCrossGame.ts" />
 
     /// <reference path="src/UserData/Items.ts" />

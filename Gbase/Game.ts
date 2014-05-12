@@ -62,6 +62,8 @@ module InvertCross {
             console.log("using scale at " + assetscale + "x");
             this.redim(windowWidth,window.innerHeight);
             window.onresize = () => { this.redim(windowWidth, window.innerHeight); };
+
+            
         }
 
         private static tick() {
@@ -73,7 +75,7 @@ module InvertCross {
             this.myCanvas.width = deviceWidth;
             this.myCanvas.height = deviceHeight;
 
-            this.screenViewer.updateViewerScale(window.innerWidth,window.innerHeight,DefaultWidth,DefaultHeight);
+            this.screenViewer.updateViewerScale(deviceWidth,deviceHeight,DefaultWidth,DefaultHeight);
 
             if(updateCSS) setMobileScale(deviceWidth)
         }

@@ -898,7 +898,7 @@
     <TypeScriptCompile Include="src\Menu\MainMenu.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\Overlay.ts" />
     <TypeScriptCompile Include="Gbase\Game.ts" />
-    <TypeScriptCompile Include="src\Utils\Effects.ts" />
+    <TypeScriptCompile Include="src\Menu\View\Utils\Effects.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelScreen.ts" />
     <TypeScriptCompile Include="src\GamePlay\Puzzle.ts" />
     <TypeScriptCompile Include="src\GamePlay\TimeAttack.ts" />
@@ -932,7 +932,7 @@
     <Content Include="style\main.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <TypeScriptCompile Include="src\Utils\Swipe.ts" />
+    <TypeScriptCompile Include="src\Menu\View\Utils\Swipe.ts" />
     <TypeScriptCompile Include="_references.ts" />
   </ItemGroup>
   <ItemGroup>
