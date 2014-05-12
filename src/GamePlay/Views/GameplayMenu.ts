@@ -35,7 +35,7 @@ module InvertCross.GamePlay.Views {
 
             this.addButtons(["restart","hint","skip"])
 
-            var pausBt = new Gbase.UI.IconButton("puzzle/iconepause", "", "puzzle/btrestartpause", () => { this.pause(); });
+            var pausBt = new Gbase.UI.IconButton("puzzle/iconepause", "", "puzzle/btpowerup", () => { this.pause(); });
             this.overlayMenu.addChild(pausBt),
             pausBt.x = 1400; 
 
@@ -65,6 +65,7 @@ module InvertCross.GamePlay.Views {
             this.overlayMenu.addChild(button);
             this.buttons[buttonId] = button;
             button.x = pos;
+            button.icon.x = -100;
             return button;
         }
 

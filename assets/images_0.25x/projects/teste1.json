@@ -1,0 +1,45 @@
+{
+"images": ["teste1.png"],
+"frames": [
+
+    [0, 0, 478, 472], 
+    [478, 0, 478, 472], 
+    [956, 0, 478, 472], 
+    [1434, 0, 478, 472], 
+    [0, 472, 478, 472], 
+    [0, 944, 478, 472], 
+    [0, 1416, 478, 472], 
+    [478, 472, 478, 472], 
+    [956, 472, 478, 472], 
+    [1434, 472, 478, 472], 
+    [478, 944, 478, 472], 
+    [478, 1416, 478, 472], 
+    [956, 944, 478, 472], 
+    [1434, 944, 478, 472], 
+    [956, 1416, 478, 472], 
+    [1434, 1416, 478, 472]
+],
+"animations": {
+    
+        "Bot09_shadow":[0], 
+        "Bot10":[1], 
+        "Bot10_shadow":[2], 
+        "Bot11":[3], 
+        "Bot11_shadow":[4], 
+        "Bot12":[5], 
+        "Bot12_shadow":[6], 
+        "Bot13":[7], 
+        "Bot13_shadow":[8], 
+        "Bot14":[9], 
+        "Bot14_shadow":[10], 
+        "Bot15":[11], 
+        "Bot15_shadow":[12], 
+        "Bot16":[13], 
+        "Bot16_shadow":[14], 
+        "Bot17":[15]
+},
+"texturepacker": [
+        "SmartUpdateHash: $TexturePacker:SmartUpdate:6664ffcf4b642199f10cde209938cb14:9b5932799a026e729e6824751fc4777a:e2a5affbe31ead4f783e27c6352202ac$",
+        "Created with TexturePacker (http://www.texturepacker.com) for EaselJS"
+]
+}

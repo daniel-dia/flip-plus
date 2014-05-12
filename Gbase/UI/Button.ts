@@ -68,7 +68,7 @@ module Gbase.UI {
                 this.addChildAt(this.background, 0);
 
                 //Sets the image into the pivot center.
-                if (this.background.image != null) {
+                if (this.background.getBounds()) {
                     this.width = this.background.getBounds().width ;
                     this.height = this.background.getBounds().height ;
                     this.background.regX = this.width / 2;
@@ -112,7 +112,7 @@ module Gbase.UI {
 
     export class IconButton extends TextButton {
 
-        private icon: createjs.Bitmap;
+        public icon: createjs.Bitmap;
 
         constructor(icon: string = "", text = "", background?: string , event: (event: createjs.MouseEvent) => any = null, font: string = null, color: string = null) {
 
@@ -125,11 +125,12 @@ module Gbase.UI {
             this.icon = Assets.getBitmap(icon);
             this.addChild(this.icon);
 
-            if (this.icon.image != null) {
+            if (this.icon.getBounds()) {
                 this.icon.regY = this.icon.getBounds().height / 2;
-                this.icon.x = -(this.icon.getBounds().width  + this.text.getMeasuredWidth()) / 2;
-                this.text.x = this.icon.x + this.icon.getBounds().width ;
+                this.icon.x = -(40 + this.icon.getBounds().width + this.text.getMeasuredWidth()) / 2;
+                this.text.x =  this.icon.x + this.icon.getBounds().width;
             }
+            
         }
     }
 }

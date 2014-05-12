@@ -8,8 +8,7 @@ module InvertCross.Menu.View {
         private fill:createjs.DisplayObject;
         private stroke: createjs.DisplayObject;
         private complete: createjs.DisplayObject;
-
-
+        
         //Constructor
         constructor(project: InvertCross.Projects.Project) {
             super();
@@ -23,9 +22,9 @@ module InvertCross.Menu.View {
         private createGraphics(project: InvertCross.Projects.Project) {
 
             var size: number = 1000;
-            this.fill = this.addChild(Assets.getBitmap("workshop/bots/" + project.name + "_fill"));
-            this.stroke = this.addChild(Assets.getBitmap("workshop/bots/" + project.name + "_stroke"));
-            this.complete = this.addChild(Assets.getBitmap("workshop/bots/" + project.name));
+            this.fill = this.addChild(Assets.getBitmap("workshop/" + project.name + "_fill"));
+            this.stroke = this.addChild(Assets.getBitmap("workshop/" + project.name + "_stroke"));
+            this.complete = this.addChild(Assets.getBitmap("workshop/" + project.name));
 
             this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
             this.fill.regY = this.stroke.regY = this.fill.getBounds().height;

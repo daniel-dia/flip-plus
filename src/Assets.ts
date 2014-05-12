@@ -83,8 +83,16 @@ class Assets {
             { src: imagePath + "Bonus2/bonuscard2.png", id: "Bonus2/bonuscard2" },
             { src: imagePath + "Bonus2/bonusrat.png", id: "Bonus2/bonusrat" },
 
+            //{ id: "projects/teste1", src: imagePath + "projects/teste1.png" },
+            //{ id: "projects/teste0", src: imagePath + "projects/teste0.png" },
+            { id: "projects/teste20", src: imagePath + "projects/teste20.png" },
+            { id: "projects/teste21", src: imagePath + "projects/teste21.png" },
+
+            { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
 
             //projects
+            /*
+            
             { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
             { id: "projects/Bonus1", src: imagePath + "projects/Bonus1.png" },
             { id: "projects/Bonus2", src: imagePath + "projects/Bonus2.png" },
@@ -137,8 +145,14 @@ class Assets {
             { id: "projects/bots/Bot16_shadow", src: imagePath + "projects/bots/Bot16_shadow.png" },
             { id: "projects/bots/Bot17_shadow", src: imagePath + "projects/bots/Bot17_shadow.png" },
             { id: "projects/bots/Bot18_shadow", src: imagePath + "projects/bots/Bot18_shadow.png" },
+            */
 
             //workshop
+            { id: "workshop/workshop1", src: imagePath + "workshop/workshop1.png" },
+            { id: "workshop/workshop2", src: imagePath + "workshop/workshop2.png" },
+            { id: "workshop/workshop0", src: imagePath + "workshop/workshop0.png" },
+            
+            /*
             { src: imagePath + "workshop/bots/Bot01.png", id: "workshop/bots/Bot01" },
             { src: imagePath + "workshop/bots/Bot02.png", id: "workshop/bots/Bot02" },
             { src: imagePath + "workshop/bots/Bot03.png", id: "workshop/bots/Bot03" },
@@ -251,8 +265,12 @@ class Assets {
             { id: "workshop/stargreen", src: imagePath + "workshop/stargreen.png" },
             { id: "workshop/starpurple", src: imagePath + "workshop/starpurple.png" },
             { id: "workshop/staryellow", src: imagePath + "workshop/staryellow.png" },
-
+            */
             //puzzle
+
+            { id: "puzzle/Puzzle", src: imagePath + "puzzle/Puzzle.png" },
+
+            /*
             { id: "puzzle/bg", src: imagePath + "puzzle/bg.jpg" },
             { id: "puzzle/btplay1", src: imagePath + "puzzle/btplay1.png" },
             { id: "puzzle/btplay2", src: imagePath + "puzzle/btplay2.png" },
@@ -297,7 +315,7 @@ class Assets {
 
             { id: "puzzle/tileD", src: imagePath + "puzzle/tileD.png" },
             { id: "puzzle/tilexD", src: imagePath + "puzzle/tilexD.png" },
-
+            */
 
             //popup
             { id: "popups/popup", src: imagePath + "popups/popup.png" },
@@ -332,6 +350,9 @@ class Assets {
 
 
     public static getBitmap(name: string): createjs.Bitmap {
+        if (spriteSheets[name])
+            return <createjs.Bitmap>(<any>this.getSprite(name));
+        else
         return new createjs.Bitmap(this.getImage(name));
     }
 

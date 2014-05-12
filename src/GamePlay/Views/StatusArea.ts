@@ -28,19 +28,19 @@ module InvertCross.GamePlay.Views {
 
             //Background
             this.bg1 = Assets.getBitmap("puzzle/painelpuzzle2");
-            this.bg2 = Assets.getBitmap("puzzle/painelpuzzle1");
+            //this.bg2 = Assets.getBitmap("puzzle/painelpuzzle1");
             this.bg3 = Assets.getBitmap("puzzle/painelpuzzle2"); this.bg3.scaleX = -1;
 
             this.bg1.x = DefaultWidth * 0.01;
-            this.bg2.x = DefaultWidth * 0.5; this.bg2.x -= this.bg2.getBounds().width / 2;
+            //this.bg2.x = DefaultWidth * 0.5; this.bg2.x -= this.bg2.getBounds().width / 2;
             this.bg3.x = DefaultWidth * 0.98;             
 
             this.bg1.y = 30;
-            this.bg2.y = 30;
+            //this.bg2.y = 30;
             this.bg3.y = 30;
 
             this.addChild(this.bg1);
-            this.addChild(this.bg2);
+            //this.addChild(this.bg2);
             this.addChild(this.bg3);
 
             //Icons
@@ -102,7 +102,7 @@ module InvertCross.GamePlay.Views {
         }
 
         public setText1(text: string) { this.bg1.visible = !(text == "" || text == null); this.text1.text = text; }
-        public setText2(text: string) { this.bg2.visible = !(text == "" || text == null); this.text2.text = text; }
+        public setText2(text: string) { /*this.bg2.visible = !(text == "" || text == null)*/; this.text2.text = text; }
 
         public setText3(text: string) {
             this.bg3.visible = !(text == "" || text == null);

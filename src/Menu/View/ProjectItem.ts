@@ -45,9 +45,9 @@ module InvertCross.Menu.View {
 
                 //robot image
                 if (project.UserData.complete)
-                    var botImage = Assets.getBitmap("projects/bots/" + project.name);
+                    var botImage = Assets.getBitmap("projects/" + project.name);
                 else
-                    var botImage = Assets.getBitmap("projects/bots/" + project.name +"_shadow");
+                    var botImage = Assets.getBitmap("projects/" + project.name +"_shadow");
                 this.addChild(botImage);
 
 

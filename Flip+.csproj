@@ -134,6 +134,9 @@
     <Content Include="assets\images_0.25x\projects\bots\bot18.png" />
     <Content Include="assets\images_0.25x\projects\bots\Bot18_shadow.png" />
     <Content Include="assets\images_0.25x\projects\btpage.png" />
+    <Content Include="assets\images_0.25x\projects\convert.js" />
+    <Content Include="assets\images_0.25x\projects\JsonToEasel.js" />
+    <Content Include="assets\images_0.25x\projects\out.js" />
     <Content Include="assets\images_0.25x\projects\pageoff.png" />
     <Content Include="assets\images_0.25x\projects\pageon.png" />
     <Content Include="assets\images_0.25x\projects\slot0.png" />
@@ -142,6 +145,18 @@
     <Content Include="assets\images_0.25x\projects\slot3.png" />
     <Content Include="assets\images_0.25x\projects\slotl.png" />
     <Content Include="assets\images_0.25x\projects\star.png" />
+    <Content Include="assets\images_0.25x\projects\teste0.json" />
+    <Content Include="assets\images_0.25x\projects\teste0.png" />
+    <Content Include="assets\images_0.25x\projects\teste1.json" />
+    <Content Include="assets\images_0.25x\projects\teste1.png" />
+    <Content Include="assets\images_0.25x\projects\teste2.json" />
+    <Content Include="assets\images_0.25x\projects\teste2.png" />
+    <Content Include="assets\images_0.25x\projects\teste20.json" />
+    <Content Include="assets\images_0.25x\projects\teste20.png" />
+    <Content Include="assets\images_0.25x\projects\teste21.json" />
+    <Content Include="assets\images_0.25x\projects\teste21.png" />
+    <Content Include="assets\images_0.25x\projects\teste3.json" />
+    <Content Include="assets\images_0.25x\projects\teste3.png" />
     <Content Include="assets\images_0.25x\puzzle\bg.jpg" />
     <Content Include="assets\images_0.25x\puzzle\btplay1.png" />
     <Content Include="assets\images_0.25x\puzzle\btplay2.png" />
@@ -188,6 +203,7 @@
     <Content Include="assets\images_0.25x\puzzle\tile_yellow_3.png" />
     <Content Include="assets\images_0.25x\puzzle\tile_yellow_4.png" />
     <Content Include="assets\images_0.25x\staricon.png" />
+    <Content Include="assets\images_0.25x\touch.png" />
     <Content Include="assets\images_0.25x\workshop\basefases.png" />
     <Content Include="assets\images_0.25x\workshop\bgworkshop.png" />
     <Content Include="assets\images_0.25x\workshop\bots\Bot01.png" />
@@ -240,6 +256,14 @@
     <Content Include="assets\images_0.25x\workshop\bots\Bot18.png" />
     <Content Include="assets\images_0.25x\workshop\bots\Bot18_fill.png" />
     <Content Include="assets\images_0.25x\workshop\bots\Bot18_stroke.png" />
+    <Content Include="assets\images_0.25x\workshop\bots\convert.js" />
+    <Content Include="assets\images_0.25x\workshop\bots\JsonToEasel.js" />
+    <Content Include="assets\images_0.25x\workshop\bots\out.js" />
+    <Content Include="assets\images_0.25x\workshop\bots\process.argv[2]" />
+    <Content Include="assets\images_0.25x\workshop\bots\teste0.json" />
+    <Content Include="assets\images_0.25x\workshop\bots\teste0.png" />
+    <Content Include="assets\images_0.25x\workshop\bots\teste1.json" />
+    <Content Include="assets\images_0.25x\workshop\bots\teste1.png" />
     <Content Include="assets\images_0.25x\workshop\estrelaworkshop.png" />
     <Content Include="assets\images_0.25x\workshop\faseamarela1.png" />
     <Content Include="assets\images_0.25x\workshop\faseamarela2.png" />
@@ -376,6 +400,9 @@
     <Content Include="assets\images_0.5x\projects\bots\bot18.png" />
     <Content Include="assets\images_0.5x\projects\bots\Bot18_shadow.png" />
     <Content Include="assets\images_0.5x\projects\btpage.png" />
+    <Content Include="assets\images_0.5x\projects\convert.js" />
+    <Content Include="assets\images_0.5x\projects\JsonToEasel.js" />
+    <Content Include="assets\images_0.5x\projects\out.js" />
     <Content Include="assets\images_0.5x\projects\pageoff.png" />
     <Content Include="assets\images_0.5x\projects\pageon.png" />
     <Content Include="assets\images_0.5x\projects\slot0.png" />
@@ -384,6 +411,18 @@
     <Content Include="assets\images_0.5x\projects\slot3.png" />
     <Content Include="assets\images_0.5x\projects\slotl.png" />
     <Content Include="assets\images_0.5x\projects\star.png" />
+    <Content Include="assets\images_0.5x\projects\teste0.json" />
+    <Content Include="assets\images_0.5x\projects\teste0.png" />
+    <Content Include="assets\images_0.5x\projects\teste1.json" />
+    <Content Include="assets\images_0.5x\projects\teste1.png" />
+    <Content Include="assets\images_0.5x\projects\teste2.json" />
+    <Content Include="assets\images_0.5x\projects\teste2.png" />
+    <Content Include="assets\images_0.5x\projects\teste20.json" />
+    <Content Include="assets\images_0.5x\projects\teste20.png" />
+    <Content Include="assets\images_0.5x\projects\teste21.json" />
+    <Content Include="assets\images_0.5x\projects\teste21.png" />
+    <Content Include="assets\images_0.5x\projects\teste3.json" />
+    <Content Include="assets\images_0.5x\projects\teste3.png" />
     <Content Include="assets\images_0.5x\puzzle\bg.jpg" />
     <Content Include="assets\images_0.5x\puzzle\btplay1.png" />
     <Content Include="assets\images_0.5x\puzzle\btplay2.png" />
@@ -430,6 +469,7 @@
     <Content Include="assets\images_0.5x\puzzle\tile_yellow_3.png" />
     <Content Include="assets\images_0.5x\puzzle\tile_yellow_4.png" />
     <Content Include="assets\images_0.5x\staricon.png" />
+    <Content Include="assets\images_0.5x\touch.png" />
     <Content Include="assets\images_0.5x\workshop\basefases.png" />
     <Content Include="assets\images_0.5x\workshop\bgworkshop.png" />
     <Content Include="assets\images_0.5x\workshop\bots\Bot01.png" />
@@ -482,6 +522,14 @@
     <Content Include="assets\images_0.5x\workshop\bots\Bot18.png" />
     <Content Include="assets\images_0.5x\workshop\bots\Bot18_fill.png" />
     <Content Include="assets\images_0.5x\workshop\bots\Bot18_stroke.png" />
+    <Content Include="assets\images_0.5x\workshop\bots\convert.js" />
+    <Content Include="assets\images_0.5x\workshop\bots\JsonToEasel.js" />
+    <Content Include="assets\images_0.5x\workshop\bots\out.js" />
+    <Content Include="assets\images_0.5x\workshop\bots\process.argv[2]" />
+    <Content Include="assets\images_0.5x\workshop\bots\teste0.json" />
+    <Content Include="assets\images_0.5x\workshop\bots\teste0.png" />
+    <Content Include="assets\images_0.5x\workshop\bots\teste1.json" />
+    <Content Include="assets\images_0.5x\workshop\bots\teste1.png" />
     <Content Include="assets\images_0.5x\workshop\estrelaworkshop.png" />
     <Content Include="assets\images_0.5x\workshop\faseamarela1.png" />
     <Content Include="assets\images_0.5x\workshop\faseamarela2.png" />
@@ -573,9 +621,6 @@
     <Content Include="assets\images_1x\popups\message.png" />
     <Content Include="assets\images_1x\popups\popup.png" />
     <Content Include="assets\images_1x\popups\popupbot.png" />
-    <Content Include="assets\images_1x\popups\popupbottom.png" />
-    <Content Include="assets\images_1x\popups\popupmiddle.png" />
-    <Content Include="assets\images_1x\popups\popuptop.png" />
     <Content Include="assets\images_1x\projects\bgprojects.jpg" />
     <Content Include="assets\images_1x\projects\bigslot1.png" />
     <Content Include="assets\images_1x\projects\Bonus1.png" />
@@ -618,6 +663,9 @@
     <Content Include="assets\images_1x\projects\bots\bot18.png" />
     <Content Include="assets\images_1x\projects\bots\Bot18_shadow.png" />
     <Content Include="assets\images_1x\projects\btpage.png" />
+    <Content Include="assets\images_1x\projects\convert.js" />
+    <Content Include="assets\images_1x\projects\JsonToEasel.js" />
+    <Content Include="assets\images_1x\projects\out.js" />
     <Content Include="assets\images_1x\projects\pageoff.png" />
     <Content Include="assets\images_1x\projects\pageon.png" />
     <Content Include="assets\images_1x\projects\slot0.png" />
@@ -626,17 +674,18 @@
     <Content Include="assets\images_1x\projects\slot3.png" />
     <Content Include="assets\images_1x\projects\slotl.png" />
     <Content Include="assets\images_1x\projects\star.png" />
+    <Content Include="assets\images_1x\projects\teste20.json" />
+    <Content Include="assets\images_1x\projects\teste20.png" />
+    <Content Include="assets\images_1x\projects\teste21.json" />
+    <Content Include="assets\images_1x\projects\teste21.png" />
     <Content Include="assets\images_1x\puzzle\bg.jpg" />
     <Content Include="assets\images_1x\puzzle\btplay1.png" />
     <Content Include="assets\images_1x\puzzle\btplay2.png" />
-    <Content Include="assets\images_1x\puzzle\btplay3.png" />
     <Content Include="assets\images_1x\puzzle\btpowerup.png" />
     <Content Include="assets\images_1x\puzzle\btrestartpause.png" />
     <Content Include="assets\images_1x\puzzle\btsair.png" />
     <Content Include="assets\images_1x\puzzle\btsom1.png" />
     <Content Include="assets\images_1x\puzzle\btsom2.png" />
-    <Content Include="assets\images_1x\puzzle\challengeflip.png" />
-    <Content Include="assets\images_1x\puzzle\challengetime.png" />
     <Content Include="assets\images_1x\puzzle\iconemoves.png" />
     <Content Include="assets\images_1x\puzzle\iconepause.png" />
     <Content Include="assets\images_1x\puzzle\iconeplay.png" />
@@ -648,17 +697,16 @@
     <Content Include="assets\images_1x\puzzle\icon_solve.png" />
     <Content Include="assets\images_1x\puzzle\icon_time.png" />
     <Content Include="assets\images_1x\puzzle\icon_touch.png" />
-    <Content Include="assets\images_1x\puzzle\indicator.png" />
-    <Content Include="assets\images_1x\puzzle\noflips.png" />
-    <Content Include="assets\images_1x\puzzle\notime.png" />
+    <Content Include="assets\images_1x\puzzle\JsonToEasel.js" />
     <Content Include="assets\images_1x\puzzle\paginacaopuzzle.png" />
-    <Content Include="assets\images_1x\puzzle\painelpuzzle1.png" />
     <Content Include="assets\images_1x\puzzle\painelpuzzle2.png" />
-    <Content Include="assets\images_1x\puzzle\t0.png" />
+    <Content Include="assets\images_1x\puzzle\puzzle.js" />
+    <Content Include="assets\images_1x\puzzle\Puzzle.png" />
     <Content Include="assets\images_1x\puzzle\tile0.png" />
     <Content Include="assets\images_1x\puzzle\tileD.png" />
+    <Content Include="assets\images_1x\puzzle\tilememory.png" />
+    <Content Include="assets\images_1x\puzzle\tilemirror.png" />
     <Content Include="assets\images_1x\puzzle\tilex.png" />
-    <Content Include="assets\images_1x\puzzle\tilexD.png" />
     <Content Include="assets\images_1x\puzzle\tile_green_1.png" />
     <Content Include="assets\images_1x\puzzle\tile_green_2.png" />
     <Content Include="assets\images_1x\puzzle\tile_green_3.png" />
@@ -672,6 +720,7 @@
     <Content Include="assets\images_1x\puzzle\tile_yellow_3.png" />
     <Content Include="assets\images_1x\puzzle\tile_yellow_4.png" />
     <Content Include="assets\images_1x\staricon.png" />
+    <Content Include="assets\images_1x\touch.png" />
     <Content Include="assets\images_1x\workshop\basefases.png" />
     <Content Include="assets\images_1x\workshop\bgworkshop.png" />
     <Content Include="assets\images_1x\workshop\bots\Bot01.png" />
@@ -724,6 +773,9 @@
     <Content Include="assets\images_1x\workshop\bots\Bot18.png" />
     <Content Include="assets\images_1x\workshop\bots\Bot18_fill.png" />
     <Content Include="assets\images_1x\workshop\bots\Bot18_stroke.png" />
+    <Content Include="assets\images_1x\workshop\bots\convert.js" />
+    <Content Include="assets\images_1x\workshop\bots\JsonToEasel.js" />
+    <Content Include="assets\images_1x\workshop\bots\teste.json" />
     <Content Include="assets\images_1x\workshop\estrelaworkshop.png" />
     <Content Include="assets\images_1x\workshop\faseamarela1.png" />
     <Content Include="assets\images_1x\workshop\faseamarela2.png" />
@@ -891,6 +943,9 @@
     <Content Include="fonts\Exo 2.0.ttf" />
     <Content Include="fonts\Exo2.0-Bold.ttf" />
     <Content Include="fonts\Exo2.0-Regular.ttf" />
+    <Content Include="assets\images_0.25x\workshop\bots\teste.json" />
+    <Content Include="assets\images_0.5x\workshop\bots\teste.json" />
+    <Content Include="assets\images_1x\puzzle\Puzzle.json" />
     <None Include="flipplus.pubxml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
@@ -900,7 +955,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="assets\images_1x\lobbyImages\" />
     <Folder Include="assets\images_1x\Temp\" />
   </ItemGroup>
   <PropertyGroup>

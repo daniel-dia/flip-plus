@@ -604,6 +604,7 @@ var InvertCross;
                 assetscale = 0.5;
             if (windowWidth <= 420)
                 assetscale = 0.25;
+            assetscale = 1;
 
             console.log("using scale at " + assetscale + "x");
             this.redim(windowWidth, window.innerHeight);
@@ -703,7 +704,14 @@ var Assets = (function () {
             { src: imagePath + "Bonus2/bonuscard1.png", id: "Bonus2/bonuscard1" },
             { src: imagePath + "Bonus2/bonuscard2.png", id: "Bonus2/bonuscard2" },
             { src: imagePath + "Bonus2/bonusrat.png", id: "Bonus2/bonusrat" },
+            //{ id: "projects/teste1", src: imagePath + "projects/teste1.png" },
+            //{ id: "projects/teste0", src: imagePath + "projects/teste0.png" },
+            { id: "projects/teste20", src: imagePath + "projects/teste20.png" },
+            { id: "projects/teste21", src: imagePath + "projects/teste21.png" },
+            { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
             //projects
+            /*
+            
             { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
             { id: "projects/Bonus1", src: imagePath + "projects/Bonus1.png" },
             { id: "projects/Bonus2", src: imagePath + "projects/Bonus2.png" },
@@ -718,6 +726,7 @@ var Assets = (function () {
             { id: "projects/pageoff", src: imagePath + "projects/pageoff.png" },
             { id: "projects/bigslot1", src: imagePath + "projects/bigslot1.png" },
             { id: "projects/btpage", src: imagePath + "projects/btpage.png" },
+            
             //projects
             { id: "projects/bots/Bot01", src: imagePath + "projects/bots/Bot01.png" },
             { id: "projects/bots/Bot02", src: imagePath + "projects/bots/Bot02.png" },
@@ -755,6 +764,7 @@ var Assets = (function () {
             { id: "projects/bots/Bot16_shadow", src: imagePath + "projects/bots/Bot16_shadow.png" },
             { id: "projects/bots/Bot17_shadow", src: imagePath + "projects/bots/Bot17_shadow.png" },
             { id: "projects/bots/Bot18_shadow", src: imagePath + "projects/bots/Bot18_shadow.png" },
+            */
             //workshop
             { src: imagePath + "workshop/bots/Bot01.png", id: "workshop/bots/Bot01" },
             { src: imagePath + "workshop/bots/Bot02.png", id: "workshop/bots/Bot02" },
@@ -922,7 +932,10 @@ var Assets = (function () {
     };
 
     Assets.getBitmap = function (name) {
-        return new createjs.Bitmap(this.getImage(name));
+        if (spriteSheets[name])
+            return this.getSprite(name);
+        else
+            return new createjs.Bitmap(this.getImage(name));
     };
 
     Assets.getImage = function (name) {
@@ -5034,9 +5047,9 @@ var InvertCross;
 
                         //robot image
                         if (project.UserData.complete)
-                            var botImage = Assets.getBitmap("projects/bots/" + project.name);
+                            var botImage = Assets.getBitmap("projects/" + project.name);
                         else
-                            var botImage = Assets.getBitmap("projects/bots/" + project.name + "_shadow");
+                            var botImage = Assets.getBitmap("projects/" + project.name + "_shadow");
                         this.addChild(botImage);
 
                         //and stars
