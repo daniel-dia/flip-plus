@@ -96,14 +96,14 @@ module InvertCross.Menu.View {
         private createLevelModificator(level: Projects.Level):createjs.DisplayObject {
 
             if (level.userdata.skip) {
-                var sk: createjs.Bitmap = Assets.getBitmap("puzzle/icon_skip");
+                var sk = Assets.getBitmap("puzzle/icon_skip");
                 sk.regX = sk.getBounds().width / 2;
                 sk.regY = sk.getBounds().height / 2;
                 return sk;
             }
 
             if (level.userdata.item) {
-                var sk: createjs.Bitmap = Assets.getBitmap("puzzle/icon_" + level.userdata.item);
+                var sk = Assets.getBitmap("puzzle/icon_" + level.userdata.item);
                 sk.regX = sk.getBounds().width / 2;
                 sk.regY = sk.getBounds().height / 2;
                 return sk;
@@ -114,7 +114,7 @@ module InvertCross.Menu.View {
         //adds thumb background
         private createBackgroud(level: Projects.Level,assetName,assetSufix): createjs.DisplayObject {
 
-            var sbg: createjs.Bitmap = Assets.getBitmap("workshop/" + assetName + assetSufix);
+            var sbg = Assets.getBitmap("workshop/" + assetName + assetSufix);
             sbg.regX = sbg.regY = 98;
             return sbg;
         }

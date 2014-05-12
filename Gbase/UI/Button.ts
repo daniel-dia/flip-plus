@@ -54,7 +54,7 @@ module Gbase.UI {
 
     export class ImageButton extends Button {
 
-        public background: createjs.Bitmap;
+        public background: createjs.DisplayObject;
 
         constructor(background: string, event: (event: createjs.MouseEvent) => any = null) {
             super();
@@ -112,7 +112,7 @@ module Gbase.UI {
 
     export class IconButton extends TextButton {
 
-        public icon: createjs.Bitmap;
+        public icon: createjs.DisplayObject;
 
         constructor(icon: string = "", text = "", background?: string , event: (event: createjs.MouseEvent) => any = null, font: string = null, color: string = null) {
 

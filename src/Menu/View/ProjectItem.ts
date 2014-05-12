@@ -28,7 +28,7 @@ module InvertCross.Menu.View {
 
                 //background
                 var bg = "projects/slot" + (project.UserData.stars ? project.UserData.stars : 0);
-                var s: createjs.Bitmap = Assets.getBitmap(bg);
+                var s = Assets.getBitmap(bg);
                 this.addChild(s);
 
                 //robot name text
@@ -64,7 +64,7 @@ module InvertCross.Menu.View {
 
                 //adds Background
                 var bg = "projects/slotl";
-                var s: createjs.Bitmap = Assets.getBitmap(bg);
+                var s = Assets.getBitmap(bg);
                 this.addChild(s);
 
                 //adds lock indicator

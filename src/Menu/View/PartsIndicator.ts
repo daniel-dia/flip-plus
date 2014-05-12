@@ -31,7 +31,7 @@ module InvertCross.Menu.View {
         private buildView() {
 
             //add Background
-            var bg: createjs.Bitmap = Assets.getBitmap("partshud");
+            var bg = Assets.getBitmap("partshud");
             //bg.scaleX = 2;
             this.regX = bg.getBounds().width/2;
             this.addChild(bg);

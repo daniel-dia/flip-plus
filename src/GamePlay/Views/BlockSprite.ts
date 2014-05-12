@@ -18,7 +18,7 @@ module InvertCross.GamePlay.Views {
         private assetsImages:any[][] = [];
 
         //hint image
-        private hintimage: createjs.Bitmap;
+        private hintimage: createjs.DisplayObject;
 
         //block address
         public col;
@@ -185,7 +185,7 @@ module InvertCross.GamePlay.Views {
         //load a single asset and adds it to this
         private loadAsset(assetName: string): createjs.DisplayObject {
            
-            var asset: createjs.Bitmap = Assets.getBitmap(assetName);
+            var asset: createjs.DisplayObject = Assets.getBitmap(assetName);
             asset.name = assetName;
         
             this.container.addChild(asset);

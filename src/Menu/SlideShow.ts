@@ -4,7 +4,7 @@ module InvertCross.Menu {
     export class SlideShow extends Gbase.ScreenState {
 
         //images array. contains all loaded images for slideshow
-        private images: Array<createjs.Bitmap>;
+        private images: Array<createjs.DisplayObject>;
         private currentSlide: number;
 
         //slide interval
