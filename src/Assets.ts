@@ -349,9 +349,9 @@ class Assets {
     }
 
 
-    public static getBitmap(name: string): createjs.Bitmap {
+    public static getBitmap(name: string): createjs.DisplayObject {
         if (spriteSheets[name])
-            return <createjs.Bitmap>(<any>this.getSprite(name));
+            return this.getSprite(name);
         else
         return new createjs.Bitmap(this.getImage(name));
     }

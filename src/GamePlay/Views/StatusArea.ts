@@ -6,13 +6,14 @@ module InvertCross.GamePlay.Views {
         private text2: createjs.Text;
         private text3: createjs.Text;
 
-        private bg1: createjs.Bitmap;
-        private bg2: createjs.Bitmap;
-        private bg3: createjs.Bitmap;
+        private bg1: createjs.DisplayObject;
+        private bg2: createjs.DisplayObject;
+        private bg3: createjs.DisplayObject;
 
-        private iconepuzzle: createjs.Bitmap;
-        private iconemoves: createjs.Bitmap;
-        private iconetime: createjs.Bitmap;
+        private iconepuzzle: createjs.DisplayObject;
+        private iconemoves: createjs.DisplayObject;
+        private iconetime: createjs.DisplayObject;
+
         private rightIcon: createjs.Container;
         private rightIconMC: createjs.MovieClip;
 

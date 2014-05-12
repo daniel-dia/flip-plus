@@ -17,7 +17,7 @@ module InvertCross.Menu {
         constructor() {
             super()
 
-            var bg: createjs.Bitmap = Assets.getBitmap("mybotsbg");
+            var bg = Assets.getBitmap("mybotsbg");
             this.background.addChild(bg);
 
             this.addIntro();

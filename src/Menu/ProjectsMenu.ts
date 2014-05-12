@@ -26,7 +26,7 @@ module InvertCross.Menu {
         //populate View
         private createObjects() {
 
-            var bg: createjs.Bitmap = Assets.getBitmap("projects/bgprojects");
+            var bg = Assets.getBitmap("projects/bgprojects");
             this.background.addChild(bg);
 
             this.addMenu();
