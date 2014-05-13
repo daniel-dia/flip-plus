@@ -61,7 +61,7 @@ module InvertCross.Menu.View {
         private addStatus(project: Projects.Project) {
             this.statusArea = new createjs.Container();
             this.statusArea.regX = this.statusArea.x = DefaultWidth / 2;
-            var bg = Assets.getBitmap("partshud")//workshop/painelworkshop");
+            var bg = Assets.getBitmap("partshud");
             bg.y = 00//150;
             bg.x = DefaultWidth/ 2;
             bg.scaleX = 2;
@@ -76,6 +76,8 @@ module InvertCross.Menu.View {
             this.statusArea.addChild(l);
 
             this.addChild(this.statusArea);
+
+            this.statusArea.mouseEnabled = false;
         }
 
         //Adds level thumbs to the scene

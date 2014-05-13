@@ -824,26 +824,6 @@ var Assets = (function () {
             { src: imagePath + "workshop/bots/Bot17_stroke.png", id: "workshop/bots/Bot17_stroke" },
             { src: imagePath + "workshop/bots/Bot18_stroke.png", id: "workshop/bots/Bot18_stroke" },
             
-            //My bots
-            { src: imagePath + "myBots/mybotsbg.jpg", id: "mybotsbg" },
-            { src: imagePath + "myBots/Bot01.png", id: "Bot01" },
-            { src: imagePath + "myBots/Bot02.png", id: "Bot02" },
-            { src: imagePath + "myBots/Bot03.png", id: "Bot03" },
-            { src: imagePath + "myBots/Bot04.png", id: "Bot04" },
-            { src: imagePath + "myBots/Bot05.png", id: "Bot05" },
-            { src: imagePath + "myBots/Bot06.png", id: "Bot06" },
-            { src: imagePath + "myBots/Bot07.png", id: "Bot07" },
-            { src: imagePath + "myBots/Bot08.png", id: "Bot08" },
-            { src: imagePath + "myBots/Bot09.png", id: "Bot09" },
-            { src: imagePath + "myBots/Bot10.png", id: "Bot10" },
-            { src: imagePath + "myBots/Bot11.png", id: "Bot11" },
-            { src: imagePath + "myBots/Bot12.png", id: "Bot12" },
-            { src: imagePath + "myBots/Bot13.png", id: "Bot13" },
-            { src: imagePath + "myBots/Bot14.png", id: "Bot14" },
-            { src: imagePath + "myBots/Bot15.png", id: "Bot15" },
-            { src: imagePath + "myBots/Bot16.png", id: "Bot16" },
-            { src: imagePath + "myBots/Bot17.png", id: "Bot17" },
-            { src: imagePath + "myBots/Bot18.png", id: "Bot18" },
             
             //workshow
             { id: "workshop/basefases", src: imagePath + "workshop/basefases.png" },
@@ -884,6 +864,26 @@ var Assets = (function () {
             */
             //puzzle
             { id: "puzzle/Puzzle", src: imagePath + "puzzle/Puzzle.png" },
+            //My bots
+            { src: imagePath + "myBots/mybotsbg.jpg", id: "mybotsbg" },
+            { src: imagePath + "myBots/Bot01.png", id: "Bot01" },
+            { src: imagePath + "myBots/Bot02.png", id: "Bot02" },
+            { src: imagePath + "myBots/Bot03.png", id: "Bot03" },
+            { src: imagePath + "myBots/Bot04.png", id: "Bot04" },
+            { src: imagePath + "myBots/Bot05.png", id: "Bot05" },
+            { src: imagePath + "myBots/Bot06.png", id: "Bot06" },
+            { src: imagePath + "myBots/Bot07.png", id: "Bot07" },
+            { src: imagePath + "myBots/Bot08.png", id: "Bot08" },
+            { src: imagePath + "myBots/Bot09.png", id: "Bot09" },
+            { src: imagePath + "myBots/Bot10.png", id: "Bot10" },
+            { src: imagePath + "myBots/Bot11.png", id: "Bot11" },
+            { src: imagePath + "myBots/Bot12.png", id: "Bot12" },
+            { src: imagePath + "myBots/Bot13.png", id: "Bot13" },
+            { src: imagePath + "myBots/Bot14.png", id: "Bot14" },
+            { src: imagePath + "myBots/Bot15.png", id: "Bot15" },
+            { src: imagePath + "myBots/Bot16.png", id: "Bot16" },
+            { src: imagePath + "myBots/Bot17.png", id: "Bot17" },
+            { src: imagePath + "myBots/Bot18.png", id: "Bot18" },
             /*
             { id: "puzzle/bg", src: imagePath + "puzzle/bg.jpg" },
             { id: "puzzle/btplay1", src: imagePath + "puzzle/btplay1.png" },
@@ -6955,6 +6955,8 @@ var InvertCross;
                     this.statusArea.addChild(l);
 
                     this.addChild(this.statusArea);
+
+                    this.statusArea.mouseEnabled = false;
                 };
 
                 //Adds level thumbs to the scene
