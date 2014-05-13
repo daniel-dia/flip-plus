@@ -56,6 +56,8 @@
                 var spriteBarrel = Assets.getSprite("Bonus1/Barrel" + (b + 1));
                 spriteBarrel.gotoAndPlay(Math.random()*120)
                 barrel.addChild(spriteBarrel);
+                var bn = barrel.getBounds();
+                barrel.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(bn.x,bn.y,bn.width,bn.height));
                 var spriteWater = Assets.getSprite("Bonus1/agua");
                 barrel.addChild(spriteWater);
                 spriteWater.gotoAndPlay(Math.random() * 120)
@@ -137,7 +139,7 @@
                 if (this.items[b]) this.BarrelsItens[b].addChild(Assets.getBitmap("puzzle/icon_" + this.items[b]));
 
                 //or show a can
-                else this.BarrelsItens[b].addChild(Assets.getBitmap("bonus1/icone_lata"));
+                else this.BarrelsItens[b].addChild(Assets.getBitmap("Bonus1/icone_lata"));
 
                 //hidesItem
                 this.BarrelsItens[b].visible = false;

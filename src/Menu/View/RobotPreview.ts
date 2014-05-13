@@ -40,7 +40,11 @@ module InvertCross.Menu.View {
 
             //mask
             this.percentMask = new createjs.Shape();
-            this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, - this.fill.getBounds().height).endFill();
+            this.percentMask.graphics.beginFill("#FFF").drawRect(
+                -size / 2,
+                this.fill.getBounds().height,
+                size,
+                - this.fill.getBounds().height).endFill();
             this.percentMask.scaleY = 0;
             this.fill.mask = this.percentMask;
 
