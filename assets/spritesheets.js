@@ -76,7 +76,7 @@
     "puzzle/iconepause":{"images":["puzzle/Puzzle"],"frames":[[1910,1593,94,86,0,0,0]]},
     "puzzle/iconeplay":{"images":["puzzle/Puzzle"],"frames":[[1895,1414,102,86,0,0,0]]},
     "puzzle/iconepuzzle":{"images":["puzzle/Puzzle"],"frames":[[1910,1503,93,87,0,-22,-25]]},
-    "puzzle/iconerestart":{"images":["puzzle/Puzzle"],"frames":[[1895,958,132,124,0,0,0]]},
+    "puzzle/icon_restart":{"images":["puzzle/Puzzle"],"frames":[[1895,958,132,124,0,0,0]]},
     "puzzle/iconetime":{"images":["puzzle/Puzzle"],"frames":[[1910,1682,75,85,0,-31,-25]]},
     "puzzle/paginacaopuzzle":{"images":["puzzle/Puzzle"],"frames":[[1895,1324,114,87,0,0,0]]},
     "puzzle/painelpuzzle2":{"images":["puzzle/Puzzle"],"frames":[[1539,0,340,147,0,0,0]]},
