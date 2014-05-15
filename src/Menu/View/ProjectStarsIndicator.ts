@@ -26,7 +26,16 @@ module InvertCross.Menu.View {
         
         //create a simple star object
         private createStar(id: number): createjs.DisplayObject {
-            var s = Assets.getBitmap("workshop/estrelaworkshop");
+            var str = "";
+            switch (id) {
+                case 0: str = "workshop/stargreen";
+                    break;
+                case 1: str = "workshop/starpurple";
+                    break;
+                case 2: str = "workshop/staryellow";
+                    break;
+            }
+            var s = Assets.getBitmap(str);
             s.x = id * 121;
             this.addChild(s);
             return s;
