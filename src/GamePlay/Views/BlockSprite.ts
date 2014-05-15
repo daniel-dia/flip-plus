@@ -128,17 +128,18 @@ module InvertCross.GamePlay.Views {
         }
                   
         //calculate status baset on provided properties
-        private CalculateSpriteStatus(inverted: boolean, draw: boolean, levelType?:string): string {
-            if (!draw) 
+        private CalculateSpriteStatus(inverted: boolean, draw: boolean, levelType?: string): string {
+            if (!draw)
                 if (inverted)
-                    if (levelType=="draw") return "null"
+                    if (levelType == "draw") return "null"
                     else return "Inv";
                 else
                     if (levelType == "draw") return "Inv"
                     else return "Nor";
-            else 
-                if (!inverted) return "DNor"
-                    else return "Nor";
+            else
+                if (!inverted) return "Nor"
+                    else return "DNor";
+
             //return "Nor";
         }  
         
