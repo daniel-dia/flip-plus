@@ -64,6 +64,7 @@ module InvertCross.Menu.View {
             //create a interval for closing the popopu
             this.closeinterval = setTimeout(() => {
                 this.closePopUp();
+                this.dispatchEvent("onclose");
             }, timeout+delay);
         }
 

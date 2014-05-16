@@ -150,5 +150,16 @@
         back() {
             InvertCross.InvertCrossaGame.showProjectsMenu();
         }
+
+        //finalizes bonus game
+        endBonus() {
+
+            //lock menu interaction
+            this.menu.fadeOut();
+
+            //back to the screen
+            setTimeout(() => { this.back(); }, 2500);
+
+        }
     }
 }  

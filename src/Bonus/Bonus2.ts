@@ -4,6 +4,7 @@
     export class Bonus2 extends BonusScreen {
 
         private currentCard: createjs.Container;
+        private lives: number;
 
         constructor(itemsArray: Array<string>, sufix: string= "1") {
             super(itemsArray, "Bonus2");
@@ -45,6 +46,17 @@
 
         private cardClick(card: createjs.Container) {
 
+            //if card is Jocker (Rat)
+            if (card.name == "") {
+                this.lives--;
+
+                if (this.lives == 0) {
+                    this.message.showtext("No more chances", 2000, 500);
+                    this.message.addEventListener("onclose", () => { this.endBonus();});
+                }
+                return;
+            }
+
             if (this.currentCard) {
                 this.pair(this.currentCard, card);
                 this.currentCard = null;
@@ -78,6 +90,9 @@
 
         private generateCards(cardsCount: number, pairs: number, items: Array<string>): Array<string> {
             var cards = new Array<string>();
+
+            //set number of lives
+            this.lives = cardsCount - pairs * 2;
 
             //add Cards Pairs
             for (var p = 0; p < pairs; p++) {
