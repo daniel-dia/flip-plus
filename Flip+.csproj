@@ -17,6 +17,7 @@
     <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Gbase\AssetsManager.ts" />
     <TypeScriptCompile Include="script\typing\easeljs.d.ts" />
     <TypeScriptCompile Include="lib\Inertia.ts" />
     <TypeScriptCompile Include="script\typing\preloadjs.d.ts" />
@@ -813,6 +814,7 @@
     <Content Include="assets\images_1x\workshop\staryellow.png" />
     <Content Include="assets\Intro.js" />
     <Content Include="assets\LogoScreen.js" />
+    <Content Include="assets\assetsManifest.js" />
     <Content Include="assets\MyBots.js" />
     <Content Include="assets\pr.jpg" />
     <Content Include="assets\resize.bat" />

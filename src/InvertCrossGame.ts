@@ -1,6 +1,8 @@
 declare var levelsData; 
+declare var assetsManifest:Array<any>;
+//declare var spriteSheets;
 
-window.onload = function () { InvertCross.InvertCrossaGame.InvertCrossInitilize(); };
+window.onload = function () { InvertCross.InvertCrossaGame.InvertCrossInitilize();};
 
 module InvertCross { 
     
@@ -14,7 +16,7 @@ module InvertCross {
         public static timersData:   UserData.Timers;
         public static itemsData: UserData.Items;
         public static storyData: UserData.Story;
-                       
+        public static assetsManager: Gbase.AssetsManager;                       
         //Managers
         public static projectManager: Projects.ProjectManager;
         
@@ -23,6 +25,7 @@ module InvertCross {
         private static projectsMenu: Gbase.ScreenState;
         private static levelsMenu:   Gbase.ScreenState;
         private static levelScreeen: Gbase.ScreenState;
+
         public static mainScreen: Menu.MainMenu;
         public static optionsMenu: Gbase.ScreenState;
         public static loadingScreen: Menu.Loading;
@@ -55,11 +58,12 @@ module InvertCross {
             InvertCrossaGame.loadingScreen.loaded = () => {
                 if (document.URL.toUpperCase().indexOf("CREATOR") > 0) {
                     InvertCrossaGame.screenViewer.switchScreen(new GamePlay.LevelCreator(null, window));
-
                 }
                 else
                     InvertCrossaGame.showTitleScreen();
             }
+
+            this.assetsManager = new Gbase.AssetsManager(assetsManifest, spriteSheets);
 
             //TODO tirar daqui
             if (InvertCrossaGame.itemsData.getItemQuantity("hint") <= 0)

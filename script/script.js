@@ -264,7 +264,7 @@ var Gbase;
                 //adds image into it
                 if (background != null) {
                     //TODO tirar createjs ASSETS daqui.
-                    this.background = Assets.getBitmap(background);
+                    this.background = Gbase.Assets.getBitmap(background);
                     this.addChildAt(this.background, 0);
 
                     //Sets the image into the pivot center.
@@ -330,7 +330,7 @@ var Gbase;
                 _super.call(this, text, event, background, font, color);
 
                 //loads icon Image
-                this.icon = Assets.getBitmap(icon);
+                this.icon = Gbase.Assets.getBitmap(icon);
                 this.addChild(this.icon);
 
                 if (this.icon.getBounds()) {
@@ -1067,6 +1067,8 @@ var InvertCross;
                 } else
                     InvertCrossaGame.showTitleScreen();
             };
+
+            var x = new Gbase.Assets(assetsManifest, spriteSheets);
 
             //TODO tirar daqui
             if (InvertCrossaGame.itemsData.getItemQuantity("hint") <= 0)
@@ -5738,6 +5740,114 @@ var InvertCross;
 /// <reference path="src/Projects/Project.ts" />
 /// <reference path="src/Projects/ProjectManager.ts" />
 /// <reference path="src/Robots/MyBots.ts" />
+//declare var images: any;
+//declare var Media: any;
+//declare var assetscale: number;
+//declare var spriteSheets : number;
+var Gbase;
+(function (Gbase) {
+    // Class
+    var Assets = (function () {
+        function Assets(assetsManifest, spriteSheets) {
+            this.spriteSheets = spriteSheets ? spriteSheets : [];
+
+            this.loadAssets(assetsManifest);
+        }
+        Assets.prototype.loadAssets = function (manifest) {
+            //create a image array
+            images = images || {};
+
+            //creates a preload queue
+            this.loader = new createjs.LoadQueue(false);
+
+            //install sound plug-in for sounds format
+            this.loader.installPlugin(createjs.Sound);
+
+            //create eventListeners
+            this.loader.addEventListener("fileload", function (evt) {
+                if (evt.item.type == "image")
+                    images[evt.item.id] = evt.result;
+                return true;
+            });
+
+            //loads entire manifest
+            this.loader.loadManifest(manifest);
+
+            return this.loader;
+        };
+
+        Assets.prototype.getBitmap = function (name) {
+            if (spriteSheets[name])
+                return this.getSprite(name, false);
+            else
+                return new createjs.Bitmap(this.getImage(name));
+        };
+
+        Assets.prototype.getImage = function (name) {
+            return this.loader.getResult(name);
+        };
+
+        //DEPRECIATED
+        //get a movie clip
+        Assets.prototype.getMovieClip = function (name) {
+            var t = new window[name];
+            return t;
+        };
+
+        //return a sprite according to the image
+        Assets.prototype.getSprite = function (name, play) {
+            if (typeof play === "undefined") { play = true; }
+            var data = spriteSheets[name];
+            for (var i in data.images)
+                if (typeof data.images[i] == "string")
+                    data.images[i] = this.getImage(data.images[i]);
+
+            var spritesheet = new createjs.SpriteSheet(data);
+
+            var sprite = new createjs.Sprite(spritesheet);
+            if (play)
+                sprite.play();
+            return sprite;
+        };
+
+        Assets.prototype.playSound = function (name) {
+            if (!InvertCross.InvertCrossaGame.settings.getSoundfx())
+                return;
+
+            //wp8// this.mediaDic[name].play()
+            createjs.Sound.play(name);
+        };
+
+        Assets.prototype.playMusic = function (name) {
+            if (!InvertCross.InvertCrossaGame.settings.getMusic())
+                return;
+
+            //WP8//var media = this.mediaDic[name];
+            if (name == "")
+                name = this.currentMusicname;
+            if (this.currentMusicname == name) {
+                if (this.currentMusic.playState == createjs.Sound.PLAY_SUCCEEDED)
+                    return;
+            }
+
+            if (this.currentMusic != null)
+                this.currentMusic.stop();
+
+            this.currentMusic = createjs.Sound.play(name, "none", 0, 0, -1);
+
+            //wp8//this.currentMusic = media;
+            //wp8//media.play()
+            this.currentMusicname = name;
+        };
+
+        Assets.prototype.stopMusic = function () {
+            if (this.currentMusic != null)
+                this.currentMusic.stop();
+        };
+        return Assets;
+    })();
+    Gbase.Assets = Assets;
+})(Gbase || (Gbase = {}));
 var Inertia = (function () {
     function Inertia() {
     }

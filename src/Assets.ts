@@ -1,7 +1,7 @@
 ﻿declare var images: any;
 declare var Media: any;
 declare var assetscale: number;
-declare var spriteSheets : number;
+declare var spriteSheets : Array<any>;
 
 // Class
 class Assets {
