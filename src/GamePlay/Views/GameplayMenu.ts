@@ -21,7 +21,7 @@ module InvertCross.GamePlay.Views {
 
         //adds tutorial touch indicator
         private addTutorialIndicator() {
-            this.tutorial_highlightSprite = Assets.getSprite("touch")
+            this.tutorial_highlightSprite = InvertCrossaGame.assetsManager.getSprite("touch")
             this.tutorial_highlightSprite.visible = false;
             this.tutorial_highlightSprite.mouseEnabled = false;
             this.addChild(this.tutorial_highlightSprite)
@@ -89,7 +89,7 @@ module InvertCross.GamePlay.Views {
             pauseMenu.addChild(snd2Bt)
             pauseMenu.addChild(backBt)
 
-            var bt = Assets.getBitmap("puzzle/btplay2");
+            var bt = InvertCrossaGame.assetsManager.getBitmap("puzzle/btplay2");
             bt.regY = 87;
             bt.regX = 102;
             bt.x = 0;

@@ -30,7 +30,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = Assets.getBitmap("popups/message")
+            var bg = InvertCrossaGame.assetsManager.getBitmap("popups/message")
             bg.x = 0;
             bg.y = DefaultHeight/2 -500;
             this.addChild(bg);

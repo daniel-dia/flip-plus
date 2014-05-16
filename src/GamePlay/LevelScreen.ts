@@ -33,7 +33,7 @@ module InvertCross.GamePlay {
             this.levelLogic = new Model.Level(leveldata);
 
             //play BgSound
-            Assets.stopMusic();
+            InvertCrossaGame.assetsManager.stopMusic();
 
             this.createScene(leveldata);
 
@@ -73,7 +73,7 @@ module InvertCross.GamePlay {
         }
 
         private addBackground(theme: string) {
-            this.background.addChild(Assets.getBitmap("puzzle/bg"));
+            this.background.addChild(InvertCrossaGame.assetsManager.getBitmap("puzzle/bg"));
         }
 
         private initializeOverlays() {
@@ -153,7 +153,7 @@ module InvertCross.GamePlay {
             setTimeout(() => {
 
                 //playSound
-                Assets.playSound("prize");
+                InvertCrossaGame.assetsManager.playSound("prize");
 
                 //apply radius effect
                 this.boardSprite.radiusEffect(col, row)
@@ -220,7 +220,7 @@ module InvertCross.GamePlay {
         win(col: number, row: number,messageText:boolean=true) {
 
             //play a win sound
-            Assets.playSound("win");
+            InvertCrossaGame.assetsManager.playSound("win");
 
             //verifies if user already completed this level and verifies if player used any item in the game
             if (!this.levelData.userdata.solved)

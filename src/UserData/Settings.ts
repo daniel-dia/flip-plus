@@ -25,9 +25,9 @@ module InvertCross.UserData {
             localStorage.setItem("mus", "" +value);
             this.music = value;
             if (!value)
-                Assets.stopMusic();
+                InvertCrossaGame.assetsManager.stopMusic();
             else
-                Assets.playMusic("");
+                InvertCrossaGame.assetsManager.playMusic("");
         }
     }
 }

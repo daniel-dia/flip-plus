@@ -61,7 +61,7 @@ module InvertCross.Menu.View {
         private addStatus(project: Projects.Project) {
             this.statusArea = new createjs.Container();
             this.statusArea.regX = this.statusArea.x = DefaultWidth / 2;
-            var bg = Assets.getBitmap("partshud");
+            var bg = InvertCrossaGame.assetsManager.getBitmap("partshud");
             bg.y = 00//150;
             bg.x = DefaultWidth/ 2;
             bg.scaleX = 2;
@@ -88,7 +88,7 @@ module InvertCross.Menu.View {
             this.levelsMahine = levelMachine;
 
             //add MachineBg
-            var baseFases = Assets.getBitmap("workshop/basefases")
+            var baseFases = InvertCrossaGame.assetsManager.getBitmap("workshop/basefases")
             baseFases.y = - 741;
             levelMachine.addChild(baseFases);
 

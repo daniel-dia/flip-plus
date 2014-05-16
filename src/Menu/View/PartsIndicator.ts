@@ -31,14 +31,14 @@ module InvertCross.Menu.View {
         private buildView() {
 
             //add Background
-            var bg = Assets.getBitmap("partshud");
-            //bg.scaleX = 2;
-            this.regX = bg.getBounds().width/2;
+            var bg = InvertCrossaGame.assetsManager.getBitmap("partshud");
+            if (bg.getBounds())
+                this.regX = bg.getBounds().width/2;
             this.addChild(bg);
 
             this.infoCotainer = new createjs.Container();
 
-            //var pi = Assets.getImage("partsicon");
+            //var pi = InvertCrossaGame.assetsManager.getImage("partsicon");
             //this.partsTextField = new createjs.Text("0",defaultFontFamilyNormal,defaultFontColor);
             //this.infoCotainer.addChild(pi);
             //this.infoCotainer.addChild(this.partsTextField);
@@ -49,7 +49,7 @@ module InvertCross.Menu.View {
 
 
             
-            var si = Assets.getBitmap("starsicon");
+            var si = InvertCrossaGame.assetsManager.getBitmap("starsicon");
             this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
 
 

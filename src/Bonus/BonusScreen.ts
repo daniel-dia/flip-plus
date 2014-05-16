@@ -46,13 +46,13 @@
         //add Scene objects to the view
         addScene(bonusId:string) {
             //adds Background
-            this.background.addChild(Assets.getBitmap(bonusId+"/back"));
+            this.background.addChild(InvertCrossaGame.assetsManager.getBitmap(bonusId+"/back"));
 
             //adds header
-            this.header.addChild(Assets.getBitmap(bonusId + "/header"));
+            this.header.addChild(InvertCrossaGame.assetsManager.getBitmap(bonusId + "/header"));
 
             //adds footer
-            var footer = Assets.getBitmap(bonusId + "/footer");
+            var footer = InvertCrossaGame.assetsManager.getBitmap(bonusId + "/footer");
             this.footer.addChild(footer);
             footer.y = - 291;
 
@@ -74,7 +74,7 @@
                 var itemId = itemsArray[i];
                 
                 //add icon
-                var itemObj = Assets.getBitmap("puzzle/icon_" + itemId);
+                var itemObj = InvertCrossaGame.assetsManager.getBitmap("puzzle/icon_" + itemId);
                 itemObj.y = 100;
                 itemObj.x = DefaultWidth / itemsArray.length * i + 40;
                 itemObj.name = itemId;

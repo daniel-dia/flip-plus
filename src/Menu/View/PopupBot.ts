@@ -10,7 +10,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = Assets.getBitmap("popups/popupTutorial")
+            var bg = InvertCrossaGame.assetsManager.getBitmap("popups/popupTutorial")
             bg.x = 150;
             bg.y = 250;
             this.addChild(bg);
@@ -33,7 +33,7 @@ module InvertCross.Menu.View {
 
         addsClickIndicaator() {
             //add click indicator
-            var ind = Assets.getSprite("touch")
+            var ind = InvertCrossaGame.assetsManager.getSprite("touch")
             this.addChild(ind);
             ind.x = 1250;
             ind.y = 900;

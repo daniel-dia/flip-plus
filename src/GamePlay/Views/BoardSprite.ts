@@ -30,7 +30,7 @@ module InvertCross.GamePlay.Views {
             this.regY = boardHeight / 2;
 
             //load click indicator
-            this.tutorialIndiatcor = Assets.getSprite("touch")
+            this.tutorialIndiatcor = InvertCrossaGame.assetsManager.getSprite("touch")
             this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -55;
             this.tutorialIndiatcor.mouseEnabled = false;
             this.addChild(this.tutorialIndiatcor);
@@ -73,7 +73,7 @@ module InvertCross.GamePlay.Views {
                         // play a Radom Sounds
                         var randomsound = Math.ceil(Math.random() * 3)
                         if (randomsound >= this.previousSound) randomsound++;
-                        Assets.playSound("tile" + randomsound);
+                        InvertCrossaGame.assetsManager.playSound("tile" + randomsound);
                         this.previousSound = randomsound;
 
                         //tutorialrelease

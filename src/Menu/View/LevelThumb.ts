@@ -96,14 +96,14 @@ module InvertCross.Menu.View {
         private createLevelModificator(level: Projects.Level):createjs.DisplayObject {
 
             if (level.userdata.skip) {
-                var sk = Assets.getBitmap("puzzle/icon_skip");
+                var sk = InvertCrossaGame.assetsManager.getBitmap("puzzle/icon_skip");
                 sk.regX = sk.getBounds().width / 2;
                 sk.regY = sk.getBounds().height / 2;
                 return sk;
             }
 
             if (level.userdata.item) {
-                var sk = Assets.getBitmap("puzzle/icon_" + level.userdata.item);
+                var sk = InvertCrossaGame.assetsManager.getBitmap("puzzle/icon_" + level.userdata.item);
                 sk.regX = sk.getBounds().width / 2;
                 sk.regY = sk.getBounds().height / 2;
                 return sk;
@@ -114,7 +114,7 @@ module InvertCross.Menu.View {
         //adds thumb background
         private createBackgroud(level: Projects.Level,assetName,assetSufix): createjs.DisplayObject {
 
-            var sbg = Assets.getBitmap("workshop/" + assetName + assetSufix);
+            var sbg = InvertCrossaGame.assetsManager.getBitmap("workshop/" + assetName + assetSufix);
             sbg.regX = sbg.regY = 98;
             return sbg;
         }
@@ -161,7 +161,7 @@ module InvertCross.Menu.View {
         private createTags(level: Projects.Level, assetName,assetSufix) :createjs.DisplayObject{
             //TODO: essas string devem estar em um enum
             if (level.type == "time" || level.type == "flip") {
-                var tag = Assets.getBitmap("workshop/" + assetName + level.type + assetSufix);
+                var tag = InvertCrossaGame.assetsManager.getBitmap("workshop/" + assetName + level.type + assetSufix);
                 tag.regX = tag.regY = 100;
                 return tag;
             }

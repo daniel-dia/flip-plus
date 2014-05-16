@@ -4,19 +4,22 @@
 //declare var spriteSheets : number;
 
 module Gbase {
+
     // Class
     export class AssetsManager{
 
         private loader: createjs.LoadQueue;
         private spriteSheets: Array<any>;
         private imagesArray: Array<HTMLImageElement>;
+        private assetsManifest: Array<any>;
 
         constructor(assetsManifest: Array<any>, spriteSheets?: Array<any>) {
             this.spriteSheets = spriteSheets ? spriteSheets : [];
-            this.loadAssets(assetsManifest);
+            this.assetsManifest = assetsManifest;
+            this.loadAssets();
         }
 
-        public loadAssets(manifest:Array<any>): createjs.LoadQueue {
+        public loadAssets(): createjs.LoadQueue {
 
             //create a image array
             this.imagesArray = new Array();
@@ -34,7 +37,7 @@ module Gbase {
             });
 
             //loads entire manifest
-            this.loader.loadManifest(manifest);
+            this.loader.loadManifest(this.assetsManifest);
 
            return this.loader;
         }

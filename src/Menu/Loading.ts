@@ -15,6 +15,7 @@ module InvertCross.Menu {
 
         public initializeImages() {
 
+            var loader = InvertCrossaGame.assetsManager.loadAssets();
             var loader = Assets.loadAssets();
             var text = new createjs.Text("", "600 90px Myriad Pro", "#FFF");
             text.x = DefaultWidth / 2;

@@ -1,5 +1,5 @@
 declare var levelsData; 
-declare var assetsManifest:Array<any>;
+declare function getAssetsManifest(assetscale:number):Array<any>;
 //declare var spriteSheets;
 
 window.onload = function () { InvertCross.InvertCrossaGame.InvertCrossInitilize();};
@@ -42,11 +42,12 @@ module InvertCross {
             createjs.DisplayObject.avoidBitmapHitAreaCalculation = true
                        
             //userData
-            InvertCrossaGame.userData = new UserData.ProjectsData();
-            InvertCrossaGame.settings = new UserData.Settings();
-            InvertCrossaGame.itemsData = new UserData.Items();
-            InvertCrossaGame.storyData = new UserData.Story();
-            InvertCrossaGame.timersData = new UserData.Timers();
+            this.userData = new UserData.ProjectsData();
+            this.settings = new UserData.Settings();
+            this.itemsData = new UserData.Items();
+            this.storyData = new UserData.Story();
+            this.timersData = new UserData.Timers();
+            this.assetsManager = new Gbase.AssetsManager(getAssetsManifest(assetscale), spriteSheets);
 
             //managers
             InvertCrossaGame.projectManager = new Projects.ProjectManager(levelsData);
@@ -62,8 +63,6 @@ module InvertCross {
                 else
                     InvertCrossaGame.showTitleScreen();
             }
-
-            this.assetsManager = new Gbase.AssetsManager(assetsManifest, spriteSheets);
 
             //TODO tirar daqui
             if (InvertCrossaGame.itemsData.getItemQuantity("hint") <= 0)

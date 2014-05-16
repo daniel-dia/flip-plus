@@ -38,7 +38,7 @@ module InvertCross.Menu.View {
 
                 //background
                 var bg = "projects/" + bonusId;
-                var s = Assets.getBitmap(bg);
+                var s = InvertCrossaGame.assetsManager.getBitmap(bg);
                 this.addChild(s);
 
                 //timer text 
@@ -58,11 +58,11 @@ module InvertCross.Menu.View {
 
                 //adds Background
                 var bg = "projects/bigslot1";
-                var s = Assets.getBitmap(bg);
+                var s = InvertCrossaGame.assetsManager.getBitmap(bg);
                 this.addChild(s);
 
                 //adds lock indicator
-                var star = Assets.getBitmap("projects/star");
+                var star = InvertCrossaGame.assetsManager.getBitmap("projects/star");
                 this.addChild(star);
                 star.x = 670;
                 star.y = 150;

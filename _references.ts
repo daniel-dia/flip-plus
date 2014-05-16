@@ -14,7 +14,7 @@
     /// <reference path="Gbase/ScreenViewer.ts" />
     /// <reference path="Gbase/ScreenState.ts" />
     /// <reference path="Gbase/Game.ts" />
-    /// <reference path="Gbase/Assets.ts" />
+    /// <reference path="Gbase/AssetsManager.ts" />
 
     /*scripts*/
     /// <reference path="src/Assets.ts" />

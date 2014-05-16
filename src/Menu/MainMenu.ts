@@ -17,7 +17,7 @@ module InvertCross.Menu {
         constructor() {
             super()
 
-            var bg = Assets.getBitmap("mybotsbg");
+            var bg = InvertCrossaGame.assetsManager.getBitmap("mybotsbg");
             this.background.addChild(bg);
 
             this.addIntro();
@@ -37,7 +37,7 @@ module InvertCross.Menu {
             super.activate();
 
             //play BgSound
-            Assets.playMusic("trilha");
+            InvertCrossaGame.assetsManager.playMusic("trilha");
 
             //Verifies if it is the first time playing
             if (!InvertCrossaGame.storyData.getStoryPlayed("intro")) {
