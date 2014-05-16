@@ -3455,6 +3455,18 @@ var InvertCross;
             BonusScreen.prototype.back = function () {
                 InvertCross.InvertCrossaGame.showProjectsMenu();
             };
+
+            //finalizes bonus game
+            BonusScreen.prototype.endBonus = function () {
+                var _this = this;
+                //lock menu interaction
+                this.menu.fadeOut();
+
+                //back to the screen
+                setTimeout(function () {
+                    _this.back();
+                }, 2500);
+            };
             return BonusScreen;
         })(Gbase.ScreenState);
         Bonus.BonusScreen = BonusScreen;
@@ -3660,8 +3672,7 @@ var InvertCross;
             //finalizes bonus game
             BonusBarrel.prototype.endBonus = function () {
                 var _this = this;
-                //lock menu interaction
-                this.menu.fadeOut();
+                _super.prototype.endBonus.call(this);
 
                 for (var barrel in this.barrels)
                     this.barrels[barrel].mouseEnabled = false;
@@ -3674,11 +3685,6 @@ var InvertCross;
                     for (var barrel in _this.barrels)
                         createjs.Tween.get(_this.barrels[barrel]).wait(barrel * 100).to({ alpha: 0 }, 150);
                 }, 1000);
-
-                //back to the screen
-                setTimeout(function () {
-                    _this.back();
-                }, 4500);
             };
             return BonusBarrel;
         })(Bonus.BonusScreen);
@@ -3728,6 +3734,20 @@ var InvertCross;
 
             //===============================================================================
             Bonus2.prototype.cardClick = function (card) {
+                var _this = this;
+                //if card is Jocker (Rat)
+                if (card.name == "") {
+                    this.lives--;
+
+                    if (this.lives == 0) {
+                        this.message.showtext("No more chances", 2000, 500);
+                        this.message.addEventListener("onclose", function () {
+                            _this.endBonus();
+                        });
+                    }
+                    return;
+                }
+
                 if (this.currentCard) {
                     this.pair(this.currentCard, card);
                     this.currentCard = null;
@@ -3763,6 +3783,9 @@ var InvertCross;
 
             Bonus2.prototype.generateCards = function (cardsCount, pairs, items) {
                 var cards = new Array();
+
+                //set number of lives
+                this.lives = cardsCount - pairs * 2;
 
                 for (var p = 0; p < pairs; p++) {
                     var itemIndex = Math.floor(Math.random() * items.length);
@@ -5174,7 +5197,19 @@ var InvertCross;
 
                 //create a simple star object
                 ProjectStarsIndicator.prototype.createStar = function (id) {
-                    var s = Assets.getBitmap("workshop/estrelaworkshop");
+                    var str = "";
+                    switch (id) {
+                        case 0:
+                            str = "workshop/stargreen";
+                            break;
+                        case 1:
+                            str = "workshop/starpurple";
+                            break;
+                        case 2:
+                            str = "workshop/staryellow";
+                            break;
+                    }
+                    var s = Assets.getBitmap(str);
                     s.x = id * 121;
                     this.addChild(s);
                     return s;
@@ -6539,6 +6574,7 @@ var InvertCross;
                     //create a interval for closing the popopu
                     this.closeinterval = setTimeout(function () {
                         _this.closePopUp();
+                        _this.dispatchEvent("onclose");
                     }, timeout + delay);
                 };
 
