@@ -4,7 +4,7 @@ declare var assetscale: number;
 declare var spriteSheets : Array<any>;
 
 // Class
-class Assets {
+class aAssets {
 
     ///TODO USAR ISSO
     ///http://www.createjs.com/tutorials/SoundJS%20and%20PreloadJS/

@@ -40,7 +40,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = InvertCrossaGame.assetsManager.getBitmap("popups/popup")
+            var bg = Gbase.AssetsManager.getBitmap("popups/popup")
             bg.x = 0;
             bg.y = 100;
             this.addChild(bg);
@@ -88,7 +88,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = InvertCrossaGame.assetsManager.getBitmap("popups/popup")
+            var bg = Gbase.AssetsManager.getBitmap("popups/popup")
             bg.x = 0;
             bg.y = 100;
             this.addChild(bg);
@@ -174,7 +174,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = InvertCrossaGame.assetsManager.getBitmap("popups/popup")
+            var bg = Gbase.AssetsManager.getBitmap("popups/popup")
             bg.x = 0;
             bg.y = 100;
             this.addChild(bg);
@@ -250,7 +250,7 @@ module InvertCross.Menu.View {
 
         addsClickIndicaator() {
             //add click indicator
-            var ind = InvertCrossaGame.assetsManager.getSprite("touch")
+            var ind = Gbase.AssetsManager.getSprite("touch")
             this.addChild(ind);
             ind.x = 1350;
             ind.y = 1100;

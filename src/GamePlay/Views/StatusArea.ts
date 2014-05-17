@@ -28,9 +28,9 @@ module InvertCross.GamePlay.Views {
         private createSprites() {
 
             //Background
-            this.bg1 = InvertCrossaGame.assetsManager.getBitmap("puzzle/painelpuzzle2");
-            //this.bg2 = InvertCrossaGame.assetsManager.getBitmap("puzzle/painelpuzzle1");
-            this.bg3 = InvertCrossaGame.assetsManager.getBitmap("puzzle/painelpuzzle2"); this.bg3.scaleX = -1;
+            this.bg1 = Gbase.AssetsManager.getBitmap("puzzle/painelpuzzle2");
+            //this.bg2 = Gbase.AssetsManager.getBitmap("puzzle/painelpuzzle1");
+            this.bg3 = Gbase.AssetsManager.getBitmap("puzzle/painelpuzzle2"); this.bg3.scaleX = -1;
 
             this.bg1.x = DefaultWidth * 0.01;
             //this.bg2.x = DefaultWidth * 0.5; this.bg2.x -= this.bg2.getBounds().width / 2;
@@ -48,9 +48,9 @@ module InvertCross.GamePlay.Views {
             this.rightIcon = new createjs.Container();
             var rightIconContainer = new createjs.Container();
 
-            this.iconepuzzle = InvertCrossaGame.assetsManager.getBitmap("puzzle/iconepuzzle");
-            this.iconemoves = InvertCrossaGame.assetsManager.getBitmap("puzzle/iconemoves");
-            this.iconetime = InvertCrossaGame.assetsManager.getBitmap("puzzle/iconetime");
+            this.iconepuzzle = Gbase.AssetsManager.getBitmap("puzzle/iconepuzzle");
+            this.iconemoves = Gbase.AssetsManager.getBitmap("puzzle/iconemoves");
+            this.iconetime = Gbase.AssetsManager.getBitmap("puzzle/iconetime");
          
             this.iconepuzzle.x = DefaultWidth * 0.01 + 3;
 

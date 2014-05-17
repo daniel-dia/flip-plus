@@ -896,7 +896,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="src\Robots\MyBots.ts" />
-    <TypeScriptCompile Include="src\Assets.ts" />
     <TypeScriptCompile Include="src\Menu\MainMenu.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\Overlay.ts" />
     <TypeScriptCompile Include="Gbase\Game.ts" />

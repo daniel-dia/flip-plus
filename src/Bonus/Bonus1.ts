@@ -53,12 +53,12 @@
 
                 var barrel = new Gbase.UI.Button();
                 barrel.addEventListener("click", (event: createjs.MouseEvent) => { this.barrelTap(event) });
-                var spriteBarrel = InvertCrossaGame.assetsManager.getSprite("Bonus1/Barrel" + (b + 1));
+                var spriteBarrel = Gbase.AssetsManager.getSprite("Bonus1/Barrel" + (b + 1));
                 spriteBarrel.gotoAndPlay(Math.random()*120)
                 barrel.addChild(spriteBarrel);
                 var bn = barrel.getBounds();
                 barrel.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(bn.x,bn.y,bn.width,bn.height));
-                var spriteWater = InvertCrossaGame.assetsManager.getSprite("Bonus1/agua");
+                var spriteWater = Gbase.AssetsManager.getSprite("Bonus1/agua");
                 barrel.addChild(spriteWater);
                 spriteWater.gotoAndPlay(Math.random() * 120)
   
@@ -136,10 +136,10 @@
             for (var b = 0; b < this.barrels.length; b++) {
 
                 //show the item
-                if (this.items[b]) this.BarrelsItens[b].addChild(InvertCrossaGame.assetsManager.getBitmap("puzzle/icon_" + this.items[b]));
+                if (this.items[b]) this.BarrelsItens[b].addChild(Gbase.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]));
 
                 //or show a can
-                else this.BarrelsItens[b].addChild(InvertCrossaGame.assetsManager.getBitmap("Bonus1/icone_lata"));
+                else this.BarrelsItens[b].addChild(Gbase.AssetsManager.getBitmap("Bonus1/icone_lata"));
 
                 //hidesItem
                 this.BarrelsItens[b].visible = false;

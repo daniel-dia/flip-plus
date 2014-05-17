@@ -22,9 +22,9 @@ module InvertCross.Menu.View {
         private createGraphics(project: InvertCross.Projects.Project) {
 
             var size: number = 1000;
-            this.fill = this.addChild(InvertCrossaGame.assetsManager.getBitmap("workshop/" + project.name + "_fill"));
-            this.stroke = this.addChild(InvertCrossaGame.assetsManager.getBitmap("workshop/" + project.name + "_stroke"));
-            this.complete = this.addChild(InvertCrossaGame.assetsManager.getBitmap("workshop/" + project.name));
+            this.fill = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
+            this.stroke = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
+            this.complete = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name));
 
             this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
             this.fill.regY = this.stroke.regY = this.fill.getBounds().height;

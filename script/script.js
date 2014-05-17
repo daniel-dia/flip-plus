@@ -264,7 +264,7 @@ var Gbase;
                 //adds image into it
                 if (background != null) {
                     //TODO tirar createjs ASSETS daqui.
-                    this.background = Gbase.InvertCrossaGame.assetsManager.getBitmap(background);
+                    this.background = Gbase.Gbase.AssetsManager.getBitmap(background);
                     this.addChildAt(this.background, 0);
 
                     //Sets the image into the pivot center.
@@ -330,7 +330,7 @@ var Gbase;
                 _super.call(this, text, event, background, font, color);
 
                 //loads icon Image
-                this.icon = Gbase.InvertCrossaGame.assetsManager.getBitmap(icon);
+                this.icon = Gbase.Gbase.AssetsManager.getBitmap(icon);
                 this.addChild(this.icon);
 
                 if (this.icon.getBounds()) {
@@ -636,10 +636,10 @@ var InvertCross;
     InvertCross.Game = Game;
 })(InvertCross || (InvertCross = {}));
 // Class
-var InvertCrossaGame.assetsManager = (function () {
-    function InvertCrossaGame.assetsManager() {
+var Gbase.AssetsManager = (function () {
+    function Gbase.AssetsManager() {
     }
-    InvertCrossaGame.assetsManager.loadAssets = function () {
+    Gbase.AssetsManager.loadAssets = function () {
         if (!assetscale)
             assetscale = 0.5;
 
@@ -945,23 +945,23 @@ var InvertCrossaGame.assetsManager = (function () {
         return this.loader;
     };
 
-    InvertCrossaGame.assetsManager.getBitmap = function (name) {
+    Gbase.AssetsManager.getBitmap = function (name) {
         if (spriteSheets[name])
             return this.getSprite(name);
         else
             return new createjs.Bitmap(this.getImage(name));
     };
 
-    InvertCrossaGame.assetsManager.getImage = function (name) {
+    Gbase.AssetsManager.getImage = function (name) {
         return this.loader.getResult(name);
     };
 
-    InvertCrossaGame.assetsManager.getMovieClip = function (name) {
+    Gbase.AssetsManager.getMovieClip = function (name) {
         var t = new window[name];
         return t;
     };
 
-    InvertCrossaGame.assetsManager.getSprite = function (name) {
+    Gbase.AssetsManager.getSprite = function (name) {
         var data = spriteSheets[name];
         for (var i in data.images)
             if (typeof data.images[i] == "string")
@@ -974,7 +974,7 @@ var InvertCrossaGame.assetsManager = (function () {
         return sprite;
     };
 
-    InvertCrossaGame.assetsManager.playSound = function (name) {
+    Gbase.AssetsManager.playSound = function (name) {
         if (!InvertCross.InvertCrossaGame.settings.getSoundfx())
             return;
 
@@ -982,7 +982,7 @@ var InvertCrossaGame.assetsManager = (function () {
         createjs.Sound.play(name);
     };
 
-    InvertCrossaGame.assetsManager.playMusic = function (name) {
+    Gbase.AssetsManager.playMusic = function (name) {
         if (!InvertCross.InvertCrossaGame.settings.getMusic())
             return;
 
@@ -1004,11 +1004,11 @@ var InvertCrossaGame.assetsManager = (function () {
         this.currentMusicname = name;
     };
 
-    InvertCrossaGame.assetsManager.stopMusic = function () {
+    Gbase.AssetsManager.stopMusic = function () {
         if (this.currentMusic != null)
             this.currentMusic.stop();
     };
-    return InvertCrossaGame.assetsManager;
+    return Gbase.AssetsManager;
 })();
 ///depreciated
 /* public static initSound(): boolean {
@@ -1068,7 +1068,7 @@ var InvertCross;
                     InvertCrossaGame.showTitleScreen();
             };
 
-            var x = new Gbase.InvertCrossaGame.assetsManager(assetsManifest, spriteSheets);
+            var x = new Gbase.Gbase.AssetsManager(assetsManifest, spriteSheets);
 
             //TODO tirar daqui
             if (InvertCrossaGame.itemsData.getItemQuantity("hint") <= 0)
@@ -1299,9 +1299,9 @@ var InvertCross;
                 localStorage.setItem("mus", "" + value);
                 this.music = value;
                 if (!value)
-                    InvertCrossaGame.assetsManager.stopMusic();
+                    Gbase.AssetsManager.stopMusic();
                 else
-                    InvertCrossaGame.assetsManager.playMusic("");
+                    Gbase.AssetsManager.playMusic("");
             };
             return Settings;
         })();
@@ -1528,7 +1528,7 @@ var InvertCross;
                 this.levelLogic = new GamePlay.Model.Level(leveldata);
 
                 //play BgSound
-                InvertCrossaGame.assetsManager.stopMusic();
+                Gbase.AssetsManager.stopMusic();
 
                 this.createScene(leveldata);
             }
@@ -1564,7 +1564,7 @@ var InvertCross;
             };
 
             LevelScreen.prototype.addBackground = function (theme) {
-                this.background.addChild(InvertCrossaGame.assetsManager.getBitmap("puzzle/bg"));
+                this.background.addChild(Gbase.AssetsManager.getBitmap("puzzle/bg"));
             };
 
             LevelScreen.prototype.initializeOverlays = function () {
@@ -1651,7 +1651,7 @@ var InvertCross;
                 this.levelLogic.earnPrize();
                 setTimeout(function () {
                     //playSound
-                    InvertCrossaGame.assetsManager.playSound("prize");
+                    Gbase.AssetsManager.playSound("prize");
 
                     //apply radius effect
                     _this.boardSprite.radiusEffect(col, row);
@@ -1711,7 +1711,7 @@ var InvertCross;
                 var _this = this;
                 if (typeof messageText === "undefined") { messageText = true; }
                 //play a win sound
-                InvertCrossaGame.assetsManager.playSound("win");
+                Gbase.AssetsManager.playSound("win");
 
                 //verifies if user already completed this level and verifies if player used any item in the game
                 if (!this.levelData.userdata.solved)
@@ -2495,14 +2495,14 @@ var InvertCross;
                     }
 
                     //load hint symbol
-                    this.hintimage = InvertCrossaGame.assetsManager.getBitmap("puzzle/icon_hint");
+                    this.hintimage = Gbase.AssetsManager.getBitmap("puzzle/icon_hint");
                     this.container.addChild(this.hintimage);
                     this.hintimage.visible = false;
                 };
 
                 //load a single asset and adds it to this
                 BlockSprite.prototype.loadAsset = function (assetName) {
-                    var asset = InvertCrossaGame.assetsManager.getBitmap(assetName);
+                    var asset = Gbase.AssetsManager.getBitmap(assetName);
                     asset.name = assetName;
 
                     this.container.addChild(asset);
@@ -2601,7 +2601,7 @@ var InvertCross;
                     this.regY = boardHeight / 2;
 
                     //load click indicator
-                    this.tutorialIndiatcor = InvertCrossaGame.assetsManager.getSprite("touch");
+                    this.tutorialIndiatcor = Gbase.AssetsManager.getSprite("touch");
                     this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -55;
                     this.tutorialIndiatcor.mouseEnabled = false;
                     this.addChild(this.tutorialIndiatcor);
@@ -2641,7 +2641,7 @@ var InvertCross;
                                 var randomsound = Math.ceil(Math.random() * 3);
                                 if (randomsound >= _this.previousSound)
                                     randomsound++;
-                                InvertCrossaGame.assetsManager.playSound("tile" + randomsound);
+                                Gbase.AssetsManager.playSound("tile" + randomsound);
                                 _this.previousSound = randomsound;
 
                                 //tutorialrelease
@@ -3027,7 +3027,7 @@ var InvertCross;
                 }
                 //adds tutorial touch indicator
                 GamePlayMenu.prototype.addTutorialIndicator = function () {
-                    this.tutorial_highlightSprite = InvertCrossaGame.assetsManager.getSprite("touch");
+                    this.tutorial_highlightSprite = Gbase.AssetsManager.getSprite("touch");
                     this.tutorial_highlightSprite.visible = false;
                     this.tutorial_highlightSprite.mouseEnabled = false;
                     this.addChild(this.tutorial_highlightSprite);
@@ -3110,7 +3110,7 @@ var InvertCross;
                     pauseMenu.addChild(snd2Bt);
                     pauseMenu.addChild(backBt);
 
-                    var bt = InvertCrossaGame.assetsManager.getBitmap("puzzle/btplay2");
+                    var bt = Gbase.AssetsManager.getBitmap("puzzle/btplay2");
                     bt.regY = 87;
                     bt.regX = 102;
                     bt.x = 0;
@@ -3190,10 +3190,10 @@ var InvertCross;
                 }
                 StatusArea.prototype.createSprites = function () {
                     //Background
-                    this.bg1 = InvertCrossaGame.assetsManager.getBitmap("puzzle/painelpuzzle2");
+                    this.bg1 = Gbase.AssetsManager.getBitmap("puzzle/painelpuzzle2");
 
-                    //this.bg2 = InvertCrossaGame.assetsManager.getBitmap("puzzle/painelpuzzle1");
-                    this.bg3 = InvertCrossaGame.assetsManager.getBitmap("puzzle/painelpuzzle2");
+                    //this.bg2 = Gbase.AssetsManager.getBitmap("puzzle/painelpuzzle1");
+                    this.bg3 = Gbase.AssetsManager.getBitmap("puzzle/painelpuzzle2");
                     this.bg3.scaleX = -1;
 
                     this.bg1.x = DefaultWidth * 0.01;
@@ -3215,9 +3215,9 @@ var InvertCross;
                     this.rightIcon = new createjs.Container();
                     var rightIconContainer = new createjs.Container();
 
-                    this.iconepuzzle = InvertCrossaGame.assetsManager.getBitmap("puzzle/iconepuzzle");
-                    this.iconemoves = InvertCrossaGame.assetsManager.getBitmap("puzzle/iconemoves");
-                    this.iconetime = InvertCrossaGame.assetsManager.getBitmap("puzzle/iconetime");
+                    this.iconepuzzle = Gbase.AssetsManager.getBitmap("puzzle/iconepuzzle");
+                    this.iconemoves = Gbase.AssetsManager.getBitmap("puzzle/iconemoves");
+                    this.iconetime = Gbase.AssetsManager.getBitmap("puzzle/iconetime");
 
                     this.iconepuzzle.x = DefaultWidth * 0.01 + 3;
 
@@ -3354,13 +3354,13 @@ var InvertCross;
             //add Scene objects to the view
             BonusScreen.prototype.addScene = function (bonusId) {
                 //adds Background
-                this.background.addChild(InvertCrossaGame.assetsManager.getBitmap(bonusId + "/back"));
+                this.background.addChild(Gbase.AssetsManager.getBitmap(bonusId + "/back"));
 
                 //adds header
-                this.header.addChild(InvertCrossaGame.assetsManager.getBitmap(bonusId + "/header"));
+                this.header.addChild(Gbase.AssetsManager.getBitmap(bonusId + "/header"));
 
                 //adds footer
-                var footer = InvertCrossaGame.assetsManager.getBitmap(bonusId + "/footer");
+                var footer = Gbase.AssetsManager.getBitmap(bonusId + "/footer");
                 this.footer.addChild(footer);
                 footer.y = -291;
             };
@@ -3379,7 +3379,7 @@ var InvertCross;
                     var itemId = itemsArray[i];
 
                     //add icon
-                    var itemObj = InvertCrossaGame.assetsManager.getBitmap("puzzle/icon_" + itemId);
+                    var itemObj = Gbase.AssetsManager.getBitmap("puzzle/icon_" + itemId);
                     itemObj.y = 100;
                     itemObj.x = DefaultWidth / itemsArray.length * i + 40;
                     itemObj.name = itemId;
@@ -3526,12 +3526,12 @@ var InvertCross;
                     barrel.addEventListener("click", function (event) {
                         _this.barrelTap(event);
                     });
-                    var spriteBarrel = InvertCrossaGame.assetsManager.getSprite("Bonus1/Barrel" + (b + 1));
+                    var spriteBarrel = Gbase.AssetsManager.getSprite("Bonus1/Barrel" + (b + 1));
                     spriteBarrel.gotoAndPlay(Math.random() * 120);
                     barrel.addChild(spriteBarrel);
                     var bn = barrel.getBounds();
                     barrel.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(bn.x, bn.y, bn.width, bn.height));
-                    var spriteWater = InvertCrossaGame.assetsManager.getSprite("Bonus1/agua");
+                    var spriteWater = Gbase.AssetsManager.getSprite("Bonus1/agua");
                     barrel.addChild(spriteWater);
                     spriteWater.gotoAndPlay(Math.random() * 120);
 
@@ -3600,9 +3600,9 @@ var InvertCross;
                 for (var b = 0; b < this.barrels.length; b++) {
                     //show the item
                     if (this.items[b])
-                        this.BarrelsItens[b].addChild(InvertCrossaGame.assetsManager.getBitmap("puzzle/icon_" + this.items[b]));
+                        this.BarrelsItens[b].addChild(Gbase.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]));
                     else
-                        this.BarrelsItens[b].addChild(InvertCrossaGame.assetsManager.getBitmap("Bonus1/icone_lata"));
+                        this.BarrelsItens[b].addChild(Gbase.AssetsManager.getBitmap("Bonus1/icone_lata"));
 
                     //hidesItem
                     this.BarrelsItens[b].visible = false;
@@ -3814,11 +3814,11 @@ var InvertCross;
                 card.name = item;
 
                 //background
-                card.addChild(InvertCrossaGame.assetsManager.getBitmap("Bonus2/bonuscard2"));
+                card.addChild(Gbase.AssetsManager.getBitmap("Bonus2/bonuscard2"));
 
                 //adds item Image or empty image
                 var itemImage = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
-                var itemDO = InvertCrossaGame.assetsManager.getBitmap(itemImage);
+                var itemDO = Gbase.AssetsManager.getBitmap(itemImage);
                 itemDO.name = "item";
                 itemDO.x = 368 / 2;
                 itemDO.y = 279 / 2;
@@ -3933,7 +3933,7 @@ var InvertCross;
             //--------------------- Initialization ---------------------
             LevelsMenu.prototype.addObjects = function () {
                 //add Background
-                var bg = InvertCrossaGame.assetsManager.getBitmap("workshop/bgworkshop");
+                var bg = Gbase.AssetsManager.getBitmap("workshop/bgworkshop");
                 this.background.addChild(bg);
 
                 //adds Projects
@@ -4094,7 +4094,7 @@ var InvertCross;
             }
             Loading.prototype.initializeImages = function () {
                 var _this = this;
-                var loader = InvertCrossaGame.assetsManager.loadAssets();
+                var loader = Gbase.AssetsManager.loadAssets();
                 var text = new createjs.Text("", "600 90px Myriad Pro", "#FFF");
                 text.x = DefaultWidth / 2;
                 text.y = DefaultHeight / 2;
@@ -4129,7 +4129,7 @@ var InvertCross;
             function MainMenu() {
                 _super.call(this);
 
-                var bg = InvertCrossaGame.assetsManager.getBitmap("mybotsbg");
+                var bg = Gbase.AssetsManager.getBitmap("mybotsbg");
                 this.background.addChild(bg);
 
                 this.addIntro();
@@ -4147,7 +4147,7 @@ var InvertCross;
                 _super.prototype.activate.call(this);
 
                 //play BgSound
-                InvertCrossaGame.assetsManager.playMusic("trilha");
+                Gbase.AssetsManager.playMusic("trilha");
 
                 //Verifies if it is the first time playing
                 if (!InvertCross.InvertCrossaGame.storyData.getStoryPlayed("intro")) {
@@ -4364,7 +4364,7 @@ var InvertCross;
             }
             //populate View
             ProjectsMenu.prototype.createObjects = function () {
-                var bg = InvertCrossaGame.assetsManager.getBitmap("projects/bgprojects");
+                var bg = Gbase.AssetsManager.getBitmap("projects/bgprojects");
                 this.background.addChild(bg);
 
                 this.addMenu();
@@ -4873,14 +4873,14 @@ var InvertCross;
 
                 LevelThumb.prototype.createLevelModificator = function (level) {
                     if (level.userdata.skip) {
-                        var sk = InvertCrossaGame.assetsManager.getBitmap("puzzle/icon_skip");
+                        var sk = Gbase.AssetsManager.getBitmap("puzzle/icon_skip");
                         sk.regX = sk.getBounds().width / 2;
                         sk.regY = sk.getBounds().height / 2;
                         return sk;
                     }
 
                     if (level.userdata.item) {
-                        var sk = InvertCrossaGame.assetsManager.getBitmap("puzzle/icon_" + level.userdata.item);
+                        var sk = Gbase.AssetsManager.getBitmap("puzzle/icon_" + level.userdata.item);
                         sk.regX = sk.getBounds().width / 2;
                         sk.regY = sk.getBounds().height / 2;
                         return sk;
@@ -4889,7 +4889,7 @@ var InvertCross;
 
                 //adds thumb background
                 LevelThumb.prototype.createBackgroud = function (level, assetName, assetSufix) {
-                    var sbg = InvertCrossaGame.assetsManager.getBitmap("workshop/" + assetName + assetSufix);
+                    var sbg = Gbase.AssetsManager.getBitmap("workshop/" + assetName + assetSufix);
                     sbg.regX = sbg.regY = 98;
                     return sbg;
                 };
@@ -4939,7 +4939,7 @@ var InvertCross;
                 LevelThumb.prototype.createTags = function (level, assetName, assetSufix) {
                     //TODO: essas string devem estar em um enum
                     if (level.type == "time" || level.type == "flip") {
-                        var tag = InvertCrossaGame.assetsManager.getBitmap("workshop/" + assetName + level.type + assetSufix);
+                        var tag = Gbase.AssetsManager.getBitmap("workshop/" + assetName + level.type + assetSufix);
                         tag.regX = tag.regY = 100;
                         return tag;
                     }
@@ -4981,7 +4981,7 @@ var InvertCross;
                 //add objects to View
                 PartsIndicator.prototype.buildView = function () {
                     //add Background
-                    var bg = InvertCrossaGame.assetsManager.getBitmap("partshud");
+                    var bg = Gbase.AssetsManager.getBitmap("partshud");
 
                     //bg.scaleX = 2;
                     this.regX = bg.getBounds().width / 2;
@@ -4989,7 +4989,7 @@ var InvertCross;
 
                     this.infoCotainer = new createjs.Container();
 
-                    //var pi = InvertCrossaGame.assetsManager.getImage("partsicon");
+                    //var pi = Gbase.AssetsManager.getImage("partsicon");
                     //this.partsTextField = new createjs.Text("0",defaultFontFamilyNormal,defaultFontColor);
                     //this.infoCotainer.addChild(pi);
                     //this.infoCotainer.addChild(this.partsTextField);
@@ -4997,7 +4997,7 @@ var InvertCross;
                     //pi.x = 320;
                     //this.partsTextField.y = 20;
                     //this.partsTextField.x = 470;
-                    var si = InvertCrossaGame.assetsManager.getBitmap("starsicon");
+                    var si = Gbase.AssetsManager.getBitmap("starsicon");
                     this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
 
                     this.infoCotainer.addChild(si);
@@ -5046,7 +5046,7 @@ var InvertCross;
                     if (project.UserData.unlocked) {
                         //background
                         var bg = "projects/slot" + (project.UserData.stars ? project.UserData.stars : 0);
-                        var s = InvertCrossaGame.assetsManager.getBitmap(bg);
+                        var s = Gbase.AssetsManager.getBitmap(bg);
                         this.addChild(s);
 
                         //robot name text
@@ -5063,9 +5063,9 @@ var InvertCross;
 
                         //robot image
                         if (project.UserData.complete)
-                            var botImage = InvertCrossaGame.assetsManager.getBitmap("projects/" + project.name);
+                            var botImage = Gbase.AssetsManager.getBitmap("projects/" + project.name);
                         else
-                            var botImage = InvertCrossaGame.assetsManager.getBitmap("projects/" + project.name + "_shadow");
+                            var botImage = Gbase.AssetsManager.getBitmap("projects/" + project.name + "_shadow");
                         this.addChild(botImage);
 
                         //and stars
@@ -5078,11 +5078,11 @@ var InvertCross;
                     } else {
                         //adds Background
                         var bg = "projects/slotl";
-                        var s = InvertCrossaGame.assetsManager.getBitmap(bg);
+                        var s = Gbase.AssetsManager.getBitmap(bg);
                         this.addChild(s);
 
                         //adds lock indicator
-                        var star = InvertCrossaGame.assetsManager.getBitmap("projects/star");
+                        var star = Gbase.AssetsManager.getBitmap("projects/star");
                         this.addChild(star);
                         star.x = 240;
                         star.y = 190;
@@ -5211,7 +5211,7 @@ var InvertCross;
                             str = "workshop/staryellow";
                             break;
                     }
-                    var s = InvertCrossaGame.assetsManager.getBitmap(str);
+                    var s = Gbase.AssetsManager.getBitmap(str);
                     s.x = id * 121;
                     this.addChild(s);
                     return s;
@@ -5698,7 +5698,7 @@ var InvertCross;
 /// <reference path="Gbase/ScreenState.ts" />
 /// <reference path="Gbase/Game.ts" />
 /*scripts*/
-/// <reference path="src/InvertCrossaGame.assetsManager.ts" />
+/// <reference path="src/Gbase.AssetsManager.ts" />
 /// <reference path="src/InvertCrossGame.ts" />
 /// <reference path="src/UserData/Items.ts" />
 /// <reference path="src/UserData/Settings.ts" />
@@ -5747,13 +5747,13 @@ var InvertCross;
 var Gbase;
 (function (Gbase) {
     // Class
-    var InvertCrossaGame.assetsManager = (function () {
-        function InvertCrossaGame.assetsManager(assetsManifest, spriteSheets) {
+    var Gbase.AssetsManager = (function () {
+        function Gbase.AssetsManager(assetsManifest, spriteSheets) {
             this.spriteSheets = spriteSheets ? spriteSheets : [];
 
             this.loadAssets(assetsManifest);
         }
-        InvertCrossaGame.assetsManager.prototype.loadAssets = function (manifest) {
+        Gbase.AssetsManager.prototype.loadAssets = function (manifest) {
             //create a image array
             images = images || {};
 
@@ -5776,26 +5776,26 @@ var Gbase;
             return this.loader;
         };
 
-        InvertCrossaGame.assetsManager.prototype.getBitmap = function (name) {
+        Gbase.AssetsManager.prototype.getBitmap = function (name) {
             if (spriteSheets[name])
                 return this.getSprite(name, false);
             else
                 return new createjs.Bitmap(this.getImage(name));
         };
 
-        InvertCrossaGame.assetsManager.prototype.getImage = function (name) {
+        Gbase.AssetsManager.prototype.getImage = function (name) {
             return this.loader.getResult(name);
         };
 
         //DEPRECIATED
         //get a movie clip
-        InvertCrossaGame.assetsManager.prototype.getMovieClip = function (name) {
+        Gbase.AssetsManager.prototype.getMovieClip = function (name) {
             var t = new window[name];
             return t;
         };
 
         //return a sprite according to the image
-        InvertCrossaGame.assetsManager.prototype.getSprite = function (name, play) {
+        Gbase.AssetsManager.prototype.getSprite = function (name, play) {
             if (typeof play === "undefined") { play = true; }
             var data = spriteSheets[name];
             for (var i in data.images)
@@ -5810,7 +5810,7 @@ var Gbase;
             return sprite;
         };
 
-        InvertCrossaGame.assetsManager.prototype.playSound = function (name) {
+        Gbase.AssetsManager.prototype.playSound = function (name) {
             if (!InvertCross.InvertCrossaGame.settings.getSoundfx())
                 return;
 
@@ -5818,7 +5818,7 @@ var Gbase;
             createjs.Sound.play(name);
         };
 
-        InvertCrossaGame.assetsManager.prototype.playMusic = function (name) {
+        Gbase.AssetsManager.prototype.playMusic = function (name) {
             if (!InvertCross.InvertCrossaGame.settings.getMusic())
                 return;
 
@@ -5840,13 +5840,13 @@ var Gbase;
             this.currentMusicname = name;
         };
 
-        InvertCrossaGame.assetsManager.prototype.stopMusic = function () {
+        Gbase.AssetsManager.prototype.stopMusic = function () {
             if (this.currentMusic != null)
                 this.currentMusic.stop();
         };
-        return InvertCrossaGame.assetsManager;
+        return Gbase.AssetsManager;
     })();
-    Gbase.InvertCrossaGame.assetsManager = InvertCrossaGame.assetsManager;
+    Gbase.Gbase.AssetsManager = Gbase.AssetsManager;
 })(Gbase || (Gbase = {}));
 var Inertia = (function () {
     function Inertia() {
@@ -6047,7 +6047,7 @@ var InvertCross;
                     if (stars >= bonusData[bonusId].cost) {
                         //background
                         var bg = "projects/" + bonusId;
-                        var s = InvertCrossaGame.assetsManager.getBitmap(bg);
+                        var s = Gbase.AssetsManager.getBitmap(bg);
                         this.addChild(s);
 
                         //timer text
@@ -6068,11 +6068,11 @@ var InvertCross;
                     } else {
                         //adds Background
                         var bg = "projects/bigslot1";
-                        var s = InvertCrossaGame.assetsManager.getBitmap(bg);
+                        var s = Gbase.AssetsManager.getBitmap(bg);
                         this.addChild(s);
 
                         //adds lock indicator
-                        var star = InvertCrossaGame.assetsManager.getBitmap("projects/star");
+                        var star = Gbase.AssetsManager.getBitmap("projects/star");
                         this.addChild(star);
                         star.x = 670;
                         star.y = 150;
@@ -6528,7 +6528,7 @@ var InvertCross;
                 this.images = new Array();
 
                 for (var s in slides) {
-                    var image = InvertCrossaGame.assetsManager.getBitmap(slides[s]);
+                    var image = Gbase.AssetsManager.getBitmap(slides[s]);
                     this.images.push(image);
                     this.content.addChild(image);
                 }
@@ -6649,7 +6649,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = InvertCrossaGame.assetsManager.getBitmap("popups/message");
+                    var bg = Gbase.AssetsManager.getBitmap("popups/message");
                     bg.x = 0;
                     bg.y = DefaultHeight / 2 - 500;
                     this.addChild(bg);
@@ -6744,7 +6744,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = InvertCrossaGame.assetsManager.getBitmap("popups/popup");
+                    var bg = Gbase.AssetsManager.getBitmap("popups/popup");
                     bg.x = 0;
                     bg.y = 100;
                     this.addChild(bg);
@@ -6792,7 +6792,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = InvertCrossaGame.assetsManager.getBitmap("popups/popup");
+                    var bg = Gbase.AssetsManager.getBitmap("popups/popup");
                     bg.x = 0;
                     bg.y = 100;
                     this.addChild(bg);
@@ -6879,7 +6879,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = InvertCrossaGame.assetsManager.getBitmap("popups/popup");
+                    var bg = Gbase.AssetsManager.getBitmap("popups/popup");
                     bg.x = 0;
                     bg.y = 100;
                     this.addChild(bg);
@@ -6955,7 +6955,7 @@ var InvertCross;
 
                 Popup.prototype.addsClickIndicaator = function () {
                     //add click indicator
-                    var ind = InvertCrossaGame.assetsManager.getSprite("touch");
+                    var ind = Gbase.AssetsManager.getSprite("touch");
                     this.addChild(ind);
                     ind.x = 1350;
                     ind.y = 1100;
@@ -7001,7 +7001,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = InvertCrossaGame.assetsManager.getBitmap("popups/popupTutorial");
+                    var bg = Gbase.AssetsManager.getBitmap("popups/popupTutorial");
                     bg.x = 150;
                     bg.y = 250;
                     this.addChild(bg);
@@ -7024,7 +7024,7 @@ var InvertCross;
 
                 PopupBot.prototype.addsClickIndicaator = function () {
                     //add click indicator
-                    var ind = InvertCrossaGame.assetsManager.getSprite("touch");
+                    var ind = Gbase.AssetsManager.getSprite("touch");
                     this.addChild(ind);
                     ind.x = 1250;
                     ind.y = 900;
@@ -7088,7 +7088,7 @@ var InvertCross;
                 ProjectWorkshopView.prototype.addStatus = function (project) {
                     this.statusArea = new createjs.Container();
                     this.statusArea.regX = this.statusArea.x = DefaultWidth / 2;
-                    var bg = InvertCrossaGame.assetsManager.getBitmap("partshud");
+                    var bg = Gbase.AssetsManager.getBitmap("partshud");
                     bg.y = 00;
                     bg.x = DefaultWidth / 2;
                     bg.scaleX = 2;
@@ -7115,7 +7115,7 @@ var InvertCross;
                     this.levelsMahine = levelMachine;
 
                     //add MachineBg
-                    var baseFases = InvertCrossaGame.assetsManager.getBitmap("workshop/basefases");
+                    var baseFases = Gbase.AssetsManager.getBitmap("workshop/basefases");
                     baseFases.y = -741;
                     levelMachine.addChild(baseFases);
 
@@ -7247,9 +7247,9 @@ var InvertCross;
                 //create graphics
                 RobotPreview.prototype.createGraphics = function (project) {
                     var size = 1000;
-                    this.fill = this.addChild(InvertCrossaGame.assetsManager.getBitmap("workshop/" + project.name + "_fill"));
-                    this.stroke = this.addChild(InvertCrossaGame.assetsManager.getBitmap("workshop/" + project.name + "_stroke"));
-                    this.complete = this.addChild(InvertCrossaGame.assetsManager.getBitmap("workshop/" + project.name));
+                    this.fill = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
+                    this.stroke = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
+                    this.complete = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name));
 
                     this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
                     this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
@@ -7333,7 +7333,7 @@ var InvertCross;
         Effects.prototype.castEffect = function (x, y, effect, scale) {
             var _this = this;
             if (typeof scale === "undefined") { scale = 1; }
-            var fx = InvertCrossaGame.assetsManager.getMovieClip(effect);
+            var fx = Gbase.AssetsManager.getMovieClip(effect);
             this.addChild(fx);
             fx.mouseEnabled = false;
             fx.play();

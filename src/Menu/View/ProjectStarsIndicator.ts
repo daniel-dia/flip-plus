@@ -35,7 +35,7 @@ module InvertCross.Menu.View {
                 case 2: str = "workshop/staryellow";
                     break;
             }
-            var s = InvertCrossaGame.assetsManager.getBitmap(str);
+            var s = Gbase.AssetsManager.getBitmap(str);
             s.x = id * 121;
             this.addChild(s);
             return s;

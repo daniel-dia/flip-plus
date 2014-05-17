@@ -16,7 +16,7 @@ module InvertCross {
         public static timersData:   UserData.Timers;
         public static itemsData: UserData.Items;
         public static storyData: UserData.Story;
-        public static assetsManager: Gbase.AssetsManager;                       
+
         //Managers
         public static projectManager: Projects.ProjectManager;
         
@@ -47,7 +47,6 @@ module InvertCross {
             this.itemsData = new UserData.Items();
             this.storyData = new UserData.Story();
             this.timersData = new UserData.Timers();
-            this.assetsManager = new Gbase.AssetsManager(getAssetsManifest(assetscale), spriteSheets);
 
             //managers
             InvertCrossaGame.projectManager = new Projects.ProjectManager(levelsData);

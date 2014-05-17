@@ -64,7 +64,7 @@ module Gbase.UI {
             //adds image into it
             if (background != null) {
                 //TODO tirar createjs ASSETS daqui.
-                this.background = Assets.getBitmap(background);
+                this.background = AssetsManager.getBitmap(background);
                 this.addChildAt(this.background, 0);
 
                 //Sets the image into the pivot center.
@@ -122,7 +122,7 @@ module Gbase.UI {
             super(text, event, background, font, color);
 
             //loads icon Image
-            this.icon = Assets.getBitmap(icon);
+            this.icon = AssetsManager.getBitmap(icon);
             this.addChild(this.icon);
 
             if (this.icon.getBounds()) {

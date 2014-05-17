@@ -26,7 +26,7 @@ module InvertCross.Menu {
         //populate View
         private createObjects() {
 
-            var bg = InvertCrossaGame.assetsManager.getBitmap("projects/bgprojects");
+            var bg = Gbase.AssetsManager.getBitmap("projects/bgprojects");
             this.background.addChild(bg);
 
             this.addMenu();

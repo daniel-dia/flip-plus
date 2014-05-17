@@ -29,7 +29,7 @@ module InvertCross.Menu {
 
         private addObjects() {
             //add Background
-            var bg = InvertCrossaGame.assetsManager.getBitmap("workshop/bgworkshop")
+            var bg = Gbase.AssetsManager.getBitmap("workshop/bgworkshop")
             this.background.addChild(bg);
                         
             //adds Projects

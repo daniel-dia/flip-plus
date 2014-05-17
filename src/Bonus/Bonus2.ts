@@ -121,11 +121,11 @@
             card.name = item;
 
             //background
-            card.addChild(InvertCrossaGame.assetsManager.getBitmap("Bonus2/bonuscard2"));
+            card.addChild(Gbase.AssetsManager.getBitmap("Bonus2/bonuscard2"));
 
             //adds item Image or empty image
             var itemImage: string = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
-            var itemDO = InvertCrossaGame.assetsManager.getBitmap(itemImage);
+            var itemDO = Gbase.AssetsManager.getBitmap(itemImage);
             itemDO.name = "item";
             itemDO.x = 368 / 2;
             itemDO.y = 279 / 2;

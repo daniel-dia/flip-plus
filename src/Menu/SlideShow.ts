@@ -43,7 +43,7 @@ module InvertCross.Menu {
 
             //load all images in images array
             for (var s in slides) {
-                var image = InvertCrossaGame.assetsManager.getBitmap(slides[s]);
+                var image = Gbase.AssetsManager.getBitmap(slides[s]);
                 this.images.push(image);
                 this.content.addChild(image);
             }
