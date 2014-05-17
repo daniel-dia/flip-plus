@@ -40,7 +40,7 @@
             this.content.addChild(this.popup)
 
             //bring content to front
-            this.view.setChildIndex(this.content, this.view.getNumChildren() - 1);
+            //this.view.setChildIndex(this.content, this.view.getNumChildren() - 1);
         }
 
         //add Scene objects to the view
@@ -131,7 +131,7 @@
             this.menu = new Menu.View.ScreenMenu();
             this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu()); });
             this.menu.addEventListener("back", () => { this.back(); });
-            this.content.addChild(this.menu);
+            this.header.addChild(this.menu);
         }
 
         //updates user Data with new Item

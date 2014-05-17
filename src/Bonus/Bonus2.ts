@@ -4,29 +4,32 @@
     export class Bonus2 extends BonusScreen {
 
         private currentCard: createjs.Container;
+        private pairsMatched: number;
+        private pairs: number;
         private lives: number;
 
         constructor(itemsArray: Array<string>, sufix: string= "1") {
             super(itemsArray, "Bonus2");
-
-            var cards = this.generateCards(12, 5, itemsArray);
-
-            this.addCards(cards);
+            this.pairsMatched = 0;
         }
 
         addObjects() {
             super.addObjects();
+            var cards = this.generateCards(12, 5, this.itemsArray);
+            this.pairs= 5;
+            this.addCards(cards);
         }
         
         //===============================================================================
 
-        private pair(card1: createjs.Container, card2: createjs.Container) {
+        private match(card1: createjs.Container, card2: createjs.Container):boolean {
             if (card1.name == card2.name && card1 != card2) {
                 this.userAquireItem(card1.name);
                 this.userAquireItem(card1.name);
 
                 this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
                 this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
+                return true;
 
             } else {
                 this.content.mouseEnabled = false;
@@ -35,6 +38,8 @@
                     this.closeCard(card2);
                     this.content.mouseEnabled = true;
                 }, 500);
+
+                return false;
             }
         }
 
@@ -46,11 +51,14 @@
 
         private cardClick(card: createjs.Container) {
 
-            //if card is Jocker (Rat)
-            if (card.name == "") {
-                this.lives--;
+            this.openCard(card);
 
+            //if card is Jocker (Rat)
+            if (card.name == null) {
+                this.lives--;
+                card.mouseEnabled = false;
                 if (this.lives == 0) {
+                    this.content.mouseEnabled = false;
                     this.message.showtext("No more chances", 2000, 500);
                     this.message.addEventListener("onclose", () => { this.endBonus();});
                 }
@@ -58,12 +66,19 @@
             }
 
             if (this.currentCard) {
-                this.pair(this.currentCard, card);
+                var match = this.match(this.currentCard, card);
+                if (match) this.pairsMatched++;
+                if (this.pairsMatched >= this.pairs) {
+                    this.message.showtext("Well done!", 2000, 500);
+                    this.message.addEventListener("onclose", () => { this.endBonus(); });
+                    this.endBonus();
+                }
+
                 this.currentCard = null;
             }
-            else this.currentCard = card;
 
-            this.openCard(card);
+
+            else this.currentCard = card;
         }
 
         
