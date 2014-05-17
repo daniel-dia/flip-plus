@@ -22,16 +22,20 @@
         
         //===============================================================================
 
+        //verifies if two cards matches
+
         private match(card1: createjs.Container, card2: createjs.Container):boolean {
             if (card1.name == card2.name && card1 != card2) {
                 this.userAquireItem(card1.name);
                 this.userAquireItem(card1.name);
 
+                //animate itens
                 this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
                 this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
                 return true;
 
             } else {
+                //cards doesnt match
                 this.content.mouseEnabled = false;
                 setTimeout(() => {
                     this.closeCard(card1);
@@ -55,9 +59,11 @@
 
             //if card is Jocker (Rat)
             if (card.name == null) {
+                //decrase lives number
                 this.lives--;
                 card.mouseEnabled = false;
                 if (this.lives == 0) {
+                    //if there is no more lives, than end game
                     this.content.mouseEnabled = false;
                     this.message.showtext("No more chances", 2000, 500);
                     this.message.addEventListener("onclose", () => { this.endBonus();});
@@ -66,9 +72,13 @@
             }
 
             if (this.currentCard) {
+                //if cards matches
                 var match = this.match(this.currentCard, card);
                 if (match) this.pairsMatched++;
+
+                //verifies if matches all cards
                 if (this.pairsMatched >= this.pairs) {
+                    //ends the game
                     this.message.showtext("Well done!", 2000, 500);
                     this.message.addEventListener("onclose", () => { this.endBonus(); });
                     this.endBonus();
@@ -81,28 +91,32 @@
             else this.currentCard = card;
         }
 
-        
+        //adds cards to the board
         private addCards(cards:Array<string>) {
             var cols = 3;
             var width = 450;
             var height = 320;
 
+            //create cards container
             var cardsContainer = new createjs.Container();
             cardsContainer.x = 184 + 93 + 45;
             cardsContainer.y = 135 +400;
 
+            //for each cards
             for (var c in cards) {
                 var card = this.createCard(cards[c]);
                 card.x = c % cols * width;
                 card.y = Math.floor(c / cols) * height;
                 cardsContainer.addChild(card);
 
+                //add cards event listener
                 card.addEventListener("click", (e:MouseEvent) => { this.cardClick(<createjs.Container>e.currentTarget)});
             }
 
             this.content.addChild(cardsContainer);
         }
 
+        //generate cards itens to be randomized
         private generateCards(cardsCount: number, pairs: number, items: Array<string>): Array<string> {
             var cards = new Array<string>();
 
@@ -164,6 +178,8 @@
             return card;
         }
 
+
+        //open a card animation
         private openCard(card: createjs.Container) {
             var cover = card.getChildByName("cover");
             createjs.Tween.removeTweens(cover);
@@ -172,6 +188,7 @@
 
         }
 
+        //closing a card animation
         private closeCard(card: createjs.Container) {
             var cover = card.getChildByName("cover");
             cover.visible = true;
