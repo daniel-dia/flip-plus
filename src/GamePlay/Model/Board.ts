@@ -1,16 +1,22 @@
-
-/// <reference path="Block.ts" /> 
-/// <reference path="Level.ts" /> 
-
 module InvertCross.GamePlay.Model {
     export class Board {
 
+        //board dimension
         public width: number;
         public height: number;
 
-        public blocks;
-        public prizes = [];
+        //blocks data
+        public blocks : Array<Array<Block>>;
 
+        //mirrored bloks
+        public mirroredBlocks: Array<Block>;
+
+        //hidden blocks
+        public hiddenBlocks: Array<Block>;
+
+        //prizes intervals
+        public prizes = [];
+        
      
         constructor(width: number, height: number) {
 
@@ -38,6 +44,13 @@ module InvertCross.GamePlay.Model {
                 }
 
             return !totalState;
+        }
+
+        //returns a blocks based on a id
+        public getBlockByID(id: number): Block {
+            var col = Math.floor(id / this.height);
+            var row = id - col * this.height;
+            return this.blocks[col][row];
         }
 
         public getInvertedBlocks(): number[] {
@@ -123,13 +136,41 @@ module InvertCross.GamePlay.Model {
                 
             if(drawBlocks)
             for (var i: number = 0; i < drawBlocks.length; i++) {
-                var col = Math.floor(+drawBlocks[i] / this.height);
-                var row = drawBlocks[i] - col * this.height;
-                
-                    this.invertDraw(col, row,cross);
-                
-                    
+                var block = this.getBlockByID(drawBlocks[i]);
+                this.invertDraw(block.col, block.row, cross);
             }
+        }
+
+        public setMirrorBlocks(mirroredBlocks: Array<number>) {
+
+            for (var col = 0; col < this.width; col++)
+                for (var row = 0; row < this.height; row++)
+                    this.blocks[col][row].mirror = false;
+
+            this.mirroredBlocks= new Array();
+
+            if (mirroredBlocks)
+                for (var i: number = 0; i < mirroredBlocks.length; i++) {
+                    var block = this.getBlockByID(mirroredBlocks[i]);
+                    this.mirroredBlocks.push(block);
+                    block.mirror = true;
+                }
+        }
+
+        public setHiddenBlocks(hiddenBlocks: Array<number>) {
+
+            for (var col = 0; col < this.width; col++)
+                for (var row = 0; row < this.height; row++)
+                    this.blocks[col][row].hidden = false;
+
+            this.hiddenBlocks = new Array();
+
+            if (hiddenBlocks)
+                for (var i: number = 0; i < hiddenBlocks.length; i++) {
+                    var block = this.getBlockByID(hiddenBlocks[i]);
+                    this.hiddenBlocks.push(block);
+                    block.hidden = true;
+                }
         }
         
         //Distribuite Prizes Along Board
@@ -153,19 +194,30 @@ module InvertCross.GamePlay.Model {
         ///Invert a cross into the board
         public invertCross(col, row) {
 
-
             //invert block state
-            this.blocks[col][row].toggleState();
+            this.invertBlock(col,row);
 
             //invert flag
             this.blocks[col][row].toggleInverted();
 
             //invert cross neighbor
-            if (col > 0) this.blocks[col - 1][row].toggleState();
-            if (col < this.width - 1) this.blocks[col + 1][row].toggleState();
+            if (col > 0) this.invertBlock(col - 1, row);
+            if (col < this.width - 1) this.invertBlock(col + 1, row);
 
-            if (row < this.height - 1) this.blocks[col][row + 1].toggleState();
-            if (row > 0) this.blocks[col][row - 1].toggleState();
+            if (row < this.height - 1) this.invertBlock(col, row + 1);
+            if (row > 0) this.invertBlock(col, row - 1);
+        }
+
+        //inverte o estado de um block
+        public invertBlock(col, row) {
+            var block = this.blocks[col][row];
+            block.toggleState();
+
+            //se o block for espelhado, inverte dos demais
+            if (block.mirror) 
+                for (var m in this.mirroredBlocks)
+                    this.mirroredBlocks[m].state = block.state;
+            
         }
 
         ///Invert a cross into the board

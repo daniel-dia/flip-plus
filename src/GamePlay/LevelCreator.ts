@@ -134,6 +134,8 @@ module InvertCross.GamePlay {
             levelData.randomMinMoves = parseInt((<HTMLInputElement>this.editWindow.document.getElementById("c_r_min")).value);
 
             levelData.drawData = this.levelData.drawData;
+            levelData.mirroredBlocks = this.levelData.mirroredBlocks;
+            levelData.hiddenBlocks = this.levelData.hiddenBlocks;
 
             if ((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value)
                 levelData.blocksData = JSON.parse((<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value);
@@ -164,21 +166,27 @@ module InvertCross.GamePlay {
         //threat user input
         public userInput(col: number, row: number) {
 
+            var id = row + col * this.levelData.height;
 
             if ((<HTMLInputElement>document.getElementById("c_drawing")).checked) {
-              
-                var id = row + col * this.levelData.height;
                 if (!this.levelData.drawData) this.levelData.drawData = [];
-
-                var index = this.levelData.drawData.indexOf(id);
-                if (index >= 0)
-                    this.levelData.drawData.splice(index, 1);
-                else
-                    this.levelData.drawData.push(id);
+                this.toogleItemInArray(this.levelData.drawData, id);
 
                 this.levelLogic.board.setDrawBlocks(this.levelData.drawData);
+                
             }
-            else {
+
+            else if ((<HTMLInputElement>document.getElementById("c_mirrowing")).checked) {
+                this.levelLogic.board.blocks[col][row].mirror = !this.levelLogic.board.blocks[col][row].mirror;
+                if (!this.levelData.mirroredBlocks) this.levelData.mirroredBlocks = [];
+                this.toogleItemInArray(this.levelData.mirroredBlocks, id);
+            }
+
+            else if ((<HTMLInputElement>document.getElementById("c_hidding")).checked) {
+                this.levelLogic.board.blocks[col][row].hidden = !this.levelLogic.board.blocks[col][row].hidden;
+                if (!this.levelData.hiddenBlocks) this.levelData.hiddenBlocks = [];
+                this.toogleItemInArray(this.levelData.hiddenBlocks,id);
+            }else {
 
                 //invert a cross
                 this.levelLogic.invertCross(col, row);
@@ -190,6 +198,15 @@ module InvertCross.GamePlay {
 
             (<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value = JSON.stringify(this.levelLogic.board.getInvertedBlocks());
    
+        }
+
+
+        private toogleItemInArray(array: Array<any>, item: any) {
+            
+            var index = array.indexOf(item);
+            if (index >= 0) array.splice(index, 1);
+            else array.push(item);
+ 
         }
 
         win(col: number, row: number) {

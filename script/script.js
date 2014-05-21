@@ -264,7 +264,7 @@ var Gbase;
                 //adds image into it
                 if (background != null) {
                     //TODO tirar createjs ASSETS daqui.
-                    this.background = Gbase.Gbase.AssetsManager.getBitmap(background);
+                    this.background = Gbase.AssetsManager.getBitmap(background);
                     this.addChildAt(this.background, 0);
 
                     //Sets the image into the pivot center.
@@ -330,7 +330,7 @@ var Gbase;
                 _super.call(this, text, event, background, font, color);
 
                 //loads icon Image
-                this.icon = Gbase.Gbase.AssetsManager.getBitmap(icon);
+                this.icon = Gbase.AssetsManager.getBitmap(icon);
                 this.addChild(this.icon);
 
                 if (this.icon.getBounds()) {
@@ -635,11 +635,123 @@ var InvertCross;
     })();
     InvertCross.Game = Game;
 })(InvertCross || (InvertCross = {}));
+//declare var images: any;
+//declare var Media: any;
+//declare var assetscale: number;
+//declare var spriteSheets : number;
+var Gbase;
+(function (Gbase) {
+    // Class
+    var AssetsManager = (function () {
+        function AssetsManager() {
+        }
+        AssetsManager.loadAssets = function (assetsManifest, spriteSheets, imagesArray) {
+            this.spriteSheets = spriteSheets ? spriteSheets : [];
+            this.assetsManifest = assetsManifest;
+
+            //create a image array
+            this.imagesArray = new Array();
+
+            //creates a preload queue
+            this.loader = new createjs.LoadQueue(false);
+
+            //install sound plug-in for sounds format
+            this.loader.installPlugin(createjs.Sound);
+
+            //create eventListeners
+            this.loader.addEventListener("fileload", function (evt) {
+                if (evt.item.type == "image")
+                    imagesArray[evt.item.id] = evt.result;
+                return true;
+            });
+
+            //loads entire manifest
+            this.loader.loadManifest(this.assetsManifest);
+
+            return this.loader;
+        };
+
+        AssetsManager.getImagesArray = function () {
+            return this.imagesArray;
+        };
+
+        AssetsManager.getBitmap = function (name) {
+            if (spriteSheets[name])
+                return this.getSprite(name, false);
+            else
+                return new createjs.Bitmap(this.getImage(name));
+        };
+
+        AssetsManager.getImage = function (name) {
+            return this.loader.getResult(name);
+        };
+
+        //DEPRECIATED
+        //get a movie clip
+        AssetsManager.getMovieClip = function (name) {
+            var t = new window[name];
+            return t;
+        };
+
+        //return a sprite according to the image
+        AssetsManager.getSprite = function (name, play) {
+            if (typeof play === "undefined") { play = true; }
+            var data = spriteSheets[name];
+            for (var i in data.images)
+                if (typeof data.images[i] == "string")
+                    data.images[i] = this.getImage(data.images[i]);
+
+            var spritesheet = new createjs.SpriteSheet(data);
+
+            var sprite = new createjs.Sprite(spritesheet);
+            if (play)
+                sprite.play();
+            return sprite;
+        };
+
+        AssetsManager.playSound = function (name) {
+            if (!InvertCross.InvertCrossaGame.settings.getSoundfx())
+                return;
+
+            //wp8// this.mediaDic[name].play()
+            createjs.Sound.play(name);
+        };
+
+        AssetsManager.playMusic = function (name) {
+            if (!InvertCross.InvertCrossaGame.settings.getMusic())
+                return;
+
+            //WP8//var media = this.mediaDic[name];
+            if (name == "")
+                name = this.currentMusicname;
+            if (this.currentMusicname == name) {
+                if (this.currentMusic.playState == createjs.Sound.PLAY_SUCCEEDED)
+                    return;
+            }
+
+            if (this.currentMusic != null)
+                this.currentMusic.stop();
+
+            this.currentMusic = createjs.Sound.play(name, "none", 0, 0, -1);
+
+            //wp8//this.currentMusic = media;
+            //wp8//media.play()
+            this.currentMusicname = name;
+        };
+
+        AssetsManager.stopMusic = function () {
+            if (this.currentMusic != null)
+                this.currentMusic.stop();
+        };
+        return AssetsManager;
+    })();
+    Gbase.AssetsManager = AssetsManager;
+})(Gbase || (Gbase = {}));
 // Class
-var Gbase.AssetsManager = (function () {
-    function Gbase.AssetsManager() {
+var aAssets = (function () {
+    function aAssets() {
     }
-    Gbase.AssetsManager.loadAssets = function () {
+    aAssets.loadAssets = function () {
         if (!assetscale)
             assetscale = 0.5;
 
@@ -945,23 +1057,23 @@ var Gbase.AssetsManager = (function () {
         return this.loader;
     };
 
-    Gbase.AssetsManager.getBitmap = function (name) {
+    aAssets.getBitmap = function (name) {
         if (spriteSheets[name])
             return this.getSprite(name);
         else
             return new createjs.Bitmap(this.getImage(name));
     };
 
-    Gbase.AssetsManager.getImage = function (name) {
+    aAssets.getImage = function (name) {
         return this.loader.getResult(name);
     };
 
-    Gbase.AssetsManager.getMovieClip = function (name) {
+    aAssets.getMovieClip = function (name) {
         var t = new window[name];
         return t;
     };
 
-    Gbase.AssetsManager.getSprite = function (name) {
+    aAssets.getSprite = function (name) {
         var data = spriteSheets[name];
         for (var i in data.images)
             if (typeof data.images[i] == "string")
@@ -974,7 +1086,7 @@ var Gbase.AssetsManager = (function () {
         return sprite;
     };
 
-    Gbase.AssetsManager.playSound = function (name) {
+    aAssets.playSound = function (name) {
         if (!InvertCross.InvertCrossaGame.settings.getSoundfx())
             return;
 
@@ -982,7 +1094,7 @@ var Gbase.AssetsManager = (function () {
         createjs.Sound.play(name);
     };
 
-    Gbase.AssetsManager.playMusic = function (name) {
+    aAssets.playMusic = function (name) {
         if (!InvertCross.InvertCrossaGame.settings.getMusic())
             return;
 
@@ -1004,11 +1116,11 @@ var Gbase.AssetsManager = (function () {
         this.currentMusicname = name;
     };
 
-    Gbase.AssetsManager.stopMusic = function () {
+    aAssets.stopMusic = function () {
         if (this.currentMusic != null)
             this.currentMusic.stop();
     };
-    return Gbase.AssetsManager;
+    return aAssets;
 })();
 ///depreciated
 /* public static initSound(): boolean {
@@ -1026,6 +1138,7 @@ createjs.Sound.registerManifest(manifest);
 //    this.mediaDic[manifest[i].id] = new Media(manifest[i].src);
 return true;
 }*/
+//declare var spriteSheets;
 window.onload = function () {
     InvertCross.InvertCrossaGame.InvertCrossInitilize();
 };
@@ -1048,11 +1161,11 @@ var InvertCross;
             createjs.DisplayObject.avoidBitmapHitAreaCalculation = true;
 
             //userData
-            InvertCrossaGame.userData = new InvertCross.UserData.ProjectsData();
-            InvertCrossaGame.settings = new InvertCross.UserData.Settings();
-            InvertCrossaGame.itemsData = new InvertCross.UserData.Items();
-            InvertCrossaGame.storyData = new InvertCross.UserData.Story();
-            InvertCrossaGame.timersData = new InvertCross.UserData.Timers();
+            this.userData = new InvertCross.UserData.ProjectsData();
+            this.settings = new InvertCross.UserData.Settings();
+            this.itemsData = new InvertCross.UserData.Items();
+            this.storyData = new InvertCross.UserData.Story();
+            this.timersData = new InvertCross.UserData.Timers();
 
             //managers
             InvertCrossaGame.projectManager = new InvertCross.Projects.ProjectManager(levelsData);
@@ -1067,8 +1180,6 @@ var InvertCross;
                 } else
                     InvertCrossaGame.showTitleScreen();
             };
-
-            var x = new Gbase.Gbase.AssetsManager(assetsManifest, spriteSheets);
 
             //TODO tirar daqui
             if (InvertCrossaGame.itemsData.getItemQuantity("hint") <= 0)
@@ -1827,14 +1938,24 @@ var InvertCross;
 
                 this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
 
-                if (levelData.type == "draw") {
-                    if (levelData.drawData == null)
-                        this.levelLogic.board.setDrawBlocks(levelData.blocksData);
-                    else
-                        this.levelLogic.board.setDrawBlocks(levelData.drawData, true);
-                }
+                //draw blocks
+                if (levelData.type == "draw" && levelData.drawData == null)
+                    this.levelLogic.board.setDrawBlocks(levelData.blocksData);
 
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+                if (levelData.drawData)
+                    this.levelLogic.board.setDrawBlocks(levelData.drawData, true);
+
+                //Mirror Blocks
+                if (levelData.mirroredBlocks)
+                    this.levelLogic.board.setMirrorBlocks(levelData.mirroredBlocks);
+
+                //hidden Blocks
+                if (levelData.hiddenBlocks)
+                    this.levelLogic.board.setHiddenBlocks(levelData.hiddenBlocks);
+
+                //TODO
+                if (levelData)
+                    this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             }
             return Puzzle;
         })(GamePlay.LevelScreen);
@@ -2093,71 +2214,13 @@ var InvertCross;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="Board.ts" />
-var InvertCross;
-(function (InvertCross) {
-    (function (GamePlay) {
-        (function (Model) {
-            //Model
-            var Level = (function () {
-                //Initialization methodos ============================================================================================================
-                function Level(leveldata) {
-                    //Level Data colections
-                    this.moves = 0;
-                    this.earnedPrizes = 0;
-                    this.timeSpent = 0;
-                    this.points = 0;
-                    //creates a board
-                    this.board = new Model.Board(leveldata.width, leveldata.height);
-                }
-                //Model methods =======================================================================================================================
-                Level.prototype.getBlocks = function () {
-                    return this.board.blocks;
-                };
-
-                Level.prototype.invertCross = function (col, row) {
-                    this.board.invertCross(col, row);
-                };
-
-                // verify somethings ==================================================================================================================
-                Level.prototype.verifyPrize = function () {
-                    var invertedCount = this.board.getInvertedBlocksCount();
-                    var goal = this.board.prizes[this.board.prizes.length - 1];
-                    if (invertedCount <= goal)
-                        return true;
-                    else
-                        return false;
-                };
-
-                Level.prototype.verifyWin = function () {
-                    return this.board.verifyClean();
-                };
-
-                // GamePlay methods ===================================================================================================================
-                Level.prototype.earnPrize = function () {
-                    this.board.prizes.pop();
-                    this.earnedPrizes++;
-                };
-                Level.movePoint = -5;
-                Level.timePoint = -6;
-                Level.prizesPoint = 100;
-                Level.endPoint = 1000;
-                return Level;
-            })();
-            Model.Level = Level;
-        })(GamePlay.Model || (GamePlay.Model = {}));
-        var Model = GamePlay.Model;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-/// <reference path="Block.ts" />
-/// <reference path="Level.ts" />
 var InvertCross;
 (function (InvertCross) {
     (function (GamePlay) {
         (function (Model) {
             var Board = (function () {
                 function Board(width, height) {
+                    //prizes intervals
                     this.prizes = [];
                     this.width = width;
                     this.height = height;
@@ -2182,6 +2245,13 @@ var InvertCross;
                         }
 
                     return !totalState;
+                };
+
+                //returns a blocks based on a id
+                Board.prototype.getBlockByID = function (id) {
+                    var col = Math.floor(id / this.height);
+                    var row = id - col * this.height;
+                    return this.blocks[col][row];
                 };
 
                 Board.prototype.getInvertedBlocks = function () {
@@ -2271,10 +2341,38 @@ var InvertCross;
 
                     if (drawBlocks)
                         for (var i = 0; i < drawBlocks.length; i++) {
-                            var col = Math.floor(+drawBlocks[i] / this.height);
-                            var row = drawBlocks[i] - col * this.height;
+                            var block = this.getBlockByID(drawBlocks[i]);
+                            this.invertDraw(block.col, block.row, cross);
+                        }
+                };
 
-                            this.invertDraw(col, row, cross);
+                Board.prototype.setMirrorBlocks = function (mirroredBlocks) {
+                    for (var col = 0; col < this.width; col++)
+                        for (var row = 0; row < this.height; row++)
+                            this.blocks[col][row].mirror = false;
+
+                    this.mirroredBlocks = new Array();
+
+                    if (mirroredBlocks)
+                        for (var i = 0; i < mirroredBlocks.length; i++) {
+                            var block = this.getBlockByID(mirroredBlocks[i]);
+                            this.mirroredBlocks.push(block);
+                            block.mirror = true;
+                        }
+                };
+
+                Board.prototype.setHiddenBlocks = function (hiddenBlocks) {
+                    for (var col = 0; col < this.width; col++)
+                        for (var row = 0; row < this.height; row++)
+                            this.blocks[col][row].hidden = false;
+
+                    this.hiddenBlocks = new Array();
+
+                    if (hiddenBlocks)
+                        for (var i = 0; i < hiddenBlocks.length; i++) {
+                            var block = this.getBlockByID(hiddenBlocks[i]);
+                            this.hiddenBlocks.push(block);
+                            block.hidden = true;
                         }
                 };
 
@@ -2300,21 +2398,32 @@ var InvertCross;
                 ///Invert a cross into the board
                 Board.prototype.invertCross = function (col, row) {
                     //invert block state
-                    this.blocks[col][row].toggleState();
+                    this.invertBlock(col, row);
 
                     //invert flag
                     this.blocks[col][row].toggleInverted();
 
                     //invert cross neighbor
                     if (col > 0)
-                        this.blocks[col - 1][row].toggleState();
+                        this.invertBlock(col - 1, row);
                     if (col < this.width - 1)
-                        this.blocks[col + 1][row].toggleState();
+                        this.invertBlock(col + 1, row);
 
                     if (row < this.height - 1)
-                        this.blocks[col][row + 1].toggleState();
+                        this.invertBlock(col, row + 1);
                     if (row > 0)
-                        this.blocks[col][row - 1].toggleState();
+                        this.invertBlock(col, row - 1);
+                };
+
+                //inverte o estado de um block
+                Board.prototype.invertBlock = function (col, row) {
+                    var block = this.blocks[col][row];
+                    block.toggleState();
+
+                    //se o block for espelhado, inverte dos demais
+                    if (block.mirror)
+                        for (var m in this.mirroredBlocks)
+                            this.mirroredBlocks[m].state = block.state;
                 };
 
                 ///Invert a cross into the board
@@ -2340,6 +2449,63 @@ var InvertCross;
                 return Board;
             })();
             Model.Board = Board;
+        })(GamePlay.Model || (GamePlay.Model = {}));
+        var Model = GamePlay.Model;
+    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
+    var GamePlay = InvertCross.GamePlay;
+})(InvertCross || (InvertCross = {}));
+/// <reference path="Board.ts" />
+var InvertCross;
+(function (InvertCross) {
+    (function (GamePlay) {
+        (function (Model) {
+            //Model
+            var Level = (function () {
+                //Initialization methodos ============================================================================================================
+                function Level(leveldata) {
+                    //Level Data colections
+                    this.moves = 0;
+                    this.earnedPrizes = 0;
+                    this.timeSpent = 0;
+                    this.points = 0;
+                    //creates a board
+                    this.board = new Model.Board(leveldata.width, leveldata.height);
+                }
+                //Model methods =======================================================================================================================
+                Level.prototype.getBlocks = function () {
+                    return this.board.blocks;
+                };
+
+                Level.prototype.invertCross = function (col, row) {
+                    this.board.invertCross(col, row);
+                };
+
+                // verify somethings ==================================================================================================================
+                Level.prototype.verifyPrize = function () {
+                    var invertedCount = this.board.getInvertedBlocksCount();
+                    var goal = this.board.prizes[this.board.prizes.length - 1];
+                    if (invertedCount <= goal)
+                        return true;
+                    else
+                        return false;
+                };
+
+                Level.prototype.verifyWin = function () {
+                    return this.board.verifyClean();
+                };
+
+                // GamePlay methods ===================================================================================================================
+                Level.prototype.earnPrize = function () {
+                    this.board.prizes.pop();
+                    this.earnedPrizes++;
+                };
+                Level.movePoint = -5;
+                Level.timePoint = -6;
+                Level.prizesPoint = 100;
+                Level.endPoint = 1000;
+                return Level;
+            })();
+            Model.Level = Level;
         })(GamePlay.Model || (GamePlay.Model = {}));
         var Model = GamePlay.Model;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
@@ -2411,6 +2577,12 @@ var InvertCross;
                         this.hintimage.visible = true;
                     else
                         this.hintimage.visible = false;
+
+                    //show mirrored
+                    this.mirrorImage.visible = this.block.mirror;
+
+                    //show hidden
+                    this.memoryImage.visible = this.block.hidden;
 
                     //calculate new state
                     var newState = this.CalculateSpriteStatus(this.block.state, this.block.draw, this.levelType);
@@ -2494,10 +2666,22 @@ var InvertCross;
                         }
                     }
 
+                    //Modificators
                     //load hint symbol
                     this.hintimage = Gbase.AssetsManager.getBitmap("puzzle/icon_hint");
                     this.container.addChild(this.hintimage);
                     this.hintimage.visible = false;
+
+                    //load nurrir modificator tile
+                    this.mirrorImage = Gbase.AssetsManager.getBitmap("puzzle/tilemirror");
+                    this.container.addChild(this.mirrorImage);
+                    this.mirrorImage.visible = false;
+                    this.mirrorImage.x = this.mirrorImage.y = -5;
+
+                    //load memoryModificator tile
+                    this.memoryImage = Gbase.AssetsManager.getBitmap("puzzle/tilememory");
+                    this.container.addChild(this.memoryImage);
+                    this.memoryImage.visible = false;
                 };
 
                 //load a single asset and adds it to this
@@ -3347,9 +3531,8 @@ var InvertCross;
                 //adds popup
                 this.popup = new InvertCross.Menu.View.Popup();
                 this.content.addChild(this.popup);
-
                 //bring content to front
-                this.view.setChildIndex(this.content, this.view.getNumChildren() - 1);
+                //this.view.setChildIndex(this.content, this.view.getNumChildren() - 1);
             }
             //add Scene objects to the view
             BonusScreen.prototype.addScene = function (bonusId) {
@@ -3439,7 +3622,7 @@ var InvertCross;
                 this.menu.addEventListener("back", function () {
                     _this.back();
                 });
-                this.content.addChild(this.menu);
+                this.header.addChild(this.menu);
             };
 
             //updates user Data with new Item
@@ -3703,31 +3886,37 @@ var InvertCross;
             function Bonus2(itemsArray, sufix) {
                 if (typeof sufix === "undefined") { sufix = "1"; }
                 _super.call(this, itemsArray, "Bonus2");
-
-                var cards = this.generateCards(12, 5, itemsArray);
-
-                this.addCards(cards);
+                this.pairsMatched = 0;
             }
             Bonus2.prototype.addObjects = function () {
                 _super.prototype.addObjects.call(this);
+                var cards = this.generateCards(12, 5, this.itemsArray);
+                this.pairs = 5;
+                this.addCards(cards);
             };
 
             //===============================================================================
-            Bonus2.prototype.pair = function (card1, card2) {
+            //verifies if two cards matches
+            Bonus2.prototype.match = function (card1, card2) {
                 var _this = this;
                 if (card1.name == card2.name && card1 != card2) {
                     this.userAquireItem(card1.name);
                     this.userAquireItem(card1.name);
 
+                    //animate itens
                     this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
                     this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
+                    return true;
                 } else {
+                    //cards doesnt match
                     this.content.mouseEnabled = false;
                     setTimeout(function () {
                         _this.closeCard(card1);
                         _this.closeCard(card2);
                         _this.content.mouseEnabled = true;
                     }, 500);
+
+                    return false;
                 }
             };
 
@@ -3737,11 +3926,16 @@ var InvertCross;
             //===============================================================================
             Bonus2.prototype.cardClick = function (card) {
                 var _this = this;
-                //if card is Jocker (Rat)
-                if (card.name == "") {
-                    this.lives--;
+                this.openCard(card);
 
+                //if card is Jocker (Rat)
+                if (card.name == null) {
+                    //decrase lives number
+                    this.lives--;
+                    card.mouseEnabled = false;
                     if (this.lives == 0) {
+                        //if there is no more lives, than end game
+                        this.content.mouseEnabled = false;
                         this.message.showtext("No more chances", 2000, 500);
                         this.message.addEventListener("onclose", function () {
                             _this.endBonus();
@@ -3751,20 +3945,34 @@ var InvertCross;
                 }
 
                 if (this.currentCard) {
-                    this.pair(this.currentCard, card);
+                    //if cards matches
+                    var match = this.match(this.currentCard, card);
+                    if (match)
+                        this.pairsMatched++;
+
+                    //verifies if matches all cards
+                    if (this.pairsMatched >= this.pairs) {
+                        //ends the game
+                        this.message.showtext("Well done!", 2000, 500);
+                        this.message.addEventListener("onclose", function () {
+                            _this.endBonus();
+                        });
+                        this.endBonus();
+                    }
+
                     this.currentCard = null;
                 } else
                     this.currentCard = card;
-
-                this.openCard(card);
             };
 
+            //adds cards to the board
             Bonus2.prototype.addCards = function (cards) {
                 var _this = this;
                 var cols = 3;
                 var width = 450;
                 var height = 320;
 
+                //create cards container
                 var cardsContainer = new createjs.Container();
                 cardsContainer.x = 184 + 93 + 45;
                 cardsContainer.y = 135 + 400;
@@ -3775,6 +3983,7 @@ var InvertCross;
                     card.y = Math.floor(c / cols) * height;
                     cardsContainer.addChild(card);
 
+                    //add cards event listener
                     card.addEventListener("click", function (e) {
                         _this.cardClick(e.currentTarget);
                     });
@@ -3783,6 +3992,7 @@ var InvertCross;
                 this.content.addChild(cardsContainer);
             };
 
+            //generate cards itens to be randomized
             Bonus2.prototype.generateCards = function (cardsCount, pairs, items) {
                 var cards = new Array();
 
@@ -3841,6 +4051,7 @@ var InvertCross;
                 return card;
             };
 
+            //open a card animation
             Bonus2.prototype.openCard = function (card) {
                 var cover = card.getChildByName("cover");
                 createjs.Tween.removeTweens(cover);
@@ -3850,6 +4061,7 @@ var InvertCross;
                 card.mouseEnabled = false;
             };
 
+            //closing a card animation
             Bonus2.prototype.closeCard = function (card) {
                 var cover = card.getChildByName("cover");
                 cover.visible = true;
@@ -4094,7 +4306,9 @@ var InvertCross;
             }
             Loading.prototype.initializeImages = function () {
                 var _this = this;
-                var loader = Gbase.AssetsManager.loadAssets();
+                var loader = Gbase.AssetsManager.loadAssets(getAssetsManifest(assetscale), spriteSheets, images);
+
+                //var loader = Assets.loadAssets();
                 var text = new createjs.Text("", "600 90px Myriad Pro", "#FFF");
                 text.x = DefaultWidth / 2;
                 text.y = DefaultHeight / 2;
@@ -4982,9 +5196,8 @@ var InvertCross;
                 PartsIndicator.prototype.buildView = function () {
                     //add Background
                     var bg = Gbase.AssetsManager.getBitmap("partshud");
-
-                    //bg.scaleX = 2;
-                    this.regX = bg.getBounds().width / 2;
+                    if (bg.getBounds())
+                        this.regX = bg.getBounds().width / 2;
                     this.addChild(bg);
 
                     this.infoCotainer = new createjs.Container();
@@ -5697,8 +5910,9 @@ var InvertCross;
 /// <reference path="Gbase/ScreenViewer.ts" />
 /// <reference path="Gbase/ScreenState.ts" />
 /// <reference path="Gbase/Game.ts" />
+/// <reference path="Gbase/AssetsManager.ts" />
 /*scripts*/
-/// <reference path="src/Gbase.AssetsManager.ts" />
+/// <reference path="src/Assets.ts" />
 /// <reference path="src/InvertCrossGame.ts" />
 /// <reference path="src/UserData/Items.ts" />
 /// <reference path="src/UserData/Settings.ts" />
@@ -5740,114 +5954,6 @@ var InvertCross;
 /// <reference path="src/Projects/Project.ts" />
 /// <reference path="src/Projects/ProjectManager.ts" />
 /// <reference path="src/Robots/MyBots.ts" />
-//declare var images: any;
-//declare var Media: any;
-//declare var assetscale: number;
-//declare var spriteSheets : number;
-var Gbase;
-(function (Gbase) {
-    // Class
-    var Gbase.AssetsManager = (function () {
-        function Gbase.AssetsManager(assetsManifest, spriteSheets) {
-            this.spriteSheets = spriteSheets ? spriteSheets : [];
-
-            this.loadAssets(assetsManifest);
-        }
-        Gbase.AssetsManager.prototype.loadAssets = function (manifest) {
-            //create a image array
-            images = images || {};
-
-            //creates a preload queue
-            this.loader = new createjs.LoadQueue(false);
-
-            //install sound plug-in for sounds format
-            this.loader.installPlugin(createjs.Sound);
-
-            //create eventListeners
-            this.loader.addEventListener("fileload", function (evt) {
-                if (evt.item.type == "image")
-                    images[evt.item.id] = evt.result;
-                return true;
-            });
-
-            //loads entire manifest
-            this.loader.loadManifest(manifest);
-
-            return this.loader;
-        };
-
-        Gbase.AssetsManager.prototype.getBitmap = function (name) {
-            if (spriteSheets[name])
-                return this.getSprite(name, false);
-            else
-                return new createjs.Bitmap(this.getImage(name));
-        };
-
-        Gbase.AssetsManager.prototype.getImage = function (name) {
-            return this.loader.getResult(name);
-        };
-
-        //DEPRECIATED
-        //get a movie clip
-        Gbase.AssetsManager.prototype.getMovieClip = function (name) {
-            var t = new window[name];
-            return t;
-        };
-
-        //return a sprite according to the image
-        Gbase.AssetsManager.prototype.getSprite = function (name, play) {
-            if (typeof play === "undefined") { play = true; }
-            var data = spriteSheets[name];
-            for (var i in data.images)
-                if (typeof data.images[i] == "string")
-                    data.images[i] = this.getImage(data.images[i]);
-
-            var spritesheet = new createjs.SpriteSheet(data);
-
-            var sprite = new createjs.Sprite(spritesheet);
-            if (play)
-                sprite.play();
-            return sprite;
-        };
-
-        Gbase.AssetsManager.prototype.playSound = function (name) {
-            if (!InvertCross.InvertCrossaGame.settings.getSoundfx())
-                return;
-
-            //wp8// this.mediaDic[name].play()
-            createjs.Sound.play(name);
-        };
-
-        Gbase.AssetsManager.prototype.playMusic = function (name) {
-            if (!InvertCross.InvertCrossaGame.settings.getMusic())
-                return;
-
-            //WP8//var media = this.mediaDic[name];
-            if (name == "")
-                name = this.currentMusicname;
-            if (this.currentMusicname == name) {
-                if (this.currentMusic.playState == createjs.Sound.PLAY_SUCCEEDED)
-                    return;
-            }
-
-            if (this.currentMusic != null)
-                this.currentMusic.stop();
-
-            this.currentMusic = createjs.Sound.play(name, "none", 0, 0, -1);
-
-            //wp8//this.currentMusic = media;
-            //wp8//media.play()
-            this.currentMusicname = name;
-        };
-
-        Gbase.AssetsManager.prototype.stopMusic = function () {
-            if (this.currentMusic != null)
-                this.currentMusic.stop();
-        };
-        return Gbase.AssetsManager;
-    })();
-    Gbase.Gbase.AssetsManager = Gbase.AssetsManager;
-})(Gbase || (Gbase = {}));
 var Inertia = (function () {
     function Inertia() {
     }
@@ -6370,6 +6476,8 @@ var InvertCross;
                 levelData.randomMinMoves = parseInt(this.editWindow.document.getElementById("c_r_min").value);
 
                 levelData.drawData = this.levelData.drawData;
+                levelData.mirroredBlocks = this.levelData.mirroredBlocks;
+                levelData.hiddenBlocks = this.levelData.hiddenBlocks;
 
                 if (this.editWindow.document.getElementById("c_blocks").value)
                     levelData.blocksData = JSON.parse(this.editWindow.document.getElementById("c_blocks").value);
@@ -6407,18 +6515,24 @@ var InvertCross;
 
             //threat user input
             LevelCreator.prototype.userInput = function (col, row) {
+                var id = row + col * this.levelData.height;
+
                 if (document.getElementById("c_drawing").checked) {
-                    var id = row + col * this.levelData.height;
                     if (!this.levelData.drawData)
                         this.levelData.drawData = [];
-
-                    var index = this.levelData.drawData.indexOf(id);
-                    if (index >= 0)
-                        this.levelData.drawData.splice(index, 1);
-                    else
-                        this.levelData.drawData.push(id);
+                    this.toogleItemInArray(this.levelData.drawData, id);
 
                     this.levelLogic.board.setDrawBlocks(this.levelData.drawData);
+                } else if (document.getElementById("c_mirrowing").checked) {
+                    this.levelLogic.board.blocks[col][row].mirror = !this.levelLogic.board.blocks[col][row].mirror;
+                    if (!this.levelData.mirroredBlocks)
+                        this.levelData.mirroredBlocks = [];
+                    this.toogleItemInArray(this.levelData.mirroredBlocks, id);
+                } else if (document.getElementById("c_hidding").checked) {
+                    this.levelLogic.board.blocks[col][row].hidden = !this.levelLogic.board.blocks[col][row].hidden;
+                    if (!this.levelData.hiddenBlocks)
+                        this.levelData.hiddenBlocks = [];
+                    this.toogleItemInArray(this.levelData.hiddenBlocks, id);
                 } else {
                     //invert a cross
                     this.levelLogic.invertCross(col, row);
@@ -6428,6 +6542,14 @@ var InvertCross;
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
 
                 this.editWindow.document.getElementById("c_blocks").value = JSON.stringify(this.levelLogic.board.getInvertedBlocks());
+            };
+
+            LevelCreator.prototype.toogleItemInArray = function (array, item) {
+                var index = array.indexOf(item);
+                if (index >= 0)
+                    array.splice(index, 1);
+                else
+                    array.push(item);
             };
 
             LevelCreator.prototype.win = function (col, row) {

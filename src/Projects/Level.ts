@@ -23,6 +23,12 @@ module InvertCross.Projects {
         //the numberId of the drawBlocks.
         public drawData: number[];
 
+        //the number id for the mirrowered bloks
+        public mirroredBlocks: Array<number>
+
+        //the number id for the hidden block
+        public hiddenBlocks: Array<number>
+        
         //prize is activated when there is less than N inverted blocks.
         //by instancce. prizes={1,3,6). this level will have 3 prizes. Each of them will be earned when 
         //the player left 6 3 and 1 inverted block on the puzze
