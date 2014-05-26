@@ -3813,6 +3813,7 @@ var InvertCross;
             function Bonus2(itemsArray, sufix) {
                 if (typeof sufix === "undefined") { sufix = "1"; }
                 _super.call(this, itemsArray, "Bonus2");
+                this.cards = [];
                 this.pairsMatched = 0;
             }
             Bonus2.prototype.addObjects = function () {
@@ -3823,9 +3824,14 @@ var InvertCross;
             };
 
             //===============================================================================
+            //verifies all matches in oppened cards
+            Bonus2.prototype.matchAll = function (newCard, openedCards) {
+                for (var oc in openedCards)
+                    this.matchPair(newCard, openedCards[oc]);
+            };
+
             //verifies if two cards matches
-            Bonus2.prototype.match = function (card1, card2) {
-                var _this = this;
+            Bonus2.prototype.matchPair = function (card1, card2) {
                 if (card1.name == card2.name && card1 != card2) {
                     this.userAquireItem(card1.name);
                     this.userAquireItem(card1.name);
@@ -3834,26 +3840,13 @@ var InvertCross;
                     this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
                     this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
                     return true;
-                } else {
-                    //cards doesnt match
-                    this.content.mouseEnabled = false;
-                    setTimeout(function () {
-                        _this.closeCard(card1);
-                        _this.closeCard(card2);
-                        _this.content.mouseEnabled = true;
-                    }, 500);
-
-                    return false;
                 }
-            };
-
-            Bonus2.prototype.closeOppened = function () {
             };
 
             //===============================================================================
             Bonus2.prototype.cardClick = function (card) {
                 var _this = this;
-                this.openCard(card);
+                card.open();
 
                 //if card is Jocker (Rat)
                 if (card.name == null) {
@@ -3871,25 +3864,30 @@ var InvertCross;
                     return;
                 }
 
-                if (this.currentCard) {
-                    //if cards matches
-                    var match = this.match(this.currentCard, card);
-                    if (match)
-                        this.pairsMatched++;
+                //if cards matches
+                var match = this.matchAll(card, this.getOpenedCards());
+                if (match)
+                    this.pairsMatched++;
 
-                    //verifies if matches all cards
-                    if (this.pairsMatched >= this.pairs) {
-                        //ends the game
-                        this.message.showtext(stringResources.b2_finish, 2000, 500);
-                        this.message.addEventListener("onclose", function () {
-                            _this.endBonus();
-                        });
-                        this.endBonus();
-                    }
+                //verifies if matches all cards
+                if (this.pairsMatched >= this.pairs) {
+                    //ends the game
+                    this.message.showtext(stringResources.b2_finish, 2000, 500);
+                    this.message.addEventListener("onclose", function () {
+                        _this.endBonus();
+                    });
+                    this.endBonus();
+                }
+            };
 
-                    this.currentCard = null;
-                } else
-                    this.currentCard = card;
+            Bonus2.prototype.getOpenedCards = function () {
+                var openedCards = new Array();
+                for (var c in this.cards) {
+                    var card = this.cards[c];
+                    if (card["opened"])
+                        openedCards.push(card);
+                }
+                return openedCards;
             };
 
             //adds cards to the board
@@ -3905,10 +3903,11 @@ var InvertCross;
                 cardsContainer.y = 135 + 400;
 
                 for (var c in cards) {
-                    var card = this.createCard(cards[c]);
+                    var card = new Card(cards[c]);
                     card.x = c % cols * width;
                     card.y = Math.floor(c / cols) * height;
                     cardsContainer.addChild(card);
+                    this.cards.push(card);
 
                     //add cards event listener
                     card.addEventListener("click", function (e) {
@@ -3945,13 +3944,20 @@ var InvertCross;
 
                 return randomizedCards;
             };
+            return Bonus2;
+        })(Bonus.BonusScreen);
+        Bonus.Bonus2 = Bonus2;
 
-            Bonus2.prototype.createCard = function (item) {
-                var card = new createjs.Container;
-                card.name = item;
+        var Card = (function (_super) {
+            __extends(Card, _super);
+            function Card(item) {
+                _super.call(this);
+                this.item = item;
+
+                this.name = item;
 
                 //background
-                card.addChild(Gbase.AssetsManager.getBitmap("Bonus2/bonuscard2"));
+                this.addChild(Gbase.AssetsManager.getBitmap("Bonus2/bonuscard2"));
 
                 //adds item Image or empty image
                 var itemImage = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
@@ -3961,7 +3967,7 @@ var InvertCross;
                 itemDO.y = 279 / 2;
                 itemDO.x -= itemDO.getBounds().width / 2;
                 itemDO.y -= itemDO.getBounds().height / 2;
-                card.addChild(itemDO);
+                this.addChild(itemDO);
 
                 //add cover image
                 var cover = new Gbase.UI.ImageButton("Bonus2/bonuscard1");
@@ -3969,36 +3975,24 @@ var InvertCross;
                 cover.y = 279 / 2;
                 cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
                 cover.name = "cover";
-                card.addChild(cover);
+                this.addChild(cover);
 
                 //card.createHitArea();
-                card.regX = 184;
-                card.regY = 135;
-
-                return card;
-            };
-
+                this.regX = 184;
+                this.regY = 135;
+            }
             //open a card animation
-            Bonus2.prototype.openCard = function (card) {
-                var cover = card.getChildByName("cover");
+            Card.prototype.open = function () {
+                var cover = this.getChildByName("cover");
                 createjs.Tween.removeTweens(cover);
                 createjs.Tween.get(cover).to({ scaleY: 0 }, 200, createjs.Ease.quadIn).call(function () {
                     cover.visible = false;
                 });
-                card.mouseEnabled = false;
+                this.mouseEnabled = false;
+                this.opened = true;
             };
-
-            //closing a card animation
-            Bonus2.prototype.closeCard = function (card) {
-                var cover = card.getChildByName("cover");
-                cover.visible = true;
-                createjs.Tween.removeTweens(cover);
-                createjs.Tween.get(cover).to({ scaleY: 1 }, 200, createjs.Ease.quadIn);
-                card.mouseEnabled = true;
-            };
-            return Bonus2;
-        })(Bonus.BonusScreen);
-        Bonus.Bonus2 = Bonus2;
+            return Card;
+        })(createjs.Container);
     })(InvertCross.Bonus || (InvertCross.Bonus = {}));
     var Bonus = InvertCross.Bonus;
 })(InvertCross || (InvertCross = {}));
@@ -6049,6 +6043,204 @@ var SmokeFX;
     })(createjs.Container);
     SmokeFX.SmokeFXEmmiter = SmokeFXEmmiter;
 })(SmokeFX || (SmokeFX = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (Bonus) {
+        // Class
+        var Bonus2OLD = (function (_super) {
+            __extends(Bonus2OLD, _super);
+            function Bonus2OLD(itemsArray, sufix) {
+                if (typeof sufix === "undefined") { sufix = "1"; }
+                _super.call(this, itemsArray, "Bonus2");
+                this.pairsMatched = 0;
+            }
+            Bonus2OLD.prototype.addObjects = function () {
+                _super.prototype.addObjects.call(this);
+                var cards = this.generateCards(12, 5, this.itemsArray);
+                this.pairs = 5;
+                this.addCards(cards);
+            };
+
+            //===============================================================================
+            //verifies if two cards matches
+            Bonus2OLD.prototype.match = function (card1, card2) {
+                var _this = this;
+                if (card1.name == card2.name && card1 != card2) {
+                    this.userAquireItem(card1.name);
+                    this.userAquireItem(card1.name);
+
+                    //animate itens
+                    this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
+                    this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
+                    return true;
+                } else {
+                    //cards doesnt match
+                    this.content.mouseEnabled = false;
+                    setTimeout(function () {
+                        _this.closeCard(card1);
+                        _this.closeCard(card2);
+                        _this.content.mouseEnabled = true;
+                    }, 500);
+
+                    return false;
+                }
+            };
+
+            Bonus2OLD.prototype.closeOppened = function () {
+            };
+
+            //===============================================================================
+            Bonus2OLD.prototype.cardClick = function (card) {
+                var _this = this;
+                this.openCard(card);
+
+                //if card is Jocker (Rat)
+                if (card.name == null) {
+                    //decrase lives number
+                    this.lives--;
+                    card.mouseEnabled = false;
+                    if (this.lives == 0) {
+                        //if there is no more lives, than end game
+                        this.content.mouseEnabled = false;
+                        this.message.showtext(stringResources.b2_noMoreChances, 2000, 500);
+                        this.message.addEventListener("onclose", function () {
+                            _this.endBonus();
+                        });
+                    }
+                    return;
+                }
+
+                if (this.currentCard) {
+                    //if cards matches
+                    var match = this.match(this.currentCard, card);
+                    if (match)
+                        this.pairsMatched++;
+
+                    //verifies if matches all cards
+                    if (this.pairsMatched >= this.pairs) {
+                        //ends the game
+                        this.message.showtext(stringResources.b2_finish, 2000, 500);
+                        this.message.addEventListener("onclose", function () {
+                            _this.endBonus();
+                        });
+                        this.endBonus();
+                    }
+
+                    this.currentCard = null;
+                } else
+                    this.currentCard = card;
+            };
+
+            //adds cards to the board
+            Bonus2OLD.prototype.addCards = function (cards) {
+                var _this = this;
+                var cols = 3;
+                var width = 450;
+                var height = 320;
+
+                //create cards container
+                var cardsContainer = new createjs.Container();
+                cardsContainer.x = 184 + 93 + 45;
+                cardsContainer.y = 135 + 400;
+
+                for (var c in cards) {
+                    var card = this.createCard(cards[c]);
+                    card.x = c % cols * width;
+                    card.y = Math.floor(c / cols) * height;
+                    cardsContainer.addChild(card);
+
+                    //add cards event listener
+                    card.addEventListener("click", function (e) {
+                        _this.cardClick(e.currentTarget);
+                    });
+                }
+
+                this.content.addChild(cardsContainer);
+            };
+
+            //generate cards itens to be randomized
+            Bonus2OLD.prototype.generateCards = function (cardsCount, pairs, items) {
+                var cards = new Array();
+
+                //set number of lives
+                this.lives = cardsCount - pairs * 2;
+
+                for (var p = 0; p < pairs; p++) {
+                    var itemIndex = Math.floor(Math.random() * items.length);
+                    cards.push(items[itemIndex]);
+                    cards.push(items[itemIndex]);
+                }
+
+                for (var p = 0; p < cardsCount - pairs * 2; p++)
+                    cards.push(null);
+
+                //randomize cards
+                var randomizedCards = new Array();
+                while (cards.length > 0) {
+                    var index = Math.floor(Math.random() * cards.length);
+                    randomizedCards.push(cards[index]);
+                    cards.splice(index, 1);
+                }
+
+                return randomizedCards;
+            };
+
+            Bonus2OLD.prototype.createCard = function (item) {
+                var card = new createjs.Container;
+                card.name = item;
+
+                //background
+                card.addChild(Gbase.AssetsManager.getBitmap("Bonus2/bonuscard2"));
+
+                //adds item Image or empty image
+                var itemImage = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
+                var itemDO = Gbase.AssetsManager.getBitmap(itemImage);
+                itemDO.name = "item";
+                itemDO.x = 368 / 2;
+                itemDO.y = 279 / 2;
+                itemDO.x -= itemDO.getBounds().width / 2;
+                itemDO.y -= itemDO.getBounds().height / 2;
+                card.addChild(itemDO);
+
+                //add cover image
+                var cover = new Gbase.UI.ImageButton("Bonus2/bonuscard1");
+                cover.x = 368 / 2;
+                cover.y = 279 / 2;
+                cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
+                cover.name = "cover";
+                card.addChild(cover);
+
+                //card.createHitArea();
+                card.regX = 184;
+                card.regY = 135;
+
+                return card;
+            };
+
+            //open a card animation
+            Bonus2OLD.prototype.openCard = function (card) {
+                var cover = card.getChildByName("cover");
+                createjs.Tween.removeTweens(cover);
+                createjs.Tween.get(cover).to({ scaleY: 0 }, 200, createjs.Ease.quadIn).call(function () {
+                    cover.visible = false;
+                });
+                card.mouseEnabled = false;
+            };
+
+            //closing a card animation
+            Bonus2OLD.prototype.closeCard = function (card) {
+                var cover = card.getChildByName("cover");
+                cover.visible = true;
+                createjs.Tween.removeTweens(cover);
+                createjs.Tween.get(cover).to({ scaleY: 1 }, 200, createjs.Ease.quadIn);
+                card.mouseEnabled = true;
+            };
+            return Bonus2OLD;
+        })(Bonus.BonusScreen);
+        Bonus.Bonus2OLD = Bonus2OLD;
+    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
+    var Bonus = InvertCross.Bonus;
+})(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
     (function (Menu) {

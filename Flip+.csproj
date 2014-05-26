@@ -25,6 +25,7 @@
     <TypeScriptCompile Include="script\typing\soundjs.d.ts" />
     <TypeScriptCompile Include="script\typing\tweenjs.d.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus1.ts" />
+    <TypeScriptCompile Include="src\Bonus\Bonus2 - Copy.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus2.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus3.ts" />
     <TypeScriptCompile Include="src\Bonus\BonusManager.ts" />
