@@ -177,6 +177,7 @@
             itemDO.y = 279 / 2;
             itemDO.regX = itemDO.getBounds().width / 2;
             itemDO.regY = itemDO.getBounds().height / 2;
+            itemDO.visible = false;
             this.addChild(itemDO);
 
             //add cover image
@@ -195,6 +196,8 @@
 
         //open a card animation
         public open() {
+
+            this.getChildByName("item").visible = true;
 
             var cover = this.getChildByName("cover");
             createjs.Tween.removeTweens(cover);
