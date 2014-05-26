@@ -148,11 +148,11 @@ module InvertCross.Menu {
         }
 
         private showStarWarning(stars:number,cost:number) {
-            this.popup.showtext("Not enught stars.", "you only have " + stars.toString() + " stars. \nYou need at least " + cost.toString() + " stars \nto unlock this project\n play more levels to earn stars.", 10000);
+            this.popup.showtext(stringResources.pr_notStarsTitle, stringResources.pr_notStarsTitle.split("#")[0] + stars.toString() + stringResources.pr_notStarsTitle.split("#")[1] + cost.toString() + stringResources.pr_notStarsTitle.split("#")[2], 10000);
         }
 
         private showtimeWarning(time:string) {
-            this.popup.showtext("Not Yet.", "You must wait " + time + "before play this bonus level", 10000);
+            this.popup.showtext(stringResources.pr_notTimeText.split("#")[0], stringResources.pr_notTimeText.split("#")[1] + time + stringResources.pr_notTimeText.split("#")[2], 10000);
         }
 
         //update all projects preview in the menu page

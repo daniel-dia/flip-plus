@@ -109,7 +109,7 @@ module InvertCross.Menu {
         }
 
         private addPlayButton() {
-            var playBt = new Gbase.UI.TextButton("PLAY", () => {
+            var playBt = new Gbase.UI.TextButton("PLAY"/*stringResources.mm_play*/, () => {
                 InvertCross.InvertCrossaGame.showProjectsMenu();
             }, null, defaultFontFamilyHighlight, highlightFontColor)
 
@@ -185,6 +185,7 @@ module InvertCross.Menu {
 
         //------------slide show---------------------------------------
 
+        //TODO: ver isso
         private playSlideShow() {
 
             var s = new SlideShow(["sl1", "sl2", "sl3"]);

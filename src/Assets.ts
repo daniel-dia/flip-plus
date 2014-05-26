@@ -417,9 +417,6 @@ class aAssets {
     }
 }
 
-
-
-
 ///depreciated
 /* public static initSound(): boolean {
      // if initializeDefaultPlugins returns false, we cannot play sound in this browser

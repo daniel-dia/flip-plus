@@ -65,7 +65,7 @@
                 if (this.lives == 0) {
                     //if there is no more lives, than end game
                     this.content.mouseEnabled = false;
-                    this.message.showtext("No more chances", 2000, 500);
+                    this.message.showtext(stringResources.b2_noMoreChances, 2000, 500);
                     this.message.addEventListener("onclose", () => { this.endBonus();});
                 }
                 return;
@@ -79,7 +79,7 @@
                 //verifies if matches all cards
                 if (this.pairsMatched >= this.pairs) {
                     //ends the game
-                    this.message.showtext("Well done!", 2000, 500);
+                    this.message.showtext(stringResources.b2_finish, 2000, 500);
                     this.message.addEventListener("onclose", () => { this.endBonus(); });
                     this.endBonus();
                 }

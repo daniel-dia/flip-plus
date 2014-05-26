@@ -217,7 +217,7 @@ module InvertCross.Menu.View {
             //updates title and text values
             titleShadow.text = titleDO.text = title.toUpperCase();
             textDO.text = text;
-            textDO2.text = "flips or less";
+            textDO2.text = "";
             flipsDO.text = flips;
 
             var b = DefaultHeight / 2 - 500;

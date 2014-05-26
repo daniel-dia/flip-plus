@@ -858,6 +858,7 @@
     <TypeScriptCompile Include="src\Menu\View\PopupBot.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProjectWorkshopView.ts" />
     <TypeScriptCompile Include="src\Menu\View\RobotPreview.ts" />
+    <TypeScriptCompile Include="src\resources.ts" />
     <TypeScriptCompile Include="src\UserData\Items.ts" />
     <TypeScriptCompile Include="src\UserData\Story.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\GameplayMenu.ts" />

@@ -26,7 +26,7 @@
             
             //set default puzzles to solve
             if (!this.levelData.puzzlesToSolve) this.levelData.puzzlesToSolve = 1;
-            this.popup.showTimeAttack("Flip Challenge","Solve", this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(),"boards in ","flips"); 
+            this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3); 
 
             this.statusArea.setMode("moves");
             this.statusArea.setText3(this.moves.toString());
@@ -51,7 +51,7 @@
                     this.statusArea.setText3(this.moves.toString());
 
                     if (this.moves <= 0) {
-                        this.message.showtext("no more moves");
+                        this.message.showtext(stringResources.gp_mv_noMoreMoves);
                         this.loose();
                     }
                 }

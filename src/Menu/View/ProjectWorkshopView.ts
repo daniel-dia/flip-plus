@@ -110,7 +110,7 @@ module InvertCross.Menu.View {
 
                 }
                 else {
-                    var text = new createjs.Text("LOCKED", defaultFontFamilyStrong, defaultFontColor);
+                    var text = new createjs.Text(stringResources.ws_Locked, defaultFontFamilyStrong, defaultFontColor);
                     text.textAlign = "center";
                     text.y = 1738 - 2048;
                     text.x = DefaultWidth / 2;
@@ -118,7 +118,7 @@ module InvertCross.Menu.View {
                 }
             } else {
                 //TODO mudar o nome disso.
-                var text = new createjs.Text("NOT FREE", defaultFontFamilyStrong, defaultFontColor);
+                var text = new createjs.Text(stringResources.ws_NotFree, defaultFontFamilyStrong, defaultFontColor);
                 text.textAlign = "center";
                 text.y = 1738 - 2048;
                 text.x = DefaultWidth / 2;

@@ -174,7 +174,7 @@ module InvertCross.GamePlay {
                     InvertCrossaGame.skipLevel(true);
                 }
                 else {
-                    this.popup.showtext("no more skips");
+                    this.popup.showtext(stringResources.gp_noMoreSkip);
                 }
             }
         }
@@ -213,7 +213,7 @@ module InvertCross.GamePlay {
                 this.usedItem = "hint";
             }
             else {
-                this.popup.showtext("no more hints");
+                this.popup.showtext(stringResources.gp_noMoreHints);
             }
         }
 
@@ -235,7 +235,7 @@ module InvertCross.GamePlay {
 
             //change screen and animate.
             if (messageText)
-            this.message.showtext("Well done!", 1000, 800);
+                this.message.showtext(stringResources.gp_finishPuzzle, 1000, 800);
 
             //hide all menus
             this.menuOverlay.fadeOut();

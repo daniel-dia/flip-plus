@@ -22,17 +22,17 @@ module InvertCross.Menu {
             this.content.addChild(backContainer);
 
 
-            backContainer.addObject(new Gbase.UI.TextButton("Voltar", () => {
+            backContainer.addObject(new Gbase.UI.TextButton(stringResources.op_back, () => {
                 InvertCrossaGame.showMainMenu();
             }));
 
             //add Label
-            mc.addLabel("Options");
+            mc.addLabel(stringResources.op_options);
 
             mc.addObject(new Menu.SoundMenu());
 
             //add Other Buttons
-            mc.addButton("Erase Data", () => {
+            mc.addButton(stringResources.op_erase, () => {
                 InvertCrossaGame.userData.clearAllData();
                 window.location.reload();
             });

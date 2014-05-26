@@ -18,7 +18,7 @@ module InvertCross.Menu {
 
                 switch (<string>e.target) {
                     case "d1":
-                        this.popup.showBotText("N3-S needs \n repair");
+                        this.popup.showBotText(stringResources.it_text1);
                         break;
 
                     case "readyToPlay":
@@ -26,7 +26,7 @@ module InvertCross.Menu {
                         break;
 
                     case "d2":
-                        this.popup.showBotText("alone = bad\nfriends=good");
+                        this.popup.showBotText(stringResources.it_text2);
                         break;
 
                     case "end":

@@ -19,9 +19,7 @@ module InvertCross.GamePlay.Views {
 
         //hint image
         private hintimage: createjs.DisplayObject;
-        private mirrorImage : createjs.DisplayObject;
-        private memoryImage: createjs.DisplayObject;
-        
+
         //block address
         public col;
         public row;
@@ -95,12 +93,6 @@ module InvertCross.GamePlay.Views {
             else
                 this.hintimage.visible = false;
 
-            //show mirrored
-            this.mirrorImage.visible = this.block.mirror;
-
-            //show hidden
-            this.memoryImage.visible = this.block.hidden;
-
 
             //calculate new state
             var newState: string = this.CalculateSpriteStatus(this.block.state, this.block.draw,this.levelType);
@@ -161,6 +153,8 @@ module InvertCross.GamePlay.Views {
         //Load assets and adds it to the container
         private loadAssets(theme: string) {
 
+
+
             //load tiles
             var manifest = [
                 { name: "Nor", images: ["puzzle/tile_" + theme + "_1", "puzzle/tile_" + theme + "_2", "puzzle/tile_" + theme + "_3", "puzzle/tile_" + theme + "_4", ] },
@@ -179,23 +173,14 @@ module InvertCross.GamePlay.Views {
                 }
             }
 
-            //Modificators
-
             //load hint symbol
             this.hintimage = Gbase.AssetsManager.getBitmap("puzzle/icon_hint");
             this.container.addChild(this.hintimage);
             this.hintimage.visible = false;
 
-            //load nurrir modificator tile
-            this.mirrorImage = Gbase.AssetsManager.getBitmap("puzzle/tilemirror");
-            this.container.addChild(this.mirrorImage);
-            this.mirrorImage.visible = false;
-            this.mirrorImage.x = this.mirrorImage.y = - 5;
+        
 
-            //load memoryModificator tile
-            this.memoryImage = Gbase.AssetsManager.getBitmap("puzzle/tilememory");
-            this.container.addChild(this.memoryImage);
-            this.memoryImage.visible = false;
+
         }
         
         //load a single asset and adds it to this

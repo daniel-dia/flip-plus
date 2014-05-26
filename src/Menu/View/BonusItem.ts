@@ -92,7 +92,7 @@ module InvertCross.Menu.View {
             var time = InvertCrossaGame.timersData.getTimer(this.bonusId);
 
             if (time == 0) {
-                this.timerText.text = "PLAY";
+                this.timerText.text = stringResources.mm_play;
 
                 if(!createjs.Tween.hasActiveTweens(this.timerText)) {
                     this.timerText.cache(-200, -50, 400, 100);

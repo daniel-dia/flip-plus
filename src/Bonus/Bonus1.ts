@@ -23,7 +23,7 @@
             super.activate(parameters);
             this.setNewGame();
 
-            this.popup.showtext("Pick 3 Barrels","Some Barrels has hiddens items")
+            this.popup.showtext(stringResources.b1_popup1Ttitle, stringResources.b1_popup1Text)
         }
 
         //adds barrels to the scene
