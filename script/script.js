@@ -3812,9 +3812,9 @@ var InvertCross;
             __extends(Bonus2, _super);
             function Bonus2(itemsArray, sufix) {
                 if (typeof sufix === "undefined") { sufix = "1"; }
-                _super.call(this, itemsArray, "Bonus2");
                 this.cards = [];
-                this.pairsMatched = 0;
+                this.matchesFound = 0;
+                _super.call(this, itemsArray, "Bonus2");
             }
             Bonus2.prototype.addObjects = function () {
                 _super.prototype.addObjects.call(this);
@@ -3839,6 +3839,8 @@ var InvertCross;
                     //animate itens
                     this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
                     this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
+
+                    this.matchesFound++;
                     return true;
                 }
             };
@@ -3847,9 +3849,13 @@ var InvertCross;
             Bonus2.prototype.cardClick = function (card) {
                 var _this = this;
                 card.open();
+                this.cardsContainer.setChildIndex(card, this.cardsContainer.getNumChildren() - 1);
 
                 //if card is Jocker (Rat)
                 if (card.name == null) {
+                    //shake the card
+                    card.shakeObj();
+
                     //decrase lives number
                     this.lives--;
                     card.mouseEnabled = false;
@@ -3865,12 +3871,10 @@ var InvertCross;
                 }
 
                 //if cards matches
-                var match = this.matchAll(card, this.getOpenedCards());
-                if (match)
-                    this.pairsMatched++;
+                var matches = this.matchAll(card, this.getOpenedCards());
 
                 //verifies if matches all cards
-                if (this.pairsMatched >= this.pairs) {
+                if (this.matchesFound >= this.pairs) {
                     //ends the game
                     this.message.showtext(stringResources.b2_finish, 2000, 500);
                     this.message.addEventListener("onclose", function () {
@@ -3901,6 +3905,7 @@ var InvertCross;
                 var cardsContainer = new createjs.Container();
                 cardsContainer.x = 184 + 93 + 45;
                 cardsContainer.y = 135 + 400;
+                this.cardsContainer = cardsContainer;
 
                 for (var c in cards) {
                     var card = new Card(cards[c]);
@@ -3929,6 +3934,7 @@ var InvertCross;
                     var itemIndex = Math.floor(Math.random() * items.length);
                     cards.push(items[itemIndex]);
                     cards.push(items[itemIndex]);
+                    items.splice(itemIndex, 1);
                 }
 
                 for (var p = 0; p < cardsCount - pairs * 2; p++)
@@ -3957,7 +3963,9 @@ var InvertCross;
                 this.name = item;
 
                 //background
-                this.addChild(Gbase.AssetsManager.getBitmap("Bonus2/bonuscard2"));
+                var bg = Gbase.AssetsManager.getBitmap("Bonus2/bonuscard2");
+                bg.name = "background";
+                this.addChild(bg);
 
                 //adds item Image or empty image
                 var itemImage = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
@@ -3965,8 +3973,9 @@ var InvertCross;
                 itemDO.name = "item";
                 itemDO.x = 368 / 2;
                 itemDO.y = 279 / 2;
-                itemDO.x -= itemDO.getBounds().width / 2;
-                itemDO.y -= itemDO.getBounds().height / 2;
+                itemDO.regX = itemDO.getBounds().width / 2;
+                itemDO.regY = itemDO.getBounds().height / 2;
+                itemDO.visible = false;
                 this.addChild(itemDO);
 
                 //add cover image
@@ -3983,13 +3992,23 @@ var InvertCross;
             }
             //open a card animation
             Card.prototype.open = function () {
+                this.getChildByName("item").visible = true;
+
                 var cover = this.getChildByName("cover");
                 createjs.Tween.removeTweens(cover);
-                createjs.Tween.get(cover).to({ scaleY: 0 }, 200, createjs.Ease.quadIn).call(function () {
+
+                createjs.Tween.get(cover).to({ rotation: 90, y: 1000 }, 500, createjs.Ease.sineIn).call(function () {
                     cover.visible = false;
                 });
                 this.mouseEnabled = false;
                 this.opened = true;
+            };
+
+            Card.prototype.shakeObj = function () {
+                var item = this.getChildByName("item");
+                createjs.Tween.removeTweens(item);
+
+                createjs.Tween.get(item).to({ x: 184 + -25, scaleX: 1.1, scaleY: 1.1 }, 150, createjs.Ease.quadInOut).to({ x: 184 + +25, scaleX: 1.3, scaleY: 1.3 }, 150, createjs.Ease.quadInOut).to({ x: 184 + -25, scaleX: 1.3, scaleY: 1.3 }, 150, createjs.Ease.quadInOut).to({ x: 184 + +25, scaleX: 1.1, scaleY: 1.1 }, 150, createjs.Ease.quadInOut).to({ x: 184 + +0, scaleX: 1.0, scaleY: 1.0 }, 150, createjs.Ease.quadInOut);
             };
             return Card;
         })(createjs.Container);
