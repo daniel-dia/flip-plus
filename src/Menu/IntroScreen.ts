@@ -44,8 +44,11 @@ module InvertCross.Menu {
         public playPart1() {
             this.introMc.gotoAndPlay("part1");
             this.popup.visible = false;
+            var m = <createjs.Shape>this.introMc.children[0];
+            m.visible = false;
+            (<createjs.DisplayObject>this.introMc["Bot01"]).mask = m;
 
-        }
+        }   
 
         public playPart2() {
             this.introMc.gotoAndPlay("part2");

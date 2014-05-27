@@ -57,10 +57,14 @@ var p; // shortcut to reference prototypes
 	this.Bot01 = new lib.SNES();
 	this.Bot01.setTransform(798.1,1464.4,0.56,0.56);
 
-	this.timeline.addTween(cjs.Tween.get(this.Bot01).to({_off:true},102).wait(92));
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#333333").s().p("A/vfwMAAAg/fMA/fAAAMAAAA/fg");
+	this.shape.setTransform(734.2,1468.2);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.Bot01}]}).to({state:[]},102).to({state:[]},54).to({state:[]},1).wait(37));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(556.8,1283.8,482.6,361.1);
+p.nominalBounds = new cjs.Rectangle(531,1265,508.5,406.5);
 
 
 // symbols:
