@@ -125,8 +125,8 @@ module InvertCross.Menu.View {
             var spacing = 45;
             var size = 40;
 
-            var marginLeft = (spacing * level.width) / 2;
-            var marginTop = (spacing * level.height) / 2;
+            var marginLeft = spacing * 5/2;
+            var marginTop = spacing * 5/2;
             var totalSize = level.width * level.height;
             var blocks: boolean[] = [];
 
