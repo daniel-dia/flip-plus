@@ -13,14 +13,14 @@ module InvertCross.Menu {
             this.introMc = new lib.Intro();
             this.addChild(this.introMc);
             this.introMc.stop();
-
+  
             this.introMc.addEventListener("onstop", (e: createjs.Event) => {
 
                 switch (<string>e.target) {
                     case "d1":
                         this.popup.showBotText(stringResources.it_text1);
                         break;
-
+    
                     case "readyToPlay":
                         this.dispatchEvent("readyToPlay");
                         break;
