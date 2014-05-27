@@ -1938,14 +1938,24 @@ var InvertCross;
 
                 this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
 
-                if (levelData.type == "draw") {
-                    if (levelData.drawData == null)
-                        this.levelLogic.board.setDrawBlocks(levelData.blocksData);
-                    else
-                        this.levelLogic.board.setDrawBlocks(levelData.drawData, true);
-                }
+                //draw blocks
+                if (levelData.type == "draw" && levelData.drawData == null)
+                    this.levelLogic.board.setDrawBlocks(levelData.blocksData);
 
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+                if (levelData.drawData)
+                    this.levelLogic.board.setDrawBlocks(levelData.drawData, true);
+
+                //Mirror Blocks
+                if (levelData.mirroredBlocks)
+                    this.levelLogic.board.setMirrorBlocks(levelData.mirroredBlocks);
+
+                //hidden Blocks
+                if (levelData.hiddenBlocks)
+                    this.levelLogic.board.setHiddenBlocks(levelData.hiddenBlocks);
+
+                //TODO
+                if (levelData)
+                    this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             }
             return Puzzle;
         })(GamePlay.LevelScreen);
@@ -2204,71 +2214,13 @@ var InvertCross;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
 })(InvertCross || (InvertCross = {}));
-/// <reference path="Board.ts" />
-var InvertCross;
-(function (InvertCross) {
-    (function (GamePlay) {
-        (function (Model) {
-            //Model
-            var Level = (function () {
-                //Initialization methodos ============================================================================================================
-                function Level(leveldata) {
-                    //Level Data colections
-                    this.moves = 0;
-                    this.earnedPrizes = 0;
-                    this.timeSpent = 0;
-                    this.points = 0;
-                    //creates a board
-                    this.board = new Model.Board(leveldata.width, leveldata.height);
-                }
-                //Model methods =======================================================================================================================
-                Level.prototype.getBlocks = function () {
-                    return this.board.blocks;
-                };
-
-                Level.prototype.invertCross = function (col, row) {
-                    this.board.invertCross(col, row);
-                };
-
-                // verify somethings ==================================================================================================================
-                Level.prototype.verifyPrize = function () {
-                    var invertedCount = this.board.getInvertedBlocksCount();
-                    var goal = this.board.prizes[this.board.prizes.length - 1];
-                    if (invertedCount <= goal)
-                        return true;
-                    else
-                        return false;
-                };
-
-                Level.prototype.verifyWin = function () {
-                    return this.board.verifyClean();
-                };
-
-                // GamePlay methods ===================================================================================================================
-                Level.prototype.earnPrize = function () {
-                    this.board.prizes.pop();
-                    this.earnedPrizes++;
-                };
-                Level.movePoint = -5;
-                Level.timePoint = -6;
-                Level.prizesPoint = 100;
-                Level.endPoint = 1000;
-                return Level;
-            })();
-            Model.Level = Level;
-        })(GamePlay.Model || (GamePlay.Model = {}));
-        var Model = GamePlay.Model;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-/// <reference path="Block.ts" />
-/// <reference path="Level.ts" />
 var InvertCross;
 (function (InvertCross) {
     (function (GamePlay) {
         (function (Model) {
             var Board = (function () {
                 function Board(width, height) {
+                    //prizes intervals
                     this.prizes = [];
                     this.width = width;
                     this.height = height;
@@ -2293,6 +2245,13 @@ var InvertCross;
                         }
 
                     return !totalState;
+                };
+
+                //returns a blocks based on a id
+                Board.prototype.getBlockByID = function (id) {
+                    var col = Math.floor(id / this.height);
+                    var row = id - col * this.height;
+                    return this.blocks[col][row];
                 };
 
                 Board.prototype.getInvertedBlocks = function () {
@@ -2382,10 +2341,38 @@ var InvertCross;
 
                     if (drawBlocks)
                         for (var i = 0; i < drawBlocks.length; i++) {
-                            var col = Math.floor(+drawBlocks[i] / this.height);
-                            var row = drawBlocks[i] - col * this.height;
+                            var block = this.getBlockByID(drawBlocks[i]);
+                            this.invertDraw(block.col, block.row, cross);
+                        }
+                };
 
-                            this.invertDraw(col, row, cross);
+                Board.prototype.setMirrorBlocks = function (mirroredBlocks) {
+                    for (var col = 0; col < this.width; col++)
+                        for (var row = 0; row < this.height; row++)
+                            this.blocks[col][row].mirror = false;
+
+                    this.mirroredBlocks = new Array();
+
+                    if (mirroredBlocks)
+                        for (var i = 0; i < mirroredBlocks.length; i++) {
+                            var block = this.getBlockByID(mirroredBlocks[i]);
+                            this.mirroredBlocks.push(block);
+                            block.mirror = true;
+                        }
+                };
+
+                Board.prototype.setHiddenBlocks = function (hiddenBlocks) {
+                    for (var col = 0; col < this.width; col++)
+                        for (var row = 0; row < this.height; row++)
+                            this.blocks[col][row].hidden = false;
+
+                    this.hiddenBlocks = new Array();
+
+                    if (hiddenBlocks)
+                        for (var i = 0; i < hiddenBlocks.length; i++) {
+                            var block = this.getBlockByID(hiddenBlocks[i]);
+                            this.hiddenBlocks.push(block);
+                            block.hidden = true;
                         }
                 };
 
@@ -2411,21 +2398,32 @@ var InvertCross;
                 ///Invert a cross into the board
                 Board.prototype.invertCross = function (col, row) {
                     //invert block state
-                    this.blocks[col][row].toggleState();
+                    this.invertBlock(col, row);
 
                     //invert flag
                     this.blocks[col][row].toggleInverted();
 
                     //invert cross neighbor
                     if (col > 0)
-                        this.blocks[col - 1][row].toggleState();
+                        this.invertBlock(col - 1, row);
                     if (col < this.width - 1)
-                        this.blocks[col + 1][row].toggleState();
+                        this.invertBlock(col + 1, row);
 
                     if (row < this.height - 1)
-                        this.blocks[col][row + 1].toggleState();
+                        this.invertBlock(col, row + 1);
                     if (row > 0)
-                        this.blocks[col][row - 1].toggleState();
+                        this.invertBlock(col, row - 1);
+                };
+
+                //inverte o estado de um block
+                Board.prototype.invertBlock = function (col, row) {
+                    var block = this.blocks[col][row];
+                    block.toggleState();
+
+                    //se o block for espelhado, inverte dos demais
+                    if (block.mirror)
+                        for (var m in this.mirroredBlocks)
+                            this.mirroredBlocks[m].state = block.state;
                 };
 
                 ///Invert a cross into the board
@@ -2451,6 +2449,63 @@ var InvertCross;
                 return Board;
             })();
             Model.Board = Board;
+        })(GamePlay.Model || (GamePlay.Model = {}));
+        var Model = GamePlay.Model;
+    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
+    var GamePlay = InvertCross.GamePlay;
+})(InvertCross || (InvertCross = {}));
+/// <reference path="Board.ts" />
+var InvertCross;
+(function (InvertCross) {
+    (function (GamePlay) {
+        (function (Model) {
+            //Model
+            var Level = (function () {
+                //Initialization methodos ============================================================================================================
+                function Level(leveldata) {
+                    //Level Data colections
+                    this.moves = 0;
+                    this.earnedPrizes = 0;
+                    this.timeSpent = 0;
+                    this.points = 0;
+                    //creates a board
+                    this.board = new Model.Board(leveldata.width, leveldata.height);
+                }
+                //Model methods =======================================================================================================================
+                Level.prototype.getBlocks = function () {
+                    return this.board.blocks;
+                };
+
+                Level.prototype.invertCross = function (col, row) {
+                    this.board.invertCross(col, row);
+                };
+
+                // verify somethings ==================================================================================================================
+                Level.prototype.verifyPrize = function () {
+                    var invertedCount = this.board.getInvertedBlocksCount();
+                    var goal = this.board.prizes[this.board.prizes.length - 1];
+                    if (invertedCount <= goal)
+                        return true;
+                    else
+                        return false;
+                };
+
+                Level.prototype.verifyWin = function () {
+                    return this.board.verifyClean();
+                };
+
+                // GamePlay methods ===================================================================================================================
+                Level.prototype.earnPrize = function () {
+                    this.board.prizes.pop();
+                    this.earnedPrizes++;
+                };
+                Level.movePoint = -5;
+                Level.timePoint = -6;
+                Level.prizesPoint = 100;
+                Level.endPoint = 1000;
+                return Level;
+            })();
+            Model.Level = Level;
         })(GamePlay.Model || (GamePlay.Model = {}));
         var Model = GamePlay.Model;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
@@ -2522,6 +2577,12 @@ var InvertCross;
                         this.hintimage.visible = true;
                     else
                         this.hintimage.visible = false;
+
+                    //show mirrored
+                    this.mirrorImage.visible = this.block.mirror;
+
+                    //show hidden
+                    this.memoryImage.visible = this.block.hidden;
 
                     //calculate new state
                     var newState = this.CalculateSpriteStatus(this.block.state, this.block.draw, this.levelType);
@@ -2605,10 +2666,22 @@ var InvertCross;
                         }
                     }
 
+                    //Modificators
                     //load hint symbol
                     this.hintimage = Gbase.AssetsManager.getBitmap("puzzle/icon_hint");
                     this.container.addChild(this.hintimage);
                     this.hintimage.visible = false;
+
+                    //load nurrir modificator tile
+                    this.mirrorImage = Gbase.AssetsManager.getBitmap("puzzle/tilemirror");
+                    this.container.addChild(this.mirrorImage);
+                    this.mirrorImage.visible = false;
+                    this.mirrorImage.x = this.mirrorImage.y = -5;
+
+                    //load memoryModificator tile
+                    this.memoryImage = Gbase.AssetsManager.getBitmap("puzzle/tilememory");
+                    this.container.addChild(this.memoryImage);
+                    this.memoryImage.visible = false;
                 };
 
                 //load a single asset and adds it to this
@@ -6615,6 +6688,8 @@ var InvertCross;
                 levelData.randomMinMoves = parseInt(this.editWindow.document.getElementById("c_r_min").value);
 
                 levelData.drawData = this.levelData.drawData;
+                levelData.mirroredBlocks = this.levelData.mirroredBlocks;
+                levelData.hiddenBlocks = this.levelData.hiddenBlocks;
 
                 if (this.editWindow.document.getElementById("c_blocks").value)
                     levelData.blocksData = JSON.parse(this.editWindow.document.getElementById("c_blocks").value);
@@ -6652,18 +6727,24 @@ var InvertCross;
 
             //threat user input
             LevelCreator.prototype.userInput = function (col, row) {
+                var id = row + col * this.levelData.height;
+
                 if (document.getElementById("c_drawing").checked) {
-                    var id = row + col * this.levelData.height;
                     if (!this.levelData.drawData)
                         this.levelData.drawData = [];
-
-                    var index = this.levelData.drawData.indexOf(id);
-                    if (index >= 0)
-                        this.levelData.drawData.splice(index, 1);
-                    else
-                        this.levelData.drawData.push(id);
+                    this.toogleItemInArray(this.levelData.drawData, id);
 
                     this.levelLogic.board.setDrawBlocks(this.levelData.drawData);
+                } else if (document.getElementById("c_mirrowing").checked) {
+                    this.levelLogic.board.blocks[col][row].mirror = !this.levelLogic.board.blocks[col][row].mirror;
+                    if (!this.levelData.mirroredBlocks)
+                        this.levelData.mirroredBlocks = [];
+                    this.toogleItemInArray(this.levelData.mirroredBlocks, id);
+                } else if (document.getElementById("c_hidding").checked) {
+                    this.levelLogic.board.blocks[col][row].hidden = !this.levelLogic.board.blocks[col][row].hidden;
+                    if (!this.levelData.hiddenBlocks)
+                        this.levelData.hiddenBlocks = [];
+                    this.toogleItemInArray(this.levelData.hiddenBlocks, id);
                 } else {
                     //invert a cross
                     this.levelLogic.invertCross(col, row);
@@ -6673,6 +6754,14 @@ var InvertCross;
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
 
                 this.editWindow.document.getElementById("c_blocks").value = JSON.stringify(this.levelLogic.board.getInvertedBlocks());
+            };
+
+            LevelCreator.prototype.toogleItemInArray = function (array, item) {
+                var index = array.indexOf(item);
+                if (index >= 0)
+                    array.splice(index, 1);
+                else
+                    array.push(item);
             };
 
             LevelCreator.prototype.win = function (col, row) {

@@ -6,14 +6,23 @@ module InvertCross.GamePlay {
 
             this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
 
-            if (levelData.type == "draw") {
-                if (levelData.drawData == null)
-                    this.levelLogic.board.setDrawBlocks(levelData.blocksData);
-                else
-                    this.levelLogic.board.setDrawBlocks(levelData.drawData, true);
-            }
+            //draw blocks
+            if (levelData.type == "draw" &&  levelData.drawData == null)
+                this.levelLogic.board.setDrawBlocks(levelData.blocksData);   
+                          
+            if (levelData.drawData) this.levelLogic.board.setDrawBlocks(levelData.drawData, true);
 
-            this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+            //Mirror Blocks
+            if (levelData.mirroredBlocks)
+                this.levelLogic.board.setMirrorBlocks(levelData.mirroredBlocks);
+
+            //hidden Blocks
+            if (levelData.hiddenBlocks)
+                this.levelLogic.board.setHiddenBlocks(levelData.hiddenBlocks);
+
+            //TODO
+            if(levelData)
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
                            
         }
 

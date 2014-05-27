@@ -1,4 +1,4 @@
-module InvertCross.GamePlay.Views {
+    module InvertCross.GamePlay.Views {
     export class BoardSprite extends createjs.Container {
         
         public blocksSprites:BlockSprite[][];

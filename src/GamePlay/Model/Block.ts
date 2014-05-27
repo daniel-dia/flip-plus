@@ -1,11 +1,16 @@
 module InvertCross.GamePlay.Model {
     export class Block {
 
+        //intrinsic data
         public col: number;
         public row: number;
         public state: boolean;
+
+        //modificators
         public inverted: boolean;
         public draw: boolean;
+        public hidden: boolean;
+        public mirror: boolean;
 
         constructor(col: number, row: number) {
             this.col = col;
