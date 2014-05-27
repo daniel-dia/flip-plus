@@ -5338,12 +5338,14 @@ var InvertCross;
                     //update the objects display
                     this.createObjects(this.project);
 
+                    this.scaleX = this.scaleY = 1;
+                    createjs.Tween.removeTweens(this);
+
                     //if is new (unlocked and not played) do an animation
                     if (this.project.UserData.percent == 0 && this.project.UserData.unlocked) {
                         this.set({ scaleX: 1, scaleY: 1 });
                         createjs.Tween.get(this, { loop: true }).to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut);
-                    } else
-                        this.scaleX = this.scaleY = 1;
+                    }
                 };
                 return ProjectItem;
             })(Gbase.UI.Button);
@@ -7599,8 +7601,9 @@ var InvertCross;
 
                     //mask
                     this.percentMask = new createjs.Shape();
-                    this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, this.fill.getBounds().height, size, -this.fill.getBounds().height).endFill();
+                    this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, -this.fill.getBounds().height).endFill();
                     this.percentMask.scaleY = 0;
+                    this.percentMask.y = 50;
                     this.fill.mask = this.percentMask;
                 };
 

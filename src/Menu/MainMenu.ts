@@ -54,13 +54,13 @@ module InvertCross.Menu {
                 this.playBt.visible = false;
                 this.intro.playPart2();
 
-            } else
-            {
+            }
+            else {
+
                 this.intro.visible = false;
                 this.playBt.visible = true;
                 this.myBots.visible = true;
                 
-
                 //update menu
                 this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
 
