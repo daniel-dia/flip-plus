@@ -27,8 +27,10 @@
     <script src="assets/LogoScreen.js"></script>
     <script src="assets/touch.js"></script>
     <script src="assets/bolinhas.js"></script>
-    <script src="assets/spritesheets.js"></script>
+
+    <!-- Assets configurations -->
     <script src="assets/assetsManifest.js"></script>
+    <script src="assets/spritesheets.js"></script>
 
     <!-- code script -->
     <script src="script/script.js"></script>
@@ -171,6 +173,6 @@
         </tr>
 
     </table>
-
+    <input type="submit" value="Apagar todos os dados" onclick="localStorage.removeItem('customPuzzles'); location.reload();" />
 </body>
 </html>
