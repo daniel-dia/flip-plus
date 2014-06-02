@@ -35,8 +35,6 @@ module SmokeFX {
 
         private particles: Array<createjs.DisplayObject>;
 
-
-
         constructor(imageFile: string, width: number, height: number) {
             super();
             this.imageFile = imageFile;
@@ -100,12 +98,6 @@ module SmokeFX {
                 createjs.Tween.get(asset).to({ alpha: finalAlpha }, age * 0.9);
                 
                 });
-            
-
-
-
         }
-
-    
     }
 }

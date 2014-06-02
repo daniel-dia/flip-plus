@@ -3522,8 +3522,7 @@ var InvertCross;
                 this.addObjects();
 
                 //adds menu
-                this.addMenu();
-
+                //this.addMenu();
                 //adds message
                 this.message = new InvertCross.Menu.View.Message();
                 this.content.addChild(this.message);

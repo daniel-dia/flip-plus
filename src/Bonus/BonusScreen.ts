@@ -29,7 +29,7 @@
             this.addObjects();
 
             //adds menu
-            this.addMenu();
+            // this.addMenu();
 
             //adds message
             this.message = new Menu.View.Message();
@@ -155,7 +155,7 @@
         endBonus() {
 
             //lock menu interaction
-            this.menu.fadeOut();
+            //this.menu.fadeOut();
 
             //back to the screen
             setTimeout(() => { this.back(); }, 2500);

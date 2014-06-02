@@ -236,7 +236,7 @@ module InvertCross.Menu.View {
 
             //shows the popus
             this.closeinterval = setTimeout(() => {
-                this.fadeIn();
+                this.fadeIn(1,0.5);
             }, delay);;
 
             //create a interval for closing the popopu
@@ -260,7 +260,7 @@ module InvertCross.Menu.View {
         private closePopUp() {
 
             //hide the popup{
-            this.fadeOut();
+            this.fadeOut(1,0.5);
 
             //dispatch a event for parent objects
             this.dispatchEvent("onclose");

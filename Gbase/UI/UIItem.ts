@@ -21,15 +21,15 @@ module Gbase.UI {
             this.centered = true;
         }
 
-        public fadeOut() {
+        public fadeOut(scaleX:number=0.5,scaleY:number=0.5) {
             this.animating = true;
             this.antX = this.x;
             this.antY = this.y;
             this.mouseEnabled = false;
             createjs.Tween.removeTweens(this);
             createjs.Tween.get(this).to({
-                scaleX: 0.5,
-                scaleY: 0.5,
+                scaleX: scaleX,
+                scaleY: scaleY,
                 alpha: 0,
                 x: this.antX,
                 y: this.antY,
@@ -44,7 +44,7 @@ module Gbase.UI {
                 });
         }
 
-        public fadeIn() {
+        public fadeIn(scaleX: number= 0.5, scaleY: number= 0.5) {
             this.visible = true;
             this.animating = true;
 
@@ -53,8 +53,8 @@ module Gbase.UI {
                 this.antY = this.y;
             }
 
-            this.scaleX = 0.5,
-            this.scaleY = 0.5,
+            this.scaleX = scaleX,
+            this.scaleY = scaleY,
             this.alpha = 0,
             this.x = this.x;
             this.y = this.y;

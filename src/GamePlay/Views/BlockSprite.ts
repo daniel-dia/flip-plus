@@ -196,6 +196,11 @@ module InvertCross.GamePlay.Views {
             this.memoryImage = Gbase.AssetsManager.getBitmap("puzzle/tilememory");
             this.container.addChild(this.memoryImage);
             this.memoryImage.visible = false;
+            this.memoryImage.alpha = 0;
+            this.memoryImage.scaleX = this.memoryImage.scaleY = 1.1;
+            this.memoryImage.x = this.memoryImage.y = -BlockSprite.defaultBlockSize * 0.05;
+            createjs.Tween.get(this.memoryImage).to({ alpha: 1 }, 5000);
+
         }
         
         //load a single asset and adds it to this
