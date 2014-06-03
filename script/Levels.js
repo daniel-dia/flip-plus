@@ -15,7 +15,7 @@ var levelsData = [
     },
     {
         nickName: "R-MS", name: "Bot02", cost: 00, free: true, levels: [
-            { "name": "01", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [20, 16, 8, 4], hiddenBlocks: [15, 9] },
+            { "name": "01", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [20, 16, 8, 4], hiddenBlocks: [15, 9],mirroredBlocks:[1,3] },
             { "name": "02", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData":                    [11,7,17,13]},
             { "name": "03", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData":                    [0,20,6,12,18,4,24]},
             { "name": "04", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData":                    [6,16,12,8,18]},
