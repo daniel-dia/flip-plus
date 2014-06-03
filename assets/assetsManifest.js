@@ -56,6 +56,11 @@ function getAssetsManifest(assetscale) {
         { id: "projects/teste21", src: imagePath + "projects/teste21.png" },
 
         { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
+        { id: "projects/projectFooter", src: imagePath + "projects/projectFooter.png" },
+        { id: "projects/projectHeader", src: imagePath + "projects/projectHeader.png" },
+        
+
+
 
         //projects
         /*

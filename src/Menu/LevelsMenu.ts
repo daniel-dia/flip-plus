@@ -138,9 +138,6 @@ module InvertCross.Menu {
 
             super.activate();
 
-            //updates stars and parts idicatorr
-            this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
-
             //update all projects views
             for (var pv in this.projectViews) {
                 var project = InvertCrossaGame.projectManager.getProjectByName(this.projectViews[pv].name);

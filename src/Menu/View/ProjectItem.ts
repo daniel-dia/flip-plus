@@ -74,7 +74,7 @@ module InvertCross.Menu.View {
                 star.y = 190;
 
                 //addsText
-                var tx = new createjs.Text(project.cost.toString(), "Bold 100px " + defaultFont , "#565656");
+                var tx = new createjs.Text(project.cost.toString(), "Bold 100px " + defaultFont , grayColor);
                 this.addChild(tx);
                 tx.textAlign = "right";
                 tx.x = 220;

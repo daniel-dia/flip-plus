@@ -61,9 +61,6 @@ module InvertCross.Menu {
                 this.playBt.visible = true;
                 this.myBots.visible = true;
                 
-                //update menu
-                this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
-
                 //updates robots lobby
                 this.myBots.update();
             }

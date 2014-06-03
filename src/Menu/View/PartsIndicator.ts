@@ -1,19 +1,17 @@
 module InvertCross.Menu.View {
 
     // View Class
-    export class PartsIndicator extends Gbase.UI.Button{
+    export class StarsIndicator extends Gbase.UI.Button{
 
         private partsTextField: createjs.Text;
         private starsTextField: createjs.Text;
 
         private addButton: createjs.DisplayObject;
-        private infoCotainer: createjs.Container;
 
         // Constructor
         constructor() {
             super();
             this.buildView();
-            this.x = DefaultWidth / 2;
             this.createHitArea();
         }
 
@@ -31,38 +29,27 @@ module InvertCross.Menu.View {
         private buildView() {
 
             //add Background
-            var bg = Gbase.AssetsManager.getBitmap("partshud");
-            if (bg.getBounds())
-                this.regX = bg.getBounds().width/2;
-            this.addChild(bg);
+            //var bg = Gbase.AssetsManager.getBitmap("partshud");
+            //if (bg.getBounds())
+            //this.regX = bg.getBounds().width/2;
+            //this.addChild(bg);
 
-            this.infoCotainer = new createjs.Container();
-
-            //var pi = Gbase.AssetsManager.getImage("partsicon");
-            //this.partsTextField = new createjs.Text("0",defaultFontFamilyNormal,defaultFontColor);
-            //this.infoCotainer.addChild(pi);
-            //this.infoCotainer.addChild(this.partsTextField);
-            //pi.y = 20;
-            //pi.x = 320;
-            //this.partsTextField.y = 20;
-            //this.partsTextField.x = 470;
-
-
+            //this.infoCotainer = new createjs.Container();
             
             var si = Gbase.AssetsManager.getBitmap("starsicon");
-            this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
+            si.scaleX = si.scaleY = 0.9;
+            this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, grayColor);
+            this.starsTextField.textAlign = "right";
+            this.starsTextField.x = -140;
 
-
-            this.infoCotainer.addChild(si); 
-            this.infoCotainer.addChild(this.starsTextField);
+            this.addChild(si); 
+            this.addChild(this.starsTextField);
      
-            si.x = -30;
-            si.y = 14;
-            this.starsTextField.y = 20;
-            this.starsTextField.x = 150;
+            si.x = -120;
+            si.y = -5;
+            
                         
-            this.addChild(this.infoCotainer);
-            this.infoCotainer.x = 70;
+            
 
         }
     }

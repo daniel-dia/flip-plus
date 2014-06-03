@@ -3,12 +3,13 @@ module InvertCross.Menu {
 
     export class ProjectsMenu extends Gbase.ScreenState {
 
-        private partsIndicator: View.PartsIndicator;
+        private starsIndicator: View.StarsIndicator;
+        private statisticsTextField: createjs.Text;
         private projectsGrid: createjs.Container;
 
         private projectsItems: View.ProjectItem[] = [];
         private bonusItems: View.ProjectItem[] = [];
-
+        
         private menu: View.ScreenMenu;
 
         private popup: View.Popup;
@@ -27,9 +28,10 @@ module InvertCross.Menu {
         private createObjects() {
 
             var bg = Gbase.AssetsManager.getBitmap("projects/bgprojects");
+            bg.scaleY = bg.scaleX = 2;
             this.background.addChild(bg);
 
-            this.addMenu();
+            this.addHeader();
             this.addProjects();
             this.addBonuses();
 
@@ -46,15 +48,37 @@ module InvertCross.Menu {
         }
 
         //Adds defaultMenu to screen
-        private addMenu() {
-            this.menu = new View.ScreenMenu(true,true);
+        private addHeader() {
+            
+            //create background
+            this.header.addChild(Gbase.AssetsManager.getBitmap("projects/projectHeader"));
 
+
+            this.menu = new View.ScreenMenu(true, true);
             //TODO fazer camada intermediaria
             //TODO o options sempre volta pro menu principal. O_o
             this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu()); });
-            this.menu.addEventListener("back", () => { this.back()});
-            this.partsIndicator = this.menu.partsIndicator;
+            this.menu.addEventListener("back", () => { this.back() });
             this.header.addChild(this.menu);
+
+            //create starsIndicator
+            this.starsIndicator = new Menu.View.StarsIndicator();
+            this.header.addChild(this.starsIndicator);
+            this.starsIndicator.x = DefaultWidth ;
+            this.starsIndicator.y = 220;
+
+            //create bots statistics
+            this.statisticsTextField = new createjs.Text("0", defaultFontFamilyNormal, grayColor);
+            this.header.addChild(this.statisticsTextField);
+            this.statisticsTextField.y = 220;
+            this.statisticsTextField.x = 80;
+            
+        }
+
+        private updateStatistcs() {
+            var done = InvertCrossaGame.projectManager.getFinihedProjects().length;
+            var total = InvertCrossaGame.projectManager.getAllProjects().length;
+            this.statisticsTextField.text = done + "/" + total + " BOTS";
         }
 
         //adds projects objects to the view
@@ -161,17 +185,20 @@ module InvertCross.Menu {
                 this.projectsItems[i].updateProjectInfo();
         }
 
-
         //update all projects preview in the menu page
         private updateBonuses() {
             for (var i = 0; i < this.projectsItems.length; i++)
                 this.projectsItems[i].updateProjectInfo();
         }
 
-                
         //=====================================================
 
         private createPaginationButtons(pagesContainer: createjs.Container) {
+
+            var bg = Gbase.AssetsManager.getBitmap("projects/projectFooter")
+            bg.y = -246;
+            this.footer.addChild(bg);
+
             //create leftButton
             var lb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
             lb.y = -100;
@@ -200,9 +227,10 @@ module InvertCross.Menu {
             super.activate();
 
             this.updateProjects();
+            this.updateStatistcs();
             this.updateBonuses();
 
-            this.menu.partsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
+            this.starsIndicator.updateStarsAmount(InvertCrossaGame.projectManager.getStarsCount());
         }
 
         public back() {

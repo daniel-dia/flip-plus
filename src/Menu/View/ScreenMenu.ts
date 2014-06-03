@@ -2,8 +2,6 @@ module InvertCross.Menu.View {
 
     export class ScreenMenu extends Gbase.UI.UIItem{
 
-        public partsIndicator:PartsIndicator;
-
         constructor(backVisible: boolean= true, starsVisible: boolean= false) {
             super();
             this.createObjects(backVisible, starsVisible);
@@ -23,16 +21,6 @@ module InvertCross.Menu.View {
             backBt.x = 130;
             backBt.visible = backVisible;
             this.addChild(backBt);
-
-            
-            //add a parts Indicator
-            var partsIndicator: PartsIndicator = new PartsIndicator();
-            partsIndicator.y = 0;
-            partsIndicator.x = DefaultWidth / 2;
-            partsIndicator.addEventListener("click", () => { this.dispatchEvent("parts"), partsIndicator });
-            this.addChild(partsIndicator);
-            this.partsIndicator = partsIndicator;
-            partsIndicator.visible = starsVisible
         }
 
         //TODO uma forma melhor que isso
