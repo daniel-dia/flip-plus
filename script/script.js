@@ -11,6 +11,7 @@ var defaultFontColor = "#FF6";
 var highlightFontColor = "#f2cb46";
 var alternativeFontColor = "#3d8c9a";
 var shadowFontColor = "#1b4f5e";
+var grayColor = "#565656";
 
 var storagePrefix = "flipp_";
 var __extends = this.__extends || function (d, b) {
@@ -36,16 +37,18 @@ var Gbase;
                 this.centered = true;
             };
 
-            UIItem.prototype.fadeOut = function () {
+            UIItem.prototype.fadeOut = function (scaleX, scaleY) {
                 var _this = this;
+                if (typeof scaleX === "undefined") { scaleX = 0.5; }
+                if (typeof scaleY === "undefined") { scaleY = 0.5; }
                 this.animating = true;
                 this.antX = this.x;
                 this.antY = this.y;
                 this.mouseEnabled = false;
                 createjs.Tween.removeTweens(this);
                 createjs.Tween.get(this).to({
-                    scaleX: 0.5,
-                    scaleY: 0.5,
+                    scaleX: scaleX,
+                    scaleY: scaleY,
                     alpha: 0,
                     x: this.antX,
                     y: this.antY
@@ -61,8 +64,10 @@ var Gbase;
                 });
             };
 
-            UIItem.prototype.fadeIn = function () {
+            UIItem.prototype.fadeIn = function (scaleX, scaleY) {
                 var _this = this;
+                if (typeof scaleX === "undefined") { scaleX = 0.5; }
+                if (typeof scaleY === "undefined") { scaleY = 0.5; }
                 this.visible = true;
                 this.animating = true;
 
@@ -71,7 +76,7 @@ var Gbase;
                     this.antY = this.y;
                 }
 
-                this.scaleX = 0.5, this.scaleY = 0.5, this.alpha = 0, this.x = this.x;
+                this.scaleX = scaleX, this.scaleY = scaleY, this.alpha = 0, this.x = this.x;
                 this.y = this.y;
 
                 this.mouseEnabled = false;
@@ -2397,33 +2402,53 @@ var InvertCross;
 
                 ///Invert a cross into the board
                 Board.prototype.invertCross = function (col, row) {
-                    //invert block state
-                    this.invertBlock(col, row);
-
                     //invert flag
                     this.blocks[col][row].toggleInverted();
 
-                    //invert cross neighbor
-                    if (col > 0)
-                        this.invertBlock(col - 1, row);
-                    if (col < this.width - 1)
-                        this.invertBlock(col + 1, row);
+                    var blocks = this.getCrossToInvert(col, row);
 
-                    if (row < this.height - 1)
-                        this.invertBlock(col, row + 1);
-                    if (row > 0)
-                        this.invertBlock(col, row - 1);
+                    this.invertBlocks(blocks);
+                    this.mirrorBlocks(blocks);
                 };
 
-                //inverte o estado de um block
-                Board.prototype.invertBlock = function (col, row) {
-                    var block = this.blocks[col][row];
-                    block.toggleState();
+                Board.prototype.invertBlocks = function (blocks) {
+                    for (var b in blocks)
+                        blocks[b].toggleState();
+                };
 
-                    //se o block for espelhado, inverte dos demais
-                    if (block.mirror)
-                        for (var m in this.mirroredBlocks)
-                            this.mirroredBlocks[m].state = block.state;
+                Board.prototype.mirrorBlocks = function (blocks) {
+                    for (var b in blocks)
+                        if (blocks[b].mirror) {
+                            for (var m in this.mirroredBlocks)
+                                this.mirroredBlocks[m].state = blocks[b].state;
+
+                            return;
+                        }
+                };
+
+                //inverts all mirroered blocks
+                Board.prototype.mirrorBlock = function (block) {
+                    //if block is mirrored, invert all related
+                    return block.mirror;
+                };
+
+                Board.prototype.getCrossToInvert = function (col, row) {
+                    var toInvert = [];
+
+                    //invert block state
+                    toInvert.push(this.blocks[col][row]);
+
+                    //invert cross neighbor
+                    if (col > 0)
+                        toInvert.push(this.blocks[col - 1][row]);
+                    if (col < this.width - 1)
+                        toInvert.push(this.blocks[col + 1][row]);
+                    if (row < this.height - 1)
+                        toInvert.push(this.blocks[col][row + 1]);
+                    if (row > 0)
+                        toInvert.push(this.blocks[col][row - 1]);
+
+                    return toInvert;
                 };
 
                 ///Invert a cross into the board
@@ -2682,6 +2707,10 @@ var InvertCross;
                     this.memoryImage = Gbase.AssetsManager.getBitmap("puzzle/tilememory");
                     this.container.addChild(this.memoryImage);
                     this.memoryImage.visible = false;
+                    this.memoryImage.alpha = 0;
+                    this.memoryImage.scaleX = this.memoryImage.scaleY = 1.1;
+                    this.memoryImage.x = this.memoryImage.y = -BlockSprite.defaultBlockSize * 0.05;
+                    createjs.Tween.get(this.memoryImage).to({ alpha: 1 }, 5000);
                 };
 
                 //load a single asset and adds it to this
@@ -3522,7 +3551,7 @@ var InvertCross;
                 this.addObjects();
 
                 //adds menu
-                //this.addMenu();
+                // this.addMenu();
                 //adds message
                 this.message = new InvertCross.Menu.View.Message();
                 this.content.addChild(this.message);
@@ -3642,10 +3671,9 @@ var InvertCross;
 
             //finalizes bonus game
             BonusScreen.prototype.endBonus = function () {
-                var _this = this;
                 //lock menu interaction
-                this.menu.fadeOut();
-
+                //this.menu.fadeOut();
+                var _this = this;
                 //back to the screen
                 setTimeout(function () {
                     _this.back();
@@ -4270,9 +4298,6 @@ var InvertCross;
                 var _this = this;
                 _super.prototype.activate.call(this);
 
-                //updates stars and parts idicatorr
-                this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
-
                 for (var pv in this.projectViews) {
                     var project = InvertCross.InvertCrossaGame.projectManager.getProjectByName(this.projectViews[pv].name);
 
@@ -4391,9 +4416,6 @@ var InvertCross;
                     this.intro.visible = false;
                     this.playBt.visible = true;
                     this.myBots.visible = true;
-
-                    //update menu
-                    this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
 
                     //updates robots lobby
                     this.myBots.update();
@@ -4592,9 +4614,10 @@ var InvertCross;
             //populate View
             ProjectsMenu.prototype.createObjects = function () {
                 var bg = Gbase.AssetsManager.getBitmap("projects/bgprojects");
+                bg.scaleY = bg.scaleX = 2;
                 this.background.addChild(bg);
 
-                this.addMenu();
+                this.addHeader();
                 this.addProjects();
                 this.addBonuses();
 
@@ -4611,8 +4634,11 @@ var InvertCross;
             };
 
             //Adds defaultMenu to screen
-            ProjectsMenu.prototype.addMenu = function () {
+            ProjectsMenu.prototype.addHeader = function () {
                 var _this = this;
+                //create background
+                this.header.addChild(Gbase.AssetsManager.getBitmap("projects/projectHeader"));
+
                 this.menu = new Menu.View.ScreenMenu(true, true);
 
                 //TODO fazer camada intermediaria
@@ -4623,8 +4649,25 @@ var InvertCross;
                 this.menu.addEventListener("back", function () {
                     _this.back();
                 });
-                this.partsIndicator = this.menu.partsIndicator;
                 this.header.addChild(this.menu);
+
+                //create starsIndicator
+                this.starsIndicator = new Menu.View.StarsIndicator();
+                this.header.addChild(this.starsIndicator);
+                this.starsIndicator.x = DefaultWidth;
+                this.starsIndicator.y = 220;
+
+                //create bots statistics
+                this.statisticsTextField = new createjs.Text("0", defaultFontFamilyNormal, grayColor);
+                this.header.addChild(this.statisticsTextField);
+                this.statisticsTextField.y = 220;
+                this.statisticsTextField.x = 80;
+            };
+
+            ProjectsMenu.prototype.updateStatistcs = function () {
+                var done = InvertCross.InvertCrossaGame.projectManager.getFinihedProjects().length;
+                var total = InvertCross.InvertCrossaGame.projectManager.getAllProjects().length;
+                this.statisticsTextField.text = done + "/" + total + " BOTS";
             };
 
             //adds projects objects to the view
@@ -4741,6 +4784,10 @@ var InvertCross;
             //=====================================================
             ProjectsMenu.prototype.createPaginationButtons = function (pagesContainer) {
                 var _this = this;
+                var bg = Gbase.AssetsManager.getBitmap("projects/projectFooter");
+                bg.y = -246;
+                this.footer.addChild(bg);
+
                 //create leftButton
                 var lb = new Gbase.UI.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoPreviousPage();
@@ -4770,9 +4817,10 @@ var InvertCross;
                 _super.prototype.activate.call(this);
 
                 this.updateProjects();
+                this.updateStatistcs();
                 this.updateBonuses();
 
-                this.menu.partsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
+                this.starsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
             };
 
             ProjectsMenu.prototype.back = function () {
@@ -4922,17 +4970,6 @@ var InvertCross;
                     backBt.x = 130;
                     backBt.visible = backVisible;
                     this.addChild(backBt);
-
-                    //add a parts Indicator
-                    var partsIndicator = new View.PartsIndicator();
-                    partsIndicator.y = 0;
-                    partsIndicator.x = DefaultWidth / 2;
-                    partsIndicator.addEventListener("click", function () {
-                        _this.dispatchEvent("parts"), partsIndicator;
-                    });
-                    this.addChild(partsIndicator);
-                    this.partsIndicator = partsIndicator;
-                    partsIndicator.visible = starsVisible;
                 };
                 return ScreenMenu;
             })(Gbase.UI.UIItem);
@@ -5184,62 +5221,49 @@ var InvertCross;
     (function (Menu) {
         (function (View) {
             // View Class
-            var PartsIndicator = (function (_super) {
-                __extends(PartsIndicator, _super);
+            var StarsIndicator = (function (_super) {
+                __extends(StarsIndicator, _super);
                 // Constructor
-                function PartsIndicator() {
+                function StarsIndicator() {
                     _super.call(this);
                     this.buildView();
-                    this.x = DefaultWidth / 2;
                     this.createHitArea();
                 }
                 //updates Parts indicator amount
-                PartsIndicator.prototype.updatePartsAmount = function (newQuantity, tween) {
+                StarsIndicator.prototype.updatePartsAmount = function (newQuantity, tween) {
                     if (typeof tween === "undefined") { tween = true; }
                     //this.partsTextField.text = newQuantity.toString();
                 };
 
                 //updates Parts indicator amount
-                PartsIndicator.prototype.updateStarsAmount = function (newQuantity, tween) {
+                StarsIndicator.prototype.updateStarsAmount = function (newQuantity, tween) {
                     if (typeof tween === "undefined") { tween = true; }
                     this.starsTextField.text = newQuantity.toString();
                 };
 
                 //add objects to View
-                PartsIndicator.prototype.buildView = function () {
+                StarsIndicator.prototype.buildView = function () {
                     //add Background
-                    var bg = Gbase.AssetsManager.getBitmap("partshud");
-                    if (bg.getBounds())
-                        this.regX = bg.getBounds().width / 2;
-                    this.addChild(bg);
-
-                    this.infoCotainer = new createjs.Container();
-
-                    //var pi = Gbase.AssetsManager.getImage("partsicon");
-                    //this.partsTextField = new createjs.Text("0",defaultFontFamilyNormal,defaultFontColor);
-                    //this.infoCotainer.addChild(pi);
-                    //this.infoCotainer.addChild(this.partsTextField);
-                    //pi.y = 20;
-                    //pi.x = 320;
-                    //this.partsTextField.y = 20;
-                    //this.partsTextField.x = 470;
+                    //var bg = Gbase.AssetsManager.getBitmap("partshud");
+                    //if (bg.getBounds())
+                    //this.regX = bg.getBounds().width/2;
+                    //this.addChild(bg);
+                    //this.infoCotainer = new createjs.Container();
                     var si = Gbase.AssetsManager.getBitmap("starsicon");
-                    this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
+                    si.scaleX = si.scaleY = 0.9;
+                    this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, grayColor);
+                    this.starsTextField.textAlign = "right";
+                    this.starsTextField.x = -140;
 
-                    this.infoCotainer.addChild(si);
-                    this.infoCotainer.addChild(this.starsTextField);
+                    this.addChild(si);
+                    this.addChild(this.starsTextField);
 
-                    si.x = -30;
-                    si.y = 14;
-                    this.starsTextField.y = 20;
-                    this.starsTextField.x = 150;
-
-                    this.addChild(this.infoCotainer);
-                    this.infoCotainer.x = 70;
+                    si.x = -120;
+                    si.y = -5;
                 };
-                return PartsIndicator;
+                return StarsIndicator;
             })(Gbase.UI.Button);
-            View.PartsIndicator = PartsIndicator;
+            View.StarsIndicator = StarsIndicator;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
@@ -5314,7 +5338,7 @@ var InvertCross;
                         star.y = 190;
 
                         //addsText
-                        var tx = new createjs.Text(project.cost.toString(), "Bold 100px " + defaultFont, "#565656");
+                        var tx = new createjs.Text(project.cost.toString(), "Bold 100px " + defaultFont, grayColor);
                         this.addChild(tx);
                         tx.textAlign = "right";
                         tx.x = 220;
@@ -7015,7 +7039,7 @@ var InvertCross;
 
                     //shows the popus
                     this.closeinterval = setTimeout(function () {
-                        _this.fadeIn();
+                        _this.fadeIn(1, 0.5);
                     }, delay);
                     ;
 
@@ -7029,7 +7053,7 @@ var InvertCross;
                 //method for close popup
                 Message.prototype.closePopUp = function () {
                     //hide the popup{
-                    this.fadeOut();
+                    this.fadeOut(1, 0.5);
                 };
                 return Message;
             })(Gbase.UI.UIItem);
@@ -7278,7 +7302,7 @@ var InvertCross;
                     var _this = this;
                     //shows the popus
                     this.closeinterval = setTimeout(function () {
-                        _this.fadeIn();
+                        _this.fadeIn(1, 0.5);
                     }, delay);
                     ;
 
@@ -7302,7 +7326,7 @@ var InvertCross;
                 //method for close popup
                 Popup.prototype.closePopUp = function () {
                     //hide the popup{
-                    this.fadeOut();
+                    this.fadeOut(1, 0.5);
 
                     //dispatch a event for parent objects
                     this.dispatchEvent("onclose");
