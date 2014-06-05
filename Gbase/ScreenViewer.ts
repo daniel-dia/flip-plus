@@ -49,6 +49,8 @@ module InvertCross {
                         this.removeOldScreen(oldScreen)
                         oldScreen = null;
                     });
+
+                    createjs.Tween.get(oldScreen.view).to({ alpha: 0 }, transition.time);
                 }
                 else {
                     this.removeOldScreen(oldScreen);

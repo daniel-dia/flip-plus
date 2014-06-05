@@ -123,7 +123,7 @@ function getAssetsManifest(assetscale) {
         { id: "workshop/workshop1", src: imagePath + "workshop/workshop1.png" },
         { id: "workshop/workshop2", src: imagePath + "workshop/workshop2.png" },
         { id: "workshop/workshop0", src: imagePath + "workshop/workshop0.png" },
-
+        { id: "workshop/bgworkshop", src: imagePath + "workshop/bgworkshop.jpg" },
         /*
         { src: imagePath + "workshop/bots/Bot01.png", id: "workshop/bots/Bot01" },
         { src: imagePath + "workshop/bots/Bot02.png", id: "workshop/bots/Bot02" },

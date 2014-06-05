@@ -140,3 +140,7 @@ pip-log.txt
 /.git - Copia
 /fp.zip
 /ttf.zip
+/assets/images_1x
+/assets/images_0.25x
+/assets/images_0.5x
+/fonts/asproxy_5.5.0_compiled.zip

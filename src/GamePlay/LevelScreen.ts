@@ -44,7 +44,7 @@ module InvertCross.GamePlay {
         private createScene(leveldata: Projects.Level) {
 
             //creates a Background
-            this.addBackground(leveldata.theme);
+            this.addBackground();
 
             //initialize board sprites
             this.initializeBoardSprites(leveldata.width, leveldata.height, leveldata.theme, this.levelLogic.getBlocks(), leveldata.type);
@@ -72,8 +72,12 @@ module InvertCross.GamePlay {
 
         }
 
-        private addBackground(theme: string) {
-            this.background.addChild(Gbase.AssetsManager.getBitmap("puzzle/bg"));
+        private addBackground() {
+            var bg = Gbase.AssetsManager.getBitmap("workshop/bgworkshop");
+            this.content.addChild(bg);
+            bg.y = -339;
+            bg.scaleY = 1.3310546875;
+            bg.alpha = 0.4;
         }
 
         private initializeOverlays() {
@@ -225,6 +229,9 @@ module InvertCross.GamePlay {
             //verifies if user already completed this level and verifies if player used any item in the game
             if (!this.levelData.userdata.solved)
                 this.levelData.userdata.item = this.usedItem;
+
+            if (this.usedItem == null)
+                this.levelData.userdata.item = null;
 
             //verifies if is the first time cimpletting the level
             var complete1stTime = false;

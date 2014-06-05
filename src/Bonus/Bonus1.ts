@@ -17,6 +17,9 @@
         addObjects() {
             super.addObjects();
             this.addBarrels();
+
+            var bg = this.background.getChildByName("background");
+            bg.scaleX = bg.scaleY = 4;
         }
 
         activate(parameters?: any) {

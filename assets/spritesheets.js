@@ -60,7 +60,7 @@
     "projects/slotl": { "images": ["projects/teste20"], "frames": [[1417, 0, 426, 410, 0, -26, -30]] },
     "projects/star": { "images": ["projects/teste20"], "frames": [[850, 1633, 96, 103, 0, 0, 0]] },
     
-    "puzzle/bg":{"images":["puzzle/Puzzle"],"frames":[[0,0,1536,2048,0,0,0]]},
+    //"puzzle/bg":{"images":["puzzle/Puzzle"],"frames":[[0,0,1536,2048,0,0,0]]},
     "puzzle/btplay1":{"images":["puzzle/Puzzle"],"frames":[[1882,0,166,174,0,-38,0]]},
     "puzzle/btplay2":{"images":["puzzle/Puzzle"],"frames":[[1925,352,106,174,0,0,0]]},
     "puzzle/btpowerup":{"images":["puzzle/Puzzle"],"frames":[[1539,150,265,174,0,0,0]]},
@@ -112,7 +112,7 @@
 "workshop/Bot18_fill":{"images":["workshop/workshop0"],"frames":[[1536,0,1079,1018,0,-45,-45]]},
 "workshop/Bot18_stroke":{"images":["workshop/workshop0"],"frames":[[0,2048,1171,1110,0,0,0]]},
 "workshop/basefases":{"images":["workshop/workshop0"],"frames":[[0,3158,1536,741,0,0,0]]},
-"workshop/bgworkshop":{"images":["workshop/workshop0"],"frames":[[0,0,1536,2048,0,0,0]]},
+//  "workshop/bgworkshop":{"images":["workshop/workshop0"],"frames":[[0,0,1536,2048,0,0,0]]},
 "workshop/estrelaworkshop":{"images":["workshop/workshop0"],"frames":[[2453,3882,110,117,0,0,0]]},
 "workshop/faseamarela1":{"images":["workshop/workshop0"],"frames":[[3113,3784,198,204,0,0,0]]},
 "workshop/faseamarela2":{"images":["workshop/workshop0"],"frames":[[2563,3861,194,194,0,0,0]]},

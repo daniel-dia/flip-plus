@@ -19,13 +19,13 @@
 
 body, a {
     font-family: 'Exo 2.0'; 
-    background-color: #222;
+    background-color: #000;
     color: white;
 }
 
 #myCanvas {
     backface-visibility: hidden;
-    background: gray;
+    background: #000;
 
     image-rendering: optimizeSpeed; 
     image-rendering: -moz-crisp-edges; 

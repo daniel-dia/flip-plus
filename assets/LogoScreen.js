@@ -362,7 +362,7 @@ p.nominalBounds = new cjs.Rectangle(-177.9,-86.7,356.6,174.1);
 
 	// Layer 12
 	this.instance_14 = new lib.Cenario();
-	this.instance_14.setTransform(-767.9,-1023.9,0.25,0.25);
+	this.instance_14.setTransform(-767.9, -1024 - 339 / 4, 0.25, 0.25);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_14}]}).wait(450));
 

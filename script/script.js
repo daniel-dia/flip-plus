@@ -1833,6 +1833,9 @@ var InvertCross;
                 if (!this.levelData.userdata.solved)
                     this.levelData.userdata.item = this.usedItem;
 
+                if (this.usedItem = null)
+                    this.levelData.userdata.item = null;
+
                 //verifies if is the first time cimpletting the level
                 var complete1stTime = false;
                 if (!this.levelData.userdata.solved)

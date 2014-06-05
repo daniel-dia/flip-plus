@@ -18,7 +18,9 @@ module InvertCross.Menu {
             super()
 
             var bg = Gbase.AssetsManager.getBitmap("mybotsbg");
-            this.background.addChild(bg);
+            bg.y = -339;
+            bg.scaleY = 1.3310546875;
+            this.content.addChild(bg);
 
             this.addIntro();
 

@@ -29,9 +29,11 @@ module InvertCross.Menu {
 
         private addObjects() {
             //add Background
-            var bg = Gbase.AssetsManager.getBitmap("workshop/bgworkshop")
-            this.background.addChild(bg);
-                        
+            var bg = Gbase.AssetsManager.getBitmap("workshop/bgworkshop");
+            this.content.addChild(bg);
+            bg.scaleY = 1.3310546875;
+            bg.y = -339;
+             
             //adds Projects
             this.addProjects();
 

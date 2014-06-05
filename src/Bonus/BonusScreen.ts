@@ -46,7 +46,11 @@
         //add Scene objects to the view
         addScene(bonusId:string) {
             //adds Background
-            this.background.addChild(Gbase.AssetsManager.getBitmap(bonusId+"/back"));
+            var background = Gbase.AssetsManager.getBitmap(bonusId + "/back");
+            background.scaleX = background.scaleY = 2
+            background.name="background";
+            this.background.addChild(background);
+            
 
             //adds header
             this.header.addChild(Gbase.AssetsManager.getBitmap(bonusId + "/header"));
