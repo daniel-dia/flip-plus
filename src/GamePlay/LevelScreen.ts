@@ -310,7 +310,7 @@ module InvertCross.GamePlay {
 
         animatePuzzle(parameters) {
             this.boardSprite.x = parameters.x;
-            this.boardSprite.y = parameters.y;
+            this.boardSprite.y = parameters.y+2048;
             this.boardSprite.scaleX = parameters.scaleX;
             this.boardSprite.scaleY = parameters.scaleY;
             createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: DefaultWidth / 2, y: DefaultHeight / 2 }, 500, createjs.Ease.quadInOut);
