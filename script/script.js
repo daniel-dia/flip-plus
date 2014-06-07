@@ -453,6 +453,8 @@ var InvertCross;
                         _this.removeOldScreen(oldScreen);
                         oldScreen = null;
                     });
+
+                    createjs.Tween.get(oldScreen.view).to({ alpha: 0 }, transition.time);
                 } else {
                     this.removeOldScreen(oldScreen);
                     oldScreen = null;
@@ -1652,7 +1654,7 @@ var InvertCross;
             LevelScreen.prototype.createScene = function (leveldata) {
                 var _this = this;
                 //creates a Background
-                this.addBackground(leveldata.theme);
+                this.addBackground();
 
                 //initialize board sprites
                 this.initializeBoardSprites(leveldata.width, leveldata.height, leveldata.theme, this.levelLogic.getBlocks(), leveldata.type);
@@ -1679,8 +1681,12 @@ var InvertCross;
                 });
             };
 
-            LevelScreen.prototype.addBackground = function (theme) {
-                this.background.addChild(Gbase.AssetsManager.getBitmap("puzzle/bg"));
+            LevelScreen.prototype.addBackground = function () {
+                var bg = Gbase.AssetsManager.getBitmap("workshop/bgworkshop");
+                this.content.addChild(bg);
+                bg.y = -339;
+                bg.scaleY = 1.3310546875;
+                bg.alpha = 0.4;
             };
 
             LevelScreen.prototype.initializeOverlays = function () {
@@ -1833,7 +1839,7 @@ var InvertCross;
                 if (!this.levelData.userdata.solved)
                     this.levelData.userdata.item = this.usedItem;
 
-                if (this.usedItem = null)
+                if (this.usedItem == null)
                     this.levelData.userdata.item = null;
 
                 //verifies if is the first time cimpletting the level
@@ -1918,7 +1924,7 @@ var InvertCross;
 
             LevelScreen.prototype.animatePuzzle = function (parameters) {
                 this.boardSprite.x = parameters.x;
-                this.boardSprite.y = parameters.y;
+                this.boardSprite.y = parameters.y + 2048;
                 this.boardSprite.scaleX = parameters.scaleX;
                 this.boardSprite.scaleY = parameters.scaleY;
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: DefaultWidth / 2, y: DefaultHeight / 2 }, 500, createjs.Ease.quadInOut);
@@ -3568,7 +3574,10 @@ var InvertCross;
             //add Scene objects to the view
             BonusScreen.prototype.addScene = function (bonusId) {
                 //adds Background
-                this.background.addChild(Gbase.AssetsManager.getBitmap(bonusId + "/back"));
+                var background = Gbase.AssetsManager.getBitmap(bonusId + "/back");
+                background.scaleX = background.scaleY = 2;
+                background.name = "background";
+                this.background.addChild(background);
 
                 //adds header
                 this.header.addChild(Gbase.AssetsManager.getBitmap(bonusId + "/header"));
@@ -3701,6 +3710,9 @@ var InvertCross;
             BonusBarrel.prototype.addObjects = function () {
                 _super.prototype.addObjects.call(this);
                 this.addBarrels();
+
+                var bg = this.background.getChildByName("background");
+                bg.scaleX = bg.scaleY = 4;
             };
 
             BonusBarrel.prototype.activate = function (parameters) {
@@ -4189,7 +4201,9 @@ var InvertCross;
             LevelsMenu.prototype.addObjects = function () {
                 //add Background
                 var bg = Gbase.AssetsManager.getBitmap("workshop/bgworkshop");
-                this.background.addChild(bg);
+                this.content.addChild(bg);
+                bg.scaleY = 1.3310546875;
+                bg.y = -339;
 
                 //adds Projects
                 this.addProjects();
@@ -4384,7 +4398,9 @@ var InvertCross;
                 _super.call(this);
 
                 var bg = Gbase.AssetsManager.getBitmap("mybotsbg");
-                this.background.addChild(bg);
+                bg.y = -339;
+                bg.scaleY = 1.3310546875;
+                this.content.addChild(bg);
 
                 this.addIntro();
 
@@ -6966,13 +6982,13 @@ var InvertCross;
                 _super.call(this);
 
                 //loads image
-                this.background.addChild(new lib.LogoScreen());
+                this.content.addChild(new lib.LogoScreen());
 
                 //creates hitArea
-                this.background.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, DefaultWidth, DefaultHeight));
+                this.content.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, DefaultWidth, DefaultHeight));
 
                 //add event to go to main menu
-                this.background.addEventListener("click", function () {
+                this.content.addEventListener("click", function () {
                     InvertCross.InvertCrossaGame.showMainMenu();
                 });
             }
