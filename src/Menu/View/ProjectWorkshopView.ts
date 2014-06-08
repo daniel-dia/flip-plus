@@ -52,7 +52,7 @@ module InvertCross.Menu.View {
             this.robotPreview = new View.RobotPreview(project);
 
             this.robotPreview.x = DefaultWidth / 2;
-            this.robotPreview.y = 1270;
+            this.robotPreview.y = 1100;
             this.robotPreview.update();
             this.addChild(this.robotPreview);
         }
