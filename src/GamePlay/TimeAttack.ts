@@ -65,9 +65,11 @@ module InvertCross.GamePlay {
                 //animate board and switch
                 var defaultX = this.boardSprite.x;
                 createjs.Tween.get(this.boardSprite).to({ x: defaultX-DefaultWidth }, 250, createjs.Ease.quadIn).call(() => {
-                 //   this.boardSprite.radiusEffect(col, row);
+
                     this.currentPuzzle++;
+                    this.boardSprite.clearHint();
                     this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves); 
+                    
                     this.boardSprite.x = defaultX + DefaultWidth;
                     createjs.Tween.get(this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut)
                 })

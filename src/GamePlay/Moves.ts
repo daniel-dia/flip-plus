@@ -76,6 +76,8 @@
                 createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(() => {
                     this.currentPuzzle++;
                     this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
+                    this.boardSprite.clearHint();
+
                     this.boardSprite.x = defaultX + DefaultWidth;
                     createjs.Tween.get(this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut)
                 })

@@ -119,6 +119,15 @@
             return this.blocksSprites[id % this.boardWidth][Math.floor(id / this.boardWidth)];
         }
 
+        //clear blocks hints
+        public clearHint() {
+            var blocksCount = this.boardWidth * this.boardHeight;
+            for (var b = 0; b < blocksCount; b++) {
+                var block = this.getBlockById(b);
+                block.disableHint();
+            }
+        }
+
         //===================================================  Tutorial =================================================================
 
         public tutorialHighlightBlocks(blockId: number) {

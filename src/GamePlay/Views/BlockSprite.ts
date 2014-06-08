@@ -71,6 +71,11 @@ module InvertCross.GamePlay.Views {
             this.updateSprite();
         }
 
+        public disableHint() {
+            this.hintEnalble = false;
+            this.updateSprite();
+        }
+
         public isHintEnabled(): boolean {
             return this.hintEnalble;
         }
