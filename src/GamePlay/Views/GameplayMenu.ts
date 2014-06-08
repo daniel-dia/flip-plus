@@ -8,11 +8,14 @@ module InvertCross.GamePlay.Views {
         private buttons: any;
         private parameters: any;
 
+        private items: Array<string>;
+
         private tutorial_highlightSprite: createjs.DisplayObject;
 
         constructor() {
             super();
 
+            this.items = [];
             this.createGamePlayMenu();
             this.createPauseMenu();
             this.addTutorialIndicator();
@@ -33,8 +36,6 @@ module InvertCross.GamePlay.Views {
             this.overlayMenu.width = 2*DefaultWidth;
             this.overlayMenu.height = 0;
 
-            this.addButtons(["restart","hint","skip"])
-
             var pausBt = new Gbase.UI.IconButton("puzzle/iconepause", "", "puzzle/btpowerup", () => { this.pause(); });
             this.overlayMenu.addChild(pausBt),
             pausBt.x = 1400; 
@@ -44,18 +45,24 @@ module InvertCross.GamePlay.Views {
 
         // ================ Add Buttons ==========================================
 
-        private addButtons(buttons: Array<string>) {
+        public addButtons(buttons: Array<string>) {
+
+            //TODO tirar daqui
+            buttons.push("restart");
+
             this.buttons = new Object();
             this.parameters = new Object();
             var xstart = 200;
-            var xstep = 400;
+            var xstep = 340;
 
             for (var b in buttons) 
                 var bt = this.createItemButton(buttons[b], xstart + xstep * b);
         }
 
         //creates a iitem button and its feedback pand parameters, and adds it to screensk
-        private createItemButton(buttonId: string,pos:number) :createjs.DisplayObject {
+        private createItemButton(buttonId: string, pos: number): createjs.DisplayObject {
+            this.items.push(buttonId);
+
             var button = new Gbase.UI.IconButton("puzzle/icon_" + buttonId, "", "puzzle/btpowerup", () => {
                 var parameter = null;
                 if (this.parameters) parameter = this.parameters[buttonId]
@@ -65,15 +72,22 @@ module InvertCross.GamePlay.Views {
             this.overlayMenu.addChild(button);
             this.buttons[buttonId] = button;
             button.x = pos;
-            button.icon.x = -100;
+            button.icon.x = -130;
             return button;
         }
 
-        // updates buttons labels 
-        public updateButtonLabel(buttonId:string, value: number) {
-            this.buttons[buttonId].text.text = value.toString();
-        }
 
+        // updates buttons labels 
+        public updateItemsQuatity() {
+            for (var i in this.items)
+                this.buttons[this.items[i]].updateLabel(InvertCrossaGame.itemsData.getItemQuantity(this.items[i]));
+
+            if(this.buttons["restart"])
+                this.buttons["restart"].updateLabel("");
+        
+            
+        }
+                                
         // ============== pause menus ============================================
 
         private createPauseMenu() {

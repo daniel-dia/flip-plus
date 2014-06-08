@@ -10,6 +10,11 @@
         constructor(levelData: Projects.Level) {
             super(levelData);
 
+            this.gameplayMenu.addButtons(["touch", "solve","hint"]);
+            this.gameplayMenu.addEventListener("touch", () => { this.useItemTouch()});
+            this.gameplayMenu.addEventListener("solve", () => { this.useItemSolve(); })
+            this.gameplayMenu.addEventListener("hint", () => { this.useItemHint(); })
+
             this.puzzlesToSolve = levelData.puzzlesToSolve;
             this.moves = this.levelData.moves;
 
@@ -103,6 +108,17 @@
 
             this.levelLogic.board.initializePrizes(2);
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+        }
+
+
+        //========================== items ==================================
+        private useItemTouch() {
+            if (!this.useItem("touch")) return;
+            this.moves += 2;
+        }
+        private useItemSolve() {
+            if (!this.useItem("solve")) return;
+            this.win(0, 0);
         }
 
     }

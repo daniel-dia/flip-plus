@@ -41,23 +41,23 @@ module InvertCross.GamePlay {
             //create for menu item step
             if (step.item) {
                 this.boardSprite.tutorialLockBlocks();
-                this.menuOverlay.tutorial_HighlightItem(step.item,step.parameter);
-                var listener2 = this.menuOverlay.addEventListener(step.item, () => {
+                this.gameplayMenu.tutorial_HighlightItem(step.item,step.parameter);
+                var listener2 = this.gameplayMenu.addEventListener(step.item, () => {
                     this.boardSprite.tutorialRelease();
-                    this.menuOverlay.tutorial_unlockAllButtons();
+                    this.gameplayMenu.tutorial_unlockAllButtons();
                     this.playNextTurorialStep();
-                    this.menuOverlay.removeEventListener(step.item, listener2);
+                    this.gameplayMenu.removeEventListener(step.item, listener2);
                 });
             }
 
             //create for block click item
             if (step.click != undefined) {
                 this.boardSprite.tutorialHighlightBlocks(step.click);
-                this.menuOverlay.tutorial_lockAllButtons();
+                this.gameplayMenu.tutorial_lockAllButtons();
                 var listener3 = this.boardSprite.addEventListener("ontutorialclick", () => {
                     this.playNextTurorialStep();
                     this.boardSprite.removeEventListener("ontutorialclick", listener3);
-                    this.menuOverlay.tutorial_unlockAllButtons();
+                    this.gameplayMenu.tutorial_unlockAllButtons();
                 });
             }
         }

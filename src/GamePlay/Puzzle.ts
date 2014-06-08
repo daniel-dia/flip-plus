@@ -4,6 +4,10 @@ module InvertCross.GamePlay {
         constructor(levelData: Projects.Level) {
             super(levelData);
 
+            this.gameplayMenu.addButtons( ["skip","hint"]);
+            this.gameplayMenu.addEventListener("skip", () => { this.useItemSkip(); });
+            this.gameplayMenu.addEventListener("hint", () => { this.useItemHint(); });
+
             this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
 
             //draw blocks

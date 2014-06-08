@@ -124,13 +124,20 @@ module Gbase.UI {
             //loads icon Image
             this.icon = AssetsManager.getBitmap(icon);
             this.addChild(this.icon);
+            this.text.textAlign = "left";
 
-            if (this.icon.getBounds()) {
+            if (this.icon.getBounds()) 
                 this.icon.regY = this.icon.getBounds().height / 2;
-                this.icon.x = -(40 + this.icon.getBounds().width + this.text.getMeasuredWidth()) / 2;
-                this.text.x =  this.icon.x + this.icon.getBounds().width;
-            }
+            this.updateLabel(text);
             
+        }
+
+        public updateLabel(value: string) {
+            this.text.text = value;
+            if (this.icon.getBounds()) {
+                this.icon.x = -(this.icon.getBounds().width + 10 + this.text.getMeasuredWidth()) / 2;
+                this.text.x = this.icon.x + this.icon.getBounds().width + 10;
+            }
         }
     }
 }

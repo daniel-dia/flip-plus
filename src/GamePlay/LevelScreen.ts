@@ -8,7 +8,7 @@ module InvertCross.GamePlay {
         private fx: Effects;
 
         //Overlays // friendly
-        public menuOverlay: Views.GamePlayMenu;
+        public gameplayMenu: Views.GamePlayMenu;
         public statusArea: Views.StatusArea;
         public popup: Menu.View.Popup;
         public message: Menu.View.Message;
@@ -16,15 +16,19 @@ module InvertCross.GamePlay {
         //Level
         public levelLogic: Model.Level; //friendly
         public levelData: Projects.Level;
+
+        public itemsFunctions: any;
         
-        //
-        usedItem: string;
+        // Used to know the last item used by the user in this level
+        public usedItem: string;
 
         //Initialization methodos ===================================================================================================
 
         constructor(leveldata: Projects.Level) {
 
             super();
+
+            this.itemsFunctions = {};
 
             //Store level data;
             this.levelData = leveldata;
@@ -35,6 +39,7 @@ module InvertCross.GamePlay {
             //play BgSound
             Gbase.AssetsManager.stopMusic();
 
+            //creates all screen objects
             this.createScene(leveldata);
 
         }
@@ -61,12 +66,12 @@ module InvertCross.GamePlay {
             this.content.addChild(this.popup)
 
             this.popup.addEventListener("onshow", () => {
-                this.menuOverlay.fadeOut();
+                this.gameplayMenu.fadeOut();
                 this.boardSprite.mouseEnabled = false;
             });
 
             this.popup.addEventListener("onclose", () => {
-                this.menuOverlay.fadeIn();
+                this.gameplayMenu.fadeIn();
                 this.boardSprite.mouseEnabled = true;
             });
 
@@ -83,29 +88,25 @@ module InvertCross.GamePlay {
         private initializeOverlays() {
 
             //intialize  menu overlay
-            this.menuOverlay = new Views.GamePlayMenu();
-            this.footer.addChild(this.menuOverlay);
+            this.gameplayMenu = new Views.GamePlayMenu();
+            this.gameplayMenu.y = -248;
+            this.footer.addChild(this.gameplayMenu);
+            
+            //level control
+            this.gameplayMenu.addEventListener("pause", () => { this.pauseGame(); });
+            this.gameplayMenu.addEventListener("unpause", () => { this.unPauseGame(); });
+            this.gameplayMenu.addEventListener("restart", (e: createjs.Event) => { InvertCrossaGame.replayLevel(); });
+            this.gameplayMenu.addEventListener("back", () => { InvertCrossaGame.exitLevel(); });
 
-            this.menuOverlay.addEventListener("pause", () => { this.pauseGame(); });
-            this.menuOverlay.addEventListener("unpause", () => { this.unPauseGame(); });
-            this.menuOverlay.addEventListener("restart", (e: createjs.Event) => { InvertCrossaGame.replayLevel(); });
-            this.menuOverlay.addEventListener("skip", (e: createjs.Event) => { this.skip(); });
-            this.menuOverlay.addEventListener("hint", (e: createjs.Event) => { this.hint(e.target); });
-            this.menuOverlay.addEventListener("back", () => { InvertCrossaGame.exitLevel(); });
-            this.menuOverlay.updateButtonLabel("hint", InvertCrossaGame.itemsData.getItemQuantity("hint"));
-            this.menuOverlay.updateButtonLabel("skip", InvertCrossaGame.itemsData.getItemQuantity("skip"));
-            this.menuOverlay.y = -248;
-
+            //upper staus area
             if (InvertCrossaGame.projectManager.getCurrentProject() != undefined) {
                 var levels: Projects.Level[] = InvertCrossaGame.projectManager.getCurrentProject().levels;
-
                 this.statusArea = new Views.StatusArea();
                 this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
                 this.statusArea.setText1("");
                 this.statusArea.setText3("");
                 this.header.addChild(this.statusArea);
             }
-
         }
 
         private initializeBoardSprites(width: number, height: number, theme: string, blocks: any, type: string) {
@@ -124,12 +125,11 @@ module InvertCross.GamePlay {
 
         public back() {
             this.pauseGame();
-
         }
 
         // user input ===============================================================================================================
 
-        // Threat user input
+        // handles user input
         public userInput(col: number, row: number) {
 
             //invert a cross
@@ -165,62 +165,6 @@ module InvertCross.GamePlay {
             }, 50);
         }
 
-        //skips the level
-        private skip() {
-
-            if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
-                InvertCrossaGame.skipLevel();
-
-            } else {
-                var itemQuantity = InvertCrossaGame.itemsData.getItemQuantity("skip");
-                if (itemQuantity > 0) {
-                    InvertCrossaGame.itemsData.decreaseItemQuantity("skip");
-                    InvertCrossaGame.skipLevel(true);
-                }
-                else {
-                    this.popup.showtext(stringResources.gp_noMoreSkip);
-                }
-            }
-        }
-        
-        //set hint for a block
-        private hint(blockId?) {
-
-            
-            var itemQuantity = InvertCrossaGame.itemsData.getItemQuantity("hint")
-            if (itemQuantity > 0) {
-
-                //if the hint block is not pre defined
-                if (typeof blockId != "number") {
-
-                    //get all inverted blocks
-                    var filtredInvertedBlocks = [];
-                    var invertedBlocks = this.levelLogic.board.getInvertedBlocks();
-                    for (var i in invertedBlocks) {
-                        //remove the already hinted from the list
-                        if (!this.boardSprite.getBlockById(invertedBlocks[i]).isHintEnabled())
-                            filtredInvertedBlocks.push(invertedBlocks[i]);
-                    }
-
-                    //if theres no inverted itens, return
-                    if (filtredInvertedBlocks.length == 0) return; 
-
-                    //randomly select one from the list
-                    var index = Math.floor(Math.random() * filtredInvertedBlocks.length);
-                    blockId = filtredInvertedBlocks[index];
-                }
-
-                //enablehint for the selected block;
-                this.boardSprite.getBlockById(blockId).enableHint();
-                InvertCrossaGame.itemsData.decreaseItemQuantity("hint");
-                this.menuOverlay.updateButtonLabel("hint", InvertCrossaGame.itemsData.getItemQuantity("hint"));
-                this.usedItem = "hint";
-            }
-            else {
-                this.popup.showtext(stringResources.gp_noMoreHints);
-            }
-        }
-
         win(col: number, row: number,messageText:boolean=true) {
 
             //play a win sound
@@ -245,7 +189,7 @@ module InvertCross.GamePlay {
                 this.message.showtext(stringResources.gp_finishPuzzle, 1000, 800);
 
             //hide all menus
-            this.menuOverlay.fadeOut();
+            this.gameplayMenu.fadeOut();
             this.boardSprite.lock();
 
             //apply effect on sprites
@@ -276,10 +220,77 @@ module InvertCross.GamePlay {
 
         loose() {
 
-            this.menuOverlay.fadeOut();
+            this.gameplayMenu.fadeOut();
             this.boardSprite.lock();
             setTimeout(() => { InvertCrossaGame.looseLevel(); }, 3000);;
             this.boardSprite.looseEffect();
+        }
+
+
+        // Items ====================================================================================================================
+
+        useItem(item: string):boolean {
+            //if user has iteem
+            var itemQuantity = InvertCrossaGame.itemsData.getItemQuantity(item)
+            if (itemQuantity > 0) {
+
+                //updates data
+                InvertCrossaGame.itemsData.decreaseItemQuantity(item);
+                this.usedItem = item;
+
+                //updates Items buttons labels Quantity on footer
+                this.gameplayMenu.updateItemsQuatity();
+
+                return true;
+            } else {
+                //show a text
+                this.popup.showtext(stringResources.gp_noMoreHints);
+
+                return false;
+            }
+        }
+
+        //skips the level
+        useItemSkip() {
+            if (!this.useItem("skip")) return;
+            if (this.levelData.userdata.skip || this.levelData.userdata.solved) 
+                InvertCrossaGame.skipLevel(false);
+            else
+                InvertCrossaGame.skipLevel(true);
+        }
+
+        //set hint for a block
+        useItemHint(blockId?) {
+
+            if (!this.useItem("hint")) return;
+
+            //if the hint block is not pre defined
+            if (typeof blockId != "number") {
+
+                //get all inverted blocks
+                var filtredInvertedBlocks = [];
+                var invertedBlocks = this.levelLogic.board.getInvertedBlocks();
+                for (var i in invertedBlocks) {
+                    //remove the already hinted from the list
+                    if (!this.boardSprite.getBlockById(invertedBlocks[i]).isHintEnabled())
+                        filtredInvertedBlocks.push(invertedBlocks[i]);
+                }
+
+                //if theres no inverted itens, return
+                if (filtredInvertedBlocks.length == 0) return;
+
+                //randomly select one from the list
+                var index = Math.floor(Math.random() * filtredInvertedBlocks.length);
+                blockId = filtredInvertedBlocks[index];
+            }
+
+            //enablehint for the selected block;
+            this.boardSprite.getBlockById(blockId).enableHint();
+            
+        }
+
+        private usesolve() {
+            this.win(0,0);
         }
 
         // Menus =====================================================================================================================
@@ -322,6 +333,9 @@ module InvertCross.GamePlay {
 
             super.activate(parameters);
             if (parameters) this.animatePuzzle(parameters);
+
+            //updates Items buttons labels Quantity on footer
+            this.gameplayMenu.updateItemsQuatity();
 
         }
     }

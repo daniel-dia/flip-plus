@@ -25,7 +25,7 @@ module InvertCross.GamePlay {
 
             this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-            this.menuOverlay.visible = false;
+            this.gameplayMenu.visible = false;
 
             this.updateSelectList();
 

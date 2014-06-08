@@ -13,6 +13,11 @@ module InvertCross.GamePlay {
         constructor(levelData: Projects.Level) {
             super(levelData);
 
+            this.gameplayMenu.addButtons(["time", "solve","hint"]);
+            this.gameplayMenu.addEventListener("time", () => { this.useItemTime(); });
+            this.gameplayMenu.addEventListener("solve", () => { this.useItemSolve(); });
+            this.gameplayMenu.addEventListener("hint", () => { this.useItemHint(); })
+                                                
             this.puzzlesToSolve = levelData.puzzlesToSolve;
             this.currentTime = levelData.time;
 
@@ -104,6 +109,16 @@ module InvertCross.GamePlay {
 
             this.levelLogic.board.initializePrizes(2);
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+        }
+
+        private useItemSolve() {
+            if (!this.useItem("solve")) return;
+            this.win(0,0);
+        }
+
+        private useItemTime() {
+            if (!this.useItem("time")) return;
+            this.currentTime += 10;
         }
 
         activate(parameters?: any) {
