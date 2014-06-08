@@ -125,16 +125,18 @@
         //generate cards itens to be randomized
         private generateCards(cardsCount: number, pairs: number, items: Array<string>): Array<string> {
             var cards = new Array<string>();
+            var items2:Array<string> = new Array<string>();
+            items2 = items2.concat(items);
 
             //set number of lives
             this.lives = cardsCount - pairs * 2;
 
             //add Cards Pairs
             for (var p = 0; p < pairs; p++) {
-                var itemIndex = Math.floor(Math.random() * items.length);
-                cards.push(items[itemIndex]);
-                cards.push(items[itemIndex]);
-                items.splice(itemIndex, 1);
+                var itemIndex = Math.floor(Math.random() * items2.length);
+                cards.push(items2[itemIndex]);
+                cards.push(items2[itemIndex]);
+                items2.splice(itemIndex, 1);
             }
 
             //Adds empty spaces
