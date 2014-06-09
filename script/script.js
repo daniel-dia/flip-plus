@@ -3761,11 +3761,8 @@ var InvertCross;
             BonusScreen.prototype.endBonus = function () {
                 //lock menu interaction
                 //this.menu.fadeOut();
-                var _this = this;
                 //back to the screen
-                setTimeout(function () {
-                    _this.back();
-                }, 2500);
+                this.back();
             };
             return BonusScreen;
         })(Gbase.ScreenState);
@@ -4037,6 +4034,7 @@ var InvertCross;
             };
 
             //===============================================================================
+            //handler when click cards
             Bonus2.prototype.cardClick = function (card) {
                 var _this = this;
                 card.open();
@@ -4071,10 +4069,10 @@ var InvertCross;
                     this.message.addEventListener("onclose", function () {
                         _this.endBonus();
                     });
-                    this.endBonus();
                 }
             };
 
+            //retuns all oppened cards
             Bonus2.prototype.getOpenedCards = function () {
                 var openedCards = new Array();
                 for (var c in this.cards) {
@@ -4168,7 +4166,8 @@ var InvertCross;
                 itemDO.y = 279 / 2;
                 itemDO.regX = itemDO.getBounds().width / 2;
                 itemDO.regY = itemDO.getBounds().height / 2;
-                itemDO.visible = false;
+
+                //itemDO.visible = false;
                 this.addChild(itemDO);
 
                 //add cover image
@@ -4177,6 +4176,7 @@ var InvertCross;
                 cover.y = 279 / 2;
                 cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
                 cover.name = "cover";
+                cover.alpha = 0.3;
                 this.addChild(cover);
 
                 //card.createHitArea();

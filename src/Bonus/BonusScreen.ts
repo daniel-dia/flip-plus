@@ -162,7 +162,7 @@
             //this.menu.fadeOut();
 
             //back to the screen
-            setTimeout(() => { this.back(); }, 2500);
+            this.back();
 
         }
     }

@@ -32,7 +32,6 @@
                 this.matchPair(newCard, openedCards[oc])
         }
 
-
         //verifies if two cards matches
         private matchPair(card1: Card, card2: Card): boolean {
             if (card1.name == card2.name && card1 != card2) {
@@ -50,6 +49,7 @@
 
         //===============================================================================
 
+        //handler when click cards
         private cardClick(card: Card) {
 
             card.open();
@@ -80,12 +80,12 @@
                 //ends the game
                 this.message.showtext(stringResources.b2_finish, 2000, 500);
                 this.message.addEventListener("onclose", () => { this.endBonus(); });
-                this.endBonus();
             }
 
 
         }
 
+        //retuns all oppened cards
         private getOpenedCards(): Array<Card> {
             var openedCards: Array<Card> = new Array<Card>();
             for (var c in this.cards) {
@@ -179,7 +179,7 @@
             itemDO.y = 279 / 2;
             itemDO.regX = itemDO.getBounds().width / 2;
             itemDO.regY = itemDO.getBounds().height / 2;
-            itemDO.visible = false;
+            //itemDO.visible = false;
             this.addChild(itemDO);
 
             //add cover image
@@ -188,6 +188,7 @@
             cover.y = 279 / 2;
             cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
             cover.name = "cover";
+            cover.alpha = 0.3;
             this.addChild(cover);
 
             //card.createHitArea();
