@@ -7085,8 +7085,12 @@ var InvertCross;
             function TitleScreen() {
                 _super.call(this);
 
+                var logo = new lib.LogoScreen();
+
                 //loads image
-                this.content.addChild(new lib.LogoScreen());
+                this.content.addChild(logo);
+
+                this.beach = logo["instance"]["instance_14"];
 
                 //creates hitArea
                 this.content.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, DefaultWidth, DefaultHeight));
@@ -7096,6 +7100,10 @@ var InvertCross;
                     InvertCross.InvertCrossaGame.showMainMenu();
                 });
             }
+            TitleScreen.prototype.redim = function (headerY, footerY, width) {
+                _super.prototype.redim.call(this, headerY, footerY, width);
+                this.beach.y = -headerY / 4 - 616 + 77 / 4;
+            };
             return TitleScreen;
         })(Gbase.ScreenState);
         Menu.TitleScreen = TitleScreen;
