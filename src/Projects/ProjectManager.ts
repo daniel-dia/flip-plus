@@ -28,7 +28,7 @@ module InvertCross.Projects {
             for (var p in this.projects)
                 for (var l in this.projects[p].levels) {
                     this.projects[p].levels[l].name = this.projects[p].name + "/" + this.projects[p].levels[l].name;
-                    this.projects[p].levels[l].project = this.projects[p];
+                    ///this.projects[p].levels[l].project = this.projects[p];
                 }
 
             //create a user data for each level/project
@@ -45,7 +45,13 @@ module InvertCross.Projects {
         //set current level
         public setCurrentLevel(level: Level) {
             this.currentLevel = level;
-            this.setCurrentProject(level.project);
+            for (var p in this.projects) {
+                if (this.projects[p].levels.indexOf(level) >= 0) {
+                    this.setCurrentProject(this.projects[p]);
+                    break;
+                }
+            }
+            
         }
 
         //skip a project

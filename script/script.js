@@ -631,6 +631,8 @@ var InvertCross;
 
         Game.redim = function (deviceWidth, deviceHeight, updateCSS) {
             if (typeof updateCSS === "undefined") { updateCSS = true; }
+            console.log("render at" + deviceWidth + "px");
+
             this.myCanvas.width = deviceWidth;
             this.myCanvas.height = deviceHeight;
 
@@ -1173,6 +1175,10 @@ var InvertCross;
             //set createJS Parameters
             createjs.DisplayObject.avoidBitmapHitAreaCalculation = true;
 
+            this.initializeGame();
+        };
+
+        InvertCrossaGame.initializeGame = function () {
             //userData
             this.userData = new InvertCross.UserData.ProjectsData();
             this.settings = new InvertCross.UserData.Settings();
@@ -1188,7 +1194,7 @@ var InvertCross;
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
 
             InvertCrossaGame.loadingScreen.loaded = function () {
-                if (document.URL.toUpperCase().indexOf("CREATOR") > 0) {
+                if (levelCreatorMode = true && !levelCreatorTestMode) {
                     InvertCrossaGame.screenViewer.switchScreen(new InvertCross.GamePlay.LevelCreator(null, window));
                 } else
                     InvertCrossaGame.showTitleScreen();
@@ -5665,7 +5671,7 @@ var InvertCross;
                 for (var p in this.projects)
                     for (var l in this.projects[p].levels) {
                         this.projects[p].levels[l].name = this.projects[p].name + "/" + this.projects[p].levels[l].name;
-                        this.projects[p].levels[l].project = this.projects[p];
+                        ///this.projects[p].levels[l].project = this.projects[p];
                     }
 
                 //create a user data for each level/project
@@ -5681,7 +5687,12 @@ var InvertCross;
             //set current level
             ProjectManager.prototype.setCurrentLevel = function (level) {
                 this.currentLevel = level;
-                this.setCurrentProject(level.project);
+                for (var p in this.projects) {
+                    if (this.projects[p].levels.indexOf(level) >= 0) {
+                        this.setCurrentProject(this.projects[p]);
+                        break;
+                    }
+                }
             };
 
             //skip a project
@@ -6455,130 +6466,269 @@ var InvertCross;
     })(InvertCross.Bonus || (InvertCross.Bonus = {}));
     var Bonus = InvertCross.Bonus;
 })(InvertCross || (InvertCross = {}));
+var levelsDataBackup;
+var levelCreatorMode;
+var levelCreatorTestMode;
+
 var InvertCross;
 (function (InvertCross) {
-    (function (Menu) {
-        (function (View) {
-            var BonusItem = (function (_super) {
-                __extends(BonusItem, _super);
-                function BonusItem(bonusId, action) {
-                    _super.call(this, "projects/bigslot1", action);
+    (function (GamePlay) {
+        var LevelCreator = (function (_super) {
+            __extends(LevelCreator, _super);
+            function LevelCreator(levelData, editorWindow, postback) {
+                var _this = this;
+                //backups levels
+                if (!levelsDataBackup)
+                    levelsDataBackup = levelData;
 
-                    this.bonusId = bonusId;
-                    this.y = 470;
-                    this.x = 768;
+                this.editWindow = editorWindow;
 
-                    this.regX = 1430 / 2;
-                    this.regY = 410 / 2;
-
-                    this.updateProjectInfo();
+                if (!postback) {
+                    window.onresize = function () {
+                    };
+                    InvertCross.InvertCrossaGame.redim(420, 600, false);
+                    if (levelData == null) {
+                        levelData = new InvertCross.Projects.Level();
+                        levelData.width = 5;
+                        levelData.height = 5;
+                        levelData.blocksData = [];
+                        levelData.theme = "green";
+                    }
+                    this.updateSelectList();
                 }
-                //createObjects
-                BonusItem.prototype.createObjects = function (bonusId) {
-                    var _this = this;
-                    var color = "#cfe3ec";
-                    var font = "Bold 100px " + defaultFont;
 
-                    //clean all objects
-                    this.removeAllChildren();
+                _super.call(this, levelData);
 
-                    //if unlocked
-                    var stars = InvertCross.InvertCrossaGame.projectManager.getStarsCount();
-                    if (stars >= bonusData[bonusId].cost) {
-                        //background
-                        var bg = "projects/" + bonusId;
-                        var s = Gbase.AssetsManager.getBitmap(bg);
-                        this.addChild(s);
+                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+                this.gameplayMenu.visible = false;
 
-                        //timer text
-                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
-                        this.timerText.textBaseline = "middle";
-                        this.timerText.textAlign = "center";
-                        this.timerText.x = 970;
-                        this.timerText.y = 180;
-                        this.addChild(this.timerText);
-
-                        //auto updateObject
-                        this.timerintervalTick();
-                        if (this.updateInterval)
-                            clearInterval(this.updateInterval);
-                        this.updateInterval = setInterval(function () {
-                            _this.timerintervalTick();
-                        }, 900);
-                    } else {
-                        //adds Background
-                        var bg = "projects/bigslot1";
-                        var s = Gbase.AssetsManager.getBitmap(bg);
-                        this.addChild(s);
-
-                        //adds lock indicator
-                        var star = Gbase.AssetsManager.getBitmap("projects/star");
-                        this.addChild(star);
-                        star.x = 670;
-                        star.y = 150;
-
-                        //addsText
-                        //TODO da onde vai tirar as estrelas?
-                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
-                        this.addChild(tx);
-                        tx.textAlign = "right";
-                        tx.x = 650;
-                        tx.y = 135;
-                    }
-
-                    //create hitArea
-                    this.createHitArea();
+                this.editWindow.document.getElementById("c_create").onclick = function () {
+                    levelData = _this.getLevelDataFromForm();
+                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(levelData, _this.editWindow));
                 };
 
-                //updates based on porject
-                BonusItem.prototype.updateProjectInfo = function () {
-                    //update the objects display
-                    this.createObjects(this.bonusId);
+                this.editWindow.document.getElementById("c_save").onclick = function () {
+                    var customData = _this.loadStored();
+                    var levelData = _this.getLevelDataFromForm();
+                    var projectId = _this.getProjectIndexFromForm();
+                    var levelId = _this.getLevelIndexFromForm();
+
+                    customData[projectId].levels[levelId] = levelData;
+                    _this.saveStored(customData);
+                    //this.updateSelectList();
                 };
 
-                BonusItem.prototype.timerintervalTick = function () {
-                    var time = InvertCross.InvertCrossaGame.timersData.getTimer(this.bonusId);
+                this.editWindow.document.getElementById("c_load").onclick = function () {
+                    var s = _this.loadStored();
 
-                    if (time == 0) {
-                        this.timerText.text = stringResources.mm_play;
+                    var selectedLevel = _this.editWindow.document.getElementById("c_select_level").value;
+                    var selectedProject = _this.editWindow.document.getElementById("c_select_project").value;
+                    var level = s[selectedProject].levels[selectedLevel];
 
-                        if (!createjs.Tween.hasActiveTweens(this.timerText)) {
-                            this.timerText.cache(-200, -50, 400, 100);
-                            this.timerText.set({ scaleX: 1, scaleY: 1 });
-                            createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
-                        }
-                    } else {
-                        createjs.Tween.removeTweens(this.timerText);
-                        this.timerText.text = this.toHHMMSS(time);
-                        this.timerText.scaleX = this.scaleY = 1;
-                        this.timerText.cache(-200, -50, 400, 100);
+                    if (level) {
+                        _this.setFormFromLevelData(level);
+                        InvertCross.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(level, _this.editWindow, true));
                     }
                 };
 
-                BonusItem.prototype.toHHMMSS = function (sec_num) {
-                    var hours = Math.floor(sec_num / 3600);
-                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+                this.editWindow.document.getElementById("c_delete").onclick = function () {
+                    var s = _this.loadStored();
 
-                    if (hours < 10) {
-                        hours = 0 + hours;
-                    }
-                    if (minutes < 10) {
-                        minutes = 0 + minutes;
-                    }
-                    if (seconds < 10) {
-                        seconds = 0 + seconds;
-                    }
-                    var time = hours + ':' + minutes + ':' + seconds;
-                    return time;
+                    var selected = _this.editWindow.document.getElementById("c_select_level").value;
+                    delete s[selected];
+
+                    _this.saveStored(s);
+
+                    _this.updateSelectList();
                 };
-                return BonusItem;
-            })(Gbase.UI.ImageButton);
-            View.BonusItem = BonusItem;
-        })(Menu.View || (Menu.View = {}));
-        var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
+
+                this.editWindow.document.getElementById("c_export").onclick = function () {
+                    var exp = _this.loadStored();
+
+                    if (exp) {
+                        _this.editWindow.document.getElementById("c_exported").value = JSON.stringify(exp);
+                    }
+                };
+
+                this.editWindow.document.getElementById("c_select_project").onchange = function () {
+                    var value = _this.editWindow.document.getElementById("c_select_project").value;
+                    _this.selecteProject(parseInt(value));
+                };
+
+                this.editWindow.document.getElementById("c_select_level").ondblclick = function () {
+                    _this.editWindow.document.getElementById("c_load").onclick(null);
+                };
+
+                this.editWindow.document.getElementById("c_import").onclick = function () {
+                    var exp = _this.editWindow.document.getElementById("c_exported").value;
+                    localStorage.setItem(LevelCreator.key, exp);
+                    _this.updateSelectList();
+                };
+
+                this.editWindow.document.getElementById("c_test").onclick = function () {
+                    levelCreatorTestMode = !levelCreatorTestMode;
+
+                    levelsData = _this.loadStored();
+                    for (var p in levelsData) {
+                        levelsData[p].cost = 0;
+                    }
+                    InvertCross.InvertCrossaGame.initializeGame();
+                    //window.onresize = () => { };
+                    //console.log("ctest")
+                    //InvertCross.InvertCrossaGame.redim(420, 600, false);
+                };
+            }
+            LevelCreator.prototype.loadStored = function () {
+                var s = localStorage.getItem(LevelCreator.key);
+                if (!s)
+                    return levelsData;
+                else
+                    return JSON.parse(s);
+            };
+
+            LevelCreator.prototype.saveStored = function (value) {
+                localStorage.setItem(LevelCreator.key, JSON.stringify(value));
+            };
+
+            LevelCreator.prototype.updateSelectList = function () {
+                var s = this.loadStored();
+
+                this.editWindow.document.getElementById("c_select_project").options.length = 0;
+                this.editWindow.document.getElementById("c_select_level").options.length = 0;
+
+                for (var i in s) {
+                    var option = this.editWindow.document.createElement("option");
+                    option.text = s[i].name;
+                    option.value = i;
+                    this.editWindow.document.getElementById("c_select_project").add(option);
+                }
+            };
+
+            LevelCreator.prototype.selecteProject = function (projectIndex) {
+                var s = this.loadStored();
+
+                this.editWindow.document.getElementById("c_select_level").options.length = 0;
+
+                var project = s[projectIndex];
+                for (var l in project.levels) {
+                    var option = this.editWindow.document.createElement("option");
+                    option.text = "Bot" + (projectIndex + 1) + " Level " + (parseInt(l) + 1) + "  " + project.levels[l].type;
+                    option.value = l;
+                    this.editWindow.document.getElementById("c_select_level").add(option);
+                }
+            };
+
+            LevelCreator.prototype.getProjectIndexFromForm = function () {
+                var selected = parseInt(this.editWindow.document.getElementById("c_select_project").value);
+                return selected;
+            };
+
+            LevelCreator.prototype.getLevelIndexFromForm = function () {
+                var selected = parseInt(this.editWindow.document.getElementById("c_select_level").value);
+                return selected;
+            };
+
+            LevelCreator.prototype.getLevelDataFromForm = function () {
+                var levelData = new InvertCross.Projects.Level();
+
+                //levelData.name= (<HTMLInputElement> this.editWindow.document.getElementById("c_name")).value;
+                levelData.width = parseInt(this.editWindow.document.getElementById("c_width").value);
+                levelData.height = parseInt(this.editWindow.document.getElementById("c_height").value);
+                levelData.type = this.editWindow.document.getElementById("c_type").value;
+                levelData.theme = this.editWindow.document.getElementById("c_theme").value;
+
+                levelData.moves = parseInt(this.editWindow.document.getElementById("c_flips").value);
+                levelData.time = parseInt(this.editWindow.document.getElementById("c_time").value);
+                levelData.puzzlesToSolve = parseInt(this.editWindow.document.getElementById("c_p_solve").value);
+
+                levelData.randomMaxMoves = parseInt(this.editWindow.document.getElementById("c_r_max").value);
+                levelData.randomMinMoves = parseInt(this.editWindow.document.getElementById("c_r_min").value);
+
+                levelData.drawData = this.levelData.drawData;
+                levelData.mirroredBlocks = this.levelData.mirroredBlocks;
+                levelData.hiddenBlocks = this.levelData.hiddenBlocks;
+
+                if (this.editWindow.document.getElementById("c_blocks").value)
+                    levelData.blocksData = JSON.parse(this.editWindow.document.getElementById("c_blocks").value);
+
+                return levelData;
+            };
+
+            LevelCreator.prototype.setFormFromLevelData = function (levelData) {
+                //if (levelData.name) (<HTMLInputElement> this.editWindow.document.getElementById("c_name")).value = levelData.name;
+                if (levelData.width)
+                    this.editWindow.document.getElementById("c_width").value = levelData.width.toString();
+                if (levelData.height)
+                    this.editWindow.document.getElementById("c_height").value = levelData.height.toString();
+                if (levelData.type)
+                    this.editWindow.document.getElementById("c_type").value = levelData.type;
+                if (levelData.theme)
+                    this.editWindow.document.getElementById("c_theme").value = levelData.theme;
+
+                if (levelData.moves)
+                    this.editWindow.document.getElementById("c_flips").value = levelData.moves.toString();
+                if (levelData.time)
+                    this.editWindow.document.getElementById("c_time").value = levelData.time.toString();
+                if (levelData.puzzlesToSolve)
+                    this.editWindow.document.getElementById("c_p_solve").value = levelData.puzzlesToSolve.toString();
+
+                if (levelData.randomMaxMoves)
+                    this.editWindow.document.getElementById("c_r_max").value = levelData.randomMaxMoves.toString();
+                if (levelData.randomMinMoves)
+                    this.editWindow.document.getElementById("c_r_min").value = levelData.randomMinMoves.toString();
+
+                if (levelData.blocksData)
+                    this.editWindow.document.getElementById("c_blocks").value = JSON.stringify(levelData.blocksData);
+            };
+
+            //threat user input
+            LevelCreator.prototype.userInput = function (col, row) {
+                var id = row + col * this.levelData.height;
+
+                if (document.getElementById("c_drawing").checked) {
+                    if (!this.levelData.drawData)
+                        this.levelData.drawData = [];
+                    this.toogleItemInArray(this.levelData.drawData, id);
+
+                    this.levelLogic.board.setDrawBlocks(this.levelData.drawData);
+                } else if (document.getElementById("c_mirrowing").checked) {
+                    this.levelLogic.board.blocks[col][row].mirror = !this.levelLogic.board.blocks[col][row].mirror;
+                    if (!this.levelData.mirroredBlocks)
+                        this.levelData.mirroredBlocks = [];
+                    this.toogleItemInArray(this.levelData.mirroredBlocks, id);
+                } else if (document.getElementById("c_hidding").checked) {
+                    this.levelLogic.board.blocks[col][row].hidden = !this.levelLogic.board.blocks[col][row].hidden;
+                    if (!this.levelData.hiddenBlocks)
+                        this.levelData.hiddenBlocks = [];
+                    this.toogleItemInArray(this.levelData.hiddenBlocks, id);
+                } else {
+                    //invert a cross
+                    this.levelLogic.invertCross(col, row);
+                }
+
+                //update sprites
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+
+                this.editWindow.document.getElementById("c_blocks").value = JSON.stringify(this.levelLogic.board.getInvertedBlocks());
+            };
+
+            LevelCreator.prototype.toogleItemInArray = function (array, item) {
+                var index = array.indexOf(item);
+                if (index >= 0)
+                    array.splice(index, 1);
+                else
+                    array.push(item);
+            };
+
+            LevelCreator.prototype.win = function (col, row) {
+            };
+            LevelCreator.key = "customProjects";
+            return LevelCreator;
+        })(GamePlay.Puzzle);
+        GamePlay.LevelCreator = LevelCreator;
+    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
+    var GamePlay = InvertCross.GamePlay;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
@@ -6706,218 +6856,6 @@ var InvertCross;
             return Moves;
         })(GamePlay.LevelScreen);
         GamePlay.Moves = Moves;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (GamePlay) {
-        var LevelCreator = (function (_super) {
-            __extends(LevelCreator, _super);
-            function LevelCreator(levelData, editorWindow) {
-                var _this = this;
-                this.editWindow = editorWindow;
-                window.onresize = function () {
-                };
-                InvertCross.InvertCrossaGame.redim(420, 600, false);
-                InvertCross.InvertCrossaGame.redim = function (n) {
-                };
-                if (levelData == null) {
-                    levelData = new InvertCross.Projects.Level();
-                    levelData.width = 5;
-                    levelData.height = 5;
-                    levelData.blocksData = [];
-                    levelData.theme = "green";
-                }
-
-                _super.call(this, levelData);
-
-                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-                this.gameplayMenu.visible = false;
-
-                this.updateSelectList();
-
-                this.editWindow.document.getElementById("c_create").onclick = function () {
-                    levelData = _this.getLevelDataFromForm();
-                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(levelData, _this.editWindow));
-                };
-
-                this.editWindow.document.getElementById("c_save").onclick = function () {
-                    var customData = _this.loadStored();
-                    var levelData = _this.getLevelDataFromForm();
-
-                    customData[levelData.name] = levelData;
-                    _this.saveStored(customData);
-
-                    _this.updateSelectList();
-                };
-
-                this.editWindow.document.getElementById("c_load").onclick = function () {
-                    var s = _this.loadStored();
-
-                    var selected = _this.editWindow.document.getElementById("c_select_level").value;
-                    var level = s[selected];
-
-                    if (level) {
-                        _this.setFormFromLevelData(level);
-                        InvertCross.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(level, _this.editWindow));
-                    }
-                };
-
-                this.editWindow.document.getElementById("c_delete").onclick = function () {
-                    var s = _this.loadStored();
-
-                    var selected = _this.editWindow.document.getElementById("c_select_level").value;
-                    delete s[selected];
-
-                    _this.saveStored(s);
-
-                    _this.updateSelectList();
-                };
-
-                this.editWindow.document.getElementById("c_export").onclick = function () {
-                    var levelsArray = [];
-
-                    var exp = localStorage.getItem(LevelCreator.key);
-
-                    if (exp) {
-                        var levels = JSON.parse(exp);
-                        for (var l in levels)
-                            levelsArray.push(levels[l]);
-
-                        _this.editWindow.document.getElementById("c_exported").value = JSON.stringify(levelsArray);
-                    }
-                };
-
-                this.editWindow.document.getElementById("c_import").onclick = function () {
-                    var exp = _this.editWindow.document.getElementById("c_exported").value;
-                    localStorage.setItem(LevelCreator.key, exp);
-                    _this.updateSelectList();
-                };
-            }
-            LevelCreator.prototype.loadStored = function () {
-                var s = localStorage.getItem(LevelCreator.key);
-                if (!s)
-                    return {};
-                else
-                    return JSON.parse(s);
-            };
-
-            LevelCreator.prototype.saveStored = function (value) {
-                localStorage.setItem(LevelCreator.key, JSON.stringify(value));
-            };
-
-            LevelCreator.prototype.updateSelectList = function () {
-                var s = this.loadStored();
-                this.editWindow.document.getElementById("c_select_level").options.length = 0;
-                for (var i in s) {
-                    var option = this.editWindow.document.createElement("option");
-                    option.text = i;
-                    this.editWindow.document.getElementById("c_select_level").add(option);
-                }
-            };
-
-            LevelCreator.prototype.getLevelDataFromForm = function () {
-                var levelData = new InvertCross.Projects.Level();
-
-                levelData.name = this.editWindow.document.getElementById("c_name").value;
-
-                levelData.width = parseInt(this.editWindow.document.getElementById("c_width").value);
-                levelData.height = parseInt(this.editWindow.document.getElementById("c_height").value);
-                levelData.type = this.editWindow.document.getElementById("c_type").value;
-                levelData.theme = this.editWindow.document.getElementById("c_theme").value;
-
-                levelData.moves = parseInt(this.editWindow.document.getElementById("c_flips").value);
-                levelData.time = parseInt(this.editWindow.document.getElementById("c_time").value);
-                levelData.puzzlesToSolve = parseInt(this.editWindow.document.getElementById("c_p_solve").value);
-
-                levelData.randomMaxMoves = parseInt(this.editWindow.document.getElementById("c_r_max").value);
-                levelData.randomMinMoves = parseInt(this.editWindow.document.getElementById("c_r_min").value);
-
-                levelData.drawData = this.levelData.drawData;
-                levelData.mirroredBlocks = this.levelData.mirroredBlocks;
-                levelData.hiddenBlocks = this.levelData.hiddenBlocks;
-
-                if (this.editWindow.document.getElementById("c_blocks").value)
-                    levelData.blocksData = JSON.parse(this.editWindow.document.getElementById("c_blocks").value);
-
-                return levelData;
-            };
-
-            LevelCreator.prototype.setFormFromLevelData = function (levelData) {
-                if (levelData.name)
-                    this.editWindow.document.getElementById("c_name").value = levelData.name;
-                if (levelData.width)
-                    this.editWindow.document.getElementById("c_width").value = levelData.width.toString();
-                if (levelData.height)
-                    this.editWindow.document.getElementById("c_height").value = levelData.height.toString();
-                if (levelData.type)
-                    this.editWindow.document.getElementById("c_type").value = levelData.type;
-                if (levelData.theme)
-                    this.editWindow.document.getElementById("c_theme").value = levelData.theme;
-
-                if (levelData.moves)
-                    this.editWindow.document.getElementById("c_flips").value = levelData.moves.toString();
-                if (levelData.time)
-                    this.editWindow.document.getElementById("c_time").value = levelData.time.toString();
-                if (levelData.puzzlesToSolve)
-                    this.editWindow.document.getElementById("c_p_solve").value = levelData.puzzlesToSolve.toString();
-
-                if (levelData.randomMaxMoves)
-                    this.editWindow.document.getElementById("c_r_max").value = levelData.randomMaxMoves.toString();
-                if (levelData.randomMinMoves)
-                    this.editWindow.document.getElementById("c_r_min").value = levelData.randomMinMoves.toString();
-
-                if (levelData.blocksData)
-                    this.editWindow.document.getElementById("c_blocks").value = JSON.stringify(levelData.blocksData);
-            };
-
-            //threat user input
-            LevelCreator.prototype.userInput = function (col, row) {
-                var id = row + col * this.levelData.height;
-
-                if (document.getElementById("c_drawing").checked) {
-                    if (!this.levelData.drawData)
-                        this.levelData.drawData = [];
-                    this.toogleItemInArray(this.levelData.drawData, id);
-
-                    this.levelLogic.board.setDrawBlocks(this.levelData.drawData);
-                } else if (document.getElementById("c_mirrowing").checked) {
-                    this.levelLogic.board.blocks[col][row].mirror = !this.levelLogic.board.blocks[col][row].mirror;
-                    if (!this.levelData.mirroredBlocks)
-                        this.levelData.mirroredBlocks = [];
-                    this.toogleItemInArray(this.levelData.mirroredBlocks, id);
-                } else if (document.getElementById("c_hidding").checked) {
-                    this.levelLogic.board.blocks[col][row].hidden = !this.levelLogic.board.blocks[col][row].hidden;
-                    if (!this.levelData.hiddenBlocks)
-                        this.levelData.hiddenBlocks = [];
-                    this.toogleItemInArray(this.levelData.hiddenBlocks, id);
-                } else {
-                    //invert a cross
-                    this.levelLogic.invertCross(col, row);
-                }
-
-                //update sprites
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-
-                this.editWindow.document.getElementById("c_blocks").value = JSON.stringify(this.levelLogic.board.getInvertedBlocks());
-            };
-
-            LevelCreator.prototype.toogleItemInArray = function (array, item) {
-                var index = array.indexOf(item);
-                if (index >= 0)
-                    array.splice(index, 1);
-                else
-                    array.push(item);
-            };
-
-            LevelCreator.prototype.win = function (col, row) {
-            };
-            LevelCreator.key = "customPuzzles";
-            return LevelCreator;
-        })(GamePlay.Puzzle);
-        GamePlay.LevelCreator = LevelCreator;
     })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
     var GamePlay = InvertCross.GamePlay;
 })(InvertCross || (InvertCross = {}));
@@ -7107,6 +7045,131 @@ var InvertCross;
             return TitleScreen;
         })(Gbase.ScreenState);
         Menu.TitleScreen = TitleScreen;
+    })(InvertCross.Menu || (InvertCross.Menu = {}));
+    var Menu = InvertCross.Menu;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (Menu) {
+        (function (View) {
+            var BonusItem = (function (_super) {
+                __extends(BonusItem, _super);
+                function BonusItem(bonusId, action) {
+                    _super.call(this, "projects/bigslot1", action);
+
+                    this.bonusId = bonusId;
+                    this.y = 470;
+                    this.x = 768;
+
+                    this.regX = 1430 / 2;
+                    this.regY = 410 / 2;
+
+                    this.updateProjectInfo();
+                }
+                //createObjects
+                BonusItem.prototype.createObjects = function (bonusId) {
+                    var _this = this;
+                    var color = "#cfe3ec";
+                    var font = "Bold 100px " + defaultFont;
+
+                    //clean all objects
+                    this.removeAllChildren();
+
+                    //if unlocked
+                    var stars = InvertCross.InvertCrossaGame.projectManager.getStarsCount();
+                    if (stars >= bonusData[bonusId].cost) {
+                        //background
+                        var bg = "projects/" + bonusId;
+                        var s = Gbase.AssetsManager.getBitmap(bg);
+                        this.addChild(s);
+
+                        //timer text
+                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
+                        this.timerText.textBaseline = "middle";
+                        this.timerText.textAlign = "center";
+                        this.timerText.x = 970;
+                        this.timerText.y = 180;
+                        this.addChild(this.timerText);
+
+                        //auto updateObject
+                        this.timerintervalTick();
+                        if (this.updateInterval)
+                            clearInterval(this.updateInterval);
+                        this.updateInterval = setInterval(function () {
+                            _this.timerintervalTick();
+                        }, 900);
+                    } else {
+                        //adds Background
+                        var bg = "projects/bigslot1";
+                        var s = Gbase.AssetsManager.getBitmap(bg);
+                        this.addChild(s);
+
+                        //adds lock indicator
+                        var star = Gbase.AssetsManager.getBitmap("projects/star");
+                        this.addChild(star);
+                        star.x = 670;
+                        star.y = 150;
+
+                        //addsText
+                        //TODO da onde vai tirar as estrelas?
+                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
+                        this.addChild(tx);
+                        tx.textAlign = "right";
+                        tx.x = 650;
+                        tx.y = 135;
+                    }
+
+                    //create hitArea
+                    this.createHitArea();
+                };
+
+                //updates based on porject
+                BonusItem.prototype.updateProjectInfo = function () {
+                    //update the objects display
+                    this.createObjects(this.bonusId);
+                };
+
+                BonusItem.prototype.timerintervalTick = function () {
+                    var time = InvertCross.InvertCrossaGame.timersData.getTimer(this.bonusId);
+
+                    if (time == 0) {
+                        this.timerText.text = stringResources.mm_play;
+
+                        if (!createjs.Tween.hasActiveTweens(this.timerText)) {
+                            this.timerText.cache(-200, -50, 400, 100);
+                            this.timerText.set({ scaleX: 1, scaleY: 1 });
+                            createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
+                        }
+                    } else {
+                        createjs.Tween.removeTweens(this.timerText);
+                        this.timerText.text = this.toHHMMSS(time);
+                        this.timerText.scaleX = this.scaleY = 1;
+                        this.timerText.cache(-200, -50, 400, 100);
+                    }
+                };
+
+                BonusItem.prototype.toHHMMSS = function (sec_num) {
+                    var hours = Math.floor(sec_num / 3600);
+                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+                    if (hours < 10) {
+                        hours = 0 + hours;
+                    }
+                    if (minutes < 10) {
+                        minutes = 0 + minutes;
+                    }
+                    if (seconds < 10) {
+                        seconds = 0 + seconds;
+                    }
+                    var time = hours + ':' + minutes + ':' + seconds;
+                    return time;
+                };
+                return BonusItem;
+            })(Gbase.UI.ImageButton);
+            View.BonusItem = BonusItem;
+        })(Menu.View || (Menu.View = {}));
+        var View = Menu.View;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
 })(InvertCross || (InvertCross = {}));
@@ -7739,43 +7802,50 @@ var InvertCross;
                 }
                 //create graphics
                 RobotPreview.prototype.createGraphics = function (project) {
-                    var size = 1000;
-                    this.fill = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
-                    this.stroke = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
-                    this.complete = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name));
+                    try  {
+                        var size = 1000;
+                        this.fill = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
+                        this.stroke = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
+                        this.complete = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name));
 
-                    this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
-                    this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
+                        this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
+                        this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
 
-                    this.complete.regX = this.fill.regX - 50;
-                    this.complete.regY = this.fill.regY - 50;
+                        this.complete.regX = this.fill.regX - 50;
+                        this.complete.regY = this.fill.regY - 50;
 
-                    this.addChild(this.fill);
-                    this.addChild(this.stroke);
-                    this.addChild(this.complete);
+                        this.addChild(this.fill);
+                        this.addChild(this.stroke);
+                        this.addChild(this.complete);
 
-                    this.complete.visible = false;
+                        this.complete.visible = false;
 
-                    //mask
-                    this.percentMask = new createjs.Shape();
-                    this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, -this.fill.getBounds().height).endFill();
-                    this.percentMask.scaleY = 0;
-                    this.percentMask.y = 50;
-                    this.fill.mask = this.percentMask;
+                        //mask
+                        this.percentMask = new createjs.Shape();
+                        this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, -this.fill.getBounds().height).endFill();
+                        this.percentMask.scaleY = 0;
+                        this.percentMask.y = 50;
+                        this.fill.mask = this.percentMask;
+                    } catch (e) {
+                    }
                 };
 
                 //update percentage
                 RobotPreview.prototype.update = function (complete) {
                     if (typeof complete === "undefined") { complete = false; }
-                    if (!complete)
-                        if (this.project.UserData.complete) {
-                            this.fill.visible = false;
-                            this.stroke.visible = false;
-                            this.complete.visible = true;
-                        } else
-                            this.percentMask.scaleY = this.project.UserData.percent;
-                    else
-                        this.animateLevelComplete();
+                    try  {
+                        if (!complete)
+                            if (this.project.UserData.complete) {
+                                this.fill.visible = false;
+                                this.stroke.visible = false;
+                                this.complete.visible = true;
+                            } else
+                                this.percentMask.scaleY = this.project.UserData.percent;
+                        else
+                            this.animateLevelComplete();
+                    } catch (e) {
+                    }
+                    ;
                 };
 
                 //animate

@@ -1,4 +1,5 @@
 declare var levelsData; 
+
 declare function getAssetsManifest(assetscale:number):Array<any>;
 //declare var spriteSheets;
 
@@ -40,7 +41,12 @@ module InvertCross {
 
             //set createJS Parameters
             createjs.DisplayObject.avoidBitmapHitAreaCalculation = true
-                       
+
+            this.initializeGame();
+        }
+
+        public static initializeGame() {
+
             //userData
             this.userData = new UserData.ProjectsData();
             this.settings = new UserData.Settings();
@@ -56,7 +62,8 @@ module InvertCross {
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
 
             InvertCrossaGame.loadingScreen.loaded = () => {
-                if (document.URL.toUpperCase().indexOf("CREATOR") > 0) {
+
+                if (levelCreatorMode = true && !levelCreatorTestMode) {
                     InvertCrossaGame.screenViewer.switchScreen(new GamePlay.LevelCreator(null, window));
                 }
                 else

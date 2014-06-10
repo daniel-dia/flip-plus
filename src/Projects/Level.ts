@@ -60,7 +60,7 @@ module InvertCross.Projects {
 
         // ================ reference ============================================
         // reference to the level project
-        public project: Project;
+        //public project: Project;
 
     }
 

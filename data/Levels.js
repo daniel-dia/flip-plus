@@ -72,19 +72,27 @@ var levelsData = [
         ]
     },
 
-    { name: "Bot06", cost: 15, nickName: "K-R8Y", free: true, levels: [] },
-    { name: "Bot07", cost: 15, nickName: "ME64-x", free: true, levels: [] },
-    { name: "Bot08", cost: 15, nickName: "K0N-6", free: true, levels: [] },
-    { name: "Bot09", cost: 15, nickName: "B-GH", free: true, levels: [] },
-    { name: "Bot10", cost: 15, nickName: "BJ-KZ", free: true, levels: [] },
-    { name: "Bot11", cost: 15, nickName: "BMS-M", free: true, levels: [] },
-    { name: "Bot12", cost: 15, nickName: "S-H06", free: true, levels: [] },
-    { name: "Bot13", cost: 15, nickName: "D-D1", free: true, levels: [] },
-    { name: "Bot14", cost: 15, nickName: "R-GH", free: true, levels: [] },
-    { name: "Bot15", cost: 15, nickName: "P4C-M", free: true, levels: [] },
-    { name: "Bot16", cost: 15, nickName: "G-GH", free: true, levels: [] },
-    { name: "Bot17", cost: 15, nickName: "T-BLK", free: true, levels: [] },
-    { name: "Bot18", cost: 15, nickName: "Y0S-1", free: true, levels: [] },
+    { 
+	name: "Bot06", cost: 00, nickName: "K-R8Y", free: true, levels: [
+		{"name":"6.1","width":6,"height":7,"type":"puzzle","theme":"green","moves":null,"time":null,"puzzlesToSolve":null,"randomMaxMoves":null,"randomMinMoves":null,"blocksData":[0,1,7,19,37,14,21,4,28,40]},
+		{"name":"6.2","width":6,"height":6,"type":"puzzle","theme":"green","moves":null,"time":null,"puzzlesToSolve":null,"randomMaxMoves":null,"randomMinMoves":null,"blocksData":[0,24,30,1,7,25,31,14,20,15,21,10,28,34,5,11,35]},
+		{"name":"6.3","width":4,"height":4,"type":"puzzle","theme":"green","moves":5,"time":null,"puzzlesToSolve":5,"randomMaxMoves":2,"randomMinMoves":2,"blocksData":[]},
+		{}, {}, {}, {}, {}, {}, {}
+		
+	]},
+
+    { name: "Bot07", cost: 15, nickName: "ME64-x", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot08", cost: 15, nickName: "K0N-6", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot09", cost: 15, nickName: "B-GH", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot10", cost: 15, nickName: "BJ-KZ", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot11", cost: 15, nickName: "BMS-M", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot12", cost: 15, nickName: "S-H06", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot13", cost: 15, nickName: "D-D1", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot14", cost: 15, nickName: "R-GH", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot15", cost: 15, nickName: "P4C-M", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot16", cost: 15, nickName: "G-GH", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot17", cost: 15, nickName: "T-BLK", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot18", cost: 15, nickName: "Y0S-1", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
 ]
 
 

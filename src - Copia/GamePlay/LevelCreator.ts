@@ -1,45 +1,33 @@
-var levelsDataBackup;
-var levelCreatorMode;
-var levelCreatorTestMode;
-
 module InvertCross.GamePlay {
     export class LevelCreator extends Puzzle {
 
-        private stateDraw;
-        private levelsBackup;
+        private stateDraw
 
         private editWindow: Window;
-        private static key = "customProjects";
+        private static key = "customPuzzles";
 
-        constructor(levelData: Projects.Level, editorWindow: Window,postback?:boolean) {
+        constructor(levelData: Projects.Level, editorWindow: Window) {
 
-
-            //backups levels
-            if (!levelsDataBackup) levelsDataBackup = levelData;
-            
             this.editWindow = editorWindow;
-
-            if (!postback) {
-                
-                window.onresize = () => { };
-                InvertCrossaGame.redim(420, 600, false);
-                if (levelData == null) {
-                    levelData = new Projects.Level();
-                    levelData.width = 5;
-                    levelData.height = 5;
-                    levelData.blocksData = [];
-                    levelData.theme = "green"
-                }
-                this.updateSelectList();
+            window.onresize = () => { };
+            InvertCrossaGame.redim(420,600,false);
+            InvertCrossaGame.redim = (n) => { };
+            if (levelData == null) {
+                levelData = new Projects.Level();
+                levelData.width = 5;
+                levelData.height = 5;
+                levelData.blocksData = [];
+                levelData.theme = "green"
             }
 
             super(levelData);
+
 
             this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             this.gameplayMenu.visible = false;
 
-            
+            this.updateSelectList();
 
             this.editWindow.document.getElementById("c_create").onclick = () => {
                 levelData = this.getLevelDataFromForm();
@@ -50,25 +38,22 @@ module InvertCross.GamePlay {
             this.editWindow.document.getElementById("c_save").onclick = () => {
                 var customData = this.loadStored();
                 var levelData = this.getLevelDataFromForm();
-                var projectId = this.getProjectIndexFromForm();
-                var levelId = this.getLevelIndexFromForm();
 
-                customData[projectId].levels[levelId ] = levelData;
+                customData[levelData.name] = levelData;
                 this.saveStored(customData)
 
-                //this.updateSelectList();
+                this.updateSelectList();
             }
 
             this.editWindow.document.getElementById("c_load").onclick = () => {
                 var s = this.loadStored();
 
-                var selectedLevel = (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).value;
-                var selectedProject = (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_project")).value;
-                var level = s[selectedProject].levels[selectedLevel];
+                var selected = (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).value;
+                var level = s[selected];
 
                 if (level) {
                     this.setFormFromLevelData(level);
-                    InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(level, this.editWindow,true));
+                    InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(level, this.editWindow));
                 }
 
             }
@@ -85,21 +70,20 @@ module InvertCross.GamePlay {
             }
 
             this.editWindow.document.getElementById("c_export").onclick = () => {
-                var exp = this.loadStored();
-                
+
+                var levelsArray = [];
+
+                var exp = localStorage.getItem(LevelCreator.key);
+
                 if (exp) {
-                   
-                    (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value = JSON.stringify(exp);
+                    var levels = JSON.parse(exp);
+                    for (var l in levels) 
+                        levelsArray.push(levels[l]);
+                    
+                    (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value = JSON.stringify(levelsArray);
+
                 }
-            }
 
-            this.editWindow.document.getElementById("c_select_project").onchange= () => {
-                var value = (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_project")).value;
-                this.selecteProject(parseInt(value));
-            }
-
-            this.editWindow.document.getElementById("c_select_level").ondblclick= () => {
-                this.editWindow.document.getElementById("c_load").onclick(null);
             }
 
             this.editWindow.document.getElementById("c_import").onclick = () => {
@@ -107,25 +91,12 @@ module InvertCross.GamePlay {
                 localStorage.setItem(LevelCreator.key, exp);
                 this.updateSelectList();
             }
-
-            this.editWindow.document.getElementById("c_test").onclick = () => {
-                levelCreatorTestMode = !levelCreatorTestMode;
-
-                levelsData = this.loadStored();
-                for (var p in levelsData) {
-                    levelsData[p].cost = 0;
-                }
-                InvertCross.InvertCrossaGame.initializeGame();
-                //window.onresize = () => { };
-                //console.log("ctest")
-                //InvertCross.InvertCrossaGame.redim(420, 600, false);
-            }
         }
 
         private loadStored(): any {
             var s = localStorage.getItem(LevelCreator.key);
             if (!s) 
-                return levelsData;
+                return {}
             else
                 return JSON.parse(s);
         }
@@ -136,46 +107,18 @@ module InvertCross.GamePlay {
 
         private updateSelectList() {
             var s = this.loadStored();
-
-            (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_project")).options.length = 0;
             (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).options.length = 0;
-
             for (var i in s) {
                 var option = this.editWindow.document.createElement("option");
-                option.text = s[i].name;
-                option.value = i;
-                (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_project")).add(option);
-            }
-        }
-
-        private selecteProject(projectIndex:number) {
-            var s = this.loadStored();
-
-             (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).options.length = 0;
-
-            var project: Projects.Project = s[projectIndex];
-            for (var l in project.levels) {
-                var option = this.editWindow.document.createElement("option");
-                option.text = "Bot" + (projectIndex + 1) + " Level " + (parseInt(l) + 1) + "  " + project.levels[l].type;
-                option.value = l;
+                option.text = i;
                 (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).add(option);
             }
-        }
-
-        private getProjectIndexFromForm(): number {
-            var selected = parseInt((<HTMLSelectElement>this.editWindow.document.getElementById("c_select_project")).value);
-            return selected;
-        }
-
-        private getLevelIndexFromForm(): number {
-            var selected = parseInt((<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).value);
-            return selected;
         }
 
         private getLevelDataFromForm(): Projects.Level {
             var levelData = new Projects.Level();
 
-            //levelData.name= (<HTMLInputElement> this.editWindow.document.getElementById("c_name")).value;
+            levelData.name= (<HTMLInputElement> this.editWindow.document.getElementById("c_name")).value;
 
 
             levelData.width = parseInt((<HTMLInputElement> this.editWindow.document.getElementById("c_width")).value);
@@ -202,7 +145,7 @@ module InvertCross.GamePlay {
 
         private setFormFromLevelData(levelData: Projects.Level) {
 
-            //if (levelData.name) (<HTMLInputElement> this.editWindow.document.getElementById("c_name")).value = levelData.name;
+            if (levelData.name) (<HTMLInputElement> this.editWindow.document.getElementById("c_name")).value = levelData.name;
             if (levelData.width) (<HTMLInputElement> this.editWindow.document.getElementById("c_width")).value = levelData.width.toString();
             if (levelData.height) (<HTMLInputElement>this.editWindow.document.getElementById("c_height")).value = levelData.height.toString();
             if (levelData.type) (<HTMLInputElement>this.editWindow.document.getElementById("c_type")).value = levelData.type;

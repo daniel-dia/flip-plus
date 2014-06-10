@@ -5,7 +5,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="user-scalable=no" />
     <title>Flip +</title>
-
+    <script>
+        var levelCreatorMode = true;
+        var levelCreatorTestMode = false;
+        var levelsBackup = false;
+    </script>
     <!-- Libs =================================================================================-->
     <script src="script/createjs-2013.12.12.min.js"></script>
     <script src="script/movieclip-0.6.1.min.js"></script>
@@ -40,141 +44,128 @@
     <!-- style -->
     <link href="style/main.css" rel="stylesheet" />
 
+    <style type="text/css">
+        .textSpan {
+            width: 104px;
+            display: inline-block;
+        }
+
+        div.pannel {
+            float: left; 
+            margin: 10px;
+            padding: 20px;
+            background-color: #222;
+        }
+        h2{
+            margin-top:0px;
+        }
+    </style>
+
 </head>
 <body>
-    <h1>Level Editor</h1>
-    <table>
-        <tr>
-            <td>
-                <canvas id="myCanvas" screencanvas="true" style="width: 320px"></canvas>
-            </td>
-            <td class="auto-style1">
+    <h1>Flip +  Level Editor</h1>
 
-                <table>
-                    <tr>
-                        <td class="auto-style3" colspan="4">
-                            <h2>Level</h2>
-                        </td>
-                        <td rowspan="10"></td>
-                        <td class="auto-style3">
-                            <h2>Storage</h2>
-                        </td>
-                        <td rowspan="10"></td>
-                        <td class="auto-style3">
-                            <h2>Export</h2>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="small">Name </td>
-                        <td class="small">
-                            <input class="small" id="c_name" />
-                        </td>
-                        <td class="small">
-                            <input class="small" id="c_r_min1" style="visibility: hidden" />
-                        </td>
-                        <td class="small"></td>
-                        <td class="small">Level</td>
-                        <td>Data</td>
-                    </tr>
-                    <tr>
-                        <td class="small">Width</td>
-                        <td class="small">
-                            <input class="small" id="c_width" />
-                        </td>
-                        <td class="small">Height</td>
-                        <td class="small">
-                            <input class="small" id="c_height" />
-                        </td>
-                        <td rowspan="6" class="small">
-                            <select name="D3" multiple class="almost hc" id="c_select_level"></select>
-                        </td>
-                        <td rowspan="6">
-                            <textarea name="S1" class="almost hc" id="c_exported"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="small">Type</td>
-                        <td class="small">
-                            <select name="D1" class="small" id="c_type">
-                                <option value="puzzle">Puzzle</option>
-                                <option value="draw">Draw</option>
-                                <option value="moves">Moves</option>
-                                <option value="time">Time Attack</option>
-                            </select>
-                        </td>
 
-                        <td class="small">Theme</td>
-                        <td class="small">
-                            <select name="D1" class="small" id="c_theme">
-                                <option value="green">Green</option>
-                                <option value="yellow">Yellow</option>
-                                <option value="purple">Purple</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="small">Fips</td>
-                        <td class="small">
-                            <input class="small" id="c_flips" />
-                        </td>
+    <div class="pannel">
+            <h2>Create new</h2>
+        Width
+        <input class="small" id="c_width" value="5"/>&nbsp; Height <input value="5" class="small" id="c_height" />&nbsp; Type <select name="D5" class="small" id="c_type">
+            <option value="puzzle">Puzzle</option>
+            <option value="draw">Draw</option>
+            <option value="moves">Moves</option>
+            <option value="time">Time Attack</option>
+            <option value="tutorial">Tutorial</option>
+        </select>&nbsp; Theme <select name="D1" class="small" id="c_theme">
+            <option value="green">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="purple">Purple</option>
+        </select>&nbsp;&nbsp;
+        <input type="button" id="c_create" value="Create New" class="long" />
+    </div>
+    <br style="clear: both" />
 
-                        <td class="small">Time</td>
-                        <td class="small">
-                            <input class="small" id="c_time" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="small">to Sove</td>
-                        <td colspan="3" class="small">
-                            <input class="small" id="c_p_solve" />
-                        </td>
 
-                    </tr>
-                    <tr>
-                        <td class="small">Rn Min</td>
-                        <td class="small">
-                            <input class="small" id="c_r_min" />
-                        </td>
+    <div class="pannel">
+        <h2>Game</h2>
+        <canvas id="myCanvas" screencanvas="true" style="width: 320px;"></canvas>
+         <br />
+        
+        <input  id="c_test" type="submit" value="Test" class="long"/>
+        
 
-                        <td class="small">Rn Max</td>
-                        <td class="small">                            
-                            <input class="small" id="c_r_max" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="small">Blocs</td>
-                        <td colspan="3">
-                            <input id="c_blocks" class="long" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="small">&nbsp;</td>
-                        <td colspan="3">
-                            <input type="radio" name="mode" id="c_invert">Invert<br>
-                            <input type="radio" name="mode" id="c_drawing">Draw<br>
-                            <input type="radio" name="mode" id="c_mirrowing">Mirror<br>
-                            <input type="radio" name="mode" id="c_hidding">Hide<br>
-                        </td>
-                        <td>
-                            &nbsp;
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td class="small">
-                            <input class="small" id="c_r_min0" style="visibility: hidden" />
-                        </td>
-                        <td colspan="3"><input type="button" id="c_create" value="Create New" class="long" /></td>
-                        <td>
-                            <input type="button" class="small" id="c_save" value="Save" /><input type="button" class="small" id="c_load" value="Load" /><input type="button" class="small" id="c_delete" value="Delete" />
-                        </td>
-                        <td><input type="button" class="small" id="c_export" value="Export" /><input type="button" class="small" id="c_import" value="Import" /></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+    </div>
+    <div class="pannel">
+        <h2>Edit</h2>
+        <!--<p>
+            Name
+            <br />
+            <input class="long" id="c_name" />
+        </p>-->
+        <p>
+            <span class="textSpan">Fips </span>
+            <input class="small" id="c_flips" />
+        </p>
+        <p>
+            <span class="textSpan">Time </span>
+            <input class="small" id="c_time" />
+        </p>
+        <p>
+            <span class="textSpan">to Sove </span>
+            <input class="small" id="c_p_solve" />
+        </p>
+        <p>
+            <span class="textSpan">Random Min </span>
+            <input class="small" id="c_r_min" />&nbsp;
+        </p>
+        <p>
+            <span class="textSpan">Random Max </span>
+            <input class="small" id="c_r_max" />
+        </p>
+        <p>
+            <span class="textSpan">Blocs </span><br />
+            <input id="c_blocks" class="long" />
+        </p>
+        <h2>Mode</h2>
+        <input type="radio" name="mode" id="c_invert" checked="true" value="V1">Invert<br>
+        <input type="radio" name="mode" id="c_drawing"  value="V1">Draw<br>
+        <input type="radio" name="mode" id="c_mirrowing"  value="V1">Mirror<br>
+        <input type="radio" name="mode" id="c_hidding"  value="V1">Hide<br>
+       
+    </div>
+    <div class="pannel">
+        <h2>Storage</h2>
+        <table>
+            <tr>
+                <td>Project<br />
+                    <select multiple class="almost hc" id="c_select_project"></select></td>
+                <td>Level<br />
+                    <select multiple class="almost hc" id="c_select_level"></select></td>
+            </tr>
+        </table>
+        <input type="button" class="small" id="c_save" value="Save" /><input type="button" class="small" id="c_load" value="Load" /><br />
+    </div>
+    <div class="pannel">
+        <h2>Export</h2>
+        <table class="auto-style2">
+            <tr>
+                <td>Exportado<br />
+                    <textarea name="S1" class="almost hc" id="c_exported" rows="1" cols="20"></textarea></td>
+            </tr>
+        </table>
+        <input type="button" class="small" id="c_export" value="Export" /><input type="button" class="small" id="c_import" value="Import" /><br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <input type="submit" value="Erase All Data" class="long" onclick="localStorage.removeItem('customProjects'); location.reload();" />
 
-    </table>
-    <input type="submit" value="Apagar todos os dados" onclick="localStorage.removeItem('customPuzzles'); location.reload();" />
+    </div>
+    
+    <br style="clear: both" />
+    <br />
+    <br />
+    <br />
+    <br />
+
 </body>
 </html>

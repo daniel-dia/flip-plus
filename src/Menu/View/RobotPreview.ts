@@ -20,50 +20,51 @@ module InvertCross.Menu.View {
 
         //create graphics
         private createGraphics(project: InvertCross.Projects.Project) {
+            try {
+                var size: number = 1000;
+                this.fill = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
+                this.stroke = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
+                this.complete = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name));
 
-            var size: number = 1000;
-            this.fill = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
-            this.stroke = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
-            this.complete = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name));
+                this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
+                this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
 
-            this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
-            this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
+                this.complete.regX = this.fill.regX - 50;
+                this.complete.regY = this.fill.regY - 50;
 
-            this.complete.regX = this.fill.regX - 50;
-            this.complete.regY = this.fill.regY - 50;
+                this.addChild(this.fill);
+                this.addChild(this.stroke);
+                this.addChild(this.complete);
 
-            this.addChild(this.fill);
-            this.addChild(this.stroke);
-            this.addChild(this.complete);
+                this.complete.visible = false;
 
-            this.complete.visible = false;
+                //mask
+                this.percentMask = new createjs.Shape();
+                this.percentMask.graphics.beginFill("#FFF").drawRect(
+                    -size / 2, 0, size,
+                    -this.fill.getBounds().height)
+                    .endFill();
+                this.percentMask.scaleY = 0;
+                this.percentMask.y = 50;
+                this.fill.mask = this.percentMask;
 
-            //mask
-            this.percentMask = new createjs.Shape();
-            this.percentMask.graphics.beginFill("#FFF").drawRect(
-                -size / 2, 0, size,
-                -this.fill.getBounds().height)
-                .endFill();
-            this.percentMask.scaleY = 0;
-            this.percentMask.y = 50;
-            this.fill.mask = this.percentMask;
-            
-
+            }catch(e){ }
         }
 
         //update percentage
         public update(complete: boolean= false) {
-
-            if (!complete)
-                if (this.project.UserData.complete) {
-                    this.fill.visible = false;
-                    this.stroke.visible = false;
-                    this.complete.visible = true;
-                }
+            try {
+                if (!complete)
+                    if (this.project.UserData.complete) {
+                        this.fill.visible = false;
+                        this.stroke.visible = false;
+                        this.complete.visible = true;
+                    }
+                    else
+                        this.percentMask.scaleY = this.project.UserData.percent;
                 else
-                    this.percentMask.scaleY = this.project.UserData.percent;
-            else
-                this.animateLevelComplete();
+                    this.animateLevelComplete();
+            } catch (e) { };
         }
 
         

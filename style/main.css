@@ -7,7 +7,7 @@
     -ms-content-zooming: none;
     scroll-translation: vertical-to-horizontal;
     content-zooming: none;
-    overflow: hidden;
+    
 }
 
 /*@-webkit-viewport{width:768px}
@@ -39,22 +39,26 @@ body, a {
 @font-face { font-family:'Exo 2.0';  src: url(../fonts/Exo2.0-Regular.woff); font-weight: normal;}
 @font-face { font-family:'Exo 2.0';  src: url(../fonts/Exo2.0-Bold.woff); font-weight: bold;}
 
-.small, td{
-    width:60px!important;
+.small{
+    width:92px;
 }
 
 .medium{
 	width:90px;
 }
+
 .almost{
-width:120px;
+width:134px;
 }
+
 .long { 
 width:200px
 }
+
 td{
 	vertical-align:top
 }
+
 .hc {
     height:180px;
 }

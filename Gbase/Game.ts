@@ -36,7 +36,7 @@ module InvertCross {
 
                 this.stage.update();
                 this.fpsMeter.text = Math.floor(createjs.Ticker.getMeasuredFPS()) + " FPS";
-            });
+            } );
 
             createjs.Ticker.setFPS(60);
 
@@ -62,15 +62,17 @@ module InvertCross {
             console.log("using scale at " + assetscale + "x");
             this.redim(windowWidth,window.innerHeight);
             window.onresize = () => { this.redim(windowWidth, window.innerHeight); };
-
-            
         }
+
+
 
         private static tick() {
             this.stage.update();
         }
 
         public static redim(deviceWidth: number, deviceHeight: number,updateCSS:boolean=true) {
+
+            console.log("render at" + deviceWidth + "px");
 
             this.myCanvas.width = deviceWidth;
             this.myCanvas.height = deviceHeight;
