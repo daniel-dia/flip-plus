@@ -63,7 +63,7 @@ module InvertCross {
 
             InvertCrossaGame.loadingScreen.loaded = () => {
 
-                if (levelCreatorMode = true && !levelCreatorTestMode) {
+                if (levelCreatorMode == true && !levelCreatorTestMode) {
                     InvertCrossaGame.screenViewer.switchScreen(new GamePlay.LevelCreator(null, window));
                 }
                 else

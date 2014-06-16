@@ -7,7 +7,7 @@
     -ms-content-zooming: none;
     scroll-translation: vertical-to-horizontal;
     content-zooming: none;
-    
+    overflow: hidden;
 }
 
 /*@-webkit-viewport{width:768px}

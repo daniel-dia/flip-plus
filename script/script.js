@@ -1194,7 +1194,7 @@ var InvertCross;
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
 
             InvertCrossaGame.loadingScreen.loaded = function () {
-                if (levelCreatorMode = true && !levelCreatorTestMode) {
+                if (levelCreatorMode == true && !levelCreatorTestMode) {
                     InvertCrossaGame.screenViewer.switchScreen(new InvertCross.GamePlay.LevelCreator(null, window));
                 } else
                     InvertCrossaGame.showTitleScreen();
@@ -3316,11 +3316,20 @@ var InvertCross;
                 __extends(GamePlayMenu, _super);
                 function GamePlayMenu() {
                     _super.call(this);
+                    this.xstart = 200;
+                    this.xstep = 340;
 
+                    this.currentItem = 0;
                     this.items = [];
                     this.createGamePlayMenu();
                     this.createPauseMenu();
                     this.addTutorialIndicator();
+
+                    this.buttons = new Object();
+                    this.parameters = new Object();
+
+                    //adds the restart button
+                    this.addButtons(["restart"]);
                 }
                 //adds tutorial touch indicator
                 GamePlayMenu.prototype.addTutorialIndicator = function () {
@@ -3347,16 +3356,10 @@ var InvertCross;
 
                 // ================ Add Buttons ==========================================
                 GamePlayMenu.prototype.addButtons = function (buttons) {
-                    //TODO tirar daqui
-                    buttons.push("restart");
-
-                    this.buttons = new Object();
-                    this.parameters = new Object();
-                    var xstart = 200;
-                    var xstep = 340;
-
-                    for (var b in buttons)
-                        var bt = this.createItemButton(buttons[b], xstart + xstep * b);
+                    for (var b in buttons) {
+                        var bt = this.createItemButton(buttons[b], this.xstart + this.xstep * this.currentItem);
+                        this.currentItem++;
+                    }
                 };
 
                 //creates a iitem button and its feedback pand parameters, and adds it to screensk
@@ -6741,7 +6744,15 @@ var InvertCross;
                 this.currentPuzzle = 1;
                 this.puzzlesToSolve = 0;
 
-                this.gameplayMenu.addButtons(["touch", "solve", "hint"]);
+                //adds buttons and items
+                this.gameplayMenu.addButtons(["touch", "hint"]);
+
+                //only adds this level if there are more than 1 puzzle to solve
+                if (this.levelData.puzzlesToSolve > 1)
+                    this.gameplayMenu.addButtons(["solve"]);
+                else
+                    this.gameplayMenu.addButtons(["skip"]);
+
                 this.gameplayMenu.addEventListener("touch", function () {
                     _this.useItemTouch();
                 });
@@ -6751,18 +6762,14 @@ var InvertCross;
                 this.gameplayMenu.addEventListener("hint", function () {
                     _this.useItemHint();
                 });
+                this.gameplayMenu.addEventListener("skip", function () {
+                    _this.useItemSkip();
+                });
 
                 this.puzzlesToSolve = levelData.puzzlesToSolve;
                 this.moves = this.levelData.moves;
 
                 this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
-
-                if (levelData.type == "draw") {
-                    if (levelData.drawData == null)
-                        this.levelLogic.board.setDrawBlocks(levelData.blocksData);
-                    else
-                        this.levelLogic.board.setDrawBlocks(levelData.drawData, false);
-                }
 
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
 
@@ -6770,6 +6777,8 @@ var InvertCross;
                 if (!this.levelData.puzzlesToSolve)
                     this.levelData.puzzlesToSolve = 1;
                 this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3);
+
+                this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
 
                 this.statusArea.setMode("moves");
                 this.statusArea.setText3(this.moves.toString());
@@ -6782,15 +6791,15 @@ var InvertCross;
                 //verifies if is a multiTouch
                 if (Date.now() - this.lastTouchTime > 100 || !this.lastTouchTime)
                     this.moves--;
-
                 this.lastTouchTime = Date.now();
+
+                //updates moves count
+                this.statusArea.setText3(this.moves.toString());
 
                 setTimeout(function () {
                     //loses game, if moves is over
                     if (!_this.levelLogic.verifyWin()) {
-                        _this.statusArea.setText3(_this.moves.toString());
-
-                        if (_this.moves <= 0) {
+                        if (_this.moves < 0) {
                             _this.message.showtext(stringResources.gp_mv_noMoreMoves);
                             _this.loose();
                         }
@@ -7059,9 +7068,9 @@ var InvertCross;
 
                     this.bonusId = bonusId;
                     this.y = 470;
-                    this.x = 768;
+                    this.x = 668;
 
-                    this.regX = 1430 / 2;
+                    this.regX = 1458 / 2;
                     this.regY = 410 / 2;
 
                     this.updateProjectInfo();

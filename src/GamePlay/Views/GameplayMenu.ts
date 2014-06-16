@@ -12,14 +12,25 @@ module InvertCross.GamePlay.Views {
 
         private tutorial_highlightSprite: createjs.DisplayObject;
 
+        private currentItem:number;
+        private xstart = 200;
+        private xstep = 340;
+
         constructor() {
             super();
 
+            this.currentItem = 0;
             this.items = [];
             this.createGamePlayMenu();
             this.createPauseMenu();
             this.addTutorialIndicator();
          
+            this.buttons = new Object();
+            this.parameters = new Object();
+
+            //adds the restart button
+            this.addButtons(["restart"]);
+
         } 
 
         //adds tutorial touch indicator
@@ -47,16 +58,12 @@ module InvertCross.GamePlay.Views {
 
         public addButtons(buttons: Array<string>) {
 
-            //TODO tirar daqui
-            buttons.push("restart");
 
-            this.buttons = new Object();
-            this.parameters = new Object();
-            var xstart = 200;
-            var xstep = 340;
 
-            for (var b in buttons) 
-                var bt = this.createItemButton(buttons[b], xstart + xstep * b);
+            for (var b in buttons) {
+                var bt = this.createItemButton(buttons[b], this.xstart + this.xstep * this.currentItem);
+                this.currentItem++;
+            }
         }
 
         //creates a iitem button and its feedback pand parameters, and adds it to screensk
