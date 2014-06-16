@@ -215,7 +215,7 @@
         //finalizes bonus game
         endBonus() {
 
-            super.endBonus();
+            
 
             //locks barrels interactions
             for (var barrel in this.barrels) 
@@ -230,6 +230,8 @@
                 for (var barrel in this.barrels) 
                 createjs.Tween.get(this.barrels[barrel]).wait(barrel * 100).to({ alpha: 0 }, 150);
             }, 1000);
+
+            setTimeout(() => { super.endBonus(); }, 2000);
         }
     }
 }   

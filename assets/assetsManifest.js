@@ -37,21 +37,39 @@ function getAssetsManifest(assetscale) {
         { src: imagePath + "intro/fundoEscuro.jpg", id: "fundoEscuro" },
 
         //Bonus1
-        { src: imagePath + "bonus1/back.png", id: "Bonus1/back" },
-        { src: imagePath + "bonus1/header.png", id: "Bonus1/header" },
-        { src: imagePath + "bonus1/footer.png", id: "Bonus1/footer" },
-        { src: imagePath + "bonus1/icone_lata.png", id: "Bonus1/icone_lata" },
-        { src: imagePath + "bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
+        { src: imagePath + "Bonus1/back.png", id: "Bonus1/back" },
+        { src: imagePath + "Bonus1/header.png", id: "Bonus1/header" },
+        { src: imagePath + "Bonus1/footer.png", id: "Bonus1/footer" },
+        { src: imagePath + "Bonus1/icone_lata.png", id: "Bonus1/icone_lata" },
+        { src: imagePath + "Bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
 
-        { src: imagePath + "bonus2/back.jpg", id: "Bonus2/back" },
-        { src: imagePath + "bonus2/header.png", id: "Bonus2/header" },
-        { src: imagePath + "bonus2/footer.png", id: "Bonus2/footer" },
-        { src: imagePath + "bonus2/bonuscard1.png", id: "Bonus2/bonuscard1" },
-        { src: imagePath + "bonus2/bonuscard2.png", id: "Bonus2/bonuscard2" },
-        { src: imagePath + "bonus2/bonusrat.png", id: "Bonus2/bonusrat" },
+        { src: imagePath + "Bonus2/back.jpg", id: "Bonus2/back" },
+        { src: imagePath + "Bonus2/header.png", id: "Bonus2/header" },
+        { src: imagePath + "Bonus2/footer.png", id: "Bonus2/footer" },
+        { src: imagePath + "Bonus2/bonuscard1.png", id: "Bonus2/bonuscard1" },
+        { src: imagePath + "Bonus2/bonuscard2.png", id: "Bonus2/bonuscard2" },
+        { src: imagePath + "Bonus2/bonusrat.png", id: "Bonus2/bonusrat" },
+
+        { src: imagePath + "Bonus3/back.jpg", id: "Bonus3/back" },
+        { src: imagePath + "Bonus3/chest_1.png", id: "Bonus3/chest_1" },
+        { src: imagePath + "Bonus3/chest_2.png", id: "Bonus3/chest_2" },
+        { src: imagePath + "Bonus3/chest_3.png", id: "Bonus3/chest_3" },
+        { src: imagePath + "Bonus3/chest_4.png", id: "Bonus3/chest_4" },
+        { src: imagePath + "Bonus3/chest_x.png", id: "Bonus3/chest_x" },
+        { src: imagePath + "Bonus3/footer.png", id: "Bonus3/footer" },
+        { src: imagePath + "Bonus3/header.png", id: "Bonus3/header" },
+        { src: imagePath + "Bonus3/icon_o.png", id: "Bonus3/icon_o" },
+        { src: imagePath + "Bonus3/icon_x.png", id: "Bonus3/icon_x" },
+        { src: imagePath + "Bonus3/key_1.png", id: "Bonus3/key_1" },
+        { src: imagePath + "Bonus3/key_2.png", id: "Bonus3/key_2" },
+        { src: imagePath + "Bonus3/key_3.png", id: "Bonus3/key_3" },
+        { src: imagePath + "Bonus3/number_1.png", id: "Bonus3/number_1" },
+        { src: imagePath + "Bonus3/number_2.png", id: "Bonus3/number_2" },
+        { src: imagePath + "Bonus3/number_3.png", id: "Bonus3/number_3" },
 
         //{ id: "projects/teste1", src: imagePath + "projects/teste1.png" },
         //{ id: "projects/teste0", src: imagePath + "projects/teste0.png" },
+
         { id: "projects/teste20", src: imagePath + "projects/teste20.png" },
         { id: "projects/teste21", src: imagePath + "projects/teste21.png" },
 
@@ -59,16 +77,16 @@ function getAssetsManifest(assetscale) {
         { id: "projects/projectFooter", src: imagePath + "projects/projectFooter.png" },
         { id: "projects/projectHeader", src: imagePath + "projects/projectHeader.png" },
         
-
+        { id: "projects/Bonus1", src: imagePath + "projects/Bonus1.png" },
+        { id: "projects/Bonus2", src: imagePath + "projects/Bonus2.png" },
+        { id: "projects/Bonus3", src: imagePath + "projects/Bonus3.png" },
 
 
         //projects
         /*
         
         { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
-        { id: "projects/Bonus1", src: imagePath + "projects/Bonus1.png" },
-        { id: "projects/Bonus2", src: imagePath + "projects/Bonus2.png" },
-        { id: "projects/Bonus3", src: imagePath + "projects/Bonus3.png" },
+        
         { id: "projects/slot1", src: imagePath + "projects/slot1.png" },
         { id: "projects/slot2", src: imagePath + "projects/slot2.png" },
         { id: "projects/slot3", src: imagePath + "projects/slot3.png" },

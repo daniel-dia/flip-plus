@@ -16,7 +16,7 @@ module InvertCross.Menu.View {
             this.y = 470;
             this.x = 768;
             
-            this.regX = 1430 / 2;
+            this.regX = 1458 / 2;
             this.regY = 410  / 2;
             
             this.updateProjectInfo()
@@ -45,7 +45,7 @@ module InvertCross.Menu.View {
                 this.timerText = new createjs.Text(("--:--:--").toString() , font, color);
                 this.timerText.textBaseline = "middle";
                 this.timerText.textAlign= "center";
-                this.timerText.x = 970;
+                this.timerText.x = 1000;
                 this.timerText.y = 180;
                 this.addChild(this.timerText)
 

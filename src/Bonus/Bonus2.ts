@@ -188,11 +188,9 @@
             cover.y = 279 / 2;
             cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
             cover.name = "cover";
-            cover.alpha = 0.3;
             this.addChild(cover);
 
-            //card.createHitArea();
-
+         
             this.regX = 184;
             this.regY = 135;
         }

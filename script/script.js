@@ -7068,9 +7068,9 @@ var InvertCross;
 
                     this.bonusId = bonusId;
                     this.y = 470;
-                    this.x = 768;
+                    this.x = 668;
 
-                    this.regX = 1430 / 2;
+                    this.regX = 1458 / 2;
                     this.regY = 410 / 2;
 
                     this.updateProjectInfo();
