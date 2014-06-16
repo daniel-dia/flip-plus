@@ -6532,7 +6532,7 @@ var InvertCross;
                     }
                 };
 
-                this.editWindow.document.getElementById("c_delete").onclick = function () {
+                /*this.editWindow.document.getElementById("c_delete").onclick = function () {
                     var s = _this.loadStored();
 
                     var selected = _this.editWindow.document.getElementById("c_select_level").value;
@@ -6541,7 +6541,7 @@ var InvertCross;
                     _this.saveStored(s);
 
                     _this.updateSelectList();
-                };
+                };*/
 
                 this.editWindow.document.getElementById("c_export").onclick = function () {
                     var exp = _this.loadStored();
