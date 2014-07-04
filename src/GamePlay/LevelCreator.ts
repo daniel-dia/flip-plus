@@ -73,17 +73,6 @@ module InvertCross.GamePlay {
 
             }
 
-            /*this.editWindow.document.getElementById("c_delete").onclick = () => {
-                var s = this.loadStored();
-
-                var selected = (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).value;
-                delete s[selected];
-
-                this.saveStored(s)
-
-                this.updateSelectList();
-            }*/
-
             this.editWindow.document.getElementById("c_export").onclick = () => {
                 var exp = this.loadStored();
                 

@@ -67,6 +67,21 @@ function getAssetsManifest(assetscale) {
         { src: imagePath + "Bonus3/number_2.png", id: "Bonus3/number_2" },
         { src: imagePath + "Bonus3/number_3.png", id: "Bonus3/number_3" },
 
+        { src: imagePath + "Bonus3/bg_bonus3.jpg", id: "bg_bonus3" },
+		{ src: imagePath + "Bonus3/chest_1.png", id: "chest_1" },
+		{ src: imagePath + "Bonus3/chest_2.png", id: "chest_2" },
+		{ src: imagePath + "Bonus3/chest_3.png", id: "chest_3" },
+		{ src: imagePath + "Bonus3/chest_4.png", id: "chest_4" },
+		{ src: imagePath + "Bonus3/chest_x.png", id: "chest_x" },
+		{ src: imagePath + "Bonus3/icon_o.png", id: "icon_o" },
+		{ src: imagePath + "Bonus3/icon_x.png", id: "icon_x" },
+		{ src: imagePath + "Bonus3/key_1.png", id: "key_1" },
+		{ src: imagePath + "Bonus3/key_2.png", id: "key_2" },
+		{ src: imagePath + "Bonus3/key_3.png", id: "key_3" },
+		{ src: imagePath + "Bonus3/number_1.png", id: "number_1" },
+		{ src: imagePath + "Bonus3/number_2.png", id: "number_2" },
+		{ src: imagePath + "Bonus3/number_3.png", id: "number_3" },
+
         //{ id: "projects/teste1", src: imagePath + "projects/teste1.png" },
         //{ id: "projects/teste0", src: imagePath + "projects/teste0.png" },
 

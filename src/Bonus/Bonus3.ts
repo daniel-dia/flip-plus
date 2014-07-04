@@ -22,22 +22,13 @@
 
             super.addObjects();
 
-            this.addKeys();
+            var mc = new lib["Bonus3"];
+            this.content.addChild(mc);          
+
 
         }
 
-        addKeys() {
-            for (var k = 0; k < 3; k++) {
-                var kobj = new Gbase.UI.ImageButton("Bonus3/key_" + (k + 1));
-                this.keys[k] = kobj;
-                kobj.x = 334 + k * 480;
-                kobj.y = 1470 + (k==1 ?80:0);
-                this.content.addChild(kobj);
-            }
-        }
-
-        addCrates() { }
-
+  
         //=========================
 
         pickKey(keyId: number) {

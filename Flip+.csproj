@@ -35,6 +35,7 @@
     <Content Include="assets\bolinhas.js" />
     <Content Include="assets\bolinhas.png" />
     <Content Include="assets\Bonus1.js" />
+    <Content Include="assets\Bonus3.js" />
     <Content Include="assets\images_0.25x\BackBt.png" />
     <Content Include="assets\images_0.25x\bonus1\back.png" />
     <Content Include="assets\images_0.25x\bonus1\Bonus1.png" />

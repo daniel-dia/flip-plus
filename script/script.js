@@ -3981,8 +3981,6 @@ var InvertCross;
             //finalizes bonus game
             BonusBarrel.prototype.endBonus = function () {
                 var _this = this;
-                _super.prototype.endBonus.call(this);
-
                 for (var barrel in this.barrels)
                     this.barrels[barrel].mouseEnabled = false;
 
@@ -3994,6 +3992,10 @@ var InvertCross;
                     for (var barrel in _this.barrels)
                         createjs.Tween.get(_this.barrels[barrel]).wait(barrel * 100).to({ alpha: 0 }, 150);
                 }, 1000);
+
+                setTimeout(function () {
+                    _super.prototype.endBonus.call(_this);
+                }, 2000);
             };
             return BonusBarrel;
         })(Bonus.BonusScreen);
@@ -4185,10 +4187,8 @@ var InvertCross;
                 cover.y = 279 / 2;
                 cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
                 cover.name = "cover";
-                cover.alpha = 0.3;
                 this.addChild(cover);
 
-                //card.createHitArea();
                 this.regX = 184;
                 this.regY = 135;
             }
@@ -4225,14 +4225,33 @@ var InvertCross;
             __extends(Bonus3, _super);
             function Bonus3(itemsArray, sufix) {
                 if (typeof sufix === "undefined") { sufix = "1"; }
-                _super.call(this, itemsArray, "3");
+                this.keys = new Array();
+                this.currentCrate = 0;
+                _super.call(this, itemsArray, "Bonus3");
             }
             Bonus3.prototype.addObjects = function () {
                 _super.prototype.addObjects.call(this);
+
+                var mc = new lib["Bonus3"];
+                this.content.addChild(mc);
+            };
+
+            //=========================
+            Bonus3.prototype.pickKey = function (keyId) {
             };
             return Bonus3;
         })(Bonus.BonusScreen);
         Bonus.Bonus3 = Bonus3;
+
+        var Crate = (function (_super) {
+            __extends(Crate, _super);
+            function Crate(crateId) {
+                _super.call(this);
+            }
+            Crate.prototype.openCrate = function () {
+            };
+            return Crate;
+        })(createjs.Container);
     })(InvertCross.Bonus || (InvertCross.Bonus = {}));
     var Bonus = InvertCross.Bonus;
 })(InvertCross || (InvertCross = {}));
@@ -6469,6 +6488,266 @@ var InvertCross;
     })(InvertCross.Bonus || (InvertCross.Bonus = {}));
     var Bonus = InvertCross.Bonus;
 })(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (Menu) {
+        (function (View) {
+            var BonusItem = (function (_super) {
+                __extends(BonusItem, _super);
+                function BonusItem(bonusId, action) {
+                    _super.call(this, "projects/bigslot1", action);
+
+                    this.bonusId = bonusId;
+                    this.y = 470;
+                    this.x = 768;
+
+                    this.regX = 1458 / 2;
+                    this.regY = 410 / 2;
+
+                    this.updateProjectInfo();
+                }
+                //createObjects
+                BonusItem.prototype.createObjects = function (bonusId) {
+                    var _this = this;
+                    var color = "#cfe3ec";
+                    var font = "Bold 100px " + defaultFont;
+
+                    //clean all objects
+                    this.removeAllChildren();
+
+                    //if unlocked
+                    var stars = InvertCross.InvertCrossaGame.projectManager.getStarsCount();
+                    if (stars >= bonusData[bonusId].cost) {
+                        //background
+                        var bg = "projects/" + bonusId;
+                        var s = Gbase.AssetsManager.getBitmap(bg);
+                        this.addChild(s);
+
+                        //timer text
+                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
+                        this.timerText.textBaseline = "middle";
+                        this.timerText.textAlign = "center";
+                        this.timerText.x = 1000;
+                        this.timerText.y = 180;
+                        this.addChild(this.timerText);
+
+                        //auto updateObject
+                        this.timerintervalTick();
+                        if (this.updateInterval)
+                            clearInterval(this.updateInterval);
+                        this.updateInterval = setInterval(function () {
+                            _this.timerintervalTick();
+                        }, 900);
+                    } else {
+                        //adds Background
+                        var bg = "projects/bigslot1";
+                        var s = Gbase.AssetsManager.getBitmap(bg);
+                        this.addChild(s);
+
+                        //adds lock indicator
+                        var star = Gbase.AssetsManager.getBitmap("projects/star");
+                        this.addChild(star);
+                        star.x = 670;
+                        star.y = 150;
+
+                        //addsText
+                        //TODO da onde vai tirar as estrelas?
+                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
+                        this.addChild(tx);
+                        tx.textAlign = "right";
+                        tx.x = 650;
+                        tx.y = 135;
+                    }
+
+                    //create hitArea
+                    this.createHitArea();
+                };
+
+                //updates based on porject
+                BonusItem.prototype.updateProjectInfo = function () {
+                    //update the objects display
+                    this.createObjects(this.bonusId);
+                };
+
+                BonusItem.prototype.timerintervalTick = function () {
+                    var time = InvertCross.InvertCrossaGame.timersData.getTimer(this.bonusId);
+
+                    if (time == 0) {
+                        this.timerText.text = stringResources.mm_play;
+
+                        if (!createjs.Tween.hasActiveTweens(this.timerText)) {
+                            this.timerText.cache(-200, -50, 400, 100);
+                            this.timerText.set({ scaleX: 1, scaleY: 1 });
+                            createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
+                        }
+                    } else {
+                        createjs.Tween.removeTweens(this.timerText);
+                        this.timerText.text = this.toHHMMSS(time);
+                        this.timerText.scaleX = this.scaleY = 1;
+                        this.timerText.cache(-200, -50, 400, 100);
+                    }
+                };
+
+                BonusItem.prototype.toHHMMSS = function (sec_num) {
+                    var hours = Math.floor(sec_num / 3600);
+                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+                    if (hours < 10) {
+                        hours = 0 + hours;
+                    }
+                    if (minutes < 10) {
+                        minutes = 0 + minutes;
+                    }
+                    if (seconds < 10) {
+                        seconds = 0 + seconds;
+                    }
+                    var time = hours + ':' + minutes + ':' + seconds;
+                    return time;
+                };
+                return BonusItem;
+            })(Gbase.UI.ImageButton);
+            View.BonusItem = BonusItem;
+        })(Menu.View || (Menu.View = {}));
+        var View = Menu.View;
+    })(InvertCross.Menu || (InvertCross.Menu = {}));
+    var Menu = InvertCross.Menu;
+})(InvertCross || (InvertCross = {}));
+var InvertCross;
+(function (InvertCross) {
+    (function (GamePlay) {
+        var Moves = (function (_super) {
+            __extends(Moves, _super);
+            function Moves(levelData) {
+                var _this = this;
+                _super.call(this, levelData);
+                this.currentPuzzle = 1;
+                this.puzzlesToSolve = 0;
+
+                //adds buttons and items
+                this.gameplayMenu.addButtons(["touch", "hint"]);
+
+                //only adds this level if there are more than 1 puzzle to solve
+                if (this.levelData.puzzlesToSolve > 1)
+                    this.gameplayMenu.addButtons(["solve"]);
+                else
+                    this.gameplayMenu.addButtons(["skip"]);
+
+                this.gameplayMenu.addEventListener("touch", function () {
+                    _this.useItemTouch();
+                });
+                this.gameplayMenu.addEventListener("solve", function () {
+                    _this.useItemSolve();
+                });
+                this.gameplayMenu.addEventListener("hint", function () {
+                    _this.useItemHint();
+                });
+                this.gameplayMenu.addEventListener("skip", function () {
+                    _this.useItemSkip();
+                });
+
+                this.puzzlesToSolve = levelData.puzzlesToSolve;
+                this.moves = this.levelData.moves;
+
+                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+
+                //set default puzzles to solve
+                if (!this.levelData.puzzlesToSolve)
+                    this.levelData.puzzlesToSolve = 1;
+                this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3);
+
+                this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
+
+                this.statusArea.setMode("moves");
+                this.statusArea.setText3(this.moves.toString());
+            }
+            //threat user input
+            Moves.prototype.userInput = function (col, row) {
+                var _this = this;
+                _super.prototype.userInput.call(this, col, row);
+
+                //verifies if is a multiTouch
+                if (Date.now() - this.lastTouchTime > 100 || !this.lastTouchTime)
+                    this.moves--;
+                this.lastTouchTime = Date.now();
+
+                //updates moves count
+                this.statusArea.setText3(this.moves.toString());
+
+                setTimeout(function () {
+                    //loses game, if moves is over
+                    if (!_this.levelLogic.verifyWin()) {
+                        if (_this.moves < 0) {
+                            _this.message.showtext(stringResources.gp_mv_noMoreMoves);
+                            _this.loose();
+                        }
+                    }
+                }, 100);
+            };
+
+            //Overriding methods.
+            Moves.prototype.win = function (col, row) {
+                var _this = this;
+                if (this.currentPuzzle >= this.puzzlesToSolve) {
+                    _super.prototype.win.call(this, col, row);
+                } else {
+                    //animate board and switch
+                    var defaultX = this.boardSprite.x;
+                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
+                        _this.currentPuzzle++;
+                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
+                        _this.boardSprite.clearHint();
+
+                        _this.boardSprite.x = defaultX + DefaultWidth;
+                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
+                    });
+                }
+            };
+
+            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
+                if (typeof minMoves === "undefined") { minMoves = 2; }
+                if (typeof maxMoves === "undefined") { maxMoves = 5; }
+                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+
+                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
+                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
+                var inverted = [];
+
+                for (var m = 0; m < moves; m++) {
+                    var index = Math.floor(Math.random() * (lenght));
+                    while (inverted[index] == true)
+                        index = (index + 1) % lenght;
+                    inverted[index] = true;
+                }
+
+                for (var i = 0; i < lenght; i++) {
+                    if (inverted[i] == true)
+                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
+                }
+
+                this.levelLogic.board.initializePrizes(2);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+            };
+
+            //========================== items ==================================
+            Moves.prototype.useItemTouch = function () {
+                if (!this.useItem("touch"))
+                    return;
+                this.moves += 2;
+            };
+            Moves.prototype.useItemSolve = function () {
+                if (!this.useItem("solve"))
+                    return;
+                this.win(0, 0);
+            };
+            return Moves;
+        })(GamePlay.LevelScreen);
+        GamePlay.Moves = Moves;
+    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
+    var GamePlay = InvertCross.GamePlay;
+})(InvertCross || (InvertCross = {}));
 var levelsDataBackup;
 var levelCreatorMode;
 var levelCreatorTestMode;
@@ -6534,17 +6813,6 @@ var InvertCross;
                         InvertCross.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(level, _this.editWindow, true));
                     }
                 };
-
-                /*this.editWindow.document.getElementById("c_delete").onclick = function () {
-                    var s = _this.loadStored();
-
-                    var selected = _this.editWindow.document.getElementById("c_select_level").value;
-                    delete s[selected];
-
-                    _this.saveStored(s);
-
-                    _this.updateSelectList();
-                };*/
 
                 this.editWindow.document.getElementById("c_export").onclick = function () {
                     var exp = _this.loadStored();
@@ -6735,141 +7003,6 @@ var InvertCross;
 })(InvertCross || (InvertCross = {}));
 var InvertCross;
 (function (InvertCross) {
-    (function (GamePlay) {
-        var Moves = (function (_super) {
-            __extends(Moves, _super);
-            function Moves(levelData) {
-                var _this = this;
-                _super.call(this, levelData);
-                this.currentPuzzle = 1;
-                this.puzzlesToSolve = 0;
-
-                //adds buttons and items
-                this.gameplayMenu.addButtons(["touch", "hint"]);
-
-                //only adds this level if there are more than 1 puzzle to solve
-                if (this.levelData.puzzlesToSolve > 1)
-                    this.gameplayMenu.addButtons(["solve"]);
-                else
-                    this.gameplayMenu.addButtons(["skip"]);
-
-                this.gameplayMenu.addEventListener("touch", function () {
-                    _this.useItemTouch();
-                });
-                this.gameplayMenu.addEventListener("solve", function () {
-                    _this.useItemSolve();
-                });
-                this.gameplayMenu.addEventListener("hint", function () {
-                    _this.useItemHint();
-                });
-                this.gameplayMenu.addEventListener("skip", function () {
-                    _this.useItemSkip();
-                });
-
-                this.puzzlesToSolve = levelData.puzzlesToSolve;
-                this.moves = this.levelData.moves;
-
-                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
-
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-
-                //set default puzzles to solve
-                if (!this.levelData.puzzlesToSolve)
-                    this.levelData.puzzlesToSolve = 1;
-                this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3);
-
-                this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
-
-                this.statusArea.setMode("moves");
-                this.statusArea.setText3(this.moves.toString());
-            }
-            //threat user input
-            Moves.prototype.userInput = function (col, row) {
-                var _this = this;
-                _super.prototype.userInput.call(this, col, row);
-
-                //verifies if is a multiTouch
-                if (Date.now() - this.lastTouchTime > 100 || !this.lastTouchTime)
-                    this.moves--;
-                this.lastTouchTime = Date.now();
-
-                //updates moves count
-                this.statusArea.setText3(this.moves.toString());
-
-                setTimeout(function () {
-                    //loses game, if moves is over
-                    if (!_this.levelLogic.verifyWin()) {
-                        if (_this.moves < 0) {
-                            _this.message.showtext(stringResources.gp_mv_noMoreMoves);
-                            _this.loose();
-                        }
-                    }
-                }, 100);
-            };
-
-            //Overriding methods.
-            Moves.prototype.win = function (col, row) {
-                var _this = this;
-                if (this.currentPuzzle >= this.puzzlesToSolve) {
-                    _super.prototype.win.call(this, col, row);
-                } else {
-                    //animate board and switch
-                    var defaultX = this.boardSprite.x;
-                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
-                        _this.currentPuzzle++;
-                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
-                        _this.boardSprite.clearHint();
-
-                        _this.boardSprite.x = defaultX + DefaultWidth;
-                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
-                    });
-                }
-            };
-
-            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
-                if (typeof minMoves === "undefined") { minMoves = 2; }
-                if (typeof maxMoves === "undefined") { maxMoves = 5; }
-                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
-
-                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
-                var inverted = [];
-
-                for (var m = 0; m < moves; m++) {
-                    var index = Math.floor(Math.random() * (lenght));
-                    while (inverted[index] == true)
-                        index = (index + 1) % lenght;
-                    inverted[index] = true;
-                }
-
-                for (var i = 0; i < lenght; i++) {
-                    if (inverted[i] == true)
-                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
-                }
-
-                this.levelLogic.board.initializePrizes(2);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-            };
-
-            //========================== items ==================================
-            Moves.prototype.useItemTouch = function () {
-                if (!this.useItem("touch"))
-                    return;
-                this.moves += 2;
-            };
-            Moves.prototype.useItemSolve = function () {
-                if (!this.useItem("solve"))
-                    return;
-                this.win(0, 0);
-            };
-            return Moves;
-        })(GamePlay.LevelScreen);
-        GamePlay.Moves = Moves;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
     (function (Menu) {
         var Intro = (function (_super) {
             __extends(Intro, _super);
@@ -7054,131 +7187,6 @@ var InvertCross;
             return TitleScreen;
         })(Gbase.ScreenState);
         Menu.TitleScreen = TitleScreen;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
-    (function (Menu) {
-        (function (View) {
-            var BonusItem = (function (_super) {
-                __extends(BonusItem, _super);
-                function BonusItem(bonusId, action) {
-                    _super.call(this, "projects/bigslot1", action);
-
-                    this.bonusId = bonusId;
-                    this.y = 470;
-                    this.x = 668;
-
-                    this.regX = 1458 / 2;
-                    this.regY = 410 / 2;
-
-                    this.updateProjectInfo();
-                }
-                //createObjects
-                BonusItem.prototype.createObjects = function (bonusId) {
-                    var _this = this;
-                    var color = "#cfe3ec";
-                    var font = "Bold 100px " + defaultFont;
-
-                    //clean all objects
-                    this.removeAllChildren();
-
-                    //if unlocked
-                    var stars = InvertCross.InvertCrossaGame.projectManager.getStarsCount();
-                    if (stars >= bonusData[bonusId].cost) {
-                        //background
-                        var bg = "projects/" + bonusId;
-                        var s = Gbase.AssetsManager.getBitmap(bg);
-                        this.addChild(s);
-
-                        //timer text
-                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
-                        this.timerText.textBaseline = "middle";
-                        this.timerText.textAlign = "center";
-                        this.timerText.x = 970;
-                        this.timerText.y = 180;
-                        this.addChild(this.timerText);
-
-                        //auto updateObject
-                        this.timerintervalTick();
-                        if (this.updateInterval)
-                            clearInterval(this.updateInterval);
-                        this.updateInterval = setInterval(function () {
-                            _this.timerintervalTick();
-                        }, 900);
-                    } else {
-                        //adds Background
-                        var bg = "projects/bigslot1";
-                        var s = Gbase.AssetsManager.getBitmap(bg);
-                        this.addChild(s);
-
-                        //adds lock indicator
-                        var star = Gbase.AssetsManager.getBitmap("projects/star");
-                        this.addChild(star);
-                        star.x = 670;
-                        star.y = 150;
-
-                        //addsText
-                        //TODO da onde vai tirar as estrelas?
-                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
-                        this.addChild(tx);
-                        tx.textAlign = "right";
-                        tx.x = 650;
-                        tx.y = 135;
-                    }
-
-                    //create hitArea
-                    this.createHitArea();
-                };
-
-                //updates based on porject
-                BonusItem.prototype.updateProjectInfo = function () {
-                    //update the objects display
-                    this.createObjects(this.bonusId);
-                };
-
-                BonusItem.prototype.timerintervalTick = function () {
-                    var time = InvertCross.InvertCrossaGame.timersData.getTimer(this.bonusId);
-
-                    if (time == 0) {
-                        this.timerText.text = stringResources.mm_play;
-
-                        if (!createjs.Tween.hasActiveTweens(this.timerText)) {
-                            this.timerText.cache(-200, -50, 400, 100);
-                            this.timerText.set({ scaleX: 1, scaleY: 1 });
-                            createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
-                        }
-                    } else {
-                        createjs.Tween.removeTweens(this.timerText);
-                        this.timerText.text = this.toHHMMSS(time);
-                        this.timerText.scaleX = this.scaleY = 1;
-                        this.timerText.cache(-200, -50, 400, 100);
-                    }
-                };
-
-                BonusItem.prototype.toHHMMSS = function (sec_num) {
-                    var hours = Math.floor(sec_num / 3600);
-                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
-
-                    if (hours < 10) {
-                        hours = 0 + hours;
-                    }
-                    if (minutes < 10) {
-                        minutes = 0 + minutes;
-                    }
-                    if (seconds < 10) {
-                        seconds = 0 + seconds;
-                    }
-                    var time = hours + ':' + minutes + ':' + seconds;
-                    return time;
-                };
-                return BonusItem;
-            })(Gbase.UI.ImageButton);
-            View.BonusItem = BonusItem;
-        })(Menu.View || (Menu.View = {}));
-        var View = Menu.View;
     })(InvertCross.Menu || (InvertCross.Menu = {}));
     var Menu = InvertCross.Menu;
 })(InvertCross || (InvertCross = {}));
