@@ -3327,9 +3327,6 @@ var InvertCross;
 
                     this.buttons = new Object();
                     this.parameters = new Object();
-
-                    //adds the restart button
-                    this.addButtons(["restart"]);
                 }
                 //adds tutorial touch indicator
                 GamePlayMenu.prototype.addTutorialIndicator = function () {
@@ -3385,9 +3382,6 @@ var InvertCross;
                 GamePlayMenu.prototype.updateItemsQuatity = function () {
                     for (var i in this.items)
                         this.buttons[this.items[i]].updateLabel(InvertCross.InvertCrossaGame.itemsData.getItemQuantity(this.items[i]));
-
-                    if (this.buttons["restart"])
-                        this.buttons["restart"].updateLabel("");
                 };
 
                 // ============== pause menus ============================================
@@ -3411,18 +3405,18 @@ var InvertCross;
                         _this.dispatchEvent("back");
                     });
                     backBt.x = 400;
+                    var restBt = new Gbase.UI.ImageButton("puzzle/btrest", function () {
+                        _this.dispatchEvent("restart");
+                    });
+                    restBt.x = -80;
 
                     pauseMenu.addChild(playBt);
                     pauseMenu.addChild(snd1Bt);
                     pauseMenu.addChild(snd2Bt);
                     pauseMenu.addChild(backBt);
+                    pauseMenu.addChild(restBt);
 
-                    var bt = Gbase.AssetsManager.getBitmap("puzzle/btplay2");
-                    bt.regY = 87;
-                    bt.regX = 102;
-                    bt.x = 0;
                     var c = new createjs.Container();
-                    c.addChild(bt);
                     pauseMenu.addChild(c);
 
                     this.addChild(pauseMenu);

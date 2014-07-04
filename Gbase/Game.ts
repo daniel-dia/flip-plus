@@ -58,7 +58,7 @@ module InvertCross {
             assetscale = 1;
             if (windowWidth <= 1024) assetscale = 0.5;
             if (windowWidth <= 420) assetscale = 0.25;            
-
+            
             console.log("using scale at " + assetscale + "x");
             this.redim(windowWidth,window.innerHeight);
             window.onresize = () => { this.redim(windowWidth, window.innerHeight); };

@@ -338,7 +338,7 @@ function getAssetsManifest(assetscale) {
         { src: imagePath + "myBots/Y0S1_03.png", id: "Y0S1_03" },
 
 
-
+        { id: "puzzle/btrest", src: imagePath + "puzzle/btrest.png" },
 
         /*
         { id: "puzzle/bg", src: imagePath + "puzzle/bg.jpg" },
