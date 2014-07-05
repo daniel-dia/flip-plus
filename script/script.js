@@ -3749,6 +3749,17 @@ var InvertCross;
                 InvertCross.InvertCrossaGame.itemsData.increaseItemQuantity(itemId);
             };
 
+            BonusScreen.prototype.selectRandomItems = function (quantity) {
+                this.itemsArray;
+                var items = new Array();
+
+                for (var i = 0; i < quantity; i++) {
+                    items.push(this.itemsArray[Math.floor(Math.random() * this.itemsArray.length)]);
+                }
+
+                return items;
+            };
+
             //===========================================================
             BonusScreen.prototype.activate = function (parameters) {
                 _super.prototype.activate.call(this, parameters);
@@ -4219,33 +4230,152 @@ var InvertCross;
             __extends(Bonus3, _super);
             function Bonus3(itemsArray, sufix) {
                 if (typeof sufix === "undefined") { sufix = "1"; }
-                this.keys = new Array();
-                this.currentCrate = 0;
                 _super.call(this, itemsArray, "Bonus3");
+                this.itemsContainer = new createjs.Container();
+                this.content.addChild(this.itemsContainer);
+                this.currentChestId = 0;
+                this.chances = 2;
+                this.nextChest();
             }
             Bonus3.prototype.addObjects = function () {
+                var _this = this;
                 _super.prototype.addObjects.call(this);
-
-                var mc = new lib["Bonus3"];
+                var mc = (new lib["Bonus3"]);
                 this.content.addChild(mc);
+                this.mainClip = mc;
+
+                //set stops
+                this.mainClip.addEventListener("ready", function () {
+                    _this.mainClip.stop();
+                });
+                this.mainClip.addEventListener("WrongEnd", function () {
+                    _this.mainClip.stop();
+                });
+                this.mainClip.addEventListener("End", function () {
+                    _this.mainClip.stop();
+                    _this.bonusOver();
+                });
+
+                //add keys
+                this.keys = new Array();
+                this.keys.push(this.mainClip["key1"]);
+                this.keys.push(this.mainClip["key2"]);
+                this.keys.push(this.mainClip["key3"]);
+
+                this.keys[0].addEventListener("click", function () {
+                    _this.pickKey(0);
+                });
+                this.keys[1].addEventListener("click", function () {
+                    _this.pickKey(1);
+                });
+                this.keys[2].addEventListener("click", function () {
+                    _this.pickKey(2);
+                });
+
+                this.mainClip["indicator"].stop();
             };
 
-            //=========================
+            //========================= Game behaviour =======================
+            Bonus3.prototype.nextChest = function () {
+                var _this = this;
+                if (this.currentChestId < 3) {
+                    for (var i in this.keys)
+                        createjs.Tween.get(this.keys[i]).to({ alpha: 0 }, 500).call(function (c) {
+                            _this.keys[c].alpha = 1;
+                            _this.keys[c].gotoAndPlay("start");
+                        }, [i]);
+
+                    //define the correct key for this chest
+                    this.correctKeyId = Math.floor(Math.random() * 3);
+                    this.currentChestId++;
+                }
+            };
+
             Bonus3.prototype.pickKey = function (keyId) {
+                var _this = this;
+                this.keys[keyId].gotoAndPlay("key");
+                setTimeout(function () {
+                    //if key is correct
+                    if (keyId == _this.correctKeyId) {
+                        //play movie clip
+                        _this.mainClip.gotoAndPlay("Ok" + (_this.currentChestId));
+
+                        //go to next chest
+                        _this.nextChest();
+
+                        //prvide item to user
+                        _this.getItems(_this.currentChestId);
+                    } else {
+                        //play movieclip
+                        _this.mainClip.gotoAndPlay("Wrong" + (_this.currentChestId));
+
+                        //decrease chances
+                        _this.chances--;
+
+                        //verify if user lost and updates indicator
+                        _this.updateChances();
+                    }
+                }, 1000);
+            };
+
+            Bonus3.prototype.updateChances = function () {
+                this.mainClip["indicator"].gotoAndStop(2 - this.chances);
+
+                //verify if user looses
+                if (this.chances < 0)
+                    this.bonusOver();
+            };
+
+            //-----------------------------------------------
+            //give items to the user
+            Bonus3.prototype.getItems = function (chestId) {
+                var _this = this;
+                this.itemsContainer.removeAllChildren();
+                var items = this.selectRandomItems(3);
+                var itemsDo = [];
+
+                for (var i in items) {
+                    InvertCross.InvertCrossaGame.itemsData.increaseItemQuantity(items[i]);
+
+                    var item = this.createItem(items[i]);
+
+                    item.set({ x: DefaultWidth / 2, y: DefaultHeight / 2 - 100, alpha: 0 });
+                    createjs.Tween.get(item).wait(500).to({ alpha: 1, x: DefaultWidth / 2 + (300 * (i - 1)), y: DefaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut).call(function (itemDo) {
+                        _this.animateItemObjectToFooter(itemDo, itemDo.name);
+                    }, [item]);
+                    this.itemsContainer.addChild(item);
+                }
+            };
+
+            Bonus3.prototype.createItem = function (item) {
+                //adds item Image or empty image
+                var itemImage = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
+                var itemDO = Gbase.AssetsManager.getBitmap(itemImage);
+                itemDO.name = item;
+
+                //itemDO.x = 368 / 2;
+                //itemDO.y = 279 / 2;
+                //itemDO.regX = itemDO.getBounds().width / 2;
+                //itemDO.regY = itemDO.getBounds().height / 2;
+                //itemDO.visible = false;
+                itemDO.mouseEnabled = false;
+                return itemDO;
+            };
+
+            //-----------------------------------------------
+            Bonus3.prototype.bonusOver = function () {
+                var _this = this;
+                //disable input
+                this.content.mouseEnabled = false;
+
+                //exit level
+                setTimeout(function () {
+                    _this.endBonus();
+                }, 1500);
             };
             return Bonus3;
         })(Bonus.BonusScreen);
         Bonus.Bonus3 = Bonus3;
-
-        var Crate = (function (_super) {
-            __extends(Crate, _super);
-            function Crate(crateId) {
-                _super.call(this);
-            }
-            Crate.prototype.openCrate = function () {
-            };
-            return Crate;
-        })(createjs.Container);
     })(InvertCross.Bonus || (InvertCross.Bonus = {}));
     var Bonus = InvertCross.Bonus;
 })(InvertCross || (InvertCross = {}));

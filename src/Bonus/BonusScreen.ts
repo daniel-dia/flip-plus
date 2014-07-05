@@ -143,6 +143,18 @@
             InvertCrossaGame.itemsData.increaseItemQuantity(itemId);
         }
 
+        selectRandomItems(quantity: number): Array<string> {
+            this.itemsArray
+            var items = new Array();
+
+            for (var i = 0; i < quantity; i++) {
+                items.push(this.itemsArray[Math.floor(Math.random()*this.itemsArray.length)]);
+            }
+            
+
+            return items;
+        }
+
         //===========================================================
 
         activate(parameters?: any) {

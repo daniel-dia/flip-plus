@@ -921,6 +921,7 @@
     <Content Include="script\getQueryVariable.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="script\hitAreaBounds.js" />
     <Content Include="script\ImageHitAreaPatch.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
