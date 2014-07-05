@@ -4081,6 +4081,7 @@ var InvertCross;
                 //verifies if matches all cards
                 if (this.matchesFound >= this.pairs) {
                     //ends the game
+                    this.content.mouseEnabled = false;
                     this.message.showtext(stringResources.b2_finish, 2000, 500);
                     this.message.addEventListener("onclose", function () {
                         _this.endBonus();
