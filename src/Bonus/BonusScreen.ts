@@ -54,6 +54,14 @@
 
             //adds header
             this.header.addChild(gameui.AssetsManager.getBitmap(bonusId + "/header"));
+            var titleText = new createjs.Text(stringResources[bonusId+"_title"], defaultFontFamilyNormal, "white");
+            titleText.textAlign = "center";
+            titleText.text = titleText.text.toUpperCase();
+            titleText.x = DefaultWidth / 2;
+            titleText.y = 100;
+            titleText.textBaseline = "middle";
+
+            this.header.addChild(titleText);
 
             //adds footer
             var footer = gameui.AssetsManager.getBitmap(bonusId + "/footer");

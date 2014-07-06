@@ -50,15 +50,17 @@ module FlipPlus {
         gp_mv_statusEnd: string;
         gp_mv_noMoreMoves: string;
 
-        //b1
+        b1_title: string;
         b1_popup1Ttitle: string;
         b1_popup1Text: string;
 
-        //b2
+        b2_title: string;
         b2_noMoreChances: string;
         b2_finish: string;
 
-        //b3
+        b3_title: string;
+        b3_finish: string;
+        b3_noMoreChances: string;
 
     }
 }

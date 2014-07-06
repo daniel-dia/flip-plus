@@ -1,5 +1,6 @@
-﻿var stringResources=//: FlipPlus.StringResources =
-{
+﻿var stringResources
+//: FlipPlus.StringResources 
+= {
     ld: "Loading",
 
     it_text1: "N3-S needs \n repair",
@@ -36,8 +37,16 @@
     gp_mv_statusEnd: "END",
     gp_mv_noMoreMoves: "No more moves",
 
+    Bonus1_title: "pick 3 Barrels",
     b1_popup1Ttitle: "Pick 3 Barrels",
     b1_popup1Text: "Some Barrels has hiddens items",
+
+    Bonus2_title: "find the pairs",
     b2_noMoreChances: "No more chances",
     b2_finish: "Well done!",
+
+    Bonus3_title: "Capitain's chest",
+    b3_finish: "Well done!",
+    b3_noMoreChances: "No more chances",
+
 }

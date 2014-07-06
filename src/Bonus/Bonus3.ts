@@ -40,7 +40,12 @@
             //set stops
             this.mainClip.addEventListener("ready", () => { this.mainClip.stop() });
             this.mainClip.addEventListener("WrongEnd", () => { this.mainClip.stop() });
-            this.mainClip.addEventListener("End", () => { this.mainClip.stop(); this.bonusOver(); });
+            this.mainClip.addEventListener("End", () => {
+                this.mainClip.stop();
+
+                this.message.showtext(stringResources.b3_finish, 2000, 1000);
+                this.message.addEventListener("onclose", () => { this.endBonus(); });
+            });
             
             //add keys 
             this.keys = new Array();
@@ -108,9 +113,11 @@
             this.mainClip["indicator"].gotoAndStop(2-this.chances)
 
             //verify if user looses
-            if (this.chances < 0) this.bonusOver();
-               
-            
+            if (this.chances < 0) {
+                this.content.mouseEnabled = false;
+                this.message.showtext(stringResources.b3_noMoreChances, 2000, 1100);
+                this.message.addEventListener("onclose", () => { this.endBonus(); });
+            }
         }
         
 
@@ -151,13 +158,6 @@
 
         //-----------------------------------------------
 
-
-        private bonusOver() {
-            //disable input
-            this.content.mouseEnabled = false;
-            //exit level
-            setTimeout(() => { this.endBonus(); }, 1500);
-        }
     }
 
 }   
