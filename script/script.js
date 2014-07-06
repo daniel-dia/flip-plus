@@ -14,1228 +14,97 @@ var shadowFontColor = "#1b4f5e";
 var grayColor = "#565656";
 
 var storagePrefix = "flipp_";
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var gameui;
-(function (gameui) {
-    (function (UI) {
-        // Class
-        var UIItem = (function (_super) {
-            __extends(UIItem, _super);
-            function UIItem() {
-                _super.apply(this, arguments);
-                this.centered = false;
-                this.animating = false;
-            }
-            UIItem.prototype.centralize = function () {
-                this.regX = this.width / 2;
-                this.regY = this.height / 2;
-                this.centered = true;
-            };
-
-            UIItem.prototype.fadeOut = function (scaleX, scaleY) {
-                var _this = this;
-                if (typeof scaleX === "undefined") { scaleX = 0.5; }
-                if (typeof scaleY === "undefined") { scaleY = 0.5; }
-                this.animating = true;
-                this.antX = this.x;
-                this.antY = this.y;
-                this.mouseEnabled = false;
-                createjs.Tween.removeTweens(this);
-                createjs.Tween.get(this).to({
-                    scaleX: scaleX,
-                    scaleY: scaleY,
-                    alpha: 0,
-                    x: this.antX,
-                    y: this.antY
-                }, 200, createjs.Ease.quadIn).call(function () {
-                    _this.visible = false;
-                    _this.x = _this.antX;
-                    _this.y = _this.antY;
-                    _this.scaleX = _this.scaleY = 1;
-                    _this.alpha = 1;
-                    _this.animating = false;
-                    _this.mouseEnabled = true;
-                    ;
-                });
-            };
-
-            UIItem.prototype.fadeIn = function (scaleX, scaleY) {
-                var _this = this;
-                if (typeof scaleX === "undefined") { scaleX = 0.5; }
-                if (typeof scaleY === "undefined") { scaleY = 0.5; }
-                this.visible = true;
-                this.animating = true;
-
-                if (this.antX == null) {
-                    this.antX = this.x;
-                    this.antY = this.y;
-                }
-
-                this.scaleX = scaleX, this.scaleY = scaleY, this.alpha = 0, this.x = this.x;
-                this.y = this.y;
-
-                this.mouseEnabled = false;
-                createjs.Tween.removeTweens(this);
-                createjs.Tween.get(this).to({
-                    scaleX: 1,
-                    scaleY: 1,
-                    alpha: 1,
-                    x: this.antX,
-                    y: this.antY
-                }, 400, createjs.Ease.quadOut).call(function () {
-                    _this.mouseEnabled = true;
-                    _this.animating = false;
-                });
-            };
-
-            //calcula
-            UIItem.prototype.createHitArea = function () {
-                var hit = new createjs.Shape();
-
-                var b = this.getBounds();
-
-                if (b)
-                    hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
-
-                //TODO. se for texto colocar uma sobra. !
-                this.hitArea = hit;
-            };
-            return UIItem;
-        })(createjs.Container);
-        UI.UIItem = UIItem;
-    })(gameui.ui || (gameui.ui = {}));
-    var UI = gameui.ui;
-})(gameui || (gameui = {}));
-var gameui;
-(function (gameui) {
-    (function (UI) {
-        //this class alow user to arrange objects in a grid forrmat
-        //the anchor point is the center of object
-        var Grid = (function (_super) {
-            __extends(Grid, _super);
-            function Grid(cols, rows, width, height, padding, flowHorizontal) {
-                if (typeof cols === "undefined") { cols = null; }
-                if (typeof rows === "undefined") { rows = null; }
-                if (typeof padding === "undefined") { padding = 20; }
-                if (typeof flowHorizontal === "undefined") { flowHorizontal = false; }
-                _super.call(this);
-                //default spacing
-                this.defaultWSpacing = 800;
-                this.defaultHSpacing = 300;
-                //provided variables
-                this.flowHorizontal = false;
-                //control variables;
-                this.currentCol = 0;
-                this.currentRow = 0;
-
-                //define the variables
-                this.flowHorizontal = flowHorizontal;
-                this.cols = cols;
-                this.rows = rows;
-                this.padding = padding;
-
-                if (width == null)
-                    width = 1536;
-                if (height == null)
-                    height = 2048;
-
-                this.width = width;
-                this.height = height;
-
-                //define other parameters
-                this.wSpacing = cols == 0 ? this.defaultWSpacing : (width - padding * 2) / cols;
-                this.hSpacing = rows == 0 ? this.defaultHSpacing : (height - padding * 2) / rows;
-
-                if (rows == null)
-                    this.hSpacing = this.wSpacing;
-                if (cols == null)
-                    this.wSpacing = this.hSpacing;
-            }
-            //place objecrs into a grid format
-            Grid.prototype.addObject = function (object, clickCallback) {
-                if (typeof clickCallback === "undefined") { clickCallback = null; }
-                this.addChild(object);
-                object.x = this.getXPos();
-                object.y = this.getYPos();
-                if (clickCallback != null)
-                    object.addEventListener("click", clickCallback);
-                this.updatePosition();
-            };
-
-            Grid.prototype.getXPos = function () {
-                return this.padding + this.currentCol * this.wSpacing + this.wSpacing / 2;
-            };
-            Grid.prototype.getYPos = function () {
-                return this.padding + this.currentRow * this.hSpacing + this.hSpacing / 2;
-            };
-
-            //define next Item position
-            Grid.prototype.updatePosition = function () {
-                if (!this.flowHorizontal) {
-                    this.currentCol++;
-                    if (this.currentCol >= this.cols) {
-                        this.currentCol = 0;
-                        this.currentRow++;
-                    }
-                } else {
-                    this.currentRow++;
-                    if (this.currentRow >= this.rows) {
-                        this.currentRow = 0;
-                        this.currentCol++;
-                    }
-                }
-            };
-            return Grid;
-        })(UI.UIItem);
-        UI.Grid = Grid;
-    })(gameui.ui || (gameui.ui = {}));
-    var UI = gameui.ui;
-})(gameui || (gameui = {}));
-var gameui;
-(function (gameui) {
-    (function (UI) {
-        // Class
-        var Button = (function (_super) {
-            __extends(Button, _super);
-            function Button() {
-                var _this = this;
-                _super.call(this);
-                this.enableAnimation = true;
-                this.mouse = false;
-                this.addEventListener("mousedown", function (event) {
-                    _this.onPress(event);
-                });
-                this.addEventListener("pressup", function (event) {
-                    _this.onPressUp(event);
-                });
-
-                this.addEventListener("mouseover", function () {
-                    _this.mouse = true;
-                });
-                this.addEventListener("mouseout", function () {
-                    _this.mouse = false;
-                });
-            }
-            Button.prototype.returnStatus = function () {
-                if (!this.mouse) {
-                    this.scaleX = this.originalScaleX;
-                    this.scaleY = this.originalScaleY;
-                }
-            };
-
-            Button.prototype.onPressUp = function (Event) {
-                this.mouse = false;
-
-                //createjs.Tween.removeTweens(this);
-                this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
-                createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
-            };
-
-            Button.prototype.onPress = function (Event) {
-                var _this = this;
-                if (!this.enableAnimation)
-                    return;
-
-                this.mouse = true;
-                if (this.originalScaleX == null) {
-                    this.originalScaleX = this.scaleX;
-                    this.originalScaleY = this.scaleY;
-                }
-
-                createjs.Tween.get(this).to({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 }, 500, createjs.Ease.elasticOut).call(function () {
-                    if (!_this.mouse) {
-                        createjs.Tween.get(_this).to({ scaleX: _this.originalScaleX, scaleY: _this.originalScaleY }, 300, createjs.Ease.backOut);
-                    }
-                });
-            };
-            return Button;
-        })(UI.UIItem);
-        UI.Button = Button;
-
-        var ImageButton = (function (_super) {
-            __extends(ImageButton, _super);
-            function ImageButton(background, event) {
-                if (typeof event === "undefined") { event = null; }
-                _super.call(this);
-
-                if (event != null)
-                    this.addEventListener("click", event);
-
-                //adds image into it
-                if (background != null) {
-                    //TODO tirar createjs ASSETS daqui.
-                    this.background = gameui.AssetsManager.getBitmap(background);
-                    this.addChildAt(this.background, 0);
-
-                    //Sets the image into the pivot center.
-                    if (this.background.getBounds()) {
-                        this.width = this.background.getBounds().width;
-                        this.height = this.background.getBounds().height;
-                        this.background.regX = this.width / 2;
-                        this.background.regY = this.height / 2;
-                        this.centered = true;
-                        this.createHitArea();
-                    }
-                }
-            }
-            return ImageButton;
-        })(Button);
-        UI.ImageButton = ImageButton;
-
-        var TextButton = (function (_super) {
-            __extends(TextButton, _super);
-            function TextButton(text, event, background, font, color) {
-                if (typeof text === "undefined") { text = ""; }
-                if (typeof event === "undefined") { event = null; }
-                _super.call(this, background, event);
-
-                //Default values
-                if (font == null)
-                    font = defaultFontFamilyNormal;
-                if (color == null)
-                    color = "White";
-
-                //add text into it.
-                text = text.toUpperCase();
-
-                this.text = new createjs.Text(text, font, color);
-                this.text.textBaseline = "middle";
-                this.text.textAlign = "center";
-
-                //createHitArea
-                if (background == null) {
-                    this.width = this.text.getMeasuredWidth() * 1.5;
-                    this.height = this.text.getMeasuredHeight() * 1.5;
-                }
-
-                this.addChild(this.text);
-                this.createHitArea();
-            }
-            return TextButton;
-        })(ImageButton);
-        UI.TextButton = TextButton;
-
-        var IconButton = (function (_super) {
-            __extends(IconButton, _super);
-            function IconButton(icon, text, background, event, font, color) {
-                if (typeof icon === "undefined") { icon = ""; }
-                if (typeof text === "undefined") { text = ""; }
-                if (typeof event === "undefined") { event = null; }
-                if (typeof font === "undefined") { font = null; }
-                if (typeof color === "undefined") { color = null; }
-                //add space before text
-                if (text != "")
-                    text = " " + text;
-
-                _super.call(this, text, event, background, font, color);
-
-                //loads icon Image
-                this.icon = gameui.AssetsManager.getBitmap(icon);
-                this.addChild(this.icon);
-                this.text.textAlign = "left";
-
-                if (this.icon.getBounds())
-                    this.icon.regY = this.icon.getBounds().height / 2;
-                this.updateLabel(text);
-            }
-            IconButton.prototype.updateLabel = function (value) {
-                this.text.text = value;
-                if (this.icon.getBounds()) {
-                    this.icon.x = -(this.icon.getBounds().width + 10 + this.text.getMeasuredWidth()) / 2;
-                    this.text.x = this.icon.x + this.icon.getBounds().width + 10;
-                }
-            };
-            return IconButton;
-        })(TextButton);
-        UI.IconButton = IconButton;
-    })(gameui.ui || (gameui.ui = {}));
-    var UI = gameui.ui;
-})(gameui || (gameui = {}));
-var gameui;
-(function (gameui) {
-    (function (UI) {
-        var MenuContainer = (function (_super) {
-            __extends(MenuContainer, _super);
-            function MenuContainer(width, height, flowHorizontal) {
-                if (typeof width === "undefined") { width = null; }
-                if (typeof height === "undefined") { height = null; }
-                if (typeof flowHorizontal === "undefined") { flowHorizontal = false; }
-                if (!flowHorizontal)
-                    _super.call(this, 1, 0, width, height, 0, flowHorizontal);
-                else
-                    _super.call(this, 0, 1, width, height, 0, flowHorizontal);
-            }
-            //adds a text object
-            MenuContainer.prototype.addLabel = function (text) {
-                var textObj;
-                textObj = new UI.Label(text);
-                this.addObject(textObj);
-                return textObj.textField;
-            };
-
-            //creates a button object
-            MenuContainer.prototype.addButton = function (text, event) {
-                if (typeof event === "undefined") { event = null; }
-                var buttonObj = new UI.TextButton(text, event);
-                this.addObject(buttonObj);
-                return buttonObj;
-            };
-
-            MenuContainer.prototype.addOutButton = function (text, event) {
-                if (typeof event === "undefined") { event = null; }
-                var buttonObj = new UI.TextButton(text, event);
-                this.addObject(buttonObj);
-                return buttonObj;
-            };
-            return MenuContainer;
-        })(UI.Grid);
-        UI.MenuContainer = MenuContainer;
-    })(gameui.ui || (gameui.ui = {}));
-    var UI = gameui.ui;
-})(gameui || (gameui = {}));
-var gameui;
-(function (gameui) {
-    (function (UI) {
-        var Label = (function (_super) {
-            __extends(Label, _super);
-            //public container: createjs.Container;
-            function Label(text, font, color) {
-                if (typeof text === "undefined") { text = ""; }
-                if (typeof font === "undefined") { font = "600 90px Myriad Pro"; }
-                if (typeof color === "undefined") { color = "#82e790"; }
-                _super.call(this);
-                text = text.toUpperCase();
-
-                //add text into it.
-                this.textField = new createjs.Text(text, defaultFontFamilyNormal, color);
-                this.textField.textBaseline = "middle";
-                this.textField.textAlign = "center";
-                this.addChild(this.textField);
-            }
-            return Label;
-        })(UI.UIItem);
-        UI.Label = Label;
-    })(gameui.ui || (gameui.ui = {}));
-    var UI = gameui.ui;
-})(gameui || (gameui = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    // Class
-    var ScreenViewer = (function () {
-        function ScreenViewer(stage) {
-            this.viewer = new createjs.Container();
-        }
-        ScreenViewer.prototype.updateScale = function (scale) {
-            this.viewer.scaleX = this.viewer.scaleY = scale;
-        };
-
-        //switch current screen, optionaly with a pre defined transition
-        ScreenViewer.prototype.switchScreen = function (newScreen, parameters, transition) {
-            var _this = this;
-            //applies a default trainsition
-            //TODO to it better
-            if (!transition)
-                transition = new Transition();
-
-            //save oldscreen
-            var oldScreen = this.currentScreen;
-
-            //if transition
-            if (transition && oldScreen) {
-                //and transition = fade
-                if (transition.type == "fade") {
-                    //fade between transitions
-                    newScreen.view.alpha = 0;
-                    newScreen.view.mouseEnabled = false;
-                    oldScreen.view.mouseEnabled = false;
-                    createjs.Tween.get(newScreen.view).to({ alpha: 1 }, transition.time).call(function () {
-                        newScreen.view.mouseEnabled = true;
-                        oldScreen.view.mouseEnabled = true;
-                        _this.removeOldScreen(oldScreen);
-                        oldScreen = null;
-                    });
-
-                    createjs.Tween.get(oldScreen.view).to({ alpha: 0 }, transition.time);
-                } else {
-                    this.removeOldScreen(oldScreen);
-                    oldScreen = null;
-                }
-            } else {
-                this.removeOldScreen(oldScreen);
-                oldScreen = null;
-            }
-
-            //adds the new screen on viewer
-            newScreen.activate(parameters);
-            this.viewer.addChild(newScreen.view);
-
-            this.currentScreen = newScreen;
-
-            //updates current screen
-            if (this.currentScreen)
-                this.currentScreen.redim(this.headerPosition, this.footerPosition, this.defaultWidth);
-        };
-
-        ScreenViewer.prototype.removeOldScreen = function (oldScreen) {
-            if (oldScreen != null) {
-                oldScreen.desactivate();
-                this.viewer.removeChild(oldScreen.view);
-                oldScreen = null;
-            }
-        };
-
-        ScreenViewer.prototype.updateViewerScale = function (realWidth, realHeight, defaultWidth, defaultHeight) {
-            var scale = realWidth / defaultWidth;
-            var currentHeight = realHeight / scale;
-            var currentWidth = realWidth / scale;
-
-            this.defaultWidth = defaultWidth;
-
-            //set header and footer positions
-            this.headerPosition = -(currentHeight - defaultHeight) / 2;
-            this.footerPosition = defaultHeight + (currentHeight - defaultHeight) / 2;
-
-            //set the viewer offset to centralize in window
-            this.viewer.scaleX = this.viewer.scaleY = scale;
-            this.viewer.y = this.viewerOffset = (currentHeight - defaultHeight) / 2 * scale;
-
-            //updates current screen
-            if (this.currentScreen)
-                this.currentScreen.redim(this.headerPosition, this.footerPosition, this.defaultWidth);
-        };
-        return ScreenViewer;
-    })();
-    FlipPlus.ScreenViewer = ScreenViewer;
-
-    var Transition = (function () {
-        function Transition() {
-            this.time = 300;
-            this.type = "fade";
-        }
-        return Transition;
-    })();
-    FlipPlus.Transition = Transition;
-})(FlipPlus || (FlipPlus = {}));
-var gameui;
-(function (gameui) {
-    var ScreenState = (function () {
-        function ScreenState() {
-            this.view = new createjs.Container();
-            this.content = new createjs.Container();
-            this.header = new createjs.Container();
-            this.footer = new createjs.Container();
-            this.background = new createjs.Container();
-
-            this.view.addChild(this.background);
-            this.view.addChild(this.content);
-            this.view.addChild(this.header);
-            this.view.addChild(this.footer);
-        }
-        ScreenState.prototype.activate = function (parameters) {
-            this.content.visible = true;
-        };
-
-        ScreenState.prototype.desactivate = function (parameters) {
-            this.content.visible = false;
-        };
-
-        ScreenState.prototype.redim = function (headerY, footerY, width) {
-            this.footer.y = footerY;
-            this.header.y = headerY;
-
-            var dh = footerY + headerY;
-            var ch = footerY - headerY;
-            var scale = ch / dh;
-
-            if (scale < 1) {
-                scale = 1;
-                this.background.y = 0;
-                this.background.x = 0;
-            } else {
-                this.background.y = headerY;
-                this.background.x = -(width * scale - width) / 2;
-            }
-
-            this.background.scaleX = this.background.scaleY = scale;
-        };
-
-        ScreenState.prototype.back = function () {
-            exitApp();
-        };
-        return ScreenState;
-    })();
-    gameui.ScreenState = ScreenState;
-})(gameui || (gameui = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Game = (function () {
-        function Game() {
-        }
-        //-----------------------------------------------------------------------
-        Game.initialize = function () {
-            var _this = this;
-            this.myCanvas = document.getElementById("myCanvas");
-            var ctx = this.myCanvas.getContext("2d");
-            this.stage = new createjs.Stage(this.myCanvas);
-
-            createjs.Touch.enable(this.stage);
-
-            createjs.Ticker.addEventListener("tick", function () {
-                //ctx.msImageSmoothingEnabled = false;
-                //ctx.webkitImageSmoothingEnabled = false;
-                //ctx.mozImageSmoothingEnabled = false;
-                _this.stage.update();
-                _this.fpsMeter.text = Math.floor(createjs.Ticker.getMeasuredFPS()) + " FPS";
-            });
-
-            createjs.Ticker.setFPS(60);
-
-            this.screenViewer = new FlipPlus.ScreenViewer(this.stage);
-            this.stage.addChild(this.screenViewer.viewer);
-
-            //Framerate meter
-            this.fpsMeter = new createjs.Text("FPS", " 18px Arial ", "#fff");
-            this.fpsMeter.x = 0;
-            this.fpsMeter.y = 0;
-            this.stage.addChild(this.fpsMeter);
-
-            //set screen size
-            var r = parseInt(getQueryVariable("res"));
-
-            if (r)
-                var windowWidth = r;
-            else
-                var windowWidth = window.innerWidth;
-
-            assetscale = 1;
-            if (windowWidth <= 1024)
-                assetscale = 0.5;
-            if (windowWidth <= 420)
-                assetscale = 0.25;
-
-            console.log("using scale at " + assetscale + "x");
-            this.redim(windowWidth, window.innerHeight);
-            window.onresize = function () {
-                _this.redim(windowWidth, window.innerHeight);
-            };
-        };
-
-        Game.tick = function () {
-            this.stage.update();
-        };
-
-        Game.redim = function (deviceWidth, deviceHeight, updateCSS) {
-            if (typeof updateCSS === "undefined") { updateCSS = true; }
-            console.log("render at" + deviceWidth + "px");
-
-            this.myCanvas.width = deviceWidth;
-            this.myCanvas.height = deviceHeight;
-
-            this.screenViewer.updateViewerScale(deviceWidth, deviceHeight, DefaultWidth, DefaultHeight);
-
-            if (updateCSS)
-                setMobileScale(deviceWidth);
-        };
-        Game.defaultWidth = DefaultWidth;
-        Game.defaultHeight = DefaultHeight;
-
-        Game.canvasWidth = DefaultWidth;
-        Game.canvasHeight = DefaultHeight;
-        return Game;
-    })();
-    FlipPlus.Game = Game;
-})(FlipPlus || (FlipPlus = {}));
-//declare var images: any;
-//declare var Media: any;
-//declare var assetscale: number;
-//declare var spriteSheets : number;
-var gameui;
-(function (gameui) {
-    // Class
-    var AssetsManager = (function () {
-        function AssetsManager() {
-        }
-        AssetsManager.loadAssets = function (assetsManifest, spriteSheets, imagesArray) {
-            this.spriteSheets = spriteSheets ? spriteSheets : [];
-            this.assetsManifest = assetsManifest;
-
-            //create a image array
-            this.imagesArray = new Array();
-
-            //creates a preload queue
-            this.loader = new createjs.LoadQueue(false);
-
-            //install sound plug-in for sounds format
-            this.loader.installPlugin(createjs.Sound);
-
-            //create eventListeners
-            this.loader.addEventListener("fileload", function (evt) {
-                if (evt.item.type == "image")
-                    imagesArray[evt.item.id] = evt.result;
-                return true;
-            });
-
-            //loads entire manifest
-            this.loader.loadManifest(this.assetsManifest);
-
-            return this.loader;
-        };
-
-        AssetsManager.getImagesArray = function () {
-            return this.imagesArray;
-        };
-
-        AssetsManager.getBitmap = function (name) {
-            if (spriteSheets[name])
-                return this.getSprite(name, false);
-            else
-                return new createjs.Bitmap(this.getImage(name));
-        };
-
-        AssetsManager.getImage = function (name) {
-            return this.loader.getResult(name);
-        };
-
-        //return a sprite according to the image
-        AssetsManager.getSprite = function (name, play) {
-            if (typeof play === "undefined") { play = true; }
-            var data = spriteSheets[name];
-            for (var i in data.images)
-                if (typeof data.images[i] == "string")
-                    data.images[i] = this.getImage(data.images[i]);
-
-            var spritesheet = new createjs.SpriteSheet(data);
-
-            var sprite = new createjs.Sprite(spritesheet);
-            if (play)
-                sprite.play();
-            return sprite;
-        };
-
-        AssetsManager.playSound = function (name) {
-            if (!FlipPlus.InvertCrossaGame.settings.getSoundfx())
-                return;
-
-            //wp8// this.mediaDic[name].play()
-            createjs.Sound.play(name);
-        };
-
-        AssetsManager.playMusic = function (name) {
-            if (!FlipPlus.InvertCrossaGame.settings.getMusic())
-                return;
-
-            //WP8//var media = this.mediaDic[name];
-            if (name == "")
-                name = this.currentMusicname;
-            if (this.currentMusicname == name) {
-                if (this.currentMusic.playState == createjs.Sound.PLAY_SUCCEEDED)
-                    return;
-            }
-
-            if (this.currentMusic != null)
-                this.currentMusic.stop();
-
-            this.currentMusic = createjs.Sound.play(name, "none", 0, 0, -1);
-
-            //wp8//this.currentMusic = media;
-            //wp8//media.play()
-            this.currentMusicname = name;
-        };
-
-        AssetsManager.stopMusic = function () {
-            if (this.currentMusic != null)
-                this.currentMusic.stop();
-        };
-        return AssetsManager;
-    })();
-    gameui.AssetsManager = AssetsManager;
-})(gameui || (gameui = {}));
-// Class
-var aAssets = (function () {
-    function aAssets() {
-    }
-    aAssets.loadAssets = function () {
-        if (!assetscale)
-            assetscale = 0.5;
-
-        var imagePath = "assets/images_" + assetscale + "x/";
-        var audioPath = "assets/sound/";
-
-        //create a image array
-        images = images || {};
-
-        //creates a preload queue
-        this.loader = new createjs.LoadQueue(false);
-
-        //install sound plug-in for sounds format
-        this.loader.installPlugin(createjs.Sound);
-
-        //create eventListeners
-        this.loader.addEventListener("fileload", function (evt) {
-            if (evt.item.type == "image")
-                images[evt.item.id] = evt.result;
-            return true;
-        });
-
-        var manifest = [
-            //common
-            { id: "partshud", src: imagePath + "partshud.png" },
-            { id: "partsicon", src: imagePath + "partsicon.png" },
-            { id: "starsicon", src: imagePath + "staricon.png" },
-            { id: "MenuBt", src: imagePath + "MenuBt.png" },
-            { id: "BackBt", src: imagePath + "BackBt.png" },
-            { id: "touch", src: imagePath + "touch.png" },
-            //title
-            //{ id: "title/LogoScreen", src: imagePath + "title/LogoScreen.jpg" },
-            { src: imagePath + "logo/bandeira1.png", id: "bandeira1" },
-            { src: imagePath + "logo/bandeira2.png", id: "bandeira2" },
-            { src: imagePath + "logo/bandeira3.png", id: "bandeira3" },
-            { src: imagePath + "logo/Cenario.jpg", id: "Cenario" },
-            { src: imagePath + "logo/Cenário.jpg", id: "Cenário" },
-            { src: imagePath + "logo/coqueiro02.png", id: "coqueiro02" },
-            { src: imagePath + "logo/coqueiro1.png", id: "coqueiro1" },
-            { src: imagePath + "logo/coqueiro2.png", id: "coqueiro2" },
-            { src: imagePath + "logo/logo.png", id: "logo" },
-            { src: imagePath + "logo/matoareia.png", id: "matoareia" },
-            { src: imagePath + "logo/onda01.png", id: "onda01" },
-            { src: imagePath + "logo/onda02.png", id: "onda02" },
-            { src: imagePath + "logo/onda04.png", id: "onda04" },
-            { src: imagePath + "logo/vagalume.png", id: "vagalume" },
-            //intro
-            { src: imagePath + "intro/bot.png", id: "bot" },
-            { src: imagePath + "intro/Bot01.png", id: "Bot01" },
-            { src: imagePath + "intro/botLight.png", id: "botLight" },
-            { src: imagePath + "intro/fundoEscuro.jpg", id: "fundoEscuro" },
-            //Bonus1
-            { src: imagePath + "bonus1/back.png", id: "Bonus1/back" },
-            { src: imagePath + "bonus1/header.png", id: "Bonus1/header" },
-            { src: imagePath + "bonus1/footer.png", id: "Bonus1/footer" },
-            { src: imagePath + "bonus1/icone_lata.png", id: "Bonus1/icone_lata" },
-            { src: imagePath + "bonus1/Bonus1.png", id: "Bonus1/Bonus1" },
-            { src: imagePath + "bonus2/back.jpg", id: "Bonus2/back" },
-            { src: imagePath + "bonus2/header.png", id: "Bonus2/header" },
-            { src: imagePath + "bonus2/footer.png", id: "Bonus2/footer" },
-            { src: imagePath + "bonus2/bonuscard1.png", id: "Bonus2/bonuscard1" },
-            { src: imagePath + "bonus2/bonuscard2.png", id: "Bonus2/bonuscard2" },
-            { src: imagePath + "bonus2/bonusrat.png", id: "Bonus2/bonusrat" },
-            //{ id: "projects/teste1", src: imagePath + "projects/teste1.png" },
-            //{ id: "projects/teste0", src: imagePath + "projects/teste0.png" },
-            { id: "projects/teste20", src: imagePath + "projects/teste20.png" },
-            { id: "projects/teste21", src: imagePath + "projects/teste21.png" },
-            { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
-            //projects
-            /*
-            
-            { id: "projects/bgprojects", src: imagePath + "projects/bgprojects.jpg" },
-            { id: "projects/Bonus1", src: imagePath + "projects/Bonus1.png" },
-            { id: "projects/Bonus2", src: imagePath + "projects/Bonus2.png" },
-            { id: "projects/Bonus3", src: imagePath + "projects/Bonus3.png" },
-            { id: "projects/slot1", src: imagePath + "projects/slot1.png" },
-            { id: "projects/slot2", src: imagePath + "projects/slot2.png" },
-            { id: "projects/slot3", src: imagePath + "projects/slot3.png" },
-            { id: "projects/slot0", src: imagePath + "projects/slot0.png" },
-            { id: "projects/slotl", src: imagePath + "projects/slotl.png" },
-            { id: "projects/star", src: imagePath + "projects/star.png" },
-            { id: "projects/pageon", src: imagePath + "projects/pageon.png" },
-            { id: "projects/pageoff", src: imagePath + "projects/pageoff.png" },
-            { id: "projects/bigslot1", src: imagePath + "projects/bigslot1.png" },
-            { id: "projects/btpage", src: imagePath + "projects/btpage.png" },
-            
-            //projects
-            { id: "projects/bots/Bot01", src: imagePath + "projects/bots/Bot01.png" },
-            { id: "projects/bots/Bot02", src: imagePath + "projects/bots/Bot02.png" },
-            { id: "projects/bots/Bot03", src: imagePath + "projects/bots/Bot03.png" },
-            { id: "projects/bots/Bot04", src: imagePath + "projects/bots/Bot04.png" },
-            { id: "projects/bots/Bot05", src: imagePath + "projects/bots/Bot05.png" },
-            { id: "projects/bots/Bot06", src: imagePath + "projects/bots/Bot06.png" },
-            { id: "projects/bots/Bot07", src: imagePath + "projects/bots/Bot07.png" },
-            { id: "projects/bots/Bot08", src: imagePath + "projects/bots/Bot08.png" },
-            { id: "projects/bots/Bot09", src: imagePath + "projects/bots/Bot09.png" },
-            { id: "projects/bots/Bot10", src: imagePath + "projects/bots/Bot10.png" },
-            { id: "projects/bots/Bot11", src: imagePath + "projects/bots/Bot11.png" },
-            { id: "projects/bots/Bot12", src: imagePath + "projects/bots/Bot12.png" },
-            { id: "projects/bots/Bot13", src: imagePath + "projects/bots/Bot13.png" },
-            { id: "projects/bots/Bot14", src: imagePath + "projects/bots/Bot14.png" },
-            { id: "projects/bots/Bot15", src: imagePath + "projects/bots/Bot15.png" },
-            { id: "projects/bots/Bot16", src: imagePath + "projects/bots/Bot16.png" },
-            { id: "projects/bots/Bot17", src: imagePath + "projects/bots/Bot17.png" },
-            { id: "projects/bots/Bot18", src: imagePath + "projects/bots/Bot18.png" },
-            { id: "projects/bots/Bot01_shadow", src: imagePath + "projects/bots/Bot01_shadow.png" },
-            { id: "projects/bots/Bot02_shadow", src: imagePath + "projects/bots/Bot02_shadow.png" },
-            { id: "projects/bots/Bot03_shadow", src: imagePath + "projects/bots/Bot03_shadow.png" },
-            { id: "projects/bots/Bot04_shadow", src: imagePath + "projects/bots/Bot04_shadow.png" },
-            { id: "projects/bots/Bot05_shadow", src: imagePath + "projects/bots/Bot05_shadow.png" },
-            { id: "projects/bots/Bot06_shadow", src: imagePath + "projects/bots/Bot06_shadow.png" },
-            { id: "projects/bots/Bot07_shadow", src: imagePath + "projects/bots/Bot07_shadow.png" },
-            { id: "projects/bots/Bot08_shadow", src: imagePath + "projects/bots/Bot08_shadow.png" },
-            { id: "projects/bots/Bot09_shadow", src: imagePath + "projects/bots/Bot09_shadow.png" },
-            { id: "projects/bots/Bot10_shadow", src: imagePath + "projects/bots/Bot10_shadow.png" },
-            { id: "projects/bots/Bot11_shadow", src: imagePath + "projects/bots/Bot11_shadow.png" },
-            { id: "projects/bots/Bot12_shadow", src: imagePath + "projects/bots/Bot12_shadow.png" },
-            { id: "projects/bots/Bot13_shadow", src: imagePath + "projects/bots/Bot13_shadow.png" },
-            { id: "projects/bots/Bot14_shadow", src: imagePath + "projects/bots/Bot14_shadow.png" },
-            { id: "projects/bots/Bot15_shadow", src: imagePath + "projects/bots/Bot15_shadow.png" },
-            { id: "projects/bots/Bot16_shadow", src: imagePath + "projects/bots/Bot16_shadow.png" },
-            { id: "projects/bots/Bot17_shadow", src: imagePath + "projects/bots/Bot17_shadow.png" },
-            { id: "projects/bots/Bot18_shadow", src: imagePath + "projects/bots/Bot18_shadow.png" },
-            */
-            //workshop
-            { id: "workshop/workshop1", src: imagePath + "workshop/workshop1.png" },
-            { id: "workshop/workshop2", src: imagePath + "workshop/workshop2.png" },
-            { id: "workshop/workshop0", src: imagePath + "workshop/workshop0.png" },
-            /*
-            { src: imagePath + "workshop/bots/Bot01.png", id: "workshop/bots/Bot01" },
-            { src: imagePath + "workshop/bots/Bot02.png", id: "workshop/bots/Bot02" },
-            { src: imagePath + "workshop/bots/Bot03.png", id: "workshop/bots/Bot03" },
-            { src: imagePath + "workshop/bots/Bot04.png", id: "workshop/bots/Bot04" },
-            { src: imagePath + "workshop/bots/Bot05.png", id: "workshop/bots/Bot05" },
-            { src: imagePath + "workshop/bots/Bot06.png", id: "workshop/bots/Bot06" },
-            { src: imagePath + "workshop/bots/Bot07.png", id: "workshop/bots/Bot07" },
-            { src: imagePath + "workshop/bots/Bot08.png", id: "workshop/bots/Bot08" },
-            { src: imagePath + "workshop/bots/Bot09.png", id: "workshop/bots/Bot09" },
-            { src: imagePath + "workshop/bots/Bot10.png", id: "workshop/bots/Bot10" },
-            { src: imagePath + "workshop/bots/Bot11.png", id: "workshop/bots/Bot11" },
-            { src: imagePath + "workshop/bots/Bot12.png", id: "workshop/bots/Bot12" },
-            { src: imagePath + "workshop/bots/Bot13.png", id: "workshop/bots/Bot13" },
-            { src: imagePath + "workshop/bots/Bot14.png", id: "workshop/bots/Bot14" },
-            { src: imagePath + "workshop/bots/Bot15.png", id: "workshop/bots/Bot15" },
-            { src: imagePath + "workshop/bots/Bot16.png", id: "workshop/bots/Bot16" },
-            { src: imagePath + "workshop/bots/Bot17.png", id: "workshop/bots/Bot17" },
-            { src: imagePath + "workshop/bots/Bot18.png", id: "workshop/bots/Bot18" },
-            { src: imagePath + "workshop/bots/Bot01_fill.png", id: "workshop/bots/Bot01_fill" },
-            { src: imagePath + "workshop/bots/Bot02_fill.png", id: "workshop/bots/Bot02_fill" },
-            { src: imagePath + "workshop/bots/Bot03_fill.png", id: "workshop/bots/Bot03_fill" },
-            { src: imagePath + "workshop/bots/Bot04_fill.png", id: "workshop/bots/Bot04_fill" },
-            { src: imagePath + "workshop/bots/Bot05_fill.png", id: "workshop/bots/Bot05_fill" },
-            { src: imagePath + "workshop/bots/Bot06_fill.png", id: "workshop/bots/Bot06_fill" },
-            { src: imagePath + "workshop/bots/Bot07_fill.png", id: "workshop/bots/Bot07_fill" },
-            { src: imagePath + "workshop/bots/Bot08_fill.png", id: "workshop/bots/Bot08_fill" },
-            { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot09_fill" },
-            { src: imagePath + "workshop/bots/Bot10_fill.png", id: "workshop/bots/Bot10_fill" },
-            { src: imagePath + "workshop/bots/Bot11_fill.png", id: "workshop/bots/Bot11_fill" },
-            { src: imagePath + "workshop/bots/Bot12_fill.png", id: "workshop/bots/Bot12_fill" },
-            { src: imagePath + "workshop/bots/Bot13_fill.png", id: "workshop/bots/Bot13_fill" },
-            { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot14_fill" },
-            { src: imagePath + "workshop/bots/Bot15_fill.png", id: "workshop/bots/Bot15_fill" },
-            { src: imagePath + "workshop/bots/Bot09_fill.png", id: "workshop/bots/Bot16_fill" },
-            { src: imagePath + "workshop/bots/Bot17_fill.png", id: "workshop/bots/Bot17_fill" },
-            { src: imagePath + "workshop/bots/Bot18_fill.png", id: "workshop/bots/Bot18_fill" },
-            { src: imagePath + "workshop/bots/Bot01_stroke.png", id: "workshop/bots/Bot01_stroke" },
-            { src: imagePath + "workshop/bots/Bot02_stroke.png", id: "workshop/bots/Bot02_stroke" },
-            { src: imagePath + "workshop/bots/Bot03_stroke.png", id: "workshop/bots/Bot03_stroke" },
-            { src: imagePath + "workshop/bots/Bot04_stroke.png", id: "workshop/bots/Bot04_stroke" },
-            { src: imagePath + "workshop/bots/Bot05_stroke.png", id: "workshop/bots/Bot05_stroke" },
-            { src: imagePath + "workshop/bots/Bot06_stroke.png", id: "workshop/bots/Bot06_stroke" },
-            { src: imagePath + "workshop/bots/Bot07_stroke.png", id: "workshop/bots/Bot07_stroke" },
-            { src: imagePath + "workshop/bots/Bot08_stroke.png", id: "workshop/bots/Bot08_stroke" },
-            { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot09_stroke" },
-            { src: imagePath + "workshop/bots/Bot10_stroke.png", id: "workshop/bots/Bot10_stroke" },
-            { src: imagePath + "workshop/bots/Bot11_stroke.png", id: "workshop/bots/Bot11_stroke" },
-            { src: imagePath + "workshop/bots/Bot12_stroke.png", id: "workshop/bots/Bot12_stroke" },
-            { src: imagePath + "workshop/bots/Bot13_stroke.png", id: "workshop/bots/Bot13_stroke" },
-            { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot14_stroke" },
-            { src: imagePath + "workshop/bots/Bot15_stroke.png", id: "workshop/bots/Bot15_stroke" },
-            { src: imagePath + "workshop/bots/Bot09_stroke.png", id: "workshop/bots/Bot16_stroke" },
-            { src: imagePath + "workshop/bots/Bot17_stroke.png", id: "workshop/bots/Bot17_stroke" },
-            { src: imagePath + "workshop/bots/Bot18_stroke.png", id: "workshop/bots/Bot18_stroke" },
-            
-            
-            //workshow
-            { id: "workshop/basefases", src: imagePath + "workshop/basefases.png" },
-            { id: "workshop/bgworkshop", src: imagePath + "workshop/bgworkshop.png" },
-            { id: "workshop/estrelaworkshop", src: imagePath + "workshop/estrelaworkshop.png" },
-            { id: "workshop/faseamarela1", src: imagePath + "workshop/faseamarela1.png" },
-            { id: "workshop/faseamarela2", src: imagePath + "workshop/faseamarela2.png" },
-            { id: "workshop/faseamarela3", src: imagePath + "workshop/faseamarela3.png" },
-            { id: "workshop/faseamarelaflip1", src: imagePath + "workshop/faseamarelaflip1.png" },
-            { id: "workshop/faseamarelaflip2", src: imagePath + "workshop/faseamarelaflip2.png" },
-            { id: "workshop/faseamarelaflip3", src: imagePath + "workshop/faseamarelaflip3.png" },
-            { id: "workshop/faseamarelatime1", src: imagePath + "workshop/faseamarelatime1.png" },
-            { id: "workshop/faseamarelatime2", src: imagePath + "workshop/faseamarelatime2.png" },
-            { id: "workshop/faseamarelatime3", src: imagePath + "workshop/faseamarelatime3.png" },
-            { id: "workshop/faseroxa1", src: imagePath + "workshop/faseroxa1.png" },
-            { id: "workshop/faseroxa2", src: imagePath + "workshop/faseroxa2.png" },
-            { id: "workshop/faseroxa3", src: imagePath + "workshop/faseroxa3.png" },
-            { id: "workshop/faseroxaflip1", src: imagePath + "workshop/faseroxaflip1.png" },
-            { id: "workshop/faseroxaflip2", src: imagePath + "workshop/faseroxaflip2.png" },
-            { id: "workshop/faseroxaflip3", src: imagePath + "workshop/faseroxaflip3.png" },
-            { id: "workshop/faseroxatime1", src: imagePath + "workshop/faseroxatime1.png" },
-            { id: "workshop/faseroxatime2", src: imagePath + "workshop/faseroxatime2.png" },
-            { id: "workshop/faseroxatime3", src: imagePath + "workshop/faseroxatime3.png" },
-            { id: "workshop/faseverde1", src: imagePath + "workshop/faseverde1.png" },
-            { id: "workshop/faseverde2", src: imagePath + "workshop/faseverde2.png" },
-            { id: "workshop/faseverde3", src: imagePath + "workshop/faseverde3.png" },
-            { id: "workshop/faseverdeflip1", src: imagePath + "workshop/faseverdeflip1.png" },
-            { id: "workshop/faseverdeflip2", src: imagePath + "workshop/faseverdeflip2.png" },
-            { id: "workshop/faseverdeflip3", src: imagePath + "workshop/faseverdeflip3.png" },
-            { id: "workshop/faseverdetime1", src: imagePath + "workshop/faseverdetime1.png" },
-            { id: "workshop/faseverdetime2", src: imagePath + "workshop/faseverdetime2.png" },
-            { id: "workshop/faseverdetime3", src: imagePath + "workshop/faseverdetime3.png" },
-            { id: "workshop/paginacaoworkshop", src: imagePath + "workshop/paginacaoworkshop.png" },
-            { id: "workshop/painelworkshop", src: imagePath + "workshop/painelworkshop.png" },
-            { id: "workshop/stargreen", src: imagePath + "workshop/stargreen.png" },
-            { id: "workshop/starpurple", src: imagePath + "workshop/starpurple.png" },
-            { id: "workshop/staryellow", src: imagePath + "workshop/staryellow.png" },
-            */
-            //puzzle
-            { id: "puzzle/Puzzle", src: imagePath + "puzzle/Puzzle.png" },
-            //My bots
-            { src: imagePath + "myBots/mybotsbg.jpg", id: "mybotsbg" },
-            { src: imagePath + "myBots/Bot01.png", id: "Bot01" },
-            { src: imagePath + "myBots/Bot02.png", id: "Bot02" },
-            { src: imagePath + "myBots/Bot03.png", id: "Bot03" },
-            { src: imagePath + "myBots/Bot04.png", id: "Bot04" },
-            { src: imagePath + "myBots/Bot05.png", id: "Bot05" },
-            { src: imagePath + "myBots/Bot06.png", id: "Bot06" },
-            { src: imagePath + "myBots/Bot07.png", id: "Bot07" },
-            { src: imagePath + "myBots/Bot08.png", id: "Bot08" },
-            { src: imagePath + "myBots/Bot09.png", id: "Bot09" },
-            { src: imagePath + "myBots/Bot10.png", id: "Bot10" },
-            { src: imagePath + "myBots/Bot11.png", id: "Bot11" },
-            { src: imagePath + "myBots/Bot12.png", id: "Bot12" },
-            { src: imagePath + "myBots/Bot13.png", id: "Bot13" },
-            { src: imagePath + "myBots/Bot14.png", id: "Bot14" },
-            { src: imagePath + "myBots/Bot15.png", id: "Bot15" },
-            { src: imagePath + "myBots/Bot16.png", id: "Bot16" },
-            { src: imagePath + "myBots/Bot17.png", id: "Bot17" },
-            { src: imagePath + "myBots/Bot18.png", id: "Bot18" },
-            /*
-            { id: "puzzle/bg", src: imagePath + "puzzle/bg.jpg" },
-            { id: "puzzle/btplay1", src: imagePath + "puzzle/btplay1.png" },
-            { id: "puzzle/btplay2", src: imagePath + "puzzle/btplay2.png" },
-            { id: "puzzle/btplay3", src: imagePath + "puzzle/btplay3.png" },
-            { id: "puzzle/btpowerup", src: imagePath + "puzzle/btpowerup.png" },
-            { id: "puzzle/btrestartpause", src: imagePath + "puzzle/btrestartpause.png" },
-            { id: "puzzle/btsair", src: imagePath + "puzzle/btsair.png" },
-            { id: "puzzle/btsom1", src: imagePath + "puzzle/btsom1.png" },
-            { id: "puzzle/btsom2", src: imagePath + "puzzle/btsom2.png" },
-            { id: "puzzle/iconemoves", src: imagePath + "puzzle/iconemoves.png" },
-            { id: "puzzle/iconepause", src: imagePath + "puzzle/iconepause.png" },
-            { id: "puzzle/iconeplay", src: imagePath + "puzzle/iconeplay.png" },
-            { id: "puzzle/iconepuzzle", src: imagePath + "puzzle/iconepuzzle.png" },
-            { id: "puzzle/iconerestart", src: imagePath + "puzzle/iconerestart.png" },
-            { id: "puzzle/paginacaopuzzle", src: imagePath + "puzzle/paginacaopuzzle.png" },
-            { id: "puzzle/painelpuzzle1", src: imagePath + "puzzle/painelpuzzle1.png" },
-            { id: "puzzle/painelpuzzle2", src: imagePath + "puzzle/painelpuzzle2.png" },
-            { id: "puzzle/tile0", src: imagePath + "puzzle/tile0.png" },
-            { id: "puzzle/indicator", src: imagePath + "puzzle/indicator.png" },
-            
-            { id: "puzzle/icon_hint", src: imagePath + "puzzle/icon_hint.png" },
-            { id: "puzzle/icon_time", src: imagePath + "puzzle/icon_time.png" },
-            { id: "puzzle/icon_skip", src: imagePath + "puzzle/icon_skip.png" },
-            { id: "puzzle/icon_touch", src: imagePath + "puzzle/icon_touch.png" },
-            { id: "puzzle/icon_solve", src: imagePath + "puzzle/icon_solve.png" },
-            
-            { id: "puzzle/tile_yellow_1", src: imagePath + "puzzle/tile_yellow_1.png" },
-            { id: "puzzle/tile_yellow_2", src: imagePath + "puzzle/tile_yellow_2.png" },
-            { id: "puzzle/tile_yellow_3", src: imagePath + "puzzle/tile_yellow_3.png" },
-            { id: "puzzle/tile_yellow_4", src: imagePath + "puzzle/tile_yellow_4.png" },
-            
-            { id: "puzzle/tile_green_1", src: imagePath + "puzzle/tile_green_1.png" },
-            { id: "puzzle/tile_green_2", src: imagePath + "puzzle/tile_green_2.png" },
-            { id: "puzzle/tile_green_3", src: imagePath + "puzzle/tile_green_3.png" },
-            { id: "puzzle/tile_green_4", src: imagePath + "puzzle/tile_green_4.png" },
-            
-            { id: "puzzle/tile_purple_1", src: imagePath + "puzzle/tile_purple_1.png" },
-            { id: "puzzle/tile_purple_2", src: imagePath + "puzzle/tile_purple_2.png" },
-            { id: "puzzle/tile_purple_3", src: imagePath + "puzzle/tile_purple_3.png" },
-            { id: "puzzle/tile_purple_4", src: imagePath + "puzzle/tile_purple_4.png" },
-            { id: "puzzle/tilex", src: imagePath + "puzzle/tilex.png" },
-            
-            { id: "puzzle/tileD", src: imagePath + "puzzle/tileD.png" },
-            { id: "puzzle/tilexD", src: imagePath + "puzzle/tilexD.png" },
-            */
-            //popup
-            { id: "popups/popup", src: imagePath + "popups/popup.png" },
-            { id: "popups/message", src: imagePath + "popups/message.png" },
-            { id: "popups/popupTutorial", src: imagePath + "popups/popupbot.png" },
-            //Legacy
-            { id: "bolinhas", src: "assets/" + "bolinhas.png" },
-            { id: "smokePart", src: "assets/" + "smokePart.png" }
-        ];
-
-        //loads entire manifest
-        this.loader.loadManifest(manifest);
-
-        return this.loader;
-    };
-
-    aAssets.getBitmap = function (name) {
-        if (spriteSheets[name])
-            return this.getSprite(name);
-        else
-            return new createjs.Bitmap(this.getImage(name));
-    };
-
-    aAssets.getImage = function (name) {
-        return this.loader.getResult(name);
-    };
-
-    aAssets.getMovieClip = function (name) {
-        var t = new window[name];
-        return t;
-    };
-
-    aAssets.getSprite = function (name) {
-        var data = spriteSheets[name];
-        for (var i in data.images)
-            if (typeof data.images[i] == "string")
-                data.images[i] = this.getImage(data.images[i]);
-
-        var spritesheet = new createjs.SpriteSheet(data);
-
-        var sprite = new createjs.Sprite(spritesheet);
-        sprite.play();
-        return sprite;
-    };
-
-    aAssets.playSound = function (name) {
-        if (!FlipPlus.InvertCrossaGame.settings.getSoundfx())
-            return;
-
-        //wp8// this.mediaDic[name].play()
-        createjs.Sound.play(name);
-    };
-
-    aAssets.playMusic = function (name) {
-        if (!FlipPlus.InvertCrossaGame.settings.getMusic())
-            return;
-
-        //WP8//var media = this.mediaDic[name];
-        if (name == "")
-            name = this.currentMusicname;
-        if (this.currentMusicname == name) {
-            if (this.currentMusic.playState == createjs.Sound.PLAY_SUCCEEDED)
-                return;
-        }
-
-        if (this.currentMusic != null)
-            this.currentMusic.stop();
-
-        this.currentMusic = createjs.Sound.play(name, "none", 0, 0, -1);
-
-        //wp8//this.currentMusic = media;
-        //wp8//media.play()
-        this.currentMusicname = name;
-    };
-
-    aAssets.stopMusic = function () {
-        if (this.currentMusic != null)
-            this.currentMusic.stop();
-    };
-    return aAssets;
-})();
-///depreciated
-/* public static initSound(): boolean {
-// if initializeDefaultPlugins returns false, we cannot play sound in this browser
-if (!createjs.Sound.initializeDefaultPlugins()) { return false; }
-var manifest = [
-];
-//createjs.Sound.addEventListener("loadComplete", (event: any): boolean => {
-//    return true;
-//});
-createjs.Sound.registerManifest(manifest);
-//wp7 8 compatibility cordova
-//this.mediaDic = new Object();
-//for (var i = 0; i < manifest.length; i++)
-//    this.mediaDic[manifest[i].id] = new Media(manifest[i].src);
-return true;
-}*/
 //declare var spriteSheets;
 window.onload = function () {
-    FlipPlus.InvertCrossaGame.InvertCrossInitilize();
+    FlipPlus.FlipPlusGame.initializeGame();
 };
 
 var FlipPlus;
 (function (FlipPlus) {
     // Main game Class
     // Controller
-    var InvertCrossaGame = (function (_super) {
-        __extends(InvertCrossaGame, _super);
-        function InvertCrossaGame() {
-            _super.apply(this, arguments);
+    var FlipPlusGame = (function () {
+        function FlipPlusGame() {
         }
         // ----------------------------- Initialization -------------------------------------------//
-        InvertCrossaGame.InvertCrossInitilize = function () {
-            //initialize main class
-            InvertCrossaGame.initialize();
+        FlipPlusGame.initializeGame = function () {
+            var _this = this;
+            assetscale = 1;
+            if (window.innerWidth <= 1024)
+                assetscale = 0.5;
+            if (window.innerWidth <= 420)
+                assetscale = 0.25;
+            assetscale = 0.5;
 
-            this.initializeGame();
-        };
+            this.gameScreen = new gameui.GameScreen("myCanvas", DefaultWidth, DefaultHeight);
 
-        InvertCrossaGame.initializeGame = function () {
             //userData
-            this.userData = new FlipPlus.UserData.ProjectsData();
+            this.projectData = new FlipPlus.UserData.ProjectsData();
             this.settings = new FlipPlus.UserData.Settings();
             this.itemsData = new FlipPlus.UserData.Items();
             this.storyData = new FlipPlus.UserData.Story();
             this.timersData = new FlipPlus.UserData.Timers();
 
             //managers
-            InvertCrossaGame.projectManager = new FlipPlus.Projects.ProjectManager(levelsData);
+            this.projectManager = new FlipPlus.Projects.ProjectManager(levelsData, this.projectData);
 
             //go to First Screen
-            InvertCrossaGame.loadingScreen = new FlipPlus.Menu.Loading();
-            InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
+            this.loadingScreen = new FlipPlus.Menu.Loading();
+            this.gameScreen.switchScreen(this.loadingScreen);
 
-            InvertCrossaGame.loadingScreen.loaded = function () {
+            this.loadingScreen.loaded = function () {
                 if (levelCreatorMode == true && !levelCreatorTestMode) {
-                    InvertCrossaGame.screenViewer.switchScreen(new FlipPlus.GamePlay.LevelCreator(null, window));
+                    _this.gameScreen.switchScreen(new FlipPlus.GamePlay.LevelCreator(null, window));
                 } else
-                    InvertCrossaGame.showTitleScreen();
+                    _this.showTitleScreen();
             };
 
             //TODO tirar daqui
-            if (InvertCrossaGame.itemsData.getItemQuantity("hint") <= 0)
-                InvertCrossaGame.itemsData.setQuantityItem("hint", 50);
+            if (this.itemsData.getItemQuantity("hint") <= 0)
+                this.itemsData.setQuantityItem("hint", 50);
 
-            if (InvertCrossaGame.itemsData.getItemQuantity("skip") <= 0)
-                InvertCrossaGame.itemsData.setQuantityItem("skip", 5);
+            if (this.itemsData.getItemQuantity("skip") <= 0)
+                this.itemsData.setQuantityItem("skip", 5);
 
-            if (InvertCrossaGame.itemsData.getItemQuantity("skip") <= 0)
-                InvertCrossaGame.itemsData.setQuantityItem("skip", 5);
+            if (this.itemsData.getItemQuantity("skip") <= 0)
+                this.itemsData.setQuantityItem("skip", 5);
         };
 
         // ----------------------------- Game Methods ---------------------------------------------//
-        InvertCrossaGame.showProjectsMenu = function () {
-            InvertCrossaGame.levelScreeen = null;
+        FlipPlusGame.showProjectsMenu = function () {
+            this.levelScreeen = null;
 
-            if (InvertCrossaGame.projectsMenu == null)
-                InvertCrossaGame.projectsMenu = new FlipPlus.Menu.ProjectsMenu();
+            if (this.projectsMenu == null)
+                this.projectsMenu = new FlipPlus.Menu.ProjectsMenu();
 
-            InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.projectsMenu);
+            this.gameScreen.switchScreen(this.projectsMenu);
         };
 
-        InvertCrossaGame.showProjectLevelsMenu = function (project, parameters) {
+        FlipPlusGame.showProjectLevelsMenu = function (project, parameters) {
             //verifies the current projet
             if (project == null)
-                project = InvertCrossaGame.projectManager.getCurrentProject();
+                project = this.projectManager.getCurrentProject();
             else
-                InvertCrossaGame.projectManager.setCurrentProject(project);
+                this.projectManager.setCurrentProject(project);
 
             if (project == null)
                 return;
 
-            var projects = InvertCrossaGame.projectManager.getAllProjects();
+            var projects = this.projectManager.getAllProjects();
 
             //verifies if rebuild is necessary
             if (parameters && parameters.rebuild)
-                delete InvertCrossaGame.levelsMenu;
+                delete this.levelsMenu;
 
             //create a new levels menu, if needed
-            if (InvertCrossaGame.levelsMenu == undefined)
-                InvertCrossaGame.levelsMenu = new FlipPlus.Menu.LevelsMenu();
+            if (this.levelsMenu == undefined)
+                this.levelsMenu = new FlipPlus.Menu.LevelsMenu();
 
             //switch screens
-            InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelsMenu, parameters);
+            this.gameScreen.switchScreen(this.levelsMenu, parameters);
         };
 
-        InvertCrossaGame.showBonus = function (bonusId) {
+        FlipPlusGame.showBonus = function (bonusId) {
             var bonusScreen;
             switch (bonusId) {
                 case "Bonus1":
@@ -1253,16 +122,16 @@ var FlipPlus;
             //restart time
             this.timersData.setTimer(bonusId, bonusData[bonusId].timeOut);
 
-            InvertCrossaGame.screenViewer.switchScreen(bonusScreen);
+            this.gameScreen.switchScreen(bonusScreen);
         };
 
-        InvertCrossaGame.showLevel = function (level, parameters) {
-            InvertCrossaGame.projectManager.setCurrentLevel(level);
-            InvertCrossaGame.levelScreeen = InvertCrossaGame.createLevel(level);
-            InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelScreeen, parameters);
+        FlipPlusGame.showLevel = function (level, parameters) {
+            this.projectManager.setCurrentLevel(level);
+            this.levelScreeen = this.createLevel(level);
+            this.gameScreen.switchScreen(this.levelScreeen, parameters);
         };
 
-        InvertCrossaGame.createLevel = function (level) {
+        FlipPlusGame.createLevel = function (level) {
             switch (level.type) {
                 case "puzzle":
                 case "draw":
@@ -1280,69 +149,73 @@ var FlipPlus;
             return null;
         };
 
-        InvertCrossaGame.completeLevel = function (complete) {
+        FlipPlusGame.completeLevel = function (complete) {
             if (typeof complete === "undefined") { complete = false; }
             this.showProjectLevelsMenu(null, { complete: complete });
         };
 
-        InvertCrossaGame.looseLevel = function () {
+        FlipPlusGame.looseLevel = function () {
             this.showProjectLevelsMenu(null, { loose: true });
         };
 
-        InvertCrossaGame.exitLevel = function () {
+        FlipPlusGame.exitLevel = function () {
             this.showProjectLevelsMenu();
         };
 
-        InvertCrossaGame.showNextLevel = function () {
-            var nextLevel = InvertCrossaGame.projectManager.getNextLevel();
+        FlipPlusGame.showNextLevel = function () {
+            var nextLevel = this.projectManager.getNextLevel();
 
             //show level or end level
             if (nextLevel != null)
-                InvertCrossaGame.showLevel(nextLevel);
+                this.showLevel(nextLevel);
             else
-                InvertCrossaGame.exitLevel();
+                this.exitLevel();
         };
 
-        InvertCrossaGame.skipLevel = function (complete) {
+        FlipPlusGame.skipLevel = function (complete) {
             if (typeof complete === "undefined") { complete = false; }
-            var currentLevel = InvertCrossaGame.projectManager.getCurrentLevel();
+            var currentLevel = this.projectManager.getCurrentLevel();
 
-            InvertCrossaGame.projectManager.skipLevel(currentLevel);
+            this.projectManager.skipLevel(currentLevel);
             this.showProjectLevelsMenu(null, { complete: complete });
         };
 
-        InvertCrossaGame.showMainMenu = function () {
-            if (InvertCrossaGame.mainScreen == null)
-                InvertCrossaGame.mainScreen = new FlipPlus.Menu.MainMenu();
+        FlipPlusGame.showMainMenu = function () {
+            if (this.mainScreen == null)
+                this.mainScreen = new FlipPlus.Menu.MainMenu();
 
-            FlipPlus.InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.mainScreen);
+            this.gameScreen.switchScreen(this.mainScreen);
         };
 
-        InvertCrossaGame.showTitleScreen = function () {
-            if (!InvertCrossaGame.titleScreen)
-                InvertCrossaGame.titleScreen = new FlipPlus.Menu.TitleScreen();
-            InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.titleScreen);
+        FlipPlusGame.showTitleScreen = function () {
+            if (!this.titleScreen)
+                this.titleScreen = new FlipPlus.Menu.TitleScreen();
+            this.gameScreen.switchScreen(this.titleScreen);
         };
 
-        InvertCrossaGame.replayLevel = function () {
-            var currentLevel = InvertCrossaGame.projectManager.getCurrentLevel();
-            InvertCrossaGame.showLevel(currentLevel);
+        FlipPlusGame.replayLevel = function () {
+            var currentLevel = this.projectManager.getCurrentLevel();
+            this.showLevel(currentLevel);
         };
 
-        InvertCrossaGame.completeProjectk = function (project) {
-            InvertCrossaGame.screenViewer.switchScreen(this.mainScreen);
+        FlipPlusGame.completeProjectk = function (project) {
+            this.gameScreen.switchScreen(this.mainScreen);
         };
 
-        InvertCrossaGame.endGame = function () {
+        FlipPlusGame.endGame = function () {
+        };
+
+        FlipPlusGame.showOptions = function () {
+            this.gameScreen.switchScreen(new FlipPlus.Menu.OptionsMenu());
         };
 
         // ---------------------------- license --------------------------------------------------//
-        InvertCrossaGame.isFree = function () {
+        FlipPlusGame.isFree = function () {
             return false;
         };
-        return InvertCrossaGame;
-    })(FlipPlus.Game);
-    FlipPlus.InvertCrossaGame = InvertCrossaGame;
+        return FlipPlusGame;
+    })();
+    FlipPlus.FlipPlusGame = FlipPlusGame;
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
@@ -1416,12 +289,12 @@ var FlipPlus;
             };
 
             Settings.prototype.setMusic = function (value) {
-                localStorage.setItem("mus", "" + value);
-                this.music = value;
-                if (!value)
-                    gameui.AssetsManager.stopMusic();
-                else
-                    gameui.AssetsManager.playMusic("");
+                //localStorage.setItem("mus", "" +value);
+                //this.music = value;
+                //if (!value)
+                //    gameui.AssetsManager.stopMusic();
+                //else
+                //    gameui.AssetsManager.playMusic("");
             };
             return Settings;
         })();
@@ -1559,9 +432,11 @@ var FlipPlus;
     // Module
     (function (UserData) {
         var ProjectsData = (function () {
-            function ProjectsData() {
-            }
             // ----------------------- Game Data ----------------------------------------------------------
+            function ProjectsData() {
+                this.projectKey = "Flipp_userData";
+                this.loadFromStorage();
+            }
             //Adds user data to a project
             ProjectsData.prototype.addUserData = function (projects) {
                 for (var p = 0; p < projects.length; p++) {
@@ -1581,7 +456,7 @@ var FlipPlus;
             //gets user data from storage and store it to a level data
             ProjectsData.prototype.getLevelData = function (LevelId) {
                 var key = LevelId;
-                var value = localStorage.getItem(key);
+                var value = this.projectsUserData[key];
 
                 if (value == null) {
                     var ud = new FlipPlus.Projects.LevelUserData();
@@ -1590,13 +465,13 @@ var FlipPlus;
                     ud.unlocked = false;
                     return ud;
                 }
-                return JSON.parse(value);
+                return value;
             };
 
             //gets user data from storage and store it to a project data
             ProjectsData.prototype.getProjectData = function (projectId) {
                 var key = projectId;
-                var value = localStorage.getItem(key);
+                var value = this.projectsUserData[key];
 
                 if (value == null) {
                     var ud = new FlipPlus.Projects.ProjectUserData();
@@ -1605,19 +480,37 @@ var FlipPlus;
                     ud.complete = false;
                     return ud;
                 } else
-                    return JSON.parse(value);
+                    return value;
             };
 
             //updates storage with curret level user data
             ProjectsData.prototype.saveLevelData = function (level) {
                 var key = level.name;
-                localStorage.setItem(key, JSON.stringify(level.userdata));
+                this.projectsUserData[key] = level.userdata;
+                this.saveToStorage();
             };
 
             //updates storage with curret project user data
             ProjectsData.prototype.saveProjectData = function (project) {
                 var key = project.name;
-                localStorage.setItem(key, JSON.stringify(project.UserData));
+                this.projectsUserData[key] = project.UserData;
+                this.saveToStorage();
+            };
+
+            ProjectsData.prototype.saveToStorage = function () {
+                if (this.projectsUserData) {
+                    var str = JSON.stringify(this.projectsUserData);
+                    localStorage.setItem(this.projectKey, str);
+                }
+            };
+
+            ProjectsData.prototype.loadFromStorage = function () {
+                var data = localStorage.getItem(this.projectKey);
+
+                if (data)
+                    this.projectsUserData = JSON.parse(data);
+                else
+                    this.projectsUserData = {};
             };
 
             //-------------------------------------------------------------------------------------------
@@ -1631,6 +524,12 @@ var FlipPlus;
     })(FlipPlus.UserData || (FlipPlus.UserData = {}));
     var UserData = FlipPlus.UserData;
 })(FlipPlus || (FlipPlus = {}));
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var FlipPlus;
 (function (FlipPlus) {
     (function (GamePlay) {
@@ -1650,8 +549,7 @@ var FlipPlus;
                 this.levelLogic = new GamePlay.Model.Level(leveldata);
 
                 //play BgSound
-                gameui.AssetsManager.stopMusic();
-
+                ///gameui.AssetsManager.stopMusic();
                 //creates all screen objects
                 this.createScene(leveldata);
             }
@@ -1698,7 +596,7 @@ var FlipPlus;
                 var _this = this;
                 //intialize  menu overlay
                 this.gameplayMenu = new GamePlay.Views.GamePlayMenu();
-                this.gameplayMenu.y = -248;
+                this.gameplayMenu.y = -100;
                 this.footer.addChild(this.gameplayMenu);
 
                 //level control
@@ -1709,15 +607,15 @@ var FlipPlus;
                     _this.unPauseGame();
                 });
                 this.gameplayMenu.addEventListener("restart", function (e) {
-                    FlipPlus.InvertCrossaGame.replayLevel();
+                    FlipPlus.FlipPlusGame.replayLevel();
                 });
                 this.gameplayMenu.addEventListener("back", function () {
-                    FlipPlus.InvertCrossaGame.exitLevel();
+                    FlipPlus.FlipPlusGame.exitLevel();
                 });
 
                 //upper staus area
-                if (FlipPlus.InvertCrossaGame.projectManager.getCurrentProject() != undefined) {
-                    var levels = FlipPlus.InvertCrossaGame.projectManager.getCurrentProject().levels;
+                if (FlipPlus.FlipPlusGame.projectManager.getCurrentProject() != undefined) {
+                    var levels = FlipPlus.FlipPlusGame.projectManager.getCurrentProject().levels;
                     this.statusArea = new GamePlay.Views.StatusArea();
                     this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
                     this.statusArea.setText1("");
@@ -1771,19 +669,17 @@ var FlipPlus;
                 this.levelLogic.earnPrize();
                 setTimeout(function () {
                     //playSound
-                    gameui.AssetsManager.playSound("prize");
-
+                    ///gameui.AssetsManager.playSound("prize");
                     //apply radius effect
                     _this.boardSprite.radiusEffect(col, row);
                 }, 50);
             };
 
             LevelScreen.prototype.win = function (col, row, messageText) {
+                //play a win sound
+                ///gameui.AssetsManager.playSound("win");
                 var _this = this;
                 if (typeof messageText === "undefined") { messageText = true; }
-                //play a win sound
-                gameui.AssetsManager.playSound("win");
-
                 //verifies if user already completed this level and verifies if player used any item in the game
                 if (!this.levelData.userdata.solved)
                     this.levelData.userdata.item = this.usedItem;
@@ -1797,7 +693,7 @@ var FlipPlus;
                     complete1stTime = true;
 
                 //set model to complete level.
-                FlipPlus.InvertCrossaGame.projectManager.completeLevel(this.levelData);
+                FlipPlus.FlipPlusGame.projectManager.completeLevel(this.levelData);
 
                 //change screen and animate.
                 if (messageText)
@@ -1834,14 +730,14 @@ var FlipPlus;
                 });
 
                 //switch screen
-                FlipPlus.InvertCrossaGame.completeLevel(complete1stTime);
+                FlipPlus.FlipPlusGame.completeLevel(complete1stTime);
             };
 
             LevelScreen.prototype.loose = function () {
                 this.gameplayMenu.fadeOut();
                 this.boardSprite.lock();
                 setTimeout(function () {
-                    FlipPlus.InvertCrossaGame.looseLevel();
+                    FlipPlus.FlipPlusGame.looseLevel();
                 }, 3000);
                 ;
                 this.boardSprite.looseEffect();
@@ -1850,10 +746,10 @@ var FlipPlus;
             // Items ====================================================================================================================
             LevelScreen.prototype.useItem = function (item) {
                 //if user has iteem
-                var itemQuantity = FlipPlus.InvertCrossaGame.itemsData.getItemQuantity(item);
+                var itemQuantity = FlipPlus.FlipPlusGame.itemsData.getItemQuantity(item);
                 if (itemQuantity > 0) {
                     //updates data
-                    FlipPlus.InvertCrossaGame.itemsData.decreaseItemQuantity(item);
+                    FlipPlus.FlipPlusGame.itemsData.decreaseItemQuantity(item);
                     this.usedItem = item;
 
                     //updates Items buttons labels Quantity on footer
@@ -1873,9 +769,9 @@ var FlipPlus;
                 if (!this.useItem("skip"))
                     return;
                 if (this.levelData.userdata.skip || this.levelData.userdata.solved)
-                    FlipPlus.InvertCrossaGame.skipLevel(false);
+                    FlipPlus.FlipPlusGame.skipLevel(false);
                 else
-                    FlipPlus.InvertCrossaGame.skipLevel(true);
+                    FlipPlus.FlipPlusGame.skipLevel(true);
             };
 
             //set hint for a block
@@ -2742,7 +1638,7 @@ var FlipPlus;
                         { name: "Nor", images: ["puzzle/tile_" + theme + "_1", "puzzle/tile_" + theme + "_2", "puzzle/tile_" + theme + "_3", "puzzle/tile_" + theme + "_4"] },
                         { name: "Inv", images: ["puzzle/tilex"] },
                         { name: "DNor", images: ["puzzle/tileD"] },
-                        { name: "DInv", images: ["puzzle/tilexD"] },
+                        //{ name: "DInv", images: ["puzzle/tilexD"] },
                         { name: "null", images: ["puzzle/tile0"] }
                     ];
 
@@ -2918,7 +1814,8 @@ var FlipPlus;
                                 var randomsound = Math.ceil(Math.random() * 3);
                                 if (randomsound >= _this.previousSound)
                                     randomsound++;
-                                gameui.AssetsManager.playSound("tile" + randomsound);
+
+                                ///gameui.AssetsManager.playSound("tile" + randomsound);
                                 _this.previousSound = randomsound;
 
                                 //tutorialrelease
@@ -3280,10 +2177,10 @@ var FlipPlus;
                     smc.y -= 150;
 
                     this.confirmMainButton = new gameui.ui.TextButton("Yes", null, "botao2.png");
-                    smc.addObject(new gameui.ui.TextButton("No", function () {
+                    smc.addObject(new gameui.ui.TextButton("No", "", "", "botao2.png", function () {
                         _this.confirm.fadeOut();
                         _this.leaveButton.fadeIn();
-                    }, "botao2.png"));
+                    }));
                     smc.addObject(this.confirmMainButton);
                 };
 
@@ -3333,7 +2230,7 @@ var FlipPlus;
                     this.overlayMenu.width = 2 * DefaultWidth;
                     this.overlayMenu.height = 0;
 
-                    var pausBt = new gameui.ui.IconButton("puzzle/iconepause", "", "puzzle/btpowerup", function () {
+                    var pausBt = new gameui.ui.IconButton("puzzle/iconepause", "", "", "", "puzzle/btpowerup", function () {
                         _this.pause();
                     });
                     this.overlayMenu.addChild(pausBt), pausBt.x = 1400;
@@ -3354,7 +2251,7 @@ var FlipPlus;
                     var _this = this;
                     this.items.push(buttonId);
 
-                    var button = new gameui.ui.IconButton("puzzle/icon_" + buttonId, "", "puzzle/btpowerup", function () {
+                    var button = new gameui.ui.IconButton("puzzle/icon_" + buttonId, "", defaultFontFamilyNormal, "white", "puzzle/btpowerup", function () {
                         var parameter = null;
                         if (_this.parameters)
                             parameter = _this.parameters[buttonId];
@@ -3371,7 +2268,7 @@ var FlipPlus;
                 // updates buttons labels
                 GamePlayMenu.prototype.updateItemsQuatity = function () {
                     for (var i in this.items)
-                        this.buttons[this.items[i]].updateLabel(FlipPlus.InvertCrossaGame.itemsData.getItemQuantity(this.items[i]));
+                        this.buttons[this.items[i]].updateLabel(FlipPlus.FlipPlusGame.itemsData.getItemQuantity(this.items[i]));
                 };
 
                 // ============== pause menus ============================================
@@ -3379,7 +2276,7 @@ var FlipPlus;
                     var _this = this;
                     var pauseMenu = new gameui.ui.UIItem();
 
-                    var playBt = new gameui.ui.IconButton("puzzle/iconeplay", "", "puzzle/btplay1", function () {
+                    var playBt = new gameui.ui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", function () {
                         _this.unpause();
                     });
                     playBt.x = 600;
@@ -3650,6 +2547,14 @@ var FlipPlus;
 
                 //adds header
                 this.header.addChild(gameui.AssetsManager.getBitmap(bonusId + "/header"));
+                var titleText = new createjs.Text(stringResources[bonusId + "_title"], defaultFontFamilyNormal, "white");
+                titleText.textAlign = "center";
+                titleText.text = titleText.text.toUpperCase();
+                titleText.x = DefaultWidth / 2;
+                titleText.y = 100;
+                titleText.textBaseline = "middle";
+
+                this.header.addChild(titleText);
 
                 //adds footer
                 var footer = gameui.AssetsManager.getBitmap(bonusId + "/footer");
@@ -3696,7 +2601,7 @@ var FlipPlus;
                 for (var i = 0; i < itemsArray.length; i++) {
                     var itemId = itemsArray[i];
                     var textObj = this.footerTexts[itemId];
-                    textObj.text = FlipPlus.InvertCrossaGame.itemsData.getItemQuantity(itemId).toString();
+                    textObj.text = FlipPlus.FlipPlusGame.itemsData.getItemQuantity(itemId).toString();
                 }
             };
 
@@ -3705,14 +2610,16 @@ var FlipPlus;
                 var _this = this;
                 var footerItem = this.footerContainer.getChildByName(itemId);
                 if (footerItem) {
-                    var point = itemObj.parent.localToLocal(0, 0, this.content);
+                    if (itemObj.parent) {
+                        var point = itemObj.parent.localToLocal(0, 0, this.content);
 
-                    createjs.Tween.get(itemObj).to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).to({
-                        x: footerItem.x + this.footer.x + this.footerContainer.x - point.x,
-                        y: footerItem.y + this.footer.y + this.footerContainer.y - point.y
-                    }, 700, createjs.Ease.quadInOut).call(function () {
-                        _this.updateFooterValues();
-                    });
+                        createjs.Tween.get(itemObj).to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).to({
+                            x: footerItem.x + this.footer.x + this.footerContainer.x - point.x,
+                            y: footerItem.y + this.footer.y + this.footerContainer.y - point.y
+                        }, 700, createjs.Ease.quadInOut).call(function () {
+                            _this.updateFooterValues();
+                        });
+                    }
                 }
             };
 
@@ -3726,7 +2633,7 @@ var FlipPlus;
                 var _this = this;
                 this.menu = new FlipPlus.Menu.View.ScreenMenu();
                 this.menu.addEventListener("menu", function () {
-                    FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new FlipPlus.Menu.OptionsMenu());
+                    FlipPlus.FlipPlusGame.showOptions();
                 });
                 this.menu.addEventListener("back", function () {
                     _this.back();
@@ -3736,7 +2643,7 @@ var FlipPlus;
 
             //updates user Data with new Item
             BonusScreen.prototype.userAquireItem = function (itemId) {
-                FlipPlus.InvertCrossaGame.itemsData.increaseItemQuantity(itemId);
+                FlipPlus.FlipPlusGame.itemsData.increaseItemQuantity(itemId);
             };
 
             BonusScreen.prototype.selectRandomItems = function (quantity) {
@@ -3758,7 +2665,7 @@ var FlipPlus;
             };
 
             BonusScreen.prototype.back = function () {
-                FlipPlus.InvertCrossaGame.showProjectsMenu();
+                FlipPlus.FlipPlusGame.showProjectsMenu();
             };
 
             //finalizes bonus game
@@ -4244,7 +3151,11 @@ var FlipPlus;
                 });
                 this.mainClip.addEventListener("End", function () {
                     _this.mainClip.stop();
-                    _this.bonusOver();
+
+                    _this.message.showtext(stringResources.b3_finish, 2000, 1000);
+                    _this.message.addEventListener("onclose", function () {
+                        _this.endBonus();
+                    });
                 });
 
                 //add keys
@@ -4284,8 +3195,11 @@ var FlipPlus;
 
             Bonus3.prototype.pickKey = function (keyId) {
                 var _this = this;
+                this.content.mouseEnabled = false;
                 this.keys[keyId].gotoAndPlay("key");
                 setTimeout(function () {
+                    _this.content.mouseEnabled = true;
+
                     //if key is correct
                     if (keyId == _this.correctKeyId) {
                         //play movie clip
@@ -4310,11 +3224,17 @@ var FlipPlus;
             };
 
             Bonus3.prototype.updateChances = function () {
+                var _this = this;
                 this.mainClip["indicator"].gotoAndStop(2 - this.chances);
 
                 //verify if user looses
-                if (this.chances < 0)
-                    this.bonusOver();
+                if (this.chances < 0) {
+                    this.content.mouseEnabled = false;
+                    this.message.showtext(stringResources.b3_noMoreChances, 2000, 1100);
+                    this.message.addEventListener("onclose", function () {
+                        _this.endBonus();
+                    });
+                }
             };
 
             //-----------------------------------------------
@@ -4326,7 +3246,7 @@ var FlipPlus;
                 var itemsDo = [];
 
                 for (var i in items) {
-                    FlipPlus.InvertCrossaGame.itemsData.increaseItemQuantity(items[i]);
+                    FlipPlus.FlipPlusGame.itemsData.increaseItemQuantity(items[i]);
 
                     var item = this.createItem(items[i]);
 
@@ -4351,18 +3271,6 @@ var FlipPlus;
                 //itemDO.visible = false;
                 itemDO.mouseEnabled = false;
                 return itemDO;
-            };
-
-            //-----------------------------------------------
-            Bonus3.prototype.bonusOver = function () {
-                var _this = this;
-                //disable input
-                this.content.mouseEnabled = false;
-
-                //exit level
-                setTimeout(function () {
-                    _this.endBonus();
-                }, 1500);
             };
             return Bonus3;
         })(Bonus.BonusScreen);
@@ -4448,7 +3356,7 @@ var FlipPlus;
                 //TODO fazer camada intermediaria
                 //TODO o options sempre volta pro menu principal. O_o
                 this.menu.addEventListener("menu", function () {
-                    FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
+                    FlipPlus.FlipPlusGame.showOptions();
                 });
                 this.menu.addEventListener("back", function () {
                     _this.back();
@@ -4460,7 +3368,7 @@ var FlipPlus;
             LevelsMenu.prototype.addProjects = function () {
                 var _this = this;
                 //pega projetos
-                var projects = FlipPlus.InvertCrossaGame.projectManager.getUnlockedProjects();
+                var projects = FlipPlus.FlipPlusGame.projectManager.getUnlockedProjects();
 
                 //create projects container
                 var projectsContainer = new createjs.Container();
@@ -4494,11 +3402,11 @@ var FlipPlus;
 
                 if (level != null)
                     if (level.userdata.unlocked)
-                        FlipPlus.InvertCrossaGame.showLevel(level, parameters);
+                        FlipPlus.FlipPlusGame.showLevel(level, parameters);
             };
 
             LevelsMenu.prototype.back = function () {
-                FlipPlus.InvertCrossaGame.showProjectsMenu();
+                FlipPlus.FlipPlusGame.showProjectsMenu();
             };
 
             // ----------------------- pagination -------------------------------------------------------
@@ -4537,9 +3445,9 @@ var FlipPlus;
                 _super.prototype.activate.call(this);
 
                 for (var pv in this.projectViews) {
-                    var project = FlipPlus.InvertCrossaGame.projectManager.getProjectByName(this.projectViews[pv].name);
+                    var project = FlipPlus.FlipPlusGame.projectManager.getProjectByName(this.projectViews[pv].name);
 
-                    if (project == FlipPlus.InvertCrossaGame.projectManager.getCurrentProject()) {
+                    if (project == FlipPlus.FlipPlusGame.projectManager.getCurrentProject()) {
                         //activate current project
                         this.projectViews[pv].activate(parameters);
 
@@ -4553,7 +3461,7 @@ var FlipPlus;
                             setTimeout(function () {
                                 _this.view.mouseEnabled = true;
                                 _this.view.mouseChildren = true;
-                                FlipPlus.InvertCrossaGame.showMainMenu();
+                                FlipPlus.FlipPlusGame.showMainMenu();
                             }, 2000);
                         }
                     }
@@ -4638,16 +3546,15 @@ var FlipPlus;
                 _super.prototype.activate.call(this);
 
                 //play BgSound
-                gameui.AssetsManager.playMusic("trilha");
-
+                //gameui.AssetsManager.playMusic("trilha");
                 //Verifies if it is the first time playing
-                if (!FlipPlus.InvertCrossaGame.storyData.getStoryPlayed("intro")) {
+                if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro")) {
                     this.intro.visible = true;
                     this.myBots.visible = false;
                     this.playBt.visible = false;
                     this.intro.playPart1();
-                } else if (!FlipPlus.InvertCrossaGame.storyData.getStoryPlayed("intro2")) {
-                    FlipPlus.InvertCrossaGame.storyData.setStoryPlayed("intro2");
+                } else if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro2")) {
+                    FlipPlus.FlipPlusGame.storyData.setStoryPlayed("intro2");
                     this.intro.visible = true;
                     this.myBots.visible = false;
                     this.playBt.visible = false;
@@ -4678,7 +3585,7 @@ var FlipPlus;
 
             MainMenu.prototype.addMyBots = function () {
                 var _this = this;
-                this.myBots = new FlipPlus.Robots.MyBots();
+                this.myBots = new FlipPlus.Robots.MyBots(FlipPlus.FlipPlusGame.projectManager);
                 this.content.addChild(this.myBots);
                 this.myBots.addEventListener("robot", function (e) {
                     _this.robotClick(e.target);
@@ -4693,7 +3600,7 @@ var FlipPlus;
                 });
                 this.menu.addEventListener("menu", function () {
                     //TODO fazer camada intermediaria
-                    FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
+                    FlipPlus.FlipPlusGame.showOptions();
                 });
                 this.header.addChild(this.menu);
             };
@@ -4706,9 +3613,9 @@ var FlipPlus;
             };
 
             MainMenu.prototype.addPlayButton = function () {
-                var playBt = new gameui.ui.TextButton("PLAY", function () {
-                    FlipPlus.InvertCrossaGame.showProjectsMenu();
-                }, null, defaultFontFamilyHighlight, highlightFontColor);
+                var playBt = new gameui.ui.TextButton("PLAY", defaultFontFamilyHighlight, highlightFontColor, "", function () {
+                    FlipPlus.FlipPlusGame.showProjectsMenu();
+                });
 
                 this.content.addChild(playBt);
                 playBt.x = 800;
@@ -4718,7 +3625,7 @@ var FlipPlus;
             };
 
             MainMenu.prototype.back = function () {
-                FlipPlus.InvertCrossaGame.showTitleScreen();
+                FlipPlus.FlipPlusGame.showTitleScreen();
             };
 
             //TODO: it shoud not be here
@@ -4775,17 +3682,8 @@ var FlipPlus;
             };
 
             MainMenu.prototype.robotClick = function (robot) {
-                var t = FlipPlus.InvertCrossaGame.timersData.getTimer(robot);
+                var t = FlipPlus.FlipPlusGame.timersData.getTimer(robot);
                 this.terminal.setText(Math.floor(t / 1000 / 60) + " minutes");
-            };
-
-            //------------slide show---------------------------------------
-            //TODO: ver isso
-            MainMenu.prototype.playSlideShow = function () {
-                var s = new Menu.SlideShow(["sl1", "sl2", "sl3"]);
-                FlipPlus.InvertCrossaGame.screenViewer.switchScreen(s);
-                s.onfinish = function () {
-                };
             };
             return MainMenu;
         })(gameui.ScreenState);
@@ -4817,8 +3715,8 @@ var FlipPlus;
                 backContainer.y = 1676;
                 this.content.addChild(backContainer);
 
-                backContainer.addObject(new gameui.ui.TextButton(stringResources.op_back, function () {
-                    FlipPlus.InvertCrossaGame.showMainMenu();
+                backContainer.addObject(new gameui.ui.TextButton(stringResources.op_back, "", "", "", function () {
+                    FlipPlus.FlipPlusGame.showMainMenu();
                 }));
 
                 //add Label
@@ -4828,7 +3726,7 @@ var FlipPlus;
 
                 //add Other Buttons
                 mc.addButton(stringResources.op_erase, function () {
-                    FlipPlus.InvertCrossaGame.userData.clearAllData();
+                    FlipPlus.FlipPlusGame.projectData.clearAllData();
                     window.location.reload();
                 });
             };
@@ -4884,7 +3782,7 @@ var FlipPlus;
                 //TODO fazer camada intermediaria
                 //TODO o options sempre volta pro menu principal. O_o
                 this.menu.addEventListener("menu", function () {
-                    FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
+                    FlipPlus.FlipPlusGame.showOptions();
                 });
                 this.menu.addEventListener("back", function () {
                     _this.back();
@@ -4905,8 +3803,8 @@ var FlipPlus;
             };
 
             ProjectsMenu.prototype.updateStatistcs = function () {
-                var done = FlipPlus.InvertCrossaGame.projectManager.getFinihedProjects().length;
-                var total = FlipPlus.InvertCrossaGame.projectManager.getAllProjects().length;
+                var done = FlipPlus.FlipPlusGame.projectManager.getFinihedProjects().length;
+                var total = FlipPlus.FlipPlusGame.projectManager.getAllProjects().length;
                 this.statisticsTextField.text = done + "/" + total + " BOTS";
             };
 
@@ -4930,7 +3828,7 @@ var FlipPlus;
                 var currentPage;
 
                 // Create projectItens
-                var projects = FlipPlus.InvertCrossaGame.projectManager.getAllProjects();
+                var projects = FlipPlus.FlipPlusGame.projectManager.getAllProjects();
 
                 for (var i = 0; i < projects.length; i++) {
                     //create current page
@@ -4965,23 +3863,28 @@ var FlipPlus;
             //adds bonuses objects to the view
             ProjectsMenu.prototype.addBonuses = function () {
                 var _this = this;
-                for (var p = 0; p < this.pages.length; p++)
+                for (var p = 0; p < this.pages.length; p++) {
                     var bonusBt = new Menu.View.BonusItem("Bonus" + (p + 1), function (e) {
                         //cancel click in case of drag
                         if (_this.pagesSwipe.cancelClick)
                             return;
 
                         var bonusId = e.currentTarget.bonusId;
-                        var timer = FlipPlus.InvertCrossaGame.timersData.getTimer(bonusId);
+                        var timer = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
 
-                        if (timer == 0)
-                            FlipPlus.InvertCrossaGame.showBonus(bonusId);
-                        else
-                            _this.showtimeWarning(timer.toString());
+                        if (bonusData[bonusId].cost <= FlipPlus.FlipPlusGame.projectManager.getStarsCount()) {
+                            if (timer == 0)
+                                FlipPlus.FlipPlusGame.showBonus(bonusId);
+                            else
+                                _this.showtimeWarning(timer.toString());
+                        } else {
+                            _this.showStarWarning(FlipPlus.FlipPlusGame.projectManager.getStarsCount(), bonusData[bonusId].cost);
+                        }
                     });
 
-                this.pages[p].addChild(bonusBt);
-                this.bonusItems.push(bonusBt);
+                    this.pages[p].addChild(bonusBt);
+                    this.bonusItems.push(bonusBt);
+                }
             };
 
             //Callback to the project item click
@@ -4996,16 +3899,16 @@ var FlipPlus;
                 var p = pv.project;
 
                 if (p.UserData.unlocked)
-                    FlipPlus.InvertCrossaGame.showProjectLevelsMenu(p, { rebuild: true });
+                    FlipPlus.FlipPlusGame.showProjectLevelsMenu(p, { rebuild: true });
                 else {
-                    var stars = FlipPlus.InvertCrossaGame.projectManager.getStarsCount();
+                    var stars = FlipPlus.FlipPlusGame.projectManager.getStarsCount();
                     if (stars < p.cost)
                         this.showStarWarning(stars, p.cost);
                 }
             };
 
             ProjectsMenu.prototype.showStarWarning = function (stars, cost) {
-                this.popup.showtext(stringResources.pr_notStarsTitle, stringResources.pr_notStarsTitle.split("#")[0] + stars.toString() + stringResources.pr_notStarsTitle.split("#")[1] + cost.toString() + stringResources.pr_notStarsTitle.split("#")[2], 10000);
+                this.popup.showtext(stringResources.pr_notStarsTitle, stringResources.pr_notStarsText.split("#")[0] + stars.toString() + stringResources.pr_notStarsText.split("#")[1] + cost.toString() + stringResources.pr_notStarsText.split("#")[2], 10000);
             };
 
             ProjectsMenu.prototype.showtimeWarning = function (time) {
@@ -5063,11 +3966,11 @@ var FlipPlus;
                 this.updateStatistcs();
                 this.updateBonuses();
 
-                this.starsIndicator.updateStarsAmount(FlipPlus.InvertCrossaGame.projectManager.getStarsCount());
+                this.starsIndicator.updateStarsAmount(FlipPlus.FlipPlusGame.projectManager.getStarsCount());
             };
 
             ProjectsMenu.prototype.back = function () {
-                FlipPlus.InvertCrossaGame.showMainMenu();
+                FlipPlus.FlipPlusGame.showMainMenu();
             };
             return ProjectsMenu;
         })(gameui.ScreenState);
@@ -5087,31 +3990,31 @@ var FlipPlus;
                 this.createObjects();
             }
             SoundMenu.prototype.createObjects = function () {
-                var sfxon = new gameui.ui.IconButton("botaofxon.png", "", "botaosom.png", function () {
-                    FlipPlus.InvertCrossaGame.settings.setSoundfX(false);
+                var sfxon = new gameui.ui.IconButton("botaofxon.png", "", "", "", "botaosom.png", function () {
+                    FlipPlus.FlipPlusGame.settings.setSoundfX(false);
                     sfxon.visible = false;
                     sfxoff.visible = true;
                 });
-                var sfxoff = new gameui.ui.IconButton("botaofxoff.png", "", "botaosom.png", function () {
-                    FlipPlus.InvertCrossaGame.settings.setSoundfX(true);
+                var sfxoff = new gameui.ui.IconButton("botaofxoff.png", "", "", "", "botaosom.png", function () {
+                    FlipPlus.FlipPlusGame.settings.setSoundfX(true);
                     sfxoff.visible = false;
                     sfxon.visible = true;
                 });
-                var muson = new gameui.ui.IconButton("botaomusicaon.png", "", "botaosom.png", function () {
-                    FlipPlus.InvertCrossaGame.settings.setMusic(false);
+                var muson = new gameui.ui.IconButton("botaomusicaon.png", "", "", "", "botaosom.png", function () {
+                    FlipPlus.FlipPlusGame.settings.setMusic(false);
                     muson.visible = false;
                     musoff.visible = true;
                 });
-                var musoff = new gameui.ui.IconButton("botaomusicaoff.png", "", "botaosom.png", function () {
-                    FlipPlus.InvertCrossaGame.settings.setMusic(true);
+                var musoff = new gameui.ui.IconButton("botaomusicaoff.png", "", "", "", "botaosom.png", function () {
+                    FlipPlus.FlipPlusGame.settings.setMusic(true);
                     musoff.visible = false;
                     muson.visible = true;
                 });
 
-                musoff.visible = !FlipPlus.InvertCrossaGame.settings.getMusic();
-                muson.visible = FlipPlus.InvertCrossaGame.settings.getMusic();
-                sfxoff.visible = !FlipPlus.InvertCrossaGame.settings.getSoundfx();
-                sfxon.visible = FlipPlus.InvertCrossaGame.settings.getSoundfx();
+                musoff.visible = !FlipPlus.FlipPlusGame.settings.getMusic();
+                muson.visible = FlipPlus.FlipPlusGame.settings.getMusic();
+                sfxoff.visible = !FlipPlus.FlipPlusGame.settings.getSoundfx();
+                sfxon.visible = FlipPlus.FlipPlusGame.settings.getSoundfx();
 
                 //Add Sound Buttons
                 var soundMenuOn = new gameui.ui.Grid(2, 1, 600, 372, null, true);
@@ -5599,7 +4502,7 @@ var FlipPlus;
                 ProjectItem.prototype.updateProjectInfo = function () {
                     //verifica se o projeto pode ser destravado
                     //TODO. nao devia acessar metodo global aqui
-                    FlipPlus.InvertCrossaGame.projectManager.unlockProject(this.project);
+                    FlipPlus.FlipPlusGame.projectManager.unlockProject(this.project);
 
                     //update the objects display
                     this.createObjects(this.project);
@@ -5800,9 +4703,10 @@ var FlipPlus;
         // Model
         var ProjectManager = (function () {
             // ------------------------------- initialization ----------------------------------------//
-            function ProjectManager(data) {
+            function ProjectManager(data, userData) {
                 //Max simultaneous working/avaliable projects
                 this.maxAvaliableProjects = 6;
+                this.userData = userData;
                 this.loadProjects(data);
             }
             ProjectManager.prototype.loadProjects = function (data) {
@@ -5815,7 +4719,7 @@ var FlipPlus;
                     }
 
                 //create a user data for each level/project
-                FlipPlus.InvertCrossaGame.userData.addUserData(this.projects);
+                this.userData.addUserData(this.projects);
             };
 
             // ------------------------------- manager Levels ----------------------------------------
@@ -5846,7 +4750,7 @@ var FlipPlus;
                     level.userdata.skip = true;
 
                     //updates next level
-                    var nextLevel = FlipPlus.InvertCrossaGame.projectManager.getNextLevel();
+                    var nextLevel = this.getNextLevel();
                     if (nextLevel != null)
                         this.unlockLevel(nextLevel);
 
@@ -5854,8 +4758,8 @@ var FlipPlus;
                     this.updateProjectUserData(this.getCurrentProject());
 
                     //save user data
-                    FlipPlus.InvertCrossaGame.userData.saveLevelData(level);
-                    FlipPlus.InvertCrossaGame.userData.saveProjectData(this.getCurrentProject());
+                    this.userData.saveLevelData(level);
+                    this.userData.saveProjectData(this.getCurrentProject());
                 }
             };
 
@@ -5867,7 +4771,7 @@ var FlipPlus;
                 level.userdata.unlocked = true;
 
                 //updates next level
-                var nextLevel = FlipPlus.InvertCrossaGame.projectManager.getNextLevel();
+                var nextLevel = this.getNextLevel();
                 if (nextLevel != null)
                     this.unlockLevel(nextLevel);
 
@@ -5875,8 +4779,8 @@ var FlipPlus;
                 this.updateProjectUserData(this.getCurrentProject());
 
                 //save user data
-                FlipPlus.InvertCrossaGame.userData.saveLevelData(level);
-                FlipPlus.InvertCrossaGame.userData.saveProjectData(this.getCurrentProject());
+                this.userData.saveLevelData(level);
+                this.userData.saveProjectData(this.getCurrentProject());
             };
 
             //get next level inside a project
@@ -5986,8 +4890,8 @@ var FlipPlus;
                     project.levels[0].userdata.unlocked = true;
 
                     //save user data
-                    FlipPlus.InvertCrossaGame.userData.saveProjectData(project);
-                    FlipPlus.InvertCrossaGame.userData.saveLevelData(project.levels[0]);
+                    this.userData.saveProjectData(project);
+                    this.userData.saveLevelData(project.levels[0]);
                 }
             };
 
@@ -5995,20 +4899,20 @@ var FlipPlus;
             ProjectManager.prototype.unlockLevel = function (level) {
                 //unlock level user data
                 level.userdata.unlocked = true;
-                FlipPlus.InvertCrossaGame.userData.saveLevelData(level);
+                this.userData.saveLevelData(level);
             };
 
             //Finish a project.
             ProjectManager.prototype.completeProject = function (project) {
                 //TODO colocar isso em outro lugar
                 //set played the intro when a project is complete
-                FlipPlus.InvertCrossaGame.storyData.setStoryPlayed("intro");
+                FlipPlus.FlipPlusGame.storyData.setStoryPlayed("intro");
 
                 if (project.UserData.complete == true)
                     return;
 
                 project.UserData.complete = true;
-                FlipPlus.InvertCrossaGame.userData.saveProjectData(project);
+                this.userData.saveProjectData(project);
             };
 
             //Updates user data project status
@@ -6068,8 +4972,9 @@ var FlipPlus;
         var MyBots = (function (_super) {
             __extends(MyBots, _super);
             //----------------------initialization ---------------------------
-            function MyBots() {
+            function MyBots(projectManager) {
                 _super.call(this);
+                this.projectManager = projectManager;
                 this.initializeGraphics();
                 this.initializeNames();
                 ////TODO, arrumar essa gambiarra sem vergonha
@@ -6083,7 +4988,7 @@ var FlipPlus;
 
             //add names for each robot instance in lobby (toolkit plugin does not make it automatically)
             MyBots.prototype.initializeNames = function () {
-                var projects = FlipPlus.InvertCrossaGame.projectManager.getAllProjects();
+                var projects = this.projectManager.getAllProjects();
 
                 for (var p = 0; p < projects.length; p++) {
                     var robotName = projects[p].name;
@@ -6097,7 +5002,7 @@ var FlipPlus;
             //adds a user feedback for click action
             MyBots.prototype.initializeUserFeedback = function () {
                 var _this = this;
-                FlipPlus.InvertCrossaGame.stage.update();
+                FlipPlus.FlipPlusGame.gameScreen.stage.update();
                 for (var c = 0; c < this.myBots.getNumChildren(); c++) {
                     var robot = this.myBots.getChildAt(c);
                     ;
@@ -6115,7 +5020,7 @@ var FlipPlus;
             //User action feedback to user touch
             MyBots.prototype.userfeedback = function (event) {
                 var robotMc = event.currentTarget;
-                var project = FlipPlus.InvertCrossaGame.projectManager.getProjectByName(robotMc.name);
+                var project = this.projectManager.getProjectByName(robotMc.name);
 
                 //verifies if robot is ready or have parts ready
                 if (project && project.UserData.complete || !project) {
@@ -6128,7 +5033,7 @@ var FlipPlus;
             //Updates Robot lobby idle behaviour
             MyBots.prototype.update = function () {
                 //get Robots
-                var projects = FlipPlus.InvertCrossaGame.projectManager.getFinihedProjects();
+                var projects = this.projectManager.getFinihedProjects();
 
                 //set all robots to start position
                 this.hideAllRobots();
@@ -6137,18 +5042,22 @@ var FlipPlus;
                     this.showRobot(projects[r].name);
             };
 
-            //updates revenuesTimers
-            //NOTE, talvez isso nao deva ficar aqui
-            MyBots.prototype.checkRevenueTimers = function () {
-                //get projects
-                var projects = FlipPlus.InvertCrossaGame.projectManager.getFinihedProjects();
-
-                for (var r in projects)
-                    //if robot has parts, set it alert
-                    if (FlipPlus.InvertCrossaGame.timersData.getTimer(projects[r].name) < 0)
-                        this.alertRobot(projects[r].name);
-            };
-
+            ////updates revenuesTimers
+            ////NOTE, talvez isso nao deva ficar aqui
+            //private checkRevenueTimers() {
+            //
+            //    //get projects
+            //    var projects = FlipPlusGame.projectManager.getFinihedProjects();
+            //
+            //    //if is null create a timer
+            //    //TODO, deve criar o timer quando conclui o projeto.
+            //
+            //    //set idle to the finished projects
+            //    for (var r in projects)
+            //        //if robot has parts, set it alert
+            //        if (FlipPlusGame.timersData.getTimer(projects[r].name) < 0)
+            //            this.alertRobot(projects[r].name);
+            //}
             //hide All Robots from Screen
             MyBots.prototype.hideAllRobots = function () {
                 for (var c = 0; c < this.myBots.getNumChildren(); c++)
@@ -6184,20 +5093,9 @@ var FlipPlus;
     var Robots = FlipPlus.Robots;
 })(FlipPlus || (FlipPlus = {}));
 /// <reference path="script/typing/createjs/createjs.d.ts" />
+/// <reference path="script/typing/gameuijs/gameuijs.d.ts" />
 /// <reference path="src/preferences.ts" />
-/*gameui*/
-/// <reference path="gameui/UI/UIItem.ts" />
-/// <reference path="gameui/UI/Grid.ts" />
-/// <reference path="gameui/UI/Button.ts" />
-/// <reference path="gameui/UI/MenuContainer.ts" />
-/// <reference path="gameui/UI/Label.ts" />
-/// <reference path="gameui/ScreenViewer.ts" />
-/// <reference path="gameui/ScreenState.ts" />
-/// <reference path="gameui/Game.ts" />
-/// <reference path="gameui/AssetsManager.ts" />
-/*scripts*/
-/// <reference path="src/Assets.ts" />
-/// <reference path="src/FlipPlusGame.ts" />
+/*scripts*/ /// <reference path="src/FlipPlusGame.ts" />
 /// <reference path="src/UserData/Items.ts" />
 /// <reference path="src/UserData/Settings.ts" />
 /// <reference path="src/UserData/Story.ts" />
@@ -6631,7 +5529,7 @@ var FlipPlus;
                     this.removeAllChildren();
 
                     //if unlocked
-                    var stars = FlipPlus.InvertCrossaGame.projectManager.getStarsCount();
+                    var stars = FlipPlus.FlipPlusGame.projectManager.getStarsCount();
                     if (stars >= bonusData[bonusId].cost) {
                         //background
                         var bg = "projects/" + bonusId;
@@ -6685,7 +5583,7 @@ var FlipPlus;
                 };
 
                 BonusItem.prototype.timerintervalTick = function () {
-                    var time = FlipPlus.InvertCrossaGame.timersData.getTimer(this.bonusId);
+                    var time = FlipPlus.FlipPlusGame.timersData.getTimer(this.bonusId);
 
                     if (time == 0) {
                         this.timerText.text = stringResources.mm_play;
@@ -6883,7 +5781,7 @@ var FlipPlus;
                 if (!postback) {
                     window.onresize = function () {
                     };
-                    FlipPlus.InvertCrossaGame.redim(420, 600, false);
+                    FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen(420, 600, false);
                     if (levelData == null) {
                         levelData = new FlipPlus.Projects.Level();
                         levelData.width = 5;
@@ -6902,7 +5800,7 @@ var FlipPlus;
 
                 this.editWindow.document.getElementById("c_create").onclick = function () {
                     levelData = _this.getLevelDataFromForm();
-                    FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(levelData, _this.editWindow));
+                    FlipPlus.FlipPlusGame.gameScreen.switchScreen(new LevelCreator(levelData, _this.editWindow));
                 };
 
                 this.editWindow.document.getElementById("c_save").onclick = function () {
@@ -6925,7 +5823,7 @@ var FlipPlus;
 
                     if (level) {
                         _this.setFormFromLevelData(level);
-                        FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(level, _this.editWindow, true));
+                        FlipPlus.FlipPlusGame.gameScreen.switchScreen(new LevelCreator(level, _this.editWindow, true));
                     }
                 };
 
@@ -6959,7 +5857,7 @@ var FlipPlus;
                     for (var p in levelsData) {
                         levelsData[p].cost = 0;
                     }
-                    FlipPlus.InvertCrossaGame.initializeGame();
+                    FlipPlus.FlipPlusGame.initializeGame();
                     //window.onresize = () => { };
                     //console.log("ctest")
                     //FlipPlus.InvertCrossaGame.redim(420, 600, false);
@@ -7146,7 +6044,7 @@ var FlipPlus;
                             break;
 
                         case "end":
-                            FlipPlus.InvertCrossaGame.showProjectsMenu();
+                            FlipPlus.FlipPlusGame.showProjectsMenu();
                             _this.dispatchEvent("end");
                             break;
                     }
@@ -7292,7 +6190,7 @@ var FlipPlus;
 
                 //add event to go to main menu
                 this.content.addEventListener("click", function () {
-                    FlipPlus.InvertCrossaGame.showMainMenu();
+                    FlipPlus.FlipPlusGame.showMainMenu();
                 });
             }
             TitleScreen.prototype.redim = function (headerY, footerY, width) {
@@ -7813,7 +6711,7 @@ var FlipPlus;
                     this.starsIndicator.y = 1334 - 2048;
                     levelMachine.addChild(this.starsIndicator);
 
-                    if ((!FlipPlus.InvertCrossaGame.isFree() && project.free) || FlipPlus.InvertCrossaGame.isFree()) {
+                    if ((!FlipPlus.FlipPlusGame.isFree() && project.free) || FlipPlus.FlipPlusGame.isFree()) {
                         if (project.UserData.unlocked) {
                             //Add Level Thumbs
                             this.levelGrid = new Menu.View.LevelGrid(project);
@@ -7845,37 +6743,6 @@ var FlipPlus;
                     this.robotPreview.x = this.statusArea.x = -pos * 0.35 + DefaultWidth / 2;
                 };
 
-                /*
-                private animateIn(completeLevel: boolean= false, direction: number= -1) {
-                
-                //animate status and machihine
-                this.levelsMahine.y = 800;
-                this.statusArea.scaleX = 0;
-                createjs.Tween.get(this.levelsMahine).to({ y: 0 }, 400, createjs.Ease.quadOut)
-                createjs.Tween.get(this.statusArea).to({ scaleX: 1 }, 200, createjs.Ease.quadOut)
-                
-                //animate level complete
-                if (completeLevel) this.robotPreview.animateLevelComplete();
-                
-                else {
-                //animate Robot
-                this.robotPreview.set({ x: -direction * DefaultWidth });
-                createjs.Tween.get(this.robotPreview).to({ x: DefaultWidth / 2 }, 500, createjs.Ease.quadOut)
-                }
-                }
-                
-                private animateOut(call, direction: number= -1) {
-                
-                //animate machie
-                createjs.Tween.get(this.levelsMahine).to({ y: 800 }, 200, createjs.Ease.quadIn).call(call)
-                
-                //animate name and button
-                createjs.Tween.get(this.statusArea).wait(100).to({ scaleX: 0 }, 100, createjs.Ease.quadIn)
-                
-                //animate robot
-                createjs.Tween.get(this.robotPreview).to({ x: direction * DefaultWidth }, 500, createjs.Ease.quadIn)
-                }
-                */
                 //--Behaviour-----------------------------------------------------------
                 //open a level
                 ProjectWorkshopView.prototype.openLevel = function (event) {
@@ -7884,7 +6751,7 @@ var FlipPlus;
 
                     if (level != null)
                         if (level.userdata.unlocked)
-                            FlipPlus.InvertCrossaGame.showLevel(level, parameters);
+                            FlipPlus.FlipPlusGame.showLevel(level, parameters);
                 };
 
                 ProjectWorkshopView.prototype.redim = function (headerY, footerY) {
