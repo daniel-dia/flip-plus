@@ -8,7 +8,7 @@ module InvertCross.Menu {
         private projectsGrid: createjs.Container;
 
         private projectsItems: View.ProjectItem[] = [];
-        private bonusItems: View.ProjectItem[] = [];
+        private bonusItems: View.BonusItem[] = [];
         
         private menu: View.ScreenMenu;
 
@@ -137,8 +137,7 @@ module InvertCross.Menu {
         //adds bonuses objects to the view
         private addBonuses() {
             for (var p = 0; p < this.pages.length; p++)
-
-                this.pages[p].addChild(new View.BonusItem("Bonus" + (p+1), (e:MouseEvent) => {
+                var bonusBt = new View.BonusItem("Bonus" + (p+1), (e:MouseEvent) => {
                     //cancel click in case of drag
                     if (this.pagesSwipe.cancelClick) return;
 
@@ -147,7 +146,10 @@ module InvertCross.Menu {
 
                     if (timer == 0) InvertCrossaGame.showBonus(bonusId);
                     else this.showtimeWarning(timer.toString());
-                }));
+                });
+
+            this.pages[p].addChild(bonusBt);
+            this.bonusItems.push(bonusBt);
         }
 
         //Callback to the project item click
@@ -187,8 +189,8 @@ module InvertCross.Menu {
 
         //update all projects preview in the menu page
         private updateBonuses() {
-            for (var i = 0; i < this.projectsItems.length; i++)
-                this.projectsItems[i].updateProjectInfo();
+            for (var i = 0; i < 3; i++)
+                this.bonusItems[i].updateProjectInfo();
         }
 
         //=====================================================
