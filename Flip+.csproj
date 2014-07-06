@@ -913,7 +913,6 @@
     <Content Include="data\stringResources.js" />
     <Content Include="fonts\Exo2.0-Bold.woff" />
     <Content Include="fonts\Exo2.0-Regular.woff" />
-    <Content Include="JavaScript1.js" />
     <Content Include="levelCreator.htm" />
     <Content Include="script\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
