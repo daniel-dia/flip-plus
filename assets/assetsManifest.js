@@ -19,7 +19,6 @@ function getAssetsManifest(assetscale) {
         { src: imagePath + "logo/bandeira2.png", id: "bandeira2" },
         { src: imagePath + "logo/bandeira3.png", id: "bandeira3" },
         { src: imagePath + "logo/Cenario.jpg", id: "Cenario" },
-        { src: imagePath + "logo/Cenário.jpg", id: "Cenário" },
         { src: imagePath + "logo/coqueiro02.png", id: "coqueiro02" },
         { src: imagePath + "logo/coqueiro1.png", id: "coqueiro1" },
         { src: imagePath + "logo/coqueiro2.png", id: "coqueiro2" },
@@ -67,7 +66,6 @@ function getAssetsManifest(assetscale) {
         { src: imagePath + "Bonus3/number_2.png", id: "Bonus3/number_2" },
         { src: imagePath + "Bonus3/number_3.png", id: "Bonus3/number_3" },
 
-        { src: imagePath + "Bonus3/bg_bonus3.jpg", id: "bg_bonus3" },
 		{ src: imagePath + "Bonus3/chest_1.png", id: "chest_1" },
 		{ src: imagePath + "Bonus3/chest_2.png", id: "chest_2" },
 		{ src: imagePath + "Bonus3/chest_3.png", id: "chest_3" },
@@ -256,6 +254,7 @@ function getAssetsManifest(assetscale) {
         { id: "puzzle/Puzzle", src: imagePath + "puzzle/Puzzle.png" },
 
         //My bots
+        
         { src: imagePath + "myBots/B00M_01.png", id: "B00M_01" },
         { src: imagePath + "myBots/B00M_02.png", id: "B00M_02" },
         { src: imagePath + "myBots/B00M_03.png", id: "B00M_03" },
@@ -336,7 +335,7 @@ function getAssetsManifest(assetscale) {
         { src: imagePath + "myBots/Y0S1_01.png", id: "Y0S1_01" },
         { src: imagePath + "myBots/Y0S1_02.png", id: "Y0S1_02" },
         { src: imagePath + "myBots/Y0S1_03.png", id: "Y0S1_03" },
-
+        
 
         { id: "puzzle/btrest", src: imagePath + "puzzle/btrest.png" },
 
@@ -394,7 +393,7 @@ function getAssetsManifest(assetscale) {
 
         //Legacy
         { id: "bolinhas", src: imagePath  + "bolinhas.png" },
-        { id: "smokePart", src: imagePath + "smokePart.png" },
+        //{ id: "smokePart", src: imagePath + "smokePart.png" },
 
 
         ////Sound

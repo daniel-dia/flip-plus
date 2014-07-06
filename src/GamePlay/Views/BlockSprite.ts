@@ -171,7 +171,7 @@ module FlipPlus.GamePlay.Views {
                 { name: "Nor", images: ["puzzle/tile_" + theme + "_1", "puzzle/tile_" + theme + "_2", "puzzle/tile_" + theme + "_3", "puzzle/tile_" + theme + "_4", ] },
                 { name: "Inv", images:  ["puzzle/tilex"] },
                 { name: "DNor", images: ["puzzle/tileD"] },
-                { name: "DInv", images: ["puzzle/tilexD"] },
+                //{ name: "DInv", images: ["puzzle/tilexD"] },
                 { name: "null", images: ["puzzle/tile0"] },
             ];
 

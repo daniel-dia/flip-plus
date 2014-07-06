@@ -133,37 +133,6 @@ module FlipPlus.Menu.View {
             this.robotPreview.x = this.statusArea.x= -pos *0.35 + DefaultWidth/2;
         }
 
-        /*
-        private animateIn(completeLevel: boolean= false, direction: number= -1) {
-
-            //animate status and machihine
-            this.levelsMahine.y = 800;
-            this.statusArea.scaleX = 0;
-            createjs.Tween.get(this.levelsMahine).to({ y: 0 }, 400, createjs.Ease.quadOut)
-            createjs.Tween.get(this.statusArea).to({ scaleX: 1 }, 200, createjs.Ease.quadOut)
-
-            //animate level complete
-            if (completeLevel) this.robotPreview.animateLevelComplete();
-
-            else {
-                //animate Robot
-                this.robotPreview.set({ x: -direction * DefaultWidth });
-                createjs.Tween.get(this.robotPreview).to({ x: DefaultWidth / 2 }, 500, createjs.Ease.quadOut)
-            }
-        }
-
-        private animateOut(call, direction: number= -1) {
-
-            //animate machie
-            createjs.Tween.get(this.levelsMahine).to({ y: 800 }, 200, createjs.Ease.quadIn).call(call)
-
-            //animate name and button
-            createjs.Tween.get(this.statusArea).wait(100).to({ scaleX: 0 }, 100, createjs.Ease.quadIn)
-
-            //animate robot
-            createjs.Tween.get(this.robotPreview).to({ x: direction * DefaultWidth }, 500, createjs.Ease.quadIn)
-        }
-        */
 
         //--Behaviour-----------------------------------------------------------
 

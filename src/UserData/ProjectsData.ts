@@ -3,7 +3,14 @@ module FlipPlus.UserData {
 
     export class ProjectsData {
 
+        private projectKey = "Flipp_userData"
+        private projectsUserData: Object;
+
         // ----------------------- Game Data ----------------------------------------------------------
+
+        constructor() {
+            this.loadFromStorage();
+        }
 
         //Adds user data to a project
         public addUserData(projects: Projects.Project[]) {
@@ -25,8 +32,9 @@ module FlipPlus.UserData {
 
         //gets user data from storage and store it to a level data
         private getLevelData(LevelId: string): Projects.LevelUserData {
-            var key: string =  LevelId;
-            var value: string = localStorage.getItem(key);
+
+            var key: string = LevelId;
+            var value: Projects.LevelUserData = this.projectsUserData[key];
 
             if (value == null) {
                 var ud = new Projects.LevelUserData();
@@ -35,14 +43,14 @@ module FlipPlus.UserData {
                 ud.unlocked = false;
                 return ud;
             }
-            return JSON.parse(value);
+            return value;
         }     
 
         //gets user data from storage and store it to a project data
         private getProjectData(projectId: string): Projects.ProjectUserData {
 
             var key: string = projectId;
-            var value: string = localStorage.getItem(key);
+            var value: Projects.ProjectUserData = this.projectsUserData[key];
 
             if (value == null) {
                 var ud = new Projects.ProjectUserData();
@@ -52,19 +60,38 @@ module FlipPlus.UserData {
                 return ud;
             }
             else
-                return JSON.parse(value);
+                return value;
         }
         
         //updates storage with curret level user data 
         public saveLevelData(level: Projects.Level) {
             var key: string = level.name;
-            localStorage.setItem(key, JSON.stringify(level.userdata));
+            this.projectsUserData[key] = level.userdata;
+            this.saveToStorage();
         }
 
         //updates storage with curret project user data 
         public saveProjectData(project: Projects.Project): void{
-            var key: string =  project.name;
-            localStorage.setItem(key, JSON.stringify(project.UserData));
+            var key: string = project.name;
+            this.projectsUserData[key] = project.UserData;
+            this.saveToStorage();
+        }
+
+
+        private saveToStorage() {
+            if (this.projectsUserData) {
+                localStorage.setItem(this.projectKey, JSON.stringify(this.projectsUserData));
+            }
+        }
+
+        private loadFromStorage() {
+            var data = localStorage.getItem(this.projectKey);
+
+            if (data)
+                this.projectsUserData = JSON.parse(data);
+            else
+                this.projectsUserData = {};
+            
         }
 
         //-------------------------------------------------------------------------------------------

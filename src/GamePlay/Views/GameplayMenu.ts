@@ -67,7 +67,7 @@ module FlipPlus.GamePlay.Views {
         private createItemButton(buttonId: string, pos: number): createjs.DisplayObject {
             this.items.push(buttonId);
 
-            var button = new gameui.ui.IconButton("puzzle/icon_" + buttonId, "", "", "", "puzzle/btpowerup", () => {
+            var button = new gameui.ui.IconButton("puzzle/icon_" + buttonId, "",  defaultFontFamilyNormal,"white", "puzzle/btpowerup", () => {
                 var parameter = null;
                 if (this.parameters) parameter = this.parameters[buttonId]
                 this.dispatchEvent(buttonId, parameter);
