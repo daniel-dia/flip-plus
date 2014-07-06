@@ -1,4 +1,4 @@
-module InvertCross.GamePlay.Model {
+module FlipPlus.GamePlay.Model {
     export class Board {
 
         //board dimension

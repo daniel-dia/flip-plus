@@ -1,24 +1,11 @@
-    /// <reference path="script/typing/easeljs.d.ts" />
-    /// <reference path="script/typing/preloadjs.d.ts" />
-    /// <reference path="script/typing/soundjs.d.ts" />
-    /// <reference path="script/typing/tweenjs.d.ts" />
+
+    /// <reference path="script/typing/createjs/createjs.d.ts" />
+/// <reference path="script/typing/gameuijs/gameuijs.d.ts" />
             
     /// <reference path="src/preferences.ts" />
-
-    /*Gbase*/
-    /// <reference path="Gbase/UI/UIItem.ts" />
-    /// <reference path="Gbase/UI/Grid.ts" />
-    /// <reference path="Gbase/UI/Button.ts" />
-    /// <reference path="Gbase/UI/MenuContainer.ts" />
-    /// <reference path="Gbase/UI/Label.ts" />
-    /// <reference path="Gbase/ScreenViewer.ts" />
-    /// <reference path="Gbase/ScreenState.ts" />
-    /// <reference path="Gbase/Game.ts" />
-    /// <reference path="Gbase/AssetsManager.ts" />
-
-    /*scripts*/
-    /// <reference path="src/Assets.ts" />
-    /// <reference path="src/InvertCrossGame.ts" />
+ 
+    /*scripts*/ 
+    /// <reference path="src/FlipPlusGame.ts" />
 
     /// <reference path="src/UserData/Items.ts" />
     /// <reference path="src/UserData/Settings.ts" />

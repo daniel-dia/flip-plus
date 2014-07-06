@@ -1,7 +1,7 @@
 /// <reference path="Board.ts" />
 
 
-module InvertCross.GamePlay.Model {
+module FlipPlus.GamePlay.Model {
 
     //Model
     export class Level {

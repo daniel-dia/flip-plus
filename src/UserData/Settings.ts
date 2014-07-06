@@ -1,4 +1,4 @@
-module InvertCross.UserData {
+module FlipPlus.UserData {
 
     // Class
     export class Settings {
@@ -22,12 +22,12 @@ module InvertCross.UserData {
         }
 
         public setMusic(value: boolean) {
-            localStorage.setItem("mus", "" +value);
-            this.music = value;
-            if (!value)
-                Gbase.AssetsManager.stopMusic();
-            else
-                Gbase.AssetsManager.playMusic("");
+            //localStorage.setItem("mus", "" +value);
+            //this.music = value;
+            //if (!value)
+            //    gameui.AssetsManager.stopMusic();
+            //else
+            //    gameui.AssetsManager.playMusic("");
         }
     }
 }

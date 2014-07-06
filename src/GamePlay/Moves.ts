@@ -1,4 +1,4 @@
-﻿module InvertCross.GamePlay {
+﻿module FlipPlus.GamePlay {
     export class Moves extends LevelScreen {
 
         private moves;

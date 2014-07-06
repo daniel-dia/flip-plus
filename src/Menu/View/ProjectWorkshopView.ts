@@ -1,4 +1,4 @@
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
 
     // Class
     export class ProjectWorkshopView extends createjs.Container {
@@ -61,7 +61,7 @@ module InvertCross.Menu.View {
         private addStatus(project: Projects.Project) {
             this.statusArea = new createjs.Container();
             this.statusArea.regX = this.statusArea.x = DefaultWidth / 2;
-            var bg = Gbase.AssetsManager.getBitmap("partshud");
+            var bg = gameui.AssetsManager.getBitmap("partshud");
             bg.y = 00//150;
             bg.x = DefaultWidth/ 2;
             bg.scaleX = 2;
@@ -88,7 +88,7 @@ module InvertCross.Menu.View {
             this.levelsMahine = levelMachine;
 
             //add MachineBg
-            var baseFases = Gbase.AssetsManager.getBitmap("workshop/basefases")
+            var baseFases = gameui.AssetsManager.getBitmap("workshop/basefases")
             baseFases.y = - 741;
             levelMachine.addChild(baseFases);
 
@@ -98,7 +98,7 @@ module InvertCross.Menu.View {
             this.starsIndicator.y = 1334 - 2048;
             levelMachine.addChild(this.starsIndicator);
 
-            if ((!InvertCrossaGame.isFree() && project.free) || InvertCrossaGame.isFree()) {
+            if ((!FlipPlusGame.isFree() && project.free) || FlipPlusGame.isFree()) {
 
                 if (project.UserData.unlocked) {
                     //Add Level Thumbs
@@ -175,7 +175,7 @@ module InvertCross.Menu.View {
 
             if (level != null)
                 if (level.userdata.unlocked)
-                    InvertCrossaGame.showLevel(level, parameters);
+                    FlipPlusGame.showLevel(level, parameters);
         }
 
         public redim(headerY: number, footerY: number) {

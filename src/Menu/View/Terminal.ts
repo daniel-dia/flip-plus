@@ -1,4 +1,4 @@
-module InvertCross.Menu.View
+module FlipPlus.Menu.View
 {
     //View
     export class Terminal extends createjs.Container

@@ -1,10 +1,11 @@
 declare var images: any;
+declare var spriteSheets: any;
 
 // Module
-module InvertCross.Menu {
+module FlipPlus.Menu {
     // Class
 
-    export class Loading extends Gbase.ScreenState {
+    export class Loading extends gameui.ScreenState {
 
         public loaded: () => any;
 
@@ -15,7 +16,7 @@ module InvertCross.Menu {
 
         public initializeImages() {
 
-            var loader = Gbase.AssetsManager.loadAssets(getAssetsManifest(assetscale), spriteSheets, images);
+            var loader = gameui.AssetsManager.loadAssets(getAssetsManifest(assetscale), spriteSheets, images);
 
             //var loader = Assets.loadAssets();
             var text = new createjs.Text("", "600 90px Myriad Pro", "#FFF");

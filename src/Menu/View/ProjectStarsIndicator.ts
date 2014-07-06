@@ -1,4 +1,4 @@
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
     export class ProjectStarsIndicator extends createjs.Container{
 
         private projectsThemes: Array<string> = ["green", "purple", "yellow"];
@@ -35,7 +35,7 @@ module InvertCross.Menu.View {
                 case 2: str = "workshop/staryellow";
                     break;
             }
-            var s = Gbase.AssetsManager.getBitmap(str);
+            var s = gameui.AssetsManager.getBitmap(str);
             s.x = id * 121;
             this.addChild(s);
             return s;

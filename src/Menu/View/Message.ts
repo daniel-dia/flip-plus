@@ -1,7 +1,7 @@
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
 
     // View Class
-    export class Message extends Gbase.UI.UIItem{
+    export class Message extends gameui.ui.UIItem{
 
         private closeinterval;
 
@@ -30,7 +30,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = Gbase.AssetsManager.getBitmap("popups/message")
+            var bg = gameui.AssetsManager.getBitmap("popups/message")
             bg.x = 0;
             bg.y = DefaultHeight/2 -500;
             this.addChild(bg);

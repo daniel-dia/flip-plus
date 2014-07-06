@@ -1,4 +1,4 @@
-﻿module InvertCross.Bonus{
+﻿module FlipPlus.Bonus{
 
     // Class
     export class BonusManager {

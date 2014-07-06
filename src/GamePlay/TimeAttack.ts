@@ -1,7 +1,7 @@
 declare var Timer;
 declare var TimerEvent;
 
-module InvertCross.GamePlay { 
+module FlipPlus.GamePlay { 
 
     export class TimeAtack extends LevelScreen {
          

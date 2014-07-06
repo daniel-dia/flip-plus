@@ -1,6 +1,6 @@
 ﻿declare var lib: any;
 
-module InvertCross.Menu {
+module FlipPlus.Menu {
     export class Intro extends createjs.Container {
         private introMc: createjs.MovieClip;
         private popup: View.PopupBot;
@@ -30,7 +30,7 @@ module InvertCross.Menu {
                         break;
 
                     case "end":
-                        InvertCrossaGame.showProjectsMenu();
+                        FlipPlusGame.showProjectsMenu();
                         this.dispatchEvent("end");
                         break;
                 }

@@ -20,8 +20,8 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var Gbase;
-(function (Gbase) {
+var gameui;
+(function (gameui) {
     (function (UI) {
         // Class
         var UIItem = (function (_super) {
@@ -108,11 +108,11 @@ var Gbase;
             return UIItem;
         })(createjs.Container);
         UI.UIItem = UIItem;
-    })(Gbase.UI || (Gbase.UI = {}));
-    var UI = Gbase.UI;
-})(Gbase || (Gbase = {}));
-var Gbase;
-(function (Gbase) {
+    })(gameui.ui || (gameui.ui = {}));
+    var UI = gameui.ui;
+})(gameui || (gameui = {}));
+var gameui;
+(function (gameui) {
     (function (UI) {
         //this class alow user to arrange objects in a grid forrmat
         //the anchor point is the center of object
@@ -193,11 +193,11 @@ var Gbase;
             return Grid;
         })(UI.UIItem);
         UI.Grid = Grid;
-    })(Gbase.UI || (Gbase.UI = {}));
-    var UI = Gbase.UI;
-})(Gbase || (Gbase = {}));
-var Gbase;
-(function (Gbase) {
+    })(gameui.ui || (gameui.ui = {}));
+    var UI = gameui.ui;
+})(gameui || (gameui = {}));
+var gameui;
+(function (gameui) {
     (function (UI) {
         // Class
         var Button = (function (_super) {
@@ -269,7 +269,7 @@ var Gbase;
                 //adds image into it
                 if (background != null) {
                     //TODO tirar createjs ASSETS daqui.
-                    this.background = Gbase.AssetsManager.getBitmap(background);
+                    this.background = gameui.AssetsManager.getBitmap(background);
                     this.addChildAt(this.background, 0);
 
                     //Sets the image into the pivot center.
@@ -335,7 +335,7 @@ var Gbase;
                 _super.call(this, text, event, background, font, color);
 
                 //loads icon Image
-                this.icon = Gbase.AssetsManager.getBitmap(icon);
+                this.icon = gameui.AssetsManager.getBitmap(icon);
                 this.addChild(this.icon);
                 this.text.textAlign = "left";
 
@@ -353,11 +353,11 @@ var Gbase;
             return IconButton;
         })(TextButton);
         UI.IconButton = IconButton;
-    })(Gbase.UI || (Gbase.UI = {}));
-    var UI = Gbase.UI;
-})(Gbase || (Gbase = {}));
-var Gbase;
-(function (Gbase) {
+    })(gameui.ui || (gameui.ui = {}));
+    var UI = gameui.ui;
+})(gameui || (gameui = {}));
+var gameui;
+(function (gameui) {
     (function (UI) {
         var MenuContainer = (function (_super) {
             __extends(MenuContainer, _super);
@@ -395,11 +395,11 @@ var Gbase;
             return MenuContainer;
         })(UI.Grid);
         UI.MenuContainer = MenuContainer;
-    })(Gbase.UI || (Gbase.UI = {}));
-    var UI = Gbase.UI;
-})(Gbase || (Gbase = {}));
-var Gbase;
-(function (Gbase) {
+    })(gameui.ui || (gameui.ui = {}));
+    var UI = gameui.ui;
+})(gameui || (gameui = {}));
+var gameui;
+(function (gameui) {
     (function (UI) {
         var Label = (function (_super) {
             __extends(Label, _super);
@@ -420,11 +420,11 @@ var Gbase;
             return Label;
         })(UI.UIItem);
         UI.Label = Label;
-    })(Gbase.UI || (Gbase.UI = {}));
-    var UI = Gbase.UI;
-})(Gbase || (Gbase = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(gameui.ui || (gameui.ui = {}));
+    var UI = gameui.ui;
+})(gameui || (gameui = {}));
+var FlipPlus;
+(function (FlipPlus) {
     // Class
     var ScreenViewer = (function () {
         function ScreenViewer(stage) {
@@ -510,7 +510,7 @@ var InvertCross;
         };
         return ScreenViewer;
     })();
-    InvertCross.ScreenViewer = ScreenViewer;
+    FlipPlus.ScreenViewer = ScreenViewer;
 
     var Transition = (function () {
         function Transition() {
@@ -519,10 +519,10 @@ var InvertCross;
         }
         return Transition;
     })();
-    InvertCross.Transition = Transition;
-})(InvertCross || (InvertCross = {}));
-var Gbase;
-(function (Gbase) {
+    FlipPlus.Transition = Transition;
+})(FlipPlus || (FlipPlus = {}));
+var gameui;
+(function (gameui) {
     var ScreenState = (function () {
         function ScreenState() {
             this.view = new createjs.Container();
@@ -569,10 +569,10 @@ var Gbase;
         };
         return ScreenState;
     })();
-    Gbase.ScreenState = ScreenState;
-})(Gbase || (Gbase = {}));
-var InvertCross;
-(function (InvertCross) {
+    gameui.ScreenState = ScreenState;
+})(gameui || (gameui = {}));
+var FlipPlus;
+(function (FlipPlus) {
     var Game = (function () {
         function Game() {
         }
@@ -595,7 +595,7 @@ var InvertCross;
 
             createjs.Ticker.setFPS(60);
 
-            this.screenViewer = new InvertCross.ScreenViewer(this.stage);
+            this.screenViewer = new FlipPlus.ScreenViewer(this.stage);
             this.stage.addChild(this.screenViewer.viewer);
 
             //Framerate meter
@@ -648,14 +648,14 @@ var InvertCross;
         Game.canvasHeight = DefaultHeight;
         return Game;
     })();
-    InvertCross.Game = Game;
-})(InvertCross || (InvertCross = {}));
+    FlipPlus.Game = Game;
+})(FlipPlus || (FlipPlus = {}));
 //declare var images: any;
 //declare var Media: any;
 //declare var assetscale: number;
 //declare var spriteSheets : number;
-var Gbase;
-(function (Gbase) {
+var gameui;
+(function (gameui) {
     // Class
     var AssetsManager = (function () {
         function AssetsManager() {
@@ -701,13 +701,6 @@ var Gbase;
             return this.loader.getResult(name);
         };
 
-        //DEPRECIATED
-        //get a movie clip
-        AssetsManager.getMovieClip = function (name) {
-            var t = new window[name];
-            return t;
-        };
-
         //return a sprite according to the image
         AssetsManager.getSprite = function (name, play) {
             if (typeof play === "undefined") { play = true; }
@@ -725,7 +718,7 @@ var Gbase;
         };
 
         AssetsManager.playSound = function (name) {
-            if (!InvertCross.InvertCrossaGame.settings.getSoundfx())
+            if (!FlipPlus.InvertCrossaGame.settings.getSoundfx())
                 return;
 
             //wp8// this.mediaDic[name].play()
@@ -733,7 +726,7 @@ var Gbase;
         };
 
         AssetsManager.playMusic = function (name) {
-            if (!InvertCross.InvertCrossaGame.settings.getMusic())
+            if (!FlipPlus.InvertCrossaGame.settings.getMusic())
                 return;
 
             //WP8//var media = this.mediaDic[name];
@@ -760,8 +753,8 @@ var Gbase;
         };
         return AssetsManager;
     })();
-    Gbase.AssetsManager = AssetsManager;
-})(Gbase || (Gbase = {}));
+    gameui.AssetsManager = AssetsManager;
+})(gameui || (gameui = {}));
 // Class
 var aAssets = (function () {
     function aAssets() {
@@ -1102,7 +1095,7 @@ var aAssets = (function () {
     };
 
     aAssets.playSound = function (name) {
-        if (!InvertCross.InvertCrossaGame.settings.getSoundfx())
+        if (!FlipPlus.InvertCrossaGame.settings.getSoundfx())
             return;
 
         //wp8// this.mediaDic[name].play()
@@ -1110,7 +1103,7 @@ var aAssets = (function () {
     };
 
     aAssets.playMusic = function (name) {
-        if (!InvertCross.InvertCrossaGame.settings.getMusic())
+        if (!FlipPlus.InvertCrossaGame.settings.getMusic())
             return;
 
         //WP8//var media = this.mediaDic[name];
@@ -1155,11 +1148,11 @@ return true;
 }*/
 //declare var spriteSheets;
 window.onload = function () {
-    InvertCross.InvertCrossaGame.InvertCrossInitilize();
+    FlipPlus.InvertCrossaGame.InvertCrossInitilize();
 };
 
-var InvertCross;
-(function (InvertCross) {
+var FlipPlus;
+(function (FlipPlus) {
     // Main game Class
     // Controller
     var InvertCrossaGame = (function (_super) {
@@ -1172,30 +1165,27 @@ var InvertCross;
             //initialize main class
             InvertCrossaGame.initialize();
 
-            //set createJS Parameters
-            createjs.DisplayObject.avoidBitmapHitAreaCalculation = true;
-
             this.initializeGame();
         };
 
         InvertCrossaGame.initializeGame = function () {
             //userData
-            this.userData = new InvertCross.UserData.ProjectsData();
-            this.settings = new InvertCross.UserData.Settings();
-            this.itemsData = new InvertCross.UserData.Items();
-            this.storyData = new InvertCross.UserData.Story();
-            this.timersData = new InvertCross.UserData.Timers();
+            this.userData = new FlipPlus.UserData.ProjectsData();
+            this.settings = new FlipPlus.UserData.Settings();
+            this.itemsData = new FlipPlus.UserData.Items();
+            this.storyData = new FlipPlus.UserData.Story();
+            this.timersData = new FlipPlus.UserData.Timers();
 
             //managers
-            InvertCrossaGame.projectManager = new InvertCross.Projects.ProjectManager(levelsData);
+            InvertCrossaGame.projectManager = new FlipPlus.Projects.ProjectManager(levelsData);
 
             //go to First Screen
-            InvertCrossaGame.loadingScreen = new InvertCross.Menu.Loading();
+            InvertCrossaGame.loadingScreen = new FlipPlus.Menu.Loading();
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.loadingScreen);
 
             InvertCrossaGame.loadingScreen.loaded = function () {
                 if (levelCreatorMode == true && !levelCreatorTestMode) {
-                    InvertCrossaGame.screenViewer.switchScreen(new InvertCross.GamePlay.LevelCreator(null, window));
+                    InvertCrossaGame.screenViewer.switchScreen(new FlipPlus.GamePlay.LevelCreator(null, window));
                 } else
                     InvertCrossaGame.showTitleScreen();
             };
@@ -1216,7 +1206,7 @@ var InvertCross;
             InvertCrossaGame.levelScreeen = null;
 
             if (InvertCrossaGame.projectsMenu == null)
-                InvertCrossaGame.projectsMenu = new InvertCross.Menu.ProjectsMenu();
+                InvertCrossaGame.projectsMenu = new FlipPlus.Menu.ProjectsMenu();
 
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.projectsMenu);
         };
@@ -1239,7 +1229,7 @@ var InvertCross;
 
             //create a new levels menu, if needed
             if (InvertCrossaGame.levelsMenu == undefined)
-                InvertCrossaGame.levelsMenu = new InvertCross.Menu.LevelsMenu();
+                InvertCrossaGame.levelsMenu = new FlipPlus.Menu.LevelsMenu();
 
             //switch screens
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.levelsMenu, parameters);
@@ -1249,13 +1239,13 @@ var InvertCross;
             var bonusScreen;
             switch (bonusId) {
                 case "Bonus1":
-                    bonusScreen = new InvertCross.Bonus.BonusBarrel(InvertCross.UserData.Items.itemsNames);
+                    bonusScreen = new FlipPlus.Bonus.BonusBarrel(FlipPlus.UserData.Items.itemsNames);
                     break;
                 case "Bonus2":
-                    bonusScreen = new InvertCross.Bonus.Bonus2(InvertCross.UserData.Items.itemsNames);
+                    bonusScreen = new FlipPlus.Bonus.Bonus2(FlipPlus.UserData.Items.itemsNames);
                     break;
                 case "Bonus3":
-                    bonusScreen = new InvertCross.Bonus.Bonus3(InvertCross.UserData.Items.itemsNames);
+                    bonusScreen = new FlipPlus.Bonus.Bonus3(FlipPlus.UserData.Items.itemsNames);
                     break;
                 default:
             }
@@ -1276,15 +1266,15 @@ var InvertCross;
             switch (level.type) {
                 case "puzzle":
                 case "draw":
-                    return new InvertCross.GamePlay.Puzzle(level);
+                    return new FlipPlus.GamePlay.Puzzle(level);
                 case "moves":
                 case "flip":
                 case "combo":
-                    return new InvertCross.GamePlay.Moves(level);
+                    return new FlipPlus.GamePlay.Moves(level);
                 case "tutorial":
-                    return new InvertCross.GamePlay.Tutorial(level);
+                    return new FlipPlus.GamePlay.Tutorial(level);
                 case "time":
-                    return new InvertCross.GamePlay.TimeAtack(level);
+                    return new FlipPlus.GamePlay.TimeAtack(level);
             }
 
             return null;
@@ -1323,14 +1313,14 @@ var InvertCross;
 
         InvertCrossaGame.showMainMenu = function () {
             if (InvertCrossaGame.mainScreen == null)
-                InvertCrossaGame.mainScreen = new InvertCross.Menu.MainMenu();
+                InvertCrossaGame.mainScreen = new FlipPlus.Menu.MainMenu();
 
-            InvertCross.InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.mainScreen);
+            FlipPlus.InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.mainScreen);
         };
 
         InvertCrossaGame.showTitleScreen = function () {
             if (!InvertCrossaGame.titleScreen)
-                InvertCrossaGame.titleScreen = new InvertCross.Menu.TitleScreen();
+                InvertCrossaGame.titleScreen = new FlipPlus.Menu.TitleScreen();
             InvertCrossaGame.screenViewer.switchScreen(InvertCrossaGame.titleScreen);
         };
 
@@ -1351,11 +1341,11 @@ var InvertCross;
             return false;
         };
         return InvertCrossaGame;
-    })(InvertCross.Game);
-    InvertCross.InvertCrossaGame = InvertCrossaGame;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Game);
+    FlipPlus.InvertCrossaGame = InvertCrossaGame;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (UserData) {
         // Class
         var Items = (function () {
@@ -1399,11 +1389,11 @@ var InvertCross;
             return Items;
         })();
         UserData.Items = Items;
-    })(InvertCross.UserData || (InvertCross.UserData = {}));
-    var UserData = InvertCross.UserData;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.UserData || (FlipPlus.UserData = {}));
+    var UserData = FlipPlus.UserData;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (UserData) {
         // Class
         var Settings = (function () {
@@ -1429,18 +1419,18 @@ var InvertCross;
                 localStorage.setItem("mus", "" + value);
                 this.music = value;
                 if (!value)
-                    Gbase.AssetsManager.stopMusic();
+                    gameui.AssetsManager.stopMusic();
                 else
-                    Gbase.AssetsManager.playMusic("");
+                    gameui.AssetsManager.playMusic("");
             };
             return Settings;
         })();
         UserData.Settings = Settings;
-    })(InvertCross.UserData || (InvertCross.UserData = {}));
-    var UserData = InvertCross.UserData;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.UserData || (FlipPlus.UserData = {}));
+    var UserData = FlipPlus.UserData;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (UserData) {
         var Story = (function () {
             function Story() {
@@ -1460,11 +1450,11 @@ var InvertCross;
             return Story;
         })();
         UserData.Story = Story;
-    })(InvertCross.UserData || (InvertCross.UserData = {}));
-    var UserData = InvertCross.UserData;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.UserData || (FlipPlus.UserData = {}));
+    var UserData = FlipPlus.UserData;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (UserData) {
         // Class
         var Timers = (function () {
@@ -1561,11 +1551,11 @@ var InvertCross;
             return Timers;
         })();
         UserData.Timers = Timers;
-    })(InvertCross.UserData || (InvertCross.UserData = {}));
-    var UserData = InvertCross.UserData;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.UserData || (FlipPlus.UserData = {}));
+    var UserData = FlipPlus.UserData;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     // Module
     (function (UserData) {
         var ProjectsData = (function () {
@@ -1594,7 +1584,7 @@ var InvertCross;
                 var value = localStorage.getItem(key);
 
                 if (value == null) {
-                    var ud = new InvertCross.Projects.LevelUserData();
+                    var ud = new FlipPlus.Projects.LevelUserData();
                     ud.solved = false;
                     ud.skip = false;
                     ud.unlocked = false;
@@ -1609,7 +1599,7 @@ var InvertCross;
                 var value = localStorage.getItem(key);
 
                 if (value == null) {
-                    var ud = new InvertCross.Projects.ProjectUserData();
+                    var ud = new FlipPlus.Projects.ProjectUserData();
                     ud.unlocked = false;
                     ud.percent = 0;
                     ud.complete = false;
@@ -1638,11 +1628,11 @@ var InvertCross;
             return ProjectsData;
         })();
         UserData.ProjectsData = ProjectsData;
-    })(InvertCross.UserData || (InvertCross.UserData = {}));
-    var UserData = InvertCross.UserData;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.UserData || (FlipPlus.UserData = {}));
+    var UserData = FlipPlus.UserData;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         //Controller
         var LevelScreen = (function (_super) {
@@ -1660,7 +1650,7 @@ var InvertCross;
                 this.levelLogic = new GamePlay.Model.Level(leveldata);
 
                 //play BgSound
-                Gbase.AssetsManager.stopMusic();
+                gameui.AssetsManager.stopMusic();
 
                 //creates all screen objects
                 this.createScene(leveldata);
@@ -1678,11 +1668,11 @@ var InvertCross;
                 this.initializeOverlays();
 
                 //adds message
-                this.message = new InvertCross.Menu.View.Message();
+                this.message = new FlipPlus.Menu.View.Message();
                 this.content.addChild(this.message);
 
                 //adds popup
-                this.popup = new InvertCross.Menu.View.Popup();
+                this.popup = new FlipPlus.Menu.View.Popup();
                 this.content.addChild(this.popup);
 
                 this.popup.addEventListener("onshow", function () {
@@ -1697,7 +1687,7 @@ var InvertCross;
             };
 
             LevelScreen.prototype.addBackground = function () {
-                var bg = Gbase.AssetsManager.getBitmap("workshop/bgworkshop");
+                var bg = gameui.AssetsManager.getBitmap("workshop/bgworkshop");
                 this.content.addChild(bg);
                 bg.y = -339;
                 bg.scaleY = 1.3310546875;
@@ -1719,15 +1709,15 @@ var InvertCross;
                     _this.unPauseGame();
                 });
                 this.gameplayMenu.addEventListener("restart", function (e) {
-                    InvertCross.InvertCrossaGame.replayLevel();
+                    FlipPlus.InvertCrossaGame.replayLevel();
                 });
                 this.gameplayMenu.addEventListener("back", function () {
-                    InvertCross.InvertCrossaGame.exitLevel();
+                    FlipPlus.InvertCrossaGame.exitLevel();
                 });
 
                 //upper staus area
-                if (InvertCross.InvertCrossaGame.projectManager.getCurrentProject() != undefined) {
-                    var levels = InvertCross.InvertCrossaGame.projectManager.getCurrentProject().levels;
+                if (FlipPlus.InvertCrossaGame.projectManager.getCurrentProject() != undefined) {
+                    var levels = FlipPlus.InvertCrossaGame.projectManager.getCurrentProject().levels;
                     this.statusArea = new GamePlay.Views.StatusArea();
                     this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
                     this.statusArea.setText1("");
@@ -1781,7 +1771,7 @@ var InvertCross;
                 this.levelLogic.earnPrize();
                 setTimeout(function () {
                     //playSound
-                    Gbase.AssetsManager.playSound("prize");
+                    gameui.AssetsManager.playSound("prize");
 
                     //apply radius effect
                     _this.boardSprite.radiusEffect(col, row);
@@ -1792,7 +1782,7 @@ var InvertCross;
                 var _this = this;
                 if (typeof messageText === "undefined") { messageText = true; }
                 //play a win sound
-                Gbase.AssetsManager.playSound("win");
+                gameui.AssetsManager.playSound("win");
 
                 //verifies if user already completed this level and verifies if player used any item in the game
                 if (!this.levelData.userdata.solved)
@@ -1807,7 +1797,7 @@ var InvertCross;
                     complete1stTime = true;
 
                 //set model to complete level.
-                InvertCross.InvertCrossaGame.projectManager.completeLevel(this.levelData);
+                FlipPlus.InvertCrossaGame.projectManager.completeLevel(this.levelData);
 
                 //change screen and animate.
                 if (messageText)
@@ -1844,14 +1834,14 @@ var InvertCross;
                 });
 
                 //switch screen
-                InvertCross.InvertCrossaGame.completeLevel(complete1stTime);
+                FlipPlus.InvertCrossaGame.completeLevel(complete1stTime);
             };
 
             LevelScreen.prototype.loose = function () {
                 this.gameplayMenu.fadeOut();
                 this.boardSprite.lock();
                 setTimeout(function () {
-                    InvertCross.InvertCrossaGame.looseLevel();
+                    FlipPlus.InvertCrossaGame.looseLevel();
                 }, 3000);
                 ;
                 this.boardSprite.looseEffect();
@@ -1860,10 +1850,10 @@ var InvertCross;
             // Items ====================================================================================================================
             LevelScreen.prototype.useItem = function (item) {
                 //if user has iteem
-                var itemQuantity = InvertCross.InvertCrossaGame.itemsData.getItemQuantity(item);
+                var itemQuantity = FlipPlus.InvertCrossaGame.itemsData.getItemQuantity(item);
                 if (itemQuantity > 0) {
                     //updates data
-                    InvertCross.InvertCrossaGame.itemsData.decreaseItemQuantity(item);
+                    FlipPlus.InvertCrossaGame.itemsData.decreaseItemQuantity(item);
                     this.usedItem = item;
 
                     //updates Items buttons labels Quantity on footer
@@ -1883,9 +1873,9 @@ var InvertCross;
                 if (!this.useItem("skip"))
                     return;
                 if (this.levelData.userdata.skip || this.levelData.userdata.solved)
-                    InvertCross.InvertCrossaGame.skipLevel(false);
+                    FlipPlus.InvertCrossaGame.skipLevel(false);
                 else
-                    InvertCross.InvertCrossaGame.skipLevel(true);
+                    FlipPlus.InvertCrossaGame.skipLevel(true);
             };
 
             //set hint for a block
@@ -1963,13 +1953,13 @@ var InvertCross;
                 this.gameplayMenu.updateItemsQuatity();
             };
             return LevelScreen;
-        })(Gbase.ScreenState);
+        })(gameui.ScreenState);
         GamePlay.LevelScreen = LevelScreen;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         var Puzzle = (function (_super) {
             __extends(Puzzle, _super);
@@ -2009,11 +1999,11 @@ var InvertCross;
             return Puzzle;
         })(GamePlay.LevelScreen);
         GamePlay.Puzzle = Puzzle;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         var TimeAtack = (function (_super) {
             __extends(TimeAtack, _super);
@@ -2155,11 +2145,11 @@ var InvertCross;
             return TimeAtack;
         })(GamePlay.LevelScreen);
         GamePlay.TimeAtack = TimeAtack;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         var Tutorial = (function (_super) {
             __extends(Tutorial, _super);
@@ -2253,11 +2243,11 @@ var InvertCross;
             return Tutorial;
         })(GamePlay.Puzzle);
         GamePlay.Tutorial = Tutorial;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         (function (Model) {
             var Block = (function () {
@@ -2285,11 +2275,11 @@ var InvertCross;
             Model.Block = Block;
         })(GamePlay.Model || (GamePlay.Model = {}));
         var Model = GamePlay.Model;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         (function (Model) {
             var Board = (function () {
@@ -2545,12 +2535,12 @@ var InvertCross;
             Model.Board = Board;
         })(GamePlay.Model || (GamePlay.Model = {}));
         var Model = GamePlay.Model;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
 /// <reference path="Board.ts" />
-var InvertCross;
-(function (InvertCross) {
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         (function (Model) {
             //Model
@@ -2602,11 +2592,11 @@ var InvertCross;
             Model.Level = Level;
         })(GamePlay.Model || (GamePlay.Model = {}));
         var Model = GamePlay.Model;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         (function (Views) {
             var BlockSprite = (function (_super) {
@@ -2767,18 +2757,18 @@ var InvertCross;
 
                     //Modificators
                     //load hint symbol
-                    this.hintimage = Gbase.AssetsManager.getBitmap("puzzle/icon_hint");
+                    this.hintimage = gameui.AssetsManager.getBitmap("puzzle/icon_hint");
                     this.container.addChild(this.hintimage);
                     this.hintimage.visible = false;
 
                     //load nurrir modificator tile
-                    this.mirrorImage = Gbase.AssetsManager.getBitmap("puzzle/tilemirror");
+                    this.mirrorImage = gameui.AssetsManager.getBitmap("puzzle/tilemirror");
                     this.container.addChild(this.mirrorImage);
                     this.mirrorImage.visible = false;
                     this.mirrorImage.x = this.mirrorImage.y = -5;
 
                     //load memoryModificator tile
-                    this.memoryImage = Gbase.AssetsManager.getBitmap("puzzle/tilememory");
+                    this.memoryImage = gameui.AssetsManager.getBitmap("puzzle/tilememory");
                     this.container.addChild(this.memoryImage);
                     this.memoryImage.visible = false;
                     this.memoryImage.alpha = 0;
@@ -2789,7 +2779,7 @@ var InvertCross;
 
                 //load a single asset and adds it to this
                 BlockSprite.prototype.loadAsset = function (assetName) {
-                    var asset = Gbase.AssetsManager.getBitmap(assetName);
+                    var asset = gameui.AssetsManager.getBitmap(assetName);
                     asset.name = assetName;
 
                     this.container.addChild(asset);
@@ -2860,11 +2850,11 @@ var InvertCross;
             Views.BlockSprite = BlockSprite;
         })(GamePlay.Views || (GamePlay.Views = {}));
         var Views = GamePlay.Views;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         (function (Views) {
             var BoardSprite = (function (_super) {
@@ -2888,7 +2878,7 @@ var InvertCross;
                     this.regY = boardHeight / 2;
 
                     //load click indicator
-                    this.tutorialIndiatcor = Gbase.AssetsManager.getSprite("touch");
+                    this.tutorialIndiatcor = gameui.AssetsManager.getSprite("touch");
                     this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -55;
                     this.tutorialIndiatcor.mouseEnabled = false;
                     this.addChild(this.tutorialIndiatcor);
@@ -2896,7 +2886,7 @@ var InvertCross;
                 }
                 //initializes the effectss sprites
                 BoardSprite.prototype.initializeEffects = function () {
-                    this.fx = new InvertCross.Effects();
+                    this.fx = new FlipPlus.Effects();
                     this.addChild(this.fx);
                 };
 
@@ -2928,7 +2918,7 @@ var InvertCross;
                                 var randomsound = Math.ceil(Math.random() * 3);
                                 if (randomsound >= _this.previousSound)
                                     randomsound++;
-                                Gbase.AssetsManager.playSound("tile" + randomsound);
+                                gameui.AssetsManager.playSound("tile" + randomsound);
                                 _this.previousSound = randomsound;
 
                                 //tutorialrelease
@@ -3193,11 +3183,11 @@ var InvertCross;
             Views.BoardSprite = BoardSprite;
         })(GamePlay.Views || (GamePlay.Views = {}));
         var Views = GamePlay.Views;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         (function (Views) {
             var Overlay = (function (_super) {
@@ -3227,10 +3217,10 @@ var InvertCross;
                 }
                 MenuOverlay.prototype.buildObjects = function () {
                     //Add Back Button
-                    var menuContainer = new Gbase.UI.Grid(1, 1, null, 373, null, true);
+                    var menuContainer = new gameui.ui.Grid(1, 1, null, 373, null, true);
                     menuContainer.y = 1676;
                     this.addChild(menuContainer);
-                    this.pauseButton = new Gbase.UI.TextButton("Pause");
+                    this.pauseButton = new gameui.ui.TextButton("Pause");
                     menuContainer.addObject(this.pauseButton);
                 };
                 return MenuOverlay;
@@ -3249,20 +3239,20 @@ var InvertCross;
                     backgroundShape.graphics.beginFill("rgba(0,0,0,0.2)").drawRect(0, 0, DefaultWidth, DefaultHeight);
                     this.addChild(backgroundShape);
 
-                    var mc = new Gbase.UI.MenuContainer();
+                    var mc = new gameui.ui.MenuContainer();
                     this.addChild(mc);
 
                     //Add Back Button
-                    var menuContainer = new Gbase.UI.Grid(1, 1, null, 373, null, true);
+                    var menuContainer = new gameui.ui.Grid(1, 1, null, 373, null, true);
                     menuContainer.y = 1676;
                     this.addChild(menuContainer);
-                    this.backButton = new Gbase.UI.TextButton("Continue");
+                    this.backButton = new gameui.ui.TextButton("Continue");
                     menuContainer.addObject(this.backButton);
 
                     //add Label
                     mc.addLabel("Paused");
 
-                    mc.addObject(new InvertCross.Menu.SoundMenu());
+                    mc.addObject(new FlipPlus.Menu.SoundMenu());
 
                     //add Other Buttons
                     this.replayButton = mc.addButton("SKIP");
@@ -3278,19 +3268,19 @@ var InvertCross;
 
                 PauseOverlay.prototype.createConfirmationContainer = function () {
                     var _this = this;
-                    this.confirm = new Gbase.UI.MenuContainer(null, 100);
+                    this.confirm = new gameui.ui.MenuContainer(null, 100);
                     this.confirm.y = DefaultHeight / 1.8;
 
                     var smc;
-                    smc = new Gbase.UI.Grid(2, 1, 700, 100, null, true);
+                    smc = new gameui.ui.Grid(2, 1, 700, 100, null, true);
 
                     this.confirm.addLabel("Are you sure?");
                     this.confirm.addObject(smc);
                     smc.regX = 700 / 2;
                     smc.y -= 150;
 
-                    this.confirmMainButton = new Gbase.UI.TextButton("Yes", null, "botao2.png");
-                    smc.addObject(new Gbase.UI.TextButton("No", function () {
+                    this.confirmMainButton = new gameui.ui.TextButton("Yes", null, "botao2.png");
+                    smc.addObject(new gameui.ui.TextButton("No", function () {
                         _this.confirm.fadeOut();
                         _this.leaveButton.fadeIn();
                     }, "botao2.png"));
@@ -3305,11 +3295,11 @@ var InvertCross;
             Views.PauseOverlay = PauseOverlay;
         })(GamePlay.Views || (GamePlay.Views = {}));
         var Views = GamePlay.Views;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         (function (Views) {
             var GamePlayMenu = (function (_super) {
@@ -3330,7 +3320,7 @@ var InvertCross;
                 }
                 //adds tutorial touch indicator
                 GamePlayMenu.prototype.addTutorialIndicator = function () {
-                    this.tutorial_highlightSprite = Gbase.AssetsManager.getSprite("touch");
+                    this.tutorial_highlightSprite = gameui.AssetsManager.getSprite("touch");
                     this.tutorial_highlightSprite.visible = false;
                     this.tutorial_highlightSprite.mouseEnabled = false;
                     this.addChild(this.tutorial_highlightSprite);
@@ -3339,11 +3329,11 @@ var InvertCross;
                 //creates all menu butons
                 GamePlayMenu.prototype.createGamePlayMenu = function () {
                     var _this = this;
-                    this.overlayMenu = new Gbase.UI.UIItem();
+                    this.overlayMenu = new gameui.ui.UIItem();
                     this.overlayMenu.width = 2 * DefaultWidth;
                     this.overlayMenu.height = 0;
 
-                    var pausBt = new Gbase.UI.IconButton("puzzle/iconepause", "", "puzzle/btpowerup", function () {
+                    var pausBt = new gameui.ui.IconButton("puzzle/iconepause", "", "puzzle/btpowerup", function () {
                         _this.pause();
                     });
                     this.overlayMenu.addChild(pausBt), pausBt.x = 1400;
@@ -3364,7 +3354,7 @@ var InvertCross;
                     var _this = this;
                     this.items.push(buttonId);
 
-                    var button = new Gbase.UI.IconButton("puzzle/icon_" + buttonId, "", "puzzle/btpowerup", function () {
+                    var button = new gameui.ui.IconButton("puzzle/icon_" + buttonId, "", "puzzle/btpowerup", function () {
                         var parameter = null;
                         if (_this.parameters)
                             parameter = _this.parameters[buttonId];
@@ -3381,31 +3371,31 @@ var InvertCross;
                 // updates buttons labels
                 GamePlayMenu.prototype.updateItemsQuatity = function () {
                     for (var i in this.items)
-                        this.buttons[this.items[i]].updateLabel(InvertCross.InvertCrossaGame.itemsData.getItemQuantity(this.items[i]));
+                        this.buttons[this.items[i]].updateLabel(FlipPlus.InvertCrossaGame.itemsData.getItemQuantity(this.items[i]));
                 };
 
                 // ============== pause menus ============================================
                 GamePlayMenu.prototype.createPauseMenu = function () {
                     var _this = this;
-                    var pauseMenu = new Gbase.UI.UIItem();
+                    var pauseMenu = new gameui.ui.UIItem();
 
-                    var playBt = new Gbase.UI.IconButton("puzzle/iconeplay", "", "puzzle/btplay1", function () {
+                    var playBt = new gameui.ui.IconButton("puzzle/iconeplay", "", "puzzle/btplay1", function () {
                         _this.unpause();
                     });
                     playBt.x = 600;
-                    var snd1Bt = new Gbase.UI.ImageButton("puzzle/btsom1", function () {
+                    var snd1Bt = new gameui.ui.ImageButton("puzzle/btsom1", function () {
                         _this.dispatchEvent("soundOn");
                     });
                     snd1Bt.x = 160;
-                    var snd2Bt = new Gbase.UI.ImageButton("puzzle/btsom2", function () {
+                    var snd2Bt = new gameui.ui.ImageButton("puzzle/btsom2", function () {
                         _this.dispatchEvent("soundOff");
                     });
                     snd2Bt.x = 160;
-                    var backBt = new Gbase.UI.ImageButton("puzzle/btsair", function () {
+                    var backBt = new gameui.ui.ImageButton("puzzle/btsair", function () {
                         _this.dispatchEvent("back");
                     });
                     backBt.x = 400;
-                    var restBt = new Gbase.UI.ImageButton("puzzle/btrest", function () {
+                    var restBt = new gameui.ui.ImageButton("puzzle/btrest", function () {
                         _this.dispatchEvent("restart");
                     });
                     restBt.x = -80;
@@ -3471,15 +3461,15 @@ var InvertCross;
                     this.buttons[itemId].mouseEnabled = true;
                 };
                 return GamePlayMenu;
-            })(Gbase.UI.UIItem);
+            })(gameui.ui.UIItem);
             Views.GamePlayMenu = GamePlayMenu;
         })(GamePlay.Views || (GamePlay.Views = {}));
         var Views = GamePlay.Views;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         (function (Views) {
             var StatusArea = (function (_super) {
@@ -3491,10 +3481,10 @@ var InvertCross;
                 }
                 StatusArea.prototype.createSprites = function () {
                     //Background
-                    this.bg1 = Gbase.AssetsManager.getBitmap("puzzle/painelpuzzle2");
+                    this.bg1 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle2");
 
-                    //this.bg2 = Gbase.AssetsManager.getBitmap("puzzle/painelpuzzle1");
-                    this.bg3 = Gbase.AssetsManager.getBitmap("puzzle/painelpuzzle2");
+                    //this.bg2 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle1");
+                    this.bg3 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle2");
                     this.bg3.scaleX = -1;
 
                     this.bg1.x = DefaultWidth * 0.01;
@@ -3516,9 +3506,9 @@ var InvertCross;
                     this.rightIcon = new createjs.Container();
                     var rightIconContainer = new createjs.Container();
 
-                    this.iconepuzzle = Gbase.AssetsManager.getBitmap("puzzle/iconepuzzle");
-                    this.iconemoves = Gbase.AssetsManager.getBitmap("puzzle/iconemoves");
-                    this.iconetime = Gbase.AssetsManager.getBitmap("puzzle/iconetime");
+                    this.iconepuzzle = gameui.AssetsManager.getBitmap("puzzle/iconepuzzle");
+                    this.iconemoves = gameui.AssetsManager.getBitmap("puzzle/iconemoves");
+                    this.iconetime = gameui.AssetsManager.getBitmap("puzzle/iconetime");
 
                     this.iconepuzzle.x = DefaultWidth * 0.01 + 3;
 
@@ -3614,11 +3604,11 @@ var InvertCross;
             Views.StatusArea = StatusArea;
         })(GamePlay.Views || (GamePlay.Views = {}));
         var Views = GamePlay.Views;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Bonus) {
         // Class
         var BonusScreen = (function (_super) {
@@ -3641,11 +3631,11 @@ var InvertCross;
                 //adds menu
                 // this.addMenu();
                 //adds message
-                this.message = new InvertCross.Menu.View.Message();
+                this.message = new FlipPlus.Menu.View.Message();
                 this.content.addChild(this.message);
 
                 //adds popup
-                this.popup = new InvertCross.Menu.View.Popup();
+                this.popup = new FlipPlus.Menu.View.Popup();
                 this.content.addChild(this.popup);
                 //bring content to front
                 //this.view.setChildIndex(this.content, this.view.getNumChildren() - 1);
@@ -3653,16 +3643,16 @@ var InvertCross;
             //add Scene objects to the view
             BonusScreen.prototype.addScene = function (bonusId) {
                 //adds Background
-                var background = Gbase.AssetsManager.getBitmap(bonusId + "/back");
+                var background = gameui.AssetsManager.getBitmap(bonusId + "/back");
                 background.scaleX = background.scaleY = 2;
                 background.name = "background";
                 this.background.addChild(background);
 
                 //adds header
-                this.header.addChild(Gbase.AssetsManager.getBitmap(bonusId + "/header"));
+                this.header.addChild(gameui.AssetsManager.getBitmap(bonusId + "/header"));
 
                 //adds footer
-                var footer = Gbase.AssetsManager.getBitmap(bonusId + "/footer");
+                var footer = gameui.AssetsManager.getBitmap(bonusId + "/footer");
                 this.footer.addChild(footer);
                 footer.y = -291;
             };
@@ -3681,7 +3671,7 @@ var InvertCross;
                     var itemId = itemsArray[i];
 
                     //add icon
-                    var itemObj = Gbase.AssetsManager.getBitmap("puzzle/icon_" + itemId);
+                    var itemObj = gameui.AssetsManager.getBitmap("puzzle/icon_" + itemId);
                     itemObj.y = 100;
                     itemObj.x = DefaultWidth / itemsArray.length * i + 40;
                     itemObj.name = itemId;
@@ -3702,11 +3692,11 @@ var InvertCross;
 
             //updates all footer labels based on user data
             BonusScreen.prototype.updateFooterValues = function () {
-                var itemsArray = InvertCross.UserData.Items.itemsNames;
+                var itemsArray = FlipPlus.UserData.Items.itemsNames;
                 for (var i = 0; i < itemsArray.length; i++) {
                     var itemId = itemsArray[i];
                     var textObj = this.footerTexts[itemId];
-                    textObj.text = InvertCross.InvertCrossaGame.itemsData.getItemQuantity(itemId).toString();
+                    textObj.text = FlipPlus.InvertCrossaGame.itemsData.getItemQuantity(itemId).toString();
                 }
             };
 
@@ -3734,9 +3724,9 @@ var InvertCross;
             //adds menu to the view
             BonusScreen.prototype.addMenu = function () {
                 var _this = this;
-                this.menu = new InvertCross.Menu.View.ScreenMenu();
+                this.menu = new FlipPlus.Menu.View.ScreenMenu();
                 this.menu.addEventListener("menu", function () {
-                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new InvertCross.Menu.OptionsMenu());
+                    FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new FlipPlus.Menu.OptionsMenu());
                 });
                 this.menu.addEventListener("back", function () {
                     _this.back();
@@ -3746,7 +3736,7 @@ var InvertCross;
 
             //updates user Data with new Item
             BonusScreen.prototype.userAquireItem = function (itemId) {
-                InvertCross.InvertCrossaGame.itemsData.increaseItemQuantity(itemId);
+                FlipPlus.InvertCrossaGame.itemsData.increaseItemQuantity(itemId);
             };
 
             BonusScreen.prototype.selectRandomItems = function (quantity) {
@@ -3768,7 +3758,7 @@ var InvertCross;
             };
 
             BonusScreen.prototype.back = function () {
-                InvertCross.InvertCrossaGame.showProjectsMenu();
+                FlipPlus.InvertCrossaGame.showProjectsMenu();
             };
 
             //finalizes bonus game
@@ -3779,13 +3769,13 @@ var InvertCross;
                 this.back();
             };
             return BonusScreen;
-        })(Gbase.ScreenState);
+        })(gameui.ScreenState);
         Bonus.BonusScreen = BonusScreen;
-    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
-    var Bonus = InvertCross.Bonus;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Bonus || (FlipPlus.Bonus = {}));
+    var Bonus = FlipPlus.Bonus;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Bonus) {
         // Class
         var BonusBarrel = (function (_super) {
@@ -3834,16 +3824,16 @@ var InvertCross;
                 var barrelsContainer = new createjs.Container();
 
                 for (var b = 0; b < barrelsCount; b++) {
-                    var barrel = new Gbase.UI.Button();
+                    var barrel = new gameui.ui.Button();
                     barrel.addEventListener("click", function (event) {
                         _this.barrelTap(event);
                     });
-                    var spriteBarrel = Gbase.AssetsManager.getSprite("Bonus1/Barrel" + (b + 1));
+                    var spriteBarrel = gameui.AssetsManager.getSprite("Bonus1/Barrel" + (b + 1));
                     spriteBarrel.gotoAndPlay(Math.random() * 120);
                     barrel.addChild(spriteBarrel);
                     var bn = barrel.getBounds();
                     barrel.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(bn.x, bn.y, bn.width, bn.height));
-                    var spriteWater = Gbase.AssetsManager.getSprite("Bonus1/agua");
+                    var spriteWater = gameui.AssetsManager.getSprite("Bonus1/agua");
                     barrel.addChild(spriteWater);
                     spriteWater.gotoAndPlay(Math.random() * 120);
 
@@ -3912,9 +3902,9 @@ var InvertCross;
                 for (var b = 0; b < this.barrels.length; b++) {
                     //show the item
                     if (this.items[b])
-                        this.BarrelsItens[b].addChild(Gbase.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]));
+                        this.BarrelsItens[b].addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]));
                     else
-                        this.BarrelsItens[b].addChild(Gbase.AssetsManager.getBitmap("Bonus1/icone_lata"));
+                        this.BarrelsItens[b].addChild(gameui.AssetsManager.getBitmap("Bonus1/icone_lata"));
 
                     //hidesItem
                     this.BarrelsItens[b].visible = false;
@@ -4005,11 +3995,11 @@ var InvertCross;
             return BonusBarrel;
         })(Bonus.BonusScreen);
         Bonus.BonusBarrel = BonusBarrel;
-    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
-    var Bonus = InvertCross.Bonus;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Bonus || (FlipPlus.Bonus = {}));
+    var Bonus = FlipPlus.Bonus;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Bonus) {
         // Class
         var Bonus2 = (function (_super) {
@@ -4171,13 +4161,13 @@ var InvertCross;
                 this.name = item;
 
                 //background
-                var bg = Gbase.AssetsManager.getBitmap("Bonus2/bonuscard2");
+                var bg = gameui.AssetsManager.getBitmap("Bonus2/bonuscard2");
                 bg.name = "background";
                 this.addChild(bg);
 
                 //adds item Image or empty image
                 var itemImage = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
-                var itemDO = Gbase.AssetsManager.getBitmap(itemImage);
+                var itemDO = gameui.AssetsManager.getBitmap(itemImage);
                 itemDO.name = "item";
                 itemDO.x = 368 / 2;
                 itemDO.y = 279 / 2;
@@ -4188,7 +4178,7 @@ var InvertCross;
                 this.addChild(itemDO);
 
                 //add cover image
-                var cover = new Gbase.UI.ImageButton("Bonus2/bonuscard1");
+                var cover = new gameui.ui.ImageButton("Bonus2/bonuscard1");
                 cover.x = 368 / 2;
                 cover.y = 279 / 2;
                 cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
@@ -4220,11 +4210,11 @@ var InvertCross;
             };
             return Card;
         })(createjs.Container);
-    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
-    var Bonus = InvertCross.Bonus;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Bonus || (FlipPlus.Bonus = {}));
+    var Bonus = FlipPlus.Bonus;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Bonus) {
         // Class
         var Bonus3 = (function (_super) {
@@ -4336,7 +4326,7 @@ var InvertCross;
                 var itemsDo = [];
 
                 for (var i in items) {
-                    InvertCross.InvertCrossaGame.itemsData.increaseItemQuantity(items[i]);
+                    FlipPlus.InvertCrossaGame.itemsData.increaseItemQuantity(items[i]);
 
                     var item = this.createItem(items[i]);
 
@@ -4351,7 +4341,7 @@ var InvertCross;
             Bonus3.prototype.createItem = function (item) {
                 //adds item Image or empty image
                 var itemImage = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
-                var itemDO = Gbase.AssetsManager.getBitmap(itemImage);
+                var itemDO = gameui.AssetsManager.getBitmap(itemImage);
                 itemDO.name = item;
 
                 //itemDO.x = 368 / 2;
@@ -4377,11 +4367,11 @@ var InvertCross;
             return Bonus3;
         })(Bonus.BonusScreen);
         Bonus.Bonus3 = Bonus3;
-    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
-    var Bonus = InvertCross.Bonus;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Bonus || (FlipPlus.Bonus = {}));
+    var Bonus = FlipPlus.Bonus;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Bonus) {
         // Class
         var BonusManager = (function () {
@@ -4408,11 +4398,11 @@ var InvertCross;
             return BonusManager;
         })();
         Bonus.BonusManager = BonusManager;
-    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
-    var Bonus = InvertCross.Bonus;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Bonus || (FlipPlus.Bonus = {}));
+    var Bonus = FlipPlus.Bonus;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         var LevelsMenu = (function (_super) {
             __extends(LevelsMenu, _super);
@@ -4425,13 +4415,13 @@ var InvertCross;
                 this.offset = 0;
                 this.lastx = 0;
                 this.addObjects();
-                this.pagesSwipe = new InvertCross.PagesSwipe(this.projectsContainer, this.projectViews, DefaultWidth, 200, 1500);
+                this.pagesSwipe = new FlipPlus.PagesSwipe(this.projectsContainer, this.projectViews, DefaultWidth, 200, 1500);
                 this.createPaginationButtons(this.projectsContainer);
             }
             //--------------------- Initialization ---------------------
             LevelsMenu.prototype.addObjects = function () {
                 //add Background
-                var bg = Gbase.AssetsManager.getBitmap("workshop/bgworkshop");
+                var bg = gameui.AssetsManager.getBitmap("workshop/bgworkshop");
                 this.content.addChild(bg);
                 bg.scaleY = 1.3310546875;
                 bg.y = -339;
@@ -4458,7 +4448,7 @@ var InvertCross;
                 //TODO fazer camada intermediaria
                 //TODO o options sempre volta pro menu principal. O_o
                 this.menu.addEventListener("menu", function () {
-                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
+                    FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
                 });
                 this.menu.addEventListener("back", function () {
                     _this.back();
@@ -4470,7 +4460,7 @@ var InvertCross;
             LevelsMenu.prototype.addProjects = function () {
                 var _this = this;
                 //pega projetos
-                var projects = InvertCross.InvertCrossaGame.projectManager.getUnlockedProjects();
+                var projects = FlipPlus.InvertCrossaGame.projectManager.getUnlockedProjects();
 
                 //create projects container
                 var projectsContainer = new createjs.Container();
@@ -4504,18 +4494,18 @@ var InvertCross;
 
                 if (level != null)
                     if (level.userdata.unlocked)
-                        InvertCross.InvertCrossaGame.showLevel(level, parameters);
+                        FlipPlus.InvertCrossaGame.showLevel(level, parameters);
             };
 
             LevelsMenu.prototype.back = function () {
-                InvertCross.InvertCrossaGame.showProjectsMenu();
+                FlipPlus.InvertCrossaGame.showProjectsMenu();
             };
 
             // ----------------------- pagination -------------------------------------------------------
             LevelsMenu.prototype.createPaginationButtons = function (pagesContainer) {
                 var _this = this;
                 //create leftButton
-                var lb = new Gbase.UI.ImageButton("projects/btpage", function () {
+                var lb = new gameui.ui.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoPreviousPage();
                 });
                 lb.y = 1050;
@@ -4523,7 +4513,7 @@ var InvertCross;
                 this.footer.addChild(lb);
 
                 //create right button
-                var rb = new Gbase.UI.ImageButton("projects/btpage", function () {
+                var rb = new gameui.ui.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoNextPage();
                 });
                 rb.y = 1050;
@@ -4547,9 +4537,9 @@ var InvertCross;
                 _super.prototype.activate.call(this);
 
                 for (var pv in this.projectViews) {
-                    var project = InvertCross.InvertCrossaGame.projectManager.getProjectByName(this.projectViews[pv].name);
+                    var project = FlipPlus.InvertCrossaGame.projectManager.getProjectByName(this.projectViews[pv].name);
 
-                    if (project == InvertCross.InvertCrossaGame.projectManager.getCurrentProject()) {
+                    if (project == FlipPlus.InvertCrossaGame.projectManager.getCurrentProject()) {
                         //activate current project
                         this.projectViews[pv].activate(parameters);
 
@@ -4563,7 +4553,7 @@ var InvertCross;
                             setTimeout(function () {
                                 _this.view.mouseEnabled = true;
                                 _this.view.mouseChildren = true;
-                                InvertCross.InvertCrossaGame.showMainMenu();
+                                FlipPlus.InvertCrossaGame.showMainMenu();
                             }, 2000);
                         }
                     }
@@ -4573,13 +4563,13 @@ var InvertCross;
                 }
             };
             return LevelsMenu;
-        })(Gbase.ScreenState);
+        })(gameui.ScreenState);
         Menu.LevelsMenu = LevelsMenu;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     // Module
     (function (Menu) {
         // Class
@@ -4591,7 +4581,7 @@ var InvertCross;
             }
             Loading.prototype.initializeImages = function () {
                 var _this = this;
-                var loader = Gbase.AssetsManager.loadAssets(getAssetsManifest(assetscale), spriteSheets, images);
+                var loader = gameui.AssetsManager.loadAssets(getAssetsManifest(assetscale), spriteSheets, images);
 
                 //var loader = Assets.loadAssets();
                 var text = new createjs.Text("", "600 90px Myriad Pro", "#FFF");
@@ -4615,20 +4605,20 @@ var InvertCross;
                 });
             };
             return Loading;
-        })(Gbase.ScreenState);
+        })(gameui.ScreenState);
         Menu.Loading = Loading;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         var MainMenu = (function (_super) {
             __extends(MainMenu, _super);
             function MainMenu() {
                 _super.call(this);
 
-                var bg = Gbase.AssetsManager.getBitmap("mybotsbg");
+                var bg = gameui.AssetsManager.getBitmap("mybotsbg");
                 bg.y = -339;
                 bg.scaleY = 1.3310546875;
                 this.content.addChild(bg);
@@ -4648,16 +4638,16 @@ var InvertCross;
                 _super.prototype.activate.call(this);
 
                 //play BgSound
-                Gbase.AssetsManager.playMusic("trilha");
+                gameui.AssetsManager.playMusic("trilha");
 
                 //Verifies if it is the first time playing
-                if (!InvertCross.InvertCrossaGame.storyData.getStoryPlayed("intro")) {
+                if (!FlipPlus.InvertCrossaGame.storyData.getStoryPlayed("intro")) {
                     this.intro.visible = true;
                     this.myBots.visible = false;
                     this.playBt.visible = false;
                     this.intro.playPart1();
-                } else if (!InvertCross.InvertCrossaGame.storyData.getStoryPlayed("intro2")) {
-                    InvertCross.InvertCrossaGame.storyData.setStoryPlayed("intro2");
+                } else if (!FlipPlus.InvertCrossaGame.storyData.getStoryPlayed("intro2")) {
+                    FlipPlus.InvertCrossaGame.storyData.setStoryPlayed("intro2");
                     this.intro.visible = true;
                     this.myBots.visible = false;
                     this.playBt.visible = false;
@@ -4688,7 +4678,7 @@ var InvertCross;
 
             MainMenu.prototype.addMyBots = function () {
                 var _this = this;
-                this.myBots = new InvertCross.Robots.MyBots();
+                this.myBots = new FlipPlus.Robots.MyBots();
                 this.content.addChild(this.myBots);
                 this.myBots.addEventListener("robot", function (e) {
                     _this.robotClick(e.target);
@@ -4703,7 +4693,7 @@ var InvertCross;
                 });
                 this.menu.addEventListener("menu", function () {
                     //TODO fazer camada intermediaria
-                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
+                    FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
                 });
                 this.header.addChild(this.menu);
             };
@@ -4716,8 +4706,8 @@ var InvertCross;
             };
 
             MainMenu.prototype.addPlayButton = function () {
-                var playBt = new Gbase.UI.TextButton("PLAY", function () {
-                    InvertCross.InvertCrossaGame.showProjectsMenu();
+                var playBt = new gameui.ui.TextButton("PLAY", function () {
+                    FlipPlus.InvertCrossaGame.showProjectsMenu();
                 }, null, defaultFontFamilyHighlight, highlightFontColor);
 
                 this.content.addChild(playBt);
@@ -4728,7 +4718,7 @@ var InvertCross;
             };
 
             MainMenu.prototype.back = function () {
-                InvertCross.InvertCrossaGame.showTitleScreen();
+                FlipPlus.InvertCrossaGame.showTitleScreen();
             };
 
             //TODO: it shoud not be here
@@ -4785,7 +4775,7 @@ var InvertCross;
             };
 
             MainMenu.prototype.robotClick = function (robot) {
-                var t = InvertCross.InvertCrossaGame.timersData.getTimer(robot);
+                var t = FlipPlus.InvertCrossaGame.timersData.getTimer(robot);
                 this.terminal.setText(Math.floor(t / 1000 / 60) + " minutes");
             };
 
@@ -4793,18 +4783,18 @@ var InvertCross;
             //TODO: ver isso
             MainMenu.prototype.playSlideShow = function () {
                 var s = new Menu.SlideShow(["sl1", "sl2", "sl3"]);
-                InvertCross.InvertCrossaGame.screenViewer.switchScreen(s);
+                FlipPlus.InvertCrossaGame.screenViewer.switchScreen(s);
                 s.onfinish = function () {
                 };
             };
             return MainMenu;
-        })(Gbase.ScreenState);
+        })(gameui.ScreenState);
         Menu.MainMenu = MainMenu;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         var OptionsMenu = (function (_super) {
             __extends(OptionsMenu, _super);
@@ -4819,16 +4809,16 @@ var InvertCross;
                 backgroundShape.graphics.beginFill("rgba(0,0,0,0.5)").drawRect(0, 0, DefaultWidth, DefaultHeight);
                 this.content.addChild(backgroundShape);
 
-                var mc = new Gbase.UI.MenuContainer();
+                var mc = new gameui.ui.MenuContainer();
                 this.content.addChild(mc);
 
                 //Add Back Button
-                var backContainer = new Gbase.UI.Grid(1, 1, null, 373, null, true);
+                var backContainer = new gameui.ui.Grid(1, 1, null, 373, null, true);
                 backContainer.y = 1676;
                 this.content.addChild(backContainer);
 
-                backContainer.addObject(new Gbase.UI.TextButton(stringResources.op_back, function () {
-                    InvertCross.InvertCrossaGame.showMainMenu();
+                backContainer.addObject(new gameui.ui.TextButton(stringResources.op_back, function () {
+                    FlipPlus.InvertCrossaGame.showMainMenu();
                 }));
 
                 //add Label
@@ -4838,18 +4828,18 @@ var InvertCross;
 
                 //add Other Buttons
                 mc.addButton(stringResources.op_erase, function () {
-                    InvertCross.InvertCrossaGame.userData.clearAllData();
+                    FlipPlus.InvertCrossaGame.userData.clearAllData();
                     window.location.reload();
                 });
             };
             return OptionsMenu;
-        })(Gbase.ScreenState);
+        })(gameui.ScreenState);
         Menu.OptionsMenu = OptionsMenu;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         var ProjectsMenu = (function (_super) {
             __extends(ProjectsMenu, _super);
@@ -4863,7 +4853,7 @@ var InvertCross;
             }
             //populate View
             ProjectsMenu.prototype.createObjects = function () {
-                var bg = Gbase.AssetsManager.getBitmap("projects/bgprojects");
+                var bg = gameui.AssetsManager.getBitmap("projects/bgprojects");
                 bg.scaleY = bg.scaleX = 2;
                 this.background.addChild(bg);
 
@@ -4871,7 +4861,7 @@ var InvertCross;
                 this.addProjects();
                 this.addBonuses();
 
-                this.pagesSwipe = new InvertCross.PagesSwipe(this.projectsGrid, this.pages, DefaultWidth);
+                this.pagesSwipe = new FlipPlus.PagesSwipe(this.projectsGrid, this.pages, DefaultWidth);
                 this.createPaginationButtons(this.projectsGrid);
 
                 this.createPopup();
@@ -4887,14 +4877,14 @@ var InvertCross;
             ProjectsMenu.prototype.addHeader = function () {
                 var _this = this;
                 //create background
-                this.header.addChild(Gbase.AssetsManager.getBitmap("projects/projectHeader"));
+                this.header.addChild(gameui.AssetsManager.getBitmap("projects/projectHeader"));
 
                 this.menu = new Menu.View.ScreenMenu(true, true);
 
                 //TODO fazer camada intermediaria
                 //TODO o options sempre volta pro menu principal. O_o
                 this.menu.addEventListener("menu", function () {
-                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
+                    FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu());
                 });
                 this.menu.addEventListener("back", function () {
                     _this.back();
@@ -4915,8 +4905,8 @@ var InvertCross;
             };
 
             ProjectsMenu.prototype.updateStatistcs = function () {
-                var done = InvertCross.InvertCrossaGame.projectManager.getFinihedProjects().length;
-                var total = InvertCross.InvertCrossaGame.projectManager.getAllProjects().length;
+                var done = FlipPlus.InvertCrossaGame.projectManager.getFinihedProjects().length;
+                var total = FlipPlus.InvertCrossaGame.projectManager.getAllProjects().length;
                 this.statisticsTextField.text = done + "/" + total + " BOTS";
             };
 
@@ -4940,7 +4930,7 @@ var InvertCross;
                 var currentPage;
 
                 // Create projectItens
-                var projects = InvertCross.InvertCrossaGame.projectManager.getAllProjects();
+                var projects = FlipPlus.InvertCrossaGame.projectManager.getAllProjects();
 
                 for (var i = 0; i < projects.length; i++) {
                     //create current page
@@ -4976,19 +4966,22 @@ var InvertCross;
             ProjectsMenu.prototype.addBonuses = function () {
                 var _this = this;
                 for (var p = 0; p < this.pages.length; p++)
-                    this.pages[p].addChild(new Menu.View.BonusItem("Bonus" + (p + 1), function (e) {
+                    var bonusBt = new Menu.View.BonusItem("Bonus" + (p + 1), function (e) {
                         //cancel click in case of drag
                         if (_this.pagesSwipe.cancelClick)
                             return;
 
                         var bonusId = e.currentTarget.bonusId;
-                        var timer = InvertCross.InvertCrossaGame.timersData.getTimer(bonusId);
+                        var timer = FlipPlus.InvertCrossaGame.timersData.getTimer(bonusId);
 
                         if (timer == 0)
-                            InvertCross.InvertCrossaGame.showBonus(bonusId);
+                            FlipPlus.InvertCrossaGame.showBonus(bonusId);
                         else
                             _this.showtimeWarning(timer.toString());
-                    }));
+                    });
+
+                this.pages[p].addChild(bonusBt);
+                this.bonusItems.push(bonusBt);
             };
 
             //Callback to the project item click
@@ -5003,9 +4996,9 @@ var InvertCross;
                 var p = pv.project;
 
                 if (p.UserData.unlocked)
-                    InvertCross.InvertCrossaGame.showProjectLevelsMenu(p, { rebuild: true });
+                    FlipPlus.InvertCrossaGame.showProjectLevelsMenu(p, { rebuild: true });
                 else {
-                    var stars = InvertCross.InvertCrossaGame.projectManager.getStarsCount();
+                    var stars = FlipPlus.InvertCrossaGame.projectManager.getStarsCount();
                     if (stars < p.cost)
                         this.showStarWarning(stars, p.cost);
                 }
@@ -5027,19 +5020,19 @@ var InvertCross;
 
             //update all projects preview in the menu page
             ProjectsMenu.prototype.updateBonuses = function () {
-                for (var i = 0; i < this.projectsItems.length; i++)
-                    this.projectsItems[i].updateProjectInfo();
+                for (var i = 0; i < 3; i++)
+                    this.bonusItems[i].updateProjectInfo();
             };
 
             //=====================================================
             ProjectsMenu.prototype.createPaginationButtons = function (pagesContainer) {
                 var _this = this;
-                var bg = Gbase.AssetsManager.getBitmap("projects/projectFooter");
+                var bg = gameui.AssetsManager.getBitmap("projects/projectFooter");
                 bg.y = -246;
                 this.footer.addChild(bg);
 
                 //create leftButton
-                var lb = new Gbase.UI.ImageButton("projects/btpage", function () {
+                var lb = new gameui.ui.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoPreviousPage();
                 });
                 lb.y = -100;
@@ -5047,7 +5040,7 @@ var InvertCross;
                 this.footer.addChild(lb);
 
                 //create right button
-                var rb = new Gbase.UI.ImageButton("projects/btpage", function () {
+                var rb = new gameui.ui.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoNextPage();
                 });
                 rb.y = -100;
@@ -5070,20 +5063,20 @@ var InvertCross;
                 this.updateStatistcs();
                 this.updateBonuses();
 
-                this.starsIndicator.updateStarsAmount(InvertCross.InvertCrossaGame.projectManager.getStarsCount());
+                this.starsIndicator.updateStarsAmount(FlipPlus.InvertCrossaGame.projectManager.getStarsCount());
             };
 
             ProjectsMenu.prototype.back = function () {
-                InvertCross.InvertCrossaGame.showMainMenu();
+                FlipPlus.InvertCrossaGame.showMainMenu();
             };
             return ProjectsMenu;
-        })(Gbase.ScreenState);
+        })(gameui.ScreenState);
         Menu.ProjectsMenu = ProjectsMenu;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         var SoundMenu = (function (_super) {
             __extends(SoundMenu, _super);
@@ -5094,35 +5087,35 @@ var InvertCross;
                 this.createObjects();
             }
             SoundMenu.prototype.createObjects = function () {
-                var sfxon = new Gbase.UI.IconButton("botaofxon.png", "", "botaosom.png", function () {
-                    InvertCross.InvertCrossaGame.settings.setSoundfX(false);
+                var sfxon = new gameui.ui.IconButton("botaofxon.png", "", "botaosom.png", function () {
+                    FlipPlus.InvertCrossaGame.settings.setSoundfX(false);
                     sfxon.visible = false;
                     sfxoff.visible = true;
                 });
-                var sfxoff = new Gbase.UI.IconButton("botaofxoff.png", "", "botaosom.png", function () {
-                    InvertCross.InvertCrossaGame.settings.setSoundfX(true);
+                var sfxoff = new gameui.ui.IconButton("botaofxoff.png", "", "botaosom.png", function () {
+                    FlipPlus.InvertCrossaGame.settings.setSoundfX(true);
                     sfxoff.visible = false;
                     sfxon.visible = true;
                 });
-                var muson = new Gbase.UI.IconButton("botaomusicaon.png", "", "botaosom.png", function () {
-                    InvertCross.InvertCrossaGame.settings.setMusic(false);
+                var muson = new gameui.ui.IconButton("botaomusicaon.png", "", "botaosom.png", function () {
+                    FlipPlus.InvertCrossaGame.settings.setMusic(false);
                     muson.visible = false;
                     musoff.visible = true;
                 });
-                var musoff = new Gbase.UI.IconButton("botaomusicaoff.png", "", "botaosom.png", function () {
-                    InvertCross.InvertCrossaGame.settings.setMusic(true);
+                var musoff = new gameui.ui.IconButton("botaomusicaoff.png", "", "botaosom.png", function () {
+                    FlipPlus.InvertCrossaGame.settings.setMusic(true);
                     musoff.visible = false;
                     muson.visible = true;
                 });
 
-                musoff.visible = !InvertCross.InvertCrossaGame.settings.getMusic();
-                muson.visible = InvertCross.InvertCrossaGame.settings.getMusic();
-                sfxoff.visible = !InvertCross.InvertCrossaGame.settings.getSoundfx();
-                sfxon.visible = InvertCross.InvertCrossaGame.settings.getSoundfx();
+                musoff.visible = !FlipPlus.InvertCrossaGame.settings.getMusic();
+                muson.visible = FlipPlus.InvertCrossaGame.settings.getMusic();
+                sfxoff.visible = !FlipPlus.InvertCrossaGame.settings.getSoundfx();
+                sfxon.visible = FlipPlus.InvertCrossaGame.settings.getSoundfx();
 
                 //Add Sound Buttons
-                var soundMenuOn = new Gbase.UI.Grid(2, 1, 600, 372, null, true);
-                var soundMenuOff = new Gbase.UI.Grid(2, 1, 600, 372, null, true);
+                var soundMenuOn = new gameui.ui.Grid(2, 1, 600, 372, null, true);
+                var soundMenuOff = new gameui.ui.Grid(2, 1, 600, 372, null, true);
                 soundMenuOn.addObject(sfxon);
                 soundMenuOn.addObject(muson);
                 soundMenuOff.addObject(sfxoff);
@@ -5137,11 +5130,11 @@ var InvertCross;
             return SoundMenu;
         })(createjs.Container);
         Menu.SoundMenu = SoundMenu;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             //View
@@ -5185,11 +5178,11 @@ var InvertCross;
             View.Terminal = Terminal;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             var ScreenMenu = (function (_super) {
@@ -5205,7 +5198,7 @@ var InvertCross;
                     if (typeof backVisible === "undefined") { backVisible = true; }
                     if (typeof starsVisible === "undefined") { starsVisible = false; }
                     //adds menu button
-                    var menuBt = new Gbase.UI.ImageButton("MenuBt", function () {
+                    var menuBt = new gameui.ui.ImageButton("MenuBt", function () {
                         _this.dispatchEvent("menu", menuBt);
                     });
                     menuBt.y = 90;
@@ -5213,7 +5206,7 @@ var InvertCross;
                     this.addChild(menuBt);
 
                     //add a bacl buttton
-                    var backBt = new Gbase.UI.ImageButton("BackBt", function () {
+                    var backBt = new gameui.ui.ImageButton("BackBt", function () {
                         _this.dispatchEvent("back", menuBt);
                     });
                     backBt.y = 90;
@@ -5222,15 +5215,15 @@ var InvertCross;
                     this.addChild(backBt);
                 };
                 return ScreenMenu;
-            })(Gbase.UI.UIItem);
+            })(gameui.ui.UIItem);
             View.ScreenMenu = ScreenMenu;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             var LevelGrid = (function (_super) {
@@ -5293,15 +5286,15 @@ var InvertCross;
                     }
                 };
                 return LevelGrid;
-            })(Gbase.UI.Grid);
+            })(gameui.ui.Grid);
             View.LevelGrid = LevelGrid;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             var LevelThumb = (function (_super) {
@@ -5387,14 +5380,14 @@ var InvertCross;
 
                 LevelThumb.prototype.createLevelModificator = function (level) {
                     if (level.userdata.skip) {
-                        var sk = Gbase.AssetsManager.getBitmap("puzzle/icon_skip");
+                        var sk = gameui.AssetsManager.getBitmap("puzzle/icon_skip");
                         sk.regX = sk.getBounds().width / 2;
                         sk.regY = sk.getBounds().height / 2;
                         return sk;
                     }
 
                     if (level.userdata.item) {
-                        var sk = Gbase.AssetsManager.getBitmap("puzzle/icon_" + level.userdata.item);
+                        var sk = gameui.AssetsManager.getBitmap("puzzle/icon_" + level.userdata.item);
                         sk.regX = sk.getBounds().width / 2;
                         sk.regY = sk.getBounds().height / 2;
                         return sk;
@@ -5403,7 +5396,7 @@ var InvertCross;
 
                 //adds thumb background
                 LevelThumb.prototype.createBackgroud = function (level, assetName, assetSufix) {
-                    var sbg = Gbase.AssetsManager.getBitmap("workshop/" + assetName + assetSufix);
+                    var sbg = gameui.AssetsManager.getBitmap("workshop/" + assetName + assetSufix);
                     sbg.regX = sbg.regY = 98;
                     return sbg;
                 };
@@ -5453,21 +5446,21 @@ var InvertCross;
                 LevelThumb.prototype.createTags = function (level, assetName, assetSufix) {
                     //TODO: essas string devem estar em um enum
                     if (level.type == "time" || level.type == "flip") {
-                        var tag = Gbase.AssetsManager.getBitmap("workshop/" + assetName + level.type + assetSufix);
+                        var tag = gameui.AssetsManager.getBitmap("workshop/" + assetName + level.type + assetSufix);
                         tag.regX = tag.regY = 100;
                         return tag;
                     }
                 };
                 return LevelThumb;
-            })(Gbase.UI.Button);
+            })(gameui.ui.Button);
             View.LevelThumb = LevelThumb;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             // View Class
@@ -5494,12 +5487,12 @@ var InvertCross;
                 //add objects to View
                 StarsIndicator.prototype.buildView = function () {
                     //add Background
-                    //var bg = Gbase.AssetsManager.getBitmap("partshud");
+                    //var bg = gameui.AssetsManager.getBitmap("partshud");
                     //if (bg.getBounds())
                     //this.regX = bg.getBounds().width/2;
                     //this.addChild(bg);
                     //this.infoCotainer = new createjs.Container();
-                    var si = Gbase.AssetsManager.getBitmap("starsicon");
+                    var si = gameui.AssetsManager.getBitmap("starsicon");
                     si.scaleX = si.scaleY = 0.9;
                     this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, grayColor);
                     this.starsTextField.textAlign = "right";
@@ -5512,15 +5505,15 @@ var InvertCross;
                     si.y = -5;
                 };
                 return StarsIndicator;
-            })(Gbase.UI.Button);
+            })(gameui.ui.Button);
             View.StarsIndicator = StarsIndicator;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             var ProjectItem = (function (_super) {
@@ -5546,7 +5539,7 @@ var InvertCross;
                     if (project.UserData.unlocked) {
                         //background
                         var bg = "projects/slot" + (project.UserData.stars ? project.UserData.stars : 0);
-                        var s = Gbase.AssetsManager.getBitmap(bg);
+                        var s = gameui.AssetsManager.getBitmap(bg);
                         this.addChild(s);
 
                         //robot name text
@@ -5563,9 +5556,9 @@ var InvertCross;
 
                         //robot image
                         if (project.UserData.complete)
-                            var botImage = Gbase.AssetsManager.getBitmap("projects/" + project.name);
+                            var botImage = gameui.AssetsManager.getBitmap("projects/" + project.name);
                         else
-                            var botImage = Gbase.AssetsManager.getBitmap("projects/" + project.name + "_shadow");
+                            var botImage = gameui.AssetsManager.getBitmap("projects/" + project.name + "_shadow");
                         this.addChild(botImage);
 
                         //and stars
@@ -5578,11 +5571,11 @@ var InvertCross;
                     } else {
                         //adds Background
                         var bg = "projects/slotl";
-                        var s = Gbase.AssetsManager.getBitmap(bg);
+                        var s = gameui.AssetsManager.getBitmap(bg);
                         this.addChild(s);
 
                         //adds lock indicator
-                        var star = Gbase.AssetsManager.getBitmap("projects/star");
+                        var star = gameui.AssetsManager.getBitmap("projects/star");
                         this.addChild(star);
                         star.x = 240;
                         star.y = 190;
@@ -5606,7 +5599,7 @@ var InvertCross;
                 ProjectItem.prototype.updateProjectInfo = function () {
                     //verifica se o projeto pode ser destravado
                     //TODO. nao devia acessar metodo global aqui
-                    InvertCross.InvertCrossaGame.projectManager.unlockProject(this.project);
+                    FlipPlus.InvertCrossaGame.projectManager.unlockProject(this.project);
 
                     //update the objects display
                     this.createObjects(this.project);
@@ -5621,15 +5614,15 @@ var InvertCross;
                     }
                 };
                 return ProjectItem;
-            })(Gbase.UI.Button);
+            })(gameui.ui.Button);
             View.ProjectItem = ProjectItem;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             //View
@@ -5672,11 +5665,11 @@ var InvertCross;
             View.ProjectProgressIndicator = ProjectProgressIndicator;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             var ProjectStarsIndicator = (function (_super) {
@@ -5713,7 +5706,7 @@ var InvertCross;
                             str = "workshop/staryellow";
                             break;
                     }
-                    var s = Gbase.AssetsManager.getBitmap(str);
+                    var s = gameui.AssetsManager.getBitmap(str);
                     s.x = id * 121;
                     this.addChild(s);
                     return s;
@@ -5757,11 +5750,11 @@ var InvertCross;
             View.ProjectStarsIndicator = ProjectStarsIndicator;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Projects) {
         var Level = (function () {
             function Level() {
@@ -5776,11 +5769,11 @@ var InvertCross;
             return LevelUserData;
         })();
         Projects.LevelUserData = LevelUserData;
-    })(InvertCross.Projects || (InvertCross.Projects = {}));
-    var Projects = InvertCross.Projects;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Projects || (FlipPlus.Projects = {}));
+    var Projects = FlipPlus.Projects;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Projects) {
         // Class
         // Data Object - Model
@@ -5797,11 +5790,11 @@ var InvertCross;
             return ProjectUserData;
         })();
         Projects.ProjectUserData = ProjectUserData;
-    })(InvertCross.Projects || (InvertCross.Projects = {}));
-    var Projects = InvertCross.Projects;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Projects || (FlipPlus.Projects = {}));
+    var Projects = FlipPlus.Projects;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Projects) {
         // Controls projects and Levels.
         // Model
@@ -5822,7 +5815,7 @@ var InvertCross;
                     }
 
                 //create a user data for each level/project
-                InvertCross.InvertCrossaGame.userData.addUserData(this.projects);
+                FlipPlus.InvertCrossaGame.userData.addUserData(this.projects);
             };
 
             // ------------------------------- manager Levels ----------------------------------------
@@ -5853,7 +5846,7 @@ var InvertCross;
                     level.userdata.skip = true;
 
                     //updates next level
-                    var nextLevel = InvertCross.InvertCrossaGame.projectManager.getNextLevel();
+                    var nextLevel = FlipPlus.InvertCrossaGame.projectManager.getNextLevel();
                     if (nextLevel != null)
                         this.unlockLevel(nextLevel);
 
@@ -5861,8 +5854,8 @@ var InvertCross;
                     this.updateProjectUserData(this.getCurrentProject());
 
                     //save user data
-                    InvertCross.InvertCrossaGame.userData.saveLevelData(level);
-                    InvertCross.InvertCrossaGame.userData.saveProjectData(this.getCurrentProject());
+                    FlipPlus.InvertCrossaGame.userData.saveLevelData(level);
+                    FlipPlus.InvertCrossaGame.userData.saveProjectData(this.getCurrentProject());
                 }
             };
 
@@ -5874,7 +5867,7 @@ var InvertCross;
                 level.userdata.unlocked = true;
 
                 //updates next level
-                var nextLevel = InvertCross.InvertCrossaGame.projectManager.getNextLevel();
+                var nextLevel = FlipPlus.InvertCrossaGame.projectManager.getNextLevel();
                 if (nextLevel != null)
                     this.unlockLevel(nextLevel);
 
@@ -5882,8 +5875,8 @@ var InvertCross;
                 this.updateProjectUserData(this.getCurrentProject());
 
                 //save user data
-                InvertCross.InvertCrossaGame.userData.saveLevelData(level);
-                InvertCross.InvertCrossaGame.userData.saveProjectData(this.getCurrentProject());
+                FlipPlus.InvertCrossaGame.userData.saveLevelData(level);
+                FlipPlus.InvertCrossaGame.userData.saveProjectData(this.getCurrentProject());
             };
 
             //get next level inside a project
@@ -5993,8 +5986,8 @@ var InvertCross;
                     project.levels[0].userdata.unlocked = true;
 
                     //save user data
-                    InvertCross.InvertCrossaGame.userData.saveProjectData(project);
-                    InvertCross.InvertCrossaGame.userData.saveLevelData(project.levels[0]);
+                    FlipPlus.InvertCrossaGame.userData.saveProjectData(project);
+                    FlipPlus.InvertCrossaGame.userData.saveLevelData(project.levels[0]);
                 }
             };
 
@@ -6002,20 +5995,20 @@ var InvertCross;
             ProjectManager.prototype.unlockLevel = function (level) {
                 //unlock level user data
                 level.userdata.unlocked = true;
-                InvertCross.InvertCrossaGame.userData.saveLevelData(level);
+                FlipPlus.InvertCrossaGame.userData.saveLevelData(level);
             };
 
             //Finish a project.
             ProjectManager.prototype.completeProject = function (project) {
                 //TODO colocar isso em outro lugar
                 //set played the intro when a project is complete
-                InvertCross.InvertCrossaGame.storyData.setStoryPlayed("intro");
+                FlipPlus.InvertCrossaGame.storyData.setStoryPlayed("intro");
 
                 if (project.UserData.complete == true)
                     return;
 
                 project.UserData.complete = true;
-                InvertCross.InvertCrossaGame.userData.saveProjectData(project);
+                FlipPlus.InvertCrossaGame.userData.saveProjectData(project);
             };
 
             //Updates user data project status
@@ -6065,11 +6058,11 @@ var InvertCross;
             return ProjectManager;
         })();
         Projects.ProjectManager = ProjectManager;
-    })(InvertCross.Projects || (InvertCross.Projects = {}));
-    var Projects = InvertCross.Projects;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Projects || (FlipPlus.Projects = {}));
+    var Projects = FlipPlus.Projects;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Robots) {
         // Controller Class
         var MyBots = (function (_super) {
@@ -6090,7 +6083,7 @@ var InvertCross;
 
             //add names for each robot instance in lobby (toolkit plugin does not make it automatically)
             MyBots.prototype.initializeNames = function () {
-                var projects = InvertCross.InvertCrossaGame.projectManager.getAllProjects();
+                var projects = FlipPlus.InvertCrossaGame.projectManager.getAllProjects();
 
                 for (var p = 0; p < projects.length; p++) {
                     var robotName = projects[p].name;
@@ -6104,7 +6097,7 @@ var InvertCross;
             //adds a user feedback for click action
             MyBots.prototype.initializeUserFeedback = function () {
                 var _this = this;
-                InvertCross.InvertCrossaGame.stage.update();
+                FlipPlus.InvertCrossaGame.stage.update();
                 for (var c = 0; c < this.myBots.getNumChildren(); c++) {
                     var robot = this.myBots.getChildAt(c);
                     ;
@@ -6122,7 +6115,7 @@ var InvertCross;
             //User action feedback to user touch
             MyBots.prototype.userfeedback = function (event) {
                 var robotMc = event.currentTarget;
-                var project = InvertCross.InvertCrossaGame.projectManager.getProjectByName(robotMc.name);
+                var project = FlipPlus.InvertCrossaGame.projectManager.getProjectByName(robotMc.name);
 
                 //verifies if robot is ready or have parts ready
                 if (project && project.UserData.complete || !project) {
@@ -6135,7 +6128,7 @@ var InvertCross;
             //Updates Robot lobby idle behaviour
             MyBots.prototype.update = function () {
                 //get Robots
-                var projects = InvertCross.InvertCrossaGame.projectManager.getFinihedProjects();
+                var projects = FlipPlus.InvertCrossaGame.projectManager.getFinihedProjects();
 
                 //set all robots to start position
                 this.hideAllRobots();
@@ -6148,11 +6141,11 @@ var InvertCross;
             //NOTE, talvez isso nao deva ficar aqui
             MyBots.prototype.checkRevenueTimers = function () {
                 //get projects
-                var projects = InvertCross.InvertCrossaGame.projectManager.getFinihedProjects();
+                var projects = FlipPlus.InvertCrossaGame.projectManager.getFinihedProjects();
 
                 for (var r in projects)
                     //if robot has parts, set it alert
-                    if (InvertCross.InvertCrossaGame.timersData.getTimer(projects[r].name) < 0)
+                    if (FlipPlus.InvertCrossaGame.timersData.getTimer(projects[r].name) < 0)
                         this.alertRobot(projects[r].name);
             };
 
@@ -6187,27 +6180,24 @@ var InvertCross;
             return MyBots;
         })(createjs.Container);
         Robots.MyBots = MyBots;
-    })(InvertCross.Robots || (InvertCross.Robots = {}));
-    var Robots = InvertCross.Robots;
-})(InvertCross || (InvertCross = {}));
-/// <reference path="script/typing/easeljs.d.ts" />
-/// <reference path="script/typing/preloadjs.d.ts" />
-/// <reference path="script/typing/soundjs.d.ts" />
-/// <reference path="script/typing/tweenjs.d.ts" />
+    })(FlipPlus.Robots || (FlipPlus.Robots = {}));
+    var Robots = FlipPlus.Robots;
+})(FlipPlus || (FlipPlus = {}));
+/// <reference path="script/typing/createjs/createjs.d.ts" />
 /// <reference path="src/preferences.ts" />
-/*Gbase*/
-/// <reference path="Gbase/UI/UIItem.ts" />
-/// <reference path="Gbase/UI/Grid.ts" />
-/// <reference path="Gbase/UI/Button.ts" />
-/// <reference path="Gbase/UI/MenuContainer.ts" />
-/// <reference path="Gbase/UI/Label.ts" />
-/// <reference path="Gbase/ScreenViewer.ts" />
-/// <reference path="Gbase/ScreenState.ts" />
-/// <reference path="Gbase/Game.ts" />
-/// <reference path="Gbase/AssetsManager.ts" />
+/*gameui*/
+/// <reference path="gameui/UI/UIItem.ts" />
+/// <reference path="gameui/UI/Grid.ts" />
+/// <reference path="gameui/UI/Button.ts" />
+/// <reference path="gameui/UI/MenuContainer.ts" />
+/// <reference path="gameui/UI/Label.ts" />
+/// <reference path="gameui/ScreenViewer.ts" />
+/// <reference path="gameui/ScreenState.ts" />
+/// <reference path="gameui/Game.ts" />
+/// <reference path="gameui/AssetsManager.ts" />
 /*scripts*/
 /// <reference path="src/Assets.ts" />
-/// <reference path="src/InvertCrossGame.ts" />
+/// <reference path="src/FlipPlusGame.ts" />
 /// <reference path="src/UserData/Items.ts" />
 /// <reference path="src/UserData/Settings.ts" />
 /// <reference path="src/UserData/Story.ts" />
@@ -6415,8 +6405,8 @@ var SmokeFX;
     })(createjs.Container);
     SmokeFX.SmokeFXEmmiter = SmokeFXEmmiter;
 })(SmokeFX || (SmokeFX = {}));
-var InvertCross;
-(function (InvertCross) {
+var FlipPlus;
+(function (FlipPlus) {
     (function (Bonus) {
         // Class
         var Bonus2OLD = (function (_super) {
@@ -6562,11 +6552,11 @@ var InvertCross;
                 card.name = item;
 
                 //background
-                card.addChild(Gbase.AssetsManager.getBitmap("Bonus2/bonuscard2"));
+                card.addChild(gameui.AssetsManager.getBitmap("Bonus2/bonuscard2"));
 
                 //adds item Image or empty image
                 var itemImage = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
-                var itemDO = Gbase.AssetsManager.getBitmap(itemImage);
+                var itemDO = gameui.AssetsManager.getBitmap(itemImage);
                 itemDO.name = "item";
                 itemDO.x = 368 / 2;
                 itemDO.y = 279 / 2;
@@ -6575,7 +6565,7 @@ var InvertCross;
                 card.addChild(itemDO);
 
                 //add cover image
-                var cover = new Gbase.UI.ImageButton("Bonus2/bonuscard1");
+                var cover = new gameui.ui.ImageButton("Bonus2/bonuscard1");
                 cover.x = 368 / 2;
                 cover.y = 279 / 2;
                 cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
@@ -6610,11 +6600,11 @@ var InvertCross;
             return Bonus2OLD;
         })(Bonus.BonusScreen);
         Bonus.Bonus2OLD = Bonus2OLD;
-    })(InvertCross.Bonus || (InvertCross.Bonus = {}));
-    var Bonus = InvertCross.Bonus;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Bonus || (FlipPlus.Bonus = {}));
+    var Bonus = FlipPlus.Bonus;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             var BonusItem = (function (_super) {
@@ -6641,11 +6631,11 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //if unlocked
-                    var stars = InvertCross.InvertCrossaGame.projectManager.getStarsCount();
+                    var stars = FlipPlus.InvertCrossaGame.projectManager.getStarsCount();
                     if (stars >= bonusData[bonusId].cost) {
                         //background
                         var bg = "projects/" + bonusId;
-                        var s = Gbase.AssetsManager.getBitmap(bg);
+                        var s = gameui.AssetsManager.getBitmap(bg);
                         this.addChild(s);
 
                         //timer text
@@ -6666,11 +6656,11 @@ var InvertCross;
                     } else {
                         //adds Background
                         var bg = "projects/bigslot1";
-                        var s = Gbase.AssetsManager.getBitmap(bg);
+                        var s = gameui.AssetsManager.getBitmap(bg);
                         this.addChild(s);
 
                         //adds lock indicator
-                        var star = Gbase.AssetsManager.getBitmap("projects/star");
+                        var star = gameui.AssetsManager.getBitmap("projects/star");
                         this.addChild(star);
                         star.x = 670;
                         star.y = 150;
@@ -6695,7 +6685,7 @@ var InvertCross;
                 };
 
                 BonusItem.prototype.timerintervalTick = function () {
-                    var time = InvertCross.InvertCrossaGame.timersData.getTimer(this.bonusId);
+                    var time = FlipPlus.InvertCrossaGame.timersData.getTimer(this.bonusId);
 
                     if (time == 0) {
                         this.timerText.text = stringResources.mm_play;
@@ -6731,15 +6721,15 @@ var InvertCross;
                     return time;
                 };
                 return BonusItem;
-            })(Gbase.UI.ImageButton);
+            })(gameui.ui.ImageButton);
             View.BonusItem = BonusItem;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         var Moves = (function (_super) {
             __extends(Moves, _super);
@@ -6870,15 +6860,15 @@ var InvertCross;
             return Moves;
         })(GamePlay.LevelScreen);
         GamePlay.Moves = Moves;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
 var levelsDataBackup;
 var levelCreatorMode;
 var levelCreatorTestMode;
 
-var InvertCross;
-(function (InvertCross) {
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         var LevelCreator = (function (_super) {
             __extends(LevelCreator, _super);
@@ -6893,9 +6883,9 @@ var InvertCross;
                 if (!postback) {
                     window.onresize = function () {
                     };
-                    InvertCross.InvertCrossaGame.redim(420, 600, false);
+                    FlipPlus.InvertCrossaGame.redim(420, 600, false);
                     if (levelData == null) {
-                        levelData = new InvertCross.Projects.Level();
+                        levelData = new FlipPlus.Projects.Level();
                         levelData.width = 5;
                         levelData.height = 5;
                         levelData.blocksData = [];
@@ -6912,7 +6902,7 @@ var InvertCross;
 
                 this.editWindow.document.getElementById("c_create").onclick = function () {
                     levelData = _this.getLevelDataFromForm();
-                    InvertCross.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(levelData, _this.editWindow));
+                    FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(levelData, _this.editWindow));
                 };
 
                 this.editWindow.document.getElementById("c_save").onclick = function () {
@@ -6935,7 +6925,7 @@ var InvertCross;
 
                     if (level) {
                         _this.setFormFromLevelData(level);
-                        InvertCross.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(level, _this.editWindow, true));
+                        FlipPlus.InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(level, _this.editWindow, true));
                     }
                 };
 
@@ -6969,10 +6959,10 @@ var InvertCross;
                     for (var p in levelsData) {
                         levelsData[p].cost = 0;
                     }
-                    InvertCross.InvertCrossaGame.initializeGame();
+                    FlipPlus.InvertCrossaGame.initializeGame();
                     //window.onresize = () => { };
                     //console.log("ctest")
-                    //InvertCross.InvertCrossaGame.redim(420, 600, false);
+                    //FlipPlus.InvertCrossaGame.redim(420, 600, false);
                 };
             }
             LevelCreator.prototype.loadStored = function () {
@@ -7026,7 +7016,7 @@ var InvertCross;
             };
 
             LevelCreator.prototype.getLevelDataFromForm = function () {
-                var levelData = new InvertCross.Projects.Level();
+                var levelData = new FlipPlus.Projects.Level();
 
                 //levelData.name= (<HTMLInputElement> this.editWindow.document.getElementById("c_name")).value;
                 levelData.width = parseInt(this.editWindow.document.getElementById("c_width").value);
@@ -7123,11 +7113,11 @@ var InvertCross;
             return LevelCreator;
         })(GamePlay.Puzzle);
         GamePlay.LevelCreator = LevelCreator;
-    })(InvertCross.GamePlay || (InvertCross.GamePlay = {}));
-    var GamePlay = InvertCross.GamePlay;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         var Intro = (function (_super) {
             __extends(Intro, _super);
@@ -7156,7 +7146,7 @@ var InvertCross;
                             break;
 
                         case "end":
-                            InvertCross.InvertCrossaGame.showProjectsMenu();
+                            FlipPlus.InvertCrossaGame.showProjectsMenu();
                             _this.dispatchEvent("end");
                             break;
                     }
@@ -7182,11 +7172,11 @@ var InvertCross;
             return Intro;
         })(createjs.Container);
         Menu.Intro = Intro;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         //screens that presents a slideshows
         var SlideShow = (function (_super) {
@@ -7218,7 +7208,7 @@ var InvertCross;
                 this.images = new Array();
 
                 for (var s in slides) {
-                    var image = Gbase.AssetsManager.getBitmap(slides[s]);
+                    var image = gameui.AssetsManager.getBitmap(slides[s]);
                     this.images.push(image);
                     this.content.addChild(image);
                 }
@@ -7277,13 +7267,13 @@ var InvertCross;
                 this.nextSlide();
             };
             return SlideShow;
-        })(Gbase.ScreenState);
+        })(gameui.ScreenState);
         Menu.SlideShow = SlideShow;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         var TitleScreen = (function (_super) {
             __extends(TitleScreen, _super);
@@ -7302,21 +7292,21 @@ var InvertCross;
 
                 //add event to go to main menu
                 this.content.addEventListener("click", function () {
-                    InvertCross.InvertCrossaGame.showMainMenu();
+                    FlipPlus.InvertCrossaGame.showMainMenu();
                 });
             }
             TitleScreen.prototype.redim = function (headerY, footerY, width) {
                 _super.prototype.redim.call(this, headerY, footerY, width);
-                this.beach.y = -headerY / 4 - 616 + 77 / 4;
+                this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
             };
             return TitleScreen;
-        })(Gbase.ScreenState);
+        })(gameui.ScreenState);
         Menu.TitleScreen = TitleScreen;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             // View Class
@@ -7347,7 +7337,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = Gbase.AssetsManager.getBitmap("popups/message");
+                    var bg = gameui.AssetsManager.getBitmap("popups/message");
                     bg.x = 0;
                     bg.y = DefaultHeight / 2 - 500;
                     this.addChild(bg);
@@ -7392,15 +7382,15 @@ var InvertCross;
                     this.fadeOut(1, 0.5);
                 };
                 return Message;
-            })(Gbase.UI.UIItem);
+            })(gameui.ui.UIItem);
             View.Message = Message;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             // View Class
@@ -7442,7 +7432,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = Gbase.AssetsManager.getBitmap("popups/popup");
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
                     bg.x = 0;
                     bg.y = 100;
                     this.addChild(bg);
@@ -7490,7 +7480,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = Gbase.AssetsManager.getBitmap("popups/popup");
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
                     bg.x = 0;
                     bg.y = 100;
                     this.addChild(bg);
@@ -7577,7 +7567,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = Gbase.AssetsManager.getBitmap("popups/popup");
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
                     bg.x = 0;
                     bg.y = 100;
                     this.addChild(bg);
@@ -7653,7 +7643,7 @@ var InvertCross;
 
                 Popup.prototype.addsClickIndicaator = function () {
                     //add click indicator
-                    var ind = Gbase.AssetsManager.getSprite("touch");
+                    var ind = gameui.AssetsManager.getSprite("touch");
                     this.addChild(ind);
                     ind.x = 1350;
                     ind.y = 1100;
@@ -7672,15 +7662,15 @@ var InvertCross;
                 Popup.prototype.drawObject = function () {
                 };
                 return Popup;
-            })(Gbase.UI.UIItem);
+            })(gameui.ui.UIItem);
             View.Popup = Popup;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             // View Class
@@ -7699,7 +7689,7 @@ var InvertCross;
                     this.removeAllChildren();
 
                     //draw background
-                    var bg = Gbase.AssetsManager.getBitmap("popups/popupTutorial");
+                    var bg = gameui.AssetsManager.getBitmap("popups/popupTutorial");
                     bg.x = 150;
                     bg.y = 250;
                     this.addChild(bg);
@@ -7722,7 +7712,7 @@ var InvertCross;
 
                 PopupBot.prototype.addsClickIndicaator = function () {
                     //add click indicator
-                    var ind = Gbase.AssetsManager.getSprite("touch");
+                    var ind = gameui.AssetsManager.getSprite("touch");
                     this.addChild(ind);
                     ind.x = 1250;
                     ind.y = 900;
@@ -7732,11 +7722,11 @@ var InvertCross;
             View.PopupBot = PopupBot;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             // Class
@@ -7786,7 +7776,7 @@ var InvertCross;
                 ProjectWorkshopView.prototype.addStatus = function (project) {
                     this.statusArea = new createjs.Container();
                     this.statusArea.regX = this.statusArea.x = DefaultWidth / 2;
-                    var bg = Gbase.AssetsManager.getBitmap("partshud");
+                    var bg = gameui.AssetsManager.getBitmap("partshud");
                     bg.y = 00;
                     bg.x = DefaultWidth / 2;
                     bg.scaleX = 2;
@@ -7813,7 +7803,7 @@ var InvertCross;
                     this.levelsMahine = levelMachine;
 
                     //add MachineBg
-                    var baseFases = Gbase.AssetsManager.getBitmap("workshop/basefases");
+                    var baseFases = gameui.AssetsManager.getBitmap("workshop/basefases");
                     baseFases.y = -741;
                     levelMachine.addChild(baseFases);
 
@@ -7823,7 +7813,7 @@ var InvertCross;
                     this.starsIndicator.y = 1334 - 2048;
                     levelMachine.addChild(this.starsIndicator);
 
-                    if ((!InvertCross.InvertCrossaGame.isFree() && project.free) || InvertCross.InvertCrossaGame.isFree()) {
+                    if ((!FlipPlus.InvertCrossaGame.isFree() && project.free) || FlipPlus.InvertCrossaGame.isFree()) {
                         if (project.UserData.unlocked) {
                             //Add Level Thumbs
                             this.levelGrid = new Menu.View.LevelGrid(project);
@@ -7894,7 +7884,7 @@ var InvertCross;
 
                     if (level != null)
                         if (level.userdata.unlocked)
-                            InvertCross.InvertCrossaGame.showLevel(level, parameters);
+                            FlipPlus.InvertCrossaGame.showLevel(level, parameters);
                 };
 
                 ProjectWorkshopView.prototype.redim = function (headerY, footerY) {
@@ -7925,11 +7915,11 @@ var InvertCross;
             View.ProjectWorkshopView = ProjectWorkshopView;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (Menu) {
         (function (View) {
             var RobotPreview = (function (_super) {
@@ -7946,9 +7936,9 @@ var InvertCross;
                 RobotPreview.prototype.createGraphics = function (project) {
                     try  {
                         var size = 1000;
-                        this.fill = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
-                        this.stroke = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
-                        this.complete = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name));
+                        this.fill = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
+                        this.stroke = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
+                        this.complete = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name));
 
                         this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
                         this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
@@ -8024,11 +8014,11 @@ var InvertCross;
             View.RobotPreview = RobotPreview;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
-    })(InvertCross.Menu || (InvertCross.Menu = {}));
-    var Menu = InvertCross.Menu;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     // Class
     var Effects = (function (_super) {
         __extends(Effects, _super);
@@ -8039,7 +8029,7 @@ var InvertCross;
         Effects.prototype.castEffect = function (x, y, effect, scale) {
             var _this = this;
             if (typeof scale === "undefined") { scale = 1; }
-            var fx = Gbase.AssetsManager.getMovieClip(effect);
+            var fx = gameui.AssetsManager.getSprite(effect);
             this.addChild(fx);
             fx.mouseEnabled = false;
             fx.play();
@@ -8054,10 +8044,10 @@ var InvertCross;
         };
         return Effects;
     })(createjs.Container);
-    InvertCross.Effects = Effects;
-})(InvertCross || (InvertCross = {}));
-var InvertCross;
-(function (InvertCross) {
+    FlipPlus.Effects = Effects;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     // Class
     var PagesSwipe = (function () {
         function PagesSwipe(pagesContainer, pages, pageWidth, minY, maxY) {
@@ -8151,6 +8141,6 @@ var InvertCross;
         };
         return PagesSwipe;
     })();
-    InvertCross.PagesSwipe = PagesSwipe;
-})(InvertCross || (InvertCross = {}));
+    FlipPlus.PagesSwipe = PagesSwipe;
+})(FlipPlus || (FlipPlus = {}));
 //# sourceMappingURL=script.js.map

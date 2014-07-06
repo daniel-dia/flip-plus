@@ -1,4 +1,4 @@
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
 
     // View Class
     export class PopupBot extends Popup{
@@ -10,7 +10,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = Gbase.AssetsManager.getBitmap("popups/popupTutorial")
+            var bg = gameui.AssetsManager.getBitmap("popups/popupTutorial")
             bg.x = 150;
             bg.y = 250;
             this.addChild(bg);
@@ -33,7 +33,7 @@ module InvertCross.Menu.View {
 
         addsClickIndicaator() {
             //add click indicator
-            var ind = Gbase.AssetsManager.getSprite("touch")
+            var ind = gameui.AssetsManager.getSprite("touch")
             this.addChild(ind);
             ind.x = 1250;
             ind.y = 900;

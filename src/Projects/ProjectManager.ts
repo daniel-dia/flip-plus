@@ -1,4 +1,4 @@
-module InvertCross.Projects {
+module FlipPlus.Projects {
 
     // Controls projects and Levels.
     // Model
@@ -14,10 +14,14 @@ module InvertCross.Projects {
         private currentProject: Project;
         private currentLevel: Level;
 
+        private userData: UserData.ProjectsData;
+
         // ------------------------------- initialization ----------------------------------------//
 
-        constructor(data: Array<Project>) {
+        constructor(data: Array<Project>, userData: UserData.ProjectsData) {
+            this.userData = userData;
             this.loadProjects(data);
+            
         }
 
         private loadProjects(data: Array<Project>) {
@@ -32,7 +36,7 @@ module InvertCross.Projects {
                 }
 
             //create a user data for each level/project
-            InvertCrossaGame.userData.addUserData(this.projects);
+            this.userData.addUserData(this.projects);
         }
 
         // ------------------------------- manager Levels ----------------------------------------
@@ -65,7 +69,7 @@ module InvertCross.Projects {
                 level.userdata.skip = true;
 
                 //updates next level
-                var nextLevel: Projects.Level = InvertCrossaGame.projectManager.getNextLevel();
+                var nextLevel: Projects.Level = this.getNextLevel();
                 if (nextLevel != null)
                     this.unlockLevel(nextLevel);
                     
@@ -73,8 +77,8 @@ module InvertCross.Projects {
                 this.updateProjectUserData(this.getCurrentProject());
 
                 //save user data
-                InvertCrossaGame.userData.saveLevelData(level);
-                InvertCrossaGame.userData.saveProjectData(this.getCurrentProject());
+                this.userData.saveLevelData(level);
+                this.userData.saveProjectData(this.getCurrentProject());
             }
         }
 
@@ -87,7 +91,7 @@ module InvertCross.Projects {
             level.userdata.unlocked = true;
 
             //updates next level
-            var nextLevel: Projects.Level = InvertCrossaGame.projectManager.getNextLevel();
+            var nextLevel: Projects.Level = this.getNextLevel();
             if (nextLevel != null)
                 this.unlockLevel(nextLevel);
 
@@ -95,8 +99,8 @@ module InvertCross.Projects {
             this.updateProjectUserData(this.getCurrentProject());
 
             //save user data
-            InvertCrossaGame.userData.saveLevelData(level);
-            InvertCrossaGame.userData.saveProjectData(this.getCurrentProject());
+            this.userData.saveLevelData(level);
+            this.userData.saveProjectData(this.getCurrentProject());
         }
 
         //get next level inside a project
@@ -208,8 +212,8 @@ module InvertCross.Projects {
                 project.levels[0].userdata.unlocked = true;
 
                 //save user data
-                InvertCrossaGame.userData.saveProjectData(project);
-                InvertCrossaGame.userData.saveLevelData(project.levels[0]);
+                this.userData.saveProjectData(project);
+                this.userData.saveLevelData(project.levels[0]);
 
            }
         }
@@ -219,7 +223,7 @@ module InvertCross.Projects {
 
             //unlock level user data
             level.userdata.unlocked = true;
-            InvertCrossaGame.userData.saveLevelData(level);
+            this.userData.saveLevelData(level);
         }
 
         //Finish a project.
@@ -227,12 +231,12 @@ module InvertCross.Projects {
 
             //TODO colocar isso em outro lugar
             //set played the intro when a project is complete
-            InvertCrossaGame.storyData.setStoryPlayed("intro");
+            FlipPlusGame.storyData.setStoryPlayed("intro");
 
             if (project.UserData.complete == true) return;
 
             project.UserData.complete = true;
-            InvertCrossaGame.userData.saveProjectData(project);
+            this.userData.saveProjectData(project);
 
         }
 

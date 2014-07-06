@@ -1,8 +1,8 @@
 declare var lib: any;
 
-module InvertCross.Menu {
+module FlipPlus.Menu {
 
-    export class MainMenu extends Gbase.ScreenState {
+    export class MainMenu extends gameui.ScreenState {
         // Constructor
 
         private myBots: Robots.MyBots;
@@ -17,7 +17,7 @@ module InvertCross.Menu {
         constructor() {
             super()
 
-            var bg = Gbase.AssetsManager.getBitmap("mybotsbg");
+            var bg = gameui.AssetsManager.getBitmap("mybotsbg");
             bg.y = -339;
             bg.scaleY = 1.3310546875;
             this.content.addChild(bg);
@@ -39,18 +39,18 @@ module InvertCross.Menu {
             super.activate();
 
             //play BgSound
-            Gbase.AssetsManager.playMusic("trilha");
+            //gameui.AssetsManager.playMusic("trilha");
 
             //Verifies if it is the first time playing
-            if (!InvertCrossaGame.storyData.getStoryPlayed("intro")) {
+            if (!FlipPlusGame.storyData.getStoryPlayed("intro")) {
                 this.intro.visible = true;
                 this.myBots.visible = false;
                 this.playBt.visible = false;
                 this.intro.playPart1();
 
             }
-            else if (!InvertCrossaGame.storyData.getStoryPlayed("intro2")) {
-                InvertCrossaGame.storyData.setStoryPlayed("intro2")
+            else if (!FlipPlusGame.storyData.getStoryPlayed("intro2")) {
+                FlipPlusGame.storyData.setStoryPlayed("intro2")
                 this.intro.visible = true;
                 this.myBots.visible = false;
                 this.playBt.visible = false;
@@ -82,7 +82,7 @@ module InvertCross.Menu {
         }
 
         private addMyBots() {
-            this.myBots = new Robots.MyBots();
+            this.myBots = new Robots.MyBots(FlipPlusGame.projectManager);
             this.content.addChild(this.myBots);
             this.myBots.addEventListener("robot", (e: createjs.Event) => {
                 this.robotClick(<string>e.target)
@@ -95,7 +95,7 @@ module InvertCross.Menu {
             this.menu.addEventListener("back", () => { this.back() });
             this.menu.addEventListener("menu", () => {
                 //TODO fazer camada intermediaria
-                InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu());
+                FlipPlus.FlipPlusGame.showOptions();
             });
             this.header.addChild(this.menu);
         }
@@ -108,9 +108,9 @@ module InvertCross.Menu {
         }
 
         private addPlayButton() {
-            var playBt = new Gbase.UI.TextButton("PLAY"/*stringResources.mm_play*/, () => {
-                InvertCross.InvertCrossaGame.showProjectsMenu();
-            }, null, defaultFontFamilyHighlight, highlightFontColor)
+            var playBt = new gameui.ui.TextButton("PLAY"/*stringResources.mm_play*/, defaultFontFamilyHighlight, highlightFontColor,"", () => {
+                FlipPlus.FlipPlusGame.showProjectsMenu();
+            } )
 
             this.content.addChild(playBt);
             playBt.x = 800;
@@ -120,7 +120,7 @@ module InvertCross.Menu {
         }
 
         public back() {
-            InvertCross.InvertCrossaGame.showTitleScreen();
+            FlipPlus.FlipPlusGame.showTitleScreen();
         }
 
         //TODO: it shoud not be here
@@ -178,20 +178,8 @@ module InvertCross.Menu {
         }
 
         private robotClick(robot: string) {
-            var t = InvertCrossaGame.timersData.getTimer(robot);
+            var t = FlipPlusGame.timersData.getTimer(robot);
             this.terminal.setText(Math.floor(t/1000/60) + " minutes") 
-        }
-
-        //------------slide show---------------------------------------
-
-        //TODO: ver isso
-        private playSlideShow() {
-
-            var s = new SlideShow(["sl1", "sl2", "sl3"]);
-            InvertCrossaGame.screenViewer.switchScreen(s);
-            s.onfinish = () => {
-                
-            }
         }
 
     }

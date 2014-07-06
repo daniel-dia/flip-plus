@@ -1,4 +1,4 @@
-﻿module InvertCross.Bonus {
+﻿module FlipPlus.Bonus {
 
     // Class
     export class Bonus3 extends BonusScreen {
@@ -124,7 +124,7 @@
             //create items objects
             for (var i in items) {
 
-                InvertCrossaGame.itemsData.increaseItemQuantity(items[i]);
+                FlipPlusGame.itemsData.increaseItemQuantity(items[i]);
 
                 var item = this.createItem(items[i])
                 
@@ -137,7 +137,7 @@
         createItem(item:string) {
             //adds item Image or empty image
             var itemImage: string = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
-            var itemDO = Gbase.AssetsManager.getBitmap(itemImage);
+            var itemDO = gameui.AssetsManager.getBitmap(itemImage);
             itemDO.name = item;
             //itemDO.x = 368 / 2;
             //itemDO.y = 279 / 2;

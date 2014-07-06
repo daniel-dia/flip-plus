@@ -1,7 +1,7 @@
 declare var blockIn;
 declare var blockOut;
 
-module InvertCross.GamePlay.Views {
+module FlipPlus.GamePlay.Views {
     export class BlockSprite extends createjs.Container{
 
         public static defaultBlockSize: number = 187;
@@ -187,18 +187,18 @@ module InvertCross.GamePlay.Views {
             //Modificators
 
             //load hint symbol
-            this.hintimage = Gbase.AssetsManager.getBitmap("puzzle/icon_hint");
+            this.hintimage = gameui.AssetsManager.getBitmap("puzzle/icon_hint");
             this.container.addChild(this.hintimage);
             this.hintimage.visible = false;
 
             //load nurrir modificator tile
-            this.mirrorImage = Gbase.AssetsManager.getBitmap("puzzle/tilemirror");
+            this.mirrorImage = gameui.AssetsManager.getBitmap("puzzle/tilemirror");
             this.container.addChild(this.mirrorImage);
             this.mirrorImage.visible = false;
             this.mirrorImage.x = this.mirrorImage.y = - 5;
 
             //load memoryModificator tile
-            this.memoryImage = Gbase.AssetsManager.getBitmap("puzzle/tilememory");
+            this.memoryImage = gameui.AssetsManager.getBitmap("puzzle/tilememory");
             this.container.addChild(this.memoryImage);
             this.memoryImage.visible = false;
             this.memoryImage.alpha = 0;
@@ -211,7 +211,7 @@ module InvertCross.GamePlay.Views {
         //load a single asset and adds it to this
         private loadAsset(assetName: string): createjs.DisplayObject {
            
-            var asset: createjs.DisplayObject = Gbase.AssetsManager.getBitmap(assetName);
+            var asset: createjs.DisplayObject = gameui.AssetsManager.getBitmap(assetName);
             asset.name = assetName;
         
             this.container.addChild(asset);

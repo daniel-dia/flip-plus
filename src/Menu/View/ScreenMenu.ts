@@ -1,6 +1,6 @@
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
 
-    export class ScreenMenu extends Gbase.UI.UIItem{
+    export class ScreenMenu extends gameui.ui.UIItem{
 
         constructor(backVisible: boolean= true, starsVisible: boolean= false) {
             super();
@@ -10,13 +10,13 @@ module InvertCross.Menu.View {
         private createObjects(backVisible: boolean= true, starsVisible: boolean= false) {
 
             //adds menu button
-            var menuBt: Gbase.UI.ImageButton = new Gbase.UI.ImageButton("MenuBt", () => { this.dispatchEvent("menu", menuBt) });
+            var menuBt: gameui.ui.ImageButton = new gameui.ui.ImageButton("MenuBt", () => { this.dispatchEvent("menu", menuBt) });
             menuBt.y = 90;
             menuBt.x = DefaultWidth - 130;
             this.addChild(menuBt);
 
             //add a bacl buttton
-            var backBt: Gbase.UI.ImageButton = new Gbase.UI.ImageButton("BackBt", () => { this.dispatchEvent("back", menuBt) });
+            var backBt: gameui.ui.ImageButton = new gameui.ui.ImageButton("BackBt", () => { this.dispatchEvent("back", menuBt) });
             backBt.y = 90;
             backBt.x = 130;
             backBt.visible = backVisible;

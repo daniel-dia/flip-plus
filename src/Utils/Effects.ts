@@ -1,11 +1,11 @@
-module InvertCross{
+module FlipPlus{
 
     // Class
     export class Effects extends createjs.Container {
         
         // cast an effect
         public castEffect(x:number,y:number,effect:string,scale=1) {
-            var fx: createjs.Sprite = Gbase.AssetsManager.getSprite(effect);
+            var fx: createjs.Sprite = gameui.AssetsManager.getSprite(effect);
             this.addChild(fx);
             fx.mouseEnabled = false;
             fx.play();

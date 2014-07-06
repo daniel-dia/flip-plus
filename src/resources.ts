@@ -1,6 +1,6 @@
-﻿declare var stringResources: InvertCross.StringResources;
+﻿declare var stringResources: FlipPlus.StringResources;
 
-module InvertCross {
+module FlipPlus {
 
     export interface StringResources {
 

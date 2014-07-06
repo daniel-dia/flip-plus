@@ -1,8 +1,8 @@
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
 
     export class RobotPreview extends createjs.Container {
 
-        private project: InvertCross.Projects.Project;
+        private project: FlipPlus.Projects.Project;
         private percentMask: createjs.Shape;
 
         private fill:createjs.DisplayObject;
@@ -10,7 +10,7 @@ module InvertCross.Menu.View {
         private complete: createjs.DisplayObject;
         
         //Constructor
-        constructor(project: InvertCross.Projects.Project) {
+        constructor(project: FlipPlus.Projects.Project) {
             super();
 
             this.project = project;
@@ -19,12 +19,12 @@ module InvertCross.Menu.View {
         }
 
         //create graphics
-        private createGraphics(project: InvertCross.Projects.Project) {
+        private createGraphics(project: FlipPlus.Projects.Project) {
             try {
                 var size: number = 1000;
-                this.fill = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
-                this.stroke = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
-                this.complete = this.addChild(Gbase.AssetsManager.getBitmap("workshop/" + project.name));
+                this.fill = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
+                this.stroke = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
+                this.complete = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name));
 
                 this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
                 this.fill.regY = this.stroke.regY = this.fill.getBounds().height;

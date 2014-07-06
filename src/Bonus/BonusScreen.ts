@@ -1,7 +1,7 @@
-﻿module InvertCross.Bonus {
+﻿module FlipPlus.Bonus {
 
     // Class
-    export class BonusScreen extends Gbase.ScreenState {
+    export class BonusScreen extends gameui.ScreenState {
 
         itemsArray: Array<string>;
 
@@ -46,17 +46,17 @@
         //add Scene objects to the view
         addScene(bonusId:string) {
             //adds Background
-            var background = Gbase.AssetsManager.getBitmap(bonusId + "/back");
+            var background = gameui.AssetsManager.getBitmap(bonusId + "/back");
             background.scaleX = background.scaleY = 2
             background.name="background";
             this.background.addChild(background);
             
 
             //adds header
-            this.header.addChild(Gbase.AssetsManager.getBitmap(bonusId + "/header"));
+            this.header.addChild(gameui.AssetsManager.getBitmap(bonusId + "/header"));
 
             //adds footer
-            var footer = Gbase.AssetsManager.getBitmap(bonusId + "/footer");
+            var footer = gameui.AssetsManager.getBitmap(bonusId + "/footer");
             this.footer.addChild(footer);
             footer.y = - 291;
 
@@ -78,7 +78,7 @@
                 var itemId = itemsArray[i];
                 
                 //add icon
-                var itemObj = Gbase.AssetsManager.getBitmap("puzzle/icon_" + itemId);
+                var itemObj = gameui.AssetsManager.getBitmap("puzzle/icon_" + itemId);
                 itemObj.y = 100;
                 itemObj.x = DefaultWidth / itemsArray.length * i + 40;
                 itemObj.name = itemId;
@@ -103,7 +103,7 @@
             for (var i = 0; i < itemsArray.length; i++) {
                 var itemId = itemsArray[i];
                 var textObj = this.footerTexts[itemId];
-                textObj.text = InvertCrossaGame.itemsData.getItemQuantity(itemId).toString();
+                textObj.text = FlipPlusGame.itemsData.getItemQuantity(itemId).toString();
             }
         }
 
@@ -133,14 +133,14 @@
         //adds menu to the view
         addMenu() {
             this.menu = new Menu.View.ScreenMenu();
-            this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new Menu.OptionsMenu()); });
+            this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions() });
             this.menu.addEventListener("back", () => { this.back(); });
             this.header.addChild(this.menu);
         }
 
         //updates user Data with new Item
         userAquireItem(itemId: string) {
-            InvertCrossaGame.itemsData.increaseItemQuantity(itemId);
+            FlipPlusGame.itemsData.increaseItemQuantity(itemId);
         }
 
         selectRandomItems(quantity: number): Array<string> {
@@ -164,7 +164,7 @@
         }        
         
         back() {
-            InvertCross.InvertCrossaGame.showProjectsMenu();
+            FlipPlus.FlipPlusGame.showProjectsMenu();
         }
 
         //finalizes bonus game

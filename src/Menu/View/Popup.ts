@@ -1,7 +1,7 @@
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
 
     // View Class
-    export class Popup extends Gbase.UI.UIItem{
+    export class Popup extends gameui.ui.UIItem{
 
         private closeinterval;
         //class contructor
@@ -40,7 +40,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = Gbase.AssetsManager.getBitmap("popups/popup")
+            var bg = gameui.AssetsManager.getBitmap("popups/popup")
             bg.x = 0;
             bg.y = 100;
             this.addChild(bg);
@@ -88,7 +88,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = Gbase.AssetsManager.getBitmap("popups/popup")
+            var bg = gameui.AssetsManager.getBitmap("popups/popup")
             bg.x = 0;
             bg.y = 100;
             this.addChild(bg);
@@ -174,7 +174,7 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //draw background
-            var bg = Gbase.AssetsManager.getBitmap("popups/popup")
+            var bg = gameui.AssetsManager.getBitmap("popups/popup")
             bg.x = 0;
             bg.y = 100;
             this.addChild(bg);
@@ -250,7 +250,7 @@ module InvertCross.Menu.View {
 
         addsClickIndicaator() {
             //add click indicator
-            var ind = Gbase.AssetsManager.getSprite("touch")
+            var ind = gameui.AssetsManager.getSprite("touch")
             this.addChild(ind);
             ind.x = 1350;
             ind.y = 1100;

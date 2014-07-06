@@ -1,7 +1,7 @@
-module InvertCross.Menu {
+module FlipPlus.Menu {
 
     //screens that presents a slideshows
-    export class SlideShow extends Gbase.ScreenState {
+    export class SlideShow extends gameui.ScreenState {
 
         //images array. contains all loaded images for slideshow
         private images: Array<createjs.DisplayObject>;
@@ -43,7 +43,7 @@ module InvertCross.Menu {
 
             //load all images in images array
             for (var s in slides) {
-                var image = Gbase.AssetsManager.getBitmap(slides[s]);
+                var image = gameui.AssetsManager.getBitmap(slides[s]);
                 this.images.push(image);
                 this.content.addChild(image);
             }

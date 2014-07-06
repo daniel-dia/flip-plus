@@ -1,7 +1,7 @@
-module InvertCross.GamePlay {
+module FlipPlus.GamePlay {
 
     //Controller
-    export class LevelScreen extends Gbase.ScreenState {
+    export class LevelScreen extends gameui.ScreenState {
 
         //Display Sprites
         public boardSprite: Views.BoardSprite;
@@ -22,6 +22,7 @@ module InvertCross.GamePlay {
         // Used to know the last item used by the user in this level
         public usedItem: string;
 
+
         //Initialization methodos ===================================================================================================
 
         constructor(leveldata: Projects.Level) {
@@ -37,7 +38,7 @@ module InvertCross.GamePlay {
             this.levelLogic = new Model.Level(leveldata);
 
             //play BgSound
-            Gbase.AssetsManager.stopMusic();
+            ///gameui.AssetsManager.stopMusic();
 
             //creates all screen objects
             this.createScene(leveldata);
@@ -78,7 +79,7 @@ module InvertCross.GamePlay {
         }
 
         private addBackground() {
-            var bg = Gbase.AssetsManager.getBitmap("workshop/bgworkshop");
+            var bg = gameui.AssetsManager.getBitmap("workshop/bgworkshop");
             this.content.addChild(bg);
             bg.y = -339;
             bg.scaleY = 1.3310546875;
@@ -95,12 +96,12 @@ module InvertCross.GamePlay {
             //level control
             this.gameplayMenu.addEventListener("pause", () => { this.pauseGame(); });
             this.gameplayMenu.addEventListener("unpause", () => { this.unPauseGame(); });
-            this.gameplayMenu.addEventListener("restart", (e: createjs.Event) => { InvertCrossaGame.replayLevel(); });
-            this.gameplayMenu.addEventListener("back", () => { InvertCrossaGame.exitLevel(); });
+            this.gameplayMenu.addEventListener("restart", (e: createjs.Event) => { FlipPlusGame.replayLevel(); });
+            this.gameplayMenu.addEventListener("back", () => { FlipPlusGame.exitLevel(); });
 
             //upper staus area
-            if (InvertCrossaGame.projectManager.getCurrentProject() != undefined) {
-                var levels: Projects.Level[] = InvertCrossaGame.projectManager.getCurrentProject().levels;
+            if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
+                var levels: Projects.Level[] = FlipPlusGame.projectManager.getCurrentProject().levels;
                 this.statusArea = new Views.StatusArea();
                 this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
                 this.statusArea.setText1("");
@@ -157,7 +158,7 @@ module InvertCross.GamePlay {
             setTimeout(() => {
 
                 //playSound
-                Gbase.AssetsManager.playSound("prize");
+                ///gameui.AssetsManager.playSound("prize");
 
                 //apply radius effect
                 this.boardSprite.radiusEffect(col, row)
@@ -168,7 +169,7 @@ module InvertCross.GamePlay {
         win(col: number, row: number,messageText:boolean=true) {
 
             //play a win sound
-            Gbase.AssetsManager.playSound("win");
+            ///gameui.AssetsManager.playSound("win");
 
             //verifies if user already completed this level and verifies if player used any item in the game
             if (!this.levelData.userdata.solved)
@@ -182,7 +183,7 @@ module InvertCross.GamePlay {
             if (!this.levelData.userdata.solved) complete1stTime = true;
 
             //set model to complete level.
-            InvertCrossaGame.projectManager.completeLevel(this.levelData);
+            FlipPlusGame.projectManager.completeLevel(this.levelData);
 
             //change screen and animate.
             if (messageText)
@@ -215,14 +216,14 @@ module InvertCross.GamePlay {
                 })
 
                 //switch screen
-                InvertCrossaGame.completeLevel(complete1stTime);
+                FlipPlusGame.completeLevel(complete1stTime);
         }
 
         loose() {
 
             this.gameplayMenu.fadeOut();
             this.boardSprite.lock();
-            setTimeout(() => { InvertCrossaGame.looseLevel(); }, 3000);;
+            setTimeout(() => { FlipPlusGame.looseLevel(); }, 3000);;
             this.boardSprite.looseEffect();
         }
 
@@ -231,11 +232,11 @@ module InvertCross.GamePlay {
 
         useItem(item: string):boolean {
             //if user has iteem
-            var itemQuantity = InvertCrossaGame.itemsData.getItemQuantity(item)
+            var itemQuantity = FlipPlusGame.itemsData.getItemQuantity(item)
             if (itemQuantity > 0) {
 
                 //updates data
-                InvertCrossaGame.itemsData.decreaseItemQuantity(item);
+                FlipPlusGame.itemsData.decreaseItemQuantity(item);
                 this.usedItem = item;
 
                 //updates Items buttons labels Quantity on footer
@@ -254,9 +255,9 @@ module InvertCross.GamePlay {
         useItemSkip() {
             if (!this.useItem("skip")) return;
             if (this.levelData.userdata.skip || this.levelData.userdata.solved) 
-                InvertCrossaGame.skipLevel(false);
+                FlipPlusGame.skipLevel(false);
             else
-                InvertCrossaGame.skipLevel(true);
+                FlipPlusGame.skipLevel(true);
         }
 
         //set hint for a block

@@ -1,4 +1,4 @@
-module InvertCross.Projects {
+module FlipPlus.Projects {
 
     // Class
     // Data Object - Model

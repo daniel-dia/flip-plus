@@ -1,6 +1,6 @@
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
 
-    export class LevelThumb extends Gbase.UI.Button {
+    export class LevelThumb extends gameui.ui.Button {
 
         private theme: string;
 
@@ -10,7 +10,7 @@ module InvertCross.Menu.View {
         private level: Projects.Level;
 
         // Constructor
-        constructor(level: InvertCross.Projects.Level) {
+        constructor(level: FlipPlus.Projects.Level) {
             super();
             this.level = level;
             this.name = level.name;
@@ -27,7 +27,7 @@ module InvertCross.Menu.View {
         } 
 
         //Create a container with a level thumbnail and evel name
-        private createThumbs(level: InvertCross.Projects.Level) {
+        private createThumbs(level: FlipPlus.Projects.Level) {
             
             this.removeAllChildren();
 
@@ -96,14 +96,14 @@ module InvertCross.Menu.View {
         private createLevelModificator(level: Projects.Level):createjs.DisplayObject {
 
             if (level.userdata.skip) {
-                var sk = Gbase.AssetsManager.getBitmap("puzzle/icon_skip");
+                var sk = gameui.AssetsManager.getBitmap("puzzle/icon_skip");
                 sk.regX = sk.getBounds().width / 2;
                 sk.regY = sk.getBounds().height / 2;
                 return sk;
             }
 
             if (level.userdata.item) {
-                var sk = Gbase.AssetsManager.getBitmap("puzzle/icon_" + level.userdata.item);
+                var sk = gameui.AssetsManager.getBitmap("puzzle/icon_" + level.userdata.item);
                 sk.regX = sk.getBounds().width / 2;
                 sk.regY = sk.getBounds().height / 2;
                 return sk;
@@ -114,7 +114,7 @@ module InvertCross.Menu.View {
         //adds thumb background
         private createBackgroud(level: Projects.Level,assetName,assetSufix): createjs.DisplayObject {
 
-            var sbg = Gbase.AssetsManager.getBitmap("workshop/" + assetName + assetSufix);
+            var sbg = gameui.AssetsManager.getBitmap("workshop/" + assetName + assetSufix);
             sbg.regX = sbg.regY = 98;
             return sbg;
         }
@@ -161,7 +161,7 @@ module InvertCross.Menu.View {
         private createTags(level: Projects.Level, assetName,assetSufix) :createjs.DisplayObject{
             //TODO: essas string devem estar em um enum
             if (level.type == "time" || level.type == "flip") {
-                var tag = Gbase.AssetsManager.getBitmap("workshop/" + assetName + level.type + assetSufix);
+                var tag = gameui.AssetsManager.getBitmap("workshop/" + assetName + level.type + assetSufix);
                 tag.regX = tag.regY = 100;
                 return tag;
             }

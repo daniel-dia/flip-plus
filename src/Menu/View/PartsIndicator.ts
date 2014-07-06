@@ -1,7 +1,7 @@
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
 
     // View Class
-    export class StarsIndicator extends Gbase.UI.Button{
+    export class StarsIndicator extends gameui.ui.Button{
 
         private partsTextField: createjs.Text;
         private starsTextField: createjs.Text;
@@ -29,14 +29,14 @@ module InvertCross.Menu.View {
         private buildView() {
 
             //add Background
-            //var bg = Gbase.AssetsManager.getBitmap("partshud");
+            //var bg = gameui.AssetsManager.getBitmap("partshud");
             //if (bg.getBounds())
             //this.regX = bg.getBounds().width/2;
             //this.addChild(bg);
 
             //this.infoCotainer = new createjs.Container();
             
-            var si = Gbase.AssetsManager.getBitmap("starsicon");
+            var si = gameui.AssetsManager.getBitmap("starsicon");
             si.scaleX = si.scaleY = 0.9;
             this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, grayColor);
             this.starsTextField.textAlign = "right";

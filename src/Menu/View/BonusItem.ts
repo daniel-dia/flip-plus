@@ -1,8 +1,8 @@
 ﻿declare var bonusData: Array<any>;
 
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
 
-    export class BonusItem extends Gbase.UI.ImageButton {
+    export class BonusItem extends gameui.ui.ImageButton {
 
         public bonusId: string;
         private timerText: createjs.Text;
@@ -33,12 +33,12 @@ module InvertCross.Menu.View {
             this.removeAllChildren();
 
             //if unlocked
-            var stars = InvertCrossaGame.projectManager.getStarsCount();
+            var stars = FlipPlusGame.projectManager.getStarsCount();
             if ( stars >= bonusData[bonusId].cost) {
 
                 //background
                 var bg = "projects/" + bonusId;
-                var s = Gbase.AssetsManager.getBitmap(bg);
+                var s = gameui.AssetsManager.getBitmap(bg);
                 this.addChild(s);
 
                 //timer text 
@@ -58,11 +58,11 @@ module InvertCross.Menu.View {
 
                 //adds Background
                 var bg = "projects/bigslot1";
-                var s = Gbase.AssetsManager.getBitmap(bg);
+                var s = gameui.AssetsManager.getBitmap(bg);
                 this.addChild(s);
 
                 //adds lock indicator
-                var star = Gbase.AssetsManager.getBitmap("projects/star");
+                var star = gameui.AssetsManager.getBitmap("projects/star");
                 this.addChild(star);
                 star.x = 670;
                 star.y = 150;
@@ -89,7 +89,7 @@ module InvertCross.Menu.View {
 
         private timerintervalTick() {
 
-            var time = InvertCrossaGame.timersData.getTimer(this.bonusId);
+            var time = FlipPlusGame.timersData.getTimer(this.bonusId);
 
             if (time == 0) {
                 this.timerText.text = stringResources.mm_play;

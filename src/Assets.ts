@@ -379,7 +379,7 @@ class aAssets {
     }
 
     public static playSound(name: string) {
-        if (!InvertCross.InvertCrossaGame.settings.getSoundfx())return;
+        if (!InvertCross.InvertCrossGame.settings.getSoundfx())return;
             
         //wp8// this.mediaDic[name].play()
         createjs.Sound.play(name);
@@ -391,7 +391,7 @@ class aAssets {
     private static currentMusicname: string;
 
     public static playMusic(name: string) {
-        if (!InvertCross.InvertCrossaGame.settings.getMusic()) return;
+        if (!InvertCross.InvertCrossGame.settings.getMusic()) return;
 
         //WP8//var media = this.mediaDic[name];
         if (name == "") name = this.currentMusicname;

@@ -1,4 +1,4 @@
-﻿var stringResources=//: InvertCross.StringResources =
+﻿var stringResources=//: FlipPlus.StringResources =
 {
     ld: "Loading",
 

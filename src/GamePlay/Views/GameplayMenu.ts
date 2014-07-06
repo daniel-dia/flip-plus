@@ -1,9 +1,9 @@
-module InvertCross.GamePlay.Views {
+module FlipPlus.GamePlay.Views {
 
-    export class GamePlayMenu extends Gbase.UI.UIItem{
+    export class GamePlayMenu extends gameui.ui.UIItem{
 
-        private overlayMenu: Gbase.UI.UIItem;
-        private pauseMenu: Gbase.UI.UIItem;
+        private overlayMenu: gameui.ui.UIItem;
+        private pauseMenu: gameui.ui.UIItem;
 
         private buttons: any;
         private parameters: any;
@@ -32,7 +32,7 @@ module InvertCross.GamePlay.Views {
 
         //adds tutorial touch indicator
         private addTutorialIndicator() {
-            this.tutorial_highlightSprite = Gbase.AssetsManager.getSprite("touch")
+            this.tutorial_highlightSprite = gameui.AssetsManager.getSprite("touch")
             this.tutorial_highlightSprite.visible = false;
             this.tutorial_highlightSprite.mouseEnabled = false;
             this.addChild(this.tutorial_highlightSprite)
@@ -40,11 +40,11 @@ module InvertCross.GamePlay.Views {
 
         //creates all menu butons 
         private createGamePlayMenu() {
-            this.overlayMenu = new Gbase.UI.UIItem();
+            this.overlayMenu = new gameui.ui.UIItem();
             this.overlayMenu.width = 2*DefaultWidth;
             this.overlayMenu.height = 0;
 
-            var pausBt = new Gbase.UI.IconButton("puzzle/iconepause", "", "puzzle/btpowerup", () => { this.pause(); });
+            var pausBt = new gameui.ui.IconButton("puzzle/iconepause", "","","", "puzzle/btpowerup", () => { this.pause(); });
             this.overlayMenu.addChild(pausBt),
             pausBt.x = 1400; 
 
@@ -67,7 +67,7 @@ module InvertCross.GamePlay.Views {
         private createItemButton(buttonId: string, pos: number): createjs.DisplayObject {
             this.items.push(buttonId);
 
-            var button = new Gbase.UI.IconButton("puzzle/icon_" + buttonId, "", "puzzle/btpowerup", () => {
+            var button = new gameui.ui.IconButton("puzzle/icon_" + buttonId, "", "", "", "puzzle/btpowerup", () => {
                 var parameter = null;
                 if (this.parameters) parameter = this.parameters[buttonId]
                 this.dispatchEvent(buttonId, parameter);
@@ -84,19 +84,19 @@ module InvertCross.GamePlay.Views {
         // updates buttons labels 
         public updateItemsQuatity() {
             for (var i in this.items)
-                this.buttons[this.items[i]].updateLabel(InvertCrossaGame.itemsData.getItemQuantity(this.items[i]));
+                this.buttons[this.items[i]].updateLabel(FlipPlusGame.itemsData.getItemQuantity(this.items[i]));
         }
                                 
         // ============== pause menus ============================================
 
         private createPauseMenu() {
-            var pauseMenu = new Gbase.UI.UIItem();
+            var pauseMenu = new gameui.ui.UIItem();
 
-            var playBt = new Gbase.UI.IconButton("puzzle/iconeplay", "", "puzzle/btplay1", () => { this.unpause(); }); playBt.x = 600;
-            var snd1Bt = new Gbase.UI.ImageButton("puzzle/btsom1", () => { this.dispatchEvent("soundOn"); });  snd1Bt.x = 160;
-            var snd2Bt = new Gbase.UI.ImageButton("puzzle/btsom2", () => { this.dispatchEvent("soundOff"); }); snd2Bt.x = 160;
-            var backBt = new Gbase.UI.ImageButton("puzzle/btsair", () => { this.dispatchEvent("back"); }); backBt.x = 400;
-            var restBt = new Gbase.UI.ImageButton("puzzle/btrest", () => { this.dispatchEvent("restart"); }); restBt.x = -80;
+            var playBt = new gameui.ui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", () => { this.unpause(); }); playBt.x = 600;
+            var snd1Bt = new gameui.ui.ImageButton("puzzle/btsom1", () => { this.dispatchEvent("soundOn"); });  snd1Bt.x = 160;
+            var snd2Bt = new gameui.ui.ImageButton("puzzle/btsom2", () => { this.dispatchEvent("soundOff"); }); snd2Bt.x = 160;
+            var backBt = new gameui.ui.ImageButton("puzzle/btsair", () => { this.dispatchEvent("back"); }); backBt.x = 400;
+            var restBt = new gameui.ui.ImageButton("puzzle/btrest", () => { this.dispatchEvent("restart"); }); restBt.x = -80;
             
             pauseMenu.addChild(playBt)
             pauseMenu.addChild(snd1Bt)

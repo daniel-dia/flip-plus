@@ -1,4 +1,4 @@
-﻿module InvertCross.Bonus {
+﻿module FlipPlus.Bonus {
 
     // Class
     export class Bonus2OLD extends BonusScreen {
@@ -150,11 +150,11 @@
             card.name = item;
 
             //background
-            card.addChild(Gbase.AssetsManager.getBitmap("Bonus2/bonuscard2"));
+            card.addChild(gameui.AssetsManager.getBitmap("Bonus2/bonuscard2"));
 
             //adds item Image or empty image
             var itemImage: string = item ? "puzzle/icon_" + item : "Bonus2/bonusrat";
-            var itemDO = Gbase.AssetsManager.getBitmap(itemImage);
+            var itemDO = gameui.AssetsManager.getBitmap(itemImage);
             itemDO.name = "item";
             itemDO.x = 368 / 2;
             itemDO.y = 279 / 2;
@@ -163,7 +163,7 @@
             card.addChild(itemDO);
             
             //add cover image
-            var cover = new Gbase.UI.ImageButton("Bonus2/bonuscard1");
+            var cover = new gameui.ui.ImageButton("Bonus2/bonuscard1");
             cover.x = 368 / 2;
             cover.y = 279 / 2;
             cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279/2, 368, 279));

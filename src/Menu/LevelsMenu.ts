@@ -1,6 +1,6 @@
-module InvertCross.Menu {
+module FlipPlus.Menu {
 
-    export class LevelsMenu extends Gbase.ScreenState {
+    export class LevelsMenu extends gameui.ScreenState {
 
         private menu: View.ScreenMenu;
         private projectsContainer: createjs.Container;
@@ -29,7 +29,7 @@ module InvertCross.Menu {
 
         private addObjects() {
             //add Background
-            var bg = Gbase.AssetsManager.getBitmap("workshop/bgworkshop");
+            var bg = gameui.AssetsManager.getBitmap("workshop/bgworkshop");
             this.content.addChild(bg);
             bg.scaleY = 1.3310546875;
             bg.y = -339;
@@ -56,7 +56,7 @@ module InvertCross.Menu {
             //TODO fazer camada intermediaria
             //TODO o options sempre volta pro menu principal. O_o
             
-            this.menu.addEventListener("menu", () => { InvertCross.InvertCrossaGame.screenViewer.switchScreen(new OptionsMenu()); });
+            this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(); });
             this.menu.addEventListener("back", () => { this.back();});
             this.header.addChild(this.menu);
 
@@ -70,7 +70,7 @@ module InvertCross.Menu {
         private addProjects() {
             
             //pega projetos
-            var projects = InvertCrossaGame.projectManager.getUnlockedProjects();
+            var projects = FlipPlusGame.projectManager.getUnlockedProjects();
 
             //create projects container
             var projectsContainer = new createjs.Container();
@@ -103,22 +103,22 @@ module InvertCross.Menu {
 
             if (level != null)
                 if (level.userdata.unlocked)
-                    InvertCrossaGame.showLevel(level, parameters);
+                    FlipPlusGame.showLevel(level, parameters);
         }
 
         public back() {
-            InvertCross.InvertCrossaGame.showProjectsMenu();
+            FlipPlus.FlipPlusGame.showProjectsMenu();
         }
         // ----------------------- pagination -------------------------------------------------------
         private createPaginationButtons(pagesContainer: createjs.Container) {
             //create leftButton
-            var lb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
+            var lb: gameui.ui.Button = new gameui.ui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
             lb.y = 1050;
             lb.x = DefaultWidth * 0.1;
             this.footer.addChild(lb);
 
             //create right button
-            var rb: Gbase.UI.Button = new Gbase.UI.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
+            var rb: gameui.ui.Button = new gameui.ui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
             rb.y = 1050;
             rb.x = DefaultWidth * 0.9;
             rb.scaleX = -1;
@@ -142,9 +142,9 @@ module InvertCross.Menu {
 
             //update all projects views
             for (var pv in this.projectViews) {
-                var project = InvertCrossaGame.projectManager.getProjectByName(this.projectViews[pv].name);
+                var project = FlipPlusGame.projectManager.getProjectByName(this.projectViews[pv].name);
 
-                if (project == InvertCrossaGame.projectManager.getCurrentProject()) {
+                if (project == FlipPlusGame.projectManager.getCurrentProject()) {
                     
                     //activate current project
                     this.projectViews[pv].activate(parameters);
@@ -159,7 +159,7 @@ module InvertCross.Menu {
                         setTimeout(() => {
                             this.view.mouseEnabled = true;
                             this.view.mouseChildren = true;
-                            InvertCrossaGame.showMainMenu();
+                            FlipPlusGame.showMainMenu();
                         }, 2000);
                     }
                 }

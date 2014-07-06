@@ -1,4 +1,4 @@
-module InvertCross {
+module FlipPlus {
 
     // Class
     export class PagesSwipe {

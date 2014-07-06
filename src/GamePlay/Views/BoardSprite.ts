@@ -1,10 +1,10 @@
-    module InvertCross.GamePlay.Views {
+    module FlipPlus.GamePlay.Views {
     export class BoardSprite extends createjs.Container {
         
         public blocksSprites:BlockSprite[][];
         private boardWidth :number;
         private boardHeight:number;
-        private fx: InvertCross.Effects;
+        private fx: FlipPlus.Effects;
         private previousSound: number = 1;
         private locked = false;
 
@@ -30,7 +30,7 @@
             this.regY = boardHeight / 2;
 
             //load click indicator
-            this.tutorialIndiatcor = Gbase.AssetsManager.getSprite("touch")
+            this.tutorialIndiatcor = gameui.AssetsManager.getSprite("touch")
             this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -55;
             this.tutorialIndiatcor.mouseEnabled = false;
             this.addChild(this.tutorialIndiatcor);
@@ -41,7 +41,7 @@
 
         //initializes the effectss sprites
         public initializeEffects() {
-            this.fx = new InvertCross.Effects();
+            this.fx = new FlipPlus.Effects();
             this.addChild(this.fx);
         }
 
@@ -73,7 +73,7 @@
                         // play a Radom Sounds
                         var randomsound = Math.ceil(Math.random() * 3)
                         if (randomsound >= this.previousSound) randomsound++;
-                        Gbase.AssetsManager.playSound("tile" + randomsound);
+                        ///gameui.AssetsManager.playSound("tile" + randomsound);
                         this.previousSound = randomsound;
 
                         //tutorialrelease

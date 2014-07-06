@@ -1,17 +1,19 @@
 declare var lib: any;
 
-module InvertCross.Robots {
+module FlipPlus.Robots {
 
     // Controller Class
     export class MyBots extends createjs.Container {
 
         public myBots: createjs.Container;
-      
+        private projectManager: Projects.ProjectManager;
+
         //----------------------initialization ---------------------------
 
-        constructor() {
+        constructor(projectManager:Projects.ProjectManager) {
 
             super();
+            this.projectManager = projectManager;
             this.initializeGraphics();
             this.initializeNames();
 
@@ -27,7 +29,7 @@ module InvertCross.Robots {
 
         //add names for each robot instance in lobby (toolkit plugin does not make it automatically)
         private initializeNames() {
-            var projects = InvertCrossaGame.projectManager.getAllProjects();
+            var projects = this.projectManager.getAllProjects();
 
             for (var p = 0; p < projects.length; p++) {
                 var robotName = projects[p].name;
@@ -40,7 +42,7 @@ module InvertCross.Robots {
 
         //adds a user feedback for click action
         private initializeUserFeedback() {
-            InvertCrossaGame.stage.update();
+            FlipPlusGame.gameScreen.stage.update();
             for (var c = 0; c < this.myBots.getNumChildren(); c++) {
                 var robot = <createjs.MovieClip>this.myBots.getChildAt(c);;
                 robot.addEventListener("click", (e: createjs.MouseEvent) => {this.userfeedback(e); });
@@ -61,7 +63,7 @@ module InvertCross.Robots {
         private userfeedback(event: createjs.MouseEvent) {
 
             var robotMc = <createjs.MovieClip>event.currentTarget;
-            var project: Projects.Project = InvertCrossaGame.projectManager.getProjectByName(robotMc.name);
+            var project: Projects.Project = this.projectManager.getProjectByName(robotMc.name);
 
             //verifies if robot is ready or have parts ready
             if (project && project.UserData.complete || !project) {
@@ -76,7 +78,7 @@ module InvertCross.Robots {
         public update() {
 
             //get Robots
-            var projects = InvertCrossaGame.projectManager.getFinihedProjects();
+            var projects = this.projectManager.getFinihedProjects();
 
             //set all robots to start position
             this.hideAllRobots();
@@ -86,22 +88,22 @@ module InvertCross.Robots {
                 this.showRobot(projects[r].name);
         }
 
-        //updates revenuesTimers
-        //NOTE, talvez isso nao deva ficar aqui
-        private checkRevenueTimers() {
-
-            //get projects
-            var projects = InvertCrossaGame.projectManager.getFinihedProjects();
-
-            //if is null create a timer
-            //TODO, deve criar o timer quando conclui o projeto.
-
-            //set idle to the finished projects 
-            for (var r in projects) 
-                //if robot has parts, set it alert
-                if (InvertCrossaGame.timersData.getTimer(projects[r].name) < 0) 
-                    this.alertRobot(projects[r].name);
-        }
+        ////updates revenuesTimers
+        ////NOTE, talvez isso nao deva ficar aqui
+        //private checkRevenueTimers() {
+        //
+        //    //get projects
+        //    var projects = FlipPlusGame.projectManager.getFinihedProjects();
+        //
+        //    //if is null create a timer
+        //    //TODO, deve criar o timer quando conclui o projeto.
+        //
+        //    //set idle to the finished projects 
+        //    for (var r in projects) 
+        //        //if robot has parts, set it alert
+        //        if (FlipPlusGame.timersData.getTimer(projects[r].name) < 0) 
+        //            this.alertRobot(projects[r].name);
+        //}
 
         //hide All Robots from Screen
         private hideAllRobots() {

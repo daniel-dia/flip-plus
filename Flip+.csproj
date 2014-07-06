@@ -17,13 +17,15 @@
     <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Gbase\AssetsManager.ts" />
-    <TypeScriptCompile Include="script\typing\easeljs.d.ts" />
+    <TypeScriptCompile Include="script\typing\createjs-lib\createjs-lib.d.ts" />
+    <TypeScriptCompile Include="script\typing\createjs\createjs.d.ts" />
     <TypeScriptCompile Include="lib\Inertia.ts" />
-    <TypeScriptCompile Include="script\typing\preloadjs.d.ts" />
+    <TypeScriptCompile Include="script\typing\easeljs\easeljs.d.ts" />
+    <TypeScriptCompile Include="script\typing\gameuijs\gameuijs.d.ts" />
     <TypeScriptCompile Include="lib\SmokeFX.ts" />
-    <TypeScriptCompile Include="script\typing\soundjs.d.ts" />
-    <TypeScriptCompile Include="script\typing\tweenjs.d.ts" />
+    <TypeScriptCompile Include="script\typing\preloadjs\preloadjs.d.ts" />
+    <TypeScriptCompile Include="script\typing\soundjs\soundjs.d.ts" />
+    <TypeScriptCompile Include="script\typing\tweenjs\tweenjs.d.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus1.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus2 - Copy.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus2.ts" />
@@ -917,6 +919,7 @@
     </Content>
     <Content Include="default.htm" />
     <Content Include="script\CocoonJStouchPathc.js" />
+    <Content Include="script\gameuijs.js" />
     <Content Include="script\getQueryVariable.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -963,46 +966,23 @@
     <Content Include="script\plataform.js" />
     <Content Include="script\script.js" />
     <Content Include="src\UserData\ProjectsData.ts" />
-    <TypeScriptCompile Include="Gbase\UI\Label.ts" />
-    <Content Include="Gbase\UI\Label.js">
-      <DependentUpon>Label.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="Gbase\UI\UIItem.ts" />
-    <Content Include="Gbase\UI\UIItem.js">
-      <DependentUpon>UIItem.ts</DependentUpon>
-    </Content>
     <Content Include="data\Levels.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="src\Robots\MyBots.ts" />
     <TypeScriptCompile Include="src\Menu\MainMenu.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\Overlay.ts" />
-    <TypeScriptCompile Include="Gbase\Game.ts" />
     <TypeScriptCompile Include="src\Utils\Effects.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelScreen.ts" />
     <TypeScriptCompile Include="src\GamePlay\Puzzle.ts" />
     <TypeScriptCompile Include="src\GamePlay\TimeAttack.ts" />
     <TypeScriptCompile Include="src\Projects\Level.ts" />
-    <TypeScriptCompile Include="Gbase\UI\Grid.ts" />
-    <Content Include="Gbase\UI\Grid.js">
-      <DependentUpon>Grid.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="src\InvertCrossGame.ts" />
+    <TypeScriptCompile Include="src\FlipPlusGame.ts" />
     <TypeScriptCompile Include="src\Menu\View\LevelThumb.ts" />
     <TypeScriptCompile Include="src\Menu\View\LevelGrid.ts" />
-    <TypeScriptCompile Include="Gbase\UI\Button.ts" />
-    <TypeScriptCompile Include="Gbase\ScreenViewer.ts" />
-    <TypeScriptCompile Include="Gbase\UI\MenuContainer.ts" />
-    <Content Include="Gbase\UI\MenuContainer.js">
-      <DependentUpon>MenuContainer.ts</DependentUpon>
-    </Content>
-    <Content Include="Gbase\UI\Button.js">
-      <DependentUpon>Button.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="src\GamePlay\Model\Level.ts" />
     <TypeScriptCompile Include="src\GamePlay\Model\Board.ts" />
     <TypeScriptCompile Include="src\GamePlay\Tutorial.ts" />
-    <TypeScriptCompile Include="Gbase\ScreenState.ts" />
     <Content Include="src\GamePlay\Model\Block.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\BlockSprite.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\BoardSprite.ts" />

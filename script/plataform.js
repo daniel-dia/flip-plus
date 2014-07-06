@@ -4,5 +4,5 @@
 
 function back() {
     
-    InvertCross.InvertCrossaGame.screenViewer.currentScreen.back();
+    FlipPlus.InvertCrossaGame.screenViewer.currentScreen.back();
 }

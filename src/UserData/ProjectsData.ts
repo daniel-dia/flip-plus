@@ -1,5 +1,5 @@
 // Module
-module InvertCross.UserData {
+module FlipPlus.UserData {
 
     export class ProjectsData {
 

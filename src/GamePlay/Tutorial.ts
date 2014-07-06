@@ -1,4 +1,4 @@
-module InvertCross.GamePlay {
+module FlipPlus.GamePlay {
     export class Tutorial extends Puzzle {
 
         private currentTutorialStep: number = 0;

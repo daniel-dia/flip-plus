@@ -1,13 +1,13 @@
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
 
-    export class LevelGrid extends Gbase.UI.Grid {
+    export class LevelGrid extends gameui.ui.Grid {
 
         private challangesMap = new Object();
         private currentChapter: Projects.Project;
         private thumbs: LevelThumb[];
 
         //Constructor
-        constructor(chapter: InvertCross.Projects.Project) {
+        constructor(chapter: FlipPlus.Projects.Project) {
             super(5,2,1190,476);
             this.thumbs = [];
             this.currentChapter = chapter;
@@ -15,7 +15,7 @@ module InvertCross.Menu.View {
         }
 
         //create a chapter menu, containing a lot o challanges
-        private createChapterSet(chapter: InvertCross.Projects.Project):void {
+        private createChapterSet(chapter: FlipPlus.Projects.Project):void {
 
             //creates a icon tiles
             for (var i = 0; i < chapter.levels.length; i++) {

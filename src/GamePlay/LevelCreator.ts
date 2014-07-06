@@ -2,7 +2,7 @@ var levelsDataBackup;
 var levelCreatorMode;
 var levelCreatorTestMode;
 
-module InvertCross.GamePlay {
+module FlipPlus.GamePlay {
     export class LevelCreator extends Puzzle {
 
         private stateDraw;
@@ -22,7 +22,7 @@ module InvertCross.GamePlay {
             if (!postback) {
                 
                 window.onresize = () => { };
-                InvertCrossaGame.redim(420, 600, false);
+                FlipPlusGame.gameScreen.resizeGameScreen(420, 600, false);
                 if (levelData == null) {
                     levelData = new Projects.Level();
                     levelData.width = 5;
@@ -43,7 +43,7 @@ module InvertCross.GamePlay {
 
             this.editWindow.document.getElementById("c_create").onclick = () => {
                 levelData = this.getLevelDataFromForm();
-                InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(levelData, this.editWindow));
+                FlipPlusGame.gameScreen.switchScreen(new LevelCreator(levelData, this.editWindow));
             }
 
 
@@ -68,7 +68,7 @@ module InvertCross.GamePlay {
 
                 if (level) {
                     this.setFormFromLevelData(level);
-                    InvertCrossaGame.screenViewer.switchScreen(new LevelCreator(level, this.editWindow,true));
+                    FlipPlusGame.gameScreen.switchScreen(new LevelCreator(level, this.editWindow,true));
                 }
 
             }
@@ -104,10 +104,10 @@ module InvertCross.GamePlay {
                 for (var p in levelsData) {
                     levelsData[p].cost = 0;
                 }
-                InvertCross.InvertCrossaGame.initializeGame();
+                FlipPlus.FlipPlusGame.initializeGame();
                 //window.onresize = () => { };
                 //console.log("ctest")
-                //InvertCross.InvertCrossaGame.redim(420, 600, false);
+                //FlipPlus.InvertCrossaGame.redim(420, 600, false);
             }
         }
 

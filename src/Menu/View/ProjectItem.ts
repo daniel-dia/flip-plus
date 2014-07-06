@@ -1,6 +1,6 @@
-module InvertCross.Menu.View {
+module FlipPlus.Menu.View {
 
-    export class ProjectItem extends Gbase.UI.Button {
+    export class ProjectItem extends gameui.ui.Button {
 
         public project: Projects.Project;
 
@@ -28,7 +28,7 @@ module InvertCross.Menu.View {
 
                 //background
                 var bg = "projects/slot" + (project.UserData.stars ? project.UserData.stars : 0);
-                var s = Gbase.AssetsManager.getBitmap(bg);
+                var s = gameui.AssetsManager.getBitmap(bg);
                 this.addChild(s);
 
                 //robot name text
@@ -45,9 +45,9 @@ module InvertCross.Menu.View {
 
                 //robot image
                 if (project.UserData.complete)
-                    var botImage = Gbase.AssetsManager.getBitmap("projects/" + project.name);
+                    var botImage = gameui.AssetsManager.getBitmap("projects/" + project.name);
                 else
-                    var botImage = Gbase.AssetsManager.getBitmap("projects/" + project.name +"_shadow");
+                    var botImage = gameui.AssetsManager.getBitmap("projects/" + project.name +"_shadow");
                 this.addChild(botImage);
 
 
@@ -64,11 +64,11 @@ module InvertCross.Menu.View {
 
                 //adds Background
                 var bg = "projects/slotl";
-                var s = Gbase.AssetsManager.getBitmap(bg);
+                var s = gameui.AssetsManager.getBitmap(bg);
                 this.addChild(s);
 
                 //adds lock indicator
-                var star = Gbase.AssetsManager.getBitmap("projects/star");
+                var star = gameui.AssetsManager.getBitmap("projects/star");
                 this.addChild(star);
                 star.x = 240;
                 star.y = 190;
@@ -94,7 +94,7 @@ module InvertCross.Menu.View {
 
             //verifica se o projeto pode ser destravado
             //TODO. nao devia acessar metodo global aqui
-            InvertCrossaGame.projectManager.unlockProject(this.project);
+            FlipPlusGame.projectManager.unlockProject(this.project);
                
             //update the objects display     
             this.createObjects(this.project);

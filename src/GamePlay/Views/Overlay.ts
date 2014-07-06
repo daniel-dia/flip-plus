@@ -1,4 +1,4 @@
-module InvertCross.GamePlay.Views {
+module FlipPlus.GamePlay.Views {
 
     export class Overlay extends createjs.Container {
 
@@ -20,14 +20,14 @@ module InvertCross.GamePlay.Views {
         // --- Drawing Menu...
 
         public titleText: createjs.Text;
-        public pauseButton: Gbase.UI.TextButton;
+        public pauseButton: gameui.ui.TextButton;
 
         public buildObjects() {
             //Add Back Button
-            var menuContainer: Gbase.UI.Grid = new Gbase.UI.Grid(1, 1, null, 373, null, true);
+            var menuContainer: gameui.ui.Grid = new gameui.ui.Grid(1, 1, null, 373, null, true);
             menuContainer.y = 1676;
             this.addChild(menuContainer);
-            this.pauseButton = new Gbase.UI.TextButton("Pause");
+            this.pauseButton = new gameui.ui.TextButton("Pause");
             menuContainer.addObject(this.pauseButton);
         }
     }
@@ -35,12 +35,12 @@ module InvertCross.GamePlay.Views {
     export class PauseOverlay extends Overlay {
 
         public titleText: createjs.Text;
-        public backButton: Gbase.UI.TextButton;
-        public leaveButton: Gbase.UI.TextButton;
-        public replayButton: Gbase.UI.TextButton;
-        public confirmMainButton: Gbase.UI.TextButton;
+        public backButton: gameui.ui.TextButton;
+        public leaveButton: gameui.ui.TextButton;
+        public replayButton: gameui.ui.TextButton;
+        public confirmMainButton: gameui.ui.TextButton;
 
-        public confirm: Gbase.UI.MenuContainer;
+        public confirm: gameui.ui.MenuContainer;
 
         public confirmMainText: createjs.Text;
         public z: createjs.Text;
@@ -53,14 +53,14 @@ module InvertCross.GamePlay.Views {
             backgroundShape.graphics.beginFill("rgba(0,0,0,0.2)").drawRect(0, 0, DefaultWidth, DefaultHeight);
             this.addChild(backgroundShape);
 
-            var mc = new Gbase.UI.MenuContainer();
+            var mc = new gameui.ui.MenuContainer();
             this.addChild(mc);
 
             //Add Back Button
-            var menuContainer: Gbase.UI.Grid = new Gbase.UI.Grid(1, 1, null, 373, null, true);
+            var menuContainer: gameui.ui.Grid = new gameui.ui.Grid(1, 1, null, 373, null, true);
             menuContainer.y = 1676;
             this.addChild(menuContainer);
-            this.backButton = new Gbase.UI.TextButton("Continue");
+            this.backButton = new gameui.ui.TextButton("Continue");
             menuContainer.addObject(this.backButton);
 
             //add Label
@@ -85,23 +85,23 @@ module InvertCross.GamePlay.Views {
 
         private createConfirmationContainer() {
 
-            this.confirm = new Gbase.UI.MenuContainer(null,100);
+            this.confirm = new gameui.ui.MenuContainer(null,100);
             this.confirm.y = DefaultHeight / 1.8;
 
 
-            var smc: Gbase.UI.Grid;
-            smc = new Gbase.UI.Grid(2,1,700,100,null,true);
+            var smc: gameui.ui.Grid;
+            smc = new gameui.ui.Grid(2,1,700,100,null,true);
 
             this.confirm.addLabel("Are you sure?");
             this.confirm.addObject(smc);
             smc.regX = 700/2;
             smc.y -= 150; 
 
-            this.confirmMainButton = new Gbase.UI.TextButton("Yes", null,"botao2.png");
-            smc.addObject(new Gbase.UI.TextButton("No", () => {
+            this.confirmMainButton = new gameui.ui.TextButton("Yes", null,"botao2.png");
+            smc.addObject(new gameui.ui.TextButton("No", "", "", "botao2.png", () => {
                 this.confirm.fadeOut();
                 this.leaveButton.fadeIn();
-            }, "botao2.png"));
+            } ));
             smc.addObject(this.confirmMainButton);
             
         }

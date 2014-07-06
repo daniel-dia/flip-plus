@@ -1,7 +1,7 @@
 ﻿declare var lib;
 
-module InvertCross.Menu {
-    export class TitleScreen extends Gbase.ScreenState {
+module FlipPlus.Menu {
+    export class TitleScreen extends gameui.ScreenState {
 
     private beach: createjs.DisplayObject;
 
@@ -21,7 +21,7 @@ module InvertCross.Menu {
 
             //add event to go to main menu
             this.content.addEventListener("click", () => {
-                InvertCrossaGame.showMainMenu();
+                FlipPlusGame.showMainMenu();
             });
         }
 

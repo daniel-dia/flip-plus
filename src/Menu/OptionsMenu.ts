@@ -1,5 +1,5 @@
-module InvertCross.Menu {
-    export class OptionsMenu extends Gbase.ScreenState {
+module FlipPlus.Menu {
+    export class OptionsMenu extends gameui.ScreenState {
         constructor() {
             super();
             this.buildObjects();
@@ -13,17 +13,17 @@ module InvertCross.Menu {
             backgroundShape.graphics.beginFill("rgba(0,0,0,0.5)").drawRect(0, 0, DefaultWidth, DefaultHeight);
             this.content.addChild(backgroundShape);
 
-            var mc = new Gbase.UI.MenuContainer();
+            var mc = new gameui.ui.MenuContainer();
             this.content.addChild(mc);
 
             //Add Back Button
-            var backContainer: Gbase.UI.Grid = new Gbase.UI.Grid(1, 1, null, 373, null, true);
+            var backContainer: gameui.ui.Grid = new gameui.ui.Grid(1, 1, null, 373, null, true);
             backContainer.y = 1676;
             this.content.addChild(backContainer);
 
 
-            backContainer.addObject(new Gbase.UI.TextButton(stringResources.op_back, () => {
-                InvertCrossaGame.showMainMenu();
+            backContainer.addObject(new gameui.ui.TextButton(stringResources.op_back,"","" ,"",() => {
+                FlipPlusGame.showMainMenu();
             }));
 
             //add Label
@@ -33,7 +33,7 @@ module InvertCross.Menu {
 
             //add Other Buttons
             mc.addButton(stringResources.op_erase, () => {
-                InvertCrossaGame.userData.clearAllData();
+                FlipPlusGame.projectData.clearAllData();
                 window.location.reload();
             });
 

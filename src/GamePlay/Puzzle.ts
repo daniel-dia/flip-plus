@@ -1,4 +1,4 @@
-module InvertCross.GamePlay {
+module FlipPlus.GamePlay {
     export class Puzzle extends LevelScreen {
         
         constructor(levelData: Projects.Level) {
