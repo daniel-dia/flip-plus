@@ -393,8 +393,8 @@ function getAssetsManifest(assetscale) {
         { id: "popups/popupTutorial", src: imagePath + "popups/popupbot.png" },
 
         //Legacy
-        { id: "bolinhas", src: "assets/" + "bolinhas.png" },
-        { id: "smokePart", src: "assets/" + "smokePart.png" },
+        { id: "bolinhas", src: imagePath  + "bolinhas.png" },
+        { id: "smokePart", src: imagePath + "smokePart.png" },
 
 
         ////Sound

@@ -54,12 +54,7 @@ module Gbase {
             return <HTMLImageElement>this.loader.getResult(name);
         }
         
-        //DEPRECIATED
-        //get a movie clip
-        public static getMovieClip(name: string): createjs.Sprite {
-            var t: createjs.Sprite = new window[name];
-            return t;
-        }
+        
 
         //return a sprite according to the image
         public static getSprite (name: string, play:boolean=true): createjs.Sprite {

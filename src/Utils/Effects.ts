@@ -5,7 +5,7 @@ module InvertCross{
         
         // cast an effect
         public castEffect(x:number,y:number,effect:string,scale=1) {
-            var fx: createjs.Sprite = Gbase.AssetsManager.getMovieClip(effect);
+            var fx: createjs.Sprite = Gbase.AssetsManager.getSprite(effect);
             this.addChild(fx);
             fx.mouseEnabled = false;
             fx.play();
