@@ -13,10 +13,18 @@
             if (!hitArea && child instanceof Container) {
                 var result = child._getObjectsUnderPoint(x, y, arr, mouse);
                 if (!arr && result) { return result; }
+
+
             } else {
                 child.getConcatenatedMatrix(mtx);
-
                 var b = child.getBounds();
+
+                //if (hitArea) {
+                //    mtx.appendTransform(hitArea.x, hitArea.y, hitArea.scaleX, hitArea.scaleY, hitArea.rotation, hitArea.skewX, hitArea.skewY, hitArea.regX, hitArea.regY);
+                //    mtx.alpha = hitArea.alpha;
+                //    b = hitArea.getBounds();
+                //    b = hitArea.getTransformedBounds();
+                //}
 
                 if (!b) continue;
 
@@ -24,13 +32,13 @@
                 var p2 = mtx.transformPoint(b.x + b.width, b.y + b.height);
                 var p3 = mtx.transformPoint(b.x , b.y + b.height);
                 var p4 = mtx.transformPoint(b.x + b.width, b.y);
-
+                
                 var minX = Math.min(p1.x, p2.x, p3.x, p4.x)
                 var maxX = Math.max(p1.x, p2.x, p3.x, p4.x)
-
+                
                 var minY = Math.min(p1.y, p2.y, p3.y, p4.y)
                 var maxY = Math.max(p1.y, p2.y, p3.y, p4.y)
-
+                         
                 if (x > minX && x < maxX  && y > minY && y < maxY) {
                     if (arr) { arr.push(child); }
                     else { return (mouse && !this.mouseChildren) ? this : child; }

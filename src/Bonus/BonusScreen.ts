@@ -113,15 +113,17 @@
             var footerItem = this.footerContainer.getChildByName(itemId);
             if (footerItem) {
 
-                var point = itemObj.parent.localToLocal(0,0,this.content);
+                if (itemObj.parent) {
+                    var point = itemObj.parent.localToLocal(0, 0, this.content);
 
-                createjs.Tween.get(itemObj).
-                    to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
-                    to({
-                        x: footerItem.x + this.footer.x + this.footerContainer.x - point.x,
-                        y: footerItem.y + this.footer.y + this.footerContainer.y - point.y
-                    }, 700, createjs.Ease.quadInOut).
-                    call(() => { this.updateFooterValues(); });
+                    createjs.Tween.get(itemObj).
+                        to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
+                        to({
+                            x: footerItem.x + this.footer.x + this.footerContainer.x - point.x,
+                            y: footerItem.y + this.footer.y + this.footerContainer.y - point.y
+                        }, 700, createjs.Ease.quadInOut).
+                        call(() => { this.updateFooterValues(); });
+                }
             }
         }
 

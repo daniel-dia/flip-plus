@@ -73,9 +73,10 @@
         }
 
         pickKey(keyId: number) {
+            this.content.mouseEnabled = false;
             this.keys[keyId].gotoAndPlay("key");
             setTimeout(() => {
-                
+                this.content.mouseEnabled = true;    
                 //if key is correct
                 if (keyId == this.correctKeyId) {
 
