@@ -14,7 +14,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="script\typing\createjs-lib\createjs-lib.d.ts" />
@@ -913,6 +913,7 @@
     <Content Include="data\stringResources.js" />
     <Content Include="fonts\Exo2.0-Bold.woff" />
     <Content Include="fonts\Exo2.0-Regular.woff" />
+    <Content Include="JavaScript1.js" />
     <Content Include="levelCreator.htm" />
     <Content Include="script\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1034,7 +1035,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>15981</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:46659/</IISUrl>
+          <IISUrl>http://localhost:46658/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

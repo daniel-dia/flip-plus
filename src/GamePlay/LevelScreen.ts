@@ -90,7 +90,7 @@ module FlipPlus.GamePlay {
 
             //intialize  menu overlay
             this.gameplayMenu = new Views.GamePlayMenu();
-            this.gameplayMenu.y = -248;
+            this.gameplayMenu.y = -100;
             this.footer.addChild(this.gameplayMenu);
             
             //level control

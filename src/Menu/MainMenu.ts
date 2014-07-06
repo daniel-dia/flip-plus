@@ -108,7 +108,7 @@ module FlipPlus.Menu {
         }
 
         private addPlayButton() {
-            var playBt = new gameui.ui.TextButton("PLAY"/*stringResources.mm_play*/, defaultFontFamilyHighlight, highlightFontColor,"", () => {
+            var playBt = new gameui.ui.TextButton("PLAY"/*stringResources.mm_play*/, defaultFontFamilyHighlight, highlightFontColor, "", () => {
                 FlipPlus.FlipPlusGame.showProjectsMenu();
             } )
 

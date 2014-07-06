@@ -80,7 +80,8 @@ module FlipPlus.UserData {
 
         private saveToStorage() {
             if (this.projectsUserData) {
-                localStorage.setItem(this.projectKey, JSON.stringify(this.projectsUserData));
+                var str = JSON.stringify(this.projectsUserData);
+                localStorage.setItem(this.projectKey, str);
             }
         }
 
