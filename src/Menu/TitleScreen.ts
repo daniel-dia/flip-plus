@@ -27,7 +27,7 @@ module InvertCross.Menu {
 
         public redim(headerY: number, footerY: number, width: number) {
             super.redim(headerY, footerY, width);
-            this.beach.y = -headerY / 4 - 616 + 77/4; 
+            this.beach.y = -headerY / 4 - 616 +77/4+9; 
         }
     }
 }
