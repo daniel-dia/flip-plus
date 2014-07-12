@@ -17,6 +17,7 @@
     <UseIISExpress>true</UseIISExpress>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="script\GameUiAssetsManager.ts" />
     <TypeScriptCompile Include="script\typing\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="script\typing\createjs\createjs.d.ts" />
     <TypeScriptCompile Include="lib\Inertia.ts" />
@@ -1034,7 +1035,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>15981</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:46658/</IISUrl>
+          <IISUrl>http://localhost:46659/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

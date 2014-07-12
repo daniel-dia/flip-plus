@@ -18,11 +18,13 @@ module FlipPlus.Menu {
         constructor() {
 
             super();
+
+
             this.addObjects();
             this.pagesSwipe = new PagesSwipe(this.projectsContainer, this.projectViews, DefaultWidth, 200, 1500);
             this.createPaginationButtons(this.projectsContainer)
             
-
+      
         }
         
         //--------------------- Initialization ---------------------
@@ -33,6 +35,16 @@ module FlipPlus.Menu {
             this.content.addChild(bg);
             bg.scaleY = 1.3310546875;
             bg.y = -339;
+            
+            
+            //create projects container
+            this.projectsContainer = new createjs.Container();
+
+            //creates projectViews array
+            this.projectViews = new Array();
+
+            //add to view
+            this.content.addChild(this.projectsContainer);
              
             //adds Projects
             this.addProjects();
@@ -72,25 +84,19 @@ module FlipPlus.Menu {
             //pega projetos
             var projects = FlipPlusGame.projectManager.getUnlockedProjects();
 
-            //create projects container
-            var projectsContainer = new createjs.Container();
-
-            //creates projectViews array
-            this.projectViews = new Array();
-
             //add every project
-            for (var p in projects) {
+            for (var p = this.projectViews.length; p < projects.length;p++) {
                 var projectView = new View.ProjectWorkshopView(projects[p]);
                 this.projectViews.push(projectView);
-                projectsContainer.addChild(projectView);
                 projectView.activate();
                 projectView.x = DefaultWidth * p; 
-                projectView.addEventListener("levelClick", (e:createjs.Event) => { this.openLevel(e) });
+                projectView.addEventListener("levelClick", (e: createjs.Event) => { this.openLevel(e) });
+
+                this.projectsContainer.addChild(projectView);
             }   
 
-            //add to view
-            this.content.addChild(projectsContainer);
-            this.projectsContainer = projectsContainer;
+            
+            
         }
 
         private openLevel(event: createjs.Event) {
@@ -140,6 +146,9 @@ module FlipPlus.Menu {
 
             super.activate();
 
+            //update enabled Projects
+            this.addProjects();
+
             //update all projects views
             for (var pv in this.projectViews) {
                 var project = FlipPlusGame.projectManager.getProjectByName(this.projectViews[pv].name);
@@ -166,9 +175,7 @@ module FlipPlus.Menu {
                 
                 //store last state
                 this.projectPreviousState[project.name] = project.UserData.complete;
-            }
-            
-            
+            }            
         }
     }
 }

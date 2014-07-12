@@ -14,7 +14,7 @@ var levelsData = [
         ],
     },
     {
-        nickName: "R-MS", name: "Bot02", cost: 00, free: true, levels: [
+        nickName: "R-MS", name: "Bot02", cost: 01, free: true, levels: [
             { "name": "01", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData": [20, 16, 8, 4], hiddenBlocks: [15, 9],mirroredBlocks:[1,3] },
             { "name": "02", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData":                    [11,7,17,13]},
             { "name": "03", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData":                    [0,20,6,12,18,4,24]},
@@ -29,7 +29,7 @@ var levelsData = [
     },
 
     {
-        nickName: "P1K-4", name: "Bot03", cost: 00, free: true, levels: [
+        nickName: "P1K-4", name: "Bot03", cost: 01, free: true, levels: [
             { "name": "3.1", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData":                                       [5,10,15,7,17,9,14,19]},
             { "name": "3.2", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "blocksData":                                       [6,11,16,8,13,18]},
             { "name": "3.3", "width": 5, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": 0, "blocksData":                                          [5,16,2,13,24]},
@@ -43,7 +43,7 @@ var levelsData = [
         ]
     },
     {
-        nickName: "L-1NK", name: "Bot04", cost: 00, free: true, levels: [
+        nickName: "L-1NK", name: "Bot04", cost: 01, free: true, levels: [
         { "name": "4.1", "width": 6, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "randomMaxMoves": null, "randomMinMoves": null, "blocksData": [24,19,8,9,22,29]},
         { "name": "4.2", "width": 6, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "randomMaxMoves": null, "randomMinMoves": null, "blocksData": [12,25,2,8,3,9,28,17]},
         { "name": "4.3", "width": 6, "height": 5, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "randomMaxMoves": null, "randomMinMoves": null, "blocksData": [0,6,18,24,14,15,5,11,23,29]},
@@ -58,7 +58,7 @@ var levelsData = [
     },
 
     {
-        name: "Bot05", cost: 00, nickName: "B00-M", free: true, levels: [
+        name: "Bot05", cost: 01, nickName: "B00-M", free: true, levels: [
         { "name": "5.1", "width": 3, "height": 3, "type": "time", "theme": "green", "moves": null, "time": 10, "puzzlesToSolve": 5, "randomMaxMoves": 3, "randomMinMoves": 2, "blocksData": [] },         
         { "name": "5.2", "width": 6, "height": 6, "type": "puzzle", "theme": "green", "moves": null, "time": null, "puzzlesToSolve": null, "randomMaxMoves": null, "randomMinMoves": null, "blocksData":   [0,7,14,15,10,5,11,17]},
         { "name": "5.3", "width": 6, "height": 6, "type": "time", "theme": "green", "moves": null, "time": 25, "puzzlesToSolve": 4, "randomMaxMoves": 6, "randomMinMoves": 6, "blocksData": [] },         
@@ -73,7 +73,7 @@ var levelsData = [
     },
 
     { 
-	name: "Bot06", cost: 00, nickName: "K-R8Y", free: true, levels: [
+	name: "Bot06", cost: 01, nickName: "K-R8Y", free: true, levels: [
 		{"name":"6.1","width":6,"height":7,"type":"puzzle","theme":"green","moves":null,"time":null,"puzzlesToSolve":null,"randomMaxMoves":null,"randomMinMoves":null,"blocksData":[0,1,7,19,37,14,21,4,28,40]},
 		{"name":"6.2","width":6,"height":6,"type":"puzzle","theme":"green","moves":null,"time":null,"puzzlesToSolve":null,"randomMaxMoves":null,"randomMinMoves":null,"blocksData":[0,24,30,1,7,25,31,14,20,15,21,10,28,34,5,11,35]},
 		{"name":"6.3","width":4,"height":4,"type":"moves","theme":"green","moves":5,"time":null,"puzzlesToSolve":5,"randomMaxMoves":2,"randomMinMoves":2,"blocksData":[]},
@@ -81,7 +81,7 @@ var levelsData = [
 		
 	]},
     
-    { name: "Bot07", cost: 0, nickName: "ME64-x", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
+    { name: "Bot07", cost: 01, nickName: "ME64-x", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
     { name: "Bot08", cost: 15, nickName: "K0N-6", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
     { name: "Bot09", cost: 15, nickName: "B-GH", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },
     { name: "Bot10", cost: 15, nickName: "BJ-KZ", free: true, levels: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}] },

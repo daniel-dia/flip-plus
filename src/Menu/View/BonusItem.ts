@@ -95,7 +95,7 @@ module FlipPlus.Menu.View {
                 this.timerText.text = stringResources.mm_play;
 
                 if(!createjs.Tween.hasActiveTweens(this.timerText)) {
-                    this.timerText.cache(-200, -50, 400, 100);
+                    ////this.timerText.cache(-200, -50, 400, 100);
                     this.timerText.set({ scaleX: 1, scaleY: 1 });
                     createjs.Tween.get(this.timerText, { loop: true })
                         .to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut)
@@ -106,7 +106,7 @@ module FlipPlus.Menu.View {
                 createjs.Tween.removeTweens(this.timerText);
                 this.timerText.text = this.toHHMMSS(time);
                 this.timerText.scaleX = this.scaleY = 1;
-                this.timerText.cache(-200, -50, 400, 100);
+                ////this.timerText.cache(-200, -50, 400, 100);
             }
             
             

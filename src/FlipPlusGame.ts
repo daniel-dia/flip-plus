@@ -104,10 +104,6 @@ module FlipPlus {
 
             var projects = this.projectManager.getAllProjects()
 
-            //verifies if rebuild is necessary
-            if (parameters && parameters.rebuild)
-                delete this.levelsMenu;
-
             //create a new levels menu, if needed
             if (this.levelsMenu == undefined)
                 this.levelsMenu = new Menu.LevelsMenu();

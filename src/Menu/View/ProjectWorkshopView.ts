@@ -159,7 +159,7 @@ module FlipPlus.Menu.View {
             var direction = -1;
 
             if (parameters) {
-                if (parameters.complete) complete = parameters.complete;
+                if (parameters.complete)  complete  = parameters.complete;
                 if (parameters.direction) direction = parameters.direction;
             }
             

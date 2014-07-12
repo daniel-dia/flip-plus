@@ -208,7 +208,7 @@ module FlipPlus.GamePlay {
                 createjs.Tween.removeTweens(this.boardSprite);
                 //cache board
                 var bounds = this.boardSprite.getBounds();
-                this.boardSprite.cache(bounds.x, bounds.y, bounds.width, bounds.height);
+                ////this.boardSprite.cache(bounds.x, bounds.y, bounds.width, bounds.height);
                 //animate to out
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(() => {
                     this.boardSprite.visible = false;

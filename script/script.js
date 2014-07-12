@@ -34,7 +34,7 @@ var FlipPlus;
                 assetscale = 0.5;
             if (window.innerWidth <= 420)
                 assetscale = 0.25;
-            assetscale = 0.5;
+            assetscale = 0.25;
 
             this.gameScreen = new gameui.GameScreen("myCanvas", DefaultWidth, DefaultHeight);
 
@@ -721,8 +721,8 @@ var FlipPlus;
 
                 //cache board
                 var bounds = this.boardSprite.getBounds();
-                this.boardSprite.cache(bounds.x, bounds.y, bounds.width, bounds.height);
 
+                ////this.boardSprite.cache(bounds.x, bounds.y, bounds.width, bounds.height);
                 //animate to out
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(function () {
                     _this.boardSprite.visible = false;
@@ -3511,6 +3511,9 @@ var FlipPlus;
                         _this.loaded();
                     return true;
                 });
+                setTimeout(function () {
+                    _this.loaded();
+                }, 1000);
             };
             return Loading;
         })(gameui.ScreenState);
@@ -3617,6 +3620,7 @@ var FlipPlus;
                     FlipPlus.FlipPlusGame.showProjectsMenu();
                 });
 
+                ////playBt.cache(0, 0, 128, 128);
                 this.content.addChild(playBt);
                 playBt.x = 800;
                 playBt.y = 1139;
@@ -3810,7 +3814,6 @@ var FlipPlus;
 
             //adds projects objects to the view
             ProjectsMenu.prototype.addProjects = function () {
-                var _this = this;
                 //grid properties
                 var xspacing = 500;
                 var yspacing = 960;
@@ -3846,10 +3849,7 @@ var FlipPlus;
                     var pview = new Menu.View.ProjectItem(projects[i]);
 
                     //add click event to the item
-                    pview.addEventListener("click", function (e) {
-                        _this.projectItemClick(e);
-                    });
-
+                    //pview.addEventListener("click", (e: MouseEvent) => { this.projectItemClick(e); });
                     //add item to scene
                     this.projectsItems.push(pview);
                     currentPage.addChild(pview);
@@ -4264,7 +4264,6 @@ var FlipPlus;
 
                     //Adds level modificator
                     thumbContainer.addChild(this.createLevelModificator(level));
-
                     //cache thumb
                     thumbContainer.cache(-99, -102, 198, 204);
                 };
@@ -4492,8 +4491,7 @@ var FlipPlus;
                     }
 
                     //cache object
-                    this.cache(0, 0, 480, 480);
-
+                    ////this.cache(0, 0, 480, 480);
                     //create hitArea
                     this.createHitArea();
                 };
@@ -5136,6 +5134,91 @@ var FlipPlus;
 /// <reference path="src/Projects/Project.ts" />
 /// <reference path="src/Projects/ProjectManager.ts" />
 /// <reference path="src/Robots/MyBots.ts" />
+var gameui;
+(function (gameui) {
+    // Class
+    var AssetsManager = (function () {
+        function AssetsManager() {
+        }
+        AssetsManager.loadAssets = function (assetsManifest, spriteSheets, imagesArray) {
+            this.spriteSheets = spriteSheets ? spriteSheets : [];
+            this.assetsManifest = assetsManifest;
+
+            //create a image array
+            this.imagesArray = new Array();
+
+            //creates a preload queue
+            this.loader = new createjs.LoadQueue(false);
+
+            //install sound plug-in for sounds format
+            this.loader.installPlugin(createjs.Sound);
+
+            //create eventListeners
+            this.loader.addEventListener("fileload", function (evt) {
+                if (evt.item.type == "image")
+                    imagesArray[evt.item.id] = evt.result;
+                return true;
+            });
+
+            //loads entire manifest
+            //this.loader.loadManifest(this.assetsManifest);
+            return this.loader;
+        };
+
+        AssetsManager.getImagesArray = function () {
+            return this.imagesArray;
+        };
+
+        //gets a image from assets
+        AssetsManager.getBitmap = function (name) {
+            //if image id is described in spritesheets
+            if (this.spriteSheets[name])
+                return this.getSprite(name, false);
+
+            //if image is preloaded
+            var image = this.getLoadedImage(name);
+            if (image)
+                return new createjs.Bitmap(image);
+
+            //or else try grab by filename
+            return new createjs.Bitmap(name);
+        };
+
+        //Get a preloaded Image from assets
+        AssetsManager.getLoadedImage = function (name) {
+            for (var i in this.assetsManifest) {
+                if (i["id"] == name)
+                    return this.assetsManifest["src"];
+            }
+            return this.loader.getResult(name);
+        };
+
+        //DEPRECIATED
+        //get a movie clip
+        AssetsManager.getMovieClip = function (name) {
+            var t = new window[name];
+            return t;
+        };
+
+        //return a sprite according to the image
+        AssetsManager.getSprite = function (name, play) {
+            if (typeof play === "undefined") { play = true; }
+            var data = this.spriteSheets[name];
+            for (var i in data.images)
+                if (typeof data.images[i] == "string")
+                    data.images[i] = this.getLoadedImage(data.images[i]);
+
+            var spritesheet = new createjs.SpriteSheet(data);
+
+            var sprite = new createjs.Sprite(spritesheet);
+            if (play)
+                sprite.play();
+            return sprite;
+        };
+        return AssetsManager;
+    })();
+    gameui.AssetsManager = AssetsManager;
+})(gameui || (gameui = {}));
 var Inertia = (function () {
     function Inertia() {
     }
@@ -5589,7 +5672,7 @@ var FlipPlus;
                         this.timerText.text = stringResources.mm_play;
 
                         if (!createjs.Tween.hasActiveTweens(this.timerText)) {
-                            this.timerText.cache(-200, -50, 400, 100);
+                            ////this.timerText.cache(-200, -50, 400, 100);
                             this.timerText.set({ scaleX: 1, scaleY: 1 });
                             createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
                         }
@@ -5597,7 +5680,7 @@ var FlipPlus;
                         createjs.Tween.removeTweens(this.timerText);
                         this.timerText.text = this.toHHMMSS(time);
                         this.timerText.scaleX = this.scaleY = 1;
-                        this.timerText.cache(-200, -50, 400, 100);
+                        ////this.timerText.cache(-200, -50, 400, 100);
                     }
                 };
 
@@ -6196,6 +6279,20 @@ var FlipPlus;
             TitleScreen.prototype.redim = function (headerY, footerY, width) {
                 _super.prototype.redim.call(this, headerY, footerY, width);
                 this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
+            };
+
+            TitleScreen.prototype.activate = function () {
+                _super.prototype.activate.call(this);
+                // setTimeout(() => {
+                //     createjs.Tween.removeAllTweens();
+                //     createjs.Tween.removeAllTweens();
+                // }, 1000);
+                //
+                // setTimeout(() => {
+                //     createjs.Tween.removeAllTweens();
+                //     createjs.Tween.removeAllTweens();
+                //
+                // }, 2000);
             };
             return TitleScreen;
         })(gameui.ScreenState);
