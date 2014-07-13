@@ -19,7 +19,7 @@ module FlipPlus.Menu {
             var loader = gameui.AssetsManager.loadAssets(getAssetsManifest(assetscale), spriteSheets, images);
 
             //var loader = Assets.loadAssets();
-            var text = new createjs.Text("", "600 90px Myriad Pro", "#FFF");
+            var text = new createjs.Text("", "600 90px Arial", "#FFF");
             text.x = DefaultWidth / 2;
             text.y = DefaultHeight / 2;
             text.textAlign = "center"
