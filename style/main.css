@@ -21,6 +21,7 @@ body, a {
     font-family: 'Exo 2.0'; 
     background-color: #000;
     color: white;
+    text-align:center;  
 }
 
 #myCanvas {
@@ -33,7 +34,10 @@ body, a {
     /*  (Safari now, Chrome soon)      */
     
     -ms-interpolation-mode: nearest-neighbor; 
-    -webkit-interpolation-mode: nearest-neighbor
+    -webkit-interpolation-mode: nearest-neighbor;
+
+    margin-left:auto;
+    margin-right:auto;
 }
 
 @font-face { font-family:'Exo 2.0';  src: url(../fonts/Exo2.0-Regular.woff); font-weight: normal;}

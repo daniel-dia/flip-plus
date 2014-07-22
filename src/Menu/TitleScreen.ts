@@ -23,11 +23,18 @@ module FlipPlus.Menu {
             this.content.addEventListener("click", () => {
                 FlipPlusGame.showMainMenu();
             });
+
+            setTimeout(() => {
+                console.log("cleaned");
+                gameui.AssetsManager.cleanAssets();
+            }, 10000);
         }
 
         public redim(headerY: number, footerY: number, width: number) {
             super.redim(headerY, footerY, width);
             this.beach.y = -headerY / 4 - 616 +77/4+9; 
         }
+
+
     }
 }
