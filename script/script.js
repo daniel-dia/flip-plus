@@ -34,7 +34,7 @@ var FlipPlus;
                 assetscale = 0.5;
             if (window.innerWidth <= 420)
                 assetscale = 0.25;
-            assetscale = 0.25;
+            assetscale = 0.5;
 
             this.gameScreen = new gameui.GameScreen("myCanvas", DefaultWidth, DefaultHeight);
 
@@ -91,10 +91,6 @@ var FlipPlus;
                 return;
 
             var projects = this.projectManager.getAllProjects();
-
-            //verifies if rebuild is necessary
-            if (parameters && parameters.rebuild)
-                delete this.levelsMenu;
 
             //create a new levels menu, if needed
             if (this.levelsMenu == undefined)
@@ -3322,6 +3318,7 @@ var FlipPlus;
                 //inertia fx
                 this.offset = 0;
                 this.lastx = 0;
+
                 this.addObjects();
                 this.pagesSwipe = new FlipPlus.PagesSwipe(this.projectsContainer, this.projectViews, DefaultWidth, 200, 1500);
                 this.createPaginationButtons(this.projectsContainer);
@@ -3333,6 +3330,15 @@ var FlipPlus;
                 this.content.addChild(bg);
                 bg.scaleY = 1.3310546875;
                 bg.y = -339;
+
+                //create projects container
+                this.projectsContainer = new createjs.Container();
+
+                //creates projectViews array
+                this.projectViews = new Array();
+
+                //add to view
+                this.content.addChild(this.projectsContainer);
 
                 //adds Projects
                 this.addProjects();
@@ -3370,26 +3376,17 @@ var FlipPlus;
                 //pega projetos
                 var projects = FlipPlus.FlipPlusGame.projectManager.getUnlockedProjects();
 
-                //create projects container
-                var projectsContainer = new createjs.Container();
-
-                //creates projectViews array
-                this.projectViews = new Array();
-
-                for (var p in projects) {
+                for (var p = this.projectViews.length; p < projects.length; p++) {
                     var projectView = new Menu.View.ProjectWorkshopView(projects[p]);
                     this.projectViews.push(projectView);
-                    projectsContainer.addChild(projectView);
                     projectView.activate();
                     projectView.x = DefaultWidth * p;
                     projectView.addEventListener("levelClick", function (e) {
                         _this.openLevel(e);
                     });
-                }
 
-                //add to view
-                this.content.addChild(projectsContainer);
-                this.projectsContainer = projectsContainer;
+                    this.projectsContainer.addChild(projectView);
+                }
             };
 
             LevelsMenu.prototype.openLevel = function (event) {
@@ -3444,6 +3441,9 @@ var FlipPlus;
                 var _this = this;
                 _super.prototype.activate.call(this);
 
+                //update enabled Projects
+                this.addProjects();
+
                 for (var pv in this.projectViews) {
                     var project = FlipPlus.FlipPlusGame.projectManager.getProjectByName(this.projectViews[pv].name);
 
@@ -3492,7 +3492,7 @@ var FlipPlus;
                 var loader = gameui.AssetsManager.loadAssets(getAssetsManifest(assetscale), spriteSheets, images);
 
                 //var loader = Assets.loadAssets();
-                var text = new createjs.Text("", "600 90px Myriad Pro", "#FFF");
+                var text = new createjs.Text("", "600 90px Arial", "#FFF");
                 text.x = DefaultWidth / 2;
                 text.y = DefaultHeight / 2;
                 text.textAlign = "center";
@@ -3511,9 +3511,6 @@ var FlipPlus;
                         _this.loaded();
                     return true;
                 });
-                setTimeout(function () {
-                    _this.loaded();
-                }, 1000);
             };
             return Loading;
         })(gameui.ScreenState);
@@ -3620,7 +3617,6 @@ var FlipPlus;
                     FlipPlus.FlipPlusGame.showProjectsMenu();
                 });
 
-                ////playBt.cache(0, 0, 128, 128);
                 this.content.addChild(playBt);
                 playBt.x = 800;
                 playBt.y = 1139;
@@ -3705,34 +3701,24 @@ var FlipPlus;
                 this.buildObjects();
             }
             OptionsMenu.prototype.buildObjects = function () {
-                this.content.visible = false;
-                var backgroundShape = new createjs.Shape();
-
-                backgroundShape.graphics.beginFill("rgba(0,0,0,0.5)").drawRect(0, 0, DefaultWidth, DefaultHeight);
-                this.content.addChild(backgroundShape);
-
-                var mc = new gameui.ui.MenuContainer();
-                this.content.addChild(mc);
-
                 //Add Back Button
-                var backContainer = new gameui.ui.Grid(1, 1, null, 373, null, true);
-                backContainer.y = 1676;
-                this.content.addChild(backContainer);
-
-                backContainer.addObject(new gameui.ui.TextButton(stringResources.op_back, "", "", "", function () {
+                var bb = new gameui.ui.TextButton(stringResources.op_back, defaultFontFamilyNormal, defaultFontColor, "", function () {
                     FlipPlus.FlipPlusGame.showMainMenu();
-                }));
+                });
 
-                //add Label
-                mc.addLabel(stringResources.op_options);
+                bb.x = bb.y = 100;
+                this.content.addChild(bb);
 
-                mc.addObject(new Menu.SoundMenu());
-
-                //add Other Buttons
-                mc.addButton(stringResources.op_erase, function () {
+                var cdb = new gameui.ui.TextButton(stringResources.op_erase, defaultFontFamilyNormal, defaultFontColor, "", function () {
                     FlipPlus.FlipPlusGame.projectData.clearAllData();
                     window.location.reload();
                 });
+
+                cdb.x = DefaultWidth / 2;
+                cdb.y = DefaultHeight / 2;
+
+                //add Other Buttons
+                this.content.addChild(cdb);
             };
             return OptionsMenu;
         })(gameui.ScreenState);
@@ -3814,6 +3800,7 @@ var FlipPlus;
 
             //adds projects objects to the view
             ProjectsMenu.prototype.addProjects = function () {
+                var _this = this;
                 //grid properties
                 var xspacing = 500;
                 var yspacing = 960;
@@ -3849,7 +3836,10 @@ var FlipPlus;
                     var pview = new Menu.View.ProjectItem(projects[i]);
 
                     //add click event to the item
-                    //pview.addEventListener("click", (e: MouseEvent) => { this.projectItemClick(e); });
+                    pview.addEventListener("click", function (e) {
+                        _this.projectItemClick(e);
+                    });
+
                     //add item to scene
                     this.projectsItems.push(pview);
                     currentPage.addChild(pview);
@@ -3962,10 +3952,9 @@ var FlipPlus;
             ProjectsMenu.prototype.activate = function () {
                 _super.prototype.activate.call(this);
 
-                this.updateProjects();
-                this.updateStatistcs();
-                this.updateBonuses();
-
+                //this.updateProjects();
+                //this.updateStatistcs();
+                //this.updateBonuses();
                 this.starsIndicator.updateStarsAmount(FlipPlus.FlipPlusGame.projectManager.getStarsCount());
             };
 
@@ -4264,6 +4253,7 @@ var FlipPlus;
 
                     //Adds level modificator
                     thumbContainer.addChild(this.createLevelModificator(level));
+
                     //cache thumb
                     thumbContainer.cache(-99, -102, 198, 204);
                 };
@@ -4489,11 +4479,10 @@ var FlipPlus;
                         tx.x = 220;
                         tx.y = 175;
                     }
-
                     //cache object
-                    ////this.cache(0, 0, 480, 480);
+                    //this.cache(0, 0, 480, 480);
                     //create hitArea
-                    this.createHitArea();
+                    //this.createHitArea();
                 };
 
                 //updates based on porject
@@ -5137,6 +5126,102 @@ var FlipPlus;
 var gameui;
 (function (gameui) {
     // Class
+    var aAssetsManager = (function () {
+        function aAssetsManager() {
+        }
+        aAssetsManager.loadAssets = function (assetsManifest, spriteSheets, imagesArray) {
+            //cleans previous loaded assets.
+            this.cleanAssets();
+
+            // initialize objects
+            this.spriteSheets = spriteSheets ? spriteSheets : new Array();
+            this.imagesArray = imagesArray ? imagesArray : new Array();
+            this.assetsManifest = assetsManifest;
+
+            //creates a preload queue
+            this.loader = new createjs.LoadQueue();
+
+            //install sound plug-in for sounds format
+            this.loader.installPlugin(createjs.Sound);
+
+            //create eventListeners
+            this.loader.addEventListener("fileload", function (evt) {
+                if (evt.item.type == "image")
+                    imagesArray[evt.item.id] = evt.result;
+                return true;
+            });
+
+            //loads entire manifest
+            this.loader.loadManifest(this.assetsManifest);
+
+            return this.loader;
+        };
+
+        // cleans all sprites in the bitmap array;
+        aAssetsManager.cleanAssets = function () {
+            if (this.loader)
+                this.loader.reset();
+
+            if (this.imagesArray)
+                ;
+            for (var i in this.imagesArray) {
+                delete this.imagesArray[i];
+            }
+        };
+
+        aAssetsManager.getImagesArray = function () {
+            return this.imagesArray;
+        };
+
+        //gets a image from assets
+        aAssetsManager.getBitmap = function (name) {
+            //if image id is described in spritesheets
+            if (this.spriteSheets[name])
+                return this.getSprite(name, false);
+
+            //if image is preloaded
+            var image = this.getLoadedImage(name);
+            if (image)
+                return new createjs.Bitmap(image);
+
+            //or else try grab by filename
+            return new createjs.Bitmap(name);
+        };
+
+        //Get a preloaded Image from assets
+        aAssetsManager.getLoadedImage = function (name) {
+            return this.loader.getResult(name);
+        };
+
+        //DEPRECIATED
+        //get a movie clip
+        aAssetsManager.getMovieClip = function (name) {
+            var t = new window[name];
+            return t;
+        };
+
+        //return a sprite according to the image
+        aAssetsManager.getSprite = function (name, play) {
+            if (typeof play === "undefined") { play = true; }
+            var data = this.spriteSheets[name];
+            for (var i in data.images)
+                if (typeof data.images[i] == "string")
+                    data.images[i] = this.getLoadedImage(data.images[i]);
+
+            var spritesheet = new createjs.SpriteSheet(data);
+
+            var sprite = new createjs.Sprite(spritesheet);
+            if (play)
+                sprite.play();
+            return sprite;
+        };
+        return aAssetsManager;
+    })();
+    gameui.aAssetsManager = aAssetsManager;
+})(gameui || (gameui = {}));
+var aagameui;
+(function (aagameui) {
+    // Class
     var AssetsManager = (function () {
         function AssetsManager() {
         }
@@ -5187,17 +5272,10 @@ var gameui;
         //Get a preloaded Image from assets
         AssetsManager.getLoadedImage = function (name) {
             for (var i in this.assetsManifest) {
-                if (i["id"] == name)
-                    return this.assetsManifest["src"];
+                if (this.assetsManifest[i]["id"] == name)
+                    return this.assetsManifest[i]["src"];
             }
             return this.loader.getResult(name);
-        };
-
-        //DEPRECIATED
-        //get a movie clip
-        AssetsManager.getMovieClip = function (name) {
-            var t = new window[name];
-            return t;
         };
 
         //return a sprite according to the image
@@ -5217,8 +5295,8 @@ var gameui;
         };
         return AssetsManager;
     })();
-    gameui.AssetsManager = AssetsManager;
-})(gameui || (gameui = {}));
+    aagameui.AssetsManager = AssetsManager;
+})(aagameui || (aagameui = {}));
 var Inertia = (function () {
     function Inertia() {
     }
@@ -6275,24 +6353,15 @@ var FlipPlus;
                 this.content.addEventListener("click", function () {
                     FlipPlus.FlipPlusGame.showMainMenu();
                 });
+
+                setTimeout(function () {
+                    console.log("cleaned");
+                    gameui.AssetsManager.cleanAssets();
+                }, 10000);
             }
             TitleScreen.prototype.redim = function (headerY, footerY, width) {
                 _super.prototype.redim.call(this, headerY, footerY, width);
                 this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
-            };
-
-            TitleScreen.prototype.activate = function () {
-                _super.prototype.activate.call(this);
-                // setTimeout(() => {
-                //     createjs.Tween.removeAllTweens();
-                //     createjs.Tween.removeAllTweens();
-                // }, 1000);
-                //
-                // setTimeout(() => {
-                //     createjs.Tween.removeAllTweens();
-                //     createjs.Tween.removeAllTweens();
-                //
-                // }, 2000);
             };
             return TitleScreen;
         })(gameui.ScreenState);

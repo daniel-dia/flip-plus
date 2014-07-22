@@ -34,10 +34,10 @@ module FlipPlus.Menu {
             this.addHeader();
             this.addProjects();
             this.addBonuses();
-
+           
             this.pagesSwipe = new PagesSwipe(this.projectsGrid, this.pages,DefaultWidth);
             this.createPaginationButtons(this.projectsGrid);
-
+            
             this.createPopup();
         }
 
@@ -119,14 +119,14 @@ module FlipPlus.Menu {
                 }
                 
                 var pview = new View.ProjectItem(projects[i]);
-
+                
                 //add click event to the item
                 pview.addEventListener("click", (e: MouseEvent) => { this.projectItemClick(e); });
-
+                
                 //add item to scene
                 this.projectsItems.push(pview);
                 currentPage.addChild(pview);
-
+                
                 //set item position
                 pview.x = xspacing * (i % cols) + 260;
                 pview.y = yspacing * Math.floor((i % (cols*rows)) / cols);
@@ -235,10 +235,10 @@ module FlipPlus.Menu {
         public activate() {
             super.activate();
 
-            this.updateProjects();
-            this.updateStatistcs();
-            this.updateBonuses();
-
+            //this.updateProjects();
+            //this.updateStatistcs();
+            //this.updateBonuses();
+           
             this.starsIndicator.updateStarsAmount(FlipPlusGame.projectManager.getStarsCount());
         }
 

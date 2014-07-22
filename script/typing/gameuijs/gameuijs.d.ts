@@ -1,4 +1,5 @@
-﻿declare module gameui.ui {
+/// <reference path="../createjs/createjs.d.ts" />
+declare module gameui.ui {
     class UIItem extends createjs.Container {
         public width: number;
         public height: number;
@@ -41,8 +42,9 @@ declare module gameui.ui {
         private onPress(Event);
     }
     class ImageButton extends Button {
-        public background: createjs.DisplayObject;
+        public background: createjs.Bitmap;
         constructor(image: string, event?: (event?: createjs.MouseEvent) => any);
+        public centralizeImage(): void;
     }
     class TextButton extends ImageButton {
         public text: createjs.Text;
@@ -52,6 +54,7 @@ declare module gameui.ui {
         public icon: createjs.DisplayObject;
         constructor(icon?: string, text?: string, font?: string, color?: string, background?: string, event?: (event?: createjs.MouseEvent) => any);
         public updateLabel(value: string): void;
+        public centralizeIcon(): void;
     }
 }
 declare module gameui.ui {
@@ -115,6 +118,7 @@ declare module gameui {
         private static imagesArray;
         private static assetsManifest;
         static loadAssets(assetsManifest: any[], spriteSheets?: any[], imagesArray?: HTMLImageElement[]): createjs.LoadQueue;
+        static cleanAssets(): void;
         static getImagesArray(): HTMLImageElement[];
         static getBitmap(name: string): createjs.DisplayObject;
         private static getLoadedImage(name);

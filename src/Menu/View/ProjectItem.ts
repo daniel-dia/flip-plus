@@ -23,7 +23,7 @@ module FlipPlus.Menu.View {
 
             //clean all objects
             this.removeAllChildren();
-
+            
             if (project.UserData.unlocked) {
 
                 //background
@@ -83,10 +83,10 @@ module FlipPlus.Menu.View {
             }
 
             //cache object
-            this.cache(0, 0, 480, 480);
+            //this.cache(0, 0, 480, 480);
 
             //create hitArea
-            this.createHitArea();
+            //this.createHitArea();
         }
 
         //updates based on porject 
@@ -101,7 +101,7 @@ module FlipPlus.Menu.View {
 
             this.scaleX = this.scaleY = 1;
             createjs.Tween.removeTweens(this);
-
+          
             //if is new (unlocked and not played) do an animation
             if (this.project.UserData.percent == 0 && this.project.UserData.unlocked) {
                 this.set({ scaleX: 1, scaleY: 1 })

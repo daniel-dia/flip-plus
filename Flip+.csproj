@@ -17,6 +17,7 @@
     <UseIISExpress>true</UseIISExpress>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="script\AssetsManager.ts" />
     <TypeScriptCompile Include="script\GameUiAssetsManager.ts" />
     <TypeScriptCompile Include="script\typing\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="script\typing\createjs\createjs.d.ts" />
@@ -918,8 +919,9 @@
     <Content Include="script\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="default.htm" />
+    <Content Include="default.html" />
     <Content Include="script\CocoonJStouchPathc.js" />
+    <Content Include="script\createjsNEXT.js" />
     <Content Include="script\gameuijs.js" />
     <Content Include="script\getQueryVariable.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
