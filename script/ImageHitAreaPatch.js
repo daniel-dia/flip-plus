@@ -22,7 +22,7 @@
                 }
 
                 // if avoidBitmapHitAreaCalculation is true, doesen't calculate hitArea for bitmaps istances avoiding cross domain errors and unecessary processing.
-                if (createjs.DisplayObject.avoidBitmapHitAreaCalculation == true && (child instanceof createjs.Bitmap || child instanceof createjs.Sprite) && !hitArea)
+                if ((child instanceof createjs.Bitmap || child instanceof createjs.Sprite) && !hitArea)
                     return null;
 
                 ctx.globalAlpha = mtx.alpha;

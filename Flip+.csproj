@@ -921,7 +921,6 @@
     </Content>
     <Content Include="default.html" />
     <Content Include="script\CocoonJStouchPathc.js" />
-    <Content Include="script\createjsNEXT.js" />
     <Content Include="script\gameuijs.js" />
     <Content Include="script\getQueryVariable.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

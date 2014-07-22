@@ -86,7 +86,7 @@ module FlipPlus.Menu.View {
             //this.cache(0, 0, 480, 480);
 
             //create hitArea
-            //this.createHitArea();
+            this.createHitArea();
         }
 
         //updates based on porject 
