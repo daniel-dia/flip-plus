@@ -4479,10 +4479,11 @@ var FlipPlus;
                         tx.x = 220;
                         tx.y = 175;
                     }
+
                     //cache object
                     //this.cache(0, 0, 480, 480);
                     //create hitArea
-                    //this.createHitArea();
+                    this.createHitArea();
                 };
 
                 //updates based on porject
