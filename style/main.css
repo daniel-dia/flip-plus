@@ -2,6 +2,8 @@
     margin: 0;
     padding: 0;
     -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
     user-select: none;
     -ms-scroll-translation: vertical-to-horizontal;
     -ms-content-zooming: none;
@@ -16,6 +18,14 @@
 @-o-viewport{width:768px}
 @viewport   {width:768px}*/
 
+body{
+    
+    background-image:url('../assets/bg.jpg');
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position-x:center;
+    background-position-y:center;
+}
 
 body, a {
     font-family: 'Exo 2.0'; 
@@ -25,19 +35,18 @@ body, a {
 }
 
 #myCanvas {
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     background: #000;
-
-    image-rendering: optimizeSpeed; 
-    image-rendering: -moz-crisp-edges; 
-    image-rendering: -webkit-optimize-contrast!important; /* Webkit  */
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast !important; /* Webkit  */
     /*  (Safari now, Chrome soon)      */
-    
-    -ms-interpolation-mode: nearest-neighbor; 
+    -ms-interpolation-mode: nearest-neighbor;
     -webkit-interpolation-mode: nearest-neighbor;
-
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @font-face { font-family:'Exo 2.0';  src: url(../fonts/Exo2.0-Regular.woff); font-weight: normal;}
