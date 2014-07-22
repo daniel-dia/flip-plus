@@ -24,10 +24,7 @@ module FlipPlus.Menu {
                 FlipPlusGame.showMainMenu();
             });
 
-            setTimeout(() => {
-                console.log("cleaned");
-                gameui.AssetsManager.cleanAssets();
-            }, 10000);
+ 
         }
 
         public redim(headerY: number, footerY: number, width: number) {
