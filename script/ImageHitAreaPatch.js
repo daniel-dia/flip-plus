@@ -22,17 +22,36 @@
                 }
 
                 // if avoidBitmapHitAreaCalculation is true, doesen't calculate hitArea for bitmaps istances avoiding cross domain errors and unecessary processing.
-                if ((child instanceof createjs.Bitmap || child instanceof createjs.Sprite) && !hitArea)
-                    return null;
+                if ((child instanceof createjs.Bitmap || child instanceof createjs.Sprite) && !hitArea) {
+                    var b = child.getBounds();
+                    if (!b) continue;
 
-                ctx.globalAlpha = mtx.alpha;
-                ctx.setTransform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx - x, mtx.ty - y);
-                (hitArea || child).draw(ctx);
-                if (!this._testHit(ctx)) { continue; }
-                ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.clearRect(0, 0, 2, 2);
-                if (arr) { arr.push(child); }
-                else { return (mouse && !this.mouseChildren) ? this : child; }
+                    var p1 = mtx.transformPoint(b.x, b.y);
+                    var p2 = mtx.transformPoint(b.x + b.width, b.y + b.height);
+                    var p3 = mtx.transformPoint(b.x, b.y + b.height);
+                    var p4 = mtx.transformPoint(b.x + b.width, b.y);
+
+                    var minX = Math.min(p1.x, p2.x, p3.x, p4.x)
+                    var maxX = Math.max(p1.x, p2.x, p3.x, p4.x)
+                    var minY = Math.min(p1.y, p2.y, p3.y, p4.y)
+                    var maxY = Math.max(p1.y, p2.y, p3.y, p4.y)
+
+                    if (x > minX && x < maxX && y > minY && y < maxY) {
+                        if (arr) { arr.push(child); }
+                        else { return (mouse && !this.mouseChildren) ? this : child; }
+                    } else continue;
+                }
+                else {
+
+                    ctx.globalAlpha = mtx.alpha;
+                    ctx.setTransform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx - x, mtx.ty - y);
+                    (hitArea || child).draw(ctx);
+                    if (!this._testHit(ctx)) { continue; }
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    ctx.clearRect(0, 0, 2, 2);
+                    if (arr) { arr.push(child); }
+                    else { return (mouse && !this.mouseChildren) ? this : child; }
+                }
 
             }
         }

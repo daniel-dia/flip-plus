@@ -53,8 +53,8 @@
                     else { return (mouse && !this.mouseChildren) ? this : child; }
                 }
 
-                }
             }
-            return null;
-        };
-    }
+        }
+        return null;
+    };
+}

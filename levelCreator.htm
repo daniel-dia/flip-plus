@@ -1,15 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="user-scalable=no" />
     <title>Flip +</title>
-    <script>
-        var levelCreatorMode = true;
-        var levelCreatorTestMode = false;
-        var levelsBackup = false;
-    </script>
+
     <!-- Libs =================================================================================-->
     <script src="script/createjs-2013.12.12.min.js"></script>
     <script src="script/movieclip-0.6.1.min.js"></script>
@@ -27,21 +21,24 @@
     <script src="data/Levels.js"></script>
     <script src="data/stringResources.js"></script>
 
-
-    <!-- gameui.AssetsManager ===============================================================================-->
+    <!-- AssetsManager ===============================================================================-->
+    <script src="assets/spritesheets.js"></script>
+    <script src="assets/assetsManifest.js"></script>
     <script src="assets/intro.js"></script>
     <script src="assets/MyBots.js"></script>
     <script src="assets/LogoScreen.js"></script>
-    <script src="assets/touch.js"></script>
-    <script src="assets/bolinhas.js"></script>
-
-    <!-- Assets configurations -->
-    <script src="assets/assetsManifest.js"></script>
-    <script src="assets/spritesheets.js"></script>
+    <script src="assets/Bonus3.js"></script>
 
     <!-- code script -->
     <script src="script/script.js"></script>
 
+    <!-- Level Creator -->
+    <script>
+    var levelCreatorMode = true;
+    var levelCreatorTestMode = false;
+    var levelsBackup = false;
+    </script>
+    
     <!-- style -->
     <link href="style/main.css" rel="stylesheet" />
 
