@@ -1,3 +1,7 @@
+declare function saveFile(name: string, data: string);
+declare function loadFile(callback: (string) => any);
+
+
 var levelsDataBackup;
 var levelCreatorMode;
 var levelCreatorTestMode;
@@ -11,16 +15,16 @@ module FlipPlus.GamePlay {
         private editWindow: Window;
         private static key = "customProjects";
 
-        constructor(levelData: Projects.Level, editorWindow: Window,postback?:boolean) {
+        constructor(levelData: Projects.Level, editorWindow: Window, postback?: boolean) {
 
 
             //backups levels
             if (!levelsDataBackup) levelsDataBackup = levelData;
-            
+
             this.editWindow = editorWindow;
 
             if (!postback) {
-                
+
                 window.onresize = () => { };
                 FlipPlusGame.gameScreen.resizeGameScreen(420, 600, false);
                 if (levelData == null) {
@@ -39,7 +43,7 @@ module FlipPlus.GamePlay {
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             this.gameplayMenu.visible = false;
 
-            
+
 
             this.editWindow.document.getElementById("c_create").onclick = () => {
                 levelData = this.getLevelDataFromForm();
@@ -53,7 +57,7 @@ module FlipPlus.GamePlay {
                 var projectId = this.getProjectIndexFromForm();
                 var levelId = this.getLevelIndexFromForm();
 
-                customData[projectId].levels[levelId ] = levelData;
+                customData[projectId].levels[levelId] = levelData;
                 this.saveStored(customData)
 
                 //this.updateSelectList();
@@ -68,33 +72,50 @@ module FlipPlus.GamePlay {
 
                 if (level) {
                     this.setFormFromLevelData(level);
-                    FlipPlusGame.gameScreen.switchScreen(new LevelCreator(level, this.editWindow,true));
+                    FlipPlusGame.gameScreen.switchScreen(new LevelCreator(level, this.editWindow, true));
+                }
+                else {
+                    alert("There nothing saved in this level. Please create a new one")
                 }
 
             }
 
             this.editWindow.document.getElementById("c_export").onclick = () => {
                 var exp = this.loadStored();
-                
+
                 if (exp) {
-                   
-                    (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value = JSON.stringify(exp);
+                    var value = JSON.stringify(exp)
+                    saveFile('Levels.js', "var levelsData =" + value)
+                   // (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value = JSON.stringify(exp);
                 }
             }
 
-            this.editWindow.document.getElementById("c_select_project").onchange= () => {
+            this.editWindow.document.getElementById("c_select_project").onchange = () => {
                 var value = (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_project")).value;
                 this.selecteProject(parseInt(value));
             }
 
-            this.editWindow.document.getElementById("c_select_level").ondblclick= () => {
+            this.editWindow.document.getElementById("c_select_level").ondblclick = () => {
                 this.editWindow.document.getElementById("c_load").onclick(null);
             }
 
             this.editWindow.document.getElementById("c_import").onclick = () => {
-                var exp = (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value;
-                localStorage.setItem(LevelCreator.key, exp);
-                this.updateSelectList();
+
+                loadFile((data: string) => {
+                    try {
+                       
+                        data = data.replace("var levelsData =", "");
+                        var dataParsed = JSON.parse(data);
+                        data = JSON.stringify(dataParsed);
+                        localStorage.setItem(LevelCreator.key, data);
+                        this.updateSelectList();
+                        setTimeout(() => { alert("Levels imported"); }, 200);
+                    } catch (er) {
+                        alert("This file is invalid " + er.message);
+                    }
+                });
+
+                //var exp = (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value;
             }
 
             this.editWindow.document.getElementById("c_test").onclick = () => {
@@ -113,7 +134,7 @@ module FlipPlus.GamePlay {
 
         private loadStored(): any {
             var s = localStorage.getItem(LevelCreator.key);
-            if (!s) 
+            if (!s)
                 return levelsData;
             else
                 return JSON.parse(s);
@@ -137,10 +158,10 @@ module FlipPlus.GamePlay {
             }
         }
 
-        private selecteProject(projectIndex:number) {
+        private selecteProject(projectIndex: number) {
             var s = this.loadStored();
 
-             (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).options.length = 0;
+            (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).options.length = 0;
 
             var project: Projects.Project = s[projectIndex];
             for (var l in project.levels) {
@@ -203,7 +224,7 @@ module FlipPlus.GamePlay {
 
             if (levelData.randomMaxMoves) (<HTMLInputElement>this.editWindow.document.getElementById("c_r_max")).value = levelData.randomMaxMoves.toString();
             if (levelData.randomMinMoves) (<HTMLInputElement>this.editWindow.document.getElementById("c_r_min")).value = levelData.randomMinMoves.toString();
-            
+
             if (levelData.blocksData)
                 (<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value = JSON.stringify(levelData.blocksData);
 
@@ -219,7 +240,7 @@ module FlipPlus.GamePlay {
                 this.toogleItemInArray(this.levelData.drawData, id);
 
                 this.levelLogic.board.setDrawBlocks(this.levelData.drawData);
-                
+
             }
 
             else if ((<HTMLInputElement>document.getElementById("c_mirrowing")).checked) {
@@ -231,8 +252,8 @@ module FlipPlus.GamePlay {
             else if ((<HTMLInputElement>document.getElementById("c_hidding")).checked) {
                 this.levelLogic.board.blocks[col][row].hidden = !this.levelLogic.board.blocks[col][row].hidden;
                 if (!this.levelData.hiddenBlocks) this.levelData.hiddenBlocks = [];
-                this.toogleItemInArray(this.levelData.hiddenBlocks,id);
-            }else {
+                this.toogleItemInArray(this.levelData.hiddenBlocks, id);
+            } else {
 
                 //invert a cross
                 this.levelLogic.invertCross(col, row);
@@ -243,16 +264,16 @@ module FlipPlus.GamePlay {
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
 
             (<HTMLInputElement>this.editWindow.document.getElementById("c_blocks")).value = JSON.stringify(this.levelLogic.board.getInvertedBlocks());
-   
+
         }
 
 
         private toogleItemInArray(array: Array<any>, item: any) {
-            
+
             var index = array.indexOf(item);
             if (index >= 0) array.splice(index, 1);
             else array.push(item);
- 
+
         }
 
         win(col: number, row: number) {

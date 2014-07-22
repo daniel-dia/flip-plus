@@ -912,6 +912,7 @@
     <Content Include="assets\sound\tile_inverte4.mp3" />
     <Content Include="assets\sound\trilha_principal.mp3" />
     <Content Include="assets\spritesheets.js" />
+    <Content Include="data\Bonus.js" />
     <Content Include="data\stringResources.js" />
     <Content Include="fonts\Exo2.0-Bold.woff" />
     <Content Include="fonts\Exo2.0-Regular.woff" />
@@ -921,6 +922,8 @@
     </Content>
     <Content Include="default.html" />
     <Content Include="script\CocoonJStouchPathc.js" />
+    <Content Include="script\file.js" />
+    <Content Include="script\FileSaver.js" />
     <Content Include="script\gameuijs.js" />
     <Content Include="script\getQueryVariable.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
