@@ -866,7 +866,7 @@ var FlipPlus;
                     _this.useItemSkip();
                 });
                 this.gameplayMenu.addEventListener("hint", function (parameter) {
-                    _this.useItemHint(parameter);
+                    _this.useItemHint(parameter.target);
                 });
 
                 this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
@@ -1653,6 +1653,8 @@ var FlipPlus;
                     //load hint symbol
                     this.hintimage = gameui.AssetsManager.getBitmap("puzzle/icon_hint");
                     this.container.addChild(this.hintimage);
+                    this.hintimage.x = 36;
+                    this.hintimage.y = 20;
                     this.hintimage.visible = false;
 
                     //load nurrir modificator tile

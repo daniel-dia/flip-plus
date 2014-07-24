@@ -6,7 +6,7 @@ module FlipPlus.GamePlay {
 
             this.gameplayMenu.addButtons( ["skip","hint"]);
             this.gameplayMenu.addEventListener("skip", (parameter) => { this.useItemSkip(); });
-            this.gameplayMenu.addEventListener("hint", (parameter) => { this.useItemHint(parameter.target); });
+            this.gameplayMenu.addEventListener("hint", (parameter) => { this.useItemHint((<any>parameter).target); });
 
             this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
 
