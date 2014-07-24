@@ -8,6 +8,7 @@
         footerContainer: createjs.Container;
 
         footerTexts: Array<createjs.Text>;
+        footerMaxs:  Array<createjs.Bitmap>;
 
         menu: Menu.View.ScreenMenu;
 
@@ -79,6 +80,7 @@
             this.footerContainer = new createjs.Container();
             this.footerContainer.y = - 291;
             this.footerTexts = [];
+            this.footerMaxs = [];
                     
             //adds Items to the footer
             for (var i = 0; i < itemsArray.length; i++) {
@@ -91,7 +93,17 @@
                 itemObj.x = DefaultWidth / itemsArray.length * i + 40;
                 itemObj.name = itemId;
                 this.footerContainer.addChild(itemObj);
-                
+
+                //add "max" text
+                var max = gameui.AssetsManager.getBitmap("max");
+                max.y = 50;
+                max.x = DefaultWidth / itemsArray.length * i + 100;
+                max.name = itemId + "_max";
+                this.footerMaxs[itemId] = max;
+                max.visible = false;
+                this.footerContainer.addChild(max);
+
+
                 //TODO: add Max indicator
                 //add text
                 var textObj = new createjs.Text("",defaultFontFamilyNormal,"white");
@@ -111,7 +123,15 @@
             for (var i = 0; i < itemsArray.length; i++) {
                 var itemId = itemsArray[i];
                 var textObj = this.footerTexts[itemId];
-                textObj.text = FlipPlusGame.itemsData.getItemQuantity(itemId).toString();
+                var qt = FlipPlusGame.itemsData.getItemQuantity(itemId)
+                textObj.text = qt.toString();;
+
+                var max:createjs.DisplayObject = this.footerMaxs[itemId]
+                //show max text if item is 10 or more
+                if (qt >= 10)
+                    max.visible = true;
+                else
+                    max.visible = false;
             }
         }
 

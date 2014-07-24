@@ -12,6 +12,7 @@ function getAssetsManifest(assetscale) {
         { id: "MenuBt", src: imagePath + "MenuBt.png" },
         { id: "BackBt", src: imagePath + "BackBt.png" },
         { id: "touch", src: imagePath + "touch.png" },
+        { id: "max", src: imagePath + "max.png" },
 
         //title
         //{ id: "title/LogoScreen", src: imagePath + "title/LogoScreen.jpg" },

@@ -32,6 +32,7 @@ module FlipPlus.UserData {
         public increaseItemQuantity(item: string, value: number= 1) {
             if (value < 1) return;
             var iq: number = this.getItemQuantity(item);
+            if (iq >= 10) return;
             this.setQuantityItem(item, value + iq);
         }
 
