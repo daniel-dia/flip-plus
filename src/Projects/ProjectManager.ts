@@ -25,7 +25,11 @@ module FlipPlus.Projects {
         }
 
         private loadProjects(data: Array<Project>) {
-            
+        
+            for (var p in data) { delete data[p].UserData }
+            for (var p in data) { for (var l in data[p].levels) { delete data[p].levels[l].userdata } }
+            for (var p in data) { for (var l in data[p].levels) { data[p].levels[l].name = p+"/"+l} }
+                
             this.projects = data;
 
             //append the project name in each level.

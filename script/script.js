@@ -4698,6 +4698,20 @@ var FlipPlus;
                 this.loadProjects(data);
             }
             ProjectManager.prototype.loadProjects = function (data) {
+                for (var p in data) {
+                    delete data[p].UserData;
+                }
+                for (var p in data) {
+                    for (var l in data[p].levels) {
+                        delete data[p].levels[l].userdata;
+                    }
+                }
+                for (var p in data) {
+                    for (var l in data[p].levels) {
+                        data[p].levels[l].name = p + "/" + l;
+                    }
+                }
+
                 this.projects = data;
 
                 for (var p in this.projects)
@@ -5992,10 +6006,24 @@ var FlipPlus;
                 };
 
                 this.editWindow.document.getElementById("c_export").onclick = function () {
-                    var exp = _this.loadStored();
+                    var data = _this.loadStored();
 
-                    if (exp) {
-                        var value = JSON.stringify(exp);
+                    if (data) {
+                        for (var p in data) {
+                            delete data[p].UserData;
+                        }
+                        for (var p in data) {
+                            for (var l in data[p].levels) {
+                                delete data[p].levels[l].userdata;
+                            }
+                        }
+                        for (var p in data) {
+                            for (var l in data[p].levels) {
+                                data[p].levels[l].name = p + "/" + l;
+                            }
+                        }
+
+                        var value = JSON.stringify(data, null, "    ");
                         saveFile('Levels.js', "var levelsData =" + value);
                         // (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value = JSON.stringify(exp);
                     }

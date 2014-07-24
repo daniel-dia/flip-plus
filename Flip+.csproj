@@ -1012,7 +1012,6 @@
     <Content Include="assets\images_0.25x\workshop\bots\teste.json" />
     <Content Include="assets\images_0.5x\workshop\bots\teste.json" />
     <Content Include="assets\images_1x\puzzle\Puzzle.json" />
-    <None Include="flipplus.pubxml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

@@ -81,10 +81,16 @@ module FlipPlus.GamePlay {
             }
 
             this.editWindow.document.getElementById("c_export").onclick = () => {
-                var exp = this.loadStored();
+                var data = this.loadStored();
 
-                if (exp) {
-                    var value = JSON.stringify(exp)
+                if (data) {
+                    
+                    //remove trashes from saved data
+                    for (var p in data) { delete data[p].UserData }
+                    for (var p in data) { for (var l in data[p].levels) { delete data[p].levels[l].userdata } }
+                    for (var p in data) { for (var l in data[p].levels) { data[p].levels[l].name = p + "/" + l } }
+
+                    var value = JSON.stringify(data,null,"    ")
                     saveFile('Levels.js', "var levelsData =" + value)
                    // (<HTMLTextAreaElement>this.editWindow.document.getElementById("c_exported")).value = JSON.stringify(exp);
                 }
