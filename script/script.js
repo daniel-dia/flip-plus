@@ -862,11 +862,11 @@ var FlipPlus;
                 _super.call(this, levelData);
 
                 this.gameplayMenu.addButtons(["skip", "hint"]);
-                this.gameplayMenu.addEventListener("skip", function () {
+                this.gameplayMenu.addEventListener("skip", function (parameter) {
                     _this.useItemSkip();
                 });
-                this.gameplayMenu.addEventListener("hint", function () {
-                    _this.useItemHint();
+                this.gameplayMenu.addEventListener("hint", function (parameter) {
+                    _this.useItemHint(parameter);
                 });
 
                 this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
