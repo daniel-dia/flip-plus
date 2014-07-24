@@ -102,7 +102,7 @@ function getAssetsManifest(assetscale) {
         
         { id: "projects/slot1", src: imagePath + "projects/slot1.png" },
         { id: "projects/slot2", src: imagePath + "projects/slot2.png" },
-        { id: "projects/slot3", src: imagePath + "projects/slot3.png" },
+        */{ id: "projects/slot3", src: imagePath + "projects/slot3.png" },/*
         { id: "projects/slot0", src: imagePath + "projects/slot0.png" },
         { id: "projects/slotl", src: imagePath + "projects/slotl.png" },
         { id: "projects/star", src: imagePath + "projects/star.png" },
