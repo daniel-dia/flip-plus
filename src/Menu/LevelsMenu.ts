@@ -159,7 +159,7 @@ module FlipPlus.Menu {
                     this.projectViews[pv].activate(parameters);
 
                     //goto current project
-                    this.pagesSwipe.gotoPage(pv, false);
+                    this.pagesSwipe.gotoPage(parseInt( pv), false);
 
                     //if complete changes to myBotScreen
                     if (project.UserData.complete && this.projectPreviousState[project.name]==false) {

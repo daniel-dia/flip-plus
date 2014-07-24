@@ -38,8 +38,26 @@ module FlipPlus {
             pagesContainer.addEventListener("pressmove", (e: createjs.MouseEvent) => {
                 if (moving) {
                     var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                    
                     pagesContainer.x = pos.x - xpos;
-                    if (Math.abs(pos.x - initialclick) > 100) this.cancelClick = true;
+                    if (Math.abs(pos.x - initialclick) > 50) this.cancelClick = true;
+
+
+                    //hide all pages
+                    for (var i in this.pages) this.pages[i].visible = false;
+                    
+                    //show only visible pages
+                    this.pages[this.currentPageIndex].visible = true;
+
+                    if (pos.x - initialclick < 0) {
+                    if (this.pages[this.currentPageIndex + 1])
+                        this.pages[this.currentPageIndex + 1].visible = true;
+                    }
+                    else{
+                    if (this.pages[this.currentPageIndex - 1])
+                        this.pages[this.currentPageIndex - 1].visible = true;
+                    }
+                    
                 }
             })
 
@@ -69,12 +87,38 @@ module FlipPlus {
         //----------------------pages-----------------------------------------------//
         
         public gotoPage(pageId: number, tween: boolean= true) {
+            if (pageId < 0) pageId = 0;
+            if (pageId == this.pages.length) pageId = this.pages.length - 1;
+
+            var oldpage = this.currentPageIndex;
             this.currentPageIndex = pageId;
 
-            if (tween)
-                createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut);
-            else
+          
+
+            if (tween) {
+                createjs.Tween.removeTweens(this.pagesContainer);
+                createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut).call(() => {
+                    //hide all pages
+                    for (var i in this.pages) this.pages[i].visible = false;
+                    //show current page
+                    this.pages[pageId].visible = true;
+                });
+
+                
+                //if (this.pages[oldpage])
+                  //  this.pages[oldpage].visible = true;
+            }
+            else {
+
+                //hide all pages
+                for (var i in this.pages) this.pages[i].visible = false;
+                //show current page
+                this.pages[pageId].visible = true;
+
                 this.pagesContainer.x = -this.pagewidth * pageId;
+            }
+
+
         }
 
         public stayOnPage() {
@@ -82,16 +126,11 @@ module FlipPlus {
         }
 
         public gotoNextPage() {
-            this.currentPageIndex++;
-            if (this.currentPageIndex == this.pages.length) this.currentPageIndex = this.pages.length - 1;
-
-            this.gotoPage(this.currentPageIndex);
+            this.gotoPage(1+this.currentPageIndex);
         }
 
         public gotoPreviousPage() {
-            this.currentPageIndex--;
-            if (this.currentPageIndex < 0) this.currentPageIndex = 0;
-            this.gotoPage(this.currentPageIndex);
+            this.gotoPage(this.currentPageIndex-1);
         }
 
  

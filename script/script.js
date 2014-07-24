@@ -3452,7 +3452,7 @@ var FlipPlus;
                         this.projectViews[pv].activate(parameters);
 
                         //goto current project
-                        this.pagesSwipe.gotoPage(pv, false);
+                        this.pagesSwipe.gotoPage(parseInt(pv), false);
 
                         //if complete changes to myBotScreen
                         if (project.UserData.complete && this.projectPreviousState[project.name] == false) {
@@ -7153,9 +7153,24 @@ var FlipPlus;
             pagesContainer.addEventListener("pressmove", function (e) {
                 if (moving) {
                     var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+
                     pagesContainer.x = pos.x - xpos;
-                    if (Math.abs(pos.x - initialclick) > 100)
+                    if (Math.abs(pos.x - initialclick) > 50)
                         _this.cancelClick = true;
+
+                    for (var i in _this.pages)
+                        _this.pages[i].visible = false;
+
+                    //show only visible pages
+                    _this.pages[_this.currentPageIndex].visible = true;
+
+                    if (pos.x - initialclick < 0) {
+                        if (_this.pages[_this.currentPageIndex + 1])
+                            _this.pages[_this.currentPageIndex + 1].visible = true;
+                    } else {
+                        if (_this.pages[_this.currentPageIndex - 1])
+                            _this.pages[_this.currentPageIndex - 1].visible = true;
+                    }
                 }
             });
 
@@ -7185,13 +7200,36 @@ var FlipPlus;
         }
         //----------------------pages-----------------------------------------------//
         PagesSwipe.prototype.gotoPage = function (pageId, tween) {
+            var _this = this;
             if (typeof tween === "undefined") { tween = true; }
+            if (pageId < 0)
+                pageId = 0;
+            if (pageId == this.pages.length)
+                pageId = this.pages.length - 1;
+
+            var oldpage = this.currentPageIndex;
             this.currentPageIndex = pageId;
 
-            if (tween)
-                createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut);
-            else
+            if (tween) {
+                createjs.Tween.removeTweens(this.pagesContainer);
+                createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut).call(function () {
+                    for (var i in _this.pages)
+                        _this.pages[i].visible = false;
+
+                    //show current page
+                    _this.pages[pageId].visible = true;
+                });
+                //if (this.pages[oldpage])
+                //  this.pages[oldpage].visible = true;
+            } else {
+                for (var i in this.pages)
+                    this.pages[i].visible = false;
+
+                //show current page
+                this.pages[pageId].visible = true;
+
                 this.pagesContainer.x = -this.pagewidth * pageId;
+            }
         };
 
         PagesSwipe.prototype.stayOnPage = function () {
@@ -7199,18 +7237,11 @@ var FlipPlus;
         };
 
         PagesSwipe.prototype.gotoNextPage = function () {
-            this.currentPageIndex++;
-            if (this.currentPageIndex == this.pages.length)
-                this.currentPageIndex = this.pages.length - 1;
-
-            this.gotoPage(this.currentPageIndex);
+            this.gotoPage(1 + this.currentPageIndex);
         };
 
         PagesSwipe.prototype.gotoPreviousPage = function () {
-            this.currentPageIndex--;
-            if (this.currentPageIndex < 0)
-                this.currentPageIndex = 0;
-            this.gotoPage(this.currentPageIndex);
+            this.gotoPage(this.currentPageIndex - 1);
         };
         return PagesSwipe;
     })();
