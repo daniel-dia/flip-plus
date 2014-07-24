@@ -235,9 +235,9 @@ module FlipPlus.Menu {
         public activate() {
             super.activate();
 
-            //this.updateProjects();
-            //this.updateStatistcs();
-            //this.updateBonuses();
+            this.updateProjects();
+            this.updateStatistcs();
+            this.updateBonuses();
            
             this.starsIndicator.updateStarsAmount(FlipPlusGame.projectManager.getStarsCount());
         }
