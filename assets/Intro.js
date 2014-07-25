@@ -130,7 +130,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,703.4,293.8);
 p.nominalBounds = new cjs.Rectangle(-430.9,-322.4,862,645);
 
 
-(lib.Interpolar1 = function() {
+    (lib.Interpolar1SN3S_08 = function () {
 	this.initialize();
 
 	// Camada 1
@@ -146,7 +146,7 @@ p.nominalBounds = new cjs.Rectangle(-459.9,-382.7,929,765.5);
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer 2
-	this.instance = new lib.Interpolar1("synched",0);
+	this.instance = new lib.Interpolar1SN3S_08("synched", 0);
 	this.instance.setTransform(-37.9,-153.7);
 	this.instance._off = true;
 
