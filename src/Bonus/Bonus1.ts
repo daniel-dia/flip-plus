@@ -56,9 +56,24 @@
 
                 var barrel = new gameui.ui.Button();
                 barrel.addEventListener("click", (event: createjs.MouseEvent) => { this.barrelTap(event) });
-                var spriteBarrel = gameui.AssetsManager.getSprite("Bonus1/Barrel" + (b + 1));
-                spriteBarrel.gotoAndPlay(Math.random()*120)
+
+                //adds Barrel 
+                var spriteBarrel = gameui.AssetsManager.getBitmap("Bonus1/barrel" + b);
+                spriteBarrel.rotation = 10;
+                spriteBarrel.regY = 300;
+                spriteBarrel.y = 270;
                 barrel.addChild(spriteBarrel);
+
+                //adds reflection
+                var spriteReflection = gameui.AssetsManager.getBitmap("Bonus1/barrelReflect");
+                spriteReflection.y = 200;
+                spriteReflection.x = -15;
+                spriteReflection.skewX = -10;
+                spriteReflection.scaleX= 1.02;
+                barrel.addChild(spriteReflection);
+
+
+
                 var bn = barrel.getBounds();
                 barrel.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(bn.x,bn.y,bn.width,bn.height));
                 var spriteWater = gameui.AssetsManager.getSprite("Bonus1/agua");
@@ -87,6 +102,14 @@
                     .to({ x: barrel.x - 30 }, 2000, createjs.Ease.quadInOut)
                     .wait(Math.random() * 2000)
                     .to({ x: barrel.x }, 2000, createjs.Ease.quadInOut)
+
+                setTimeout((a) => {
+                        createjs.Tween.get(a, { loop: true })
+                        .to({ y: a.y - 15 }, 500, createjs.Ease.quadInOut)
+                        .to({ y: a.y }, 500, createjs.Ease.quadInOut)
+                    }, Math.random() * 1000, spriteBarrel);
+                
+                    
                     
                 //save obj to local array
                 this.barrels.push(barrel);

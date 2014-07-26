@@ -38,6 +38,15 @@
     <TypeScriptCompile Include="src\Preferences.ts" />
     <Content Include="assets\bg.jpg" />
     <Content Include="assets\images_0.25x\bolinhas.png" />
+    <Content Include="assets\images_0.25x\bonus1\barrel.png" />
+    <Content Include="assets\images_0.25x\bonus1\barrel0.png" />
+    <Content Include="assets\images_0.25x\bonus1\barrel1.png" />
+    <Content Include="assets\images_0.25x\bonus1\barrel2.png" />
+    <Content Include="assets\images_0.25x\bonus1\barrel3.png" />
+    <Content Include="assets\images_0.25x\bonus1\barrel4.png" />
+    <Content Include="assets\images_0.25x\bonus1\barrel5.png" />
+    <Content Include="assets\images_0.25x\bonus1\barrel6.png" />
+    <Content Include="assets\images_0.25x\bonus1\barrelReflect.png" />
     <Content Include="assets\images_0.25x\Bonus3\back.jpg" />
     <Content Include="assets\images_0.25x\Bonus3\chest_1.png" />
     <Content Include="assets\images_0.25x\Bonus3\chest_2.png" />
@@ -56,6 +65,15 @@
     <Content Include="assets\images_0.25x\Bonus3\number_3.png" />
     <Content Include="assets\images_0.25x\max.png" />
     <Content Include="assets\images_0.5x\bolinhas.png" />
+    <Content Include="assets\images_0.5x\bonus1\barrel.png" />
+    <Content Include="assets\images_0.5x\bonus1\barrel0.png" />
+    <Content Include="assets\images_0.5x\bonus1\barrel1.png" />
+    <Content Include="assets\images_0.5x\bonus1\barrel2.png" />
+    <Content Include="assets\images_0.5x\bonus1\barrel3.png" />
+    <Content Include="assets\images_0.5x\bonus1\barrel4.png" />
+    <Content Include="assets\images_0.5x\bonus1\barrel5.png" />
+    <Content Include="assets\images_0.5x\bonus1\barrel6.png" />
+    <Content Include="assets\images_0.5x\bonus1\barrelReflect.png" />
     <Content Include="assets\images_0.5x\Bonus3\back.jpg" />
     <Content Include="assets\images_0.5x\Bonus3\chest_1.png" />
     <Content Include="assets\images_0.5x\Bonus3\chest_2.png" />
@@ -610,6 +628,14 @@
     <Content Include="assets\images_0.5x\workshop\staryellow.png" />
     <Content Include="assets\images_1x\BackBt.png" />
     <Content Include="assets\images_1x\bonus1\back.png" />
+    <Content Include="assets\images_1x\bonus1\barrel0.png" />
+    <Content Include="assets\images_1x\bonus1\barrel1.png" />
+    <Content Include="assets\images_1x\bonus1\barrel2.png" />
+    <Content Include="assets\images_1x\bonus1\barrel3.png" />
+    <Content Include="assets\images_1x\bonus1\barrel4.png" />
+    <Content Include="assets\images_1x\bonus1\barrel5.png" />
+    <Content Include="assets\images_1x\bonus1\barrel6.png" />
+    <Content Include="assets\images_1x\bonus1\barrelReflect.png" />
     <Content Include="assets\images_1x\bonus1\Bonus1.png" />
     <Content Include="assets\images_1x\bonus1\footer.png" />
     <Content Include="assets\images_1x\bonus1\header.png" />
@@ -1065,6 +1091,9 @@
     <Content Include="assets\images_0.25x\workshop\bots\teste.json" />
     <Content Include="assets\images_0.5x\workshop\bots\teste.json" />
     <Content Include="assets\images_1x\puzzle\Puzzle.json" />
+    <Content Include="assets\images_0.25x\bonus1\barrelReflect.psd" />
+    <Content Include="assets\images_0.5x\bonus1\barrelReflect.psd" />
+    <Content Include="assets\images_1x\bonus1\barrelReflect.psd" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
