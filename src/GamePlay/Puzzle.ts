@@ -4,7 +4,11 @@ module FlipPlus.GamePlay {
         constructor(levelData: Projects.Level) {
             super(levelData);
 
-            this.gameplayMenu.addButtons( ["skip","hint"]);
+            if (levelData.customItems)
+                this.gameplayMenu.addButtons(levelData.customItems);
+            else
+                this.gameplayMenu.addButtons(["skip", "hint"]);
+
             this.gameplayMenu.addEventListener("skip", (parameter) => { this.useItemSkip(); });
             this.gameplayMenu.addEventListener("hint", (parameter) => { this.useItemHint((<any>parameter).target); });
 

@@ -53,6 +53,7 @@ module FlipPlus.Projects {
         // ================ Tutorial =============================================
 
         public tutorial: Array<tutorialStep>;
+        public customItems: Array<string>;
 
         // ================ User data ============================================
 

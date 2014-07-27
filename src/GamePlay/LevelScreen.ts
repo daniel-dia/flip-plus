@@ -245,7 +245,7 @@ module FlipPlus.GamePlay {
                 return true;
             } else {
                 //show a text
-                this.popup.showtext(stringResources.gp_noMoreHints);
+                this.popup.showtext(stringResources.gp_noMoreSkip, stringResources.gp_noMoreHints);
 
                 return false;
             }

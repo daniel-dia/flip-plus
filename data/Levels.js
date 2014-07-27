@@ -29,7 +29,8 @@ var levelsData =[
                   "text": "tiles always flip in a \"plus shape\" \nfrom the center",
                   "title": "Great"
               }
-            ]
+            ],
+            "customItems":[],
         },
         {
             "width": 5,
@@ -61,7 +62,8 @@ var levelsData =[
                   "text": "you solved all green blocks",
                   "title": "Star"
               }
-            ]
+            ],
+            "customItems": [],
         },
         {
             "width": 5,
@@ -89,7 +91,8 @@ var levelsData =[
                   "text": "purple tiles work the \nsame way as green tiles",
                   "title": "Nice Work"
               }
-            ]
+            ],
+            "customItems": [],
         },
         {
             "width": 5,
@@ -126,7 +129,8 @@ var levelsData =[
                   "text": "you don't get a star when you use itens \nto solve the board,\nbut keep going for now, Nes need repairs",
                   "title": "No star"
               }
-            ]
+            ],
+            "customItems": ["hint"],
         },
         {
             "width": 5,
@@ -151,7 +155,8 @@ var levelsData =[
               {
                   "click": 10
               }
-            ]
+            ],
+            
         }
       ]
   },

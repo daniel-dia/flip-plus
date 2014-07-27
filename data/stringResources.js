@@ -19,8 +19,8 @@
     ws_Locked: "LOCKED",
     ws_NotFree: "NOT FREE",
 
-    gp_noMoreSkip: "no more skips",
-    gp_noMoreHints: "no more hints",
+    gp_noMoreSkip: "No more Items",
+    gp_noMoreHints: "You get itens buy playing the time \nbonus on the projects screen",
     gp_finishPuzzle: "Well done",
 
     gp_pz_Popup1Title: "Time Attack",
