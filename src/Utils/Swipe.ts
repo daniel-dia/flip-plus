@@ -8,6 +8,8 @@ module FlipPlus {
         private pages: createjs.DisplayObject[];
         private currentPageIndex: number = 0;
         private pagewidth: number;
+        public onPageChange: (pageId: number) => void;
+
         constructor(pagesContainer: createjs.Container, pages: Array<createjs.DisplayObject>, pageWidth: number, minY?: number, maxY?: number) {
 
             this.pagewidth = pageWidth;
@@ -90,12 +92,13 @@ module FlipPlus {
             if (pageId < 0) pageId = 0;
             if (pageId == this.pages.length) pageId = this.pages.length - 1;
 
+            if (this.onPageChange) this.onPageChange(pageId);
+
             var oldpage = this.currentPageIndex;
             this.currentPageIndex = pageId;
 
-          
-
             if (tween) {
+                this.pages[pageId].visible = true;
                 createjs.Tween.removeTweens(this.pagesContainer);
                 createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut).call(() => {
                     //hide all pages
@@ -103,10 +106,6 @@ module FlipPlus {
                     //show current page
                     this.pages[pageId].visible = true;
                 });
-
-                
-                //if (this.pages[oldpage])
-                  //  this.pages[oldpage].visible = true;
             }
             else {
 
@@ -133,6 +132,6 @@ module FlipPlus {
             this.gotoPage(this.currentPageIndex-1);
         }
 
- 
+
     }
 }

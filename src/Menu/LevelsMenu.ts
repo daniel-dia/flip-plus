@@ -116,23 +116,25 @@ module FlipPlus.Menu {
             FlipPlus.FlipPlusGame.showProjectsMenu();
         }
         // ----------------------- pagination -------------------------------------------------------
+
         private createPaginationButtons(pagesContainer: createjs.Container) {
             //create leftButton
             var lb: gameui.ui.Button = new gameui.ui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
             lb.y = 1050;
             lb.x = DefaultWidth * 0.1;
-            this.footer.addChild(lb);
+            this.content.addChild(lb);
 
             //create right button
             var rb: gameui.ui.Button = new gameui.ui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
             rb.y = 1050;
             rb.x = DefaultWidth * 0.9;
             rb.scaleX = -1;
-            this.footer.addChild(rb);
+            this.content.addChild(rb);
 
             //create pagination indicator
             //TODO
         }           
+ 
         //--Behaviour-----------------------------------------------------------
 
         public redim(headerY: number, footerY: number, width: number) {

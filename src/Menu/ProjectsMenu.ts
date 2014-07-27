@@ -11,7 +11,6 @@ module FlipPlus.Menu {
         private bonusItems: View.BonusItem[] = [];
         
         private menu: View.ScreenMenu;
-
         private popup: View.Popup;
 
         private pagesSwipe: PagesSwipe ;
@@ -75,6 +74,7 @@ module FlipPlus.Menu {
             
         }
 
+        //update statistics 
         private updateStatistcs() {
             var done = FlipPlusGame.projectManager.getFinihedProjects().length;
             var total = FlipPlusGame.projectManager.getAllProjects().length;
@@ -180,10 +180,12 @@ module FlipPlus.Menu {
             }
         }
 
+        //Show warning for no using stars
         private showStarWarning(stars:number,cost:number) {
             this.popup.showtext(stringResources.pr_notStarsTitle, stringResources.pr_notStarsText.split("#")[0] + stars.toString() + stringResources.pr_notStarsText.split("#")[1] + cost.toString() + stringResources.pr_notStarsText.split("#")[2], 10000);
         }
 
+        //show there is no time for it
         private showtimeWarning(time:string) {
                 this.popup.showtext(stringResources.pr_notTimeText.split("#")[0], stringResources.pr_notTimeText.split("#")[1] + time + stringResources.pr_notTimeText.split("#")[2], 10000);
         }
@@ -202,8 +204,9 @@ module FlipPlus.Menu {
 
         //=====================================================
 
+        //create paginations buttons
         private createPaginationButtons(pagesContainer: createjs.Container) {
-
+            
             var bg = gameui.AssetsManager.getBitmap("projects/projectFooter")
             bg.y = -246;
             this.footer.addChild(bg);
@@ -222,8 +225,30 @@ module FlipPlus.Menu {
             this.footer.addChild(rb);
 
             //create pagination indicator
-            //TODO
+            var indicatorContainer: createjs.Container = new createjs.Container();
+            indicatorContainer.mouseEnabled = false;
+            indicatorContainer.x=500;
+            indicatorContainer.y=-130;
+            for (var i = 0; i < 3; i++) {
+                
+                var off = gameui.AssetsManager.getBitmap("projects/pageoff")
+                off.x = i * 200;
+                indicatorContainer.addChild(off);
 
+                var on = gameui.AssetsManager.getBitmap("projects/pageon")
+                on.x = off.x;
+                on.visible = false;
+                on.name = i.toString();
+                indicatorContainer.addChild(on);
+            }
+
+            this.pagesSwipe.onPageChange = (pageId) => {
+                for (var i = 0; i < 3; i++) 
+                    indicatorContainer.getChildByName(i.toString()).visible = false;
+                indicatorContainer.getChildByName(pageId.toString()).visible = true;
+            }
+
+            this.footer.addChild(indicatorContainer);
 
             //goto defaul page
             this.pagesSwipe.gotoPage(0);
@@ -242,10 +267,12 @@ module FlipPlus.Menu {
             this.starsIndicator.updateStarsAmount(FlipPlusGame.projectManager.getStarsCount());
         }
 
+        //back button
         public back() {
             FlipPlus.FlipPlusGame.showMainMenu();
         }
 
 
     }
+
 }

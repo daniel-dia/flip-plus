@@ -34,7 +34,7 @@ var FlipPlus;
                 assetscale = 0.5;
             if (window.innerWidth <= 420)
                 assetscale = 0.25;
-            assetscale = 0.5;
+            assetscale = 1;
 
             this.gameScreen = new gameui.GameScreen("myCanvas", DefaultWidth, DefaultHeight);
 
@@ -756,7 +756,7 @@ var FlipPlus;
                     return true;
                 } else {
                     //show a text
-                    this.popup.showtext(stringResources.gp_noMoreHints);
+                    this.popup.showtext(stringResources.gp_noMoreSkip, stringResources.gp_noMoreHints);
 
                     return false;
                 }
@@ -861,7 +861,11 @@ var FlipPlus;
                 var _this = this;
                 _super.call(this, levelData);
 
-                this.gameplayMenu.addButtons(["skip", "hint"]);
+                if (levelData.customItems)
+                    this.gameplayMenu.addButtons(levelData.customItems);
+                else
+                    this.gameplayMenu.addButtons(["skip", "hint"]);
+
                 this.gameplayMenu.addEventListener("skip", function (parameter) {
                     _this.useItemSkip();
                 });
@@ -2755,9 +2759,22 @@ var FlipPlus;
                     barrel.addEventListener("click", function (event) {
                         _this.barrelTap(event);
                     });
-                    var spriteBarrel = gameui.AssetsManager.getSprite("Bonus1/Barrel" + (b + 1));
-                    spriteBarrel.gotoAndPlay(Math.random() * 120);
+
+                    //adds Barrel
+                    var spriteBarrel = gameui.AssetsManager.getBitmap("Bonus1/barrel" + b);
+                    spriteBarrel.rotation = 10;
+                    spriteBarrel.regY = 300;
+                    spriteBarrel.y = 270;
                     barrel.addChild(spriteBarrel);
+
+                    //adds reflection
+                    var spriteReflection = gameui.AssetsManager.getBitmap("Bonus1/barrelReflect");
+                    spriteReflection.y = 200;
+                    spriteReflection.x = -15;
+                    spriteReflection.skewX = -10;
+                    spriteReflection.scaleX = 1.02;
+                    barrel.addChild(spriteReflection);
+
                     var bn = barrel.getBounds();
                     barrel.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(bn.x, bn.y, bn.width, bn.height));
                     var spriteWater = gameui.AssetsManager.getSprite("Bonus1/agua");
@@ -2781,6 +2798,10 @@ var FlipPlus;
 
                     //animate barrel
                     createjs.Tween.get(barrel, { loop: true }).wait(Math.random() * 2000).to({ x: barrel.x - 30 }, 2000, createjs.Ease.quadInOut).wait(Math.random() * 2000).to({ x: barrel.x }, 2000, createjs.Ease.quadInOut);
+
+                    setTimeout(function (a) {
+                        createjs.Tween.get(a, { loop: true }).to({ y: a.y - 15 }, 500, createjs.Ease.quadInOut).to({ y: a.y }, 500, createjs.Ease.quadInOut);
+                    }, Math.random() * 1000, spriteBarrel);
 
                     //save obj to local array
                     this.barrels.push(barrel);
@@ -3439,7 +3460,7 @@ var FlipPlus;
                 });
                 lb.y = 1050;
                 lb.x = DefaultWidth * 0.1;
-                this.footer.addChild(lb);
+                this.content.addChild(lb);
 
                 //create right button
                 var rb = new gameui.ui.ImageButton("projects/btpage", function () {
@@ -3448,7 +3469,7 @@ var FlipPlus;
                 rb.y = 1050;
                 rb.x = DefaultWidth * 0.9;
                 rb.scaleX = -1;
-                this.footer.addChild(rb);
+                this.content.addChild(rb);
                 //create pagination indicator
                 //TODO
             };
@@ -3816,6 +3837,7 @@ var FlipPlus;
                 this.statisticsTextField.x = 80;
             };
 
+            //update statistics
             ProjectsMenu.prototype.updateStatistcs = function () {
                 var done = FlipPlus.FlipPlusGame.projectManager.getFinihedProjects().length;
                 var total = FlipPlus.FlipPlusGame.projectManager.getAllProjects().length;
@@ -3921,10 +3943,12 @@ var FlipPlus;
                 }
             };
 
+            //Show warning for no using stars
             ProjectsMenu.prototype.showStarWarning = function (stars, cost) {
                 this.popup.showtext(stringResources.pr_notStarsTitle, stringResources.pr_notStarsText.split("#")[0] + stars.toString() + stringResources.pr_notStarsText.split("#")[1] + cost.toString() + stringResources.pr_notStarsText.split("#")[2], 10000);
             };
 
+            //show there is no time for it
             ProjectsMenu.prototype.showtimeWarning = function (time) {
                 this.popup.showtext(stringResources.pr_notTimeText.split("#")[0], stringResources.pr_notTimeText.split("#")[1] + time + stringResources.pr_notTimeText.split("#")[2], 10000);
             };
@@ -3942,6 +3966,7 @@ var FlipPlus;
             };
 
             //=====================================================
+            //create paginations buttons
             ProjectsMenu.prototype.createPaginationButtons = function (pagesContainer) {
                 var _this = this;
                 var bg = gameui.AssetsManager.getBitmap("projects/projectFooter");
@@ -3966,7 +3991,30 @@ var FlipPlus;
                 this.footer.addChild(rb);
 
                 //create pagination indicator
-                //TODO
+                var indicatorContainer = new createjs.Container();
+                indicatorContainer.mouseEnabled = false;
+                indicatorContainer.x = 500;
+                indicatorContainer.y = -130;
+                for (var i = 0; i < 3; i++) {
+                    var off = gameui.AssetsManager.getBitmap("projects/pageoff");
+                    off.x = i * 200;
+                    indicatorContainer.addChild(off);
+
+                    var on = gameui.AssetsManager.getBitmap("projects/pageon");
+                    on.x = off.x;
+                    on.visible = false;
+                    on.name = i.toString();
+                    indicatorContainer.addChild(on);
+                }
+
+                this.pagesSwipe.onPageChange = function (pageId) {
+                    for (var i = 0; i < 3; i++)
+                        indicatorContainer.getChildByName(i.toString()).visible = false;
+                    indicatorContainer.getChildByName(pageId.toString()).visible = true;
+                };
+
+                this.footer.addChild(indicatorContainer);
+
                 //goto defaul page
                 this.pagesSwipe.gotoPage(0);
             };
@@ -3983,6 +4031,7 @@ var FlipPlus;
                 this.starsIndicator.updateStarsAmount(FlipPlus.FlipPlusGame.projectManager.getStarsCount());
             };
 
+            //back button
             ProjectsMenu.prototype.back = function () {
                 FlipPlus.FlipPlusGame.showMainMenu();
             };
@@ -7232,10 +7281,14 @@ var FlipPlus;
             if (pageId == this.pages.length)
                 pageId = this.pages.length - 1;
 
+            if (this.onPageChange)
+                this.onPageChange(pageId);
+
             var oldpage = this.currentPageIndex;
             this.currentPageIndex = pageId;
 
             if (tween) {
+                this.pages[pageId].visible = true;
                 createjs.Tween.removeTweens(this.pagesContainer);
                 createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut).call(function () {
                     for (var i in _this.pages)
@@ -7244,8 +7297,6 @@ var FlipPlus;
                     //show current page
                     _this.pages[pageId].visible = true;
                 });
-                //if (this.pages[oldpage])
-                //  this.pages[oldpage].visible = true;
             } else {
                 for (var i in this.pages)
                     this.pages[i].visible = false;
