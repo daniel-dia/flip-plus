@@ -96,7 +96,7 @@
 
 
         private randomBoard(minMoves: number = 2, maxMoves: number = 5) {
-
+            if (!this.puzzlesToSolve) this.puzzlesToSolve = 1;
             this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
 
             var moves: number = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;

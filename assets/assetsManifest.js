@@ -382,6 +382,10 @@ function getAssetsManifest(assetscale) {
         { id: "puzzle/tileD", src: imagePath + "puzzle/tileD.png" },
         { id: "puzzle/tilexD", src: imagePath + "puzzle/tilexD.png" },
         */
+            { id: "puzzle/tileDgray", src: imagePath + "puzzle/tileDgray.png" },
+            { id: "puzzle/tileDgreen", src: imagePath + "puzzle/tileDgreen.png" },
+            { id: "puzzle/tileDpurple", src: imagePath + "puzzle/tileDpurple.png" },
+            { id: "puzzle/tileDyellow", src: imagePath + "puzzle/tileDyellow.png" },
 
         //popup
         { id: "popups/popup", src: imagePath + "popups/popup.png" },

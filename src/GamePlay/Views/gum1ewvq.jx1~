@@ -147,7 +147,7 @@ module FlipPlus.GamePlay.Views {
                     if (levelType == "draw") return "null"
                     else return "Inv";
                 else
-                    if (levelType == "draw") return "DInv"
+                    if (levelType == "draw") return "Inv"
                     else return "Nor";
             else
                 if (!inverted) return "Nor"
@@ -169,8 +169,7 @@ module FlipPlus.GamePlay.Views {
             //load tiles
             var manifest = [
                 { name: "Nor", images: ["puzzle/tile_" + theme + "_1", "puzzle/tile_" + theme + "_2", "puzzle/tile_" + theme + "_3", "puzzle/tile_" + theme + "_4", ] },
-                { name: "Inv", images: ["puzzle/tilex"] },
-                { name: "DInv", images: ["puzzle/tileDgray"] },
+                { name: "Inv", images: ["puzzle/tileDgray"] },
                 { name: "DNor", images: ["puzzle/tileD"+theme] },
                 //{ name: "DInv", images: ["puzzle/tilexD"] },
                 { name: "null", images: ["puzzle/tile0"] },
