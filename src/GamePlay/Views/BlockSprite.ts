@@ -6,6 +6,7 @@ module FlipPlus.GamePlay.Views {
 
         public static defaultBlockSize: number = 187;
 
+
         //---------------------------------------------------
 
         private container: createjs.Container;
@@ -37,6 +38,9 @@ module FlipPlus.GamePlay.Views {
 
         //tutorialHighlighted
         public tutorialHighLighted:boolean
+        
+        //highlight
+        private highlight: createjs.DisplayObject;
 
         //Constructor
         constructor(col: number, row: number, theme: string, levelType: string) {
@@ -46,6 +50,15 @@ module FlipPlus.GamePlay.Views {
             this.col = col;
             this.row = row;
 
+            //load highlight
+            this.highlight = gameui.AssetsManager.getBitmap("puzzle/highlight");
+            this.addChild(this.highlight);
+            this.highlight.x = -8;
+            this.highlight.y = -8;
+            this.highlight.scaleX = this.highlight.scaleY = 1.05;
+            this.highlight.visible = false;
+
+
             //add Container for sprites
             this.container = new createjs.Container();
             this.container.regX = this.container.regY = BlockSprite.defaultBlockSize / 2;
@@ -54,7 +67,7 @@ module FlipPlus.GamePlay.Views {
 
             //create hit area
             this.createHitArea();
-
+                        
             //Load assets based on the theme
             this.loadAssets(theme);
 
@@ -181,6 +194,7 @@ module FlipPlus.GamePlay.Views {
 
                 for (var image = 0; image < manifest[state].images.length; image++) {
                     var img = this.loadAsset(manifest[state].images[image])
+                    if (manifest[state].images[image][0] == 'D') img.scaleX = img.scaleY = 1.3;
                     this.assetsImages[manifest[state].name].push(img);
                 }
             }
@@ -198,7 +212,7 @@ module FlipPlus.GamePlay.Views {
             this.mirrorImage = gameui.AssetsManager.getBitmap("puzzle/tilemirror");
             this.container.addChild(this.mirrorImage);
             this.mirrorImage.visible = false;
-            this.mirrorImage.x = this.mirrorImage.y = - 5;
+            this.mirrorImage.x = this.mirrorImage.y = - 12;
 
             //load memoryModificator tile
             this.memoryImage = gameui.AssetsManager.getBitmap("puzzle/tilememory");
@@ -257,8 +271,11 @@ module FlipPlus.GamePlay.Views {
         // =================== Animation ==========================================================
 
         public animatePreInvert() {
-            
-            createjs.Tween.get(this.container).to({ scaleX: 0.86, scaleY: 0.86 }, 200, createjs.Ease.backOut);
+            createjs.Tween.removeTweens(this.highlight);
+            this.highlight.visible = true;
+            this.highlight.alpha = 0;
+            createjs.Tween.get(this.highlight).to({ alpha:1}, 700, createjs.Ease.backOut);
+            createjs.Tween.get(this.container).to({ scaleX: 0.90, scaleY: 0.90 }, 200, createjs.Ease.backOut);
         }
 
         public animatePreInvertRelease() {
@@ -266,6 +283,8 @@ module FlipPlus.GamePlay.Views {
             createjs.Tween.removeTweens(this);
             this.container.scaleX = 0.8,
             this.container.scaleY = 0.8;
+            createjs.Tween.removeTweens(this.highlight);
+            createjs.Tween.get(this.highlight).to({ alpha: 0 }, 400, createjs.Ease.backOut).call(() => {this.highlight.visible=false });
             createjs.Tween.get(this.container).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.backOut);
         
         }

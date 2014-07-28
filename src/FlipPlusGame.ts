@@ -41,6 +41,7 @@ module FlipPlus {
             assetscale = 1;
             if (window.innerWidth <= 1024) assetscale = 0.5;
             if (window.innerWidth <= 420) assetscale = 0.25;            
+            assetscale = 0.5;
 
             this.gameScreen = new gameui.GameScreen("myCanvas", DefaultWidth, DefaultHeight);
 

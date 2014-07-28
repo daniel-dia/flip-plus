@@ -7,7 +7,6 @@
         private fx: FlipPlus.Effects;
         private previousSound: number = 1;
         private locked = false;
-
         private callback: (col: number, row: number) => void;
 
         //indicator
@@ -46,7 +45,8 @@
         }
 
         //creates and add all blocks to the boardh
-        private addBlocks(width: number, height: number, theme: string,levelType:string) {
+        private addBlocks(width: number, height: number, theme: string, levelType: string) {
+
             this.blocksSprites = [];
 
             //todo:  Talvez esse trecho não seja de responsabilidade do ThemeLoader
@@ -174,7 +174,7 @@
         //===================================================  Effects  =================================================================
 
         public preInvertCross(blockSP: BlockSprite) {
-
+            
             blockSP.animatePreInvert();
 
             var col: number = blockSP.col;
@@ -186,9 +186,12 @@
             if (col > 0) this.blocksSprites[col - 1][row].animatePreInvert();
             if (col < w) this.blocksSprites[col + 1][row].animatePreInvert();
 
+
+
         }
 
         public preInvertRelease(blockSP: BlockSprite) {
+
             blockSP.animatePreInvertRelease();
 
             var col: number = blockSP.col;

@@ -386,6 +386,7 @@ function getAssetsManifest(assetscale) {
             { id: "puzzle/tileDgreen", src: imagePath + "puzzle/tileDgreen.png" },
             { id: "puzzle/tileDpurple", src: imagePath + "puzzle/tileDpurple.png" },
             { id: "puzzle/tileDyellow", src: imagePath + "puzzle/tileDyellow.png" },
+            { id: "puzzle/highlight", src: imagePath + "puzzle/highlight.png" },
 
         //popup
         { id: "popups/popup", src: imagePath + "popups/popup.png" },
