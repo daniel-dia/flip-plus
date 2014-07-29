@@ -339,7 +339,6 @@
     <Content Include="assets\images_0.25x\touch.png" />
     <Content Include="assets\images_0.25x\workshop\basefases.png" />
     <Content Include="assets\images_0.25x\workshop\bgworkshop.jpg" />
-    <Content Include="assets\images_0.25x\workshop\bgworkshop.png" />
     <Content Include="assets\images_0.25x\workshop\bots\Bot01.png" />
     <Content Include="assets\images_0.25x\workshop\bots\Bot01_fill.png" />
     <Content Include="assets\images_0.25x\workshop\bots\Bot01_stroke.png" />
