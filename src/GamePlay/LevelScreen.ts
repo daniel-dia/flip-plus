@@ -37,9 +37,6 @@ module FlipPlus.GamePlay {
             //initializate level Model
             this.levelLogic = new Model.Level(leveldata);
 
-            //play BgSound
-            ///gameui.AssetsManager.stopMusic();
-
             //creates all screen objects
             this.createScene(leveldata);
 
@@ -338,6 +335,37 @@ module FlipPlus.GamePlay {
             //updates Items buttons labels Quantity on footer
             this.gameplayMenu.updateItemsQuatity();
 
+
+            //if there are hidden blocks. shake and lock the board for 4 seconds
+            if (this.levelData.hiddenBlocks && this.levelData.hiddenBlocks.length > 0) {
+                var x = DefaultWidth / 2;
+                var t = 100;
+                this.boardSprite.mouseEnabled = false;
+                createjs.Tween.get(this.boardSprite)
+                    .wait(500)
+                    .to({ x: x - 5 }, 0).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .wait(200)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .wait(200)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .wait(200)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                    .wait(200).call(() => { this.boardSprite.mouseEnabled = true;});
+                    
+                    
+            }
         }
     }
 }

@@ -221,7 +221,18 @@ module FlipPlus.GamePlay.Views {
             this.memoryImage.alpha = 0;
             this.memoryImage.scaleX = this.memoryImage.scaleY = 1.1;
             this.memoryImage.x = this.memoryImage.y = -BlockSprite.defaultBlockSize * 0.05;
-            createjs.Tween.get(this.memoryImage).to({ alpha: 1 }, 5000);
+            createjs.Tween.get(this.memoryImage)
+                .to({ alpha: 1 }).wait(500)
+                .to({ alpha: 0 }).wait(500)
+                .to({ alpha: 1 }).wait(500)
+                .to({ alpha: 0 }).wait(500)
+                .to({ alpha: 1 }).wait(500)
+                .to({ alpha: 0 }).wait(500)
+                .to({ alpha: 1 }).wait(250)
+                .to({ alpha: 0 }).wait(250)
+                .to({ alpha: 1 }).wait(250)
+                .to({ alpha: 0 }).wait(250)
+                .to({ alpha: 1 })
 
         }
         
@@ -247,16 +258,12 @@ module FlipPlus.GamePlay.Views {
         public tutorialLock() {
             this.mouseEnabled = false;
             this.tutorialHighLighted = false;
-
-            
         }
 
         public tutorialUnlock() {
             this.mouseEnabled = true;
             this.tutorialHighLighted = false;
-
         }
-
 
         public tutorialHighLight() {
             this.mouseEnabled = true;

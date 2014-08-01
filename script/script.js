@@ -543,8 +543,6 @@ var FlipPlus;
                 //initializate level Model
                 this.levelLogic = new GamePlay.Model.Level(leveldata);
 
-                //play BgSound
-                ///gameui.AssetsManager.stopMusic();
                 //creates all screen objects
                 this.createScene(leveldata);
             }
@@ -836,12 +834,23 @@ var FlipPlus;
 
             // Screen =================================================================================================================
             LevelScreen.prototype.activate = function (parameters) {
+                var _this = this;
                 _super.prototype.activate.call(this, parameters);
                 if (parameters)
                     this.animatePuzzle(parameters);
 
                 //updates Items buttons labels Quantity on footer
                 this.gameplayMenu.updateItemsQuatity();
+
+                //if there are hidden blocks. shake and lock the board for 4 seconds
+                if (this.levelData.hiddenBlocks && this.levelData.hiddenBlocks.length > 0) {
+                    var x = DefaultWidth / 2;
+                    var t = 100;
+                    this.boardSprite.mouseEnabled = false;
+                    createjs.Tween.get(this.boardSprite).wait(500).to({ x: x - 5 }, 0).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).wait(200).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).wait(200).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).wait(200).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).wait(200).call(function () {
+                        _this.boardSprite.mouseEnabled = true;
+                    });
+                }
             };
             return LevelScreen;
         })(gameui.ScreenState);
@@ -1682,7 +1691,7 @@ var FlipPlus;
                     this.memoryImage.alpha = 0;
                     this.memoryImage.scaleX = this.memoryImage.scaleY = 1.1;
                     this.memoryImage.x = this.memoryImage.y = -BlockSprite.defaultBlockSize * 0.05;
-                    createjs.Tween.get(this.memoryImage).to({ alpha: 1 }, 5000);
+                    createjs.Tween.get(this.memoryImage).to({ alpha: 1 }).wait(500).to({ alpha: 0 }).wait(500).to({ alpha: 1 }).wait(500).to({ alpha: 0 }).wait(500).to({ alpha: 1 }).wait(500).to({ alpha: 0 }).wait(500).to({ alpha: 1 }).wait(250).to({ alpha: 0 }).wait(250).to({ alpha: 1 }).wait(250).to({ alpha: 0 }).wait(250).to({ alpha: 1 });
                 };
 
                 //load a single asset and adds it to this
