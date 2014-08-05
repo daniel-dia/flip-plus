@@ -11,14 +11,16 @@
             super(levelData);
             
 
-            //adds buttons and items
-            this.gameplayMenu.addButtons(["touch", "hint"]);
-
+            
             //only adds this level if there are more than 1 puzzle to solve
             if (this.levelData.puzzlesToSolve > 1) 
                 this.gameplayMenu.addButtons(["solve"]);
             else
                 this.gameplayMenu.addButtons(["skip"]);
+
+            //adds buttons and items
+            this.gameplayMenu.addButtons(["touch", "hint"]);
+
 
             this.gameplayMenu.addEventListener("touch", () => { this.useItemTouch()});
             this.gameplayMenu.addEventListener("solve", () => { this.useItemSolve(); })

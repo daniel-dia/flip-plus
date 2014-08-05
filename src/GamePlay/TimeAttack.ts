@@ -13,7 +13,8 @@ module FlipPlus.GamePlay {
         constructor(levelData: Projects.Level) {
             super(levelData);
 
-            this.gameplayMenu.addButtons(["time", "solve","hint"]);
+            this.gameplayMenu.addButtons(["skip", "time", "solve", "hint"]);
+            this.gameplayMenu.addEventListener("skip", () => { this.useItemSkip(); });
             this.gameplayMenu.addEventListener("time", () => { this.useItemTime(); });
             this.gameplayMenu.addEventListener("solve", () => { this.useItemSolve(); });
             this.gameplayMenu.addEventListener("hint", () => { this.useItemHint(); })
@@ -39,8 +40,7 @@ module FlipPlus.GamePlay {
                 this.statusArea.setText3(this.currentTime.toString());
                 if (this.currentTime <= 0) {
                     this.statusArea.setText3(stringResources.gp_pz_statusEnd);
-                    // this.boardSprite.visible = false;
-
+                    
                     this.message.showtext(stringResources.gp_pz_timeUP);
                     this.loose();
 
@@ -64,6 +64,7 @@ module FlipPlus.GamePlay {
 
                 //animate board and switch
                 var defaultX = this.boardSprite.x;
+                createjs.Tween.removeTweens(this.boardSprite);
                 createjs.Tween.get(this.boardSprite).to({ x: defaultX-DefaultWidth }, 250, createjs.Ease.quadIn).call(() => {
 
                     this.currentPuzzle++;

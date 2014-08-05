@@ -234,7 +234,7 @@ module FlipPlus.GamePlay {
 
                 //updates data
                 FlipPlusGame.itemsData.decreaseItemQuantity(item);
-                this.usedItem = item;
+                if (item != "hint") this.usedItem = item;
 
                 //updates Items buttons labels Quantity on footer
                 this.gameplayMenu.updateItemsQuatity();
