@@ -13,8 +13,8 @@ module FlipPlus.GamePlay.Views {
         private tutorial_highlightSprite: createjs.DisplayObject;
 
         private currentItem:number;
-        private xstart = 200;
-        private xstep = 340;
+        private xstart = 150;
+        private xstep = 310;
 
         constructor() {
             super();
@@ -46,7 +46,7 @@ module FlipPlus.GamePlay.Views {
 
             var pausBt = new gameui.ui.IconButton("puzzle/iconepause", "","","", "puzzle/btpowerup", () => { this.pause(); });
             this.overlayMenu.addChild(pausBt),
-            pausBt.x = 1400; 
+            pausBt.x = 1390; 
 
             this.addChild(this.overlayMenu);
         }
