@@ -3250,11 +3250,17 @@ var FlipPlus;
             //========================= Game behaviour =======================
             Bonus3.prototype.nextChest = function () {
                 var _this = this;
+                // locks mouse
+                this.content.mouseEnabled = false;
                 if (this.currentChestId < 3) {
                     for (var i in this.keys)
                         createjs.Tween.get(this.keys[i]).to({ alpha: 0 }, 500).call(function (c) {
+                            //restart keys
                             _this.keys[c].alpha = 1;
                             _this.keys[c].gotoAndPlay("start");
+
+                            //unlocks mouse
+                            _this.content.mouseEnabled = true;
                         }, [i]);
 
                     //define the correct key for this chest

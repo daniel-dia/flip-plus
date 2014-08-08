@@ -65,11 +65,17 @@
 
 
         nextChest() {
-
+            // locks mouse
+            this.content.mouseEnabled = false;
             if (this.currentChestId < 3) {
 
                 for (var i in this.keys)
-                    createjs.Tween.get(this.keys[i]).to({ alpha: 0 }, 500).call((c: number) => { this.keys[c].alpha = 1; this.keys[c].gotoAndPlay("start") }, [i]);
+                    createjs.Tween.get(this.keys[i]).to({ alpha: 0 }, 500).call((c: number) => {
+                        //restart keys
+                        this.keys[c].alpha = 1; this.keys[c].gotoAndPlay("start")
+                        //unlocks mouse
+                        this.content.mouseEnabled = true;
+                    }, [i]);
 
                 //define the correct key for this chest
                 this.correctKeyId = Math.floor(Math.random() * 3);
