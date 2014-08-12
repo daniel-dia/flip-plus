@@ -15,11 +15,17 @@
         public popup: Menu.View.Popup;
         public message: Menu.View.Message;
 
+        private bonusId: string;
+        private itemsEarned: number;
+
         constructor(itemsArray: Array<string>,bonusId:string="1"){
             super();
 
             this.itemsArray = itemsArray;
-            
+
+            this.bonusId = bonusId;
+            this.itemsEarned = 0;
+
             //adds scenary
             this.addScene(bonusId);
 
@@ -177,10 +183,8 @@
             this.itemsArray
             var items = new Array();
 
-            for (var i = 0; i < quantity; i++) {
+            for (var i = 0; i < quantity; i++) 
                 items.push(this.itemsArray[Math.floor(Math.random()*this.itemsArray.length)]);
-            }
-            
 
             return items;
         }
@@ -188,6 +192,7 @@
         //===========================================================
 
         activate(parameters?: any) {
+
             super.activate(parameters);
 
             this.updateFooterValues();
@@ -199,6 +204,8 @@
 
         //finalizes bonus game
         endBonus() {
+
+            FlipPlusGame.analytics.logBonus(this.bonusId, this.itemsEarned);
 
             //lock menu interaction
             //this.menu.fadeOut();

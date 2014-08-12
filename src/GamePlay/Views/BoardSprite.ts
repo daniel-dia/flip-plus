@@ -226,15 +226,13 @@
         
         public winEffect(originCol: number, originRow: number) {
 
-            //create backgound
-                        
-            //define time duration
+            // define time duration
             this.radiusEffect(originCol, originRow);
             var total = this.boardHeight * this.boardWidth;
             var duration = 500;
             var delay = duration / total;
             
-            //defineRandomOrder
+            // defineRandomOrder
             var arrayX = [];
             for (var i = 0; i < total; i++) arrayX[i] = i;
             this.shuffle(arrayX);
@@ -244,6 +242,9 @@
                 var x = arrayX[i] % this.boardWidth;
                 var y = Math.floor(arrayX[i] / this.boardWidth);
                 this.applyHideEffect(x, y, delay * i);
+
+                // hide all ? symbols from sprites
+                this.blocksSprites[x][y].reveal();
             }
         }
 

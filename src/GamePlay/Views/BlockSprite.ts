@@ -233,9 +233,12 @@ module FlipPlus.GamePlay.Views {
                 .to({ alpha: 1 }).wait(250)
                 .to({ alpha: 0 }).wait(250)
                 .to({ alpha: 1 })
-
         }
-        
+
+        public reveal() {
+            this.memoryImage.alpha = 0;
+        }
+
         //load a single asset and adds it to this
         private loadAsset(assetName: string): createjs.DisplayObject {
            

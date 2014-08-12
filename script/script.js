@@ -45,6 +45,10 @@ var FlipPlus;
             this.storyData = new FlipPlus.UserData.Story();
             this.timersData = new FlipPlus.UserData.Timers();
 
+            // analytics
+            this.analytics = new Analytics();
+            this.analytics.logGameStart();
+
             //managers
             this.projectManager = new FlipPlus.Projects.ProjectManager(levelsData, this.projectData);
 
@@ -537,6 +541,8 @@ var FlipPlus;
 
                 this.itemsFunctions = {};
 
+                this.clicks = 0;
+
                 //Store level data;
                 this.levelData = leveldata;
 
@@ -600,9 +606,11 @@ var FlipPlus;
                     _this.unPauseGame();
                 });
                 this.gameplayMenu.addEventListener("restart", function (e) {
+                    FlipPlus.FlipPlusGame.analytics.logLevelRestart(_this.levelData.name, Date.now() - _this.startedTime, _this.clicks);
                     FlipPlus.FlipPlusGame.replayLevel();
                 });
                 this.gameplayMenu.addEventListener("back", function () {
+                    FlipPlus.FlipPlusGame.analytics.logLevelRestart(_this.levelData.name, Date.now() - _this.startedTime, _this.clicks);
                     FlipPlus.FlipPlusGame.exitLevel();
                 });
 
@@ -639,6 +647,11 @@ var FlipPlus;
             // user input ===============================================================================================================
             // handles user input
             LevelScreen.prototype.userInput = function (col, row) {
+                this.clicks++;
+
+                //analytics
+                FlipPlus.FlipPlusGame.analytics.logClick(this.levelData.name, col, row);
+
                 //invert a cross
                 this.levelLogic.invertCross(col, row);
 
@@ -669,10 +682,13 @@ var FlipPlus;
             };
 
             LevelScreen.prototype.win = function (col, row, messageText) {
-                //play a win sound
-                ///gameui.AssetsManager.playSound("win");
                 var _this = this;
                 if (typeof messageText === "undefined") { messageText = true; }
+                // analytics
+                FlipPlus.FlipPlusGame.analytics.logLevelWin(this.levelData.name, (Date.now() - this.startedTime) / 100, this.clicks);
+
+                //play a win sound
+                ///gameui.AssetsManager.playSound("win");
                 //verifies if user already completed this level and verifies if player used any item in the game
                 if (!this.levelData.userdata.solved)
                     this.levelData.userdata.item = this.usedItem;
@@ -727,6 +743,8 @@ var FlipPlus;
             };
 
             LevelScreen.prototype.loose = function () {
+                FlipPlus.FlipPlusGame.analytics.logLevelLoose(this.levelData.name, Date.now() - this.startedTime, this.clicks);
+
                 this.gameplayMenu.fadeOut();
                 this.boardSprite.lock();
                 setTimeout(function () {
@@ -738,6 +756,9 @@ var FlipPlus;
 
             // Items ====================================================================================================================
             LevelScreen.prototype.useItem = function (item) {
+                //analytics
+                FlipPlus.FlipPlusGame.analytics.logUsedItem(item, this.levelData.name);
+
                 //if user has iteem
                 var itemQuantity = FlipPlus.FlipPlusGame.itemsData.getItemQuantity(item);
                 if (itemQuantity > 0) {
@@ -836,6 +857,9 @@ var FlipPlus;
             // Screen =================================================================================================================
             LevelScreen.prototype.activate = function (parameters) {
                 var _this = this;
+                //analytics
+                this.startedTime = Date.now();
+
                 _super.prototype.activate.call(this, parameters);
                 if (parameters)
                     this.animatePuzzle(parameters);
@@ -1698,6 +1722,10 @@ var FlipPlus;
                     createjs.Tween.get(this.memoryImage).to({ alpha: 1 }).wait(500).to({ alpha: 0 }).wait(500).to({ alpha: 1 }).wait(500).to({ alpha: 0 }).wait(500).to({ alpha: 1 }).wait(500).to({ alpha: 0 }).wait(500).to({ alpha: 1 }).wait(250).to({ alpha: 0 }).wait(250).to({ alpha: 1 }).wait(250).to({ alpha: 0 }).wait(250).to({ alpha: 1 });
                 };
 
+                BlockSprite.prototype.reveal = function () {
+                    this.memoryImage.alpha = 0;
+                };
+
                 //load a single asset and adds it to this
                 BlockSprite.prototype.loadAsset = function (assetName) {
                     var asset = gameui.AssetsManager.getBitmap(assetName);
@@ -1987,14 +2015,13 @@ var FlipPlus;
                 };
 
                 BoardSprite.prototype.winEffect = function (originCol, originRow) {
-                    //create backgound
-                    //define time duration
+                    // define time duration
                     this.radiusEffect(originCol, originRow);
                     var total = this.boardHeight * this.boardWidth;
                     var duration = 500;
                     var delay = duration / total;
 
-                    //defineRandomOrder
+                    // defineRandomOrder
                     var arrayX = [];
                     for (var i = 0; i < total; i++)
                         arrayX[i] = i;
@@ -2004,6 +2031,9 @@ var FlipPlus;
                         var x = arrayX[i] % this.boardWidth;
                         var y = Math.floor(arrayX[i] / this.boardWidth);
                         this.applyHideEffect(x, y, delay * i);
+
+                        // hide all ? symbols from sprites
+                        this.blocksSprites[x][y].reveal();
                     }
                 };
 
@@ -2550,6 +2580,9 @@ var FlipPlus;
 
                 this.itemsArray = itemsArray;
 
+                this.bonusId = bonusId;
+                this.itemsEarned = 0;
+
                 //adds scenary
                 this.addScene(bonusId);
 
@@ -2704,9 +2737,8 @@ var FlipPlus;
                 this.itemsArray;
                 var items = new Array();
 
-                for (var i = 0; i < quantity; i++) {
+                for (var i = 0; i < quantity; i++)
                     items.push(this.itemsArray[Math.floor(Math.random() * this.itemsArray.length)]);
-                }
 
                 return items;
             };
@@ -2724,6 +2756,8 @@ var FlipPlus;
 
             //finalizes bonus game
             BonusScreen.prototype.endBonus = function () {
+                FlipPlus.FlipPlusGame.analytics.logBonus(this.bonusId, this.itemsEarned);
+
                 //lock menu interaction
                 //this.menu.fadeOut();
                 //back to the screen
@@ -5588,6 +5622,116 @@ var SmokeFX;
     })(createjs.Container);
     SmokeFX.SmokeFXEmmiter = SmokeFXEmmiter;
 })(SmokeFX || (SmokeFX = {}));
+var Analytics = (function () {
+    function Analytics() {
+    }
+    //create a random user ID
+    Analytics.prototype.getUser = function () {
+        if (!this.userId)
+            this.userId = localStorage.getItem("lirum_userId");
+
+        if (!this.userId) {
+            this.userId = (Math.random() * 9999999999).toString();
+            localStorage.setItem("lirum_userId", this.userId);
+        }
+
+        return this.userId;
+    };
+
+    Analytics.prototype.getSession = function () {
+        if (!this.sessionId)
+            this.sessionId = (Math.random() * 9999999999).toString();
+
+        return this.sessionId;
+    };
+
+    Analytics.prototype.getBuild = function () {
+        return "alpha1";
+    };
+
+    Analytics.prototype.logGameStart = function () {
+        this.sendEvent("game", "start", 1);
+    };
+
+    Analytics.prototype.logClick = function (levelId, blockX, blockY) {
+        this.sendEvent("click", "click", 1, levelId, blockX, blockY);
+    };
+
+    Analytics.prototype.logLevelWin = function (levelId, time, clicks) {
+        this.sendEvent("level", "complete", clicks, levelId, time);
+    };
+
+    Analytics.prototype.logLevelRestart = function (levelId, time, clicks) {
+        this.sendEvent("level", "restart", clicks, levelId, time);
+    };
+
+    Analytics.prototype.logLevelExit = function (levelId, time, clicks) {
+        this.sendEvent("level", "exit", clicks, levelId, time);
+    };
+    Analytics.prototype.logLevelLoose = function (levelId, time, clicks) {
+        this.sendEvent("level", "loose", clicks, levelId, time);
+    };
+
+    Analytics.prototype.logUsedItem = function (itemId, levelId) {
+        this.sendEvent("item", itemId, 1, levelId);
+    };
+
+    Analytics.prototype.logBonus = function (bonusid, items) {
+        this.sendEvent("bonus", bonusid.toString(), items, bonusid);
+    };
+
+    Analytics.prototype.sendEvent = function (eventId, subEventId, value, level, x, y) {
+        var game_key = '1fc43682061946f75bfbecd4bbb2718b';
+        var secret_key = '9b4ab4006d241ab5042eb3a730eec6c3e171d483';
+        var data_api_key = 'd519f8572c1893fb49873fa2345d444c03afa172';
+
+        var category = "design";
+
+        var message = {
+            "user_id": this.getUser(),
+            "session_id": this.getSession(),
+            "build": this.getBuild(),
+            "event_id": eventId + ":" + subEventId,
+            "value": value,
+            "area": level,
+            "x": x,
+            "y": y
+        };
+
+        var json_message = JSON.stringify(message);
+        var md5_msg = CryptoJS.MD5(json_message + secret_key);
+        var header_auth_hex = CryptoJS.enc.Hex.stringify(md5_msg);
+
+        var url = 'http://api-eu.gameanalytics.com/1/' + game_key + '/' + category;
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: json_message,
+            headers: {
+                "Authorization": header_auth_hex
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Content-Type', 'text/plain');
+            },
+            success: function (data, textStatus, XMLHttpRequest) {
+                console.log("GOOD! textStatus: " + textStatus);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("ERROR ajax call. error: " + errorThrown + ", url: " + url);
+            }
+        });
+    };
+    return Analytics;
+})();
+//
+//
+//
+//
+//
+//
+//
+//
 var FlipPlus;
 (function (FlipPlus) {
     (function (Bonus) {

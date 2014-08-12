@@ -22,6 +22,9 @@ module FlipPlus.GamePlay {
         // Used to know the last item used by the user in this level
         public usedItem: string;
 
+        // statistics
+        private startedTime: number;
+        private clicks: number;
 
         //Initialization methodos ===================================================================================================
 
@@ -30,6 +33,8 @@ module FlipPlus.GamePlay {
             super();
 
             this.itemsFunctions = {};
+
+            this.clicks = 0;
 
             //Store level data;
             this.levelData = leveldata;
@@ -93,8 +98,14 @@ module FlipPlus.GamePlay {
             //level control
             this.gameplayMenu.addEventListener("pause", () => { this.pauseGame(); });
             this.gameplayMenu.addEventListener("unpause", () => { this.unPauseGame(); });
-            this.gameplayMenu.addEventListener("restart", (e: createjs.Event) => { FlipPlusGame.replayLevel(); });
-            this.gameplayMenu.addEventListener("back", () => { FlipPlusGame.exitLevel(); });
+            this.gameplayMenu.addEventListener("restart", (e: createjs.Event) => {
+                FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime,this.clicks);
+                FlipPlusGame.replayLevel();
+            });
+            this.gameplayMenu.addEventListener("back", () => {
+                FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
+                FlipPlusGame.exitLevel();
+            });
 
             //upper staus area
             if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
@@ -130,6 +141,11 @@ module FlipPlus.GamePlay {
         // handles user input
         public userInput(col: number, row: number) {
 
+            this.clicks++;
+
+            //analytics
+            FlipPlusGame.analytics.logClick(this.levelData.name, col, row);
+
             //invert a cross
             this.levelLogic.invertCross(col, row);
 
@@ -164,6 +180,9 @@ module FlipPlus.GamePlay {
         }
 
         win(col: number, row: number,messageText:boolean=true) {
+
+            // analytics
+            FlipPlusGame.analytics.logLevelWin(this.levelData.name,(Date.now()- this.startedTime)/100,this.clicks)
 
             //play a win sound
             ///gameui.AssetsManager.playSound("win");
@@ -217,6 +236,8 @@ module FlipPlus.GamePlay {
         }
 
         loose() {
+            
+            FlipPlusGame.analytics.logLevelLoose(this.levelData.name,Date.now()-this.startedTime,this.clicks)
 
             this.gameplayMenu.fadeOut();
             this.boardSprite.lock();
@@ -227,7 +248,11 @@ module FlipPlus.GamePlay {
 
         // Items ====================================================================================================================
 
-        useItem(item: string):boolean {
+        useItem(item: string): boolean {
+
+            //analytics
+            FlipPlusGame.analytics.logUsedItem(item, this.levelData.name);
+
             //if user has iteem
             var itemQuantity = FlipPlusGame.itemsData.getItemQuantity(item)
             if (itemQuantity > 0) {
@@ -328,6 +353,9 @@ module FlipPlus.GamePlay {
         // Screen =================================================================================================================
 
         public activate(parameters?: any) {
+
+            //analytics
+            this.startedTime = Date.now();
 
             super.activate(parameters);
             if (parameters) this.animatePuzzle(parameters);

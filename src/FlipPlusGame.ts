@@ -21,6 +21,9 @@ module FlipPlus {
         public static itemsData: UserData.Items;
         public static storyData: UserData.Story;
 
+        //analytics
+        public static analytics: Analytics;
+
         //Managers
         public static projectManager: Projects.ProjectManager;
 
@@ -51,6 +54,11 @@ module FlipPlus {
             this.itemsData = new UserData.Items();
             this.storyData = new UserData.Story();
             this.timersData = new UserData.Timers();
+
+            // analytics
+            this.analytics = new Analytics();
+            this.analytics.logGameStart();
+           
 
             //managers
             this.projectManager = new Projects.ProjectManager(levelsData, this.projectData);
@@ -161,6 +169,7 @@ module FlipPlus {
         }
 
         public static exitLevel() {
+            
             this.showProjectLevelsMenu();
         }
 
