@@ -160,12 +160,11 @@ module FlipPlus.Menu.View {
         //Adds Thumb Tag
         private createTags(level: Projects.Level, assetName,assetSufix) :createjs.DisplayObject{
             //TODO: essas string devem estar em um enum
-            if (level.type == "time" || level.type == "flip") {
-                var tag = gameui.AssetsManager.getBitmap("workshop/" + assetName + level.type + assetSufix);
+            if (level.type == "time" || level.type == "flip" || level.type == "moves") {
+                var tag = gameui.AssetsManager.getBitmap("workshop/" + assetName + (level.type=="moves"?"flip":level.type )+ assetSufix);
                 tag.regX = tag.regY = 100;
                 return tag;
             }
         }
-
     }
 }
