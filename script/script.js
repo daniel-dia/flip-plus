@@ -568,6 +568,10 @@ var FlipPlus;
                 this.message = new FlipPlus.Menu.View.Message();
                 this.content.addChild(this.message);
 
+                //adds text effext
+                this.textEffext = new FlipPlus.Menu.View.TextEffect();
+                this.content.addChild(this.textEffext);
+
                 //adds popup
                 this.popup = new FlipPlus.Menu.View.Popup();
                 this.content.addChild(this.popup);
@@ -770,9 +774,15 @@ var FlipPlus;
                     //updates Items buttons labels Quantity on footer
                     this.gameplayMenu.updateItemsQuatity();
 
+                    //show text effect
+                    this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
+
                     return true;
                 } else {
                     //show a text
+                    //show text effect
+                    this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
+
                     this.popup.showtext(stringResources.gp_noMoreSkip, stringResources.gp_noMoreHints);
 
                     return false;
@@ -783,10 +793,17 @@ var FlipPlus;
             LevelScreen.prototype.useItemSkip = function () {
                 if (!this.useItem("skip"))
                     return;
-                if (this.levelData.userdata.skip || this.levelData.userdata.solved)
-                    FlipPlus.FlipPlusGame.skipLevel(false);
-                else
-                    FlipPlus.FlipPlusGame.skipLevel(true);
+                if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
+                    this.message.showtext("Skip Level");
+                    this.message.addEventListener("onclose", function () {
+                        FlipPlus.FlipPlusGame.skipLevel(false);
+                    });
+                } else {
+                    this.message.showtext("Skip Level");
+                    this.message.addEventListener("onclose", function () {
+                        FlipPlus.FlipPlusGame.skipLevel(true);
+                    });
+                }
             };
 
             //set hint for a block
@@ -4480,8 +4497,8 @@ var FlipPlus;
                 //Adds Thumb Tag
                 LevelThumb.prototype.createTags = function (level, assetName, assetSufix) {
                     //TODO: essas string devem estar em um enum
-                    if (level.type == "time" || level.type == "flip") {
-                        var tag = gameui.AssetsManager.getBitmap("workshop/" + assetName + level.type + assetSufix);
+                    if (level.type == "time" || level.type == "flip" || level.type == "moves") {
+                        var tag = gameui.AssetsManager.getBitmap("workshop/" + assetName + (level.type == "moves" ? "flip" : level.type) + assetSufix);
                         tag.regX = tag.regY = 100;
                         return tag;
                     }
@@ -6057,6 +6074,80 @@ var FlipPlus;
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
+    (function (Menu) {
+        (function (View) {
+            // View Class
+            var TextEffect = (function (_super) {
+                __extends(TextEffect, _super);
+                //class contructor
+                function TextEffect() {
+                    _super.call(this);
+
+                    //centralize the popup on screen
+                    this.width = DefaultWidth;
+                    this.height = DefaultHeight;
+                    this.x = DefaultWidth / 2;
+                    this.y = DefaultHeight / 2;
+                    this.centralize();
+
+                    //hide popup
+                    this.visible = false;
+
+                    this.mouseEnabled = false;
+                }
+                //public method to invoke the popup
+                TextEffect.prototype.showtext = function (text, timeout, delay) {
+                    var _this = this;
+                    if (typeof timeout === "undefined") { timeout = 3000; }
+                    if (typeof delay === "undefined") { delay = 0; }
+                    //clean everything
+                    this.removeAllChildren();
+
+                    //create a titleShadow
+                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+                    titleShadow.textAlign = "center";
+                    titleShadow.textBaseline = "middle";
+                    titleShadow.x = DefaultWidth / 2;
+                    this.addChild(titleShadow);
+
+                    //create a title
+                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
+                    titleDO.textAlign = "center";
+                    titleDO.textBaseline = "middle";
+                    titleDO.x = DefaultWidth / 2;
+                    this.addChild(titleDO);
+
+                    titleShadow.y = titleDO.y = DefaultHeight / 2;
+                    titleShadow.y += 15;
+
+                    //updates text
+                    titleDO.text = titleShadow.text = text.toUpperCase();
+
+                    var ty = DefaultHeight * 0.9;
+
+                    this.set({
+                        alpha: 0,
+                        y: ty
+                    });
+
+                    this.visible = true;
+
+                    createjs.Tween.removeTweens(this);
+                    createjs.Tween.get(this).to({ alpha: 1, y: ty - 50 }, 200, createjs.Ease.quadOut).to({ alpha: 1, y: ty - 100 }, 1000, createjs.Ease.linear).to({ alpha: 0, y: ty - 300 }, 200, createjs.Ease.quadIn).call(function () {
+                        _this.visible = false;
+                        _this.dispatchEvent("onclose");
+                    });
+                };
+                return TextEffect;
+            })(gameui.ui.UIItem);
+            View.TextEffect = TextEffect;
+        })(Menu.View || (Menu.View = {}));
+        var View = Menu.View;
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     (function (GamePlay) {
         var Moves = (function (_super) {
             __extends(Moves, _super);
@@ -6673,6 +6764,7 @@ var FlipPlus;
                 __extends(Message, _super);
                 //class contructor
                 function Message() {
+                    var _this = this;
                     _super.call(this);
 
                     //centralize the popup on screen
@@ -6685,7 +6777,13 @@ var FlipPlus;
                     //hide popup
                     this.visible = false;
 
-                    this.mouseEnabled = false;
+                    this.mouseEnabled = true;
+
+                    this.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("white").drawRect(0, 0, DefaultWidth, DefaultHeight));
+
+                    this.addEventListener("click", function () {
+                        _this.closePopUp();
+                    });
                 }
                 //public method to invoke the popup
                 Message.prototype.showtext = function (text, timeout, delay) {
@@ -6731,13 +6829,14 @@ var FlipPlus;
                     //create a interval for closing the popopu
                     this.closeinterval = setTimeout(function () {
                         _this.closePopUp();
-                        _this.dispatchEvent("onclose");
                     }, timeout + delay);
                 };
 
                 //method for close popup
                 Message.prototype.closePopUp = function () {
                     //hide the popup{
+                    clearTimeout(this.closeinterval);
+                    this.dispatchEvent("onclose");
                     this.fadeOut(1, 0.5);
                 };
                 return Message;
