@@ -1,7 +1,7 @@
 module FlipPlus.Menu.View {
 
     // View Class
-    export class Message extends gameui.ui.UIItem{
+    export class TextEffect extends gameui.ui.UIItem{
 
         private closeinterval;
 
@@ -19,12 +19,7 @@ module FlipPlus.Menu.View {
             //hide popup
             this.visible = false;
 
-            this.mouseEnabled = true;
-
-            this.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("white").drawRect(0, 0, DefaultWidth, DefaultHeight));
-
-            this.addEventListener("click", () => { this.closePopUp() });
-
+            this.mouseEnabled = false;
         }
 
         //public method to invoke the popup
@@ -32,14 +27,7 @@ module FlipPlus.Menu.View {
 
             //clean everything
             this.removeAllChildren();
-
-            //draw background
-            var bg = gameui.AssetsManager.getBitmap("popups/message")
-            bg.x = 0;
-            bg.y = DefaultHeight/2 -500;
-            this.addChild(bg);
-
-            //create a text
+                       
             //create a titleShadow
             var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
             titleShadow.textAlign = "center";
@@ -60,23 +48,24 @@ module FlipPlus.Menu.View {
             //updates text
             titleDO.text = titleShadow.text = text.toUpperCase();
 
-            //shows the popus
-            this.closeinterval = setTimeout(() => {
-                this.fadeIn(1,0.5);
-            },delay);;
+            var ty = DefaultHeight * 0.9;
 
-            //create a interval for closing the popopu
-            this.closeinterval = setTimeout(() => {
-                this.closePopUp();
-            }, timeout+delay);
-        }
+            this.set({
+                alpha: 0,
+                y: ty
+            });
 
-        //method for close popup 
-        private closePopUp() {
-            //hide the popup{
-            clearTimeout(this.closeinterval);
-            this.dispatchEvent("onclose");
-            this.fadeOut(1,0.5);
+            this.visible = true;
+
+            createjs.Tween.removeTweens(this);
+            createjs.Tween.get(this)
+                .to({ alpha: 1, y: ty - 50 }, 200, createjs.Ease.quadOut)
+                .to({ alpha: 1, y: ty - 100 }, 1000, createjs.Ease.linear)
+                .to({ alpha: 0, y: ty - 300 }, 200, createjs.Ease.quadIn)
+                .call(() => {
+                    this.visible = false;
+                    this.dispatchEvent("onclose");
+                });
         }
     }
 }

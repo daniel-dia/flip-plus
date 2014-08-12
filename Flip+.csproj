@@ -36,6 +36,7 @@
     <TypeScriptCompile Include="src\Bonus\BonusManager.ts" />
     <TypeScriptCompile Include="src\Bonus\BonusScreen.ts" />
     <TypeScriptCompile Include="src\Menu\View\BonusItem.ts" />
+    <TypeScriptCompile Include="src\Menu\View\TextEffect.ts" />
     <TypeScriptCompile Include="src\Preferences.ts" />
     <Content Include="assets\assetsManifest.js" />
     <Content Include="assets\bg.jpg" />

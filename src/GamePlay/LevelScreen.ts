@@ -12,6 +12,7 @@ module FlipPlus.GamePlay {
         public statusArea: Views.StatusArea;
         public popup: Menu.View.Popup;
         public message: Menu.View.Message;
+        public textEffext: Menu.View.TextEffect;
 
         //Level
         public levelLogic: Model.Level; //friendly
@@ -63,6 +64,10 @@ module FlipPlus.GamePlay {
             //adds message
             this.message = new Menu.View.Message();
             this.content.addChild(this.message);
+
+            //adds text effext
+            this.textEffext= new Menu.View.TextEffect();
+            this.content.addChild(this.textEffext);
 
             //adds popup
             this.popup = new Menu.View.Popup();
@@ -264,9 +269,15 @@ module FlipPlus.GamePlay {
                 //updates Items buttons labels Quantity on footer
                 this.gameplayMenu.updateItemsQuatity();
 
+                //show text effect
+                this.textEffext.showtext(stringResources["desc_item_"+item].toUpperCase());
+
                 return true;
             } else {
                 //show a text
+                //show text effect
+                this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
+
                 this.popup.showtext(stringResources.gp_noMoreSkip, stringResources.gp_noMoreHints);
 
                 return false;
@@ -276,10 +287,18 @@ module FlipPlus.GamePlay {
         //skips the level
         useItemSkip() {
             if (!this.useItem("skip")) return;
-            if (this.levelData.userdata.skip || this.levelData.userdata.solved) 
-                FlipPlusGame.skipLevel(false);
-            else
-                FlipPlusGame.skipLevel(true);
+            if (this.levelData.userdata.skip || this.levelData.userdata.solved){
+                this.message.showtext("Skip Level");
+                this.message.addEventListener("onclose", () => {
+                    FlipPlusGame.skipLevel(false);
+                });
+            }
+            else {
+                this.message.showtext("Skip Level");
+                this.message.addEventListener("onclose", () => {
+                    FlipPlusGame.skipLevel(true);
+                });
+            }
         }
 
         //set hint for a block

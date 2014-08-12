@@ -49,4 +49,9 @@
     b3_finish: "Well done!",
     b3_noMoreChances: "No more chances",
 
+    desc_item_touch: "More moves",
+    desc_item_time: "More time",
+    desc_item_hint: "Hint",
+    desc_item_skip: "Skip",
+    desc_item_solve: "Solve board",
 }
