@@ -226,6 +226,10 @@ var FlipPlus;
                 else
                     this.itensDictionary = new Object();
             }
+            Items.prototype.getItemNames = function () {
+                return ["hint", "hint", "hint", "hint", "hint", "skip", "solve", "time", "touch"];
+            };
+
             Items.prototype.getItemQuantity = function (item) {
                 if (this.itensDictionary[item])
                     return this.itensDictionary[item];
@@ -751,11 +755,11 @@ var FlipPlus;
 
                 this.gameplayMenu.fadeOut();
                 this.boardSprite.lock();
+                this.boardSprite.looseEffect();
                 setTimeout(function () {
                     FlipPlus.FlipPlusGame.looseLevel();
                 }, 3000);
                 ;
-                this.boardSprite.looseEffect();
             };
 
             // Items ====================================================================================================================
@@ -2754,8 +2758,10 @@ var FlipPlus;
                 this.itemsArray;
                 var items = new Array();
 
+                var ia = ["hint", "hint", "hint", "hint", "skip", "solve", "time", "touch"];
+
                 for (var i = 0; i < quantity; i++)
-                    items.push(this.itemsArray[Math.floor(Math.random() * this.itemsArray.length)]);
+                    items.push(ia[Math.floor(Math.random() * ia.length)]);
 
                 return items;
             };
@@ -2907,8 +2913,8 @@ var FlipPlus;
 
             //shuffle a new Game
             BonusBarrel.prototype.setNewGame = function (itemsCount) {
-                if (typeof itemsCount === "undefined") { itemsCount = 3; }
-                var barrelsCount = 7;
+                if (typeof itemsCount === "undefined") { itemsCount = 6; }
+                var barrelsCount = 8;
 
                 //set barrels clicks
                 this.remaningInteraction = 3;
@@ -2966,8 +2972,9 @@ var FlipPlus;
 
             //get a random item from the items list
             BonusBarrel.prototype.getRandomItem = function () {
-                var i = Math.floor(Math.random() * this.itemsArray.length);
-                var itemId = this.itemsArray[i];
+                var itemArray = ["hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "skip", "skip", "skip", "skip", "solve", "time", "touch"];
+                var i = Math.floor(Math.random() * itemArray.length);
+                var itemId = itemArray[i];
 
                 return itemId;
             };
@@ -3019,7 +3026,7 @@ var FlipPlus;
 
                 setTimeout(function () {
                     _super.prototype.endBonus.call(_this);
-                }, 3000);
+                }, 3500);
             };
             return BonusBarrel;
         })(Bonus.BonusScreen);
@@ -3041,7 +3048,7 @@ var FlipPlus;
             }
             Bonus2.prototype.addObjects = function () {
                 _super.prototype.addObjects.call(this);
-                var cards = this.generateCards(12, 5, this.itemsArray);
+                var cards = this.generateCards(12, 5, ["hint", "hint", "hint", "hint", "skip", "solve", "time", "touch"]);
                 this.pairs = 5;
                 this.addCards(cards);
             };
@@ -3058,6 +3065,9 @@ var FlipPlus;
                 if (card1.name == card2.name && card1 != card2) {
                     this.userAquireItem(card1.name);
                     this.userAquireItem(card1.name);
+
+                    card1.opened = false;
+                    card2.opened = false;
 
                     //animate itens
                     this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
@@ -3369,7 +3379,7 @@ var FlipPlus;
             Bonus3.prototype.getItems = function (chestId) {
                 var _this = this;
                 this.itemsContainer.removeAllChildren();
-                var items = this.selectRandomItems(3);
+                var items = this.selectRandomItems(4);
                 var itemsDo = [];
 
                 for (var i in items) {
@@ -3378,7 +3388,7 @@ var FlipPlus;
                     var item = this.createItem(items[i]);
 
                     item.set({ x: DefaultWidth / 2, y: DefaultHeight / 2 - 100, alpha: 0 });
-                    createjs.Tween.get(item).wait(500).to({ alpha: 1, x: DefaultWidth / 2 + (300 * (i - 1)), y: DefaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut).call(function (itemDo) {
+                    createjs.Tween.get(item).wait(500).to({ alpha: 1, x: DefaultWidth / 2.5 + (300 * (i - 1)), y: DefaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut).call(function (itemDo) {
                         _this.animateItemObjectToFooter(itemDo, itemDo.name);
                     }, [item]);
                     this.itemsContainer.addChild(item);
@@ -3587,13 +3597,16 @@ var FlipPlus;
 
                         //if complete changes to myBotScreen
                         if (project.UserData.complete && this.projectPreviousState[project.name] == false) {
-                            this.view.mouseEnabled = false;
-                            this.view.mouseChildren = false;
+                            this.footer.mouseEnabled = false;
+                            this.content.mouseEnabled = false;
+                            this.header.mouseEnabled = false;
                             setTimeout(function () {
-                                _this.view.mouseEnabled = true;
-                                _this.view.mouseChildren = true;
+                                _this.footer.mouseEnabled = true;
+                                _this.content.mouseEnabled = true;
+                                _this.header.mouseEnabled = true;
+
                                 FlipPlus.FlipPlusGame.showMainMenu();
-                            }, 2000);
+                            }, 3500);
                         }
                     }
 
@@ -4874,12 +4887,12 @@ var FlipPlus;
 
                 this.projects = data;
 
-                for (var p in this.projects)
-                    for (var l in this.projects[p].levels) {
-                        this.projects[p].levels[l].name = this.projects[p].name + "/" + this.projects[p].levels[l].name;
-                        ///this.projects[p].levels[l].project = this.projects[p];
-                    }
-
+                //append the project name in each level.
+                //for (var p in this.projects)
+                //    for (var l in this.projects[p].levels) {
+                //        this.projects[p].levels[l].name = this.projects[p].name + "/" + this.projects[p].levels[l].name;
+                //        ///this.projects[p].levels[l].project = this.projects[p];
+                //    }
                 //create a user data for each level/project
                 this.userData.addUserData(this.projects);
             };
@@ -5298,173 +5311,6 @@ var FlipPlus;
 /// <reference path="src/Projects/Project.ts" />
 /// <reference path="src/Projects/ProjectManager.ts" />
 /// <reference path="src/Robots/MyBots.ts" />
-var Inertia = (function () {
-    function Inertia() {
-    }
-    //Adds a inertial drag movement to a Display Object
-    Inertia.addInertia = function (target, moveX, moveY, eventOrigin, inertiaFactor) {
-        if (typeof moveX === "undefined") { moveX = true; }
-        if (typeof moveY === "undefined") { moveY = true; }
-        if (typeof inertiaFactor === "undefined") { inertiaFactor = 0.95; }
-        var pivotX = 0;
-        var pivotY = 0;
-        var oldPosX = 0;
-        var oldPosY = 0;
-        var speedX = 0;
-        var speedY = 0;
-
-        var inertiaInterval;
-
-        var mouseDown = false;
-
-        if (!eventOrigin)
-            eventOrigin = target;
-
-        eventOrigin.addEventListener("mousedown", function (evt) {
-            clearInterval(inertiaInterval);
-            speedX = speedY = 0;
-            oldPosX = target.x;
-            oldPosY = target.y;
-
-            var pos = eventOrigin.globalToLocal(evt.stageX, evt.stageY);
-
-            pivotX = pos.x - target.x;
-            pivotY = pos.y - target.y;
-
-            mouseDown = true;
-
-            inertiaInterval = setInterval(function () {
-                if (moveX)
-                    speedX = speedX * inertiaFactor;
-                if (moveY)
-                    speedY = speedY * inertiaFactor;
-
-                target.x += speedX;
-                target.y += speedY;
-
-                target.dispatchEvent("onmoving");
-
-                if (mouseDown == false && Math.abs(speedX) + Math.abs(speedY) < 5) {
-                    clearInterval(inertiaInterval);
-                    target.dispatchEvent("onstop");
-                }
-            }, 1000 / createjs.Ticker.getFPS());
-        });
-
-        eventOrigin.addEventListener("pressmove", function (evt) {
-            var pos = eventOrigin.globalToLocal(evt.stageX, evt.stageY);
-
-            if (moveX)
-                target.x = pos.x - pivotX;
-            if (moveY)
-                target.y = pos.y - pivotY;
-
-            target.dispatchEvent("onmoving");
-
-            speedX = target.x - oldPosX;
-            speedY = target.y - oldPosY;
-
-            oldPosX = target.x;
-            oldPosY = target.y;
-
-            mouseDown = true;
-        });
-
-        eventOrigin.addEventListener("pressup", function (evt) {
-            mouseDown = false;
-        });
-    };
-    return Inertia;
-})();
-var SmokeFX;
-(function (SmokeFX) {
-    // Class
-    var SmokeFXEmmiter = (function (_super) {
-        __extends(SmokeFXEmmiter, _super);
-        function SmokeFXEmmiter(imageFile, width, height) {
-            var _this = this;
-            _super.call(this);
-            this.birthrate = 1;
-            this.aging = 1000;
-            this.ageVariation = 50;
-            this.spin = 90;
-            this.spinVariation = 180;
-            this.speedX = -0.03;
-            this.speedY = 0;
-            this.speedVariationX = 0;
-            this.speedVariationY = 0;
-            this.scale = 1;
-            this.scaleFinal = 2;
-            this.scaleVariation = 0.1;
-            this.alpha = 1;
-            this.alphaVariation = 0.1;
-            this.finalAlpha = 0;
-            this.rateCount = 0;
-            this.emmiterWidth = 500;
-            this.emmiterHeight = 100;
-            this.imageFile = imageFile;
-            this.emmiterWidth = width;
-            this.emmiterHeight = height;
-
-            var test = new createjs.Bitmap(imageFile);
-            this.addChild(test);
-
-            createjs.Ticker.addEventListener("tick", function () {
-                _this.tickrate();
-            });
-        }
-        SmokeFXEmmiter.prototype.tickrate = function () {
-            if (Math.random() > this.birthrate)
-                return;
-
-            var imageFile = this.imageFile;
-
-            var x = Math.random() * this.emmiterWidth;
-            var y = Math.random() * this.emmiterHeight;
-            var speedX = 0.5 - Math.random() * this.speedVariationX + this.speedX;
-            var speedY = 0.5 - Math.random() * this.speedVariationY + this.speedY;
-            var spin = 0.5 - Math.random() * this.spinVariation + this.spin;
-            var age = 0.5 - Math.random() * this.ageVariation + this.aging;
-            var alpha = 0.5 - Math.random() * this.alphaVariation + this.alpha;
-            var finalAlpha = this.finalAlpha;
-
-            var scale = Math.random() * this.scaleVariation + this.scale;
-            var finalScale = Math.random() * this.scaleVariation + this.scaleFinal;
-
-            this.emmit(imageFile, x, y, speedX, speedY, scale, finalScale, spin, age, alpha, finalAlpha);
-        };
-
-        SmokeFXEmmiter.prototype.emmit = function (imageFile, x, y, speedX, speedY, scale, finalScale, spin, age, alpha, finalAlpha) {
-            var _this = this;
-            var asset = new createjs.Bitmap(imageFile);
-            this.addChild(asset);
-
-            asset.regX = this.imageRegX;
-            asset.regY = this.imageRegY;
-
-            asset.x = x;
-            asset.y = y;
-            asset.scaleX = asset.scaleY = scale;
-
-            createjs.Tween.get(asset).to({
-                x: x + speedX * age / 1000,
-                y: y + speedY * age / 1000,
-                rotation: spin * age / 1000,
-                scaleX: finalScale,
-                scaleY: finalScale
-            }, age * 1.1).call(function (e) {
-                _this.removeChild(asset);
-            });
-
-            asset.alpha = 0;
-            createjs.Tween.get(asset).to({ alpha: alpha }, age * 0.1).call(function (e) {
-                createjs.Tween.get(asset).to({ alpha: finalAlpha }, age * 0.9);
-            });
-        };
-        return SmokeFXEmmiter;
-    })(createjs.Container);
-    SmokeFX.SmokeFXEmmiter = SmokeFXEmmiter;
-})(SmokeFX || (SmokeFX = {}));
 var gameui;
 (function (gameui) {
     // Class
@@ -5639,6 +5485,173 @@ var aagameui;
     })();
     aagameui.AssetsManager = AssetsManager;
 })(aagameui || (aagameui = {}));
+var Inertia = (function () {
+    function Inertia() {
+    }
+    //Adds a inertial drag movement to a Display Object
+    Inertia.addInertia = function (target, moveX, moveY, eventOrigin, inertiaFactor) {
+        if (typeof moveX === "undefined") { moveX = true; }
+        if (typeof moveY === "undefined") { moveY = true; }
+        if (typeof inertiaFactor === "undefined") { inertiaFactor = 0.95; }
+        var pivotX = 0;
+        var pivotY = 0;
+        var oldPosX = 0;
+        var oldPosY = 0;
+        var speedX = 0;
+        var speedY = 0;
+
+        var inertiaInterval;
+
+        var mouseDown = false;
+
+        if (!eventOrigin)
+            eventOrigin = target;
+
+        eventOrigin.addEventListener("mousedown", function (evt) {
+            clearInterval(inertiaInterval);
+            speedX = speedY = 0;
+            oldPosX = target.x;
+            oldPosY = target.y;
+
+            var pos = eventOrigin.globalToLocal(evt.stageX, evt.stageY);
+
+            pivotX = pos.x - target.x;
+            pivotY = pos.y - target.y;
+
+            mouseDown = true;
+
+            inertiaInterval = setInterval(function () {
+                if (moveX)
+                    speedX = speedX * inertiaFactor;
+                if (moveY)
+                    speedY = speedY * inertiaFactor;
+
+                target.x += speedX;
+                target.y += speedY;
+
+                target.dispatchEvent("onmoving");
+
+                if (mouseDown == false && Math.abs(speedX) + Math.abs(speedY) < 5) {
+                    clearInterval(inertiaInterval);
+                    target.dispatchEvent("onstop");
+                }
+            }, 1000 / createjs.Ticker.getFPS());
+        });
+
+        eventOrigin.addEventListener("pressmove", function (evt) {
+            var pos = eventOrigin.globalToLocal(evt.stageX, evt.stageY);
+
+            if (moveX)
+                target.x = pos.x - pivotX;
+            if (moveY)
+                target.y = pos.y - pivotY;
+
+            target.dispatchEvent("onmoving");
+
+            speedX = target.x - oldPosX;
+            speedY = target.y - oldPosY;
+
+            oldPosX = target.x;
+            oldPosY = target.y;
+
+            mouseDown = true;
+        });
+
+        eventOrigin.addEventListener("pressup", function (evt) {
+            mouseDown = false;
+        });
+    };
+    return Inertia;
+})();
+var SmokeFX;
+(function (SmokeFX) {
+    // Class
+    var SmokeFXEmmiter = (function (_super) {
+        __extends(SmokeFXEmmiter, _super);
+        function SmokeFXEmmiter(imageFile, width, height) {
+            var _this = this;
+            _super.call(this);
+            this.birthrate = 1;
+            this.aging = 1000;
+            this.ageVariation = 50;
+            this.spin = 90;
+            this.spinVariation = 180;
+            this.speedX = -0.03;
+            this.speedY = 0;
+            this.speedVariationX = 0;
+            this.speedVariationY = 0;
+            this.scale = 1;
+            this.scaleFinal = 2;
+            this.scaleVariation = 0.1;
+            this.alpha = 1;
+            this.alphaVariation = 0.1;
+            this.finalAlpha = 0;
+            this.rateCount = 0;
+            this.emmiterWidth = 500;
+            this.emmiterHeight = 100;
+            this.imageFile = imageFile;
+            this.emmiterWidth = width;
+            this.emmiterHeight = height;
+
+            var test = new createjs.Bitmap(imageFile);
+            this.addChild(test);
+
+            createjs.Ticker.addEventListener("tick", function () {
+                _this.tickrate();
+            });
+        }
+        SmokeFXEmmiter.prototype.tickrate = function () {
+            if (Math.random() > this.birthrate)
+                return;
+
+            var imageFile = this.imageFile;
+
+            var x = Math.random() * this.emmiterWidth;
+            var y = Math.random() * this.emmiterHeight;
+            var speedX = 0.5 - Math.random() * this.speedVariationX + this.speedX;
+            var speedY = 0.5 - Math.random() * this.speedVariationY + this.speedY;
+            var spin = 0.5 - Math.random() * this.spinVariation + this.spin;
+            var age = 0.5 - Math.random() * this.ageVariation + this.aging;
+            var alpha = 0.5 - Math.random() * this.alphaVariation + this.alpha;
+            var finalAlpha = this.finalAlpha;
+
+            var scale = Math.random() * this.scaleVariation + this.scale;
+            var finalScale = Math.random() * this.scaleVariation + this.scaleFinal;
+
+            this.emmit(imageFile, x, y, speedX, speedY, scale, finalScale, spin, age, alpha, finalAlpha);
+        };
+
+        SmokeFXEmmiter.prototype.emmit = function (imageFile, x, y, speedX, speedY, scale, finalScale, spin, age, alpha, finalAlpha) {
+            var _this = this;
+            var asset = new createjs.Bitmap(imageFile);
+            this.addChild(asset);
+
+            asset.regX = this.imageRegX;
+            asset.regY = this.imageRegY;
+
+            asset.x = x;
+            asset.y = y;
+            asset.scaleX = asset.scaleY = scale;
+
+            createjs.Tween.get(asset).to({
+                x: x + speedX * age / 1000,
+                y: y + speedY * age / 1000,
+                rotation: spin * age / 1000,
+                scaleX: finalScale,
+                scaleY: finalScale
+            }, age * 1.1).call(function (e) {
+                _this.removeChild(asset);
+            });
+
+            asset.alpha = 0;
+            createjs.Tween.get(asset).to({ alpha: alpha }, age * 0.1).call(function (e) {
+                createjs.Tween.get(asset).to({ alpha: finalAlpha }, age * 0.9);
+            });
+        };
+        return SmokeFXEmmiter;
+    })(createjs.Container);
+    SmokeFX.SmokeFXEmmiter = SmokeFXEmmiter;
+})(SmokeFX || (SmokeFX = {}));
 var Analytics = (function () {
     function Analytics() {
     }
@@ -5685,12 +5698,20 @@ var Analytics = (function () {
     Analytics.prototype.logLevelExit = function (levelId, time, clicks) {
         this.sendEvent("level", "exit", clicks, levelId, time);
     };
+
     Analytics.prototype.logLevelLoose = function (levelId, time, clicks) {
         this.sendEvent("level", "loose", clicks, levelId, time);
     };
 
+    Analytics.prototype.logLevelStart = function (levelId, time, clicks) {
+        this.sendEvent("level", "start", 1, levelId, time);
+    };
+
     Analytics.prototype.logUsedItem = function (itemId, levelId) {
         this.sendEvent("item", itemId, 1, levelId);
+    };
+    Analytics.prototype.loglevelTime = function (levelId, time, final) {
+        this.sendEvent("time", final, time / 1000, levelId);
     };
 
     Analytics.prototype.logBonus = function (bonusid, items) {
@@ -5730,12 +5751,6 @@ var Analytics = (function () {
             },
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Content-Type', 'text/plain');
-            },
-            success: function (data, textStatus, XMLHttpRequest) {
-                console.log("GOOD! textStatus: " + textStatus);
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log("ERROR ajax call. error: " + errorThrown + ", url: " + url);
             }
         });
     };
@@ -5946,6 +5961,352 @@ var FlipPlus;
         Bonus.Bonus2OLD = Bonus2OLD;
     })(FlipPlus.Bonus || (FlipPlus.Bonus = {}));
     var Bonus = FlipPlus.Bonus;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    (function (Menu) {
+        (function (View) {
+            var BonusItem = (function (_super) {
+                __extends(BonusItem, _super);
+                function BonusItem(bonusId, action) {
+                    _super.call(this, "projects/bigslot1", action);
+
+                    this.bonusId = bonusId;
+                    this.y = 470;
+                    this.x = 768;
+
+                    this.regX = 1458 / 2;
+                    this.regY = 410 / 2;
+
+                    this.updateProjectInfo();
+                }
+                //createObjects
+                BonusItem.prototype.createObjects = function (bonusId) {
+                    var _this = this;
+                    var color = "#cfe3ec";
+                    var font = "Bold 100px " + defaultFont;
+
+                    //clean all objects
+                    this.removeAllChildren();
+
+                    //if unlocked
+                    var stars = FlipPlus.FlipPlusGame.projectManager.getStarsCount();
+                    if (stars >= bonusData[bonusId].cost) {
+                        //background
+                        var bg = "projects/" + bonusId;
+                        var s = gameui.AssetsManager.getBitmap(bg);
+                        this.addChild(s);
+
+                        //timer text
+                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
+                        this.timerText.textBaseline = "middle";
+                        this.timerText.textAlign = "center";
+                        this.timerText.x = 1000;
+                        this.timerText.y = 180;
+                        this.addChild(this.timerText);
+
+                        //auto updateObject
+                        this.timerintervalTick();
+                        if (this.updateInterval)
+                            clearInterval(this.updateInterval);
+                        this.updateInterval = setInterval(function () {
+                            _this.timerintervalTick();
+                        }, 900);
+                    } else {
+                        //adds Background
+                        var bg = "projects/bigslot1";
+                        var s = gameui.AssetsManager.getBitmap(bg);
+                        this.addChild(s);
+
+                        //adds lock indicator
+                        var star = gameui.AssetsManager.getBitmap("projects/star");
+                        this.addChild(star);
+                        star.x = 670;
+                        star.y = 150;
+
+                        //addsText
+                        //TODO da onde vai tirar as estrelas?
+                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
+                        this.addChild(tx);
+                        tx.textAlign = "right";
+                        tx.x = 650;
+                        tx.y = 135;
+                    }
+
+                    //create hitArea
+                    this.createHitArea();
+                };
+
+                //updates based on porject
+                BonusItem.prototype.updateProjectInfo = function () {
+                    //update the objects display
+                    this.createObjects(this.bonusId);
+                };
+
+                BonusItem.prototype.timerintervalTick = function () {
+                    var time = FlipPlus.FlipPlusGame.timersData.getTimer(this.bonusId);
+
+                    if (time == 0) {
+                        this.timerText.text = stringResources.mm_play;
+
+                        if (!createjs.Tween.hasActiveTweens(this.timerText)) {
+                            ////this.timerText.cache(-200, -50, 400, 100);
+                            this.timerText.set({ scaleX: 1, scaleY: 1 });
+                            createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
+                        }
+                    } else {
+                        createjs.Tween.removeTweens(this.timerText);
+                        this.timerText.text = this.toHHMMSS(time);
+                        this.timerText.scaleX = this.scaleY = 1;
+                        ////this.timerText.cache(-200, -50, 400, 100);
+                    }
+                };
+
+                BonusItem.prototype.toHHMMSS = function (sec_num) {
+                    var hours = Math.floor(sec_num / 3600);
+                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+                    if (hours < 10) {
+                        hours = 0 + hours;
+                    }
+                    if (minutes < 10) {
+                        minutes = 0 + minutes;
+                    }
+                    if (seconds < 10) {
+                        seconds = 0 + seconds;
+                    }
+                    var time = hours + ':' + minutes + ':' + seconds;
+                    return time;
+                };
+                return BonusItem;
+            })(gameui.ui.ImageButton);
+            View.BonusItem = BonusItem;
+        })(Menu.View || (Menu.View = {}));
+        var View = Menu.View;
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    (function (Menu) {
+        (function (View) {
+            // View Class
+            var TextEffect = (function (_super) {
+                __extends(TextEffect, _super);
+                //class contructor
+                function TextEffect() {
+                    _super.call(this);
+
+                    //centralize the popup on screen
+                    this.width = DefaultWidth;
+                    this.height = DefaultHeight;
+                    this.x = DefaultWidth / 2;
+                    this.y = DefaultHeight / 2;
+                    this.centralize();
+
+                    //hide popup
+                    this.visible = false;
+
+                    this.mouseEnabled = false;
+                }
+                //public method to invoke the popup
+                TextEffect.prototype.showtext = function (text, timeout, delay) {
+                    var _this = this;
+                    if (typeof timeout === "undefined") { timeout = 3000; }
+                    if (typeof delay === "undefined") { delay = 0; }
+                    //clean everything
+                    this.removeAllChildren();
+
+                    //create a titleShadow
+                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+                    titleShadow.textAlign = "center";
+                    titleShadow.textBaseline = "middle";
+                    titleShadow.x = DefaultWidth / 2;
+                    this.addChild(titleShadow);
+
+                    //create a title
+                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
+                    titleDO.textAlign = "center";
+                    titleDO.textBaseline = "middle";
+                    titleDO.x = DefaultWidth / 2;
+                    this.addChild(titleDO);
+
+                    titleShadow.y = titleDO.y = DefaultHeight / 2;
+                    titleShadow.y += 15;
+
+                    //updates text
+                    titleDO.text = titleShadow.text = text.toUpperCase();
+
+                    var ty = DefaultHeight * 0.9;
+
+                    this.set({
+                        alpha: 0,
+                        y: ty
+                    });
+
+                    this.visible = true;
+
+                    createjs.Tween.removeTweens(this);
+                    createjs.Tween.get(this).to({ alpha: 1, y: ty - 50 }, 200, createjs.Ease.quadOut).to({ alpha: 1, y: ty - 100 }, 1000, createjs.Ease.linear).to({ alpha: 0, y: ty - 300 }, 200, createjs.Ease.quadIn).call(function () {
+                        _this.visible = false;
+                        _this.dispatchEvent("onclose");
+                    });
+                };
+                return TextEffect;
+            })(gameui.ui.UIItem);
+            View.TextEffect = TextEffect;
+        })(Menu.View || (Menu.View = {}));
+        var View = Menu.View;
+    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
+    var Menu = FlipPlus.Menu;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    (function (GamePlay) {
+        var Moves = (function (_super) {
+            __extends(Moves, _super);
+            function Moves(levelData) {
+                var _this = this;
+                _super.call(this, levelData);
+                this.currentPuzzle = 1;
+                this.puzzlesToSolve = 0;
+                //threat user input
+                this.loosing = false;
+
+                //only adds this level if there are more than 1 puzzle to solve
+                this.gameplayMenu.addButtons(["skip"]);
+
+                if (this.levelData.puzzlesToSolve > 1)
+                    this.gameplayMenu.addButtons(["solve"]);
+
+                //adds buttons and items
+                this.gameplayMenu.addButtons(["touch", "hint"]);
+
+                this.gameplayMenu.addEventListener("touch", function () {
+                    _this.useItemTouch();
+                });
+                this.gameplayMenu.addEventListener("solve", function () {
+                    _this.useItemSolve();
+                });
+                this.gameplayMenu.addEventListener("hint", function () {
+                    _this.useItemHint();
+                });
+                this.gameplayMenu.addEventListener("skip", function () {
+                    _this.useItemSkip();
+                });
+
+                this.moves = this.levelData.moves;
+
+                if (levelData.blocksData && levelData.blocksData.length > 0) {
+                    this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+                    this.levelData.puzzlesToSolve = 1;
+                } else {
+                    if (!this.levelData.puzzlesToSolve)
+                        this.levelData.puzzlesToSolve = 1;
+                    this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
+                }
+
+                this.puzzlesToSolve = levelData.puzzlesToSolve;
+
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+
+                //set default puzzles to solve
+                this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3);
+
+                this.statusArea.setMode("moves");
+                this.statusArea.setText3(this.moves.toString());
+            }
+            Moves.prototype.userInput = function (col, row) {
+                var _this = this;
+                _super.prototype.userInput.call(this, col, row);
+
+                if (!this.levelLogic.verifyWin()) {
+                    //verifies if is a multiTouch
+                    if (Date.now() - this.lastTouchTime > 110 || !this.lastTouchTime)
+                        this.moves--;
+
+                    this.lastTouchTime = Date.now();
+
+                    setTimeout(function () {
+                        if (!_this.loosing)
+                            if (!_this.levelLogic.verifyWin()) {
+                                //loses game, if moves is over
+                                if (_this.moves <= 0) {
+                                    _this.message.showtext(stringResources.gp_mv_noMoreMoves);
+                                    _this.loose();
+                                    _this.loosing = true;
+                                }
+                            }
+                    }, 110);
+                }
+
+                //updates moves count
+                this.statusArea.setText3(this.moves.toString());
+            };
+
+            //Overriding methods.
+            Moves.prototype.win = function (col, row) {
+                var _this = this;
+                if (this.currentPuzzle >= this.puzzlesToSolve) {
+                    _super.prototype.win.call(this, col, row);
+                } else {
+                    //animate board and switch
+                    var defaultX = this.boardSprite.x;
+                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
+                        _this.currentPuzzle++;
+                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
+                        _this.boardSprite.clearHint();
+
+                        _this.boardSprite.x = defaultX + DefaultWidth;
+                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
+                    });
+                }
+            };
+
+            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
+                if (typeof minMoves === "undefined") { minMoves = 2; }
+                if (typeof maxMoves === "undefined") { maxMoves = 5; }
+                if (!this.puzzlesToSolve)
+                    this.puzzlesToSolve = 1;
+                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+
+                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
+                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
+                var inverted = [];
+
+                for (var m = 0; m < moves; m++) {
+                    var index = Math.floor(Math.random() * (lenght));
+                    while (inverted[index] == true)
+                        index = (index + 1) % lenght;
+                    inverted[index] = true;
+                }
+
+                for (var i = 0; i < lenght; i++) {
+                    if (inverted[i] == true)
+                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
+                }
+
+                this.levelLogic.board.initializePrizes(2);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+            };
+
+            //========================== items ==================================
+            Moves.prototype.useItemTouch = function () {
+                if (!this.useItem("touch"))
+                    return;
+                this.moves += 2;
+            };
+            Moves.prototype.useItemSolve = function () {
+                if (!this.useItem("solve"))
+                    return;
+                this.win(0, 0);
+            };
+            return Moves;
+        })(GamePlay.LevelScreen);
+        GamePlay.Moves = Moves;
+    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+    var GamePlay = FlipPlus.GamePlay;
 })(FlipPlus || (FlipPlus = {}));
 var levelsDataBackup;
 var levelCreatorMode;
@@ -6232,143 +6593,6 @@ var FlipPlus;
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
-    (function (GamePlay) {
-        var Moves = (function (_super) {
-            __extends(Moves, _super);
-            function Moves(levelData) {
-                var _this = this;
-                _super.call(this, levelData);
-                this.currentPuzzle = 1;
-                this.puzzlesToSolve = 0;
-
-                //only adds this level if there are more than 1 puzzle to solve
-                if (this.levelData.puzzlesToSolve > 1)
-                    this.gameplayMenu.addButtons(["solve"]);
-                else
-                    this.gameplayMenu.addButtons(["skip"]);
-
-                //adds buttons and items
-                this.gameplayMenu.addButtons(["touch", "hint"]);
-
-                this.gameplayMenu.addEventListener("touch", function () {
-                    _this.useItemTouch();
-                });
-                this.gameplayMenu.addEventListener("solve", function () {
-                    _this.useItemSolve();
-                });
-                this.gameplayMenu.addEventListener("hint", function () {
-                    _this.useItemHint();
-                });
-                this.gameplayMenu.addEventListener("skip", function () {
-                    _this.useItemSkip();
-                });
-
-                this.puzzlesToSolve = levelData.puzzlesToSolve;
-                this.moves = this.levelData.moves;
-
-                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
-
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-
-                //set default puzzles to solve
-                if (!this.levelData.puzzlesToSolve)
-                    this.levelData.puzzlesToSolve = 1;
-                this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3);
-
-                this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
-
-                this.statusArea.setMode("moves");
-                this.statusArea.setText3(this.moves.toString());
-            }
-            //threat user input
-            Moves.prototype.userInput = function (col, row) {
-                var _this = this;
-                _super.prototype.userInput.call(this, col, row);
-
-                //verifies if is a multiTouch
-                if (Date.now() - this.lastTouchTime > 100 || !this.lastTouchTime)
-                    this.moves--;
-                this.lastTouchTime = Date.now();
-
-                //updates moves count
-                this.statusArea.setText3(this.moves.toString());
-
-                setTimeout(function () {
-                    //loses game, if moves is over
-                    if (!_this.levelLogic.verifyWin()) {
-                        if (_this.moves < 0) {
-                            _this.message.showtext(stringResources.gp_mv_noMoreMoves);
-                            _this.loose();
-                        }
-                    }
-                }, 100);
-            };
-
-            //Overriding methods.
-            Moves.prototype.win = function (col, row) {
-                var _this = this;
-                if (this.currentPuzzle >= this.puzzlesToSolve) {
-                    _super.prototype.win.call(this, col, row);
-                } else {
-                    //animate board and switch
-                    var defaultX = this.boardSprite.x;
-                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(function () {
-                        _this.currentPuzzle++;
-                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
-                        _this.boardSprite.clearHint();
-
-                        _this.boardSprite.x = defaultX + DefaultWidth;
-                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
-                    });
-                }
-            };
-
-            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
-                if (typeof minMoves === "undefined") { minMoves = 2; }
-                if (typeof maxMoves === "undefined") { maxMoves = 5; }
-                if (!this.puzzlesToSolve)
-                    this.puzzlesToSolve = 1;
-                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
-
-                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
-                var inverted = [];
-
-                for (var m = 0; m < moves; m++) {
-                    var index = Math.floor(Math.random() * (lenght));
-                    while (inverted[index] == true)
-                        index = (index + 1) % lenght;
-                    inverted[index] = true;
-                }
-
-                for (var i = 0; i < lenght; i++) {
-                    if (inverted[i] == true)
-                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
-                }
-
-                this.levelLogic.board.initializePrizes(2);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-            };
-
-            //========================== items ==================================
-            Moves.prototype.useItemTouch = function () {
-                if (!this.useItem("touch"))
-                    return;
-                this.moves += 2;
-            };
-            Moves.prototype.useItemSolve = function () {
-                if (!this.useItem("solve"))
-                    return;
-                this.win(0, 0);
-            };
-            return Moves;
-        })(GamePlay.LevelScreen);
-        GamePlay.Moves = Moves;
-    })(FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
-    var GamePlay = FlipPlus.GamePlay;
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
     (function (Menu) {
         var Intro = (function (_super) {
             __extends(Intro, _super);
@@ -6553,131 +6777,6 @@ var FlipPlus;
             return TitleScreen;
         })(gameui.ScreenState);
         Menu.TitleScreen = TitleScreen;
-    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
-    var Menu = FlipPlus.Menu;
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    (function (Menu) {
-        (function (View) {
-            var BonusItem = (function (_super) {
-                __extends(BonusItem, _super);
-                function BonusItem(bonusId, action) {
-                    _super.call(this, "projects/bigslot1", action);
-
-                    this.bonusId = bonusId;
-                    this.y = 470;
-                    this.x = 768;
-
-                    this.regX = 1458 / 2;
-                    this.regY = 410 / 2;
-
-                    this.updateProjectInfo();
-                }
-                //createObjects
-                BonusItem.prototype.createObjects = function (bonusId) {
-                    var _this = this;
-                    var color = "#cfe3ec";
-                    var font = "Bold 100px " + defaultFont;
-
-                    //clean all objects
-                    this.removeAllChildren();
-
-                    //if unlocked
-                    var stars = FlipPlus.FlipPlusGame.projectManager.getStarsCount();
-                    if (stars >= bonusData[bonusId].cost) {
-                        //background
-                        var bg = "projects/" + bonusId;
-                        var s = gameui.AssetsManager.getBitmap(bg);
-                        this.addChild(s);
-
-                        //timer text
-                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
-                        this.timerText.textBaseline = "middle";
-                        this.timerText.textAlign = "center";
-                        this.timerText.x = 1000;
-                        this.timerText.y = 180;
-                        this.addChild(this.timerText);
-
-                        //auto updateObject
-                        this.timerintervalTick();
-                        if (this.updateInterval)
-                            clearInterval(this.updateInterval);
-                        this.updateInterval = setInterval(function () {
-                            _this.timerintervalTick();
-                        }, 900);
-                    } else {
-                        //adds Background
-                        var bg = "projects/bigslot1";
-                        var s = gameui.AssetsManager.getBitmap(bg);
-                        this.addChild(s);
-
-                        //adds lock indicator
-                        var star = gameui.AssetsManager.getBitmap("projects/star");
-                        this.addChild(star);
-                        star.x = 670;
-                        star.y = 150;
-
-                        //addsText
-                        //TODO da onde vai tirar as estrelas?
-                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
-                        this.addChild(tx);
-                        tx.textAlign = "right";
-                        tx.x = 650;
-                        tx.y = 135;
-                    }
-
-                    //create hitArea
-                    this.createHitArea();
-                };
-
-                //updates based on porject
-                BonusItem.prototype.updateProjectInfo = function () {
-                    //update the objects display
-                    this.createObjects(this.bonusId);
-                };
-
-                BonusItem.prototype.timerintervalTick = function () {
-                    var time = FlipPlus.FlipPlusGame.timersData.getTimer(this.bonusId);
-
-                    if (time == 0) {
-                        this.timerText.text = stringResources.mm_play;
-
-                        if (!createjs.Tween.hasActiveTweens(this.timerText)) {
-                            ////this.timerText.cache(-200, -50, 400, 100);
-                            this.timerText.set({ scaleX: 1, scaleY: 1 });
-                            createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
-                        }
-                    } else {
-                        createjs.Tween.removeTweens(this.timerText);
-                        this.timerText.text = this.toHHMMSS(time);
-                        this.timerText.scaleX = this.scaleY = 1;
-                        ////this.timerText.cache(-200, -50, 400, 100);
-                    }
-                };
-
-                BonusItem.prototype.toHHMMSS = function (sec_num) {
-                    var hours = Math.floor(sec_num / 3600);
-                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
-
-                    if (hours < 10) {
-                        hours = 0 + hours;
-                    }
-                    if (minutes < 10) {
-                        minutes = 0 + minutes;
-                    }
-                    if (seconds < 10) {
-                        seconds = 0 + seconds;
-                    }
-                    var time = hours + ':' + minutes + ':' + seconds;
-                    return time;
-                };
-                return BonusItem;
-            })(gameui.ui.ImageButton);
-            View.BonusItem = BonusItem;
-        })(Menu.View || (Menu.View = {}));
-        var View = Menu.View;
     })(FlipPlus.Menu || (FlipPlus.Menu = {}));
     var Menu = FlipPlus.Menu;
 })(FlipPlus || (FlipPlus = {}));
@@ -7365,80 +7464,6 @@ var FlipPlus;
                 return RobotPreview;
             })(createjs.Container);
             View.RobotPreview = RobotPreview;
-        })(Menu.View || (Menu.View = {}));
-        var View = Menu.View;
-    })(FlipPlus.Menu || (FlipPlus.Menu = {}));
-    var Menu = FlipPlus.Menu;
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    (function (Menu) {
-        (function (View) {
-            // View Class
-            var TextEffect = (function (_super) {
-                __extends(TextEffect, _super);
-                //class contructor
-                function TextEffect() {
-                    _super.call(this);
-
-                    //centralize the popup on screen
-                    this.width = DefaultWidth;
-                    this.height = DefaultHeight;
-                    this.x = DefaultWidth / 2;
-                    this.y = DefaultHeight / 2;
-                    this.centralize();
-
-                    //hide popup
-                    this.visible = false;
-
-                    this.mouseEnabled = false;
-                }
-                //public method to invoke the popup
-                TextEffect.prototype.showtext = function (text, timeout, delay) {
-                    var _this = this;
-                    if (typeof timeout === "undefined") { timeout = 3000; }
-                    if (typeof delay === "undefined") { delay = 0; }
-                    //clean everything
-                    this.removeAllChildren();
-
-                    //create a titleShadow
-                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-                    titleShadow.textAlign = "center";
-                    titleShadow.textBaseline = "middle";
-                    titleShadow.x = DefaultWidth / 2;
-                    this.addChild(titleShadow);
-
-                    //create a title
-                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
-                    titleDO.textAlign = "center";
-                    titleDO.textBaseline = "middle";
-                    titleDO.x = DefaultWidth / 2;
-                    this.addChild(titleDO);
-
-                    titleShadow.y = titleDO.y = DefaultHeight / 2;
-                    titleShadow.y += 15;
-
-                    //updates text
-                    titleDO.text = titleShadow.text = text.toUpperCase();
-
-                    var ty = DefaultHeight * 0.9;
-
-                    this.set({
-                        alpha: 0,
-                        y: ty
-                    });
-
-                    this.visible = true;
-
-                    createjs.Tween.removeTweens(this);
-                    createjs.Tween.get(this).to({ alpha: 1, y: ty - 50 }, 200, createjs.Ease.quadOut).to({ alpha: 1, y: ty - 100 }, 1000, createjs.Ease.linear).to({ alpha: 0, y: ty - 300 }, 200, createjs.Ease.quadIn).call(function () {
-                        _this.visible = false;
-                        _this.dispatchEvent("onclose");
-                    });
-                };
-                return TextEffect;
-            })(gameui.ui.UIItem);
-            View.TextEffect = TextEffect;
         })(Menu.View || (Menu.View = {}));
         var View = Menu.View;
     })(FlipPlus.Menu || (FlipPlus.Menu = {}));
