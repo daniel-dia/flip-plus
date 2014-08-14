@@ -132,7 +132,7 @@
         //give items to the user
         getItems(chestId: number) {
             this.itemsContainer.removeAllChildren();
-            var items = this.selectRandomItems(3);
+            var items = this.selectRandomItems(4);
             var itemsDo = [];
 
             //create items objects
@@ -143,7 +143,9 @@
                 var item = this.createItem(items[i])
                 
                 item.set ({x : DefaultWidth / 2, y : DefaultHeight / 2 -100 ,alpha:0})
-                createjs.Tween.get(item).wait(500).to({ alpha: 1, x: DefaultWidth / 2 + (300 * (i - 1)), y: DefaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut).call((itemDo:createjs.DisplayObject) => { this.animateItemObjectToFooter(itemDo,itemDo.name)},[item])
+                createjs.Tween.get(item).wait(500)
+                    .to({ alpha: 1, x: DefaultWidth / 2.5 + (300 * (i - 1)), y: DefaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
+                    .call((itemDo: createjs.DisplayObject) => { this.animateItemObjectToFooter(itemDo, itemDo.name) }, [item])
                 this.itemsContainer.addChild(item);
             }
         }

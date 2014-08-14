@@ -183,8 +183,10 @@
             this.itemsArray
             var items = new Array();
 
+            var ia = ["hint", "hint", "hint", "hint", "skip", "solve", "time", "touch"];
+
             for (var i = 0; i < quantity; i++) 
-                items.push(this.itemsArray[Math.floor(Math.random()*this.itemsArray.length)]);
+                items.push(ia[Math.floor(Math.random()*ia.length)]);
 
             return items;
         }

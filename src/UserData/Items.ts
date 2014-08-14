@@ -9,12 +9,17 @@ module FlipPlus.UserData {
         //TODO shall not be in userData
         public static itemsNames: Array<string> = ["hint", "skip", "solve", "time", "touch"];
 
+
         constructor() {
             var data = localStorage.getItem(storagePrefix + "items");
             if (data)
                 this.itensDictionary = JSON.parse(data);
 
             else this.itensDictionary = new Object();
+        }
+
+        public getItemNames(): Array<string> {
+            return ["hint", "hint", "hint", "hint", "hint", "skip", "solve", "time", "touch"];
         }
 
         public getItemQuantity(item: string): number {

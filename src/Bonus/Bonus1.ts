@@ -135,9 +135,9 @@
         }
                 
         //shuffle a new Game
-        private setNewGame(itemsCount: number= 3) {
+        private setNewGame(itemsCount: number= 6) {
 
-            var barrelsCount: number = 7;
+            var barrelsCount: number = 8;
 
             //set barrels clicks
             this.remaningInteraction = 3;
@@ -197,9 +197,9 @@
 
         //get a random item from the items list
         private getRandomItem(): string {
-            
-            var i = Math.floor(Math.random() * this.itemsArray.length);
-            var itemId = this.itemsArray[i];
+            var itemArray = ["hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "skip", "skip", "skip", "skip", "solve", "time", "touch"]
+            var i = Math.floor(Math.random() * itemArray.length);
+            var itemId = itemArray[i];
 
             return itemId;
         }
@@ -237,9 +237,6 @@
 
         //finalizes bonus game
         endBonus() {
-
-            
-
             //locks barrels interactions
             for (var barrel in this.barrels) 
                 this.barrels[barrel].mouseEnabled = false;
