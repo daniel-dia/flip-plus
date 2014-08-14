@@ -254,7 +254,7 @@
                 createjs.Tween.get(this.barrels[barrel]).wait(barrel * 100).to({ alpha: 0 }, 150);
             }, 1000);
 
-            setTimeout(() => { super.endBonus(); }, 2000);
+            setTimeout(() => { super.endBonus(); }, 3500);
         }
     }
 }   

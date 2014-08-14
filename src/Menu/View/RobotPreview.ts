@@ -19,7 +19,10 @@ module FlipPlus.Menu.View {
         }
 
         //create graphics
-        private createGraphics(project: FlipPlus.Projects.Project) {
+        private createGraphics(project: FlipPlus.Projects.Project)
+
+        //aqui se estiver completo ne, carrega as outras coisas
+        {
             try {
                 var size: number = 1000;
                 this.fill = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
@@ -89,11 +92,7 @@ module FlipPlus.Menu.View {
                     createjs.Tween.get(this.complete).wait(300).to({alpha:1}, 600)
                 }
             });
-
-
         }
-
-
     }
 }
  

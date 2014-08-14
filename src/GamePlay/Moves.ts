@@ -13,11 +13,11 @@
 
             
             //only adds this level if there are more than 1 puzzle to solve
+            this.gameplayMenu.addButtons(["skip"]);
+
             if (this.levelData.puzzlesToSolve > 1) 
                 this.gameplayMenu.addButtons(["solve"]);
-            else
-                this.gameplayMenu.addButtons(["skip"]);
-
+            
             //adds buttons and items
             this.gameplayMenu.addButtons(["touch", "hint"]);
 
@@ -26,50 +26,65 @@
             this.gameplayMenu.addEventListener("solve", () => { this.useItemSolve(); })
             this.gameplayMenu.addEventListener("hint", () => { this.useItemHint(); })
             this.gameplayMenu.addEventListener("skip", () => { this.useItemSkip(); })
-    
-            this.puzzlesToSolve = levelData.puzzlesToSolve;
+
             this.moves = this.levelData.moves;
 
-            this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
+            if (levelData.blocksData && levelData.blocksData.length>0) {
+                this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
+                this.levelData.puzzlesToSolve = 1;
+            }
+            else {
+                
+                if (!this.levelData.puzzlesToSolve) this.levelData.puzzlesToSolve = 1;
+                this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
+
+            }
+
+            
+            this.puzzlesToSolve = levelData.puzzlesToSolve;
+
+            
 
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             
             //set default puzzles to solve
-            if (!this.levelData.puzzlesToSolve) this.levelData.puzzlesToSolve = 1;
             this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3); 
 
-            this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
-
+            
             this.statusArea.setMode("moves");
             this.statusArea.setText3(this.moves.toString());
         }
 
 
         //threat user input
+        private loosing = false;
         public userInput(col: number, row: number) {
             super.userInput(col, row);
 
+            
+            if (!this.levelLogic.verifyWin()) {
+                //verifies if is a multiTouch
+                if (Date.now() - this.lastTouchTime > 110 || !this.lastTouchTime)
+                    this.moves--;
 
-            //verifies if is a multiTouch
-            if (Date.now() - this.lastTouchTime > 100 || !this.lastTouchTime)    
-                this.moves--;
-            this.lastTouchTime = Date.now();
+                this.lastTouchTime = Date.now();
+
+                
+                setTimeout(() => {
+                    if (!this.loosing)
+                        if (!this.levelLogic.verifyWin()) {
+                            //loses game, if moves is over
+                            if (this.moves <= 0) {
+                                this.message.showtext(stringResources.gp_mv_noMoreMoves);
+                                this.loose();
+                                this.loosing = true;
+                            }
+                    }
+                },110)
+            }
 
             //updates moves count
             this.statusArea.setText3(this.moves.toString());
-
-            setTimeout(() => {
-                //loses game, if moves is over
-                if (!this.levelLogic.verifyWin()) {
-
-
-                    if (this.moves < 0) {
-                        this.message.showtext(stringResources.gp_mv_noMoreMoves);
-                        this.loose();
-                    }
-                }
-            }, 100);
-
 
             
         }

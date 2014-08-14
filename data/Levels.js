@@ -1176,9 +1176,6 @@ var levelsData =[
                 "theme": "yellow",
                 "moves": 2,
                 "time": 30,
-                "puzzlesToSolve": 8,
-                "randomMaxMoves": 5,
-                "randomMinMoves": 4,
                 "blocksData": [
                     0,
                     20,
@@ -1194,9 +1191,6 @@ var levelsData =[
                 "theme": "yellow",
                 "moves": 3,
                 "time": 25,
-                "puzzlesToSolve": 5,
-                "randomMaxMoves": 2,
-                "randomMinMoves": 2,
                 "blocksData": [
                     0,
                     9,
@@ -1214,9 +1208,6 @@ var levelsData =[
                 "theme": "yellow",
                 "moves": 4,
                 "time": 25,
-                "puzzlesToSolve": 5,
-                "randomMaxMoves": 2,
-                "randomMinMoves": 2,
                 "blocksData": [
                     0,
                     19,

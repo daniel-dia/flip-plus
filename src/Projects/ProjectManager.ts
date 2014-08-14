@@ -33,11 +33,11 @@ module FlipPlus.Projects {
             this.projects = data;
 
             //append the project name in each level.
-            for (var p in this.projects)
-                for (var l in this.projects[p].levels) {
-                    this.projects[p].levels[l].name = this.projects[p].name + "/" + this.projects[p].levels[l].name;
-                    ///this.projects[p].levels[l].project = this.projects[p];
-                }
+            //for (var p in this.projects)
+            //    for (var l in this.projects[p].levels) {
+            //        this.projects[p].levels[l].name = this.projects[p].name + "/" + this.projects[p].levels[l].name;
+            //        ///this.projects[p].levels[l].project = this.projects[p];
+            //    }
 
             //create a user data for each level/project
             this.userData.addUserData(this.projects);

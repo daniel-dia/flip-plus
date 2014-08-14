@@ -51,12 +51,20 @@ class Analytics {
     public logLevelExit(levelId: string, time: number, clicks: number) {
         this.sendEvent("level", "exit", clicks, levelId, time);
     }
+
     public logLevelLoose(levelId: string, time: number, clicks: number) {
         this.sendEvent("level", "loose", clicks, levelId, time);
     }
 
+    public logLevelStart(levelId: string, time: number, clicks: number) {
+        this.sendEvent("level", "start", 1, levelId, time);
+    }
+
     public logUsedItem(itemId: string, levelId: string) {
         this.sendEvent("item", itemId, 1, levelId);
+    }
+    public loglevelTime(levelId: string, time: number,final:string) {
+        this.sendEvent("time", final, time/1000, levelId);
     }
 
     public logBonus(bonusid: string, items: number) {
@@ -100,14 +108,14 @@ class Analytics {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Content-Type', 'text/plain');
             },
-            success: function (data, textStatus, XMLHttpRequest) {
-                console.log("GOOD! textStatus: " + textStatus);
+            //success: function (data, textStatus, XMLHttpRequest) {
+            //    console.log("GOOD! textStatus: " + textStatus);
 
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log("ERROR ajax call. error: " + errorThrown + ", url: " + url);
+            //},
+            //error: function (XMLHttpRequest, textStatus, errorThrown) {
+            //    console.log("ERROR ajax call. error: " + errorThrown + ", url: " + url);
 
-            } 
+            //} 
         });
     }
 }

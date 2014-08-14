@@ -240,14 +240,16 @@ module FlipPlus.GamePlay {
                 FlipPlusGame.completeLevel(complete1stTime);
         }
 
+
         loose() {
             
-            FlipPlusGame.analytics.logLevelLoose(this.levelData.name,Date.now()-this.startedTime,this.clicks)
-
+            FlipPlusGame.analytics.logLevelLoose(this.levelData.name, Date.now() - this.startedTime, this.clicks)
+            
             this.gameplayMenu.fadeOut();
             this.boardSprite.lock();
-            setTimeout(() => { FlipPlusGame.looseLevel(); }, 3000);;
             this.boardSprite.looseEffect();
+            setTimeout(() => { FlipPlusGame.looseLevel(); }, 3000);;
+            
         }
 
 
