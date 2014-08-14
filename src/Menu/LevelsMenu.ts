@@ -165,13 +165,16 @@ module FlipPlus.Menu {
 
                     //if complete changes to myBotScreen
                     if (project.UserData.complete && this.projectPreviousState[project.name]==false) {
-                        this.view.mouseEnabled = false;
-                        this.view.mouseChildren = false;
+                        this.footer.mouseEnabled = false;
+                        this.content.mouseEnabled = false;
+                        this.header.mouseEnabled = false;
                         setTimeout(() => {
-                            this.view.mouseEnabled = true;
-                            this.view.mouseChildren = true;
+                            this.footer.mouseEnabled = true;
+                            this.content.mouseEnabled = true;
+                            this.header.mouseEnabled = true;
+                        
                             FlipPlusGame.showMainMenu();
-                        }, 2000);
+                        }, 3500);
                     }
                 }
                 

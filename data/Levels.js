@@ -19,7 +19,7 @@ var levelsData =[
                 ],
                 "tutorial": [
                     {
-                        "text": "flip the white squares to make them color squares",
+                        "text": "flip the white squares to make \nthem color squares",
                         "title": "The plus shape"
                     },
                     {
@@ -125,11 +125,7 @@ var levelsData =[
                         "text": "light bulbs help you out, \nbut they are limited",
                         "title": "too easy?"
                     },
-                    {
-                        "atEnd": true,
-                        "text": "you don't get a star when you use itens \nto solve the board,\nbut keep going for now, Nes need repairs",
-                        "title": "No star"
-                    }
+                    
                 ]
             },
             {
