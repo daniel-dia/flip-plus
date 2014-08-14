@@ -38,6 +38,8 @@
                 this.userAquireItem(card1.name);
                 this.userAquireItem(card1.name);
 
+                card1.opened = false;
+                card2.opened = false;
                 //animate itens
                 this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
                 this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
@@ -88,6 +90,7 @@
 
         //retuns all oppened cards
         private getOpenedCards(): Array<Card> {
+
             var openedCards: Array<Card> = new Array<Card>();
             for (var c in this.cards) {
                 var card = this.cards[c];
