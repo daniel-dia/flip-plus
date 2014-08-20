@@ -29,7 +29,7 @@ module FlipPlus.Menu {
 
             //add update% functtion
             loader.addEventListener("progress", (evt: Object): boolean => {
-                text.text = stringResources.ld + "\n" + Math.floor(evt["progress"]*100).toString() + "%";
+                    text.text = stringResources.ld + "\n" + Math.floor(evt["progress"]*100).toString() + "%";
                 return true;
             });
             

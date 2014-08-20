@@ -19,16 +19,16 @@ var levelsData =[
                 ],
                 "tutorial": [
                     {
-                        "text": "flip the white squares to make \nthem color squares",
-                        "title": "The plus shape"
+                        "text": stringResources["tut_1_1_text"],
+                        "title": stringResources["tut_1_1_title"]
                     },
                     {
                         "click": 12
                     },
                     {
                         "atEnd": true,
-                        "text": "tiles always flip in a \"plus shape\" \nfrom the center",
-                        "title": "Great"
+                        "text": stringResources["tut_1_2_text"],
+                        "title": stringResources["tut_1_2_title"]
                     }
                 ]
             },
@@ -47,21 +47,21 @@ var levelsData =[
                 ],
                 "tutorial": [
                     {
-                        "text": "to finish the board, you have to turn \nevery white block in color block",
-                        "title": "Flip to build"
+                        "text": stringResources["tut_2_1_text"],
+                        "title": stringResources["tut_2_1_title"]
                     },
                     {
                         "click": 16
                     },
                     {
                         "atEnd": true,
-                        "text": "Great, no white tiles in the board",
-                        "title": "Board complete!"
+                        "text": stringResources["tut_2_2_text"],
+                        "title": stringResources["tut_2_2_title"]
                     },
                     {
                         "atEnd": true,
-                        "text": "you solved all green blocks",
-                        "title": "Star"
+                        "text": stringResources["tut_2_3_text"],
+                        "title": stringResources["tut_2_3_title"]
                     }
                 ]
             },
@@ -81,16 +81,16 @@ var levelsData =[
                 ],
                 "tutorial": [
                     {
-                        "text": "the plus shape inverts the tiles, \nwhite gets color and color gets white",
-                        "title": "Flip to invert"
+                        "text": stringResources["tut_3_1_text"],
+                        "title": stringResources["tut_3_1_title"]
                     },
                     {
                         "click": 10
                     },
                     {
                         "atEnd": true,
-                        "text": "purple tiles work the \nsame way as green tiles",
-                        "title": "Nice Work"
+                        "text": stringResources["tut_3_2_text"],
+                        "title": stringResources["tut_3_2_title"]
                     }
                 ]
             },
@@ -110,8 +110,8 @@ var levelsData =[
                 ],
                 "tutorial": [
                     {
-                        "text": "the light bulb button gives you a hin",
-                        "title": "hints"
+                        "text": stringResources["tut_4_1_title"],
+                        "title": stringResources["tut_4_1_title"]
                     },
                     {
                         "item": "hint",
@@ -122,8 +122,8 @@ var levelsData =[
                     },
                     {
                         "atEnd": true,
-                        "text": "light bulbs help you out, \nbut they are limited",
-                        "title": "too easy?"
+                        "text": stringResources["tut_4_2_title"],
+                        "title": stringResources["tut_4_2_title"]
                     },
                     
                 ]
@@ -146,8 +146,8 @@ var levelsData =[
                 ],
                 "tutorial": [
                     {
-                        "text": "finish this board \nto complete S-N3S repairs!",
-                        "title": "Bot S-N3S"
+                        "text": stringResources["tut_5_1_title"],
+                        "title": stringResources["tut_5_1_text"]
                     },
                     {
                         "click": 10
