@@ -1,172 +1,168 @@
 var levelsData =[
-    {
-        "nickName": "S-N3S",
-        "name": "Bot01",
-        "cost": 0,
-        "free": true,
-        "levels": [
-            {
-                "name": "0/0",
-                "width": 5,
-                "height": 5,
-                "type": "tutorial",
-                "theme": "green",
-                "moves": null,
-                "time": null,
-                "puzzlesToSolve": null,
-                "blocksData": [
-                    12
-                ],
-                "tutorial": [
-                    {
-                        "text": "flip the white squares to make them color squares",
-                        "title": "The plus shape"
-                    },
-                    {
-                        "click": 12
-                    },
-                    {
-                        "atEnd": true,
-                        "text": "tiles always flip in a \"plus shape\" \nfrom the center",
-                        "title": "Great"
-                    }
-                ]
-            },
-            {
-                "name": "0/1",
-                "width": 5,
-                "height": 5,
-                "type": "tutorial",
-                "theme": "green",
-                "moves": null,
-                "time": null,
-                "puzzlesToSolve": null,
-                "blocksData": [
-                    16,
-                    8
-                ],
-                "tutorial": [
-                    {
-                        "text": "to finish the board, you have to turn \nevery white block in color block",
-                        "title": "Flip to build"
-                    },
-                    {
-                        "click": 16
-                    },
-                    {
-                        "atEnd": true,
-                        "text": "Great, no white tiles in the board",
-                        "title": "Board complete!"
-                    },
-                    {
-                        "atEnd": true,
-                        "text": "you solved all green blocks",
-                        "title": "Star"
-                    }
-                ]
-            },
-            {
-                "name": "0/2",
-                "width": 5,
-                "height": 5,
-                "type": "tutorial",
-                "theme": "purple",
-                "moves": null,
-                "time": null,
-                "puzzlesToSolve": null,
-                "blocksData": [
-                    10,
-                    12,
-                    14
-                ],
-                "tutorial": [
-                    {
-                        "text": "the plus shape inverts the tiles, \nwhite gets color and color gets white",
-                        "title": "Flip to invert"
-                    },
-                    {
-                        "click": 10
-                    },
-                    {
-                        "atEnd": true,
-                        "text": "purple tiles work the \nsame way as green tiles",
-                        "title": "Nice Work"
-                    }
-                ]
-            },
-            {
-                "name": "0/3",
-                "width": 5,
-                "height": 5,
-                "type": "tutorial",
-                "theme": "purple",
-                "moves": null,
-                "time": null,
-                "puzzlesToSolve": null,
-                "blocksData": [
-                    11,
-                    12,
-                    13
-                ],
-                "tutorial": [
-                    {
-                        "text": "the light bulb button gives you a hin",
-                        "title": "hints"
-                    },
-                    {
-                        "item": "hint",
-                        "parameter": 12
-                    },
-                    {
-                        "click": 12
-                    },
-                    {
-                        "atEnd": true,
-                        "text": "light bulbs help you out, \nbut they are limited",
-                        "title": "too easy?"
-                    },
-                    {
-                        "atEnd": true,
-                        "text": "you don't get a star when you use itens \nto solve the board,\nbut keep going for now, Nes need repairs",
-                        "title": "No star"
-                    }
-                ]
-            },
-            {
-                "name": "0/4",
-                "width": 5,
-                "height": 5,
-                "type": "tutorial",
-                "theme": "yellow",
-                "moves": null,
-                "time": null,
-                "puzzlesToSolve": null,
-                "blocksData": [
-                    10,
-                    2,
-                    12,
-                    22,
-                    14
-                ],
-                "tutorial": [
-                    {
-                        "text": "finish this board \nto complete S-N3S repairs!",
-                        "title": "Bot S-N3S"
-                    },
-                    {
-                        "click": 10
-                    }
-                ]
-            }
-        ]
-    },
-    {
+      {
+          "nickName": "S-N3S",
+          "name": "Bot01",
+          "cost": 0,
+          "free": true,
+          "levels": [
+              {
+                  "name": "0/0",
+                  "width": 5,
+                  "height": 5,
+                  "type": "tutorial",
+                  "theme": "green",
+                  "moves": null,
+                  "time": null,
+                  "puzzlesToSolve": null,
+                  "blocksData": [
+                      12
+                  ],
+                  "tutorial": [
+                      {
+                          "text": stringResources["tut_1_1_text"],
+                          "title": stringResources["tut_1_1_title"]
+                      },
+                      {
+                          "click": 12
+                      },
+                      {
+                          "atEnd": true,
+                          "text": stringResources["tut_1_2_text"],
+                          "title": stringResources["tut_1_2_title"]
+                      }
+                  ]
+              },
+              {
+                  "name": "0/1",
+                  "width": 5,
+                  "height": 5,
+                  "type": "tutorial",
+                  "theme": "green",
+                  "moves": null,
+                  "time": null,
+                  "puzzlesToSolve": null,
+                  "blocksData": [
+                      16,
+                      8
+                  ],
+                  "tutorial": [
+                      {
+                          "text": stringResources["tut_2_1_text"],
+                          "title": stringResources["tut_2_1_title"]
+                      },
+                      {
+                          "click": 16
+                      },
+                      {
+                          "atEnd": true,
+                          "text": stringResources["tut_2_2_text"],
+                          "title": stringResources["tut_2_2_title"]
+                      },
+                      {
+                          "atEnd": true,
+                          "text": stringResources["tut_2_3_text"],
+                          "title": stringResources["tut_2_3_title"]
+                      }
+                  ]
+              },
+              {
+                  "name": "0/2",
+                  "width": 5,
+                  "height": 5,
+                  "type": "tutorial",
+                  "theme": "purple",
+                  "moves": null,
+                  "time": null,
+                  "puzzlesToSolve": null,
+                  "blocksData": [
+                      10,
+                      12,
+                      14
+                  ],
+                  "tutorial": [
+                      {
+                          "text": stringResources["tut_3_1_text"],
+                          "title": stringResources["tut_3_1_title"]
+                      },
+                      {
+                          "click": 10
+                      },
+                      {
+                          "atEnd": true,
+                          "text": stringResources["tut_3_2_text"],
+                          "title": stringResources["tut_3_2_title"]
+                      }
+                  ]
+              },
+              {
+                  "name": "0/3",
+                  "width": 5,
+                  "height": 5,
+                  "type": "tutorial",
+                  "theme": "purple",
+                  "moves": null,
+                  "time": null,
+                  "puzzlesToSolve": null,
+                  "blocksData": [
+                      11,
+                      12,
+                      13
+                  ],
+                  "tutorial": [
+                      {
+                          "text": stringResources["tut_4_1_title"],
+                          "title": stringResources["tut_4_1_title"]
+                      },
+                      {
+                          "item": "hint",
+                          "parameter": 12
+                      },
+                      {
+                          "click": 12
+                      },
+                      {
+                          "atEnd": true,
+                          "text": stringResources["tut_4_2_title"],
+                          "title": stringResources["tut_4_2_title"]
+                      },
+
+                  ]
+              },
+              {
+                  "name": "0/4",
+                  "width": 5,
+                  "height": 5,
+                  "type": "tutorial",
+                  "theme": "yellow",
+                  "moves": null,
+                  "time": null,
+                  "puzzlesToSolve": null,
+                  "blocksData": [
+                      10,
+                      2,
+                      12,
+                      22,
+                      14
+                  ],
+                  "tutorial": [
+                      {
+                          "text": stringResources["tut_5_1_title"],
+                          "title": stringResources["tut_5_1_text"]
+                      },
+                      {
+                          "click": 10
+                      }
+                  ]
+              }
+          ]
+      },
+      {
         "nickName": "R-MS",
         "name": "Bot02",
         "cost": 0,
         "free": true,
         "levels": [
-            {
+             {
                 "name": "1/0",
                 "width": 5,
                 "height": 5,

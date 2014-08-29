@@ -92,16 +92,16 @@
         "it_text2": "sozinho = ruim \n amigos= bom", 
 
         "tut_1_1_title": "Forma de cruz",
-        "tut_1_1_text": "Vire todos os quadrados brancos \n para quadradinhos verdes",
+        "tut_1_1_text": "Vire todos os blocos brancos \n para blocos verdes",
 
-        "tut_1_2_title": "Os quadrados sempre são invertidos em \"forma de cruz\" quando ativados",
-        "tut_1_2_text": "Ótimo!",
+        "tut_1_2_text": "Os blocos sempre são invertidos em \"forma de cruz\" quando ativados",
+        "tut_1_2_title": "Ótimo!",
 
         "tut_2_1_title": "Vire para construir",
-        "tut_2_1_text": "Para concluir o quadro vire todos os quadradinhos brancos para coloridos.",
+        "tut_2_1_text": "Para concluir o quadro vire todos os blocos brancos para coloridos.",
 
         "tut_2_2_title": "Nível completo!",
-        "tut_2_2_text": "Ótimo, sem quadradinhos brancos no quadro",
+        "tut_2_2_text": "Ótimo, sem blocos brancos no quadro",
 
         "tut_2_3_title": "Estrela",
         "tut_2_3_text": "Você resolveu todos os quadros verdes.",
@@ -110,7 +110,7 @@
         "tut_3_1_text": "A forma de cruz sempre inverte a cor do quadradinho \n entre branco e colorido",
 
         "tut_3_2_title": "Parabéns",
-        "tut_3_2_text": "Os quadradinhos roxos fucionam da \nmesma forma que os verdes",
+        "tut_3_2_text": "Os blocos roxos fucionam da \nmesma forma que os verdes",
 
         "tut_4_1_title": "Dicas",
         "tut_4_1_text": "As lâmpadas são uma dica de qual quadradinho tocar",
@@ -141,14 +141,14 @@
 
         "gp_pz_Popup1Title": "Contra o tempo", 
         "gp_pz_Popup1Text1": "Resolva", 
-        "gp_pz_Popup1Text2": "tabuleiros em", 
+        "gp_pz_Popup1Text2": "quadros em", 
         "gp_pz_Popup1Text3": "segundos", 
         "gp_pz_statusEnd": "Fim", 
         "gp_pz_timeUP": "Acabou o tempo", 
 
         "gp_mv_Popup1Title": "Movimentos", 
         "gp_mv_Popup1Text1": "Resolva", 
-        "gp_mv_Popup1Text2": "tabuleiros com", 
+        "gp_mv_Popup1Text2": "quadros com", 
         "gp_mv_Popup1Text3": "movimentos", 
         "gp_mv_statusEnd": "fim", 
         "gp_mv_noMoreMoves": "Não há mais movimentos", 
@@ -169,7 +169,7 @@
         "desc_item_time": "Mais tempo", 
         "desc_item_hint": "Dica", 
         "desc_item_skip": "Pular", 
-        "desc_item_solve": "Resolva este tabuleiro", 
+        "desc_item_solve": "Resolva este quadro", 
     }
 
 }
