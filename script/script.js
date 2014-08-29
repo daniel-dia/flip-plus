@@ -1432,7 +1432,7 @@ var FlipPlus;
                     for (var b in blocks)
                         if (blocks[b].mirror) {
                             for (var m in this.mirroredBlocks)
-                                this.mirroredBlocks[m].state = blocks[b].state;
+                                this.mirroredBlocks[m].toggleState();
 
                             return;
                         }
@@ -3757,7 +3757,7 @@ var FlipPlus;
             };
 
             MainMenu.prototype.addPlayButton = function () {
-                var playBt = new gameui.ui.TextButton("PLAY", defaultFontFamilyHighlight, highlightFontColor, "", function () {
+                var playBt = new gameui.ui.TextButton(stringResources["mm_play"], defaultFontFamilyHighlight, highlightFontColor, "", function () {
                     FlipPlus.FlipPlusGame.showProjectsMenu();
                 });
 
