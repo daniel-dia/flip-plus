@@ -91,35 +91,35 @@
         "it_text1": "N3-S precisa de \n reparos", 
         "it_text2": "sozinho = ruim \n amigos= bom", 
 
-        "tut_1_1_title": "The plus shape",
-        "tut_1_1_text": "flip the white squares to make \nthem color squares",
+        "tut_1_1_title": "Forma de cruz",
+        "tut_1_1_text": "Vire todos os quadrados brancos \n para quadradinhos verdes",
 
-        "tut_1_2_title": "tiles always flip in a \"plus shape\" \nfrom the center",
-        "tut_1_2_text": "Great",
+        "tut_1_2_title": "Os quadrados sempre são invertidos em \"forma de cruz\" quando ativados",
+        "tut_1_2_text": "Ótimo!",
 
-        "tut_2_1_title": "Flip to build",
-        "tut_2_1_text": "to finish the board, you have to turn \nevery white block in color block",
+        "tut_2_1_title": "Vire para construir",
+        "tut_2_1_text": "Para concluir o quadro vire todos os quadradinhos brancos para coloridos.",
 
-        "tut_2_2_title": "Board complete!",
-        "tut_2_2_text": "Great, no white tiles in the board",
+        "tut_2_2_title": "Nível completo!",
+        "tut_2_2_text": "Ótimo, sem quadradinhos brancos no quadro",
 
-        "tut_2_3_title": "Star",
-        "tut_2_3_text": "you solved all green blocks",
+        "tut_2_3_title": "Estrela",
+        "tut_2_3_text": "Você resolveu todos os quadros verdes.",
 
-        "tut_3_1_title": "Flip to invert",
-        "tut_3_1_text": "the plus shape inverts the tiles, \nwhite gets color and color gets white",
+        "tut_3_1_title": "toque para inverter",
+        "tut_3_1_text": "A forma de cruz sempre inverte a cor do quadradinho \n entre branco e colorido",
 
-        "tut_3_2_title": "Nice Work",
-        "tut_3_2_text": "purple tiles work the \nsame way as green tiles",
+        "tut_3_2_title": "Parabéns",
+        "tut_3_2_text": "Os quadradinhos roxos fucionam da \nmesma forma que os verdes",
 
-        "tut_4_1_title": "hints",
-        "tut_4_1_text": "the light bulb button gives you a hint",
+        "tut_4_1_title": "Dicas",
+        "tut_4_1_text": "As lâmpadas são uma dica de qual quadradinho tocar",
 
-        "tut_4_2_title": "too easy?",
-        "tut_4_2_text": "light bulbs help you out, \nbut they are limited",
+        "tut_4_2_title": "Facil?",
+        "tut_4_2_text": "As lãmpadas te ajudam, mas elas são limitadas\n você consegue mais lampadas e \n outros items jogando \BONUS",
 
         "tut_5_1_title": "Bot S-N3S",
-        "tut_5_1_text": "finish this board \nto complete S-N3S repairs!",
+        "tut_5_1_text": "Termine essa tela para \nfinalizar os repados no S-N3S!",
 
 
         "mm_play": "JOGAR", 
@@ -173,7 +173,7 @@
     }
 
 }
-var language = "en";
+var language = "pt";
 if (globalResources[language])
     var stringResources = globalResources[language];
 else

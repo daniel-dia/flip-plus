@@ -19,16 +19,16 @@ var levelsData =[
                 ],
                 "tutorial": [
                     {
-                        "text": stringResources["tut_1_1_text"],
-                        "title": stringResources["tut_1_1_title"]
+                        "text": "flip the white squares to make them color squares",
+                        "title": "The plus shape"
                     },
                     {
                         "click": 12
                     },
                     {
                         "atEnd": true,
-                        "text": stringResources["tut_1_2_text"],
-                        "title": stringResources["tut_1_2_title"]
+                        "text": "tiles always flip in a \"plus shape\" \nfrom the center",
+                        "title": "Great"
                     }
                 ]
             },
@@ -47,21 +47,21 @@ var levelsData =[
                 ],
                 "tutorial": [
                     {
-                        "text": stringResources["tut_2_1_text"],
-                        "title": stringResources["tut_2_1_title"]
+                        "text": "to finish the board, you have to turn \nevery white block in color block",
+                        "title": "Flip to build"
                     },
                     {
                         "click": 16
                     },
                     {
                         "atEnd": true,
-                        "text": stringResources["tut_2_2_text"],
-                        "title": stringResources["tut_2_2_title"]
+                        "text": "Great, no white tiles in the board",
+                        "title": "Board complete!"
                     },
                     {
                         "atEnd": true,
-                        "text": stringResources["tut_2_3_text"],
-                        "title": stringResources["tut_2_3_title"]
+                        "text": "you solved all green blocks",
+                        "title": "Star"
                     }
                 ]
             },
@@ -81,16 +81,16 @@ var levelsData =[
                 ],
                 "tutorial": [
                     {
-                        "text": stringResources["tut_3_1_text"],
-                        "title": stringResources["tut_3_1_title"]
+                        "text": "the plus shape inverts the tiles, \nwhite gets color and color gets white",
+                        "title": "Flip to invert"
                     },
                     {
                         "click": 10
                     },
                     {
                         "atEnd": true,
-                        "text": stringResources["tut_3_2_text"],
-                        "title": stringResources["tut_3_2_title"]
+                        "text": "purple tiles work the \nsame way as green tiles",
+                        "title": "Nice Work"
                     }
                 ]
             },
@@ -110,8 +110,8 @@ var levelsData =[
                 ],
                 "tutorial": [
                     {
-                        "text": stringResources["tut_4_1_title"],
-                        "title": stringResources["tut_4_1_title"]
+                        "text": "the light bulb button gives you a hin",
+                        "title": "hints"
                     },
                     {
                         "item": "hint",
@@ -122,10 +122,14 @@ var levelsData =[
                     },
                     {
                         "atEnd": true,
-                        "text": stringResources["tut_4_2_title"],
-                        "title": stringResources["tut_4_2_title"]
+                        "text": "light bulbs help you out, \nbut they are limited",
+                        "title": "too easy?"
                     },
-                    
+                    {
+                        "atEnd": true,
+                        "text": "you don't get a star when you use itens \nto solve the board,\nbut keep going for now, Nes need repairs",
+                        "title": "No star"
+                    }
                 ]
             },
             {
@@ -146,8 +150,8 @@ var levelsData =[
                 ],
                 "tutorial": [
                     {
-                        "text": stringResources["tut_5_1_title"],
-                        "title": stringResources["tut_5_1_text"]
+                        "text": "finish this board \nto complete S-N3S repairs!",
+                        "title": "Bot S-N3S"
                     },
                     {
                         "click": 10
@@ -1172,6 +1176,9 @@ var levelsData =[
                 "theme": "yellow",
                 "moves": 2,
                 "time": 30,
+                "puzzlesToSolve": 8,
+                "randomMaxMoves": 5,
+                "randomMinMoves": 4,
                 "blocksData": [
                     0,
                     20,
@@ -1187,6 +1194,9 @@ var levelsData =[
                 "theme": "yellow",
                 "moves": 3,
                 "time": 25,
+                "puzzlesToSolve": 5,
+                "randomMaxMoves": 2,
+                "randomMinMoves": 2,
                 "blocksData": [
                     0,
                     9,
@@ -1204,6 +1214,9 @@ var levelsData =[
                 "theme": "yellow",
                 "moves": 4,
                 "time": 25,
+                "puzzlesToSolve": 5,
+                "randomMaxMoves": 2,
+                "randomMinMoves": 2,
                 "blocksData": [
                     0,
                     19,
@@ -1233,26 +1246,22 @@ var levelsData =[
                 "randomMaxMoves": null,
                 "randomMinMoves": null,
                 "blocksData": [
-                    0,
-                    30,
-                    1,
+                    12,
+                    18,
+                    7,
                     25,
-                    31,
                     2,
-                    32,
                     3,
-                    33,
-                    4,
+                    10,
                     28,
-                    34,
-                    5,
-                    35
+                    17,
+                    23
                 ],
                 "name": "6/0"
             },
             {
                 "width": 6,
-                "height": 6,
+                "height": 7,
                 "type": "puzzle",
                 "theme": "green",
                 "moves": null,
@@ -1263,14 +1272,15 @@ var levelsData =[
                 "blocksData": [
                     0,
                     18,
-                    24,
-                    30,
-                    25,
-                    31,
+                    36,
+                    19,
+                    8,
+                    20,
+                    32,
+                    9,
+                    33,
                     10,
                     34,
-                    5,
-                    17,
                     23
                 ],
                 "name": "6/1"
@@ -1953,35 +1963,257 @@ var levelsData =[
         "free": true,
         "levels": [
             {
+                "width": 3,
+                "height": 7,
+                "type": "puzzle",
+                "theme": "green",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "hiddenBlocks": [
+                    14,
+                    10,
+                    6,
+                    12,
+                    18,
+                    2,
+                    8
+                ],
+                "blocksData": [
+                    0,
+                    18,
+                    1,
+                    10,
+                    19,
+                    2,
+                    20
+                ],
                 "name": "9/0"
-            },
-            {
-                "name": "9/1"
-            },
-            {
-                "name": "9/2"
-            },
-            {
-                "name": "9/3"
-            },
-            {
-                "name": "9/4"
-            },
-            {
-                "name": "9/5"
-            },
-            {
-                "name": "9/6"
-            },
-            {
-                "name": "9/7"
-            },
-            {
-                "name": "9/8"
             },
             {
                 "width": 6,
                 "height": 6,
+                "type": "puzzle",
+                "theme": "green",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "drawData": [],
+                "mirroredBlocks": [],
+                "hiddenBlocks": [
+                    10,
+                    16,
+                    22,
+                    28,
+                    29,
+                    23,
+                    17,
+                    11,
+                    1,
+                    0,
+                    6,
+                    31,
+                    30,
+                    24
+                ],
+                "blocksData": [
+                    0,
+                    30,
+                    25,
+                    14,
+                    20,
+                    32,
+                    15,
+                    21,
+                    33,
+                    28,
+                    5,
+                    35
+                ],
+                "name": "9/1"
+            },
+            {
+                "width": 5,
+                "height": 7,
+                "type": "puzzle",
+                "theme": "green",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "hiddenBlocks": [
+                    28,
+                    0,
+                    6,
+                    34,
+                    10,
+                    17,
+                    24,
+                    16,
+                    18
+                ],
+                "blocksData": [
+                    30,
+                    6,
+                    21,
+                    12,
+                    8,
+                    18,
+                    23,
+                    33,
+                    4,
+                    29
+                ],
+                "name": "9/2"
+            },
+            {
+                "width": 5,
+                "height": 7,
+                "type": "time",
+                "theme": "purple",
+                "moves": null,
+                "time": 45,
+                "puzzlesToSolve": 6,
+                "randomMaxMoves": 8,
+                "randomMinMoves": 8,
+                "hiddenBlocks": [],
+                "blocksData": [],
+                "name": "9/3"
+            },
+            {
+                "width": 8,
+                "height": 8,
+                "type": "puzzle",
+                "theme": "purple",
+                "moves": 7,
+                "time": 45,
+                "puzzlesToSolve": 5,
+                "randomMaxMoves": 7,
+                "randomMinMoves": 7,
+                "hiddenBlocks": [
+                    50,
+                    42,
+                    36,
+                    44,
+                    43,
+                    29,
+                    21,
+                    31,
+                    5,
+                    9,
+                    1,
+                    17,
+                    8,
+                    30,
+                    22,
+                    23,
+                    60,
+                    35,
+                    13,
+                    24,
+                    15,
+                    52,
+                    51,
+                    58,
+                    25,
+                    16,
+                    0,
+                    34,
+                    14,
+                    7,
+                    6,
+                    59
+                ],
+                "blocksData": [
+                    0,
+                    17,
+                    34,
+                    51,
+                    52,
+                    37,
+                    22,
+                    7
+                ],
+                "name": "9/4"
+            },
+            {
+                "width": 5,
+                "height": 5,
+                "type": "moves",
+                "theme": "purple",
+                "moves": 7,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "hiddenBlocks": [],
+                "blocksData": [
+                    0,
+                    10,
+                    20,
+                    6,
+                    16,
+                    2,
+                    12,
+                    22,
+                    8,
+                    18,
+                    4,
+                    14,
+                    24
+                ],
+                "name": "9/5"
+            },
+            {
+                "width": 8,
+                "height": 5,
+                "type": "time",
+                "theme": "purple",
+                "moves": null,
+                "time": 25,
+                "puzzlesToSolve": 3,
+                "randomMaxMoves": 9,
+                "randomMinMoves": 8,
+                "hiddenBlocks": [],
+                "blocksData": [],
+                "name": "9/6"
+            },
+            {
+                "width": 6,
+                "height": 6,
+                "type": "puzzle",
+                "theme": "yellow",
+                "moves": 7,
+                "time": 25,
+                "puzzlesToSolve": 3,
+                "randomMaxMoves": 9,
+                "randomMinMoves": 8,
+                "hiddenBlocks": [],
+                "blocksData": [
+                    12,
+                    18,
+                    24,
+                    7,
+                    19,
+                    2,
+                    8,
+                    14,
+                    3,
+                    33,
+                    28,
+                    34,
+                    35
+                ],
+                "name": "9/7"
+            },
+            {
+                "width": 5,
+                "height": 5,
                 "type": "puzzle",
                 "theme": "yellow",
                 "moves": null,
@@ -1990,38 +2222,39 @@ var levelsData =[
                 "randomMaxMoves": null,
                 "randomMinMoves": null,
                 "hiddenBlocks": [
-                    3,
-                    2,
-                    1,
-                    8,
-                    6,
-                    12,
-                    18,
-                    13,
-                    7,
-                    15,
-                    21,
-                    20,
-                    27,
-                    22,
-                    30,
-                    31,
                     24,
+                    20,
+                    0,
                     4,
-                    5,
-                    11,
-                    23,
-                    33,
-                    19,
                     9,
-                    28
+                    19,
+                    15,
+                    5
                 ],
                 "blocksData": [
-                    12,
-                    2,
-                    21,
-                    28
+                    0,
+                    10,
+                    6,
+                    7,
+                    22,
+                    8,
+                    4,
+                    14
                 ],
+                "name": "9/8"
+            },
+            {
+                "width": 7,
+                "height": 7,
+                "type": "moves",
+                "theme": "yellow",
+                "moves": 4,
+                "time": 12,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": 8,
+                "randomMinMoves": 8,
+                "hiddenBlocks": [],
+                "blocksData": [],
                 "name": "9/9"
             }
         ]
@@ -2033,33 +2266,283 @@ var levelsData =[
         "free": true,
         "levels": [
             {
+                "width": 5,
+                "height": 5,
+                "type": "puzzle",
+                "theme": "green",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "hiddenBlocks": [
+                    20,
+                    6,
+                    14
+                ],
+                "blocksData": [
+                    0,
+                    10,
+                    1,
+                    16,
+                    12,
+                    3,
+                    18,
+                    4,
+                    14
+                ],
                 "name": "10/0"
             },
             {
+                "width": 3,
+                "height": 3,
+                "type": "puzzle",
+                "theme": "green",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "hiddenBlocks": [
+                    2,
+                    8,
+                    4,
+                    0,
+                    6,
+                    7,
+                    1
+                ],
+                "blocksData": [
+                    0,
+                    6,
+                    4,
+                    2,
+                    8
+                ],
                 "name": "10/1"
             },
             {
+                "width": 6,
+                "height": 5,
+                "type": "puzzle",
+                "theme": "green",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "hiddenBlocks": [],
+                "blocksData": [
+                    24,
+                    13,
+                    19,
+                    25,
+                    14,
+                    20,
+                    26,
+                    3,
+                    15,
+                    22,
+                    17,
+                    23,
+                    29
+                ],
                 "name": "10/2"
             },
             {
+                "width": 5,
+                "height": 4,
+                "type": "draw",
+                "theme": "purple",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "drawData": [
+                    11,
+                    10,
+                    9
+                ],
+                "hiddenBlocks": [],
+                "blocksData": [
+                    7,
+                    12,
+                    17
+                ],
                 "name": "10/3"
             },
             {
+                "width": 6,
+                "height": 6,
+                "type": "draw",
+                "theme": "purple",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "drawData": [
+                    12,
+                    18,
+                    26,
+                    8,
+                    16,
+                    22
+                ],
+                "blocksData": [
+                    13,
+                    2,
+                    26,
+                    3,
+                    27,
+                    16
+                ],
                 "name": "10/4"
             },
             {
+                "width": 6,
+                "height": 6,
+                "type": "draw",
+                "theme": "purple",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "drawData": [
+                    0,
+                    7,
+                    14,
+                    35,
+                    28,
+                    21,
+                    20,
+                    15,
+                    25,
+                    10
+                ],
+                "blocksData": [
+                    0,
+                    7,
+                    25,
+                    14,
+                    20,
+                    15,
+                    21,
+                    10,
+                    28,
+                    35
+                ],
                 "name": "10/5"
             },
             {
+                "width": 5,
+                "height": 5,
+                "type": "puzzle",
+                "theme": "yellow",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": 1,
+                "randomMaxMoves": 9,
+                "randomMinMoves": 9,
+                "hiddenBlocks": [
+                    0,
+                    20,
+                    4,
+                    24
+                ],
+                "blocksData": [
+                    0,
+                    5,
+                    20,
+                    1,
+                    12,
+                    18,
+                    23,
+                    4,
+                    19,
+                    24
+                ],
                 "name": "10/6"
             },
             {
+                "width": 7,
+                "height": 4,
+                "type": "puzzle",
+                "theme": "yellow",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": 1,
+                "randomMaxMoves": 9,
+                "randomMinMoves": 9,
+                "hiddenBlocks": [],
+                "blocksData": [
+                    7,
+                    21,
+                    1,
+                    15,
+                    9,
+                    23,
+                    10,
+                    17,
+                    4,
+                    25,
+                    19
+                ],
                 "name": "10/7"
             },
             {
+                "width": 5,
+                "height": 5,
+                "type": "moves",
+                "theme": "yellow",
+                "moves": 5,
+                "time": 12,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": 8,
+                "randomMinMoves": 8,
+                "hiddenBlocks": [],
+                "blocksData": [
+                    5,
+                    15,
+                    6,
+                    11,
+                    2,
+                    22,
+                    13,
+                    18,
+                    9,
+                    19
+                ],
                 "name": "10/8"
             },
             {
+                "width": 4,
+                "height": 4,
+                "type": "draw",
+                "theme": "yellow",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "drawData": [
+                    4,
+                    12,
+                    6,
+                    7,
+                    11
+                ],
+                "blocksData": [
+                    0,
+                    12,
+                    5,
+                    2,
+                    6,
+                    10,
+                    15
+                ],
                 "name": "10/9"
             }
         ]
@@ -2071,33 +2554,220 @@ var levelsData =[
         "free": true,
         "levels": [
             {
+                "width": 4,
+                "height": 4,
+                "type": "time",
+                "theme": "green",
+                "moves": null,
+                "time": 15,
+                "puzzlesToSolve": 5,
+                "randomMaxMoves": 4,
+                "randomMinMoves": 4,
+                "blocksData": [
+                    9,
+                    14,
+                    7,
+                    11,
+                    15
+                ],
                 "name": "11/0"
             },
             {
+                "width": 7,
+                "height": 7,
+                "type": "time",
+                "theme": "green",
+                "moves": null,
+                "time": 20,
+                "puzzlesToSolve": 20,
+                "randomMaxMoves": 1,
+                "randomMinMoves": 1,
                 "name": "11/1"
             },
             {
+                "width": 5,
+                "height": 5,
+                "type": "time",
+                "theme": "green",
+                "moves": null,
+                "time": 2,
+                "puzzlesToSolve": 1,
+                "randomMaxMoves": 4,
+                "randomMinMoves": 4,
                 "name": "11/2"
             },
             {
+                "width": 8,
+                "height": 8,
+                "type": "time",
+                "theme": "green",
+                "moves": 5,
+                "time": 22,
+                "puzzlesToSolve": 3,
+                "randomMaxMoves": 10,
+                "randomMinMoves": 10,
+                "blocksData": [
+                    24,
+                    27,
+                    35,
+                    4,
+                    36,
+                    6,
+                    30,
+                    7,
+                    31,
+                    39,
+                    55,
+                    63
+                ],
                 "name": "11/3"
             },
             {
+                "width": 5,
+                "height": 5,
+                "type": "draw",
+                "theme": "purple",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "drawData": [
+                    5,
+                    15,
+                    10,
+                    11,
+                    9,
+                    19,
+                    14
+                ],
+                "blocksData": [
+                    1,
+                    21,
+                    2,
+                    7,
+                    22,
+                    3,
+                    23
+                ],
                 "name": "11/4"
             },
             {
+                "width": 6,
+                "height": 6,
+                "type": "draw",
+                "theme": "purple",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "drawData": [
+                    6,
+                    24,
+                    29,
+                    11,
+                    15,
+                    21,
+                    20,
+                    14
+                ],
+                "blocksData": [
+                    1,
+                    31,
+                    14,
+                    20,
+                    15,
+                    21,
+                    4,
+                    34
+                ],
                 "name": "11/5"
             },
             {
+                "width": 8,
+                "height": 8,
+                "type": "puzzle",
+                "theme": "yellow",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "blocksData": [
+                    18,
+                    26,
+                    34,
+                    42,
+                    19,
+                    43,
+                    20,
+                    44,
+                    21,
+                    29,
+                    37,
+                    45
+                ],
                 "name": "11/6"
             },
             {
+                "width": 7,
+                "height": 7,
+                "type": "puzzle",
+                "theme": "yellow",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "blocksData": [
+                    0,
+                    21,
+                    42,
+                    1,
+                    43,
+                    2,
+                    44,
+                    3,
+                    10,
+                    17,
+                    24,
+                    31,
+                    38,
+                    45,
+                    4,
+                    46,
+                    5,
+                    47,
+                    6,
+                    27,
+                    48
+                ],
                 "name": "11/7"
             },
             {
+                "width": 5,
+                "height": 8,
+                "type": "time",
+                "theme": "yellow",
+                "moves": null,
+                "time": 10,
+                "puzzlesToSolve": 8,
+                "randomMaxMoves": 3,
+                "randomMinMoves": 2,
+                "blocksData": [],
                 "name": "11/8"
             },
             {
+                "width": 3,
+                "height": 3,
+                "type": "time",
+                "theme": "yellow",
+                "moves": null,
+                "time": 20,
+                "puzzlesToSolve": 22,
+                "randomMaxMoves": 1,
+                "randomMinMoves": 1,
                 "name": "11/9"
             }
         ]
@@ -2109,9 +2779,52 @@ var levelsData =[
         "free": true,
         "levels": [
             {
+                "width": 6,
+                "height": 7,
+                "type": "puzzle",
+                "theme": "green",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "mirroredBlocks": [
+                    15,
+                    22,
+                    12,
+                    33
+                ],
+                "blocksData": [
+                    31,
+                    8,
+                    9,
+                    34
+                ],
                 "name": "12/0"
             },
             {
+                "width": 4,
+                "height": 4,
+                "type": "puzzle",
+                "theme": "green",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
+                "mirroredBlocks": [
+                    12,
+                    3
+                ],
+                "hiddenBlocks": [],
+                "blocksData": [
+                    0,
+                    12,
+                    13,
+                    14,
+                    3,
+                    15
+                ],
                 "name": "12/1"
             },
             {
@@ -2479,28 +3192,28 @@ var levelsData =[
         "free": true,
         "levels": [
             {
-                "width": 1,
-                "height": 1,
+                "width": 6,
+                "height": 7,
                 "type": "puzzle",
-                "theme": "purple",
-                "moves": 5,
-                "time": 30,
-                "puzzlesToSolve": 8,
-                "randomMaxMoves": 5,
-                "randomMinMoves": 4,
+                "theme": "green",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "randomMaxMoves": null,
+                "randomMinMoves": null,
                 "blocksData": [
-                    22,
-                    29,
+                    0,
+                    18,
                     36,
-                    3,
+                    19,
+                    8,
+                    20,
+                    32,
+                    9,
+                    33,
                     10,
-                    17,
-                    38,
-                    45,
-                    52,
-                    27,
                     34,
-                    41
+                    23
                 ],
                 "name": "16/0"
             },
