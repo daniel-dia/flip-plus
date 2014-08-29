@@ -215,7 +215,7 @@ module FlipPlus.GamePlay.Model {
 
                 if (blocks[b].mirror) {
                     for (var m in this.mirroredBlocks)
-                        this.mirroredBlocks[m].state = blocks[b].state;
+                        this.mirroredBlocks[m].toggleState();
 
                     return;
                 }
@@ -225,8 +225,6 @@ module FlipPlus.GamePlay.Model {
         private mirrorBlock(block: Block): boolean {
 
             //if block is mirrored, invert all related
-         
-
             return block.mirror;
         }
 
