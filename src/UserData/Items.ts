@@ -18,11 +18,7 @@ module FlipPlus.UserData {
             else this.itensDictionary = new Object();
         }
 
-        public getItemNames(): Array<string> {
-            return ["hint", "hint", "hint", "hint", "hint", "skip", "solve", "time", "touch"];
-        }
-
-        public getItemQuantity(item: string): number {
+         public getItemQuantity(item: string): number {
             if (this.itensDictionary[item])
                 return this.itensDictionary[item];
             else
