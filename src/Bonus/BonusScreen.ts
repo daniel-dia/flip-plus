@@ -22,7 +22,7 @@
             super();
 
             this.itemsArray = itemsArray;
-
+           
             this.bonusId = bonusId;
             this.itemsEarned = 0;
 
@@ -34,10 +34,7 @@
 
             //adds bonus objc
             this.addObjects();
-
-            //adds menu
-            // this.addMenu();
-
+ 
             //adds message
             this.message = new Menu.View.Message();
             this.content.addChild(this.message);
@@ -123,9 +120,9 @@
             this.footer.addChild(this.footerContainer);
         }
 
-        //updates all footer labels based on user data
+        //updates all footer labels 
         updateFooterValues() {
-            var itemsArray = UserData.Items.itemsNames;
+            var itemsArray = this.itemsArray;
             for (var i = 0; i < itemsArray.length; i++) {
                 var itemId = itemsArray[i];
                 var textObj = this.footerTexts[itemId];

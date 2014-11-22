@@ -1262,7 +1262,7 @@
     <TypeScriptCompile Include="src\Menu\View\RobotPreview.ts" />
     <TypeScriptCompile Include="src\resources.ts" />
     <TypeScriptCompile Include="src\UserData\Items.ts" />
-    <TypeScriptCompile Include="src\UserData\Money.ts" />
+    <TypeScriptCompile Include="src\UserData\Coins.ts" />
     <TypeScriptCompile Include="src\UserData\Story.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\GameplayMenu.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\StatusArea.ts" />

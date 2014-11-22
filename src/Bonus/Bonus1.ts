@@ -197,7 +197,7 @@
 
         //get a random item from the items list
         private getRandomItem(): string {
-            var itemArray = ["hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "hint", "skip", "skip", "skip", "skip", "solve", "time", "touch"]
+            var itemArray = this.itemsArray;
             var i = Math.floor(Math.random() * itemArray.length);
             var itemId = itemArray[i];
 

@@ -120,13 +120,13 @@ module FlipPlus {
             var bonusScreen: Bonus.BonusScreen;
             switch (bonusId) {
                 case "Bonus1":
-                    bonusScreen = new Bonus.BonusBarrel(UserData.Items.itemsNames);
+                    bonusScreen = new Bonus.BonusBarrel(["coin"]);
                     break;
                 case "Bonus2":
-                    bonusScreen = new Bonus.Bonus2(UserData.Items.itemsNames);
+                    bonusScreen = new Bonus.Bonus2(["coin"]);
                     break;
                 case "Bonus3":
-                    bonusScreen = new Bonus.Bonus3(UserData.Items.itemsNames);
+                    bonusScreen = new Bonus.Bonus3(["coin"]);
                     break;
                 default:
             }
