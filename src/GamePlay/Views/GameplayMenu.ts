@@ -86,7 +86,11 @@ module FlipPlus.GamePlay.Views {
             for (var i in this.items)
                 this.buttons[this.items[i]].updateLabel(FlipPlusGame.itemsData.getItemQuantity(this.items[i]));
         }
-                                
+
+        public updateCoinsQuatity() {
+            //TODO: Not Implemented.
+        }
+                        
         // ============== pause menus ============================================
 
         private createPauseMenu() {

@@ -1,3 +1,5 @@
+declare var items: Array<{price:Array<number>}>
+
 module FlipPlus.GamePlay {
 
     //Controller
@@ -21,7 +23,8 @@ module FlipPlus.GamePlay {
         public itemsFunctions: any;
         
         // Used to know the last item used by the user in this level
-        public usedItem: string;
+        protected usedItem: string;
+        private itemTimes: Array<number>;
 
         // statistics
         private startedTime: number;
@@ -34,7 +37,7 @@ module FlipPlus.GamePlay {
             super();
 
             this.itemsFunctions = {};
-
+            this.itemTimes = <Array<number>>{};
             this.clicks = 0;
 
             //Store level data;
@@ -184,7 +187,7 @@ module FlipPlus.GamePlay {
             }, 50);
         }
 
-        win(col: number, row: number,messageText:boolean=true) {
+        protected win(col: number, row: number,messageText:boolean=true) {
 
             // analytics
             FlipPlusGame.analytics.logLevelWin(this.levelData.name,(Date.now()- this.startedTime)/100,this.clicks)
@@ -223,7 +226,7 @@ module FlipPlus.GamePlay {
             setTimeout(() => { this.winSwitchScreen(complete1stTime) }, 1800);
         }
 
-        winSwitchScreen(complete1stTime:boolean) { 
+        protected winSwitchScreen(complete1stTime:boolean) { 
 
                 //remove all tweens
                 createjs.Tween.removeTweens(this.boardSprite);
@@ -240,8 +243,7 @@ module FlipPlus.GamePlay {
                 FlipPlusGame.completeLevel(complete1stTime);
         }
 
-
-        loose() {
+        protected loose() {
             
             FlipPlusGame.analytics.logLevelLoose(this.levelData.name, Date.now() - this.startedTime, this.clicks)
             
@@ -252,34 +254,57 @@ module FlipPlus.GamePlay {
             
         }
 
-
         // Items ====================================================================================================================
 
-        useItem(item: string): boolean {
+        // get item value based on how many times it has been used.
+        private getItemValue(item) :number{
+
+            // increase the times counter
+            var times = this.itemTimes[item];
+            if (!times) times = 0;
+            
+            // get item price
+            var price = items[item].price[times];
+
+            // return the selected price
+            if (price) return price;
+
+            // if there is no more prices, get the highest price
+            return items[item].price[items[item].price.length-1];
+
+        }
+
+        // use an item
+        protected useItem(item: string): boolean {
 
             //analytics
             FlipPlusGame.analytics.logUsedItem(item, this.levelData.name);
 
-            //if user has iteem
-            var itemQuantity = FlipPlusGame.itemsData.getItemQuantity(item)
-            if (itemQuantity > 0) {
+            // define item value based on how many times it was used on the level
+            var value = this.getItemValue(item);
+            
+            //if user is able to use this item
+            var coinsAmount = FlipPlusGame.coinsData.getAmount()
+            if (coinsAmount >= value) {
+
+                // sava item used information
+                if(!this.itemTimes[item]) this.itemTimes[item] = 0;
+                this.itemTimes[item]++;
 
                 //updates data
-                FlipPlusGame.itemsData.decreaseItemQuantity(item);
+                FlipPlusGame.coinsData.decreaseAmount(value);
                 if (item != "hint") this.usedItem = item;
 
                 //updates Items buttons labels Quantity on footer
-                this.gameplayMenu.updateItemsQuatity();
+                this.gameplayMenu.updateCoinsQuatity();
 
                 //show text effect
                 this.textEffext.showtext(stringResources["desc_item_"+item].toUpperCase());
 
                 return true;
             } else {
-                //show a text
                 //show text effect
                 this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
-
                 this.popup.showtext(stringResources.gp_noMoreSkip, stringResources.gp_noMoreHints);
 
                 return false;
@@ -287,7 +312,7 @@ module FlipPlus.GamePlay {
         }
 
         //skips the level
-        useItemSkip() {
+        protected useItemSkip() {
             if (!this.useItem("skip")) return;
             if (this.levelData.userdata.skip || this.levelData.userdata.solved){
                 this.message.showtext("Skip Level");
@@ -304,7 +329,7 @@ module FlipPlus.GamePlay {
         }
 
         //set hint for a block
-        useItemHint(blockId?) {
+        protected useItemHint(blockId?) {
 
             if (!this.useItem("hint")) return;
 
@@ -333,13 +358,14 @@ module FlipPlus.GamePlay {
             
         }
 
-        private usesolve() {
+        //set hint for a solve
+        protected usesolve() {
             this.win(0,0);
         }
+        
+// Menus =====================================================================================================================
 
-        // Menus =====================================================================================================================
-
-        pauseGame() {
+        protected pauseGame() {
 
             this.boardSprite.lock();
             var med = DefaultWidth / 4;
@@ -350,7 +376,7 @@ module FlipPlus.GamePlay {
             });
         }
 
-        unPauseGame() {
+        protected unPauseGame() {
 
             this.boardSprite.unlock();
             var med = DefaultWidth / 4;
@@ -363,7 +389,7 @@ module FlipPlus.GamePlay {
             createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, alpha: 1 }, 150, createjs.Ease.circOut);
         }
 
-        animatePuzzle(parameters) {
+        protected animatePuzzle(parameters) {
             this.boardSprite.x = parameters.x;
             this.boardSprite.y = parameters.y+2048;
             this.boardSprite.scaleX = parameters.scaleX;

@@ -1228,6 +1228,7 @@
     <Content Include="assets\sound\trilha_principal.mp3" />
     <Content Include="assets\spritesheets.js" />
     <Content Include="data\Bonus.js" />
+    <Content Include="data\Items.js" />
     <Content Include="data\stringResources.js" />
     <Content Include="fonts\Exo2.0-Bold.woff" />
     <Content Include="fonts\Exo2.0-Regular.woff" />

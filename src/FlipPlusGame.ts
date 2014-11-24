@@ -19,6 +19,7 @@ module FlipPlus {
         public static settings: UserData.Settings;
         public static timersData: UserData.Timers;
         public static itemsData: UserData.Items;
+        public static coinsData: UserData.Coins;
         public static storyData: UserData.Story;
 
         //analytics
@@ -52,6 +53,7 @@ module FlipPlus {
             this.projectData = new UserData.ProjectsData();
             this.settings = new UserData.Settings();
             this.itemsData = new UserData.Items();
+            this.coinsData = new UserData.Coins();
             this.storyData = new UserData.Story();
             this.timersData = new UserData.Timers();
 
