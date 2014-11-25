@@ -22,20 +22,19 @@
         
         //===============================================================================
 
-        //verifies if two cards matches
-
+        // verifies if two cards matches
         private match(card1: createjs.Container, card2: createjs.Container):boolean {
             if (card1.name == card2.name && card1 != card2) {
                 this.userAquireItem(card1.name);
                 this.userAquireItem(card1.name);
 
-                //animate itens
+                // animate itens
                 this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
                 this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
                 return true;
 
             } else {
-                //cards doesnt match
+                // cards doesnt match
                 this.content.mouseEnabled = false;
                 setTimeout(() => {
                     this.closeCard(card1);

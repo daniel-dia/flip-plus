@@ -19,7 +19,7 @@
 
         addObjects() {
             super.addObjects();
-            var cards = this.generateCards(12, 5, ["hint", "hint", "hint", "hint",  "skip", "solve", "time", "touch"]);
+            var cards = this.generateCards(12, 5, ["coin", "coin", "coin", "coin", "coin"]);
             this.pairs = 5;
             this.addCards(cards);
         }

@@ -130,7 +130,7 @@
         //-----------------------------------------------
 
         //give items to the user
-        getItems(chestId: number) {
+        private getItems(chestId: number) {
             this.itemsContainer.removeAllChildren();
             var items = this.selectRandomItems(4);
             var itemsDo = [];
@@ -138,7 +138,7 @@
             //create items objects
             for (var i in items) {
 
-                FlipPlusGame.itemsData.increaseItemQuantity(items[i]);
+                FlipPlusGame.coinsData.increaseAmount(1);
 
                 var item = this.createItem(items[i])
                 

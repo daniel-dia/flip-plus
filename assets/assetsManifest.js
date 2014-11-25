@@ -357,11 +357,7 @@ function getAssetsManifest(assetscale) {
         { id: "puzzle/tile0", src: imagePath + "puzzle/tile0.png" },
         { id: "puzzle/indicator", src: imagePath + "puzzle/indicator.png" },
     
-        { id: "puzzle/icon_hint", src: imagePath + "puzzle/icon_hint.png" },
-        { id: "puzzle/icon_time", src: imagePath + "puzzle/icon_time.png" },
-        { id: "puzzle/icon_skip", src: imagePath + "puzzle/icon_skip.png" },
-        { id: "puzzle/icon_touch", src: imagePath + "puzzle/icon_touch.png" },
-        { id: "puzzle/icon_solve", src: imagePath + "puzzle/icon_solve.png" },
+
     
         { id: "puzzle/tile_yellow_1", src: imagePath + "puzzle/tile_yellow_1.png" },
         { id: "puzzle/tile_yellow_2", src: imagePath + "puzzle/tile_yellow_2.png" },
@@ -382,11 +378,20 @@ function getAssetsManifest(assetscale) {
         { id: "puzzle/tileD", src: imagePath + "puzzle/tileD.png" },
         { id: "puzzle/tilexD", src: imagePath + "puzzle/tilexD.png" },
         */
-            { id: "puzzle/tileDgray", src: imagePath + "puzzle/tileDgray.png" },
-            { id: "puzzle/tileDgreen", src: imagePath + "puzzle/tileDgreen.png" },
-            { id: "puzzle/tileDpurple", src: imagePath + "puzzle/tileDpurple.png" },
-            { id: "puzzle/tileDyellow", src: imagePath + "puzzle/tileDyellow.png" },
-            { id: "puzzle/highlight", src: imagePath + "puzzle/highlight.png" },
+
+        { id: "puzzle/icon_coin", src: imagePath + "puzzle/icon_coin.png" },
+        { id: "puzzle/icon_hint", src: imagePath + "puzzle/icon_hint.png" },
+        { id: "puzzle/icon_time", src: imagePath + "puzzle/icon_time.png" },
+        { id: "puzzle/icon_skip", src: imagePath + "puzzle/icon_skip.png" },
+        { id: "puzzle/icon_touch", src: imagePath + "puzzle/icon_touch.png" },
+        { id: "puzzle/icon_solve", src: imagePath + "puzzle/icon_solve.png" },
+
+
+        { id: "puzzle/tileDgray", src: imagePath + "puzzle/tileDgray.png" },
+        { id: "puzzle/tileDgreen", src: imagePath + "puzzle/tileDgreen.png" },
+        { id: "puzzle/tileDpurple", src: imagePath + "puzzle/tileDpurple.png" },
+        { id: "puzzle/tileDyellow", src: imagePath + "puzzle/tileDyellow.png" },
+        { id: "puzzle/highlight", src: imagePath + "puzzle/highlight.png" },
 
         //popup
         { id: "popups/popup", src: imagePath + "popups/popup.png" },

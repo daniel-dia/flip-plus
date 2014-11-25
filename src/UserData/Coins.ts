@@ -2,13 +2,15 @@
 
     // Class
     export class Coins {
+
+        public static max = 10;
         
         // coins amount
         private ammount: number;
 
         // class constructor
         constructor() {
-            var data = localStorage.getItem(storagePrefix + "Coins");
+            var data = localStorage.getItem(storagePrefix + "coins");
             if (data)
                 this.ammount = JSON.parse(data);
             else this.ammount = 0;
@@ -22,7 +24,7 @@
         // set coins amount
         public setAmount(value: number) {
             this.ammount = value;
-            localStorage.setItem(storagePrefix + "Coins", JSON.stringify(Coins));
+            localStorage.setItem(storagePrefix + "coins", JSON.stringify(value));
         }
 
         // increase coins ammount

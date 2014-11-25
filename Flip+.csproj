@@ -30,7 +30,7 @@
     <TypeScriptCompile Include="script\typing\tweenjs\tweenjs.d.ts" />
     <TypeScriptCompile Include="src\Anslytics.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus1.ts" />
-    <TypeScriptCompile Include="src\Bonus\Bonus2 - Copy.ts" />
+    <TypeScriptCompile Include="src\Bonus\Bonus2.5.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus2.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus3.ts" />
     <TypeScriptCompile Include="src\Bonus\BonusManager.ts" />

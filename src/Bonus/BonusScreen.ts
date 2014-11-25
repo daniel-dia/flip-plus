@@ -121,21 +121,27 @@
         }
 
         //updates all footer labels 
-        updateFooterValues() {
-            var itemsArray = this.itemsArray;
-            for (var i = 0; i < itemsArray.length; i++) {
-                var itemId = itemsArray[i];
-                var textObj = this.footerTexts[itemId];
-                var qt = FlipPlusGame.itemsData.getItemQuantity(itemId)
-                textObj.text = qt.toString();;
+        protected updateFooterValues() {
+            //var itemsArray = this.itemsArray;
+            //for (var i = 0; i < itemsArray.length; i++) {
+            //var itemId = itemsArray[i];
 
-                var max:createjs.DisplayObject = this.footerMaxs[itemId]
-                //show max text if item is 10 or more
-                if (qt >= 10)
-                    max.visible = true;
-                else
-                    max.visible = false;
-            }
+            var itemId = "coin";
+
+            var textObj = this.footerTexts[itemId];
+
+            var qt = FlipPlusGame.coinsData.getAmount();
+
+            textObj.text = qt.toString();;
+
+            var max: createjs.DisplayObject = this.footerMaxs[itemId]
+
+            //show max text if item is maximun or more
+            if (qt >= UserData.Coins.max)
+                max.visible = true;
+            else
+                max.visible = false;
+            //}
         }
 
         //animate a display object to the menu
@@ -172,15 +178,17 @@
         }
 
         //updates user Data with new Item
-        userAquireItem(itemId: string) {
-            FlipPlusGame.itemsData.increaseItemQuantity(itemId);
+        protected userAquireItem(itemId: string) {
+
+            FlipPlusGame.coinsData.increaseAmount(1);
+            //FlipPlusGame.itemsData.increaseItemQuantity(itemId);
         }
 
         selectRandomItems(quantity: number): Array<string> {
             this.itemsArray
             var items = new Array();
 
-            var ia = ["hint", "hint", "hint", "hint", "skip", "solve", "time", "touch"];
+            var ia = ["coin"];
 
             for (var i = 0; i < quantity; i++) 
                 items.push(ia[Math.floor(Math.random()*ia.length)]);

@@ -257,7 +257,7 @@ module FlipPlus.GamePlay {
         // Items ====================================================================================================================
 
         // get item value based on how many times it has been used.
-        private getItemValue(item) :number{
+        private getItemPrice(item) :number{
 
             // increase the times counter
             var times = this.itemTimes[item];
@@ -271,7 +271,16 @@ module FlipPlus.GamePlay {
 
             // if there is no more prices, get the highest price
             return items[item].price[items[item].price.length-1];
+        }
 
+        // list all item prices
+        private listItemPrices():Array<number> {
+
+            var list = new Object();
+            for (var item in items) 
+                list[item] = this.getItemPrice(item);
+
+            return <Array<number>>list;
         }
 
         // use an item
@@ -281,7 +290,7 @@ module FlipPlus.GamePlay {
             FlipPlusGame.analytics.logUsedItem(item, this.levelData.name);
 
             // define item value based on how many times it was used on the level
-            var value = this.getItemValue(item);
+            var value = this.getItemPrice(item);
             
             //if user is able to use this item
             var coinsAmount = FlipPlusGame.coinsData.getAmount()
@@ -297,11 +306,13 @@ module FlipPlus.GamePlay {
 
                 //updates Items buttons labels Quantity on footer
                 this.gameplayMenu.updateCoinsQuatity();
+                this.gameplayMenu.updateItemsPrice(this.listItemPrices());
 
                 //show text effect
                 this.textEffext.showtext(stringResources["desc_item_"+item].toUpperCase());
 
                 return true;
+
             } else {
                 //show text effect
                 this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
@@ -363,7 +374,7 @@ module FlipPlus.GamePlay {
             this.win(0,0);
         }
         
-// Menus =====================================================================================================================
+        // Menus =====================================================================================================================
 
         protected pauseGame() {
 
@@ -401,17 +412,19 @@ module FlipPlus.GamePlay {
 
         public activate(parameters?: any) {
 
-            //analytics
+            // analytics
             this.startedTime = Date.now();
 
+            // 
             super.activate(parameters);
             if (parameters) this.animatePuzzle(parameters);
 
-            //updates Items buttons labels Quantity on footer
-            this.gameplayMenu.updateItemsQuatity();
-
-
-            //if there are hidden blocks. shake and lock the board for 4 seconds
+            // updates Items buttons labels Quantity on footer
+            this.gameplayMenu.updateCoinsQuatity();
+            this.gameplayMenu.updateItemsPrice(this.listItemPrices());
+            
+            
+            // if there are hidden blocks. shake and lock the board for 4 seconds
             if (this.levelData.hiddenBlocks && this.levelData.hiddenBlocks.length > 0) {
                 var x = DefaultWidth / 2;
                 var t = 100;

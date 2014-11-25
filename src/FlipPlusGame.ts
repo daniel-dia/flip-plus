@@ -18,7 +18,7 @@ module FlipPlus {
         public static projectData: UserData.ProjectsData;
         public static settings: UserData.Settings;
         public static timersData: UserData.Timers;
-        public static itemsData: UserData.Items;
+        //public static itemsData: UserData.Items;
         public static coinsData: UserData.Coins;
         public static storyData: UserData.Story;
 
@@ -45,14 +45,13 @@ module FlipPlus {
             assetscale = 1;
             if (window.innerWidth <= 1024) assetscale = 0.5;
             if (window.innerWidth <= 420) assetscale = 0.25;            
-            assetscale = 0.5;
+            assetscale = 1;
 
             this.gameScreen = new gameui.GameScreen("myCanvas", DefaultWidth, DefaultHeight);
 
             //userData
             this.projectData = new UserData.ProjectsData();
             this.settings = new UserData.Settings();
-            this.itemsData = new UserData.Items();
             this.coinsData = new UserData.Coins();
             this.storyData = new UserData.Story();
             this.timersData = new UserData.Timers();
@@ -77,13 +76,6 @@ module FlipPlus {
                 else
                     this.showTitleScreen();
             }
-
-            //TODO tirar daqui
-            if (this.itemsData.getItemQuantity("hint") <= 0)
-                this.itemsData.setQuantityItem("hint", 5);
-
-            if (this.itemsData.getItemQuantity("skip") <= 0)
-                this.itemsData.setQuantityItem("skip", 1);
         }
 
         // ----------------------------- Game Methods ---------------------------------------------//

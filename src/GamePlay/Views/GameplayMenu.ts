@@ -21,10 +21,12 @@ module FlipPlus.GamePlay.Views {
 
             this.currentItem = 0;
             this.items = [];
+
             this.createGamePlayMenu();
             this.createPauseMenu();
             this.addTutorialIndicator();
-         
+            this.createCoinsIndicator();
+
             this.buttons = new Object();
             this.parameters = new Object();
 
@@ -54,9 +56,6 @@ module FlipPlus.GamePlay.Views {
         // ================ Add Buttons ==========================================
 
         public addButtons(buttons: Array<string>) {
-
-
-
             for (var b in buttons) {
                 var bt = this.createItemButton(buttons[b], this.xstart + this.xstep * this.currentItem);
                 this.currentItem++;
@@ -72,7 +71,15 @@ module FlipPlus.GamePlay.Views {
                 if (this.parameters) parameter = this.parameters[buttonId]
                 this.dispatchEvent(buttonId, parameter);
                 this.parameters[buttonId] = null;
+
+            
             });
+
+            var coinIndicator = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
+            button.addChild(coinIndicator);
+            coinIndicator.scaleX = coinIndicator.scaleY = 0.7;
+            coinIndicator.x = 100;
+
             this.overlayMenu.addChild(button);
             this.buttons[buttonId] = button;
             button.x = pos;
@@ -80,17 +87,23 @@ module FlipPlus.GamePlay.Views {
             return button;
         }
 
-
-        // updates buttons labels 
-        public updateItemsQuatity() {
-            for (var i in this.items)
-                this.buttons[this.items[i]].updateLabel(FlipPlusGame.itemsData.getItemQuantity(this.items[i]));
-        }
+        //// updates buttons labels 
+        //public updateItemsQuatity() {
+        //    for (var i in this.items)
+        //        this.buttons[this.items[i]].updateLabel(FlipPlusGame.itemsData.getItemQuantity(this.items[i]));
+        //}
 
         public updateCoinsQuatity() {
             //TODO: Not Implemented.
         }
-                        
+
+        public updateItemsPrice(prices:Array<number>) {
+            for (var item in prices) {
+                if(this.buttons[item])
+                    this.buttons[item].updateLabel(prices[item]);
+            }
+        }
+                                
         // ============== pause menus ============================================
 
         private createPauseMenu() {
@@ -117,7 +130,6 @@ module FlipPlus.GamePlay.Views {
             this.pauseMenu = pauseMenu;
             this.pauseMenu.width = DefaultWidth;
             this.pauseMenu.height = 0;
-
         }
 
         private pause() {
