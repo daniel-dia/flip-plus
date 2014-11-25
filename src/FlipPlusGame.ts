@@ -18,7 +18,6 @@ module FlipPlus {
         public static projectData: UserData.ProjectsData;
         public static settings: UserData.Settings;
         public static timersData: UserData.Timers;
-        //public static itemsData: UserData.Items;
         public static coinsData: UserData.Coins;
         public static storyData: UserData.Story;
 
@@ -75,6 +74,8 @@ module FlipPlus {
                 else
                     this.showTitleScreen();
             }
+
+            this.coinsData.setAmount(10);
         }
 
         // ----------------------------- Game Methods ---------------------------------------------//

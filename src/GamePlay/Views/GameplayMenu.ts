@@ -103,6 +103,10 @@ module FlipPlus.GamePlay.Views {
                     this.buttons[item].updateLabel(prices[item]);
             }
         }
+
+        public getButtonPosition(item:string):number {
+            return this.buttons[item].x; 
+        }
                                 
         // ============== pause menus ============================================
 

@@ -14,6 +14,28 @@ module FlipPlus.Menu.View {
         //updates Parts indicator amount
         public updateCoinsAmmount(newQuantity: number, tween:boolean=true) {
             this.coinsTextField.text = newQuantity.toString();
+
+            
+        }
+
+        public createCoinEffect(x: number, y: number, coins: number) {
+
+            var interval = 1000 / coins;
+            for (var c = 0; c <= coins; c++) {
+                var coin = this.addCoinIcon();
+                createjs.Tween.get(coin).wait(interval/3*(c-1)).to({ x: x, y: y }, 500, createjs.Ease.quadInOut).call((c:createjs.Tween)=> {
+                    this.removeChild(<createjs.DisplayObject>c.target);
+                });
+            }
+        }
+
+        private addCoinIcon(): createjs.DisplayObject {
+            var icon = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
+            icon.scaleX = icon.scaleY = 0.9;
+            icon.x = -120;
+            icon.y = +35;
+            this.addChild(icon);
+            return icon;
         }
 
         //add objects to View
@@ -24,11 +46,7 @@ module FlipPlus.Menu.View {
             bg.regX = 190;
             this.addChild(bg);
 
-            var icon = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
-            icon.scaleX = icon.scaleY = 0.9;
-            icon.x = -120;
-            icon.y = +35;
-            this.addChild(icon); 
+            var icon = this.addCoinIcon();
             
             this.coinsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
             this.coinsTextField.x = 50;

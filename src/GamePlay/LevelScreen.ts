@@ -320,6 +320,9 @@ module FlipPlus.GamePlay {
                 this.coinsIndicator.updateCoinsAmmount(FlipPlusGame.coinsData.getAmount());
                 this.gameplayMenu.updateItemsPrice(this.listItemPrices());
 
+                // animate coins
+                this.coinsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item)-768,1900, value);
+
                 //show text effect
                 this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
 
