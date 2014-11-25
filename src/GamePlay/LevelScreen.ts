@@ -1,4 +1,4 @@
-declare var items: Array<{price:Array<number>}>
+declare var items: Array<{ price: Array<number> }>
 
 module FlipPlus.GamePlay {
 
@@ -11,6 +11,7 @@ module FlipPlus.GamePlay {
 
         //Overlays // friendly
         public gameplayMenu: Views.GamePlayMenu;
+        public coinsIndicator: Menu.View.CoinsIndicator;
         public statusArea: Views.StatusArea;
         public popup: Menu.View.Popup;
         public message: Menu.View.Message;
@@ -21,7 +22,7 @@ module FlipPlus.GamePlay {
         public levelData: Projects.Level;
 
         public itemsFunctions: any;
-        
+
         // Used to know the last item used by the user in this level
         protected usedItem: string;
         private itemTimes: Array<number>;
@@ -30,7 +31,7 @@ module FlipPlus.GamePlay {
         private startedTime: number;
         private clicks: number;
 
-        //Initialization methodos ===================================================================================================
+        // #region Initialization methodos ===================================================================================================
 
         constructor(leveldata: Projects.Level) {
 
@@ -50,8 +51,9 @@ module FlipPlus.GamePlay {
             this.createScene(leveldata);
 
         }
+        // #endregion
 
-        // Create Scene ===============================================================================================================
+        // #region Create Scene ===============================================================================================================
 
         private createScene(leveldata: Projects.Level) {
 
@@ -69,7 +71,7 @@ module FlipPlus.GamePlay {
             this.content.addChild(this.message);
 
             //adds text effext
-            this.textEffext= new Menu.View.TextEffect();
+            this.textEffext = new Menu.View.TextEffect();
             this.content.addChild(this.textEffext);
 
             //adds popup
@@ -85,7 +87,6 @@ module FlipPlus.GamePlay {
                 this.gameplayMenu.fadeIn();
                 this.boardSprite.mouseEnabled = true;
             });
-
         }
 
         private addBackground() {
@@ -102,12 +103,12 @@ module FlipPlus.GamePlay {
             this.gameplayMenu = new Views.GamePlayMenu();
             this.gameplayMenu.y = -100;
             this.footer.addChild(this.gameplayMenu);
-            
+
             //level control
             this.gameplayMenu.addEventListener("pause", () => { this.pauseGame(); });
             this.gameplayMenu.addEventListener("unpause", () => { this.unPauseGame(); });
             this.gameplayMenu.addEventListener("restart", (e: createjs.Event) => {
-                FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime,this.clicks);
+                FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
                 FlipPlusGame.replayLevel();
             });
             this.gameplayMenu.addEventListener("back", () => {
@@ -115,10 +116,16 @@ module FlipPlus.GamePlay {
                 FlipPlusGame.exitLevel();
             });
 
+            // coins Indicator
+            this.coinsIndicator= new Menu.View.CoinsIndicator();
+            this.header.addChild(this.coinsIndicator);
+            this.coinsIndicator.x = DefaultWidth / 2;
+            
             //upper staus area
             if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
                 var levels: Projects.Level[] = FlipPlusGame.projectManager.getCurrentProject().levels;
                 this.statusArea = new Views.StatusArea();
+                this.statusArea.y += 80;
                 this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
                 this.statusArea.setText1("");
                 this.statusArea.setText3("");
@@ -144,7 +151,9 @@ module FlipPlus.GamePlay {
             this.pauseGame();
         }
 
-        // user input ===============================================================================================================
+        // #endregion
+
+        // #region user input ===============================================================================================================
 
         // handles user input
         public userInput(col: number, row: number) {
@@ -171,7 +180,9 @@ module FlipPlus.GamePlay {
             this.levelLogic.moves++;
         }
 
-        // GamePlay methods =========================================================================================================
+        // #endregion
+
+        // #region  GamePlay methods =========================================================================================================
 
         private earnPrize(col: number, row: number) {
 
@@ -187,10 +198,10 @@ module FlipPlus.GamePlay {
             }, 50);
         }
 
-        protected win(col: number, row: number,messageText:boolean=true) {
+        protected win(col: number, row: number, messageText: boolean= true) {
 
             // analytics
-            FlipPlusGame.analytics.logLevelWin(this.levelData.name,(Date.now()- this.startedTime)/100,this.clicks)
+            FlipPlusGame.analytics.logLevelWin(this.levelData.name, (Date.now() - this.startedTime) / 100, this.clicks)
 
             //play a win sound
             ///gameui.AssetsManager.playSound("win");
@@ -226,43 +237,44 @@ module FlipPlus.GamePlay {
             setTimeout(() => { this.winSwitchScreen(complete1stTime) }, 1800);
         }
 
-        protected winSwitchScreen(complete1stTime:boolean) { 
+        protected winSwitchScreen(complete1stTime: boolean) {
 
-                //remove all tweens
-                createjs.Tween.removeTweens(this.boardSprite);
-                //cache board
-                var bounds = this.boardSprite.getBounds();
-                ////this.boardSprite.cache(bounds.x, bounds.y, bounds.width, bounds.height);
-                //animate to out
-                createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(() => {
-                    this.boardSprite.visible = false;
-                    this.boardSprite.uncache();
-                })
+            //remove all tweens
+            createjs.Tween.removeTweens(this.boardSprite);
+            //cache board
+            var bounds = this.boardSprite.getBounds();
+            ////this.boardSprite.cache(bounds.x, bounds.y, bounds.width, bounds.height);
+            //animate to out
+            createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(() => {
+                this.boardSprite.visible = false;
+                this.boardSprite.uncache();
+            })
 
-                //switch screen
-                FlipPlusGame.completeLevel(complete1stTime);
+            //switch screen
+            FlipPlusGame.completeLevel(complete1stTime);
         }
 
         protected loose() {
-            
+
             FlipPlusGame.analytics.logLevelLoose(this.levelData.name, Date.now() - this.startedTime, this.clicks)
-            
+
             this.gameplayMenu.fadeOut();
             this.boardSprite.lock();
             this.boardSprite.looseEffect();
             setTimeout(() => { FlipPlusGame.looseLevel(); }, 3000);;
-            
-        }
 
-        // Items ====================================================================================================================
+        }
+        // #endregion
+
+        // #region  Items ====================================================================================================================
 
         // get item value based on how many times it has been used.
-        private getItemPrice(item) :number{
+        private getItemPrice(item): number {
 
             // increase the times counter
             var times = this.itemTimes[item];
             if (!times) times = 0;
-            
+
             // get item price
             var price = items[item].price[times];
 
@@ -270,14 +282,14 @@ module FlipPlus.GamePlay {
             if (price) return price;
 
             // if there is no more prices, get the highest price
-            return items[item].price[items[item].price.length-1];
+            return items[item].price[items[item].price.length - 1];
         }
 
         // list all item prices
-        private listItemPrices():Array<number> {
+        private listItemPrices(): Array<number> {
 
             var list = new Object();
-            for (var item in items) 
+            for (var item in items)
                 list[item] = this.getItemPrice(item);
 
             return <Array<number>>list;
@@ -291,13 +303,13 @@ module FlipPlus.GamePlay {
 
             // define item value based on how many times it was used on the level
             var value = this.getItemPrice(item);
-            
+
             //if user is able to use this item
             var coinsAmount = FlipPlusGame.coinsData.getAmount()
             if (coinsAmount >= value) {
 
                 // sava item used information
-                if(!this.itemTimes[item]) this.itemTimes[item] = 0;
+                if (!this.itemTimes[item]) this.itemTimes[item] = 0;
                 this.itemTimes[item]++;
 
                 //updates data
@@ -305,11 +317,11 @@ module FlipPlus.GamePlay {
                 if (item != "hint") this.usedItem = item;
 
                 //updates Items buttons labels Quantity on footer
-                this.gameplayMenu.updateCoinsQuatity();
+                this.coinsIndicator.updateCoinsAmmount(FlipPlusGame.coinsData.getAmount());
                 this.gameplayMenu.updateItemsPrice(this.listItemPrices());
 
                 //show text effect
-                this.textEffext.showtext(stringResources["desc_item_"+item].toUpperCase());
+                this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
 
                 return true;
 
@@ -325,7 +337,7 @@ module FlipPlus.GamePlay {
         //skips the level
         protected useItemSkip() {
             if (!this.useItem("skip")) return;
-            if (this.levelData.userdata.skip || this.levelData.userdata.solved){
+            if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
                 this.message.showtext("Skip Level");
                 this.message.addEventListener("onclose", () => {
                     FlipPlusGame.skipLevel(false);
@@ -366,15 +378,16 @@ module FlipPlus.GamePlay {
 
             //enablehint for the selected block;
             this.boardSprite.getBlockById(blockId).enableHint();
-            
+
         }
 
         //set hint for a solve
         protected usesolve() {
-            this.win(0,0);
+            this.win(0, 0);
         }
+        // #endregion
         
-        // Menus =====================================================================================================================
+        // #region Menus =====================================================================================================================
 
         protected pauseGame() {
 
@@ -402,13 +415,15 @@ module FlipPlus.GamePlay {
 
         protected animatePuzzle(parameters) {
             this.boardSprite.x = parameters.x;
-            this.boardSprite.y = parameters.y+2048;
+            this.boardSprite.y = parameters.y + 2048;
             this.boardSprite.scaleX = parameters.scaleX;
             this.boardSprite.scaleY = parameters.scaleY;
             createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: DefaultWidth / 2, y: DefaultHeight / 2 }, 500, createjs.Ease.quadInOut);
         }
 
-        // Screen =================================================================================================================
+        // #endregion
+     
+        // #region  Screen =================================================================================================================
 
         public activate(parameters?: any) {
 
@@ -420,10 +435,10 @@ module FlipPlus.GamePlay {
             if (parameters) this.animatePuzzle(parameters);
 
             // updates Items buttons labels Quantity on footer
-            this.gameplayMenu.updateCoinsQuatity();
+            this.coinsIndicator.updateCoinsAmmount(FlipPlusGame.coinsData.getAmount());
             this.gameplayMenu.updateItemsPrice(this.listItemPrices());
-            
-            
+
+
             // if there are hidden blocks. shake and lock the board for 4 seconds
             if (this.levelData.hiddenBlocks && this.levelData.hiddenBlocks.length > 0) {
                 var x = DefaultWidth / 2;
@@ -450,10 +465,11 @@ module FlipPlus.GamePlay {
                     .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
                     .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
                     .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
-                    .wait(200).call(() => { this.boardSprite.mouseEnabled = true;});
-                    
-                    
+                    .wait(200).call(() => { this.boardSprite.mouseEnabled = true; });
+
+
             }
         }
+        // #endregion
     }
 }

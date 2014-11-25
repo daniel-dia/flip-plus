@@ -36,6 +36,7 @@
     <TypeScriptCompile Include="src\Bonus\BonusManager.ts" />
     <TypeScriptCompile Include="src\Bonus\BonusScreen.ts" />
     <TypeScriptCompile Include="src\Menu\View\BonusItem.ts" />
+    <TypeScriptCompile Include="src\Menu\View\StarsIndicator.ts" />
     <TypeScriptCompile Include="src\Menu\View\TextEffect.ts" />
     <TypeScriptCompile Include="src\Preferences.ts" />
     <Content Include="assets\assetsManifest.js" />
@@ -1278,7 +1279,7 @@
     <TypeScriptCompile Include="src\Menu\SoundMenu.ts" />
     <TypeScriptCompile Include="src\Menu\OptionsMenu.ts" />
     <TypeScriptCompile Include="src\Menu\ProjectsMenu.ts" />
-    <TypeScriptCompile Include="src\Menu\View\PartsIndicator.ts" />
+    <TypeScriptCompile Include="src\Menu\View\CoinsIndicator.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProjectItem.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProjectProgressIndicator.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProjectStarsIndicator.ts" />

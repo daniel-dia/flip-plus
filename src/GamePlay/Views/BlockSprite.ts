@@ -5,8 +5,7 @@ module FlipPlus.GamePlay.Views {
     export class BlockSprite extends createjs.Container{
 
         public static defaultBlockSize: number = 187;
-
-
+        
         //---------------------------------------------------
 
         private container: createjs.Container;

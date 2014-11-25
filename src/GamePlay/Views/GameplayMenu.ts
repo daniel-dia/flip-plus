@@ -17,6 +17,7 @@ module FlipPlus.GamePlay.Views {
         private xstep = 310;
 
         constructor() {
+
             super();
 
             this.currentItem = 0;
@@ -25,7 +26,6 @@ module FlipPlus.GamePlay.Views {
             this.createGamePlayMenu();
             this.createPauseMenu();
             this.addTutorialIndicator();
-            this.createCoinsIndicator();
 
             this.buttons = new Object();
             this.parameters = new Object();
@@ -40,7 +40,9 @@ module FlipPlus.GamePlay.Views {
             this.addChild(this.tutorial_highlightSprite)
         }
 
-        //creates all menu butons 
+
+ 
+        //creates all menu butons
         private createGamePlayMenu() {
             this.overlayMenu = new gameui.ui.UIItem();
             this.overlayMenu.width = 2*DefaultWidth;
@@ -52,6 +54,8 @@ module FlipPlus.GamePlay.Views {
 
             this.addChild(this.overlayMenu);
         }
+
+  
 
         // ================ Add Buttons ==========================================
 
@@ -92,10 +96,6 @@ module FlipPlus.GamePlay.Views {
         //    for (var i in this.items)
         //        this.buttons[this.items[i]].updateLabel(FlipPlusGame.itemsData.getItemQuantity(this.items[i]));
         //}
-
-        public updateCoinsQuatity() {
-            //TODO: Not Implemented.
-        }
 
         public updateItemsPrice(prices:Array<number>) {
             for (var item in prices) {
