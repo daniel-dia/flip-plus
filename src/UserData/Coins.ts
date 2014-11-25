@@ -35,10 +35,9 @@
 
             var iq: number = this.getAmount();
             
-            // limit coins quantity to 10
-            // TODO : verify if coins must be less than 10
+            // limit coins quantity to max
             var total = iq + value;
-            if (total >= 10) total = 10;
+            if (total >= Coins.max) total = Coins.max;
 
             // set coins ammount            
             this.setAmount(total);

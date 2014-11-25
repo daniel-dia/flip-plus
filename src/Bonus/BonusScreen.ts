@@ -106,8 +106,6 @@
                 max.visible = false;
                 this.footerContainer.addChild(max);
 
-
-                //TODO: add Max indicator
                 //add text
                 var textObj = new createjs.Text("",defaultFontFamilyNormal,"white");
                 textObj.y = 120;
