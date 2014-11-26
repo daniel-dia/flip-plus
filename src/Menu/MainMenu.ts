@@ -39,7 +39,10 @@ module FlipPlus.Menu {
             super.activate();
 
             //play BgSound
-            //gameui.AssetsManager.playMusic("trilha");
+
+            // play music
+            gameui.AssetsManager.playMusic("Music Dot Robot");
+
 
             //Verifies if it is the first time playing
             if (!FlipPlusGame.storyData.getStoryPlayed("intro")) {

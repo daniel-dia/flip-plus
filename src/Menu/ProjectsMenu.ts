@@ -260,6 +260,10 @@ module FlipPlus.Menu {
         public activate() {
             super.activate();
 
+            // play music
+            gameui.AssetsManager.playMusic("Music Dot Robot");
+
+
             this.updateProjects();
             this.updateStatistcs();
             this.updateBonuses();

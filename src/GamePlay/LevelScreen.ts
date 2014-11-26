@@ -430,6 +430,10 @@ module FlipPlus.GamePlay {
 
         public activate(parameters?: any) {
 
+
+            // play music
+            gameui.AssetsManager.playMusic("Music Minimal Tech");
+
             // analytics
             this.startedTime = Date.now();
 

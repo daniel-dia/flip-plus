@@ -31,7 +31,10 @@ module FlipPlus.Menu {
             super.redim(headerY, footerY, width);
             this.beach.y = -headerY / 4 - 616 +77/4+9; 
         }
-
-
+        activate(parameters:any) {
+            super.activate(parameters);
+            // play music
+            gameui.AssetsManager.playMusic("Music Dot Robot");
+        }
     }
 }

@@ -3,6 +3,8 @@ function getAssetsManifest(assetscale) {
 
     var imagePath = "assets/images_" + assetscale + "x/";
 
+    var audioPath = "assets/sound/"
+
     return [
 
         //common
@@ -416,5 +418,18 @@ function getAssetsManifest(assetscale) {
         // { id: "navigateup", src: audioPath + "botao_abrir_up.mp3" },
         // { id: "navigateOutdown", src: audioPath + "botao_abrir_up.mp3" },
         // { id: "navigateOutup", src: audioPath + "botao_abrir_down.mp3" },
-    ];
+
+
+        { id: "Music Dot Robot", src: audioPath + "Music Dot Robot.mp3" },
+        { id: "Music Minimal Tech", src: audioPath + "Music Minimal Tech.mp3" },
+
+        { id: "Correct Answer", src: audioPath + "Correct Answer.mp3" },
+        { id: "Mecanical Click", src: audioPath + "Mecanical Click.mp3" },
+        { id: "Power Down", src: audioPath + "Power Down.mp3" },
+        { id: "Robot Talk", src: audioPath + "Robot Talk.mp3" },
+        { id: "Task Complete", src: audioPath + "Task Complete.mp3" },
+        { id: "Ticking Clock", src: audioPath + "Ticking Clock.mp3" },
+        { id: "Wrong Awnser", src: audioPath + "Wrong Awnser.mp3" },
+
+     ];
 }

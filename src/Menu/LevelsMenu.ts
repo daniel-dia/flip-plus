@@ -148,6 +148,11 @@ module FlipPlus.Menu {
 
             super.activate();
 
+
+            // play music
+            gameui.AssetsManager.playMusic("Music Minimal Tech");
+
+
             //update enabled Projects
             this.addProjects();
 
