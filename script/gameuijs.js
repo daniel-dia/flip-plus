@@ -589,7 +589,9 @@ var gameui;
     var AssetsManager = (function () {
         function AssetsManager() {
         }
+        //load assets
         AssetsManager.loadAssets = function (assetsManifest, spriteSheets, imagesArray) {
+            var _this = this;
             //cleans previous loaded assets.
             this.cleanAssets();
 
@@ -607,7 +609,7 @@ var gameui;
             //create eventListeners
             this.loader.addEventListener("fileload", function (evt) {
                 if (evt.item.type == "image")
-                    imagesArray[evt.item.id] = evt.result;
+                    _this.imagesArray[evt.item.id] = evt.result;
                 return true;
             });
 
@@ -675,6 +677,24 @@ var gameui;
             if (play)
                 sprite.play();
             return sprite;
+        };
+
+        AssetsManager.playSound = function (name, interrupt, delay) {
+            if (typeof delay === "undefined") { delay = 0; }
+            createjs.Sound.play(name, interrupt, delay);
+        };
+
+        AssetsManager.playMusic = function (name) {
+            if (this.currentMusic) {
+                if (this.currentMusicName == name)
+                    return;
+
+                this.currentMusic.stop();
+                delete this.currentMusic;
+            }
+
+            this.currentMusicName = name;
+            this.currentMusic = createjs.Sound.play(name, null, null, null, -1);
         };
         return AssetsManager;
     })();
