@@ -76,6 +76,10 @@
                             //loses game, if moves is over
                             if (this.moves <= 0) {
                                 this.message.showtext(stringResources.gp_mv_noMoreMoves);
+                                
+                                // play sound
+                                gameui.AssetsManager.playSound("Power Down");
+                                
                                 this.loose();
                                 this.loosing = true;
                             }

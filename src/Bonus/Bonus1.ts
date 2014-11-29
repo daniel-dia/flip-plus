@@ -72,8 +72,6 @@
                 spriteReflection.scaleX= 1.02;
                 barrel.addChild(spriteReflection);
 
-
-
                 var bn = barrel.getBounds();
                 barrel.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(bn.x,bn.y,bn.width,bn.height));
                 var spriteWater = gameui.AssetsManager.getSprite("Bonus1/agua");
@@ -221,6 +219,10 @@
 
             //verifies item
             if (this.items[barrelId]) {
+
+                // play sound
+                gameui.AssetsManager.playSound("Correct Answer");
+
                 this.userAquireItem(this.items[barrelId]);
                 this.animateItemObjectToFooter(this.BarrelsItens[barrelId], this.items[barrelId]);
                 createjs.Tween.get(this.contentShadow[barrelId]).to({alpha:0},600);
@@ -231,8 +233,12 @@
 
             //ends bonus game
             this.remaningInteraction--;
-            if (this.remaningInteraction <= 0)
+            if (this.remaningInteraction <= 0) {
                 this.endBonus();
+
+                // play sound
+                gameui.AssetsManager.playSound("Wrong Answer");
+            }
         }
 
         //finalizes bonus game

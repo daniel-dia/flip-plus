@@ -16,7 +16,7 @@ module FlipPlus.Menu.View {
             this.addChild(menuBt);
 
             //add a bacl buttton
-            var backBt: gameui.ui.ImageButton = new gameui.ui.ImageButton("BackBt", () => { this.dispatchEvent("back", menuBt) });
+            var backBt: gameui.ui.ImageButton = new gameui.ui.ImageButton("BackBt", () => { this.dispatchEvent("back", menuBt) }, "buttonOut");
             backBt.y = 90;
             backBt.x = 130;
             backBt.visible = backVisible;

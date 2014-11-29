@@ -99,6 +99,10 @@
 
                     //prvide item to user
                     this.getItems(this.currentChestId);
+
+
+                    // play sound
+                    gameui.AssetsManager.playSound("Correct Answer");
                 }
                 else {
                     //play movieclip
@@ -123,6 +127,11 @@
                 this.content.mouseEnabled = false;
                 this.message.showtext(stringResources.b3_noMoreChances, 2000, 1100);
                 this.message.addEventListener("onclose", () => { this.endBonus(); });
+
+
+                // play sound
+                gameui.AssetsManager.playSound("Wrong Answer");
+
             }
         }
         

@@ -8,7 +8,6 @@ module FlipPlus.GamePlay {
         //Display Sprites
         public boardSprite: Views.BoardSprite;
         private fx: Effects;
-
         //Overlays // friendly
         public gameplayMenu: Views.GamePlayMenu;
         public coinsIndicator: Menu.View.CoinsIndicator;
@@ -159,7 +158,7 @@ module FlipPlus.GamePlay {
         public userInput(col: number, row: number) {
 
             this.clicks++;
-
+             
             //analytics
             FlipPlusGame.analytics.logClick(this.levelData.name, col, row);
 
@@ -190,7 +189,7 @@ module FlipPlus.GamePlay {
             setTimeout(() => {
 
                 //playSound
-                ///gameui.AssetsManager.playSound("prize");
+                gameui.AssetsManager.playSound("Task Complete");
 
                 //apply radius effect
                 this.boardSprite.radiusEffect(col, row)
@@ -425,10 +424,13 @@ module FlipPlus.GamePlay {
         }
 
         // #endregion
-     
+
         // #region  Screen =================================================================================================================
 
         public activate(parameters?: any) {
+
+            super.activate(parameters);
+            if (parameters) this.animatePuzzle(parameters);
 
 
             // play music
@@ -436,10 +438,6 @@ module FlipPlus.GamePlay {
 
             // analytics
             this.startedTime = Date.now();
-
-            // 
-            super.activate(parameters);
-            if (parameters) this.animatePuzzle(parameters);
 
             // updates Items buttons labels Quantity on footer
             this.coinsIndicator.updateCoinsAmmount(FlipPlusGame.coinsData.getAmount());

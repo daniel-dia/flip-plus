@@ -58,7 +58,6 @@ module FlipPlus {
             this.analytics = new Analytics();
             this.analytics.logGameStart();
            
-
             //managers
             this.projectManager = new Projects.ProjectManager(levelsData, this.projectData);
 
@@ -67,7 +66,6 @@ module FlipPlus {
             this.gameScreen.switchScreen(this.loadingScreen);
 
             this.loadingScreen.loaded = () => {
-
                 if (levelCreatorMode == true && !levelCreatorTestMode) {
                     this.gameScreen.switchScreen(new GamePlay.LevelCreator(null, window));
                 }

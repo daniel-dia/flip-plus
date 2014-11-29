@@ -30,6 +30,10 @@ module FlipPlus.Menu.View {
         //public method to invoke the popup
         public showtext(text: string, timeout: number= 3000,delay:number=0) {
 
+
+            // play sound
+            gameui.AssetsManager.playSound("Open")
+
             //clean everything
             this.removeAllChildren();
 
@@ -73,6 +77,7 @@ module FlipPlus.Menu.View {
 
         //method for close popup 
         private closePopUp() {
+            gameui.AssetsManager.playSound("Close")
             //hide the popup{
             clearTimeout(this.closeinterval);
             this.dispatchEvent("onclose");

@@ -212,7 +212,7 @@ module FlipPlus.Menu {
             this.footer.addChild(bg);
 
             //create leftButton
-            var lb: gameui.ui.Button = new gameui.ui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
+            var lb: gameui.ui.Button = new gameui.ui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() }, "buttonOut");
             lb.y = -100;
             lb.x = DefaultWidth * 0.1;
             this.footer.addChild(lb);

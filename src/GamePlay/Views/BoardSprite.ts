@@ -73,7 +73,7 @@
                         // play a Radom Sounds
                         var randomsound = Math.ceil(Math.random() * 3)
                         if (randomsound >= this.previousSound) randomsound++;
-                        ///gameui.AssetsManager.playSound("tile" + randomsound);
+                        gameui.AssetsManager.playSound("Mecanical Click"); //  + randomsound
                         this.previousSound = randomsound;
 
                         //tutorialrelease

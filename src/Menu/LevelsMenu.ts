@@ -11,6 +11,8 @@ module FlipPlus.Menu {
 
         private pagesSwipe: PagesSwipe;
 
+        private factorySound: createjs.SoundInstance;
+
         //just to know when a user finished a project
         private projectPreviousState: Object = {};
 
@@ -18,7 +20,6 @@ module FlipPlus.Menu {
         constructor() {
 
             super();
-
 
             this.addObjects();
             this.pagesSwipe = new PagesSwipe(this.projectsContainer, this.projectViews, DefaultWidth, 200, 1500);
@@ -81,6 +82,7 @@ module FlipPlus.Menu {
         //adds all projects in swipe view
         private addProjects() {
             
+
             //pega projetos
             var projects = FlipPlusGame.projectManager.getUnlockedProjects();
 
@@ -119,7 +121,7 @@ module FlipPlus.Menu {
 
         private createPaginationButtons(pagesContainer: createjs.Container) {
             //create leftButton
-            var lb: gameui.ui.Button = new gameui.ui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() });
+            var lb: gameui.ui.Button = new gameui.ui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() },"buttonOut");
             lb.y = 1050;
             lb.x = DefaultWidth * 0.1;
             this.content.addChild(lb);
@@ -131,8 +133,6 @@ module FlipPlus.Menu {
             rb.scaleX = -1;
             this.content.addChild(rb);
 
-            //create pagination indicator
-            //TODO
         }           
  
         //--Behaviour-----------------------------------------------------------
@@ -143,6 +143,11 @@ module FlipPlus.Menu {
             for (var pv in this.projectViews)
                 this.projectViews[pv].redim(headerY, footerY);
         }
+        public desactivate(parameters?: any) {
+            super.desactivate(parameters);
+            this.factorySound.stop();
+            delete this.factorySound;
+        }
 
         public activate(parameters?: any) {
 
@@ -150,8 +155,9 @@ module FlipPlus.Menu {
 
 
             // play music
-            gameui.AssetsManager.playMusic("Music Minimal Tech");
-
+            gameui.AssetsManager.playMusic("Music Dot Robot",0.5);
+            this.factorySound = gameui.AssetsManager.playSound("Factory Ambience");
+            this.factorySound.setVolume(0.4);
 
             //update enabled Projects
             this.addProjects();

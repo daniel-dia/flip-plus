@@ -32,27 +32,30 @@ declare module gameui.ui {
 }
 declare module gameui.ui {
     class Button extends UIItem {
+        static DefaultSoundId: string;
+        static setDefaultSoundId(soundId: string): void;
+        private soundId;
         public enableAnimation: boolean;
         private originalScaleX;
         private originalScaleY;
         private mouse;
-        constructor();
+        constructor(soundId?: string);
         public returnStatus(): void;
         private onPressUp(Event);
         private onPress(Event);
     }
     class ImageButton extends Button {
         public background: createjs.Bitmap;
-        constructor(image: string, event?: (event?: createjs.MouseEvent) => any);
+        constructor(image: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string);
         public centralizeImage(): void;
     }
     class TextButton extends ImageButton {
         public text: createjs.Text;
-        constructor(text?: string, font?: string, color?: string, background?: string, event?: (event?: createjs.MouseEvent) => any);
+        constructor(text?: string, font?: string, color?: string, background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string);
     }
     class IconButton extends TextButton {
         public icon: createjs.DisplayObject;
-        constructor(icon?: string, text?: string, font?: string, color?: string, background?: string, event?: (event?: createjs.MouseEvent) => any);
+        constructor(icon?: string, text?: string, font?: string, color?: string, background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string);
         public updateLabel(value: string): void;
         public centralizeIcon(): void;
     }
@@ -124,10 +127,10 @@ declare module gameui {
         private static getLoadedImage(name);
         static getMovieClip(name: string): createjs.Sprite;
         static getSprite(name: string, play?: boolean): createjs.Sprite;
-        static playSound(name: string, interrupt?: boolean, delay?: number): void;
+        static playSound(name: string, interrupt?: boolean, delay?: number): createjs.SoundInstance;
         private static currentMusicName;
         private static currentMusic;
-        static playMusic(name: string): void;
+        static playMusic(name: string, volume?: number): void;
     }
 }
 declare module gameui {

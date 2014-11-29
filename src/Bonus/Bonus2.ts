@@ -44,6 +44,10 @@
                 this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
                 this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
 
+
+                // play sound
+                gameui.AssetsManager.playSound("Correct Answer");
+
                 this.matchesFound++;
                 return true;
             }
@@ -70,6 +74,10 @@
                     this.content.mouseEnabled = false;
                     this.message.showtext(stringResources.b2_noMoreChances, 2000, 500);
                     this.message.addEventListener("onclose", () => { this.endBonus(); });
+
+
+                    // play sound
+                    gameui.AssetsManager.playSound("Wrong Answer");
                 }
                 return;
             }

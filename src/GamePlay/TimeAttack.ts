@@ -39,12 +39,19 @@ module FlipPlus.GamePlay {
                 this.currentTime--;
                 this.statusArea.setText3(this.currentTime.toString());
                 if (this.currentTime <= 0) {
+
+                    // play sound
+                    gameui.AssetsManager.playSound("Power Down");
                     this.statusArea.setText3(stringResources.gp_pz_statusEnd);
                     
                     this.message.showtext(stringResources.gp_pz_timeUP);
                     this.loose();
 
                     this.timer.stop();
+                }
+                if (this.currentTime == 4) {
+                    // play sound
+                    gameui.AssetsManager.playSound("Ticking Clock");
                 }
             });
         }

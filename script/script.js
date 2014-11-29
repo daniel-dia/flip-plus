@@ -586,7 +586,7 @@ var FlipPlus;
                 this.levelLogic.earnPrize();
                 setTimeout(function () {
                     //playSound
-                    ///gameui.AssetsManager.playSound("prize");
+                    gameui.AssetsManager.playSound("Task Complete");
                     //apply radius effect
                     _this.boardSprite.radiusEffect(col, row);
                 }, 50);
@@ -886,10 +886,16 @@ var FlipPlus;
                     _this.currentTime--;
                     _this.statusArea.setText3(_this.currentTime.toString());
                     if (_this.currentTime <= 0) {
+                        // play sound
+                        gameui.AssetsManager.playSound("Power Down");
                         _this.statusArea.setText3(stringResources.gp_pz_statusEnd);
                         _this.message.showtext(stringResources.gp_pz_timeUP);
                         _this.loose();
                         _this.timer.stop();
+                    }
+                    if (_this.currentTime == 4) {
+                        // play sound
+                        gameui.AssetsManager.playSound("Ticking Clock");
                     }
                 });
             };
@@ -1654,7 +1660,7 @@ var FlipPlus;
                                 var randomsound = Math.ceil(Math.random() * 3);
                                 if (randomsound >= _this.previousSound)
                                     randomsound++;
-                                ///gameui.AssetsManager.playSound("tile" + randomsound);
+                                gameui.AssetsManager.playSound("Mecanical Click"); //  + randomsound
                                 _this.previousSound = randomsound;
                                 //tutorialrelease
                                 if (b.tutorialHighLighted) {
@@ -2064,23 +2070,23 @@ var FlipPlus;
                     var pauseMenu = new gameui.ui.UIItem();
                     var playBt = new gameui.ui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", function () {
                         _this.unpause();
-                    });
+                    }, "buttonOut");
                     playBt.x = 600;
                     var snd1Bt = new gameui.ui.ImageButton("puzzle/btsom1", function () {
                         _this.dispatchEvent("soundOn");
-                    });
+                    }, "buttonOut");
                     snd1Bt.x = 160;
                     var snd2Bt = new gameui.ui.ImageButton("puzzle/btsom2", function () {
                         _this.dispatchEvent("soundOff");
-                    });
+                    }, "buttonOut");
                     snd2Bt.x = 160;
                     var backBt = new gameui.ui.ImageButton("puzzle/btsair", function () {
                         _this.dispatchEvent("back");
-                    });
+                    }, "buttonOut");
                     backBt.x = 400;
                     var restBt = new gameui.ui.ImageButton("puzzle/btrest", function () {
                         _this.dispatchEvent("restart");
-                    });
+                    }, "buttonOut");
                     restBt.x = -80;
                     pauseMenu.addChild(playBt);
                     pauseMenu.addChild(snd1Bt);
@@ -2583,6 +2589,8 @@ var FlipPlus;
                 this.BarrelsItens[barrelId].visible = true;
                 //verifies item
                 if (this.items[barrelId]) {
+                    // play sound
+                    gameui.AssetsManager.playSound("Correct Answer");
                     this.userAquireItem(this.items[barrelId]);
                     this.animateItemObjectToFooter(this.BarrelsItens[barrelId], this.items[barrelId]);
                     createjs.Tween.get(this.contentShadow[barrelId]).to({ alpha: 0 }, 600);
@@ -2592,8 +2600,11 @@ var FlipPlus;
                 }
                 //ends bonus game
                 this.remaningInteraction--;
-                if (this.remaningInteraction <= 0)
+                if (this.remaningInteraction <= 0) {
                     this.endBonus();
+                    // play sound
+                    gameui.AssetsManager.playSound("Wrong Answer");
+                }
             };
             //finalizes bonus game
             BonusBarrel.prototype.endBonus = function () {
@@ -2651,6 +2662,8 @@ var FlipPlus;
                     //animate itens
                     this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
                     this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
+                    // play sound
+                    gameui.AssetsManager.playSound("Correct Answer");
                     this.matchesFound++;
                     return true;
                 }
@@ -2675,6 +2688,8 @@ var FlipPlus;
                         this.message.addEventListener("onclose", function () {
                             _this.endBonus();
                         });
+                        // play sound
+                        gameui.AssetsManager.playSound("Wrong Answer");
                     }
                     return;
                 }
@@ -2886,6 +2901,8 @@ var FlipPlus;
                         _this.nextChest();
                         //prvide item to user
                         _this.getItems(_this.currentChestId);
+                        // play sound
+                        gameui.AssetsManager.playSound("Correct Answer");
                     }
                     else {
                         //play movieclip
@@ -2907,6 +2924,8 @@ var FlipPlus;
                     this.message.addEventListener("onclose", function () {
                         _this.endBonus();
                     });
+                    // play sound
+                    gameui.AssetsManager.playSound("Wrong Answer");
                 }
             };
             //-----------------------------------------------
@@ -3064,7 +3083,7 @@ var FlipPlus;
                 //create leftButton
                 var lb = new gameui.ui.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoPreviousPage();
-                });
+                }, "buttonOut");
                 lb.y = 1050;
                 lb.x = DefaultWidth * 0.1;
                 this.content.addChild(lb);
@@ -3076,8 +3095,6 @@ var FlipPlus;
                 rb.x = DefaultWidth * 0.9;
                 rb.scaleX = -1;
                 this.content.addChild(rb);
-                //create pagination indicator
-                //TODO
             };
             //--Behaviour-----------------------------------------------------------
             LevelsMenu.prototype.redim = function (headerY, footerY, width) {
@@ -3088,6 +3105,8 @@ var FlipPlus;
             LevelsMenu.prototype.activate = function (parameters) {
                 var _this = this;
                 _super.prototype.activate.call(this);
+                // play music
+                gameui.AssetsManager.playMusic("Music Dot Robot", 0.5);
                 //update enabled Projects
                 this.addProjects();
                 for (var pv in this.projectViews) {
@@ -3134,6 +3153,7 @@ var FlipPlus;
             Loading.prototype.initializeImages = function () {
                 var _this = this;
                 var loader = gameui.AssetsManager.loadAssets(getAssetsManifest(assetscale), spriteSheets, images);
+                gameui.ui.Button.setDefaultSoundId("button");
                 //var loader = Assets.loadAssets();
                 var text = new createjs.Text("", "600 90px Arial", "#FFF");
                 text.x = DefaultWidth / 2;
@@ -3514,7 +3534,7 @@ var FlipPlus;
                 //create leftButton
                 var lb = new gameui.ui.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoPreviousPage();
-                });
+                }, "buttonOut");
                 lb.y = -100;
                 lb.x = DefaultWidth * 0.1;
                 this.footer.addChild(lb);
@@ -3554,6 +3574,8 @@ var FlipPlus;
             //executes when activate the screen
             ProjectsMenu.prototype.activate = function () {
                 _super.prototype.activate.call(this);
+                // play music
+                gameui.AssetsManager.playMusic("Music Dot Robot");
                 this.updateProjects();
                 this.updateStatistcs();
                 this.updateBonuses();
@@ -3693,7 +3715,7 @@ var FlipPlus;
                     //add a bacl buttton
                     var backBt = new gameui.ui.ImageButton("BackBt", function () {
                         _this.dispatchEvent("back", menuBt);
-                    });
+                    }, "buttonOut");
                     backBt.y = 90;
                     backBt.x = 130;
                     backBt.visible = backVisible;
@@ -5450,6 +5472,8 @@ var FlipPlus;
                                 //loses game, if moves is over
                                 if (_this.moves <= 0) {
                                     _this.message.showtext(stringResources.gp_mv_noMoreMoves);
+                                    // play sound
+                                    gameui.AssetsManager.playSound("Power Down");
                                     _this.loose();
                                     _this.loosing = true;
                                 }
@@ -5671,6 +5695,11 @@ var FlipPlus;
                 _super.prototype.redim.call(this, headerY, footerY, width);
                 this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
             };
+            TitleScreen.prototype.activate = function (parameters) {
+                _super.prototype.activate.call(this, parameters);
+                // play music
+                gameui.AssetsManager.playMusic("Music Dot Robot");
+            };
             return TitleScreen;
         })(gameui.ScreenState);
         Menu.TitleScreen = TitleScreen;
@@ -5818,6 +5847,8 @@ var FlipPlus;
                     var _this = this;
                     if (timeout === void 0) { timeout = 3000; }
                     if (delay === void 0) { delay = 0; }
+                    // play sound
+                    gameui.AssetsManager.playSound("Open");
                     //clean everything
                     this.removeAllChildren();
                     //draw background
@@ -5854,6 +5885,7 @@ var FlipPlus;
                 };
                 //method for close popup 
                 Message.prototype.closePopUp = function () {
+                    gameui.AssetsManager.playSound("Close");
                     //hide the popup{
                     clearTimeout(this.closeinterval);
                     this.dispatchEvent("onclose");
@@ -6063,6 +6095,7 @@ var FlipPlus;
                 };
                 Popup.prototype.showsPopup = function (timeout, delay) {
                     var _this = this;
+                    gameui.AssetsManager.playSound("Open");
                     //shows the popus
                     this.closeinterval = setTimeout(function () {
                         _this.fadeIn(1, 0.5);
@@ -6084,6 +6117,7 @@ var FlipPlus;
                 };
                 //method for close popup 
                 Popup.prototype.closePopUp = function () {
+                    gameui.AssetsManager.playSound("Close");
                     //hide the popup{
                     this.fadeOut(1, 0.5);
                     //dispatch a event for parent objects

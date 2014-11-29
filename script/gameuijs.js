@@ -166,7 +166,7 @@ var gameui;
         // Class
         var Button = (function (_super) {
             __extends(Button, _super);
-            function Button() {
+            function Button(soundId) {
                 var _this = this;
                 _super.call(this);
                 this.enableAnimation = true;
@@ -184,7 +184,13 @@ var gameui;
                 this.addEventListener("mouseout", function () {
                     _this.mouse = false;
                 });
+
+                this.soundId = soundId;
             }
+            Button.setDefaultSoundId = function (soundId) {
+                this.DefaultSoundId = soundId;
+            };
+
             Button.prototype.returnStatus = function () {
                 if (!this.mouse) {
                     this.scaleX = this.originalScaleX;
@@ -194,8 +200,6 @@ var gameui;
 
             Button.prototype.onPressUp = function (Event) {
                 this.mouse = false;
-
-                //createjs.Tween.removeTweens(this);
                 this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
                 createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
             };
@@ -210,12 +214,16 @@ var gameui;
                     this.originalScaleX = this.scaleX;
                     this.originalScaleY = this.scaleY;
                 }
-
                 createjs.Tween.get(this).to({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 }, 500, createjs.Ease.elasticOut).call(function () {
                     if (!_this.mouse) {
                         createjs.Tween.get(_this).to({ scaleX: _this.originalScaleX, scaleY: _this.originalScaleY }, 300, createjs.Ease.backOut);
                     }
                 });
+
+                if (!this.soundId)
+                    this.soundId = Button.DefaultSoundId;
+                if (this.soundId)
+                    gameui.AssetsManager.playSound(this.soundId);
             };
             return Button;
         })(ui.UIItem);
@@ -223,9 +231,9 @@ var gameui;
 
         var ImageButton = (function (_super) {
             __extends(ImageButton, _super);
-            function ImageButton(image, event) {
+            function ImageButton(image, event, soundId) {
                 var _this = this;
-                _super.call(this);
+                _super.call(this, soundId);
 
                 if (event != null)
                     this.addEventListener("click", event);
@@ -258,9 +266,9 @@ var gameui;
 
         var TextButton = (function (_super) {
             __extends(TextButton, _super);
-            function TextButton(text, font, color, background, event) {
+            function TextButton(text, font, color, background, event, soundId) {
                 if (typeof text === "undefined") { text = ""; }
-                _super.call(this, background, event);
+                _super.call(this, background, event, soundId);
 
                 //add text into it.
                 text = text.toUpperCase();
@@ -284,7 +292,7 @@ var gameui;
 
         var IconButton = (function (_super) {
             __extends(IconButton, _super);
-            function IconButton(icon, text, font, color, background, event) {
+            function IconButton(icon, text, font, color, background, event, soundId) {
                 if (typeof icon === "undefined") { icon = ""; }
                 if (typeof text === "undefined") { text = ""; }
                 if (typeof font === "undefined") { font = null; }
@@ -293,7 +301,7 @@ var gameui;
                 if (text != "")
                     text = " " + text;
 
-                _super.call(this, text, font, color, background, event);
+                _super.call(this, text, font, color, background, event, soundId);
 
                 //loads icon Image
                 this.icon = gameui.AssetsManager.getBitmap(icon);
@@ -681,11 +689,13 @@ var gameui;
 
         AssetsManager.playSound = function (name, interrupt, delay) {
             if (typeof delay === "undefined") { delay = 0; }
-            createjs.Sound.play(name, interrupt, delay);
+            return createjs.Sound.play(name, interrupt, delay);
         };
 
-        AssetsManager.playMusic = function (name) {
+        AssetsManager.playMusic = function (name, volume) {
+            if (typeof volume === "undefined") { volume = 1; }
             if (this.currentMusic) {
+                this.currentMusic.setVolume(volume);
                 if (this.currentMusicName == name)
                     return;
 
@@ -695,6 +705,7 @@ var gameui;
 
             this.currentMusicName = name;
             this.currentMusic = createjs.Sound.play(name, null, null, null, -1);
+            this.currentMusic.setVolume(volume);
         };
         return AssetsManager;
     })();

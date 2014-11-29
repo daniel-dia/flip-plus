@@ -113,11 +113,11 @@ module FlipPlus.GamePlay.Views {
         private createPauseMenu() {
             var pauseMenu = new gameui.ui.UIItem();
 
-            var playBt = new gameui.ui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", () => { this.unpause(); }); playBt.x = 600;
-            var snd1Bt = new gameui.ui.ImageButton("puzzle/btsom1", () => { this.dispatchEvent("soundOn"); });  snd1Bt.x = 160;
-            var snd2Bt = new gameui.ui.ImageButton("puzzle/btsom2", () => { this.dispatchEvent("soundOff"); }); snd2Bt.x = 160;
-            var backBt = new gameui.ui.ImageButton("puzzle/btsair", () => { this.dispatchEvent("back"); }); backBt.x = 400;
-            var restBt = new gameui.ui.ImageButton("puzzle/btrest", () => { this.dispatchEvent("restart"); }); restBt.x = -80;
+            var playBt = new gameui.ui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", () => { this.unpause(); }, "buttonOut"); playBt.x = 600;
+            var snd1Bt = new gameui.ui.ImageButton("puzzle/btsom1", () => { this.dispatchEvent("soundOn"); },"buttonOut");  snd1Bt.x = 160;
+            var snd2Bt = new gameui.ui.ImageButton("puzzle/btsom2", () => { this.dispatchEvent("soundOff"); },"buttonOut"); snd2Bt.x = 160;
+            var backBt = new gameui.ui.ImageButton("puzzle/btsair", () => { this.dispatchEvent("back"); }, "buttonOut"); backBt.x = 400;
+            var restBt = new gameui.ui.ImageButton("puzzle/btrest", () => { this.dispatchEvent("restart"); },"buttonOut"); restBt.x = -80;
             
             pauseMenu.addChild(playBt)
             pauseMenu.addChild(snd1Bt)

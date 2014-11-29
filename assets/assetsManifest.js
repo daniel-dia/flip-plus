@@ -430,6 +430,13 @@ function getAssetsManifest(assetscale) {
         { id: "Task Complete", src: audioPath + "Task Complete.mp3" },
         { id: "Ticking Clock", src: audioPath + "Ticking Clock.mp3" },
         { id: "Wrong Awnser", src: audioPath + "Wrong Awnser.mp3" },
+        { id: "Open", src: audioPath + "Open.mp3" },
+        { id: "Close", src: audioPath + "Close.mp3" },
+        { id: "buttonOut", src: audioPath + "Interface Sound-08.mp3" },
+        { id: "button", src: audioPath + "Interface Sound-06.mp3" },
+        { id: "Factory Ambience", src: audioPath + "Factory Ambience.mp3" },
 
+
+        
      ];
 }

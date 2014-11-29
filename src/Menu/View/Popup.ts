@@ -234,6 +234,8 @@ module FlipPlus.Menu.View {
 
         showsPopup(timeout:number, delay:number) {
 
+            gameui.AssetsManager.playSound("Open")
+
             //shows the popus
             this.closeinterval = setTimeout(() => {
                 this.fadeIn(1,0.5);
@@ -258,6 +260,8 @@ module FlipPlus.Menu.View {
 
         //method for close popup 
         private closePopUp() {
+
+            gameui.AssetsManager.playSound("Close")
 
             //hide the popup{
             this.fadeOut(1,0.5);
