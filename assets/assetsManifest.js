@@ -424,7 +424,10 @@ function getAssetsManifest(assetscale) {
         { id: "Music Minimal Tech", src: audioPath + "Music Minimal Tech.mp3" },
 
         { id: "Correct Answer", src: audioPath + "Correct Answer.mp3" },
-        { id: "Mecanical Click", src: audioPath + "Mecanical Click.mp3" },
+        { id: "Mecanical Click1", src: audioPath + "Mecanical Click1.mp3" },
+        { id: "Mecanical Click2", src: audioPath + "Mecanical Click2.mp3" },
+        { id: "Mecanical Click3", src: audioPath + "Mecanical Click3.mp3" },
+        { id: "final", src: audioPath + "final.mp3" },
         { id: "Power Down", src: audioPath + "Power Down.mp3" },
         { id: "Robot Talk", src: audioPath + "Robot Talk.mp3" },
         { id: "Task Complete", src: audioPath + "Task Complete.mp3" },
@@ -434,6 +437,7 @@ function getAssetsManifest(assetscale) {
         { id: "Close", src: audioPath + "Close.mp3" },
         { id: "buttonOut", src: audioPath + "Interface Sound-08.mp3" },
         { id: "button", src: audioPath + "Interface Sound-06.mp3" },
+        { id: "buttonOff", src: audioPath + "Interface Sound-09.mp3" },
         { id: "Factory Ambience", src: audioPath + "Factory Ambience.mp3" },
 
 

@@ -20,14 +20,14 @@ module FlipPlus.GamePlay.Views {
         // --- Drawing Menu...
 
         public titleText: createjs.Text;
-        public pauseButton: gameui.ui.TextButton;
+        public pauseButton: gameui.TextButton;
 
         public buildObjects() {
             //Add Back Button
-            var menuContainer: gameui.ui.Grid = new gameui.ui.Grid(1, 1, null, 373, null, true);
+            var menuContainer: gameui.Grid = new gameui.Grid(1, 1, null, 373, null, true);
             menuContainer.y = 1676;
             this.addChild(menuContainer);
-            this.pauseButton = new gameui.ui.TextButton("Pause");
+            this.pauseButton = new gameui.TextButton("Pause");
             menuContainer.addObject(this.pauseButton);
         }
     }
@@ -35,12 +35,12 @@ module FlipPlus.GamePlay.Views {
     export class PauseOverlay extends Overlay {
 
         public titleText: createjs.Text;
-        public backButton: gameui.ui.TextButton;
-        public leaveButton: gameui.ui.TextButton;
-        public replayButton: gameui.ui.TextButton;
-        public confirmMainButton: gameui.ui.TextButton;
+        public backButton: gameui.TextButton;
+        public leaveButton: gameui.TextButton;
+        public replayButton: gameui.TextButton;
+        public confirmMainButton: gameui.TextButton;
 
-        public confirm: gameui.ui.MenuContainer;
+        public confirm: gameui.MenuContainer;
 
         public confirmMainText: createjs.Text;
         public z: createjs.Text;
@@ -53,14 +53,14 @@ module FlipPlus.GamePlay.Views {
             backgroundShape.graphics.beginFill("rgba(0,0,0,0.2)").drawRect(0, 0, DefaultWidth, DefaultHeight);
             this.addChild(backgroundShape);
 
-            var mc = new gameui.ui.MenuContainer();
+            var mc = new gameui.MenuContainer();
             this.addChild(mc);
 
             //Add Back Button
-            var menuContainer: gameui.ui.Grid = new gameui.ui.Grid(1, 1, null, 373, null, true);
+            var menuContainer: gameui.Grid = new gameui.Grid(1, 1, null, 373, null, true);
             menuContainer.y = 1676;
             this.addChild(menuContainer);
-            this.backButton = new gameui.ui.TextButton("Continue");
+            this.backButton = new gameui.TextButton("Continue");
             menuContainer.addObject(this.backButton);
 
             //add Label
@@ -85,20 +85,20 @@ module FlipPlus.GamePlay.Views {
 
         private createConfirmationContainer() {
 
-            this.confirm = new gameui.ui.MenuContainer(null,100);
+            this.confirm = new gameui.MenuContainer(null,100);
             this.confirm.y = DefaultHeight / 1.8;
 
 
-            var smc: gameui.ui.Grid;
-            smc = new gameui.ui.Grid(2,1,700,100,null,true);
+            var smc: gameui.Grid;
+            smc = new gameui.Grid(2,1,700,100,null,true);
 
             this.confirm.addLabel("Are you sure?");
             this.confirm.addObject(smc);
             smc.regX = 700/2;
             smc.y -= 150; 
 
-            this.confirmMainButton = new gameui.ui.TextButton("Yes", null,"botao2.png");
-            smc.addObject(new gameui.ui.TextButton("No", "", "", "botao2.png", () => {
+            this.confirmMainButton = new gameui.TextButton("Yes", null,"botao2.png");
+            smc.addObject(new gameui.TextButton("No", "", "", "botao2.png", () => {
                 this.confirm.fadeOut();
                 this.leaveButton.fadeIn();
             } ));

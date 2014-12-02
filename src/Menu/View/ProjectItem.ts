@@ -1,6 +1,6 @@
 module FlipPlus.Menu.View {
 
-    export class ProjectItem extends gameui.ui.Button {
+    export class ProjectItem extends gameui.Button {
 
         public project: Projects.Project;
 

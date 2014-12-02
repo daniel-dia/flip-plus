@@ -54,7 +54,7 @@
             //adds 3 barrels
             for (var b = 0; b < barrelsCount; b++) {
 
-                var barrel = new gameui.ui.Button();
+                var barrel = new gameui.Button();
                 barrel.addEventListener("click", (event: createjs.MouseEvent) => { this.barrelTap(event) });
 
                 //adds Barrel 
@@ -206,7 +206,7 @@
         private barrelTap(event: createjs.MouseEvent) {
             //identify tapped barrel
             var barrelId = this.barrels.indexOf(<createjs.DisplayObject>event.currentTarget);
-            var barrelObj = <gameui.ui.Button>this.barrels[barrelId];
+            var barrelObj = <gameui.Button>this.barrels[barrelId];
 
             //remove barrel mouse interactivity 
             barrelObj.mouseEnabled = false;

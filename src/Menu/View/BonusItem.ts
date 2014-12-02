@@ -2,7 +2,7 @@
 
 module FlipPlus.Menu.View {
 
-    export class BonusItem extends gameui.ui.ImageButton {
+    export class BonusItem extends gameui.ImageButton {
 
         public bonusId: string;
         private timerText: createjs.Text;

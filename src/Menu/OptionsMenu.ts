@@ -8,7 +8,7 @@ module FlipPlus.Menu {
         public buildObjects() {
 
             //Add Back Button
-            var bb = new gameui.ui.TextButton(stringResources.op_back,defaultFontFamilyNormal,defaultFontColor,"",() => {
+            var bb = new gameui.TextButton(stringResources.op_back,defaultFontFamilyNormal,defaultFontColor,"",() => {
                 FlipPlusGame.showMainMenu();
             });
 
@@ -16,7 +16,7 @@ module FlipPlus.Menu {
             this.content.addChild(bb);
 
             
-            var cdb= new gameui.ui.TextButton(stringResources.op_erase,defaultFontFamilyNormal,defaultFontColor,"", () => {
+            var cdb= new gameui.TextButton(stringResources.op_erase,defaultFontFamilyNormal,defaultFontColor,"", () => {
                 FlipPlusGame.projectData.clearAllData();
                 window.location.reload();
             });

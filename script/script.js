@@ -1916,10 +1916,10 @@ var FlipPlus;
                 }
                 MenuOverlay.prototype.buildObjects = function () {
                     //Add Back Button
-                    var menuContainer = new gameui.ui.Grid(1, 1, null, 373, null, true);
+                    var menuContainer = new gameui.Grid(1, 1, null, 373, null, true);
                     menuContainer.y = 1676;
                     this.addChild(menuContainer);
-                    this.pauseButton = new gameui.ui.TextButton("Pause");
+                    this.pauseButton = new gameui.TextButton("Pause");
                     menuContainer.addObject(this.pauseButton);
                 };
                 return MenuOverlay;
@@ -1935,13 +1935,13 @@ var FlipPlus;
                     var backgroundShape = new createjs.Shape();
                     backgroundShape.graphics.beginFill("rgba(0,0,0,0.2)").drawRect(0, 0, DefaultWidth, DefaultHeight);
                     this.addChild(backgroundShape);
-                    var mc = new gameui.ui.MenuContainer();
+                    var mc = new gameui.MenuContainer();
                     this.addChild(mc);
                     //Add Back Button
-                    var menuContainer = new gameui.ui.Grid(1, 1, null, 373, null, true);
+                    var menuContainer = new gameui.Grid(1, 1, null, 373, null, true);
                     menuContainer.y = 1676;
                     this.addChild(menuContainer);
-                    this.backButton = new gameui.ui.TextButton("Continue");
+                    this.backButton = new gameui.TextButton("Continue");
                     menuContainer.addObject(this.backButton);
                     //add Label
                     mc.addLabel("Paused");
@@ -1959,16 +1959,16 @@ var FlipPlus;
                 };
                 PauseOverlay.prototype.createConfirmationContainer = function () {
                     var _this = this;
-                    this.confirm = new gameui.ui.MenuContainer(null, 100);
+                    this.confirm = new gameui.MenuContainer(null, 100);
                     this.confirm.y = DefaultHeight / 1.8;
                     var smc;
-                    smc = new gameui.ui.Grid(2, 1, 700, 100, null, true);
+                    smc = new gameui.Grid(2, 1, 700, 100, null, true);
                     this.confirm.addLabel("Are you sure?");
                     this.confirm.addObject(smc);
                     smc.regX = 700 / 2;
                     smc.y -= 150;
-                    this.confirmMainButton = new gameui.ui.TextButton("Yes", null, "botao2.png");
-                    smc.addObject(new gameui.ui.TextButton("No", "", "", "botao2.png", function () {
+                    this.confirmMainButton = new gameui.TextButton("Yes", null, "botao2.png");
+                    smc.addObject(new gameui.TextButton("No", "", "", "botao2.png", function () {
                         _this.confirm.fadeOut();
                         _this.leaveButton.fadeIn();
                     }));
@@ -2013,10 +2013,10 @@ var FlipPlus;
                 //creates all menu butons
                 GamePlayMenu.prototype.createGamePlayMenu = function () {
                     var _this = this;
-                    this.overlayMenu = new gameui.ui.UIItem();
+                    this.overlayMenu = new gameui.UIItem();
                     this.overlayMenu.width = 2 * DefaultWidth;
                     this.overlayMenu.height = 0;
-                    var pausBt = new gameui.ui.IconButton("puzzle/iconepause", "", "", "", "puzzle/btpowerup", function () {
+                    var pausBt = new gameui.IconButton("puzzle/iconepause", "", "", "", "puzzle/btpowerup", function () {
                         _this.pause();
                     });
                     this.overlayMenu.addChild(pausBt), pausBt.x = 1390;
@@ -2033,7 +2033,7 @@ var FlipPlus;
                 GamePlayMenu.prototype.createItemButton = function (buttonId, pos) {
                     var _this = this;
                     this.items.push(buttonId);
-                    var button = new gameui.ui.IconButton("puzzle/icon_" + buttonId, "", defaultFontFamilyNormal, "white", "puzzle/btpowerup", function () {
+                    var button = new gameui.IconButton("puzzle/icon_" + buttonId, "", defaultFontFamilyNormal, "white", "puzzle/btpowerup", function () {
                         var parameter = null;
                         if (_this.parameters)
                             parameter = _this.parameters[buttonId];
@@ -2067,24 +2067,24 @@ var FlipPlus;
                 // ============== pause menus ============================================
                 GamePlayMenu.prototype.createPauseMenu = function () {
                     var _this = this;
-                    var pauseMenu = new gameui.ui.UIItem();
-                    var playBt = new gameui.ui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", function () {
+                    var pauseMenu = new gameui.UIItem();
+                    var playBt = new gameui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", function () {
                         _this.unpause();
                     }, "buttonOut");
                     playBt.x = 600;
-                    var snd1Bt = new gameui.ui.ImageButton("puzzle/btsom1", function () {
+                    var snd1Bt = new gameui.ImageButton("puzzle/btsom1", function () {
                         _this.dispatchEvent("soundOn");
                     }, "buttonOut");
                     snd1Bt.x = 160;
-                    var snd2Bt = new gameui.ui.ImageButton("puzzle/btsom2", function () {
+                    var snd2Bt = new gameui.ImageButton("puzzle/btsom2", function () {
                         _this.dispatchEvent("soundOff");
                     }, "buttonOut");
                     snd2Bt.x = 160;
-                    var backBt = new gameui.ui.ImageButton("puzzle/btsair", function () {
+                    var backBt = new gameui.ImageButton("puzzle/btsair", function () {
                         _this.dispatchEvent("back");
                     }, "buttonOut");
                     backBt.x = 400;
-                    var restBt = new gameui.ui.ImageButton("puzzle/btrest", function () {
+                    var restBt = new gameui.ImageButton("puzzle/btrest", function () {
                         _this.dispatchEvent("restart");
                     }, "buttonOut");
                     restBt.x = -80;
@@ -2139,7 +2139,7 @@ var FlipPlus;
                     this.buttons[itemId].mouseEnabled = true;
                 };
                 return GamePlayMenu;
-            })(gameui.ui.UIItem);
+            })(gameui.UIItem);
             Views.GamePlayMenu = GamePlayMenu;
         })(Views = GamePlay.Views || (GamePlay.Views = {}));
     })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
@@ -2469,7 +2469,7 @@ var FlipPlus;
                 //creates a container
                 var barrelsContainer = new createjs.Container();
                 for (var b = 0; b < barrelsCount; b++) {
-                    var barrel = new gameui.ui.Button();
+                    var barrel = new gameui.Button();
                     barrel.addEventListener("click", function (event) {
                         _this.barrelTap(event);
                     });
@@ -2787,7 +2787,7 @@ var FlipPlus;
                 itemDO.visible = false;
                 this.addChild(itemDO);
                 //add cover image
-                var cover = new gameui.ui.ImageButton("Bonus2/bonuscard1");
+                var cover = new gameui.ImageButton("Bonus2/bonuscard1");
                 cover.x = 368 / 2;
                 cover.y = 279 / 2;
                 cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
@@ -3081,14 +3081,14 @@ var FlipPlus;
             LevelsMenu.prototype.createPaginationButtons = function (pagesContainer) {
                 var _this = this;
                 //create leftButton
-                var lb = new gameui.ui.ImageButton("projects/btpage", function () {
+                var lb = new gameui.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoPreviousPage();
                 }, "buttonOut");
                 lb.y = 1050;
                 lb.x = DefaultWidth * 0.1;
                 this.content.addChild(lb);
                 //create right button
-                var rb = new gameui.ui.ImageButton("projects/btpage", function () {
+                var rb = new gameui.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoNextPage();
                 });
                 rb.y = 1050;
@@ -3153,7 +3153,7 @@ var FlipPlus;
             Loading.prototype.initializeImages = function () {
                 var _this = this;
                 var loader = gameui.AssetsManager.loadAssets(getAssetsManifest(assetscale), spriteSheets, images);
-                gameui.ui.Button.setDefaultSoundId("button");
+                gameui.Button.setDefaultSoundId("button");
                 //var loader = Assets.loadAssets();
                 var text = new createjs.Text("", "600 90px Arial", "#FFF");
                 text.x = DefaultWidth / 2;
@@ -3261,7 +3261,7 @@ var FlipPlus;
                 this.content.addChild(this.terminal);
             };
             MainMenu.prototype.addPlayButton = function () {
-                var playBt = new gameui.ui.TextButton(stringResources["mm_play"], defaultFontFamilyHighlight, highlightFontColor, "", function () {
+                var playBt = new gameui.TextButton(stringResources["mm_play"], defaultFontFamilyHighlight, highlightFontColor, "", function () {
                     FlipPlus.FlipPlusGame.showProjectsMenu();
                 });
                 this.content.addChild(playBt);
@@ -3342,12 +3342,12 @@ var FlipPlus;
             }
             OptionsMenu.prototype.buildObjects = function () {
                 //Add Back Button
-                var bb = new gameui.ui.TextButton(stringResources.op_back, defaultFontFamilyNormal, defaultFontColor, "", function () {
+                var bb = new gameui.TextButton(stringResources.op_back, defaultFontFamilyNormal, defaultFontColor, "", function () {
                     FlipPlus.FlipPlusGame.showMainMenu();
                 });
                 bb.x = bb.y = 100;
                 this.content.addChild(bb);
-                var cdb = new gameui.ui.TextButton(stringResources.op_erase, defaultFontFamilyNormal, defaultFontColor, "", function () {
+                var cdb = new gameui.TextButton(stringResources.op_erase, defaultFontFamilyNormal, defaultFontColor, "", function () {
                     FlipPlus.FlipPlusGame.projectData.clearAllData();
                     window.location.reload();
                 });
@@ -3532,14 +3532,14 @@ var FlipPlus;
                 bg.y = -246;
                 this.footer.addChild(bg);
                 //create leftButton
-                var lb = new gameui.ui.ImageButton("projects/btpage", function () {
+                var lb = new gameui.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoPreviousPage();
                 }, "buttonOut");
                 lb.y = -100;
                 lb.x = DefaultWidth * 0.1;
                 this.footer.addChild(lb);
                 //create right button
-                var rb = new gameui.ui.ImageButton("projects/btpage", function () {
+                var rb = new gameui.ImageButton("projects/btpage", function () {
                     _this.pagesSwipe.gotoNextPage();
                 });
                 rb.y = -100;
@@ -3602,22 +3602,22 @@ var FlipPlus;
                 this.createObjects();
             }
             SoundMenu.prototype.createObjects = function () {
-                var sfxon = new gameui.ui.IconButton("botaofxon.png", "", "", "", "botaosom.png", function () {
+                var sfxon = new gameui.IconButton("botaofxon.png", "", "", "", "botaosom.png", function () {
                     FlipPlus.FlipPlusGame.settings.setSoundfX(false);
                     sfxon.visible = false;
                     sfxoff.visible = true;
                 });
-                var sfxoff = new gameui.ui.IconButton("botaofxoff.png", "", "", "", "botaosom.png", function () {
+                var sfxoff = new gameui.IconButton("botaofxoff.png", "", "", "", "botaosom.png", function () {
                     FlipPlus.FlipPlusGame.settings.setSoundfX(true);
                     sfxoff.visible = false;
                     sfxon.visible = true;
                 });
-                var muson = new gameui.ui.IconButton("botaomusicaon.png", "", "", "", "botaosom.png", function () {
+                var muson = new gameui.IconButton("botaomusicaon.png", "", "", "", "botaosom.png", function () {
                     FlipPlus.FlipPlusGame.settings.setMusic(false);
                     muson.visible = false;
                     musoff.visible = true;
                 });
-                var musoff = new gameui.ui.IconButton("botaomusicaoff.png", "", "", "", "botaosom.png", function () {
+                var musoff = new gameui.IconButton("botaomusicaoff.png", "", "", "", "botaosom.png", function () {
                     FlipPlus.FlipPlusGame.settings.setMusic(true);
                     musoff.visible = false;
                     muson.visible = true;
@@ -3627,8 +3627,8 @@ var FlipPlus;
                 sfxoff.visible = !FlipPlus.FlipPlusGame.settings.getSoundfx();
                 sfxon.visible = FlipPlus.FlipPlusGame.settings.getSoundfx();
                 //Add Sound Buttons
-                var soundMenuOn = new gameui.ui.Grid(2, 1, 600, 372, null, true);
-                var soundMenuOff = new gameui.ui.Grid(2, 1, 600, 372, null, true);
+                var soundMenuOn = new gameui.Grid(2, 1, 600, 372, null, true);
+                var soundMenuOff = new gameui.Grid(2, 1, 600, 372, null, true);
                 soundMenuOn.addObject(sfxon);
                 soundMenuOn.addObject(muson);
                 soundMenuOff.addObject(sfxoff);
@@ -3706,14 +3706,14 @@ var FlipPlus;
                     if (backVisible === void 0) { backVisible = true; }
                     if (starsVisible === void 0) { starsVisible = false; }
                     //adds menu button
-                    var menuBt = new gameui.ui.ImageButton("MenuBt", function () {
+                    var menuBt = new gameui.ImageButton("MenuBt", function () {
                         _this.dispatchEvent("menu", menuBt);
                     });
                     menuBt.y = 90;
                     menuBt.x = DefaultWidth - 130;
                     this.addChild(menuBt);
                     //add a bacl buttton
-                    var backBt = new gameui.ui.ImageButton("BackBt", function () {
+                    var backBt = new gameui.ImageButton("BackBt", function () {
                         _this.dispatchEvent("back", menuBt);
                     }, "buttonOut");
                     backBt.y = 90;
@@ -3722,7 +3722,7 @@ var FlipPlus;
                     this.addChild(backBt);
                 };
                 return ScreenMenu;
-            })(gameui.ui.UIItem);
+            })(gameui.UIItem);
             View.ScreenMenu = ScreenMenu;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
@@ -3785,7 +3785,7 @@ var FlipPlus;
                     }
                 };
                 return LevelGrid;
-            })(gameui.ui.Grid);
+            })(gameui.Grid);
             View.LevelGrid = LevelGrid;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
@@ -3926,7 +3926,7 @@ var FlipPlus;
                     }
                 };
                 return LevelThumb;
-            })(gameui.ui.Button);
+            })(gameui.Button);
             View.LevelThumb = LevelThumb;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
@@ -3975,7 +3975,7 @@ var FlipPlus;
                     si.y = -5;
                 };
                 return StarsIndicator;
-            })(gameui.ui.Button);
+            })(gameui.Button);
             View.StarsIndicator = StarsIndicator;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
@@ -4123,7 +4123,7 @@ var FlipPlus;
                     }
                 };
                 return ProjectItem;
-            })(gameui.ui.Button);
+            })(gameui.Button);
             View.ProjectItem = ProjectItem;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
@@ -5136,7 +5136,7 @@ var FlipPlus;
                 itemDO.y -= itemDO.getBounds().height / 2;
                 card.addChild(itemDO);
                 //add cover image
-                var cover = new gameui.ui.ImageButton("Bonus2/bonuscard1");
+                var cover = new gameui.ImageButton("Bonus2/bonuscard1");
                 cover.x = 368 / 2;
                 cover.y = 279 / 2;
                 cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
@@ -5810,7 +5810,7 @@ var FlipPlus;
                     return time;
                 };
                 return BonusItem;
-            })(gameui.ui.ImageButton);
+            })(gameui.ImageButton);
             View.BonusItem = BonusItem;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
@@ -5892,7 +5892,7 @@ var FlipPlus;
                     this.fadeOut(1, 0.5);
                 };
                 return Message;
-            })(gameui.ui.UIItem);
+            })(gameui.UIItem);
             View.Message = Message;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
@@ -6127,7 +6127,7 @@ var FlipPlus;
                 Popup.prototype.drawObject = function () {
                 };
                 return Popup;
-            })(gameui.ui.UIItem);
+            })(gameui.UIItem);
             View.Popup = Popup;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
@@ -6472,7 +6472,7 @@ var FlipPlus;
                     });
                 };
                 return TextEffect;
-            })(gameui.ui.UIItem);
+            })(gameui.UIItem);
             View.TextEffect = TextEffect;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));

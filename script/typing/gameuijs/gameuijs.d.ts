@@ -1,5 +1,5 @@
 /// <reference path="../createjs/createjs.d.ts" />
-declare module gameui.ui {
+declare module gameui {
     class UIItem extends createjs.Container {
         public width: number;
         public height: number;
@@ -13,7 +13,7 @@ declare module gameui.ui {
         public createHitArea(): void;
     }
 }
-declare module gameui.ui {
+declare module gameui {
     class Grid extends UIItem {
         private flowHorizontal;
         private cols;
@@ -30,7 +30,7 @@ declare module gameui.ui {
         private updatePosition();
     }
 }
-declare module gameui.ui {
+declare module gameui {
     class Button extends UIItem {
         static DefaultSoundId: string;
         static setDefaultSoundId(soundId: string): void;
@@ -43,6 +43,7 @@ declare module gameui.ui {
         public returnStatus(): void;
         private onPressUp(Event);
         private onPress(Event);
+        public setSound(soundId: string): void;
     }
     class ImageButton extends Button {
         public background: createjs.Bitmap;
@@ -60,7 +61,7 @@ declare module gameui.ui {
         public centralizeIcon(): void;
     }
 }
-declare module gameui.ui {
+declare module gameui {
     class MenuContainer extends Grid {
         constructor(width?: number, height?: number, flowHorizontal?: boolean);
         public addLabel(text: string): createjs.Text;
@@ -68,7 +69,7 @@ declare module gameui.ui {
         public addOutButton(text: string, event?: (event: createjs.MouseEvent) => any): TextButton;
     }
 }
-declare module gameui.ui {
+declare module gameui {
     class Label extends UIItem {
         private background;
         public textField: createjs.Text;
@@ -127,7 +128,7 @@ declare module gameui {
         private static getLoadedImage(name);
         static getMovieClip(name: string): createjs.Sprite;
         static getSprite(name: string, play?: boolean): createjs.Sprite;
-        static playSound(name: string, interrupt?: boolean, delay?: number): createjs.SoundInstance;
+        static playSound(name: string, interrupt?: boolean, delay?: number, offset?: number, loop?: number, volume?: number): createjs.SoundInstance;
         private static currentMusicName;
         private static currentMusic;
         static playMusic(name: string, volume?: number): void;

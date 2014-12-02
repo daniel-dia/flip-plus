@@ -1,7 +1,7 @@
 module FlipPlus.Menu.View {
 
     // View Class
-    export class TextEffect extends gameui.ui.UIItem{
+    export class TextEffect extends gameui.UIItem{
 
         private closeinterval;
 

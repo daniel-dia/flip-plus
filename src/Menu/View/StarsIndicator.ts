@@ -1,7 +1,7 @@
 module FlipPlus.Menu.View {
 
     // View Class
-    export class StarsIndicator extends gameui.ui.Button{
+    export class StarsIndicator extends gameui.Button{
 
         private partsTextField: createjs.Text;
         private starsTextField: createjs.Text;

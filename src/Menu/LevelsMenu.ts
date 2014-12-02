@@ -24,8 +24,7 @@ module FlipPlus.Menu {
             this.addObjects();
             this.pagesSwipe = new PagesSwipe(this.projectsContainer, this.projectViews, DefaultWidth, 200, 1500);
             this.createPaginationButtons(this.projectsContainer)
-            
-      
+
         }
         
         //--------------------- Initialization ---------------------
@@ -121,13 +120,13 @@ module FlipPlus.Menu {
 
         private createPaginationButtons(pagesContainer: createjs.Container) {
             //create leftButton
-            var lb: gameui.ui.Button = new gameui.ui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() },"buttonOut");
+            var lb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() },"buttonOut");
             lb.y = 1050;
             lb.x = DefaultWidth * 0.1;
             this.content.addChild(lb);
 
             //create right button
-            var rb: gameui.ui.Button = new gameui.ui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
+            var rb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
             rb.y = 1050;
             rb.x = DefaultWidth * 0.9;
             rb.scaleX = -1;

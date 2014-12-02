@@ -1,6 +1,6 @@
 module FlipPlus.Menu.View {
 
-    export class LevelGrid extends gameui.ui.Grid {
+    export class LevelGrid extends gameui.Grid {
 
         private challangesMap = new Object();
         private currentChapter: Projects.Project;

@@ -203,7 +203,7 @@ module FlipPlus.GamePlay {
             FlipPlusGame.analytics.logLevelWin(this.levelData.name, (Date.now() - this.startedTime) / 100, this.clicks)
 
             //play a win sound
-            ///gameui.AssetsManager.playSound("win");
+            gameui.AssetsManager.playSound("final");
 
             //verifies if user already completed this level and verifies if player used any item in the game
             if (!this.levelData.userdata.solved)

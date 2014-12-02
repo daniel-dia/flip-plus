@@ -1,7 +1,7 @@
 module FlipPlus.Menu.View {
 
     // View Class
-    export class Popup extends gameui.ui.UIItem{
+    export class Popup extends gameui.UIItem{
 
         private closeinterval;
         //class contructor
@@ -234,10 +234,11 @@ module FlipPlus.Menu.View {
 
         showsPopup(timeout:number, delay:number) {
 
-            gameui.AssetsManager.playSound("Open")
-
             //shows the popus
             this.closeinterval = setTimeout(() => {
+
+                gameui.AssetsManager.playSound("Open")
+
                 this.fadeIn(1,0.5);
             }, delay);;
 

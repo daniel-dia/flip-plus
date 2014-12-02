@@ -1,6 +1,6 @@
 module FlipPlus.Menu.View {
 
-    export class LevelThumb extends gameui.ui.Button {
+    export class LevelThumb extends gameui.Button {
 
         private theme: string;
 
@@ -22,7 +22,6 @@ module FlipPlus.Menu.View {
 
             //create a new thumb
             this.createThumbs(this.level);
-
             this.createHitArea();
         } 
 
@@ -41,24 +40,29 @@ module FlipPlus.Menu.View {
             this.addChild(thumbContainer);
             
             //defines thumb state
+            //
             if (level.userdata.unlocked && level.userdata.solved || level.userdata.skip) {
                 assetSufix = "1";
                 color1 = "rgba(255,255,255,0.5)";
                 color2 = "rgba(0,0,0,0.3)";
+                this.setSound(null);
             }
 
-
+            // locked
             if (!level.userdata.unlocked || level.userdata.skip || level.userdata.item) {
                 assetSufix = "2";
                 color1 = "rgba(0,0,0,0.5)";
                 color2 = "rgba(0,0,0,0.3)";
+                this.setSound("buttonOff");
             }
 
             
+            // next playable
             if (level.userdata.unlocked && !level.userdata.solved && !level.userdata.skip) {
                 assetSufix = "3";
                 color1 = "rgba(255,255,255,0.9)";
                 color2 = "rgba(0,0,0,0.3)";
+                this.setSound(null);
 
                 //create bounce effect if is active
                 thumbContainer.set({ scaleX: 1, scaleY: 1 })

@@ -18,7 +18,7 @@ module FlipPlus.Menu {
 
             var loader = gameui.AssetsManager.loadAssets(getAssetsManifest(assetscale), spriteSheets, images);
 
-            gameui.ui.Button.setDefaultSoundId("button");
+            gameui.Button.setDefaultSoundId("button");
 
             //var loader = Assets.loadAssets();
             var text = new createjs.Text("", "600 90px Arial", "#FFF");

@@ -1,9 +1,9 @@
 module FlipPlus.GamePlay.Views {
 
-    export class GamePlayMenu extends gameui.ui.UIItem{
+    export class GamePlayMenu extends gameui.UIItem{
 
-        private overlayMenu: gameui.ui.UIItem;
-        private pauseMenu: gameui.ui.UIItem;
+        private overlayMenu: gameui.UIItem;
+        private pauseMenu: gameui.UIItem;
 
         private buttons: any;
         private parameters: any;
@@ -44,11 +44,11 @@ module FlipPlus.GamePlay.Views {
  
         //creates all menu butons
         private createGamePlayMenu() {
-            this.overlayMenu = new gameui.ui.UIItem();
+            this.overlayMenu = new gameui.UIItem();
             this.overlayMenu.width = 2*DefaultWidth;
             this.overlayMenu.height = 0;
 
-            var pausBt = new gameui.ui.IconButton("puzzle/iconepause", "","","", "puzzle/btpowerup", () => { this.pause(); });
+            var pausBt = new gameui.IconButton("puzzle/iconepause", "","","", "puzzle/btpowerup", () => { this.pause(); });
             this.overlayMenu.addChild(pausBt),
             pausBt.x = 1390; 
 
@@ -70,7 +70,7 @@ module FlipPlus.GamePlay.Views {
         private createItemButton(buttonId: string, pos: number): createjs.DisplayObject {
             this.items.push(buttonId);
 
-            var button = new gameui.ui.IconButton("puzzle/icon_" + buttonId, "",  defaultFontFamilyNormal,"white", "puzzle/btpowerup", () => {
+            var button = new gameui.IconButton("puzzle/icon_" + buttonId, "",  defaultFontFamilyNormal,"white", "puzzle/btpowerup", () => {
                 var parameter = null;
                 if (this.parameters) parameter = this.parameters[buttonId]
                 this.dispatchEvent(buttonId, parameter);
@@ -111,13 +111,13 @@ module FlipPlus.GamePlay.Views {
         // ============== pause menus ============================================
 
         private createPauseMenu() {
-            var pauseMenu = new gameui.ui.UIItem();
+            var pauseMenu = new gameui.UIItem();
 
-            var playBt = new gameui.ui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", () => { this.unpause(); }, "buttonOut"); playBt.x = 600;
-            var snd1Bt = new gameui.ui.ImageButton("puzzle/btsom1", () => { this.dispatchEvent("soundOn"); },"buttonOut");  snd1Bt.x = 160;
-            var snd2Bt = new gameui.ui.ImageButton("puzzle/btsom2", () => { this.dispatchEvent("soundOff"); },"buttonOut"); snd2Bt.x = 160;
-            var backBt = new gameui.ui.ImageButton("puzzle/btsair", () => { this.dispatchEvent("back"); }, "buttonOut"); backBt.x = 400;
-            var restBt = new gameui.ui.ImageButton("puzzle/btrest", () => { this.dispatchEvent("restart"); },"buttonOut"); restBt.x = -80;
+            var playBt = new gameui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", () => { this.unpause(); }, "buttonOut"); playBt.x = 600;
+            var snd1Bt = new gameui.ImageButton("puzzle/btsom1", () => { this.dispatchEvent("soundOn"); },"buttonOut");  snd1Bt.x = 160;
+            var snd2Bt = new gameui.ImageButton("puzzle/btsom2", () => { this.dispatchEvent("soundOff"); },"buttonOut"); snd2Bt.x = 160;
+            var backBt = new gameui.ImageButton("puzzle/btsair", () => { this.dispatchEvent("back"); }, "buttonOut"); backBt.x = 400;
+            var restBt = new gameui.ImageButton("puzzle/btrest", () => { this.dispatchEvent("restart"); },"buttonOut"); restBt.x = -80;
             
             pauseMenu.addChild(playBt)
             pauseMenu.addChild(snd1Bt)

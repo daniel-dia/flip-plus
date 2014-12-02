@@ -195,7 +195,7 @@
             this.addChild(itemDO);
 
             //add cover image
-            var cover = new gameui.ui.ImageButton("Bonus2/bonuscard1");
+            var cover = new gameui.ImageButton("Bonus2/bonuscard1");
             cover.x = 368 / 2;
             cover.y = 279 / 2;
             cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));

@@ -6,399 +6,388 @@
 };
 var gameui;
 (function (gameui) {
-    (function (ui) {
-        // Class
-        var UIItem = (function (_super) {
-            __extends(UIItem, _super);
-            function UIItem() {
-                _super.apply(this, arguments);
-                this.centered = false;
-                this.animating = false;
-            }
-            UIItem.prototype.centralize = function () {
-                this.regX = this.width / 2;
-                this.regY = this.height / 2;
-                this.centered = true;
-            };
+    // Class
+    var UIItem = (function (_super) {
+        __extends(UIItem, _super);
+        function UIItem() {
+            _super.apply(this, arguments);
+            this.centered = false;
+            this.animating = false;
+        }
+        UIItem.prototype.centralize = function () {
+            this.regX = this.width / 2;
+            this.regY = this.height / 2;
+            this.centered = true;
+        };
 
-            UIItem.prototype.fadeOut = function (scaleX, scaleY) {
-                var _this = this;
-                if (typeof scaleX === "undefined") { scaleX = 0.5; }
-                if (typeof scaleY === "undefined") { scaleY = 0.5; }
-                this.animating = true;
+        UIItem.prototype.fadeOut = function (scaleX, scaleY) {
+            var _this = this;
+            if (typeof scaleX === "undefined") { scaleX = 0.5; }
+            if (typeof scaleY === "undefined") { scaleY = 0.5; }
+            this.animating = true;
+            this.antX = this.x;
+            this.antY = this.y;
+            this.mouseEnabled = false;
+            createjs.Tween.removeTweens(this);
+            createjs.Tween.get(this).to({
+                scaleX: scaleX,
+                scaleY: scaleY,
+                alpha: 0,
+                x: this.antX,
+                y: this.antY
+            }, 200, createjs.Ease.quadIn).call(function () {
+                _this.visible = false;
+                _this.x = _this.antX;
+                _this.y = _this.antY;
+                _this.scaleX = _this.scaleY = 1;
+                _this.alpha = 1;
+                _this.animating = false;
+                _this.mouseEnabled = true;
+                ;
+            });
+        };
+
+        UIItem.prototype.fadeIn = function (scaleX, scaleY) {
+            var _this = this;
+            if (typeof scaleX === "undefined") { scaleX = 0.5; }
+            if (typeof scaleY === "undefined") { scaleY = 0.5; }
+            this.visible = true;
+            this.animating = true;
+
+            if (this.antX == null) {
                 this.antX = this.x;
                 this.antY = this.y;
-                this.mouseEnabled = false;
-                createjs.Tween.removeTweens(this);
-                createjs.Tween.get(this).to({
-                    scaleX: scaleX,
-                    scaleY: scaleY,
-                    alpha: 0,
-                    x: this.antX,
-                    y: this.antY
-                }, 200, createjs.Ease.quadIn).call(function () {
-                    _this.visible = false;
-                    _this.x = _this.antX;
-                    _this.y = _this.antY;
-                    _this.scaleX = _this.scaleY = 1;
-                    _this.alpha = 1;
-                    _this.animating = false;
-                    _this.mouseEnabled = true;
-                    ;
-                });
-            };
+            }
 
-            UIItem.prototype.fadeIn = function (scaleX, scaleY) {
-                var _this = this;
-                if (typeof scaleX === "undefined") { scaleX = 0.5; }
-                if (typeof scaleY === "undefined") { scaleY = 0.5; }
-                this.visible = true;
-                this.animating = true;
+            this.scaleX = scaleX, this.scaleY = scaleY, this.alpha = 0, this.x = this.x;
+            this.y = this.y;
 
-                if (this.antX == null) {
-                    this.antX = this.x;
-                    this.antY = this.y;
-                }
+            this.mouseEnabled = false;
+            createjs.Tween.removeTweens(this);
+            createjs.Tween.get(this).to({
+                scaleX: 1,
+                scaleY: 1,
+                alpha: 1,
+                x: this.antX,
+                y: this.antY
+            }, 400, createjs.Ease.quadOut).call(function () {
+                _this.mouseEnabled = true;
+                _this.animating = false;
+            });
+        };
 
-                this.scaleX = scaleX, this.scaleY = scaleY, this.alpha = 0, this.x = this.x;
-                this.y = this.y;
+        //calcula
+        UIItem.prototype.createHitArea = function () {
+            var hit = new createjs.Shape();
 
-                this.mouseEnabled = false;
-                createjs.Tween.removeTweens(this);
-                createjs.Tween.get(this).to({
-                    scaleX: 1,
-                    scaleY: 1,
-                    alpha: 1,
-                    x: this.antX,
-                    y: this.antY
-                }, 400, createjs.Ease.quadOut).call(function () {
-                    _this.mouseEnabled = true;
-                    _this.animating = false;
-                });
-            };
+            var b = this.getBounds();
 
-            //calcula
-            UIItem.prototype.createHitArea = function () {
-                var hit = new createjs.Shape();
+            if (b)
+                hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
 
-                var b = this.getBounds();
-
-                if (b)
-                    hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
-
-                //TODO. se for texto colocar uma sobra. !
-                this.hitArea = hit;
-            };
-            return UIItem;
-        })(createjs.Container);
-        ui.UIItem = UIItem;
-    })(gameui.ui || (gameui.ui = {}));
-    var ui = gameui.ui;
+            //TODO. se for texto colocar uma sobra. !
+            this.hitArea = hit;
+        };
+        return UIItem;
+    })(createjs.Container);
+    gameui.UIItem = UIItem;
 })(gameui || (gameui = {}));
 var gameui;
 (function (gameui) {
-    (function (ui) {
-        //this class alow user to arrange objects in a grid forrmat
-        //the anchor point is the center of object
-        var Grid = (function (_super) {
-            __extends(Grid, _super);
-            function Grid(cols, rows, width, height, padding, flowHorizontal) {
-                if (typeof padding === "undefined") { padding = 0; }
-                _super.call(this);
-                //provided variables
-                this.flowHorizontal = false;
-                //control variables;
-                this.currentCol = 0;
-                this.currentRow = 0;
+    //this class alow user to arrange objects in a grid forrmat
+    //the anchor point is the center of object
+    var Grid = (function (_super) {
+        __extends(Grid, _super);
+        function Grid(cols, rows, width, height, padding, flowHorizontal) {
+            if (typeof padding === "undefined") { padding = 0; }
+            _super.call(this);
+            //provided variables
+            this.flowHorizontal = false;
+            //control variables;
+            this.currentCol = 0;
+            this.currentRow = 0;
 
-                //define the variables
-                this.flowHorizontal = flowHorizontal;
-                this.cols = cols;
-                this.rows = rows;
-                this.padding = padding;
-                this.width = width;
-                this.height = height;
+            //define the variables
+            this.flowHorizontal = flowHorizontal;
+            this.cols = cols;
+            this.rows = rows;
+            this.padding = padding;
+            this.width = width;
+            this.height = height;
 
-                //define other parameters
-                this.wSpacing = (width - padding * 2) / cols;
-                this.hSpacing = (height - padding * 2) / rows;
-            }
-            //place objecrs into a grid format
-            Grid.prototype.addObject = function (object) {
-                this.addChild(object);
-                object.x = this.getXPos();
-                object.y = this.getYPos();
-                this.updatePosition();
-            };
+            //define other parameters
+            this.wSpacing = (width - padding * 2) / cols;
+            this.hSpacing = (height - padding * 2) / rows;
+        }
+        //place objecrs into a grid format
+        Grid.prototype.addObject = function (object) {
+            this.addChild(object);
+            object.x = this.getXPos();
+            object.y = this.getYPos();
+            this.updatePosition();
+        };
 
-            Grid.prototype.getXPos = function () {
-                return this.padding + this.currentCol * this.wSpacing + this.wSpacing / 2;
-            };
-            Grid.prototype.getYPos = function () {
-                return this.padding + this.currentRow * this.hSpacing + this.hSpacing / 2;
-            };
+        Grid.prototype.getXPos = function () {
+            return this.padding + this.currentCol * this.wSpacing + this.wSpacing / 2;
+        };
+        Grid.prototype.getYPos = function () {
+            return this.padding + this.currentRow * this.hSpacing + this.hSpacing / 2;
+        };
 
-            //define next Item position
-            Grid.prototype.updatePosition = function () {
-                if (!this.flowHorizontal) {
-                    this.currentCol++;
-                    if (this.currentCol >= this.cols) {
-                        this.currentCol = 0;
-                        this.currentRow++;
-                    }
-                } else {
+        //define next Item position
+        Grid.prototype.updatePosition = function () {
+            if (!this.flowHorizontal) {
+                this.currentCol++;
+                if (this.currentCol >= this.cols) {
+                    this.currentCol = 0;
                     this.currentRow++;
-                    if (this.currentRow >= this.rows) {
-                        this.currentRow = 0;
-                        this.currentCol++;
-                    }
                 }
-            };
-            return Grid;
-        })(ui.UIItem);
-        ui.Grid = Grid;
-    })(gameui.ui || (gameui.ui = {}));
-    var ui = gameui.ui;
+            } else {
+                this.currentRow++;
+                if (this.currentRow >= this.rows) {
+                    this.currentRow = 0;
+                    this.currentCol++;
+                }
+            }
+        };
+        return Grid;
+    })(gameui.UIItem);
+    gameui.Grid = Grid;
 })(gameui || (gameui = {}));
 var gameui;
 (function (gameui) {
-    (function (ui) {
-        // Class
-        var Button = (function (_super) {
-            __extends(Button, _super);
-            function Button(soundId) {
-                var _this = this;
-                _super.call(this);
-                this.enableAnimation = true;
-                this.mouse = false;
-                this.addEventListener("mousedown", function (event) {
-                    _this.onPress(event);
-                });
-                this.addEventListener("pressup", function (event) {
-                    _this.onPressUp(event);
-                });
+    // Class
+    var Button = (function (_super) {
+        __extends(Button, _super);
+        function Button(soundId) {
+            var _this = this;
+            _super.call(this);
+            this.enableAnimation = true;
+            this.mouse = false;
+            this.addEventListener("mousedown", function (event) {
+                _this.onPress(event);
+            });
+            this.addEventListener("pressup", function (event) {
+                _this.onPressUp(event);
+            });
 
-                this.addEventListener("mouseover", function () {
-                    _this.mouse = true;
-                });
-                this.addEventListener("mouseout", function () {
-                    _this.mouse = false;
-                });
+            this.addEventListener("mouseover", function () {
+                _this.mouse = true;
+            });
+            this.addEventListener("mouseout", function () {
+                _this.mouse = false;
+            });
 
-                this.soundId = soundId;
+            this.soundId = soundId;
+        }
+        Button.setDefaultSoundId = function (soundId) {
+            this.DefaultSoundId = soundId;
+        };
+
+        Button.prototype.returnStatus = function () {
+            if (!this.mouse) {
+                this.scaleX = this.originalScaleX;
+                this.scaleY = this.originalScaleY;
             }
-            Button.setDefaultSoundId = function (soundId) {
-                this.DefaultSoundId = soundId;
-            };
+        };
 
-            Button.prototype.returnStatus = function () {
-                if (!this.mouse) {
-                    this.scaleX = this.originalScaleX;
-                    this.scaleY = this.originalScaleY;
-                }
-            };
+        Button.prototype.onPressUp = function (Event) {
+            this.mouse = false;
+            this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
+            createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
+        };
 
-            Button.prototype.onPressUp = function (Event) {
-                this.mouse = false;
-                this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
-                createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
-            };
+        Button.prototype.onPress = function (Event) {
+            var _this = this;
+            if (!this.enableAnimation)
+                return;
 
-            Button.prototype.onPress = function (Event) {
-                var _this = this;
-                if (!this.enableAnimation)
-                    return;
-
-                this.mouse = true;
-                if (this.originalScaleX == null) {
-                    this.originalScaleX = this.scaleX;
-                    this.originalScaleY = this.scaleY;
-                }
-                createjs.Tween.get(this).to({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 }, 500, createjs.Ease.elasticOut).call(function () {
-                    if (!_this.mouse) {
-                        createjs.Tween.get(_this).to({ scaleX: _this.originalScaleX, scaleY: _this.originalScaleY }, 300, createjs.Ease.backOut);
-                    }
-                });
-
-                if (!this.soundId)
-                    this.soundId = Button.DefaultSoundId;
-                if (this.soundId)
-                    gameui.AssetsManager.playSound(this.soundId);
-            };
-            return Button;
-        })(ui.UIItem);
-        ui.Button = Button;
-
-        var ImageButton = (function (_super) {
-            __extends(ImageButton, _super);
-            function ImageButton(image, event, soundId) {
-                var _this = this;
-                _super.call(this, soundId);
-
-                if (event != null)
-                    this.addEventListener("click", event);
-
-                //adds image into it
-                if (image != null) {
-                    this.background = gameui.AssetsManager.getBitmap(image);
-                    this.addChildAt(this.background, 0);
-
-                    //Sets the image into the pivot center.
-                    if (this.background.getBounds()) {
-                        this.centralizeImage();
-                    } else if (this.background["image"])
-                        this.background["image"].onload = function () {
-                            _this.centralizeImage();
-                        };
-                }
+            this.mouse = true;
+            if (this.originalScaleX == null) {
+                this.originalScaleX = this.scaleX;
+                this.originalScaleY = this.scaleY;
             }
-            ImageButton.prototype.centralizeImage = function () {
-                this.width = this.background.getBounds().width;
-                this.height = this.background.getBounds().height;
-                this.background.regX = this.width / 2;
-                this.background.regY = this.height / 2;
-                this.centered = true;
-                this.createHitArea();
-            };
-            return ImageButton;
-        })(Button);
-        ui.ImageButton = ImageButton;
-
-        var TextButton = (function (_super) {
-            __extends(TextButton, _super);
-            function TextButton(text, font, color, background, event, soundId) {
-                if (typeof text === "undefined") { text = ""; }
-                _super.call(this, background, event, soundId);
-
-                //add text into it.
-                text = text.toUpperCase();
-
-                this.text = new createjs.Text(text, font, color);
-                this.text.textBaseline = "middle";
-                this.text.textAlign = "center";
-
-                //createHitArea
-                if (background == null) {
-                    this.width = this.text.getMeasuredWidth() * 1.5;
-                    this.height = this.text.getMeasuredHeight() * 1.5;
+            createjs.Tween.get(this).to({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 }, 500, createjs.Ease.elasticOut).call(function () {
+                if (!_this.mouse) {
+                    createjs.Tween.get(_this).to({ scaleX: _this.originalScaleX, scaleY: _this.originalScaleY }, 300, createjs.Ease.backOut);
                 }
+            });
 
-                this.addChild(this.text);
-                this.createHitArea();
-            }
-            return TextButton;
-        })(ImageButton);
-        ui.TextButton = TextButton;
+            if (!this.soundId)
+                this.soundId = Button.DefaultSoundId;
+            if (this.soundId)
+                gameui.AssetsManager.playSound(this.soundId);
+        };
 
-        var IconButton = (function (_super) {
-            __extends(IconButton, _super);
-            function IconButton(icon, text, font, color, background, event, soundId) {
-                if (typeof icon === "undefined") { icon = ""; }
-                if (typeof text === "undefined") { text = ""; }
-                if (typeof font === "undefined") { font = null; }
-                var _this = this;
-                //add space before text
-                if (text != "")
-                    text = " " + text;
+        Button.prototype.setSound = function (soundId) {
+            this.soundId = soundId;
+        };
+        return Button;
+    })(gameui.UIItem);
+    gameui.Button = Button;
 
-                _super.call(this, text, font, color, background, event, soundId);
+    var ImageButton = (function (_super) {
+        __extends(ImageButton, _super);
+        function ImageButton(image, event, soundId) {
+            var _this = this;
+            _super.call(this, soundId);
 
-                //loads icon Image
-                this.icon = gameui.AssetsManager.getBitmap(icon);
-                this.addChild(this.icon);
-                this.text.textAlign = "left";
+            if (event != null)
+                this.addEventListener("click", event);
 
-                if (this.icon.getBounds())
-                    this.icon.regY = this.icon.getBounds().height / 2;
-                else if (this.icon["image"])
-                    this.icon["image"].onload = function () {
-                        _this.icon.regY = _this.icon.getBounds().height / 2;
+            //adds image into it
+            if (image != null) {
+                this.background = gameui.AssetsManager.getBitmap(image);
+                this.addChildAt(this.background, 0);
+
+                //Sets the image into the pivot center.
+                if (this.background.getBounds()) {
+                    this.centralizeImage();
+                } else if (this.background["image"])
+                    this.background["image"].onload = function () {
+                        _this.centralizeImage();
                     };
-
-                this.updateLabel(text);
             }
-            IconButton.prototype.updateLabel = function (value) {
-                this.text.text = value;
-                if (this.icon.getBounds()) {
-                    this.icon.x = -(this.icon.getBounds().width + 10 + this.text.getMeasuredWidth()) / 2;
-                    this.text.x = this.icon.x + this.icon.getBounds().width + 10;
-                }
-            };
+        }
+        ImageButton.prototype.centralizeImage = function () {
+            this.width = this.background.getBounds().width;
+            this.height = this.background.getBounds().height;
+            this.background.regX = this.width / 2;
+            this.background.regY = this.height / 2;
+            this.centered = true;
+            this.createHitArea();
+        };
+        return ImageButton;
+    })(Button);
+    gameui.ImageButton = ImageButton;
 
-            IconButton.prototype.centralizeIcon = function () {
-            };
-            return IconButton;
-        })(TextButton);
-        ui.IconButton = IconButton;
-    })(gameui.ui || (gameui.ui = {}));
-    var ui = gameui.ui;
+    var TextButton = (function (_super) {
+        __extends(TextButton, _super);
+        function TextButton(text, font, color, background, event, soundId) {
+            if (typeof text === "undefined") { text = ""; }
+            _super.call(this, background, event, soundId);
+
+            //add text into it.
+            text = text.toUpperCase();
+
+            this.text = new createjs.Text(text, font, color);
+            this.text.textBaseline = "middle";
+            this.text.textAlign = "center";
+
+            //createHitArea
+            if (background == null) {
+                this.width = this.text.getMeasuredWidth() * 1.5;
+                this.height = this.text.getMeasuredHeight() * 1.5;
+            }
+
+            this.addChild(this.text);
+            this.createHitArea();
+        }
+        return TextButton;
+    })(ImageButton);
+    gameui.TextButton = TextButton;
+
+    var IconButton = (function (_super) {
+        __extends(IconButton, _super);
+        function IconButton(icon, text, font, color, background, event, soundId) {
+            if (typeof icon === "undefined") { icon = ""; }
+            if (typeof text === "undefined") { text = ""; }
+            if (typeof font === "undefined") { font = null; }
+            var _this = this;
+            //add space before text
+            if (text != "")
+                text = " " + text;
+
+            _super.call(this, text, font, color, background, event, soundId);
+
+            //loads icon Image
+            this.icon = gameui.AssetsManager.getBitmap(icon);
+            this.addChild(this.icon);
+            this.text.textAlign = "left";
+
+            if (this.icon.getBounds())
+                this.icon.regY = this.icon.getBounds().height / 2;
+            else if (this.icon["image"])
+                this.icon["image"].onload = function () {
+                    _this.icon.regY = _this.icon.getBounds().height / 2;
+                };
+
+            this.updateLabel(text);
+        }
+        IconButton.prototype.updateLabel = function (value) {
+            this.text.text = value;
+            if (this.icon.getBounds()) {
+                this.icon.x = -(this.icon.getBounds().width + 10 + this.text.getMeasuredWidth()) / 2;
+                this.text.x = this.icon.x + this.icon.getBounds().width + 10;
+            }
+        };
+
+        IconButton.prototype.centralizeIcon = function () {
+        };
+        return IconButton;
+    })(TextButton);
+    gameui.IconButton = IconButton;
 })(gameui || (gameui = {}));
 var gameui;
 (function (gameui) {
-    (function (ui) {
-        var MenuContainer = (function (_super) {
-            __extends(MenuContainer, _super);
-            function MenuContainer(width, height, flowHorizontal) {
-                if (typeof width === "undefined") { width = null; }
-                if (typeof height === "undefined") { height = null; }
-                if (typeof flowHorizontal === "undefined") { flowHorizontal = false; }
-                if (!flowHorizontal)
-                    _super.call(this, 1, 0, width, height, 0, flowHorizontal);
-                else
-                    _super.call(this, 0, 1, width, height, 0, flowHorizontal);
-            }
-            //adds a text object
-            MenuContainer.prototype.addLabel = function (text) {
-                var textObj;
-                textObj = new ui.Label(text);
-                this.addObject(textObj);
-                return textObj.textField;
-            };
+    var MenuContainer = (function (_super) {
+        __extends(MenuContainer, _super);
+        function MenuContainer(width, height, flowHorizontal) {
+            if (typeof width === "undefined") { width = null; }
+            if (typeof height === "undefined") { height = null; }
+            if (typeof flowHorizontal === "undefined") { flowHorizontal = false; }
+            if (!flowHorizontal)
+                _super.call(this, 1, 0, width, height, 0, flowHorizontal);
+            else
+                _super.call(this, 0, 1, width, height, 0, flowHorizontal);
+        }
+        //adds a text object
+        MenuContainer.prototype.addLabel = function (text) {
+            var textObj;
+            textObj = new gameui.Label(text);
+            this.addObject(textObj);
+            return textObj.textField;
+        };
 
-            //creates a button object
-            MenuContainer.prototype.addButton = function (text, event) {
-                if (typeof event === "undefined") { event = null; }
-                var buttonObj = new ui.TextButton(text, null, null, null, event);
-                this.addObject(buttonObj);
-                return buttonObj;
-            };
+        //creates a button object
+        MenuContainer.prototype.addButton = function (text, event) {
+            if (typeof event === "undefined") { event = null; }
+            var buttonObj = new gameui.TextButton(text, null, null, null, event);
+            this.addObject(buttonObj);
+            return buttonObj;
+        };
 
-            MenuContainer.prototype.addOutButton = function (text, event) {
-                if (typeof event === "undefined") { event = null; }
-                var buttonObj = new ui.TextButton(text, null, null, null, event);
-                this.addObject(buttonObj);
-                return buttonObj;
-            };
-            return MenuContainer;
-        })(ui.Grid);
-        ui.MenuContainer = MenuContainer;
-    })(gameui.ui || (gameui.ui = {}));
-    var ui = gameui.ui;
+        MenuContainer.prototype.addOutButton = function (text, event) {
+            if (typeof event === "undefined") { event = null; }
+            var buttonObj = new gameui.TextButton(text, null, null, null, event);
+            this.addObject(buttonObj);
+            return buttonObj;
+        };
+        return MenuContainer;
+    })(gameui.Grid);
+    gameui.MenuContainer = MenuContainer;
 })(gameui || (gameui = {}));
 var gameui;
 (function (gameui) {
-    (function (ui) {
-        var Label = (function (_super) {
-            __extends(Label, _super);
-            //public container: createjs.Container;
-            function Label(text, font, color) {
-                if (typeof text === "undefined") { text = ""; }
-                if (typeof font === "undefined") { font = "600 90px Myriad Pro"; }
-                if (typeof color === "undefined") { color = "#82e790"; }
-                _super.call(this);
-                text = text.toUpperCase();
+    var Label = (function (_super) {
+        __extends(Label, _super);
+        //public container: createjs.Container;
+        function Label(text, font, color) {
+            if (typeof text === "undefined") { text = ""; }
+            if (typeof font === "undefined") { font = "600 90px Myriad Pro"; }
+            if (typeof color === "undefined") { color = "#82e790"; }
+            _super.call(this);
+            text = text.toUpperCase();
 
-                //add text into it.
-                this.textField = new createjs.Text(text, font, color);
-                this.textField.textBaseline = "middle";
-                this.textField.textAlign = "center";
-                this.addChild(this.textField);
-            }
-            return Label;
-        })(ui.UIItem);
-        ui.Label = Label;
-    })(gameui.ui || (gameui.ui = {}));
-    var ui = gameui.ui;
+            //add text into it.
+            this.textField = new createjs.Text(text, font, color);
+            this.textField.textBaseline = "middle";
+            this.textField.textAlign = "center";
+            this.addChild(this.textField);
+        }
+        return Label;
+    })(gameui.UIItem);
+    gameui.Label = Label;
 })(gameui || (gameui = {}));
 var gameui;
 (function (gameui) {
@@ -687,9 +676,10 @@ var gameui;
             return sprite;
         };
 
-        AssetsManager.playSound = function (name, interrupt, delay) {
+        AssetsManager.playSound = function (name, interrupt, delay, offset, loop, volume) {
             if (typeof delay === "undefined") { delay = 0; }
-            return createjs.Sound.play(name, interrupt, delay);
+            if (typeof volume === "undefined") { volume = 1; }
+            return createjs.Sound.play(name, interrupt, delay, offset, loop, volume);
         };
 
         AssetsManager.playMusic = function (name, volume) {
@@ -713,11 +703,11 @@ var gameui;
 })(gameui || (gameui = {}));
 /// <reference path="script/typing/createjs/createjs.d.ts" />
 /*GameUI JS*/
-/// <reference path="typescript/ui/UIItem.ts" />
-/// <reference path="typescript/ui/Grid.ts" />
-/// <reference path="typescript/ui/Button.ts" />
-/// <reference path="typescript/ui/MenuContainer.ts" />
-/// <reference path="typescript/ui/Label.ts" />
+/// <reference path="typescript/UIItem.ts" />
+/// <reference path="typescript/Grid.ts" />
+/// <reference path="typescript/Button.ts" />
+/// <reference path="typescript/MenuContainer.ts" />
+/// <reference path="typescript/Label.ts" />
 /// <reference path="typescript/ScreenState.ts" />
 /// <reference path="typescript/GameScreen.ts" />
 /// <reference path="typescript/AssetsManager.ts" />
