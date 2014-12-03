@@ -152,7 +152,7 @@
                 var item = this.createItem(items[i])
                 
                 item.set ({x : DefaultWidth / 2, y : DefaultHeight / 2 -100 ,alpha:0})
-                createjs.Tween.get(item).wait(500)
+                createjs.Tween.get(item).wait(500 + i * 300)
                     .to({ alpha: 1, x: DefaultWidth / 2.5 + (300 * (i - 1)), y: DefaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
                     .call((itemDo: createjs.DisplayObject) => { this.animateItemObjectToFooter(itemDo, itemDo.name) }, [item])
                 this.itemsContainer.addChild(item);

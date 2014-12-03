@@ -401,8 +401,8 @@ var gameui;
 
             this.view.addChild(this.background);
             this.view.addChild(this.content);
-            this.view.addChild(this.header);
             this.view.addChild(this.footer);
+            this.view.addChild(this.header);
         }
         ScreenState.prototype.activate = function (parameters) {
             this.content.visible = true;
@@ -598,7 +598,7 @@ var gameui;
             this.assetsManifest = assetsManifest;
 
             //creates a preload queue
-            this.loader = new createjs.LoadQueue(false);
+            this.loader = new createjs.LoadQueue();
 
             //install sound plug-in for sounds format
             this.loader.installPlugin(createjs.Sound);

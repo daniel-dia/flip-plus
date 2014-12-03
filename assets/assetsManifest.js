@@ -424,6 +424,7 @@ function getAssetsManifest(assetscale) {
         { id: "Music Minimal Tech", src: audioPath + "Music Minimal Tech.mp3" },
 
         { id: "Correct Answer", src: audioPath + "Correct Answer.mp3" },
+        { id: "Correct Answer 2", src: audioPath + "Correct Answer 2.mp3" },
         { id: "Mecanical Click1", src: audioPath + "Mecanical Click1.mp3" },
         { id: "Mecanical Click2", src: audioPath + "Mecanical Click2.mp3" },
         { id: "Mecanical Click3", src: audioPath + "Mecanical Click3.mp3" },

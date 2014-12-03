@@ -18,6 +18,9 @@
         private bonusId: string;
         private itemsEarned: number;
 
+
+        private fx: FlipPlus.Effects;
+
         constructor(itemsArray: Array<string>,bonusId:string="1"){
             super();
 
@@ -43,6 +46,12 @@
             this.popup = new Menu.View.Popup();
             this.content.addChild(this.popup)
 
+            //Add Effects
+            this.fx = new FlipPlus.Effects();
+            this.content.addChild(this.fx);
+
+            // reorder content
+            this.view.addChild(this.content);
             //bring content to front
             //this.view.setChildIndex(this.content, this.view.getNumChildren() - 1);
         }
@@ -149,15 +158,28 @@
             if (footerItem) {
 
                 if (itemObj.parent) {
+                    
                     var point = itemObj.parent.localToLocal(0, 0, this.content);
 
+                    // cast effect
+                    this.fx.castEffect(itemObj.x - point.x + 50, itemObj.y - point.y + 50, "Bolinhas", 3);
+                    
+                    // Animate item
                     createjs.Tween.get(itemObj).
                         to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
                         to({
-                            x: footerItem.x + this.footer.x + this.footerContainer.x - point.x,
-                            y: footerItem.y + this.footer.y + this.footerContainer.y - point.y
+                            x: footerItem.x + this.footer.x + this.footerContainer.x - point.x ,
+                            y: footerItem.y + this.footer.y + this.footerContainer.y - point.y 
                         }, 700, createjs.Ease.quadInOut).
-                        call(() => { this.updateFooterValues(); });
+                        call(() => {
+                             this.updateFooterValues();
+
+                            // cast effect
+                            this.fx.castEffect(itemObj.x - point.x + 50, itemObj.y - point.y + 50, "Bolinhas", 2);
+
+                            //play Sound
+                            gameui.AssetsManager.playSound("Correct Answer 2");
+                         });
                 }
             }
         }

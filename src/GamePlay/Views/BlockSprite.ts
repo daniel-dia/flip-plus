@@ -107,8 +107,13 @@ module FlipPlus.GamePlay.Views {
             if (!this.block) return;
 
             //shows or hide hint
-            if (this.hintEnalble && this.block.inverted)
-                this.hintimage.visible = true;
+            if (this.hintEnalble && this.block.inverted) {
+                //shows hint image
+                if (!this.hintimage.visible){
+                    this.hintimage.visible = true;
+                    //animate it
+                    createjs.Tween.get(this.hintimage).to({ scaleX: 0, scaleY: 0 }).to({ scaleX: 1, scaleY: 1 }, 2000, createjs.Ease.elasticOut);            }
+                }
             else
                 this.hintimage.visible = false;
 
@@ -203,8 +208,10 @@ module FlipPlus.GamePlay.Views {
             //load hint symbol
             this.hintimage = gameui.AssetsManager.getBitmap("puzzle/icon_hint");
             this.container.addChild(this.hintimage);
-            this.hintimage.x = 36;
-            this.hintimage.y = 20;
+            this.hintimage.regX = 36;
+            this.hintimage.regY = 20;
+            this.hintimage.x = 36*2;
+            this.hintimage.y = 20*2;
             this.hintimage.visible = false;
 
             //load nurrir modificator tile

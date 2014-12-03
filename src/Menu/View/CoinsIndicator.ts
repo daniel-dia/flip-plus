@@ -5,17 +5,24 @@ module FlipPlus.Menu.View {
 
         private coinsTextField: createjs.Text;
 
+
+        private fx: FlipPlus.Effects;
+
+
+
         // Constructor
         constructor() {
             super();
             this.buildView();
+
+            //Add Effects
+            this.fx = new FlipPlus.Effects();
+            this.addChild(this.fx);
         }
 
         //updates Parts indicator amount
         public updateCoinsAmmount(newQuantity: number, tween:boolean=true) {
             this.coinsTextField.text = newQuantity.toString();
-
-            
         }
 
         public createCoinEffect(x: number, y: number, coins: number) {
@@ -25,6 +32,13 @@ module FlipPlus.Menu.View {
                 var coin = this.addCoinIcon();
                 createjs.Tween.get(coin).wait(interval/3*(c-1)).to({ x: x, y: y }, 500, createjs.Ease.quadInOut).call((c:createjs.Tween)=> {
                     this.removeChild(<createjs.DisplayObject>c.target);
+
+                    // Play Sound
+                    gameui.AssetsManager.playSound("Correct Answer 2",true);
+
+                    // cast effect
+                    this.fx.castEffect(x, y, "Bolinhas", 2);
+
                 });
             }
         }
