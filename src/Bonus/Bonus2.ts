@@ -44,6 +44,7 @@
                 this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
                 this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
 
+                //TODO fix animation
 
                 // play sound
                 gameui.AssetsManager.playSound("Correct Answer");
@@ -69,6 +70,10 @@
                 //decrase lives number
                 this.lives--;
                 card.mouseEnabled = false;
+
+                // play sound
+                gameui.AssetsManager.playSound("wrong");
+
                 if (this.lives == 0) {
                     //if there is no more lives, than end game
                     this.content.mouseEnabled = false;

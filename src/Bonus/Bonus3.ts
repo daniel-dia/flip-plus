@@ -86,6 +86,9 @@
         pickKey(keyId: number) {
             this.content.mouseEnabled = false;
             this.keys[keyId].gotoAndPlay("key");
+            // play sound
+            gameui.AssetsManager.playSound("button");
+
             setTimeout(() => {
                 this.content.mouseEnabled = true;    
                 //if key is correct
@@ -102,9 +105,13 @@
 
 
                     // play sound
-                    gameui.AssetsManager.playSound("Correct Answer");
+                    gameui.AssetsManager.playSound("Correct Answer",true,300);
                 }
                 else {
+
+                    // play sound
+                    gameui.AssetsManager.playSound("wrong", true, 300);
+
                     //play movieclip
                     this.mainClip.gotoAndPlay("Wrong" + (this.currentChestId));
 

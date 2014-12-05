@@ -229,15 +229,16 @@
             }
             else {
                 this.animateItemObjectIdle(this.BarrelsItens[barrelId]);
+
+                // play sound
+                gameui.AssetsManager.playSound("wrong");
             }
 
             //ends bonus game
             this.remaningInteraction--;
             if (this.remaningInteraction <= 0) {
                 this.endBonus();
-
-                // play sound
-                gameui.AssetsManager.playSound("Wrong Answer");
+                 
             }
         }
 
