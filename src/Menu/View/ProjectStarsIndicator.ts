@@ -4,11 +4,14 @@ module FlipPlus.Menu.View {
         private projectsThemes: Array<string> = ["green", "purple", "yellow"];
         private stars: Array<createjs.DisplayObject>;
         private project: Projects.Project;
+        private fx = new FlipPlus.Effects;
 
         constructor(project: Projects.Project) {
             super();
             this.project = project;
             this.createObjects();
+            this.fx = new FlipPlus.Effects();
+            this.addChild(this.fx);
         }
 
         //create objects
@@ -66,13 +69,22 @@ module FlipPlus.Menu.View {
                             starsInfo[i] = false;
 
             //update stars visibility
+            var an = 0;
             for (var i = 0; i < 3; i++) {
                 if (this.stars[i].visible != starsInfo[i]) {
                     this.stars[i].visible = starsInfo[i];
                     //animate
                     if (anim && starsInfo[i]) {
+                        an = i;
                         this.stars[i].set({ scaleX: 4, scaleY: 4, rotation: -45,alpha:0 });
-                        createjs.Tween.get(this.stars[i]).wait(700).to({ scaleX: 1, scaleY: 1, rotation: 0, alpha:1}, 1500, createjs.Ease.bounceOut)
+                        createjs.Tween.get(this.stars[i]).wait(300).to({ scaleX: 1, scaleY: 1, rotation: 0, alpha: 1 }, 1500, createjs.Ease.bounceOut)
+                        
+                        // play sound and cast an effect
+                        setTimeout(() => {
+                            this.fx.castEffect(this.stars[an].x + 100, this.stars[an].y + 100, "Bolinhas", 4);
+                            gameui.AssetsManager.playSound("Correct Answer");
+                        },300 + 500);
+                        break;
                     }
                 }
             }

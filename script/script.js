@@ -597,7 +597,7 @@ var FlipPlus;
                 // analytics
                 FlipPlus.FlipPlusGame.analytics.logLevelWin(this.levelData.name, (Date.now() - this.startedTime) / 100, this.clicks);
                 //play a win sound
-                ///gameui.AssetsManager.playSound("win");
+                gameui.AssetsManager.playSound("final");
                 //verifies if user already completed this level and verifies if player used any item in the game
                 if (!this.levelData.userdata.solved)
                     this.levelData.userdata.item = this.usedItem;
@@ -781,14 +781,13 @@ var FlipPlus;
             // #region  Screen =================================================================================================================
             LevelScreen.prototype.activate = function (parameters) {
                 var _this = this;
+                _super.prototype.activate.call(this, parameters);
+                if (parameters)
+                    this.animatePuzzle(parameters);
                 // play music
                 gameui.AssetsManager.playMusic("Music Minimal Tech");
                 // analytics
                 this.startedTime = Date.now();
-                // 
-                _super.prototype.activate.call(this, parameters);
-                if (parameters)
-                    this.animatePuzzle(parameters);
                 // updates Items buttons labels Quantity on footer
                 this.coinsIndicator.updateCoinsAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
                 this.gameplayMenu.updateItemsPrice(this.listItemPrices());
@@ -1428,8 +1427,14 @@ var FlipPlus;
                     if (!this.block)
                         return;
                     //shows or hide hint
-                    if (this.hintEnalble && this.block.inverted)
-                        this.hintimage.visible = true;
+                    if (this.hintEnalble && this.block.inverted) {
+                        //shows hint image
+                        if (!this.hintimage.visible) {
+                            this.hintimage.visible = true;
+                            //animate it
+                            createjs.Tween.get(this.hintimage).to({ scaleX: 0, scaleY: 0 }).to({ scaleX: 1, scaleY: 1 }, 2000, createjs.Ease.elasticOut);
+                        }
+                    }
                     else
                         this.hintimage.visible = false;
                     //show mirrored
@@ -1513,8 +1518,10 @@ var FlipPlus;
                     //load hint symbol
                     this.hintimage = gameui.AssetsManager.getBitmap("puzzle/icon_hint");
                     this.container.addChild(this.hintimage);
-                    this.hintimage.x = 36;
-                    this.hintimage.y = 20;
+                    this.hintimage.regX = 36;
+                    this.hintimage.regY = 20;
+                    this.hintimage.x = 36 * 2;
+                    this.hintimage.y = 20 * 2;
                     this.hintimage.visible = false;
                     //load nurrir modificator tile
                     this.mirrorImage = gameui.AssetsManager.getBitmap("puzzle/tilemirror");
@@ -1657,11 +1664,8 @@ var FlipPlus;
                                 var b = event.target;
                                 _this.callback(b.col, b.row);
                                 // play a Radom Sounds
-                                var randomsound = Math.ceil(Math.random() * 3);
-                                if (randomsound >= _this.previousSound)
-                                    randomsound++;
-                                gameui.AssetsManager.playSound("Mecanical Click"); //  + randomsound
-                                _this.previousSound = randomsound;
+                                var randomsound = Math.ceil(Math.random() * 2);
+                                gameui.AssetsManager.playSound("Mecanical Click" + randomsound);
                                 //tutorialrelease
                                 if (b.tutorialHighLighted) {
                                     _this.tutorialRelease();
@@ -2282,6 +2286,11 @@ var FlipPlus;
                 //adds popup
                 this.popup = new FlipPlus.Menu.View.Popup();
                 this.content.addChild(this.popup);
+                //Add Effects
+                this.fx = new FlipPlus.Effects();
+                this.content.addChild(this.fx);
+                // reorder content
+                this.view.addChild(this.content);
                 //bring content to front
                 //this.view.setChildIndex(this.content, this.view.getNumChildren() - 1);
             }
@@ -2366,11 +2375,18 @@ var FlipPlus;
                 if (footerItem) {
                     if (itemObj.parent) {
                         var point = itemObj.parent.localToLocal(0, 0, this.content);
+                        // cast effect
+                        this.fx.castEffect(itemObj.x - point.x + 50, itemObj.y - point.y + 50, "Bolinhas", 3);
+                        // Animate item
                         createjs.Tween.get(itemObj).to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).to({
                             x: footerItem.x + this.footer.x + this.footerContainer.x - point.x,
                             y: footerItem.y + this.footer.y + this.footerContainer.y - point.y
                         }, 700, createjs.Ease.quadInOut).call(function () {
                             _this.updateFooterValues();
+                            // cast effect
+                            _this.fx.castEffect(itemObj.x - point.x + 50, itemObj.y - point.y + 50, "Bolinhas", 2);
+                            //play Sound
+                            gameui.AssetsManager.playSound("Correct Answer 2");
                         });
                     }
                 }
@@ -2939,7 +2955,7 @@ var FlipPlus;
                     FlipPlus.FlipPlusGame.coinsData.increaseAmount(1);
                     var item = this.createItem(items[i]);
                     item.set({ x: DefaultWidth / 2, y: DefaultHeight / 2 - 100, alpha: 0 });
-                    createjs.Tween.get(item).wait(500).to({ alpha: 1, x: DefaultWidth / 2.5 + (300 * (i - 1)), y: DefaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut).call(function (itemDo) {
+                    createjs.Tween.get(item).wait(500 + i * 300).to({ alpha: 1, x: DefaultWidth / 2.5 + (300 * (i - 1)), y: DefaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut).call(function (itemDo) {
                         _this.animateItemObjectToFooter(itemDo, itemDo.name);
                     }, [item]);
                     this.itemsContainer.addChild(item);
@@ -3102,11 +3118,18 @@ var FlipPlus;
                 for (var pv in this.projectViews)
                     this.projectViews[pv].redim(headerY, footerY);
             };
+            LevelsMenu.prototype.desactivate = function (parameters) {
+                _super.prototype.desactivate.call(this, parameters);
+                this.factorySound.stop();
+                delete this.factorySound;
+            };
             LevelsMenu.prototype.activate = function (parameters) {
                 var _this = this;
                 _super.prototype.activate.call(this);
                 // play music
                 gameui.AssetsManager.playMusic("Music Dot Robot", 0.5);
+                this.factorySound = gameui.AssetsManager.playSound("Factory Ambience");
+                this.factorySound.setVolume(0.4);
                 //update enabled Projects
                 this.addProjects();
                 for (var pv in this.projectViews) {
@@ -3821,20 +3844,26 @@ var FlipPlus;
                     var thumbContainer = new createjs.Container();
                     this.addChild(thumbContainer);
                     //defines thumb state
+                    //
                     if (level.userdata.unlocked && level.userdata.solved || level.userdata.skip) {
                         assetSufix = "1";
                         color1 = "rgba(255,255,255,0.5)";
                         color2 = "rgba(0,0,0,0.3)";
+                        this.setSound(null);
                     }
+                    // locked
                     if (!level.userdata.unlocked || level.userdata.skip || level.userdata.item) {
                         assetSufix = "2";
                         color1 = "rgba(0,0,0,0.5)";
                         color2 = "rgba(0,0,0,0.3)";
+                        this.setSound("buttonOff");
                     }
+                    // next playable
                     if (level.userdata.unlocked && !level.userdata.solved && !level.userdata.skip) {
                         assetSufix = "3";
                         color1 = "rgba(255,255,255,0.9)";
                         color2 = "rgba(0,0,0,0.3)";
+                        this.setSound(null);
                         //create bounce effect if is active
                         thumbContainer.set({ scaleX: 1, scaleY: 1 });
                         createjs.Tween.get(thumbContainer, { loop: true }).to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut);
@@ -3993,6 +4022,9 @@ var FlipPlus;
                 function CoinsIndicator() {
                     _super.call(this);
                     this.buildView();
+                    //Add Effects
+                    this.fx = new FlipPlus.Effects();
+                    this.addChild(this.fx);
                 }
                 //updates Parts indicator amount
                 CoinsIndicator.prototype.updateCoinsAmmount = function (newQuantity, tween) {
@@ -4006,6 +4038,10 @@ var FlipPlus;
                         var coin = this.addCoinIcon();
                         createjs.Tween.get(coin).wait(interval / 3 * (c - 1)).to({ x: x, y: y }, 500, createjs.Ease.quadInOut).call(function (c) {
                             _this.removeChild(c.target);
+                            // Play Sound
+                            gameui.AssetsManager.playSound("Correct Answer 2", true);
+                            // cast effect
+                            _this.fx.castEffect(x, y, "Bolinhas", 2);
                         });
                     }
                 };
@@ -4181,8 +4217,10 @@ var FlipPlus;
                 function ProjectStarsIndicator(project) {
                     _super.call(this);
                     this.projectsThemes = ["green", "purple", "yellow"];
+                    this.fx = new FlipPlus.Effects;
                     this.project = project;
                     this.createObjects();
+                    this.fx = new FlipPlus.Effects();
                 }
                 //create objects
                 ProjectStarsIndicator.prototype.createObjects = function () {
@@ -4214,6 +4252,7 @@ var FlipPlus;
                 };
                 // update object based on its info
                 ProjectStarsIndicator.prototype.updateProjectInfo = function (anim) {
+                    var _this = this;
                     if (anim === void 0) { anim = true; }
                     var project = this.project;
                     ////hide all stars
@@ -4235,7 +4274,9 @@ var FlipPlus;
                             //animate
                             if (anim && starsInfo[i]) {
                                 this.stars[i].set({ scaleX: 4, scaleY: 4, rotation: -45, alpha: 0 });
-                                createjs.Tween.get(this.stars[i]).wait(700).to({ scaleX: 1, scaleY: 1, rotation: 0, alpha: 1 }, 1500, createjs.Ease.bounceOut);
+                                createjs.Tween.get(this.stars[i]).wait(700).to({ scaleX: 1, scaleY: 1, rotation: 0, alpha: 1 }, 1500, createjs.Ease.quadIn).call(function () {
+                                    _this.fx.castEffect(_this.stars[i].x, _this.stars[i].y, "bolinhas", 0.3);
+                                });
                             }
                         }
                     }
@@ -5847,8 +5888,6 @@ var FlipPlus;
                     var _this = this;
                     if (timeout === void 0) { timeout = 3000; }
                     if (delay === void 0) { delay = 0; }
-                    // play sound
-                    gameui.AssetsManager.playSound("Open");
                     //clean everything
                     this.removeAllChildren();
                     //draw background
@@ -5876,6 +5915,8 @@ var FlipPlus;
                     //shows the popus
                     this.closeinterval = setTimeout(function () {
                         _this.fadeIn(1, 0.5);
+                        // play sound
+                        gameui.AssetsManager.playSound("Open");
                     }, delay);
                     ;
                     //create a interval for closing the popopu
@@ -6095,9 +6136,9 @@ var FlipPlus;
                 };
                 Popup.prototype.showsPopup = function (timeout, delay) {
                     var _this = this;
-                    gameui.AssetsManager.playSound("Open");
                     //shows the popus
                     this.closeinterval = setTimeout(function () {
+                        gameui.AssetsManager.playSound("Open");
                         _this.fadeIn(1, 0.5);
                     }, delay);
                     ;

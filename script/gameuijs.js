@@ -598,7 +598,7 @@ var gameui;
             this.assetsManifest = assetsManifest;
 
             //creates a preload queue
-            this.loader = new createjs.LoadQueue();
+            this.loader = new createjs.LoadQueue(false);
 
             //install sound plug-in for sounds format
             this.loader.installPlugin(createjs.Sound);
