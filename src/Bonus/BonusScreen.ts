@@ -70,7 +70,7 @@
             var titleText = new createjs.Text(stringResources[bonusId+"_title"], defaultFontFamilyNormal, "white");
             titleText.textAlign = "center";
             titleText.text = titleText.text.toUpperCase();
-            titleText.x = DefaultWidth / 2;
+            titleText.x = defaultWidth / 2;
             titleText.y = 100;
             titleText.textBaseline = "middle";
 
@@ -102,14 +102,14 @@
                 //add icon
                 var itemObj = gameui.AssetsManager.getBitmap("puzzle/icon_" + itemId);
                 itemObj.y = 100;
-                itemObj.x = DefaultWidth / itemsArray.length * i + 40;
+                itemObj.x = defaultWidth / itemsArray.length * i + 40;
                 itemObj.name = itemId;
                 this.footerContainer.addChild(itemObj);
 
                 //add "max" text
                 var max = gameui.AssetsManager.getBitmap("max");
                 max.y = 50;
-                max.x = DefaultWidth / itemsArray.length * i + 100;
+                max.x = defaultWidth / itemsArray.length * i + 100;
                 max.name = itemId + "_max";
                 this.footerMaxs[itemId] = max;
                 max.visible = false;
@@ -118,7 +118,7 @@
                 //add text
                 var textObj = new createjs.Text("",defaultFontFamilyNormal,"white");
                 textObj.y = 120;
-                textObj.x = DefaultWidth / itemsArray.length * i + 190;
+                textObj.x = defaultWidth / itemsArray.length * i + 190;
                 textObj.name = itemId + "_text";
                 this.footerTexts[itemId] = textObj;
                 this.footerContainer.addChild(textObj);
@@ -155,33 +155,30 @@
         animateItemObjectToFooter(itemObj: createjs.DisplayObject, itemId: string) {
 
             var footerItem = this.footerContainer.getChildByName(itemId);
-            if (footerItem) {
-
-                if (itemObj.parent) {
+            if (footerItem && itemObj.parent) {
                     
-                    var point = itemObj.parent.localToLocal(0, 0, this.content);
+                var startPoint = itemObj.localToLocal(0, 0, this.content);
+                var endPoint = this.footerContainer.localToLocal(footerItem.x, footerItem.y, itemObj.parent);
 
-                    // cast effect
-                    this.fx.castEffect(itemObj.x - point.x + 50, itemObj.y - point.y + 50, "Bolinhas", 3);
+                // cast effect
+                this.fx.castEffect(startPoint.x + 50, startPoint.y + 50, "Bolinhas", 3);
                     
-                    // Animate item
-                    createjs.Tween.get(itemObj).
-                        to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
-                        to({
-                            x: footerItem.x + this.footer.x + this.footerContainer.x - point.x ,
-                            y: footerItem.y + this.footer.y + this.footerContainer.y - point.y 
-                        }, 700, createjs.Ease.quadInOut).
-                        call(() => {
-                             this.updateFooterValues();
+                // Animate item
+                createjs.Tween.get(itemObj).
+                    to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
+                    to({ x: endPoint.x, y: endPoint.y, regX:0 , regY:0}, 700, createjs.Ease.quadInOut).
+                    call(() => {
+                        this.updateFooterValues();
 
-                            // cast effect
-                            this.fx.castEffect(itemObj.x - point.x + 50, itemObj.y - point.y + 50, "Bolinhas", 2);
+                        // cast effect
+                        var fxPoint = this.footerContainer.localToLocal(footerItem.x, footerItem.y, this.content);
+                        this.fx.castEffect(fxPoint.x + 50, fxPoint.y+50, "Bolinhas", 2);
 
-                            //play Sound
-                            gameui.AssetsManager.playSound("Correct Answer 2");
-                         });
-                }
+                        //play Sound
+                        gameui.AudiosManager.playSound("Correct Answer 2");
+                    });
             }
+
         }
 
         //create a loop animation for a item

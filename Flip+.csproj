@@ -17,13 +17,21 @@
     <UseIISExpress>true</UseIISExpress>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="script\AssetsManager.ts" />
-    <TypeScriptCompile Include="script\GameUiAssetsManager.ts" />
+    <TypeScriptCompile Include="gameui\AudioManager.ts" />
+    <TypeScriptCompile Include="gameui\Button.ts" />
+    <TypeScriptCompile Include="gameui\GameScreen.ts" />
+    <TypeScriptCompile Include="gameui\Grid.ts" />
+    <TypeScriptCompile Include="gameui\ImagesManager.ts" />
+    <TypeScriptCompile Include="gameui\Label.ts" />
+    <TypeScriptCompile Include="gameui\MenuContainer.ts" />
+    <TypeScriptCompile Include="gameui\ScreenState.ts" />
+    <TypeScriptCompile Include="gameui\Transition.ts" />
+    <TypeScriptCompile Include="gameui\UIItem.ts" />
+    <TypeScriptCompile Include="gameui\WpAudioManager.ts" />
     <TypeScriptCompile Include="script\typing\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="script\typing\createjs\createjs.d.ts" />
     <TypeScriptCompile Include="lib\Inertia.ts" />
     <TypeScriptCompile Include="script\typing\easeljs\easeljs.d.ts" />
-    <TypeScriptCompile Include="script\typing\gameuijs\gameuijs.d.ts" />
     <TypeScriptCompile Include="lib\SmokeFX.ts" />
     <TypeScriptCompile Include="script\typing\preloadjs\preloadjs.d.ts" />
     <TypeScriptCompile Include="script\typing\soundjs\soundjs.d.ts" />
@@ -1217,16 +1225,40 @@
     <Content Include="assets\resize.bat" />
     <Content Include="assets\RobotsAssets.js" />
     <Content Include="assets\smokePart.png" />
-    <Content Include="assets\sound\botao_abrir.mp3" />
-    <Content Include="assets\sound\botao_fechar.mp3" />
-    <Content Include="assets\sound\snd2.wav" />
-    <Content Include="assets\sound\tiles_explosao.mp3" />
-    <Content Include="assets\sound\tiles_premio.mp3" />
-    <Content Include="assets\sound\tile_inverte1.mp3" />
-    <Content Include="assets\sound\tile_inverte2.mp3" />
-    <Content Include="assets\sound\tile_inverte3.mp3" />
-    <Content Include="assets\sound\tile_inverte4.mp3" />
-    <Content Include="assets\sound\trilha_principal.mp3" />
+    <Content Include="assets\sound\Close.mp3" />
+    <Content Include="assets\sound\Correct Answer 2.mp3" />
+    <Content Include="assets\sound\Correct Answer.mp3" />
+    <Content Include="assets\sound\Factory Ambience.mp3" />
+    <Content Include="assets\sound\final.mp3" />
+    <Content Include="assets\sound\final.wav" />
+    <Content Include="assets\sound\Interface Sound-06.mp3" />
+    <Content Include="assets\sound\Interface Sound-08.mp3" />
+    <Content Include="assets\sound\Interface Sound-09.mp3" />
+    <Content Include="assets\sound\Intro.mp3" />
+    <Content Include="assets\sound\Intro.wav" />
+    <Content Include="assets\sound\Mecanical Click1.mp3" />
+    <Content Include="assets\sound\Mecanical Click2.mp3" />
+    <Content Include="assets\sound\Mecanical Click3.mp3" />
+    <Content Include="assets\sound\Music Dot Robot.mp3" />
+    <Content Include="assets\sound\Music Minimal Tech.mp3" />
+    <Content Include="assets\sound\old\botao_abrir.mp3" />
+    <Content Include="assets\sound\old\botao_fechar.mp3" />
+    <Content Include="assets\sound\old\tiles_explosao.mp3" />
+    <Content Include="assets\sound\old\tiles_premio.mp3" />
+    <Content Include="assets\sound\old\tile_inverte1.mp3" />
+    <Content Include="assets\sound\old\tile_inverte2.mp3" />
+    <Content Include="assets\sound\old\tile_inverte3.mp3" />
+    <Content Include="assets\sound\old\tile_inverte4.mp3" />
+    <Content Include="assets\sound\old\trilha_principal.mp3" />
+    <Content Include="assets\sound\Open.mp3" />
+    <Content Include="assets\sound\Power Down.mp3" />
+    <Content Include="assets\sound\Robot Talk.mp3" />
+    <Content Include="assets\sound\Task Complete.mp3" />
+    <Content Include="assets\sound\Ticking Clock.mp3" />
+    <Content Include="assets\sound\Untitled Session 1 Mixdown 1.wav" />
+    <Content Include="assets\sound\Wrong Awnser.mp3" />
+    <Content Include="assets\sound\wrong.mp3" />
+    <Content Include="assets\sound\wrong.wav" />
     <Content Include="assets\spritesheets.js" />
     <Content Include="data\Bonus.js" />
     <Content Include="data\Items.js" />
@@ -1237,11 +1269,10 @@
     <Content Include="script\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="default.html" />
     <Content Include="script\CocoonJStouchPathc.js" />
+    <Content Include="script\createjs-2014.12.12.min.js" />
     <Content Include="script\file.js" />
     <Content Include="script\FileSaver.js" />
-    <Content Include="script\gameuijs.js" />
     <Content Include="script\getQueryVariable.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1269,7 +1300,6 @@
     <TypeScriptCompile Include="src\GamePlay\Views\GameplayMenu.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\StatusArea.ts" />
     <TypeScriptCompile Include="src\Menu\LevelsMenu.ts" />
-    <Content Include="script\createjs-2013.12.12.min.js" />
     <Content Include="script\jquery-1.11.1.min.js" />
     <Content Include="script\md5.js" />
     <Content Include="script\movieclip-0.6.1.min.js" />
@@ -1343,6 +1373,8 @@
     <Content Include="assets\images_1x\workshop\workshop0.json" />
     <Content Include="assets\images_1x\workshop\workshop1.json" />
     <Content Include="assets\images_1x\workshop\workshop2.json" />
+    <Content Include="assets\sound\Intro.pkf" />
+    <Content Include="assets\sound\Untitled Session 1 Mixdown 1.pkf" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -1389,11 +1421,12 @@
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <DefineConstants>DEBUG</DefineConstants>
+    <TypeScriptOutFile>script/script.js</TypeScriptOutFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES3</TypeScriptTarget>

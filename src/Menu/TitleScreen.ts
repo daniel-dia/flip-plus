@@ -17,7 +17,7 @@ module FlipPlus.Menu {
 
 
             //creates hitArea
-            this.content.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, DefaultWidth, DefaultHeight));
+            this.content.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, defaultWidth, defaultHeight));
 
             //add event to go to main menu
             this.content.addEventListener("click", () => {
@@ -26,18 +26,18 @@ module FlipPlus.Menu {
             });
 
             this.content.addEventListener("mousedown", () => {
-                gameui.AssetsManager.playSound("button");
+                gameui.AudiosManager.playSound("button");
             });
         }
 
-        public redim(headerY: number, footerY: number, width: number) {
-            super.redim(headerY, footerY, width);
+        public redim(headerY: number, footerY: number, width: number, height:number) {
+            super.redim(headerY, footerY, width, height);
             this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
         }
         activate(parameters: any) {
             super.activate(parameters);
             // play music
-            gameui.AssetsManager.playMusic("Music Dot Robot");
+            gameui.AudiosManager.playMusic("Music Dot Robot");
         }
     }
 }

@@ -41,7 +41,7 @@ module FlipPlus.GamePlay {
                 if (this.currentTime <= 0) {
 
                     // play sound
-                    gameui.AssetsManager.playSound("Power Down");
+                    gameui.AudiosManager.playSound("Power Down");
                     this.statusArea.setText3(stringResources.gp_pz_statusEnd);
                     
                     this.message.showtext(stringResources.gp_pz_timeUP);
@@ -51,7 +51,7 @@ module FlipPlus.GamePlay {
                 }
                 if (this.currentTime == 4) {
                     // play sound
-                    gameui.AssetsManager.playSound("Ticking Clock");
+                    gameui.AudiosManager.playSound("Ticking Clock");
                 }
             });
         }
@@ -72,13 +72,13 @@ module FlipPlus.GamePlay {
                 //animate board and switch
                 var defaultX = this.boardSprite.x;
                 createjs.Tween.removeTweens(this.boardSprite);
-                createjs.Tween.get(this.boardSprite).to({ x: defaultX-DefaultWidth }, 250, createjs.Ease.quadIn).call(() => {
+                createjs.Tween.get(this.boardSprite).to({ x: defaultX-defaultWidth }, 250, createjs.Ease.quadIn).call(() => {
 
                     this.currentPuzzle++;
                     this.boardSprite.clearHint();
                     this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves); 
                     
-                    this.boardSprite.x = defaultX + DefaultWidth;
+                    this.boardSprite.x = defaultX + defaultWidth;
                     createjs.Tween.get(this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut)
                 })
 

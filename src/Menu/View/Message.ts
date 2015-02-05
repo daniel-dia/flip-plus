@@ -10,10 +10,10 @@ module FlipPlus.Menu.View {
             super();
               
             //centralize the popup on screen
-            this.width = DefaultWidth;
-            this.height = DefaultHeight;
-            this.x = DefaultWidth / 2;
-            this.y = DefaultHeight / 2;
+            this.width = defaultWidth;
+            this.height = defaultHeight;
+            this.x = defaultWidth / 2;
+            this.y = defaultHeight / 2;
             this.centralize();
             
             //hide popup
@@ -21,7 +21,7 @@ module FlipPlus.Menu.View {
 
             this.mouseEnabled = true;
 
-            this.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("white").drawRect(0, 0, DefaultWidth, DefaultHeight));
+            this.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("white").drawRect(0, 0, defaultWidth, defaultHeight));
 
             this.addEventListener("click", () => { this.closePopUp() });
 
@@ -37,7 +37,7 @@ module FlipPlus.Menu.View {
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/message")
             bg.x = 0;
-            bg.y = DefaultHeight/2 -500;
+            bg.y = defaultHeight/2 -500;
             this.addChild(bg);
 
             //create a text
@@ -45,17 +45,17 @@ module FlipPlus.Menu.View {
             var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
             titleShadow.textAlign = "center";
             titleShadow.textBaseline = "middle";
-            titleShadow.x = DefaultWidth / 2;
+            titleShadow.x = defaultWidth / 2;
             this.addChild(titleShadow);
 
             //create a title
             var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
             titleDO.textAlign = "center";
             titleDO.textBaseline = "middle";
-            titleDO.x = DefaultWidth / 2;
+            titleDO.x = defaultWidth / 2;
             this.addChild(titleDO);
 
-            titleShadow.y = titleDO.y = DefaultHeight /2;
+            titleShadow.y = titleDO.y = defaultHeight /2;
             titleShadow.y += 15;
 
             //updates text
@@ -66,7 +66,7 @@ module FlipPlus.Menu.View {
                 this.fadeIn(1,0.5);
 
                 // play sound
-                gameui.AssetsManager.playSound("Open")
+                gameui.AudiosManager.playSound("Open")
 
             },delay);;
 
@@ -78,7 +78,7 @@ module FlipPlus.Menu.View {
 
         //method for close popup 
         private closePopUp() {
-            gameui.AssetsManager.playSound("Close")
+            gameui.AudiosManager.playSound("Close")
             //hide the popup{
             clearTimeout(this.closeinterval);
             this.dispatchEvent("onclose");

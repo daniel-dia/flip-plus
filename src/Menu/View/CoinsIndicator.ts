@@ -34,7 +34,7 @@ module FlipPlus.Menu.View {
                     this.removeChild(<createjs.DisplayObject>c.target);
 
                     // Play Sound
-                    gameui.AssetsManager.playSound("Correct Answer 2",true);
+                    gameui.AudiosManager.playSound("Correct Answer 2",true);
 
                     // cast effect
                     this.fx.castEffect(x, y, "Bolinhas", 2);

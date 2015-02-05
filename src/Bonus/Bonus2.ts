@@ -41,13 +41,14 @@
                 card1.opened = false;
                 card2.opened = false;
                 //animate itens
-                this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
-                this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
 
-                //TODO fix animation
+                this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
+                setTimeout(() => {
+                    this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
+                }, 200);
 
                 // play sound
-                gameui.AssetsManager.playSound("Correct Answer");
+                gameui.AudiosManager.playSound("Correct Answer");
 
                 this.matchesFound++;
                 return true;
@@ -72,7 +73,7 @@
                 card.mouseEnabled = false;
 
                 // play sound
-                gameui.AssetsManager.playSound("wrong");
+                gameui.AudiosManager.playSound("wrong");
 
                 if (this.lives == 0) {
                     //if there is no more lives, than end game
@@ -82,7 +83,7 @@
 
 
                     // play sound
-                    gameui.AssetsManager.playSound("Wrong Answer");
+                    gameui.AudiosManager.playSound("Wrong Answer");
                 }
                 return;
             }

@@ -34,7 +34,7 @@ module FlipPlus.Menu {
             this.addProjects();
             this.addBonuses();
            
-            this.pagesSwipe = new PagesSwipe(this.projectsGrid, this.pages,DefaultWidth);
+            this.pagesSwipe = new PagesSwipe(this.projectsGrid, this.pages,defaultWidth);
             this.createPaginationButtons(this.projectsGrid);
             
             this.createPopup();
@@ -63,7 +63,7 @@ module FlipPlus.Menu {
             //create starsIndicator
             this.starsIndicator = new Menu.View.StarsIndicator();
             this.header.addChild(this.starsIndicator);
-            this.starsIndicator.x = DefaultWidth ;
+            this.starsIndicator.x = defaultWidth ;
             this.starsIndicator.y = 220;
 
             //create bots statistics
@@ -93,7 +93,7 @@ module FlipPlus.Menu {
             //create grid
             this.projectsGrid = new createjs.Container();
             this.content.addChild(this.projectsGrid);
-            this.projectsGrid.x = (DefaultWidth -xspacing*cols)/2 +xspacing/2;
+            this.projectsGrid.x = (defaultWidth -xspacing*cols)/2 +xspacing/2;
             this.projectsGrid.y = 600;
 
             // create Pages
@@ -111,7 +111,7 @@ module FlipPlus.Menu {
                     currentPage = new createjs.Container();
 
                     var hit = new createjs.Container;
-                    hit.hitArea = (new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, DefaultWidth, DefaultHeight)));
+                    hit.hitArea = (new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, defaultWidth, defaultHeight)));
                     currentPage.addChild(hit);
 
                     this.projectsGrid.addChild(currentPage);
@@ -214,13 +214,13 @@ module FlipPlus.Menu {
             //create leftButton
             var lb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() }, "buttonOut");
             lb.y = -100;
-            lb.x = DefaultWidth * 0.1;
+            lb.x = defaultWidth * 0.1;
             this.footer.addChild(lb);
 
             //create right button
             var rb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
             rb.y = -100;
-            rb.x = DefaultWidth * 0.9;
+            rb.x = defaultWidth * 0.9;
             rb.scaleX = -1;
             this.footer.addChild(rb);
 
@@ -261,7 +261,7 @@ module FlipPlus.Menu {
             super.activate();
 
             // play music
-            gameui.AssetsManager.playMusic("Music Dot Robot");
+            gameui.AudiosManager.playMusic("Music Dot Robot");
 
 
             this.updateProjects();

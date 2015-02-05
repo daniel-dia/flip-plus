@@ -80,7 +80,7 @@
   
                 
                 barrelsContainer.addChild(barrel);
-                barrelsContainer.y = DefaultHeight / 2 - 1024;
+                barrelsContainer.y = defaultHeight / 2 - 1024;
 
                 //positionning
                 barrel.set(positions[b]);
@@ -221,7 +221,7 @@
             if (this.items[barrelId]) {
 
                 // play sound
-                gameui.AssetsManager.playSound("Correct Answer");
+                gameui.AudiosManager.playSound("Correct Answer");
 
                 this.userAquireItem(this.items[barrelId]);
                 this.animateItemObjectToFooter(this.BarrelsItens[barrelId], this.items[barrelId]);
@@ -231,7 +231,7 @@
                 this.animateItemObjectIdle(this.BarrelsItens[barrelId]);
 
                 // play sound
-                gameui.AssetsManager.playSound("wrong");
+                gameui.AudiosManager.playSound("wrong");
             }
 
             //ends bonus game

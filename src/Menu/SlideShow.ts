@@ -22,7 +22,7 @@ module FlipPlus.Menu {
             this.loadSlides(slides);
 
             //add hitarea
-            this.content.hitArea = new createjs.Shape(new createjs.Graphics().drawRect(0, 0, DefaultWidth, DefaultHeight));
+            this.content.hitArea = new createjs.Shape(new createjs.Graphics().drawRect(0, 0, defaultWidth, defaultHeight));
 
             //adds callback forrr touch
             this.content.addEventListener("click", () => {
@@ -31,7 +31,7 @@ module FlipPlus.Menu {
 
             //adds hitarea
             var s = new createjs.Shape();
-            s.graphics.beginFill("#FFF").rect(0, 0, DefaultWidth, DefaultHeight);
+            s.graphics.beginFill("#FFF").rect(0, 0, defaultWidth, defaultHeight);
             this.content.hitArea = s;
         }
 

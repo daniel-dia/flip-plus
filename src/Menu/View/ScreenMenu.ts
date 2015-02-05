@@ -12,7 +12,7 @@ module FlipPlus.Menu.View {
             //adds menu button
             var menuBt: gameui.ImageButton = new gameui.ImageButton("MenuBt", () => { this.dispatchEvent("menu", menuBt) });
             menuBt.y = 90;
-            menuBt.x = DefaultWidth - 130;
+            menuBt.x = defaultWidth - 130;
             this.addChild(menuBt);
 
             //add a bacl buttton

@@ -72,7 +72,7 @@
 
                         // play a Radom Sounds
                         var randomsound = Math.ceil(Math.random() * 2) 
-                        gameui.AssetsManager.playSound("Mecanical Click" + randomsound); 
+                        gameui.AudiosManager.playSound("Mecanical Click" + randomsound); 
 
                         //tutorialrelease
                         if (b.tutorialHighLighted) {

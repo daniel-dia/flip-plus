@@ -10,14 +10,14 @@ module FlipPlus.Menu.View {
             this.drawObject();
             
             //centralize the popup on screen
-            this.width = DefaultWidth;
-            this.height = DefaultHeight;
-            this.x = DefaultWidth / 2;
-            this.y = DefaultHeight / 2;
+            this.width = defaultWidth;
+            this.height = defaultHeight;
+            this.x = defaultWidth / 2;
+            this.y = defaultHeight / 2;
             this.centralize();
 
             //set Hit Area
-            var hit = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0,0, DefaultWidth, DefaultHeight));
+            var hit = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0,0, defaultWidth, defaultHeight));
             this.hitArea = hit;
 
             //hide popup
@@ -49,21 +49,21 @@ module FlipPlus.Menu.View {
             var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
             titleShadow.textAlign = "center";
             titleShadow.textBaseline = "middle";
-            titleShadow.x = DefaultWidth / 2; 
+            titleShadow.x = defaultWidth / 2; 
             this.addChild(titleShadow);
 
             //create a title
             var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
             titleDO.textAlign = "center";
             titleDO.textBaseline = "middle";
-            titleDO.x = DefaultWidth / 2;
+            titleDO.x = defaultWidth / 2;
             this.addChild(titleDO);
 
             //create a text
             var textDO = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
             textDO.textAlign = "center";
             textDO.textBaseline = "middle";
-            textDO.x = DefaultWidth / 2;
+            textDO.x = defaultWidth / 2;
             this.addChild(textDO);
 
 
@@ -71,7 +71,7 @@ module FlipPlus.Menu.View {
             titleShadow.text  = titleDO.text = title.toUpperCase();
             textDO.text = text;
 
-            var b = DefaultHeight / 2 - 500;
+            var b = defaultHeight / 2 - 500;
 
             titleDO.y = 0 + b + 50
             titleShadow.y = titleDO.y + 15;
@@ -97,49 +97,49 @@ module FlipPlus.Menu.View {
             var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor );
             titleShadow.textAlign = "center";
             titleShadow.textBaseline = "middle";
-            titleShadow.x = DefaultWidth / 2; 
+            titleShadow.x = defaultWidth / 2; 
             this.addChild(titleShadow);
 
             //create a title
             var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
             titleDO.textAlign = "center";
             titleDO.textBaseline = "middle";
-            titleDO.x = DefaultWidth / 2;
+            titleDO.x = defaultWidth / 2;
             this.addChild(titleDO);
 
             //create a text
             var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
             textDO.textAlign = "center";
             textDO.textBaseline = "middle";
-            textDO.x = DefaultWidth / 2;
+            textDO.x = defaultWidth / 2;
             this.addChild(textDO);
 
             //create a text
             var textDO1 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
             textDO1.textAlign = "center";
             textDO1.textBaseline = "middle";
-            textDO1.x = DefaultWidth / 2;
+            textDO1.x = defaultWidth / 2;
             this.addChild(textDO1);
 
             //create a text
             var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
             textDO2.textAlign = "center";
             textDO2.textBaseline = "middle";
-            textDO2.x = DefaultWidth / 2;
+            textDO2.x = defaultWidth / 2;
             this.addChild(textDO2);
 
             //create a text
             var timeDO = new createjs.Text("", defaultNumberHighlight, "white");
             timeDO.textAlign = "center";
             timeDO.textBaseline = "middle";
-            timeDO.x = DefaultWidth / 2;
+            timeDO.x = defaultWidth / 2;
             this.addChild(timeDO);
 
             //create a text
             var boardsDO = new createjs.Text("", defaultNumberHighlight, "white");
             boardsDO.textAlign = "center";
             boardsDO.textBaseline = "middle";
-            boardsDO.x = DefaultWidth / 2;
+            boardsDO.x = defaultWidth / 2;
             this.addChild(boardsDO);
 
 
@@ -151,7 +151,7 @@ module FlipPlus.Menu.View {
             timeDO.text = time;
             boardsDO.text = boards;
 
-            var b = DefaultHeight / 2 - 500;
+            var b = defaultHeight / 2 - 500;
 
             titleDO.y = 0 + b + 50
             titleShadow.y = titleDO.y + 15 ;
@@ -162,7 +162,7 @@ module FlipPlus.Menu.View {
             boardsDO.y = 450+b;
 
             timeDO.x = 500;
-            boardsDO.x = DefaultWidth - 500;
+            boardsDO.x = defaultWidth - 500;
 
             this.addsClickIndicaator();
         }
@@ -183,35 +183,35 @@ module FlipPlus.Menu.View {
             var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
             titleShadow.textAlign = "center";
             titleShadow.textBaseline = "middle";
-            titleShadow.x = DefaultWidth / 2; 
+            titleShadow.x = defaultWidth / 2; 
             this.addChild(titleShadow);
 
             //create a title
             var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
             titleDO.textAlign = "center";
             titleDO.textBaseline = "middle";
-            titleDO.x = DefaultWidth / 2;
+            titleDO.x = defaultWidth / 2;
             this.addChild(titleDO);
 
             //create a text
             var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
             textDO.textAlign = "center";
             textDO.textBaseline = "middle";
-            textDO.x = DefaultWidth / 2;
+            textDO.x = defaultWidth / 2;
             this.addChild(textDO);
 
             //create a text
             var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
             textDO2.textAlign = "center";
             textDO2.textBaseline = "middle";
-            textDO2.x = DefaultWidth / 2;
+            textDO2.x = defaultWidth / 2;
             this.addChild(textDO2);
 
             //create a text
             var flipsDO = new createjs.Text("", defaultNumberHighlight, "white");
             flipsDO.textAlign = "center";
             flipsDO.textBaseline = "middle";
-            flipsDO.x = DefaultWidth / 2;
+            flipsDO.x = defaultWidth / 2;
             this.addChild(flipsDO);
 
             //updates title and text values
@@ -220,7 +220,7 @@ module FlipPlus.Menu.View {
             textDO2.text = "";
             flipsDO.text = flips;
 
-            var b = DefaultHeight / 2 - 500;
+            var b = defaultHeight / 2 - 500;
 
             titleDO.y = 0 + b + 50
             titleShadow.y = titleDO.y + 15;
@@ -237,7 +237,7 @@ module FlipPlus.Menu.View {
             //shows the popus
             this.closeinterval = setTimeout(() => {
 
-                gameui.AssetsManager.playSound("Open")
+                gameui.AudiosManager.playSound("Open")
 
                 this.fadeIn(1,0.5);
             }, delay);;
@@ -262,7 +262,7 @@ module FlipPlus.Menu.View {
         //method for close popup 
         private closePopUp() {
 
-            gameui.AssetsManager.playSound("Close")
+            gameui.AudiosManager.playSound("Close")
 
             //hide the popup{
             this.fadeOut(1,0.5);

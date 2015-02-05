@@ -45,7 +45,7 @@ module FlipPlus.GamePlay.Views {
         //creates all menu butons
         private createGamePlayMenu() {
             this.overlayMenu = new gameui.UIItem();
-            this.overlayMenu.width = 2*DefaultWidth;
+            this.overlayMenu.width = 2*defaultWidth;
             this.overlayMenu.height = 0;
 
             var pausBt = new gameui.IconButton("puzzle/iconepause", "","","", "puzzle/btpowerup", () => { this.pause(); });
@@ -132,7 +132,7 @@ module FlipPlus.GamePlay.Views {
             pauseMenu.x = 800;
             pauseMenu.visible = false;
             this.pauseMenu = pauseMenu;
-            this.pauseMenu.width = DefaultWidth;
+            this.pauseMenu.width = defaultWidth;
             this.pauseMenu.height = 0;
         }
 

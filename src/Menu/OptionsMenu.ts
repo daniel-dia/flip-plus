@@ -21,8 +21,8 @@ module FlipPlus.Menu {
                 window.location.reload();
             });
 
-            cdb.x = DefaultWidth / 2;
-            cdb.y = DefaultHeight / 2;
+            cdb.x = defaultWidth / 2;
+            cdb.y = defaultHeight / 2;
 
             //add Other Buttons
             this.content.addChild(cdb);

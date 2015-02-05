@@ -20,10 +20,10 @@ module FlipPlus.Menu.View {
             var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
             textDO.textAlign = "center";
             textDO.textBaseline = "middle";
-            textDO.x = DefaultWidth / 2;
+            textDO.x = defaultWidth / 2;
             this.addChild(textDO);
 
-            textDO.y =DefaultHeight * 0.3;
+            textDO.y =defaultHeight * 0.3;
             
             //updates text
             textDO.text = text.toUpperCase();

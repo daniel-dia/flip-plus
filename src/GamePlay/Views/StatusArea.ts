@@ -32,9 +32,9 @@ module FlipPlus.GamePlay.Views {
             //this.bg2 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle1");
             this.bg3 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle2"); this.bg3.scaleX = -1;
 
-            this.bg1.x = DefaultWidth * 0.01;
+            this.bg1.x = defaultWidth * 0.01;
             //this.bg2.x = DefaultWidth * 0.5; this.bg2.x -= this.bg2.getBounds().width / 2;
-            this.bg3.x = DefaultWidth * 0.98;             
+            this.bg3.x = defaultWidth * 0.98;             
 
             this.bg1.y = 30;
             //this.bg2.y = 30;
@@ -52,9 +52,9 @@ module FlipPlus.GamePlay.Views {
             this.iconemoves = gameui.AssetsManager.getBitmap("puzzle/iconemoves");
             this.iconetime = gameui.AssetsManager.getBitmap("puzzle/iconetime");
          
-            this.iconepuzzle.x = DefaultWidth * 0.01 + 3;
+            this.iconepuzzle.x = defaultWidth * 0.01 + 3;
 
-            rightIconContainer.x = DefaultWidth * 0.98; rightIconContainer.scaleX = -1;
+            rightIconContainer.x = defaultWidth * 0.98; rightIconContainer.scaleX = -1;
             this.iconepuzzle.y = 33;
             rightIconContainer.y = 33;
 
@@ -72,9 +72,9 @@ module FlipPlus.GamePlay.Views {
             this.text2 = new createjs.Text("", defaultFontFamilyNormal, "#888");
             this.text3 = new createjs.Text("", defaultFontFamilyStrong, "#FFF");
                         
-            this.text1.x = DefaultWidth * 0.17; 
-            this.text2.x = DefaultWidth * 0.5; 
-            this.text3.x = DefaultWidth * 0.83;
+            this.text1.x = defaultWidth * 0.17; 
+            this.text2.x = defaultWidth * 0.5; 
+            this.text3.x = defaultWidth * 0.83;
 
             this.text1.textAlign = this.text2.textAlign = this.text3.textAlign = "center";
 

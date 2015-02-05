@@ -22,7 +22,7 @@ module FlipPlus.Menu {
             super();
 
             this.addObjects();
-            this.pagesSwipe = new PagesSwipe(this.projectsContainer, this.projectViews, DefaultWidth, 200, 1500);
+            this.pagesSwipe = new PagesSwipe(this.projectsContainer, this.projectViews, defaultWidth, 200, 1500);
             this.createPaginationButtons(this.projectsContainer)
 
         }
@@ -90,7 +90,7 @@ module FlipPlus.Menu {
                 var projectView = new View.ProjectWorkshopView(projects[p]);
                 this.projectViews.push(projectView);
                 projectView.activate();
-                projectView.x = DefaultWidth * p; 
+                projectView.x = defaultWidth * p; 
                 projectView.addEventListener("levelClick", (e: createjs.Event) => { this.openLevel(e) });
 
                 this.projectsContainer.addChild(projectView);
@@ -122,13 +122,13 @@ module FlipPlus.Menu {
             //create leftButton
             var lb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() },"buttonOut");
             lb.y = 1050;
-            lb.x = DefaultWidth * 0.1;
+            lb.x = defaultWidth * 0.1;
             this.content.addChild(lb);
 
             //create right button
             var rb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
             rb.y = 1050;
-            rb.x = DefaultWidth * 0.9;
+            rb.x = defaultWidth * 0.9;
             rb.scaleX = -1;
             this.content.addChild(rb);
 
@@ -136,8 +136,8 @@ module FlipPlus.Menu {
  
         //--Behaviour-----------------------------------------------------------
 
-        public redim(headerY: number, footerY: number, width: number) {
-            super.redim(headerY, footerY, width);
+        public redim(headerY: number, footerY: number, width: number,height:number) {
+            super.redim(headerY, footerY, width, height);
 
             for (var pv in this.projectViews)
                 this.projectViews[pv].redim(headerY, footerY);
@@ -154,8 +154,8 @@ module FlipPlus.Menu {
 
 
             // play music
-            gameui.AssetsManager.playMusic("Music Dot Robot",0.5);
-            this.factorySound = gameui.AssetsManager.playSound("Factory Ambience");
+            gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
+            this.factorySound = gameui.AudiosManager.playSound("Factory Ambience");
             this.factorySound.setVolume(0.4);
 
             //update enabled Projects

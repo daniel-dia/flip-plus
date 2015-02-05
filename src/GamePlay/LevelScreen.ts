@@ -118,7 +118,7 @@ module FlipPlus.GamePlay {
             // coins Indicator
             this.coinsIndicator= new Menu.View.CoinsIndicator();
             this.header.addChild(this.coinsIndicator);
-            this.coinsIndicator.x = DefaultWidth / 2;
+            this.coinsIndicator.x = defaultWidth / 2;
             
             //upper staus area
             if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
@@ -138,8 +138,8 @@ module FlipPlus.GamePlay {
             this.boardSprite = new Views.BoardSprite(width, height, theme, type);
             this.content.addChild(this.boardSprite);
 
-            this.boardSprite.x = DefaultWidth / 2;
-            this.boardSprite.y = DefaultHeight / 2;
+            this.boardSprite.x = defaultWidth / 2;
+            this.boardSprite.y = defaultHeight / 2;
 
             this.boardSprite.addInputCallback((col: number, row: number) => { this.userInput(col, row); })
             //TODO create a custom event
@@ -189,7 +189,7 @@ module FlipPlus.GamePlay {
             setTimeout(() => {
 
                 //playSound
-                gameui.AssetsManager.playSound("Task Complete");
+                gameui.AudiosManager.playSound("Task Complete");
 
                 //apply radius effect
                 this.boardSprite.radiusEffect(col, row)
@@ -203,7 +203,7 @@ module FlipPlus.GamePlay {
             FlipPlusGame.analytics.logLevelWin(this.levelData.name, (Date.now() - this.startedTime) / 100, this.clicks)
 
             //play a win sound
-            gameui.AssetsManager.playSound("final");
+            gameui.AudiosManager.playSound("final");
 
             //verifies if user already completed this level and verifies if player used any item in the game
             if (!this.levelData.userdata.solved)
@@ -394,7 +394,7 @@ module FlipPlus.GamePlay {
         protected pauseGame() {
 
             this.boardSprite.lock();
-            var med = DefaultWidth / 4;
+            var med = defaultWidth / 4;
 
             createjs.Tween.removeTweens(this.boardSprite);
             createjs.Tween.get(this.boardSprite).to({ scaleX: 0.5, scaleY: 0.5, alpha: 0 }, 300, createjs.Ease.quadIn).call(() => {
@@ -405,7 +405,7 @@ module FlipPlus.GamePlay {
         protected unPauseGame() {
 
             this.boardSprite.unlock();
-            var med = DefaultWidth / 4;
+            var med = defaultWidth / 4;
 
             this.boardSprite.scaleX = 0.5;
             this.boardSprite.alpha = 0;
@@ -420,7 +420,7 @@ module FlipPlus.GamePlay {
             this.boardSprite.y = parameters.y + 2048;
             this.boardSprite.scaleX = parameters.scaleX;
             this.boardSprite.scaleY = parameters.scaleY;
-            createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: DefaultWidth / 2, y: DefaultHeight / 2 }, 500, createjs.Ease.quadInOut);
+            createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: defaultWidth / 2, y: defaultHeight / 2 }, 500, createjs.Ease.quadInOut);
         }
 
         // #endregion
@@ -434,7 +434,7 @@ module FlipPlus.GamePlay {
 
 
             // play music
-            gameui.AssetsManager.playMusic("Music Minimal Tech");
+            gameui.AudiosManager.playMusic("Music Minimal Tech");
 
             // analytics
             this.startedTime = Date.now();
@@ -446,7 +446,7 @@ module FlipPlus.GamePlay {
 
             // if there are hidden blocks. shake and lock the board for 4 seconds
             if (this.levelData.hiddenBlocks && this.levelData.hiddenBlocks.length > 0) {
-                var x = DefaultWidth / 2;
+                var x = defaultWidth / 2;
                 var t = 100;
                 this.boardSprite.mouseEnabled = false;
                 createjs.Tween.get(this.boardSprite)

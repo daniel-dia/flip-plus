@@ -87,7 +87,7 @@
             this.content.mouseEnabled = false;
             this.keys[keyId].gotoAndPlay("key");
             // play sound
-            gameui.AssetsManager.playSound("button");
+            gameui.AudiosManager.playSound("button");
 
             setTimeout(() => {
                 this.content.mouseEnabled = true;    
@@ -105,12 +105,12 @@
 
 
                     // play sound
-                    gameui.AssetsManager.playSound("Correct Answer",true,300);
+                    gameui.AudiosManager.playSound("Correct Answer",true,300);
                 }
                 else {
 
                     // play sound
-                    gameui.AssetsManager.playSound("wrong", true, 300);
+                    gameui.AudiosManager.playSound("wrong", true, 300);
 
                     //play movieclip
                     this.mainClip.gotoAndPlay("Wrong" + (this.currentChestId));
@@ -137,7 +137,7 @@
 
 
                 // play sound
-                gameui.AssetsManager.playSound("Wrong Answer");
+                gameui.AudiosManager.playSound("Wrong Answer");
 
             }
         }
@@ -158,9 +158,9 @@
 
                 var item = this.createItem(items[i])
                 
-                item.set ({x : DefaultWidth / 2, y : DefaultHeight / 2 -100 ,alpha:0})
+                item.set ({x : defaultWidth / 2, y : defaultHeight / 2 -100 ,alpha:0})
                 createjs.Tween.get(item).wait(500 + i * 300)
-                    .to({ alpha: 1, x: DefaultWidth / 2.5 + (300 * (i - 1)), y: DefaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
+                    .to({ alpha: 1, x: defaultWidth / 2.5 + (300 * (i - 1)), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
                     .call((itemDo: createjs.DisplayObject) => { this.animateItemObjectToFooter(itemDo, itemDo.name) }, [item])
                 this.itemsContainer.addChild(item);
             }

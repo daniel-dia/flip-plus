@@ -41,7 +41,7 @@ module FlipPlus.Menu {
             //play BgSound
 
             // play music
-            gameui.AssetsManager.playMusic("Music Dot Robot");
+            gameui.AudiosManager.playMusic("Music Dot Robot");
 
 
             //Verifies if it is the first time playing

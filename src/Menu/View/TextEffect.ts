@@ -10,10 +10,10 @@ module FlipPlus.Menu.View {
             super();
               
             //centralize the popup on screen
-            this.width = DefaultWidth;
-            this.height = DefaultHeight;
-            this.x = DefaultWidth / 2;
-            this.y = DefaultHeight / 2;
+            this.width = defaultWidth;
+            this.height = defaultHeight;
+            this.x = defaultWidth / 2;
+            this.y = defaultHeight / 2;
             this.centralize();
             
             //hide popup
@@ -32,23 +32,23 @@ module FlipPlus.Menu.View {
             var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
             titleShadow.textAlign = "center";
             titleShadow.textBaseline = "middle";
-            titleShadow.x = DefaultWidth / 2;
+            titleShadow.x = defaultWidth / 2;
             this.addChild(titleShadow);
 
             //create a title
             var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
             titleDO.textAlign = "center";
             titleDO.textBaseline = "middle";
-            titleDO.x = DefaultWidth / 2;
+            titleDO.x = defaultWidth / 2;
             this.addChild(titleDO);
 
-            titleShadow.y = titleDO.y = DefaultHeight /2;
+            titleShadow.y = titleDO.y = defaultHeight /2;
             titleShadow.y += 15;
 
             //updates text
             titleDO.text = titleShadow.text = text.toUpperCase();
 
-            var ty = DefaultHeight * 0.9;
+            var ty = defaultHeight * 0.9;
 
             this.set({
                 alpha: 0,

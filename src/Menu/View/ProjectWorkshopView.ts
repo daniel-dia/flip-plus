@@ -29,7 +29,7 @@ module FlipPlus.Menu.View {
 
         private addHitArea(){
             var hit = new createjs.Container;
-            hit.hitArea = (new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, DefaultWidth, DefaultHeight)));
+            hit.hitArea = (new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, defaultWidth, defaultHeight)));
             this.addChild(hit);
         }
 
@@ -51,7 +51,7 @@ module FlipPlus.Menu.View {
 
             this.robotPreview = new View.RobotPreview(project);
 
-            this.robotPreview.x = DefaultWidth / 2;
+            this.robotPreview.x = defaultWidth / 2;
             this.robotPreview.y = 1100;
             this.robotPreview.update();
             this.addChild(this.robotPreview);
@@ -60,10 +60,10 @@ module FlipPlus.Menu.View {
         //Adds RobotName
         private addStatus(project: Projects.Project) {
             this.statusArea = new createjs.Container();
-            this.statusArea.regX = this.statusArea.x = DefaultWidth / 2;
+            this.statusArea.regX = this.statusArea.x = defaultWidth / 2;
             var bg = gameui.AssetsManager.getBitmap("partshud");
             bg.y = 00//150;
-            bg.x = DefaultWidth/ 2;
+            bg.x = defaultWidth/ 2;
             bg.scaleX = 2;
             bg.regX = bg.getBounds().width/2;
             this.statusArea.addChild(bg);
@@ -72,7 +72,7 @@ module FlipPlus.Menu.View {
             l.y = 0;//250;
             l.textAlign = "center";
             l.textBaseline = "top";
-            l.x = DefaultWidth / 2;
+            l.x = defaultWidth / 2;
             this.statusArea.addChild(l);
 
             this.addChild(this.statusArea);
@@ -113,7 +113,7 @@ module FlipPlus.Menu.View {
                     var text = new createjs.Text(stringResources.ws_Locked, defaultFontFamilyStrong, defaultFontColor);
                     text.textAlign = "center";
                     text.y = 1738 - 2048;
-                    text.x = DefaultWidth / 2;
+                    text.x = defaultWidth / 2;
                     levelMachine.addChild(text);
                 }
             } else {
@@ -121,7 +121,7 @@ module FlipPlus.Menu.View {
                 var text = new createjs.Text(stringResources.ws_NotFree, defaultFontFamilyStrong, defaultFontColor);
                 text.textAlign = "center";
                 text.y = 1738 - 2048;
-                text.x = DefaultWidth / 2;
+                text.x = defaultWidth / 2;
                 levelMachine.addChild(text);
             }
 
@@ -130,7 +130,7 @@ module FlipPlus.Menu.View {
         //-Animation------------------------------------------------------------
 
         public setRelativePos(pos: number) {
-            this.robotPreview.x = this.statusArea.x= -pos *0.35 + DefaultWidth/2;
+            this.robotPreview.x = this.statusArea.x= -pos *0.35 + defaultWidth/2;
         }
 
 

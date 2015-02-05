@@ -78,7 +78,7 @@
                                 this.message.showtext(stringResources.gp_mv_noMoreMoves);
                                 
                                 // play sound
-                                gameui.AssetsManager.playSound("Power Down");
+                                gameui.AudiosManager.playSound("Power Down");
                                 
                                 this.loose();
                                 this.loosing = true;
@@ -103,12 +103,12 @@
 
                 //animate board and switch
                 var defaultX = this.boardSprite.x;
-                createjs.Tween.get(this.boardSprite).to({ x: defaultX - DefaultWidth }, 250, createjs.Ease.quadIn).call(() => {
+                createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(() => {
                     this.currentPuzzle++;
                     this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
                     this.boardSprite.clearHint();
 
-                    this.boardSprite.x = defaultX + DefaultWidth;
+                    this.boardSprite.x = defaultX + defaultWidth;
                     createjs.Tween.get(this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut)
                 })
 

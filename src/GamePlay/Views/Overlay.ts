@@ -50,7 +50,7 @@ module FlipPlus.GamePlay.Views {
             this.visible = false;
             var backgroundShape: createjs.Shape = new createjs.Shape();
 
-            backgroundShape.graphics.beginFill("rgba(0,0,0,0.2)").drawRect(0, 0, DefaultWidth, DefaultHeight);
+            backgroundShape.graphics.beginFill("rgba(0,0,0,0.2)").drawRect(0, 0, defaultWidth, defaultHeight);
             this.addChild(backgroundShape);
 
             var mc = new gameui.MenuContainer();
@@ -86,7 +86,7 @@ module FlipPlus.GamePlay.Views {
         private createConfirmationContainer() {
 
             this.confirm = new gameui.MenuContainer(null,100);
-            this.confirm.y = DefaultHeight / 1.8;
+            this.confirm.y = defaultHeight / 1.8;
 
 
             var smc: gameui.Grid;
