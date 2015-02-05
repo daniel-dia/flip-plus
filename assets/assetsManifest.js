@@ -2,8 +2,7 @@
 function getAssetsManifest(assetscale) {
 
     var imagePath = "assets/images_" + assetscale + "x/";
-
-    var audioPath = "assets/sound/"
+    var audioPath = "assets/sound/";
 
     return [
 
@@ -36,8 +35,7 @@ function getAssetsManifest(assetscale) {
         { src: imagePath + "intro/bot.png", id: "bot" },
         { src: imagePath + "intro/Bot01.png", id: "Bot01" },
         { src: imagePath + "intro/botLight.png", id: "botLight" },
-        { src: imagePath + "intro/fundoEscuro.jpg", id: "fundoEscuro" },
-
+       
         //Bonus1
         { src: imagePath + "Bonus1/back.png", id: "Bonus1/back" },
         { src: imagePath + "Bonus1/header.png", id: "Bonus1/header" },
@@ -420,7 +418,7 @@ function getAssetsManifest(assetscale) {
         // { id: "navigateOutup", src: audioPath + "botao_abrir_down.mp3" },
 
 
-        { id: "Music Dot Robot", src: audioPath + "Music Dot Robot.mp3" },
+        { id: "Music Dot Robot",    src: audioPath + "Music Dot Robot.mp3" },
         { id: "Music Minimal Tech", src: audioPath + "Music Minimal Tech.mp3" },
 
         { id: "Correct Answer", src: audioPath + "Correct Answer.mp3" },
