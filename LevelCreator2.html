@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Flip+ LevelCreator</title>
+    <script src="data/stringResources.js"></script>
+    <script src="data/Levels.js"></script>
+    <script src="jquery-ui-1.11.3/external/jquery/jquery.js"></script>
+    <script src="jquery-ui-1.11.3/jquery-ui.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script>
+    <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
+
+
+    <script src="script/createjs-2014.12.12.min.js"></script>
+    <script src="script/script.js"></script>
+
+    <link href="jquery-ui-1.11.3/jquery-ui.css" rel="stylesheet" />
+    <link href="style/main.css" rel="stylesheet" />
+
+    <style>
+        .sortable {
+            list-style-type: none;
+            margin: 0;
+            padding: 5px;
+            width: 420px;
+            min-height: 230px;
+        }
+
+            .sortable li {
+                margin: 3px 3px 3px 0;
+                padding: 1px;
+                width: 75px;
+                float: left; 
+                height: 75px;
+                font-size: 4em;
+                text-align: center;
+            }
+ 
+        html, body {
+            margin: 10px;
+            overflow: auto;
+            background-color: black;
+            background-image: none;
+            text-align: left;
+        }
+
+        .textSpan {
+            width: 104px;
+            display: inline-block;
+        }
+
+        div.pannel {
+            float: left;
+            margin: 10px;
+            padding: 20px;
+            background-color: #222;
+        }
+
+        .fixed {
+            position: fixed;
+            left : 510px;
+        }
+        .spinner {
+            width:60px
+        }
+        h2 {
+            clear: both;
+        }
+        canvas {
+
+        }
+    </style>
+
+    <script>
+        function createCanvasThumb(canvas, level) {
+            var stage = new createjs.Stage(this.$id);
+            var shape = new FlipPlus.Menu.View.LevelThumb2(this.level);
+            shape.scaleX = shape.scaleY = 75 / 200;
+            shape.x = shape.y = 75 / 2;
+            stage.addChild(shape);
+            stage.update()
+            stage.enableDOMEvents = false;
+            stage.mouseEnabled = false;
+        }
+
+        $(function () {
+            $(".radio").buttonset();
+            $(".spinner").spinner({
+                min: 3,
+                max: 9,
+                step: 1, 
+            });
+        })
+          
+        var myapp = angular.module('FlipPlusApp', ['ui.sortable']);
+        myapp.controller('LevelsSortable', function ($scope) {
+            $scope.projects = levelsData
+            $scope.sortableOptions = {
+                connectWith: ".connectedSortable",
+            };
+            $scope.createCanvasThumb = createCanvasThumb;
+        });
+
+     
+
+  
+
+    </script>
+
+</head>
+<body >
+    <h1>Flip+ Level Creator</h1>
+    <div id="Projects" class="pannel" ng-app="FlipPlusApp" ng-controller="LevelsSortable">
+        <h2>Projects</h2>
+       
+
+        <div class="app" ng-repeat="project in projects">
+            <h2> {{project.nickName}}</h2>
+            <ul class="sortable connectedSortable" ui-sortable="sortableOptions">
+                <li ng-repeat="level in project.levels" class="ui-state-default">
+                    <canvas ng-attr-id="{{$id}}" width="75" height="75" class="levelThumb" ng-bind="createCanvasThumb(this)"></canvas>
+                </li>
+            </ul>
+            <br style="clear:both"/>
+        </div>
+    </div>
+    <div id="Puzzle" class="pannel fixed">
+        <h2>Puzzle</h2>
+        <iframe></iframe>
+        <div>
+            <h3>size</h3>
+            <label for="height">Width:</label>
+            <input class="spinner" id="height" name="value">
+            <label for="width">Heigth:</label>
+            <input class="spinner" id="width" name="value">
+        </div>
+        <h3>Type</h3>
+        <div class="radio">
+            <input type="radio" id="radio1" name="radioType"><label for="radio1">Puzzle</label>
+            <input type="radio" id="radio2" name="radioType" checked="checked"><label for="radio2">Time</label>
+            <input type="radio" id="radio3" name="radioType"><label for="radio3">Moves</label>
+        </div>
+        <h3>Color</h3>
+        <div class="radio">
+            <input type="radio" id="radio1b" name="radioColor"><label for="radio1b">Green</label>
+            <input type="radio" id="radio2b" name="radioColor"><label for="radio2b">Purple</label>
+            <input type="radio" id="radio3b" name="radioColor"><label for="radio3b">Yellow</label>
+        </div>
+    </div>
+</body>
+</html>
