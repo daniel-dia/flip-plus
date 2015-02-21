@@ -26,7 +26,7 @@ module FlipPlus.Menu.View {
         } 
 
         //Create a container with a level thumbnail and evel name
-        private createThumbs(level: FlipPlus.Projects.Level) {
+        protected createThumbs(level: FlipPlus.Projects.Level) {
             
             this.removeAllChildren();
 
@@ -55,8 +55,7 @@ module FlipPlus.Menu.View {
                 color2 = "rgba(0,0,0,0.3)";
                 this.setSound("buttonOff");
             }
-
-            
+                        
             // next playable
             if (level.userdata.unlocked && !level.userdata.solved && !level.userdata.skip) {
                 assetSufix = "3";
@@ -75,7 +74,7 @@ module FlipPlus.Menu.View {
             thumbContainer.addChild(this.createBackgroud(level, assetName, assetSufix));
 
             //Adds Thumb Blocks
-            thumbContainer.addChild(this.createBlocks(level,color1,color2));
+            thumbContainer.addChild(this.createBlocks(level,color1,color2,1,4));
 
             //Adds thumb tags
             thumbContainer.addChild(this.createTags(level,assetName,assetSufix));
@@ -85,11 +84,10 @@ module FlipPlus.Menu.View {
 
             //cache thumb
             thumbContainer.cache(-99, -102, 198, 204);
-
         }
 
         //defines accentColor based on level type.
-        private defineAssetName(level: Projects.Level) :string{
+        protected defineAssetName(level: Projects.Level) :string{
             var assetname = "faseamarela";
             if (level.theme == "green") assetname = "faseverde";
             if (level.theme == "purple") assetname = "faseroxa";
@@ -97,7 +95,8 @@ module FlipPlus.Menu.View {
             return assetname;
         }
 
-        private createLevelModificator(level: Projects.Level):createjs.DisplayObject {
+        // add items modification
+        protected createLevelModificator(level: Projects.Level):createjs.DisplayObject {
 
             if (level.userdata.skip) {
                 var sk = gameui.AssetsManager.getBitmap("puzzle/icon_skip");
@@ -116,7 +115,7 @@ module FlipPlus.Menu.View {
         }
 
         //adds thumb background
-        private createBackgroud(level: Projects.Level,assetName,assetSufix): createjs.DisplayObject {
+        protected createBackgroud(level: Projects.Level,assetName,assetSufix): createjs.DisplayObject {
 
             var sbg = gameui.AssetsManager.getBitmap("workshop/" + assetName + assetSufix);
             sbg.regX = sbg.regY = 98;
@@ -124,13 +123,16 @@ module FlipPlus.Menu.View {
         }
         
         //adds thumb blocks
-        private createBlocks(level: Projects.Level,color1:string, color2:string): createjs.DisplayObject {
+        protected createBlocks(level: Projects.Level, color1: string, color2: string, sizeStart?: number, sizeEnd?: number): createjs.DisplayObject {
+          
+            var col0 = sizeStart ? sizeStart : 0;
+            var colf = sizeEnd ? sizeEnd :level.width ;
+            var row0 = sizeStart ? sizeStart : 0;
+            var rowf = sizeEnd ? sizeEnd: level.height ;
 
             var spacing = 45;
             var size = 40;
 
-            var marginLeft = spacing * 5/2;
-            var marginTop = spacing * 5/2;
             var totalSize = level.width * level.height;
             var blocks: boolean[] = [];
 
@@ -148,21 +150,26 @@ module FlipPlus.Menu.View {
                 if (n % level.width != level.width - 1) blocks[n + 1] = !blocks[n + 1];
             }
             var s = new createjs.Shape();
-
-            for (var col = 1; col < 4; col++) {
-                for (var row = 1; row < 4; row++) {
-                    
+            for (var col = col0; col < colf; col++) {
+                for (var row = row0; row < rowf; row++) {
                     var color: string;
                     if (blocks[col * level.width + row]) color = color1; else color = color2;
-                    s.graphics.beginFill(color).drawRect(spacing * col - marginLeft, spacing * row - marginTop, size, size);
+                    s.graphics.beginFill(color).drawRect(spacing * (col-col0), spacing * (row-row0), size, size);
                 }
             }
+
+            // scale for fit on square
+            s.scaleX = s.scaleY = Math.min(3 / (colf - col0), 3 / (rowf - row0));
+
+            // centralize thumg
+            s.regX = spacing*(colf-col0)/ 2;
+            s.regY = spacing*(rowf-row0)/ 2;
 
             return s;
         }
 
         //Adds Thumb Tag
-        private createTags(level: Projects.Level, assetName,assetSufix) :createjs.DisplayObject{
+        protected createTags(level: Projects.Level, assetName,assetSufix) :createjs.DisplayObject{
             //TODO: essas string devem estar em um enum
             if (level.type == "time" || level.type == "flip" || level.type == "moves") {
                 var tag = gameui.AssetsManager.getBitmap("workshop/" + assetName + (level.type=="moves"?"flip":level.type )+ assetSufix);

@@ -673,7 +673,7 @@ var gameui;
             _super.call(this, background, event, soundId);
             //add text into it.
             text = text.toUpperCase();
-            this.text = new createjs.Text(text, font, color);
+            this.text = new createjs.Text(text, "bold 130px Arial", color);
             this.text.textBaseline = "middle";
             this.text.textAlign = "center";
             //createHitArea
@@ -682,7 +682,6 @@ var gameui;
                 this.height = this.text.getMeasuredHeight() * 1.5;
             }
             this.addChild(this.text);
-            this.createHitArea();
             this.createHitArea();
         }
         return TextButton;
@@ -741,9 +740,6 @@ var gameui;
     gameui.IconButton = IconButton;
 })(gameui || (gameui = {}));
 //declare var spriteSheets;
-window.onload = function () {
-    FlipPlus.FlipPlusGame.initializeGame();
-};
 var FlipPlus;
 (function (FlipPlus) {
     // Main game Class
@@ -4600,7 +4596,7 @@ var FlipPlus;
                     //Adds Thumb Backgroud
                     thumbContainer.addChild(this.createBackgroud(level, assetName, assetSufix));
                     //Adds Thumb Blocks
-                    thumbContainer.addChild(this.createBlocks(level, color1, color2));
+                    thumbContainer.addChild(this.createBlocks(level, color1, color2, 1, 4));
                     //Adds thumb tags
                     thumbContainer.addChild(this.createTags(level, assetName, assetSufix));
                     //Adds level modificator
@@ -4619,6 +4615,7 @@ var FlipPlus;
                         assetname = "faseamarela";
                     return assetname;
                 };
+                // add items modification
                 LevelThumb.prototype.createLevelModificator = function (level) {
                     if (level.userdata.skip) {
                         var sk = gameui.AssetsManager.getBitmap("puzzle/icon_skip");
@@ -4640,11 +4637,13 @@ var FlipPlus;
                     return sbg;
                 };
                 //adds thumb blocks
-                LevelThumb.prototype.createBlocks = function (level, color1, color2) {
+                LevelThumb.prototype.createBlocks = function (level, color1, color2, sizeStart, sizeEnd) {
+                    var col0 = sizeStart ? sizeStart : 0;
+                    var colf = sizeEnd ? sizeEnd : level.width;
+                    var row0 = sizeStart ? sizeStart : 0;
+                    var rowf = sizeEnd ? sizeEnd : level.height;
                     var spacing = 45;
                     var size = 40;
-                    var marginLeft = spacing * 5 / 2;
-                    var marginTop = spacing * 5 / 2;
                     var totalSize = level.width * level.height;
                     var blocks = [];
                     for (var i = 0; i < totalSize; i++)
@@ -4662,16 +4661,21 @@ var FlipPlus;
                                 blocks[n + 1] = !blocks[n + 1];
                         }
                     var s = new createjs.Shape();
-                    for (var col = 1; col < 4; col++) {
-                        for (var row = 1; row < 4; row++) {
+                    for (var col = col0; col < colf; col++) {
+                        for (var row = row0; row < rowf; row++) {
                             var color;
                             if (blocks[col * level.width + row])
                                 color = color1;
                             else
                                 color = color2;
-                            s.graphics.beginFill(color).drawRect(spacing * col - marginLeft, spacing * row - marginTop, size, size);
+                            s.graphics.beginFill(color).drawRect(spacing * (col - col0), spacing * (row - row0), size, size);
                         }
                     }
+                    // scale for fit on square
+                    s.scaleX = s.scaleY = Math.min(3 / (colf - col0), 3 / (rowf - row0));
+                    // centralize thumg
+                    s.regX = spacing * (colf - col0) / 2;
+                    s.regY = spacing * (rowf - row0) / 2;
                     return s;
                 };
                 //Adds Thumb Tag
@@ -5805,308 +5809,6 @@ var FlipPlus;
         Bonus.Bonus2OLD = Bonus2OLD;
     })(Bonus = FlipPlus.Bonus || (FlipPlus.Bonus = {}));
 })(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var View;
-        (function (View) {
-            var BonusItem = (function (_super) {
-                __extends(BonusItem, _super);
-                function BonusItem(bonusId, action) {
-                    _super.call(this, "projects/bigslot1", action);
-                    this.bonusId = bonusId;
-                    this.y = 470;
-                    this.x = 768;
-                    this.regX = 1458 / 2;
-                    this.regY = 410 / 2;
-                    this.updateProjectInfo();
-                }
-                //createObjects
-                BonusItem.prototype.createObjects = function (bonusId) {
-                    var _this = this;
-                    var color = "#cfe3ec";
-                    var font = "Bold 100px " + defaultFont;
-                    //clean all objects
-                    this.removeAllChildren();
-                    //if unlocked
-                    var stars = FlipPlus.FlipPlusGame.projectManager.getStarsCount();
-                    if (stars >= bonusData[bonusId].cost) {
-                        //background
-                        var bg = "projects/" + bonusId;
-                        var s = gameui.AssetsManager.getBitmap(bg);
-                        this.addChild(s);
-                        //timer text 
-                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
-                        this.timerText.textBaseline = "middle";
-                        this.timerText.textAlign = "center";
-                        this.timerText.x = 1000;
-                        this.timerText.y = 180;
-                        this.addChild(this.timerText);
-                        //auto updateObject
-                        this.timerintervalTick();
-                        if (this.updateInterval)
-                            clearInterval(this.updateInterval);
-                        this.updateInterval = setInterval(function () {
-                            _this.timerintervalTick();
-                        }, 900);
-                    }
-                    else {
-                        //adds Background
-                        var bg = "projects/bigslot1";
-                        var s = gameui.AssetsManager.getBitmap(bg);
-                        this.addChild(s);
-                        //adds lock indicator
-                        var star = gameui.AssetsManager.getBitmap("projects/star");
-                        this.addChild(star);
-                        star.x = 670;
-                        star.y = 150;
-                        //addsText
-                        //TODO da onde vai tirar as estrelas?
-                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
-                        this.addChild(tx);
-                        tx.textAlign = "right";
-                        tx.x = 650;
-                        tx.y = 135;
-                    }
-                    //create hitArea
-                    this.createHitArea();
-                };
-                //updates based on porject 
-                BonusItem.prototype.updateProjectInfo = function () {
-                    //update the objects display     
-                    this.createObjects(this.bonusId);
-                };
-                BonusItem.prototype.timerintervalTick = function () {
-                    var time = FlipPlus.FlipPlusGame.timersData.getTimer(this.bonusId);
-                    if (time == 0) {
-                        this.timerText.text = stringResources.mm_play;
-                        if (!createjs.Tween.hasActiveTweens(this.timerText)) {
-                            ////this.timerText.cache(-200, -50, 400, 100);
-                            this.timerText.set({ scaleX: 1, scaleY: 1 });
-                            createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
-                        }
-                    }
-                    else {
-                        createjs.Tween.removeTweens(this.timerText);
-                        this.timerText.text = this.toHHMMSS(time);
-                        this.timerText.scaleX = this.scaleY = 1;
-                    }
-                };
-                BonusItem.prototype.toHHMMSS = function (sec_num) {
-                    var hours = Math.floor(sec_num / 3600);
-                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
-                    if (hours < 10) {
-                        hours = 0 + hours;
-                    }
-                    if (minutes < 10) {
-                        minutes = 0 + minutes;
-                    }
-                    if (seconds < 10) {
-                        seconds = 0 + seconds;
-                    }
-                    var time = hours + ':' + minutes + ':' + seconds;
-                    return time;
-                };
-                return BonusItem;
-            })(gameui.ImageButton);
-            View.BonusItem = BonusItem;
-        })(View = Menu.View || (Menu.View = {}));
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var View;
-        (function (View) {
-            // View Class
-            var TextEffect = (function (_super) {
-                __extends(TextEffect, _super);
-                //class contructor
-                function TextEffect() {
-                    _super.call(this);
-                    //centralize the popup on screen
-                    this.width = defaultWidth;
-                    this.height = defaultHeight;
-                    this.x = defaultWidth / 2;
-                    this.y = defaultHeight / 2;
-                    this.centralize();
-                    //hide popup
-                    this.visible = false;
-                    this.mouseEnabled = false;
-                }
-                //public method to invoke the popup
-                TextEffect.prototype.showtext = function (text, timeout, delay) {
-                    var _this = this;
-                    if (timeout === void 0) { timeout = 3000; }
-                    if (delay === void 0) { delay = 0; }
-                    //clean everything
-                    this.removeAllChildren();
-                    //create a titleShadow
-                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-                    titleShadow.textAlign = "center";
-                    titleShadow.textBaseline = "middle";
-                    titleShadow.x = defaultWidth / 2;
-                    this.addChild(titleShadow);
-                    //create a title
-                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-                    titleDO.textAlign = "center";
-                    titleDO.textBaseline = "middle";
-                    titleDO.x = defaultWidth / 2;
-                    this.addChild(titleDO);
-                    titleShadow.y = titleDO.y = defaultHeight / 2;
-                    titleShadow.y += 15;
-                    //updates text
-                    titleDO.text = titleShadow.text = text.toUpperCase();
-                    var ty = defaultHeight * 0.9;
-                    this.set({
-                        alpha: 0,
-                        y: ty
-                    });
-                    this.visible = true;
-                    createjs.Tween.removeTweens(this);
-                    createjs.Tween.get(this).to({ alpha: 1, y: ty - 50 }, 200, createjs.Ease.quadOut).to({ alpha: 1, y: ty - 100 }, 1000, createjs.Ease.linear).to({ alpha: 0, y: ty - 300 }, 200, createjs.Ease.quadIn).call(function () {
-                        _this.visible = false;
-                        _this.dispatchEvent("onclose");
-                    });
-                };
-                return TextEffect;
-            })(gameui.UIItem);
-            View.TextEffect = TextEffect;
-        })(View = Menu.View || (Menu.View = {}));
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var GamePlay;
-    (function (GamePlay) {
-        var Moves = (function (_super) {
-            __extends(Moves, _super);
-            function Moves(levelData) {
-                var _this = this;
-                _super.call(this, levelData);
-                this.currentPuzzle = 1;
-                this.puzzlesToSolve = 0;
-                //threat user input
-                this.loosing = false;
-                //only adds this level if there are more than 1 puzzle to solve
-                this.gameplayMenu.addButtons(["skip"]);
-                if (this.levelData.puzzlesToSolve > 1)
-                    this.gameplayMenu.addButtons(["solve"]);
-                //adds buttons and items
-                this.gameplayMenu.addButtons(["touch", "hint"]);
-                this.gameplayMenu.addEventListener("touch", function () {
-                    _this.useItemTouch();
-                });
-                this.gameplayMenu.addEventListener("solve", function () {
-                    _this.useItemSolve();
-                });
-                this.gameplayMenu.addEventListener("hint", function () {
-                    _this.useItemHint();
-                });
-                this.gameplayMenu.addEventListener("skip", function () {
-                    _this.useItemSkip();
-                });
-                this.moves = this.levelData.moves;
-                if (levelData.blocksData && levelData.blocksData.length > 0) {
-                    this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
-                    this.levelData.puzzlesToSolve = 1;
-                }
-                else {
-                    if (!this.levelData.puzzlesToSolve)
-                        this.levelData.puzzlesToSolve = 1;
-                    this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
-                }
-                this.puzzlesToSolve = levelData.puzzlesToSolve;
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-                //set default puzzles to solve
-                this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3);
-                this.statusArea.setMode("moves");
-                this.statusArea.setText3(this.moves.toString());
-            }
-            Moves.prototype.userInput = function (col, row) {
-                var _this = this;
-                _super.prototype.userInput.call(this, col, row);
-                if (!this.levelLogic.verifyWin()) {
-                    //verifies if is a multiTouch
-                    if (Date.now() - this.lastTouchTime > 110 || !this.lastTouchTime)
-                        this.moves--;
-                    this.lastTouchTime = Date.now();
-                    setTimeout(function () {
-                        if (!_this.loosing)
-                            if (!_this.levelLogic.verifyWin()) {
-                                //loses game, if moves is over
-                                if (_this.moves <= 0) {
-                                    _this.message.showtext(stringResources.gp_mv_noMoreMoves);
-                                    // play sound
-                                    gameui.AudiosManager.playSound("Power Down");
-                                    _this.loose();
-                                    _this.loosing = true;
-                                }
-                            }
-                    }, 110);
-                }
-                //updates moves count
-                this.statusArea.setText3(this.moves.toString());
-            };
-            //Overriding methods.
-            Moves.prototype.win = function (col, row) {
-                var _this = this;
-                if (this.currentPuzzle >= this.puzzlesToSolve) {
-                    _super.prototype.win.call(this, col, row);
-                }
-                else {
-                    //animate board and switch
-                    var defaultX = this.boardSprite.x;
-                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(function () {
-                        _this.currentPuzzle++;
-                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
-                        _this.boardSprite.clearHint();
-                        _this.boardSprite.x = defaultX + defaultWidth;
-                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
-                    });
-                }
-            };
-            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
-                if (minMoves === void 0) { minMoves = 2; }
-                if (maxMoves === void 0) { maxMoves = 5; }
-                if (!this.puzzlesToSolve)
-                    this.puzzlesToSolve = 1;
-                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
-                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
-                var inverted = [];
-                for (var m = 0; m < moves; m++) {
-                    var index = Math.floor(Math.random() * (lenght));
-                    while (inverted[index] == true)
-                        index = (index + 1) % lenght;
-                    inverted[index] = true;
-                }
-                for (var i = 0; i < lenght; i++) {
-                    if (inverted[i] == true)
-                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
-                }
-                this.levelLogic.board.initializePrizes(2);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-            };
-            //========================== items ==================================
-            Moves.prototype.useItemTouch = function () {
-                if (!this.useItem("touch"))
-                    return;
-                this.moves += 2;
-            };
-            Moves.prototype.useItemSolve = function () {
-                if (!this.useItem("solve"))
-                    return;
-                this.win(0, 0);
-            };
-            return Moves;
-        })(GamePlay.LevelScreen);
-        GamePlay.Moves = Moves;
-    })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
-})(FlipPlus || (FlipPlus = {}));
 var levelsDataBackup;
 var levelCreatorMode;
 var levelCreatorTestMode;
@@ -6350,6 +6052,135 @@ var FlipPlus;
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
+    var GamePlay;
+    (function (GamePlay) {
+        var Moves = (function (_super) {
+            __extends(Moves, _super);
+            function Moves(levelData) {
+                var _this = this;
+                _super.call(this, levelData);
+                this.currentPuzzle = 1;
+                this.puzzlesToSolve = 0;
+                //threat user input
+                this.loosing = false;
+                //only adds this level if there are more than 1 puzzle to solve
+                this.gameplayMenu.addButtons(["skip"]);
+                if (this.levelData.puzzlesToSolve > 1)
+                    this.gameplayMenu.addButtons(["solve"]);
+                //adds buttons and items
+                this.gameplayMenu.addButtons(["touch", "hint"]);
+                this.gameplayMenu.addEventListener("touch", function () {
+                    _this.useItemTouch();
+                });
+                this.gameplayMenu.addEventListener("solve", function () {
+                    _this.useItemSolve();
+                });
+                this.gameplayMenu.addEventListener("hint", function () {
+                    _this.useItemHint();
+                });
+                this.gameplayMenu.addEventListener("skip", function () {
+                    _this.useItemSkip();
+                });
+                this.moves = this.levelData.moves;
+                if (levelData.blocksData && levelData.blocksData.length > 0) {
+                    this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+                    this.levelData.puzzlesToSolve = 1;
+                }
+                else {
+                    if (!this.levelData.puzzlesToSolve)
+                        this.levelData.puzzlesToSolve = 1;
+                    this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
+                }
+                this.puzzlesToSolve = levelData.puzzlesToSolve;
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+                //set default puzzles to solve
+                this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3);
+                this.statusArea.setMode("moves");
+                this.statusArea.setText3(this.moves.toString());
+            }
+            Moves.prototype.userInput = function (col, row) {
+                var _this = this;
+                _super.prototype.userInput.call(this, col, row);
+                if (!this.levelLogic.verifyWin()) {
+                    //verifies if is a multiTouch
+                    if (Date.now() - this.lastTouchTime > 110 || !this.lastTouchTime)
+                        this.moves--;
+                    this.lastTouchTime = Date.now();
+                    setTimeout(function () {
+                        if (!_this.loosing)
+                            if (!_this.levelLogic.verifyWin()) {
+                                //loses game, if moves is over
+                                if (_this.moves <= 0) {
+                                    _this.message.showtext(stringResources.gp_mv_noMoreMoves);
+                                    // play sound
+                                    gameui.AudiosManager.playSound("Power Down");
+                                    _this.loose();
+                                    _this.loosing = true;
+                                }
+                            }
+                    }, 110);
+                }
+                //updates moves count
+                this.statusArea.setText3(this.moves.toString());
+            };
+            //Overriding methods.
+            Moves.prototype.win = function (col, row) {
+                var _this = this;
+                if (this.currentPuzzle >= this.puzzlesToSolve) {
+                    _super.prototype.win.call(this, col, row);
+                }
+                else {
+                    //animate board and switch
+                    var defaultX = this.boardSprite.x;
+                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(function () {
+                        _this.currentPuzzle++;
+                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
+                        _this.boardSprite.clearHint();
+                        _this.boardSprite.x = defaultX + defaultWidth;
+                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
+                    });
+                }
+            };
+            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
+                if (minMoves === void 0) { minMoves = 2; }
+                if (maxMoves === void 0) { maxMoves = 5; }
+                if (!this.puzzlesToSolve)
+                    this.puzzlesToSolve = 1;
+                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
+                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
+                var inverted = [];
+                for (var m = 0; m < moves; m++) {
+                    var index = Math.floor(Math.random() * (lenght));
+                    while (inverted[index] == true)
+                        index = (index + 1) % lenght;
+                    inverted[index] = true;
+                }
+                for (var i = 0; i < lenght; i++) {
+                    if (inverted[i] == true)
+                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
+                }
+                this.levelLogic.board.initializePrizes(2);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+            };
+            //========================== items ==================================
+            Moves.prototype.useItemTouch = function () {
+                if (!this.useItem("touch"))
+                    return;
+                this.moves += 2;
+            };
+            Moves.prototype.useItemSolve = function () {
+                if (!this.useItem("solve"))
+                    return;
+                this.win(0, 0);
+            };
+            return Moves;
+        })(GamePlay.LevelScreen);
+        GamePlay.Moves = Moves;
+    })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     var Menu;
     (function (Menu) {
         var Intro = (function (_super) {
@@ -6361,22 +6192,18 @@ var FlipPlus;
                 this.introMc = new lib.Intro();
                 this.addChild(this.introMc);
                 this.introMc.stop();
-                this.introMc.addEventListener("onstop", function (e) {
-                    switch (e.target) {
-                        case "d1":
-                            _this.popup.showBotText(stringResources.it_text1);
-                            break;
-                        case "readyToPlay":
-                            _this.dispatchEvent("readyToPlay");
-                            break;
-                        case "d2":
-                            _this.popup.showBotText(stringResources.it_text2);
-                            break;
-                        case "end":
-                            FlipPlus.FlipPlusGame.showProjectsMenu();
-                            _this.dispatchEvent("end");
-                            break;
-                    }
+                this.introMc.addEventListener("d1", function () {
+                    _this.popup.showBotText(stringResources.it_text1);
+                });
+                this.introMc.addEventListener("readyToPlay", function () {
+                    _this.dispatchEvent("readyToPlay");
+                });
+                this.introMc.addEventListener("d2", function () {
+                    _this.popup.showBotText(stringResources.it_text2);
+                });
+                this.introMc.addEventListener("end", function () {
+                    FlipPlus.FlipPlusGame.showProjectsMenu();
+                    _this.dispatchEvent("end");
                 });
                 this.popup.addEventListener("onclose", function () {
                     _this.introMc.play();
@@ -6515,6 +6342,178 @@ var FlipPlus;
             return TitleScreen;
         })(gameui.ScreenState);
         Menu.TitleScreen = TitleScreen;
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            var BonusItem = (function (_super) {
+                __extends(BonusItem, _super);
+                function BonusItem(bonusId, action) {
+                    _super.call(this, "projects/bigslot1", action);
+                    this.bonusId = bonusId;
+                    this.y = 470;
+                    this.x = 768;
+                    this.regX = 1458 / 2;
+                    this.regY = 410 / 2;
+                    this.updateProjectInfo();
+                }
+                //createObjects
+                BonusItem.prototype.createObjects = function (bonusId) {
+                    var _this = this;
+                    var color = "#cfe3ec";
+                    var font = "Bold 100px " + defaultFont;
+                    //clean all objects
+                    this.removeAllChildren();
+                    //if unlocked
+                    var stars = FlipPlus.FlipPlusGame.projectManager.getStarsCount();
+                    if (stars >= bonusData[bonusId].cost) {
+                        //background
+                        var bg = "projects/" + bonusId;
+                        var s = gameui.AssetsManager.getBitmap(bg);
+                        this.addChild(s);
+                        //timer text 
+                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
+                        this.timerText.textBaseline = "middle";
+                        this.timerText.textAlign = "center";
+                        this.timerText.x = 1000;
+                        this.timerText.y = 180;
+                        this.addChild(this.timerText);
+                        //auto updateObject
+                        this.timerintervalTick();
+                        if (this.updateInterval)
+                            clearInterval(this.updateInterval);
+                        this.updateInterval = setInterval(function () {
+                            _this.timerintervalTick();
+                        }, 900);
+                    }
+                    else {
+                        //adds Background
+                        var bg = "projects/bigslot1";
+                        var s = gameui.AssetsManager.getBitmap(bg);
+                        this.addChild(s);
+                        //adds lock indicator
+                        var star = gameui.AssetsManager.getBitmap("projects/star");
+                        this.addChild(star);
+                        star.x = 670;
+                        star.y = 150;
+                        //addsText
+                        //TODO da onde vai tirar as estrelas?
+                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
+                        this.addChild(tx);
+                        tx.textAlign = "right";
+                        tx.x = 650;
+                        tx.y = 135;
+                    }
+                    //create hitArea
+                    this.createHitArea();
+                };
+                //updates based on porject 
+                BonusItem.prototype.updateProjectInfo = function () {
+                    //update the objects display     
+                    this.createObjects(this.bonusId);
+                };
+                BonusItem.prototype.timerintervalTick = function () {
+                    var time = FlipPlus.FlipPlusGame.timersData.getTimer(this.bonusId);
+                    if (time == 0) {
+                        this.timerText.text = stringResources.mm_play;
+                        if (!createjs.Tween.hasActiveTweens(this.timerText)) {
+                            ////this.timerText.cache(-200, -50, 400, 100);
+                            this.timerText.set({ scaleX: 1, scaleY: 1 });
+                            createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
+                        }
+                    }
+                    else {
+                        createjs.Tween.removeTweens(this.timerText);
+                        this.timerText.text = this.toHHMMSS(time);
+                        this.timerText.scaleX = this.scaleY = 1;
+                    }
+                };
+                BonusItem.prototype.toHHMMSS = function (sec_num) {
+                    var hours = Math.floor(sec_num / 3600);
+                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+                    if (hours < 10) {
+                        hours = 0 + hours;
+                    }
+                    if (minutes < 10) {
+                        minutes = 0 + minutes;
+                    }
+                    if (seconds < 10) {
+                        seconds = 0 + seconds;
+                    }
+                    var time = hours + ':' + minutes + ':' + seconds;
+                    return time;
+                };
+                return BonusItem;
+            })(gameui.ImageButton);
+            View.BonusItem = BonusItem;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            var LevelThumb2 = (function (_super) {
+                __extends(LevelThumb2, _super);
+                // Constructor
+                function LevelThumb2(level) {
+                    _super.call(this, level);
+                    this.mouseEnabled = false;
+                    this.updateUserData();
+                }
+                LevelThumb2.prototype.createBackgroud = function (level, assetName, assetSufix) {
+                    var _this = this;
+                    var sbg = new createjs.Bitmap("assets/images_1x/workshop/" + assetName + assetSufix + ".png");
+                    sbg.on("load", function () {
+                        _this.getStage().update();
+                    });
+                    sbg.regX = sbg.regY = 98;
+                    return sbg;
+                };
+                LevelThumb2.prototype.createTags = function (level, assetName, assetSufix) {
+                    var _this = this;
+                    //TODO: essas string devem estar em um enum
+                    if (level.type == "time" || level.type == "flip" || level.type == "moves") {
+                        var tag = new createjs.Bitmap("assets/images_1x/workshop/" + assetName + (level.type == "moves" ? "flip" : level.type) + assetSufix + ".png");
+                        tag.on("load", function () {
+                            _this.getStage().update();
+                        });
+                        tag.regX = tag.regY = 100;
+                        tag.scaleX = tag.scaleY = 0.5;
+                        tag.x = tag.y = 70;
+                        return tag;
+                    }
+                };
+                LevelThumb2.prototype.createThumbs = function (level) {
+                    this.removeAllChildren();
+                    var color1;
+                    var color2;
+                    var assetSufix;
+                    var assetName = this.defineAssetName(level);
+                    var thumbContainer = new createjs.Container();
+                    this.addChild(thumbContainer);
+                    assetSufix = "3";
+                    color1 = "rgba(255,255,255,0.9)";
+                    color2 = "rgba(0,0,0,0.3)";
+                    this.setSound(null);
+                    //Adds Thumb Backgroud
+                    thumbContainer.addChild(this.createBackgroud(level, assetName, assetSufix));
+                    //Adds Thumb Blocks
+                    thumbContainer.addChild(this.createBlocks(level, color1, color2));
+                    //Adds thumb tags
+                    thumbContainer.addChild(this.createTags(level, assetName, assetSufix));
+                };
+                return LevelThumb2;
+            })(View.LevelThumb);
+            View.LevelThumb2 = LevelThumb2;
+        })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
@@ -7113,6 +7112,69 @@ var FlipPlus;
                 return RobotPreview;
             })(createjs.Container);
             View.RobotPreview = RobotPreview;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            // View Class
+            var TextEffect = (function (_super) {
+                __extends(TextEffect, _super);
+                //class contructor
+                function TextEffect() {
+                    _super.call(this);
+                    //centralize the popup on screen
+                    this.width = defaultWidth;
+                    this.height = defaultHeight;
+                    this.x = defaultWidth / 2;
+                    this.y = defaultHeight / 2;
+                    this.centralize();
+                    //hide popup
+                    this.visible = false;
+                    this.mouseEnabled = false;
+                }
+                //public method to invoke the popup
+                TextEffect.prototype.showtext = function (text, timeout, delay) {
+                    var _this = this;
+                    if (timeout === void 0) { timeout = 3000; }
+                    if (delay === void 0) { delay = 0; }
+                    //clean everything
+                    this.removeAllChildren();
+                    //create a titleShadow
+                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+                    titleShadow.textAlign = "center";
+                    titleShadow.textBaseline = "middle";
+                    titleShadow.x = defaultWidth / 2;
+                    this.addChild(titleShadow);
+                    //create a title
+                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
+                    titleDO.textAlign = "center";
+                    titleDO.textBaseline = "middle";
+                    titleDO.x = defaultWidth / 2;
+                    this.addChild(titleDO);
+                    titleShadow.y = titleDO.y = defaultHeight / 2;
+                    titleShadow.y += 15;
+                    //updates text
+                    titleDO.text = titleShadow.text = text.toUpperCase();
+                    var ty = defaultHeight * 0.9;
+                    this.set({
+                        alpha: 0,
+                        y: ty
+                    });
+                    this.visible = true;
+                    createjs.Tween.removeTweens(this);
+                    createjs.Tween.get(this).to({ alpha: 1, y: ty - 50 }, 200, createjs.Ease.quadOut).to({ alpha: 1, y: ty - 100 }, 1000, createjs.Ease.linear).to({ alpha: 0, y: ty - 300 }, 200, createjs.Ease.quadIn).call(function () {
+                        _this.visible = false;
+                        _this.dispatchEvent("onclose");
+                    });
+                };
+                return TextEffect;
+            })(gameui.UIItem);
+            View.TextEffect = TextEffect;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));

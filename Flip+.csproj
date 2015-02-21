@@ -44,6 +44,7 @@
     <TypeScriptCompile Include="src\Bonus\BonusManager.ts" />
     <TypeScriptCompile Include="src\Bonus\BonusScreen.ts" />
     <TypeScriptCompile Include="src\Menu\View\BonusItem.ts" />
+    <TypeScriptCompile Include="src\Menu\View\LevelThumb.ts" />
     <TypeScriptCompile Include="src\Menu\View\StarsIndicator.ts" />
     <TypeScriptCompile Include="src\Menu\View\TextEffect.ts" />
     <TypeScriptCompile Include="src\Preferences.ts" />
@@ -1265,7 +1266,35 @@
     <Content Include="data\stringResources.js" />
     <Content Include="fonts\Exo2.0-Bold.woff" />
     <Content Include="fonts\Exo2.0-Regular.woff" />
+    <Content Include="jquery-ui-1.11.3\external\jquery\jquery.js" />
+    <Content Include="jquery-ui-1.11.3\images\ui-bg_diagonals-thick_15_0b3e6f_40x40.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-bg_dots-medium_30_0b58a2_4x4.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-bg_dots-small_20_333333_2x2.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-bg_dots-small_30_a32d00_2x2.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-bg_dots-small_40_00498f_2x2.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-bg_flat_40_292929_40x100.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-bg_gloss-wave_20_111111_500x100.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-icons_00498f_256x240.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-icons_444444_256x240.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-icons_555555_256x240.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-icons_777620_256x240.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-icons_777777_256x240.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-icons_98d2fb_256x240.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-icons_9ccdfc_256x240.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="jquery-ui-1.11.3\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="jquery-ui-1.11.3\index.html" />
+    <Content Include="jquery-ui-1.11.3\jquery-ui.css" />
+    <Content Include="jquery-ui-1.11.3\jquery-ui.js" />
+    <Content Include="jquery-ui-1.11.3\jquery-ui.min.css" />
+    <Content Include="jquery-ui-1.11.3\jquery-ui.min.js" />
+    <Content Include="jquery-ui-1.11.3\jquery-ui.structure.css" />
+    <Content Include="jquery-ui-1.11.3\jquery-ui.structure.min.css" />
+    <Content Include="jquery-ui-1.11.3\jquery-ui.theme.css" />
+    <Content Include="jquery-ui-1.11.3\jquery-ui.theme.min.css" />
     <Content Include="levelCreator.htm" />
+    <Content Include="LevelCreator2.html" />
     <Content Include="script\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1303,6 +1332,7 @@
     <Content Include="script\jquery-1.11.1.min.js" />
     <Content Include="script\md5.js" />
     <Content Include="script\movieclip-0.6.1.min.js" />
+    <Content Include="script\movieclip-0.8.0.min.js" />
     <Content Include="script\timer.js" />
     <TypeScriptCompile Include="src\UserData\Settings.ts" />
     <TypeScriptCompile Include="src\Menu\Loading.ts" />
@@ -1333,7 +1363,7 @@
     <TypeScriptCompile Include="src\GamePlay\TimeAttack.ts" />
     <TypeScriptCompile Include="src\Projects\Level.ts" />
     <TypeScriptCompile Include="src\FlipPlusGame.ts" />
-    <TypeScriptCompile Include="src\Menu\View\LevelThumb.ts" />
+    <TypeScriptCompile Include="src\Menu\View\LevelThumbNovo.ts" />
     <TypeScriptCompile Include="src\Menu\View\LevelGrid.ts" />
     <TypeScriptCompile Include="src\GamePlay\Model\Level.ts" />
     <TypeScriptCompile Include="src\GamePlay\Model\Board.ts" />

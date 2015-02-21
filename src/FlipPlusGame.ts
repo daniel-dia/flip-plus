@@ -3,8 +3,6 @@ declare var levelsData;
 declare function getAssetsManifest(assetscale:number):Array<any>;
 //declare var spriteSheets;
 
-window.onload = function () { FlipPlus.FlipPlusGame.initializeGame();};
-
 module FlipPlus { 
 
     // Main game Class

@@ -9,23 +9,23 @@ var p; // shortcut to reference prototypes
 	// timeline functions:
 	this.frame_20 = function() {
 		this.stop();
-		this.dispatchEvent("onstop","d1");
+		this.dispatchEvent("d1");
 	}
 	this.frame_61 = function() {
 		this.stop();
-		this.dispatchEvent("onstop","readyToPlay");
+		this.dispatchEvent("readyToPlay");
 	}
 	this.frame_64 = function() {
 		this.stop();
-		this.dispatchEvent("onstop","gotoProject");
+		this.dispatchEvent("gotoProject");
 	}
 	this.frame_177 = function() {
 		this.stop();
-		this.dispatchEvent("onstop","d2");
+		this.dispatchEvent("d2");
 	}
 	this.frame_193 = function() {
 		this.stop();
-		this.dispatchEvent("onstop","end");
+		this.dispatchEvent("end");
 	}
 
 	// actions tween:

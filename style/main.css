@@ -12,6 +12,7 @@
     overflow: hidden;
 }
 
+ 
 /*@-webkit-viewport{width:768px}
 @-moz-viewport{width:768px}
 @-ms-viewport{width:768px}
@@ -34,8 +35,8 @@ body, a {
     text-align:center;  
 }
 
-#myCanvas {
-    -moz-backface-visibility: hidden;
+canvas {
+  -moz-backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     background: #000;
@@ -45,6 +46,9 @@ body, a {
     /*  (Safari now, Chrome soon)      */
     -ms-interpolation-mode: nearest-neighbor;
     -webkit-interpolation-mode: nearest-neighbor;
+}
+#myCanvas {
+  
     margin-left: auto;
     margin-right: auto;
 }

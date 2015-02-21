@@ -13,30 +13,13 @@ module FlipPlus.Menu {
             this.introMc = new lib.Intro();
             this.addChild(this.introMc);
             this.introMc.stop();
-  
-            this.introMc.addEventListener("onstop", (e: createjs.Event) => {
 
-                switch (<string>e.target) {
-                    case "d1":
-                        this.popup.showBotText(stringResources.it_text1);
-                        break;
-    
-                    case "readyToPlay":
-                        this.dispatchEvent("readyToPlay");
-                        break;
-
-                    case "d2":
-                        this.popup.showBotText(stringResources.it_text2);
-                        break;
-
-                    case "end":
-                        FlipPlusGame.showProjectsMenu();
-                        this.dispatchEvent("end");
-                        break;
-                }
-            })
-
+            this.introMc.addEventListener("d1", () => { this.popup.showBotText(stringResources.it_text1); });
+            this.introMc.addEventListener("readyToPlay", () => { this.dispatchEvent("readyToPlay");});
+            this.introMc.addEventListener("d2", () => { this.popup.showBotText(stringResources.it_text2); });
+            this.introMc.addEventListener("end", () => {  FlipPlusGame.showProjectsMenu(); this.dispatchEvent("end"); });
             this.popup.addEventListener("onclose", () => { this.introMc.play() });
+
             this.addChild(this.popup);
           
         }

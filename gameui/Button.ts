@@ -118,7 +118,7 @@ module gameui {
             //add text into it.
             text = text.toUpperCase();
 
-            this.text = new createjs.Text(text, font, color);
+            this.text = new createjs.Text(text, "bold 130px Arial", color);
             this.text.textBaseline = "middle";
             this.text.textAlign = "center";
             
@@ -130,8 +130,6 @@ module gameui {
             }
             
             this.addChild(this.text);
-            this.createHitArea();
-
             this.createHitArea();
         }
     }
