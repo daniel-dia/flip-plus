@@ -65,7 +65,7 @@ module FlipPlus {
 
             this.loadingScreen.loaded = () => {
                 if (levelCreatorMode == true && !levelCreatorTestMode) {
-                    this.gameScreen.switchScreen(new GamePlay.LevelCreator(null, window));
+                    this.toLevelCreator()
                 }
                 else
                     this.showTitleScreen();
@@ -75,6 +75,11 @@ module FlipPlus {
         }
 
         // ----------------------------- Game Methods ---------------------------------------------//
+
+
+        public static toLevelCreator(level?:Projects.Level,callback?) {
+            this.gameScreen.switchScreen(new GamePlay.LevelCreator2(level,callback));
+        }
 
         public static showProjectsMenu() {
             this.levelScreeen = null;

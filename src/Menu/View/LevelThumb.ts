@@ -150,11 +150,12 @@ module FlipPlus.Menu.View {
                 if (n % level.width != level.width - 1) blocks[n + 1] = !blocks[n + 1];
             }
             var s = new createjs.Shape();
-            for (var col = col0; col < colf; col++) {
-                for (var row = row0; row < rowf; row++) {
+          
+            for (var row = row0; row < rowf; row++) {
+                for (var col = col0; col < colf; col++) {
                     var color: string;
-                    if (blocks[col * level.width + row]) color = color1; else color = color2;
-                    s.graphics.beginFill(color).drawRect(spacing * (col-col0), spacing * (row-row0), size, size);
+                    if (blocks[row * level.width + col]) color = color1; else color = color2;
+                    s.graphics.beginFill(color).drawRect(spacing * (col - col0), spacing * (row - row0), size, size);
                 }
             }
 

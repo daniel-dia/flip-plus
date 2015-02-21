@@ -43,6 +43,7 @@
     <TypeScriptCompile Include="src\Bonus\Bonus3.ts" />
     <TypeScriptCompile Include="src\Bonus\BonusManager.ts" />
     <TypeScriptCompile Include="src\Bonus\BonusScreen.ts" />
+    <TypeScriptCompile Include="src\GamePlay\LevelCreator2.ts" />
     <TypeScriptCompile Include="src\Menu\View\BonusItem.ts" />
     <TypeScriptCompile Include="src\Menu\View\LevelThumb.ts" />
     <TypeScriptCompile Include="src\Menu\View\StarsIndicator.ts" />

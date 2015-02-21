@@ -8,8 +8,7 @@
     <script src="jquery-ui-1.11.3/jquery-ui.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script>
     <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
-
-
+    
     <script src="script/createjs-2014.12.12.min.js"></script>
     <script src="script/script.js"></script>
 
@@ -25,16 +24,17 @@
             min-height: 230px;
         }
 
-            .sortable li {
+            .sortable canvas {
                 margin: 3px 3px 3px 0;
                 padding: 1px;
                 width: 75px;
-                float: left; 
+                float: left;
                 height: 75px;
                 font-size: 4em;
                 text-align: center;
+                cursor: pointer;
             }
- 
+
         html, body {
             margin: 10px;
             overflow: auto;
@@ -53,98 +53,142 @@
             margin: 10px;
             padding: 20px;
             background-color: #222;
+            height:660px;
         }
 
         .fixed {
             position: fixed;
-            left : 510px;
+            left: 510px;
         }
+
         .spinner {
-            width:60px
+            width: 60px;
         }
+
         h2 {
             clear: both;
         }
-        canvas {
 
+        canvas {
         }
     </style>
 
     <script>
-        function createCanvasThumb(canvas, level) {
-            var stage = new createjs.Stage(this.$id);
-            var shape = new FlipPlus.Menu.View.LevelThumb2(this.level);
+        function createCanvasThumb(canvasId,level) {
+            var stage = new createjs.Stage(canvasId);
+
+            var shape = new FlipPlus.Menu.View.LevelThumb2(level);
             shape.scaleX = shape.scaleY = 75 / 200;
             shape.x = shape.y = 75 / 2;
+            stage.removeAllChildren();
             stage.addChild(shape);
             stage.update()
             stage.enableDOMEvents = false;
             stage.mouseEnabled = false;
         }
+        var ct;
 
-        $(function () {
-            $(".radio").buttonset();
-            $(".spinner").spinner({
-                min: 3,
-                max: 9,
-                step: 1, 
-            });
-        })
-          
         var myapp = angular.module('FlipPlusApp', ['ui.sortable']);
-        myapp.controller('LevelsSortable', function ($scope) {
+
+        ct = myapp.controller('LevelsSortable', function ($scope) {
             $scope.projects = levelsData
             $scope.sortableOptions = {
                 connectWith: ".connectedSortable",
             };
+
+            $scope.editLevel = function (level) {
+
+                var level = level;
+                $scope.currentLevel = level;
+                f = document.getElementById("gameframe");
+                var _this = this;
+                this.level = level;
+                f.contentWindow.FlipPlus.FlipPlusGame.toLevelCreator(level, function (level) {
+                    
+                    $scope.$apply();
+                });
+            }
+
+            $scope.$watch('currentLevel.theme',  function (value) {$scope.editLevel( $scope.currentLevel) });
+            $scope.$watch('currentLevel.width',  function (value) {$scope.editLevel( $scope.currentLevel) });
+            $scope.$watch('currentLevel.height', function (value) {$scope.editLevel( $scope.currentLevel) });
+            $scope.$watch('currentLevel.type',   function (value) {$scope.editLevel( $scope.currentLevel) });
+
             $scope.createCanvasThumb = createCanvasThumb;
         });
 
-     
-
-  
-
+        function loadLevel(level) {
+           
+ 
+        }
     </script>
 
 </head>
-<body >
-    <h1>Flip+ Level Creator</h1>
-    <div id="Projects" class="pannel" ng-app="FlipPlusApp" ng-controller="LevelsSortable">
-        <h2>Projects</h2>
-       
 
-        <div class="app" ng-repeat="project in projects">
-            <h2> {{project.nickName}}</h2>
-            <ul class="sortable connectedSortable" ui-sortable="sortableOptions">
-                <li ng-repeat="level in project.levels" class="ui-state-default">
-                    <canvas ng-attr-id="{{$id}}" width="75" height="75" class="levelThumb" ng-bind="createCanvasThumb(this)"></canvas>
-                </li>
-            </ul>
-            <br style="clear:both"/>
+<body ng-app="FlipPlusApp" ng-controller="LevelsSortable">
+    <h1>Flip+ Level Creator</h1>
+    <div id="Projects" class="pannel">
+        <h2>Projects</h2>
+        <div style="height:600px; overflow:auto ; width: 450px;">
+            <div class="app" ng-repeat="project in projects">
+                <h3> {{project.nickName}}</h3>
+                <div class="sortable connectedSortable" ui-sortable="sortableOptions">
+
+                    <canvas ng-attr-id="{{$id}}" width="75" height="75" class="levelThumb" ng-repeat="level in project.levels"
+                            ng-bind="createCanvasThumb(this.$id,this.level)"
+                            ng-click="editLevel(this.level)"></canvas>
+
+                </div>
+                <br style="clear:both" />
+            </div>
         </div>
     </div>
-    <div id="Puzzle" class="pannel fixed">
+    <div id="Puzzle" class="pannel">
         <h2>Puzzle</h2>
-        <iframe></iframe>
+        <iframe src="index.html" id="gameframe" frameborder="0" width="400" height="600"> </iframe>
+        </div>
+    <div id="Settings" class="pannel">
+        <h2>Properties</h2>
         <div>
             <h3>size</h3>
-            <label for="height">Width:</label>
-            <input class="spinner" id="height" name="value">
-            <label for="width">Heigth:</label>
-            <input class="spinner" id="width" name="value">
+            <label for="height">Width:</label> <input class="spinner ui-corner-all ui-widget-content " ng-model="currentLevel.width"   />
+            <label for="width">Heigth:</label> <input class="spinner ui-corner-all ui-widget-content " ng-model="currentLevel.height"  />
+
         </div>
         <h3>Type</h3>
         <div class="radio">
-            <input type="radio" id="radio1" name="radioType"><label for="radio1">Puzzle</label>
-            <input type="radio" id="radio2" name="radioType" checked="checked"><label for="radio2">Time</label>
-            <input type="radio" id="radio3" name="radioType"><label for="radio3">Moves</label>
+            <input type="radio" id="radio1a" ng-model="currentLevel.type" value="puzzle" name="radioType"><label for="radio1">Puzzle</label>
+            <input type="radio" id="radio2a" ng-model="currentLevel.type" value="time" name="radioType"><label for="radio2">Time</label>
+            <input type="radio" id="radio3a" ng-model="currentLevel.type" value="moves" name="radioType"><label for="radio3">Moves</label>
+        </div>                   
+        <h3>Color</h3>           
+        <div class="radio">      
+            <input type="radio" id="radio1b" ng-model="currentLevel.theme" value="green" name="radioColor"><label for="radio1b">Green</label>
+            <input type="radio" id="radio2b" ng-model="currentLevel.theme" value="purple" name="radioColor"><label for="radio2b">Purple</label>
+            <input type="radio" id="radio3b" ng-model="currentLevel.theme" value="yellow" name="radioColor"><label for="radio3b">Yellow</label>
         </div>
-        <h3>Color</h3>
-        <div class="radio">
-            <input type="radio" id="radio1b" name="radioColor"><label for="radio1b">Green</label>
-            <input type="radio" id="radio2b" name="radioColor"><label for="radio2b">Purple</label>
-            <input type="radio" id="radio3b" name="radioColor"><label for="radio3b">Yellow</label>
-        </div>
+
+        <p>
+            <span class="textSpan">Fips </span>
+            <input class="small ui-widget-content ui-corner-all" id="c_flips" ng-model="currentLevel.moves" />
+        </p>
+        <p>
+            <span class="textSpan">Time </span>
+            <input class="small ui-widget-content ui-corner-all" id="c_time" ng-model="currentLevel.time" />
+        </p>
+        <p>
+            <span class="textSpan">to Sove </span>
+            <input class="small ui-widget-content ui-corner-all" id="c_p_solve" ng-model="currentLevel.puzzlesToSolve" />
+        </p>
+        <p>
+            <span class="textSpan">Random Min </span>
+            <input class="small  ui-widget-content ui-corner-all" id="c_r_min" ng-model="currentLevel.randomMinMoves" />
+        </p>
+        <p>
+            <span class="textSpan">Random Max </span>
+            <input class="small ui-widget-content  ui-corner-all" id="c_r_max" ng-model="currentLevel.randomMaxMoves" />
+        </p>
     </div>
 </body>
+
 </html>

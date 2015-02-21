@@ -772,7 +772,7 @@ var FlipPlus;
             this.gameScreen.switchScreen(this.loadingScreen);
             this.loadingScreen.loaded = function () {
                 if (levelCreatorMode == true && !levelCreatorTestMode) {
-                    _this.gameScreen.switchScreen(new FlipPlus.GamePlay.LevelCreator(null, window));
+                    _this.toLevelCreator();
                 }
                 else
                     _this.showTitleScreen();
@@ -780,6 +780,9 @@ var FlipPlus;
             this.coinsData.setAmount(10);
         };
         // ----------------------------- Game Methods ---------------------------------------------//
+        FlipPlusGame.toLevelCreator = function (level, callback) {
+            this.gameScreen.switchScreen(new FlipPlus.GamePlay.LevelCreator2(level, callback));
+        };
         FlipPlusGame.showProjectsMenu = function () {
             this.levelScreeen = null;
             if (this.projectsMenu == null)
@@ -4661,10 +4664,10 @@ var FlipPlus;
                                 blocks[n + 1] = !blocks[n + 1];
                         }
                     var s = new createjs.Shape();
-                    for (var col = col0; col < colf; col++) {
-                        for (var row = row0; row < rowf; row++) {
+                    for (var row = row0; row < rowf; row++) {
+                        for (var col = col0; col < colf; col++) {
                             var color;
-                            if (blocks[col * level.width + row])
+                            if (blocks[row * level.width + col])
                                 color = color1;
                             else
                                 color = color2;
@@ -6048,6 +6051,71 @@ var FlipPlus;
             return LevelCreator;
         })(GamePlay.Puzzle);
         GamePlay.LevelCreator = LevelCreator;
+    })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+})(FlipPlus || (FlipPlus = {}));
+var levelsDataBackup;
+var levelCreatorMode;
+var levelCreatorTestMode;
+var FlipPlus;
+(function (FlipPlus) {
+    var GamePlay;
+    (function (GamePlay) {
+        var LevelCreator2 = (function (_super) {
+            __extends(LevelCreator2, _super);
+            function LevelCreator2(levelData, callback) {
+                if (!levelData.width)
+                    levelData.width = 5;
+                if (!levelData.height)
+                    levelData.height = 5;
+                if (!levelData.theme)
+                    levelData.theme = "yellow";
+                if (!levelData.type)
+                    levelData.type = "puzzle";
+                this.callback = callback;
+                _super.call(this, levelData);
+                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+                this.gameplayMenu.visible = false;
+            }
+            //threat user input
+            LevelCreator2.prototype.userInput = function (col, row) {
+                var id = row + col * this.levelData.height;
+                //if ((<HTMLInputElement>document.getElementById("c_drawing")).checked) {
+                //    if (!this.levelData.drawData) this.levelData.drawData = [];
+                //    this.toogleItemInArray(this.levelData.drawData, id);
+                //    this.levelLogic.board.setDrawBlocks(this.levelData.drawData);
+                //}
+                //else if ((<HTMLInputElement>document.getElementById("c_mirrowing")).checked) {
+                //    this.levelLogic.board.blocks[col][row].mirror = !this.levelLogic.board.blocks[col][row].mirror;
+                //    if (!this.levelData.mirroredBlocks) this.levelData.mirroredBlocks = [];
+                //    this.toogleItemInArray(this.levelData.mirroredBlocks, id);
+                //}
+                //else if ((<HTMLInputElement>document.getElementById("c_hidding")).checked) {
+                //    this.levelLogic.board.blocks[col][row].hidden = !this.levelLogic.board.blocks[col][row].hidden;
+                //    if (!this.levelData.hiddenBlocks) this.levelData.hiddenBlocks = [];
+                //    this.toogleItemInArray(this.levelData.hiddenBlocks, id);
+                //} else 
+                //invert a cross
+                this.levelLogic.invertCross(col, row);
+                //update sprites 
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+                this.levelData.blocksData = this.levelLogic.board.getInvertedBlocks();
+                if (this.callback)
+                    this.callback(this.levelData);
+            };
+            LevelCreator2.prototype.toogleItemInArray = function (array, item) {
+                var index = array.indexOf(item);
+                if (index >= 0)
+                    array.splice(index, 1);
+                else
+                    array.push(item);
+            };
+            LevelCreator2.prototype.win = function (col, row) {
+            };
+            LevelCreator2.key = "customProjects";
+            return LevelCreator2;
+        })(GamePlay.Puzzle);
+        GamePlay.LevelCreator2 = LevelCreator2;
     })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
