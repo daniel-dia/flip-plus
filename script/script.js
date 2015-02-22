@@ -6080,21 +6080,6 @@ var FlipPlus;
             //threat user input
             LevelCreator2.prototype.userInput = function (col, row) {
                 var id = row + col * this.levelData.height;
-                //if ((<HTMLInputElement>document.getElementById("c_drawing")).checked) {
-                //    if (!this.levelData.drawData) this.levelData.drawData = [];
-                //    this.toogleItemInArray(this.levelData.drawData, id);
-                //    this.levelLogic.board.setDrawBlocks(this.levelData.drawData);
-                //}
-                //else if ((<HTMLInputElement>document.getElementById("c_mirrowing")).checked) {
-                //    this.levelLogic.board.blocks[col][row].mirror = !this.levelLogic.board.blocks[col][row].mirror;
-                //    if (!this.levelData.mirroredBlocks) this.levelData.mirroredBlocks = [];
-                //    this.toogleItemInArray(this.levelData.mirroredBlocks, id);
-                //}
-                //else if ((<HTMLInputElement>document.getElementById("c_hidding")).checked) {
-                //    this.levelLogic.board.blocks[col][row].hidden = !this.levelLogic.board.blocks[col][row].hidden;
-                //    if (!this.levelData.hiddenBlocks) this.levelData.hiddenBlocks = [];
-                //    this.toogleItemInArray(this.levelData.hiddenBlocks, id);
-                //} else 
                 //invert a cross
                 this.levelLogic.invertCross(col, row);
                 //update sprites 

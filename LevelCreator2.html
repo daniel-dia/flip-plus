@@ -8,7 +8,10 @@
     <script src="jquery-ui-1.11.3/jquery-ui.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script>
     <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
-    
+
+    <script src="script/file.js"></script>
+    <script src="script/FileSaver.js"></script>
+
     <script src="script/createjs-2014.12.12.min.js"></script>
     <script src="script/script.js"></script>
 
@@ -74,6 +77,12 @@
     </style>
 
     <script>
+
+        $(function () {
+            $("input[type=button]").button()
+        });
+
+
         function createCanvasThumb(canvasId,level) {
             var stage = new createjs.Stage(canvasId);
 
@@ -86,12 +95,42 @@
             stage.enableDOMEvents = false;
             stage.mouseEnabled = false;
         }
+
         var ct;
 
         var myapp = angular.module('FlipPlusApp', ['ui.sortable']);
 
         ct = myapp.controller('LevelsSortable', function ($scope) {
-            $scope.projects = levelsData
+
+
+            $scope.loadDefault = function () {
+                if (localStorage.getItem("customLevels"))
+                    $scope.projects = JSON.parse(localStorage.getItem("customLevels"));
+                else
+                    $scope.projects = levelsData;
+            }
+
+            $scope.saveDefault= function () {
+                localStorage.setItem("customLevels", JSON.stringify($scope.projects));
+            }
+
+            $scope.loadFile= function () {
+                loadFile(function (data) {
+                    try {
+                        data = data.replace("var levelsData =", "");
+                        $scope.projects = JSON.parse(data);
+                        setTimeout(function () { alert("Levels imported"); }, 200);
+                        saveDefault();
+                    } catch (er) {
+                        alert("This file is invalid " + er.message);
+                    }
+                });
+            }
+
+            $scope.saveFile = function () {
+                saveFile('Levels.js', "var levelsData =" + JSON.stringify($scope.projects))
+            }
+
             $scope.sortableOptions = {
                 connectWith: ".connectedSortable",
             };
@@ -106,6 +145,7 @@
                 f.contentWindow.FlipPlus.FlipPlusGame.toLevelCreator(level, function (level) {
                     
                     $scope.$apply();
+                    $scope.saveDefault();
                 });
             }
 
@@ -115,12 +155,10 @@
             $scope.$watch('currentLevel.type',   function (value) {$scope.editLevel( $scope.currentLevel) });
 
             $scope.createCanvasThumb = createCanvasThumb;
-        });
 
-        function loadLevel(level) {
-           
+            $scope.loadDefault();
+        });
  
-        }
     </script>
 
 </head>
@@ -188,6 +226,12 @@
             <span class="textSpan">Random Max </span>
             <input class="small ui-widget-content  ui-corner-all" id="c_r_max" ng-model="currentLevel.randomMaxMoves" />
         </p>
+        <hr />
+        <h2>Storage</h2>
+        <input type="button" value="Load" class="ui-button ui-widget ui-state-default ui-corner-all" ng-click="loadFile()" />
+        <input type="button" value="Save" class="ui-button ui-widget ui-state-default ui-corner-all" ng-click="saveFile()" />
+        <input type="button" value="Clear" class="ui-button ui-widget ui-state-default ui-corner-all" onclick="localStorage.removeItem('customLevels')" />
+
     </div>
 </body>
 
