@@ -786,7 +786,7 @@ var FlipPlus;
                 level.width = 0;
                 level.height = 0;
             }
-            this.gameScreen.switchScreen(new FlipPlus.GamePlay.LevelCreator2(level, callback), null, { type: "none" });
+            this.gameScreen.switchScreen(new FlipPlus.GamePlay.LevelCreator2(level, callback), null, { type: "none", time: 0 });
         };
         FlipPlusGame.showProjectsMenu = function () {
             this.levelScreeen = null;
@@ -886,8 +886,11 @@ var FlipPlus;
             var currentLevel = this.projectManager.getCurrentLevel();
             this.showLevel(currentLevel);
         };
-        FlipPlusGame.completeProjectk = function (project) {
+        FlipPlusGame.completeProject = function (project) {
+            if (this.mainScreen == null)
+                this.mainScreen = new FlipPlus.Menu.MainMenu();
             this.gameScreen.switchScreen(this.mainScreen);
+            this.mainScreen.showNewBot(project.name);
         };
         FlipPlusGame.endGame = function () {
         };
@@ -3809,17 +3812,17 @@ var FlipPlus;
                     projectView.activate();
                     projectView.x = defaultWidth * p;
                     projectView.addEventListener("levelClick", function (e) {
-                        _this.openLevel(e);
+                        _this.openLevel(e.level, e.parameters);
                     });
                     this.projectsContainer.addChild(projectView);
                 }
             };
-            LevelsMenu.prototype.openLevel = function (event) {
+            LevelsMenu.prototype.openLevel = function (level, parameters) {
                 //cancel click in case of drag
                 if (this.pagesSwipe.cancelClick)
                     return;
-                var level = event.target['level'];
-                var parameters = event.target['parameters'];
+                var level = level;
+                var parameters = parameters;
                 if (level != null)
                     if (level.userdata.unlocked)
                         FlipPlus.FlipPlusGame.showLevel(level, parameters);
@@ -3882,7 +3885,7 @@ var FlipPlus;
                                 _this.footer.mouseEnabled = true;
                                 _this.content.mouseEnabled = true;
                                 _this.header.mouseEnabled = true;
-                                FlipPlus.FlipPlusGame.showMainMenu();
+                                FlipPlus.FlipPlusGame.completeProject(project);
                             }, 3500);
                         }
                     }
@@ -4029,51 +4032,6 @@ var FlipPlus;
             MainMenu.prototype.back = function () {
                 FlipPlus.FlipPlusGame.showTitleScreen();
             };
-            //TODO: it shoud not be here
-            MainMenu.prototype.addSmoke = function () {
-                return;
-                var smokefx = new SmokeFX.SmokeFXEmmiter("assets/smokePart.png", 1536 / 2, 1);
-                smokefx.aging = 4000;
-                smokefx.birthrate = 0.05;
-                smokefx.imageRegX = smokefx.imageRegY = 15;
-                smokefx.scale = 8;
-                smokefx.scaleFinal = 18;
-                smokefx.speedY = -40;
-                smokefx.speedX = 70;
-                smokefx.speedVariationX = 20;
-                smokefx.speedVariationY = 11;
-                smokefx.x = 1536 / 2;
-                smokefx.y = 1676 + 50;
-                this.content.addChild(smokefx);
-                smokefx = new SmokeFX.SmokeFXEmmiter("assets/smokePart.png", 1536 / 2, 1);
-                smokefx.aging = 4000;
-                smokefx.birthrate = 0.05;
-                smokefx.imageRegX = smokefx.imageRegY = 15;
-                smokefx.scale = 8;
-                smokefx.scaleFinal = 18;
-                smokefx.speedY = -40;
-                smokefx.speedX = -70;
-                smokefx.speedVariationX = 20;
-                smokefx.speedVariationY = 11;
-                smokefx.x = 0;
-                smokefx.y = 1676 + 50;
-                this.content.addChild(smokefx);
-                smokefx = new SmokeFX.SmokeFXEmmiter("assets/smokePart.png", 1536, 1);
-                smokefx.alpha = 1;
-                smokefx.finalAlpha = 0;
-                smokefx.aging = 20000;
-                smokefx.birthrate = 0.005;
-                smokefx.imageRegX = smokefx.imageRegY = 15;
-                smokefx.scale = 20;
-                smokefx.scaleFinal = 48;
-                smokefx.speedY = -40;
-                smokefx.speedX = -0;
-                smokefx.speedVariationX = 20;
-                smokefx.speedVariationY = 80;
-                smokefx.x = 0;
-                smokefx.y = 1676;
-                this.content.addChild(smokefx);
-            };
             //------------Robots Behaviour ---------------------------------
             MainMenu.prototype.openRobot = function (robot) {
                 this.myBots.openRobot(robot);
@@ -4081,6 +4039,10 @@ var FlipPlus;
             MainMenu.prototype.robotClick = function (robot) {
                 var t = FlipPlus.FlipPlusGame.timersData.getTimer(robot);
                 this.terminal.setText(Math.floor(t / 1000 / 60) + " minutes");
+            };
+            MainMenu.prototype.showNewBot = function (botId) {
+                this.myBots.castNewEffect(botId);
+                this.terminal.setText("Novo Amigo");
             };
             return MainMenu;
         })(gameui.ScreenState);
@@ -4518,7 +4480,6 @@ var FlipPlus;
                         this.addObject(challangeThumb);
                         //add the click event listener
                         challangeThumb.addEventListener("click", function (e) {
-                            ;
                             var tg = (e.currentTarget);
                             var level = _this.challangesMap[tg.name];
                             var parameters = {
@@ -4527,10 +4488,7 @@ var FlipPlus;
                                 scaleX: 0.3,
                                 scaleY: 0.3
                             };
-                            _this.dispatchEvent("levelClick", {
-                                level: level,
-                                parameters: parameters
-                            });
+                            _this.dispatchEvent({ type: "levelClick", level: level, parameters: parameters });
                         });
                     }
                 };
@@ -5128,6 +5086,10 @@ var FlipPlus;
                     }
                 }
             };
+            //undo a level
+            ProjectManager.prototype.undoLevel = function (level) {
+                level.userdata.solved = false;
+            };
             //skip a project
             ProjectManager.prototype.skipLevel = function (level) {
                 if (level == null)
@@ -5201,16 +5163,6 @@ var FlipPlus;
                         return this.projects[p];
                 return null;
             };
-            //TODO remove
-            //Get all avaliable projects to work or to unlock
-            ProjectManager.prototype.agetUnlockedProjects = function () {
-                //return array with avaliable projects
-                var avaliableProjects = [];
-                for (var i = 0; i < this.projects.length; i++)
-                    if (this.projects[i].UserData.unlocked)
-                        avaliableProjects.push(this.projects[i]);
-                return avaliableProjects;
-            };
             //get all finished Projects
             ProjectManager.prototype.getFinihedProjects = function () {
                 //return array with avaliable projects
@@ -5237,7 +5189,6 @@ var FlipPlus;
                         stars += this.projects[p].UserData.stars;
                 return stars;
             };
-            //----------------------------- Actions -----------------------------------------------------
             //unlock a project based on user parts ballance
             ProjectManager.prototype.unlockProject = function (project) {
                 // //verifies if money was propery taken
@@ -5320,8 +5271,7 @@ var FlipPlus;
                 this.projectManager = projectManager;
                 this.initializeGraphics();
                 this.initializeNames();
-                ////TODO, arrumar essa gambiarra sem vergonha                        
-                //setTimeout(() => { this.initializeUserFeedback(); },100);
+                FlipPlus.FlipPlusGame.projectManager.undoLevel(levelsData[1].levels[9]);
             }
             //loads and add lobby graphics to the view
             MyBots.prototype.initializeGraphics = function () {
@@ -5337,7 +5287,6 @@ var FlipPlus;
                     if (robotMC != null)
                         robotMC.name = robotName;
                 }
-                //this.myBots["main"].name = "main";
             };
             //adds a user feedback for click action
             MyBots.prototype.initializeUserFeedback = function () {
@@ -5374,22 +5323,6 @@ var FlipPlus;
                 for (var r = 0; r < projects.length; r++)
                     this.showRobot(projects[r].name);
             };
-            ////updates revenuesTimers
-            ////NOTE, talvez isso nao deva ficar aqui
-            //private checkRevenueTimers() {
-            //
-            //    //get projects
-            //    var projects = FlipPlusGame.projectManager.getFinihedProjects();
-            //
-            //    //if is null create a timer
-            //    //TODO, deve criar o timer quando conclui o projeto.
-            //
-            //    //set idle to the finished projects 
-            //    for (var r in projects) 
-            //        //if robot has parts, set it alert
-            //        if (FlipPlusGame.timersData.getTimer(projects[r].name) < 0) 
-            //            this.alertRobot(projects[r].name);
-            //}
             //hide All Robots from Screen
             MyBots.prototype.hideAllRobots = function () {
                 for (var c = 0; c < this.myBots.getNumChildren(); c++)
@@ -5398,22 +5331,43 @@ var FlipPlus;
                 // this.showRobot("main");
             };
             //show a robot on screen by name
-            MyBots.prototype.showRobot = function (robotName) {
-                var robotMC = this.myBots[robotName];
-                if (robotMC != null)
+            MyBots.prototype.showRobot = function (botId) {
+                var robotMC = this.myBots[botId];
+                if (robotMC != null) {
                     robotMC.visible = true;
+                    this.castNewEffect(robotMC);
+                }
             };
             //play robot opening animation
-            MyBots.prototype.openRobot = function (robotName) {
-                var robotMC = this.myBots[robotName];
+            MyBots.prototype.openRobot = function (botId) {
+                var robotMC = this.myBots[botId];
                 //if (robotMC != null)
                 //    robotMC.gotoAndPlay("opening");
             };
             //play robot alert animation
-            MyBots.prototype.alertRobot = function (robotName) {
-                var robotMC = this.myBots[robotName];
+            MyBots.prototype.alertRobot = function (botId) {
+                var robotMC = this.myBots[botId];
                 //if (robotMC != null)
                 //    robotMC.gotoAndPlay("alert");
+            };
+            // show a new glare into the bot
+            MyBots.prototype.castNewEffect = function (botId) {
+                var _this = this;
+                var robotMC = this.myBots[botId];
+                if (robotMC != null) {
+                    var bgnewbot1 = gameui.AssetsManager.getBitmap("bgnewbot");
+                    bgnewbot1.regX = bgnewbot1.image.width / 2;
+                    bgnewbot1.regY = bgnewbot1.image.height / 2;
+                    this.addChild(bgnewbot1);
+                    bgnewbot1.visible = false;
+                    bgnewbot1.x = robotMC.x;
+                    bgnewbot1.y = robotMC.y;
+                    bgnewbot1.visible = true;
+                    this.addChild(this.myBots);
+                    createjs.Tween.get(bgnewbot1).to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 0 }).to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 }, 1000).to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 + 90 }, 2000).to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 45 + 90 + 45 }, 1000).call(function () {
+                        _this.removeChild(bgnewbot1);
+                    });
+                }
             };
             return MyBots;
         })(createjs.Container);
@@ -7028,7 +6982,7 @@ var FlipPlus;
                             //Add Level Thumbs
                             this.levelGrid = new Menu.View.LevelGrid(project);
                             this.levelGrid.addEventListener("levelClick", function (e) {
-                                _this.dispatchEvent("levelClick", e.target);
+                                _this.dispatchEvent({ type: "levelClick", level: e.level, parameters: e.parameters });
                             });
                             this.levelGrid.x = 180;
                             this.levelGrid.y = 1538 - 2048;

@@ -84,7 +84,7 @@ module FlipPlus {
                 level.height = 0;
             }
             
-            this.gameScreen.switchScreen(new GamePlay.LevelCreator2(level, callback), null, { type: "none" });
+            this.gameScreen.switchScreen(new GamePlay.LevelCreator2(level, callback), null, { type: "none",time:0 });
         }
 
         public static showProjectsMenu() {
@@ -95,8 +95,7 @@ module FlipPlus {
 
             this.gameScreen.switchScreen(this.projectsMenu);
         }
-
-
+        
         public static showProjectLevelsMenu(project?: Projects.Project, parameters?: any) {
 
             //verifies the current projet
@@ -209,8 +208,11 @@ module FlipPlus {
             this.showLevel(currentLevel);
         }
 
-        public static completeProjectk(project: Projects.Project) {
+        public static completeProject(project: Projects.Project) {
+              if (this.mainScreen == null)
+                this.mainScreen = new Menu.MainMenu();
             this.gameScreen.switchScreen(this.mainScreen);
+            this.mainScreen.showNewBot(project.name);
         }
 
         public static endGame() {

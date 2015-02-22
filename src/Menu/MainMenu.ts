@@ -126,54 +126,6 @@ module FlipPlus.Menu {
             FlipPlus.FlipPlusGame.showTitleScreen();
         }
 
-        //TODO: it shoud not be here
-        private addSmoke() {
-            return;
-            var smokefx: SmokeFX.SmokeFXEmmiter = new SmokeFX.SmokeFXEmmiter("assets/smokePart.png", 1536 / 2, 1);
-            smokefx.aging = 4000;
-            smokefx.birthrate = 0.05
-            smokefx.imageRegX = smokefx.imageRegY = 15;
-            smokefx.scale = 8;
-            smokefx.scaleFinal = 18;
-            smokefx.speedY = -40;
-            smokefx.speedX = 70;
-            smokefx.speedVariationX = 20;
-            smokefx.speedVariationY = 11
-            smokefx.x = 1536 / 2;
-            smokefx.y = 1676 + 50;
-            this.content.addChild(smokefx);
-
-            smokefx = new SmokeFX.SmokeFXEmmiter("assets/smokePart.png", 1536 / 2, 1);
-            smokefx.aging = 4000;
-            smokefx.birthrate = 0.05
-            smokefx.imageRegX = smokefx.imageRegY = 15;
-            smokefx.scale = 8;
-            smokefx.scaleFinal = 18;
-            smokefx.speedY = -40;
-            smokefx.speedX = -70;
-            smokefx.speedVariationX = 20;
-            smokefx.speedVariationY = 11
-            smokefx.x = 0;
-            smokefx.y = 1676 + 50;
-            this.content.addChild(smokefx);
-
-            smokefx = new SmokeFX.SmokeFXEmmiter("assets/smokePart.png", 1536, 1);
-            smokefx.alpha = 1;
-            smokefx.finalAlpha = 0;
-            smokefx.aging = 20000;
-            smokefx.birthrate = 0.005
-            smokefx.imageRegX = smokefx.imageRegY = 15;
-            smokefx.scale = 20;
-            smokefx.scaleFinal = 48;
-            smokefx.speedY = -40;
-            smokefx.speedX = -0;
-            smokefx.speedVariationX = 20;
-            smokefx.speedVariationY = 80
-            smokefx.x = 0;
-            smokefx.y = 1676;
-            this.content.addChild(smokefx);
-        }
-
         //------------Robots Behaviour ---------------------------------
 
         public openRobot(robot: string) {
@@ -183,6 +135,11 @@ module FlipPlus.Menu {
         private robotClick(robot: string) {
             var t = FlipPlusGame.timersData.getTimer(robot);
             this.terminal.setText(Math.floor(t/1000/60) + " minutes") 
+        }
+        
+        public showNewBot(botId: string) {
+            this.myBots.castNewEffect(botId);
+            this.terminal.setText("Novo Amigo");
         }
 
     }

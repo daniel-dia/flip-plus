@@ -17,8 +17,7 @@ module FlipPlus.Robots {
             this.initializeGraphics();
             this.initializeNames();
 
-            ////TODO, arrumar essa gambiarra sem vergonha                        
-            //setTimeout(() => { this.initializeUserFeedback(); },100);
+            FlipPlusGame.projectManager.undoLevel(levelsData[1].levels[9]);
         }
 
         //loads and add lobby graphics to the view
@@ -30,14 +29,11 @@ module FlipPlus.Robots {
         //add names for each robot instance in lobby (toolkit plugin does not make it automatically)
         private initializeNames() {
             var projects = this.projectManager.getAllProjects();
-
             for (var p = 0; p < projects.length; p++) {
                 var robotName = projects[p].name;
                 var robotMC = this.myBots[robotName];
                 if (robotMC != null) robotMC.name = robotName;
             }
-
-            //this.myBots["main"].name = "main";
         }
 
         //adds a user feedback for click action
@@ -88,23 +84,6 @@ module FlipPlus.Robots {
                 this.showRobot(projects[r].name);
         }
 
-        ////updates revenuesTimers
-        ////NOTE, talvez isso nao deva ficar aqui
-        //private checkRevenueTimers() {
-        //
-        //    //get projects
-        //    var projects = FlipPlusGame.projectManager.getFinihedProjects();
-        //
-        //    //if is null create a timer
-        //    //TODO, deve criar o timer quando conclui o projeto.
-        //
-        //    //set idle to the finished projects 
-        //    for (var r in projects) 
-        //        //if robot has parts, set it alert
-        //        if (FlipPlusGame.timersData.getTimer(projects[r].name) < 0) 
-        //            this.alertRobot(projects[r].name);
-        //}
-
         //hide All Robots from Screen
         private hideAllRobots() {
             for (var c = 0; c < this.myBots.getNumChildren(); c++)
@@ -114,23 +93,53 @@ module FlipPlus.Robots {
         }
 
         //show a robot on screen by name
-        private showRobot(robotName: string) {
-            var robotMC = this.myBots[robotName];
-            if (robotMC != null) robotMC.visible = true;
+        private showRobot(botId: string) {
+            var robotMC = this.myBots[botId];
+            if (robotMC != null) {
+                robotMC.visible = true;
+                this.castNewEffect(robotMC);
+            }
         }
 
         //play robot opening animation
-        public openRobot(robotName: string) {
-            var robotMC = this.myBots[robotName];
+        public openRobot(botId: string) {
+            var robotMC = this.myBots[botId];
            //if (robotMC != null)
            //    robotMC.gotoAndPlay("opening");
         }
 
         //play robot alert animation
-        public alertRobot(robotName: string) {
-            var robotMC = this.myBots[robotName];
+        public alertRobot(botId: string) {
+            var robotMC = this.myBots[botId];
             //if (robotMC != null)
             //    robotMC.gotoAndPlay("alert");
+        }
+
+        // show a new glare into the bot
+        public castNewEffect(botId: string) {
+
+            var robotMC = this.myBots[botId];
+            if (robotMC != null) {
+
+                var bgnewbot1 = <createjs.Bitmap>gameui.AssetsManager.getBitmap("bgnewbot");
+                bgnewbot1.regX = bgnewbot1.image.width / 2;
+                bgnewbot1.regY = bgnewbot1.image.height / 2;
+                this.addChild(bgnewbot1);
+                bgnewbot1.visible = false;
+                bgnewbot1.x = robotMC.x;
+                bgnewbot1.y = robotMC.y;
+                bgnewbot1.visible = true;
+
+                this.addChild(this.myBots);
+
+                createjs.Tween.get(bgnewbot1).
+                    to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 0 }).
+                    to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 }, 1000).
+                    to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 + 90 }, 2000).
+                    to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 45 + 90 + 45 }, 1000).call(() => { this.removeChild(bgnewbot1) });
+            }
+
+
         }
     }
 }

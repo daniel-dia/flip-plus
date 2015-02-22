@@ -103,7 +103,8 @@ module FlipPlus.Menu.View {
                 if (project.UserData.unlocked) {
                     //Add Level Thumbs
                     this.levelGrid = new Menu.View.LevelGrid(project);
-                    this.levelGrid.addEventListener("levelClick", (e: createjs.Event) => { this.dispatchEvent("levelClick", e.target); });
+                    this.levelGrid.addEventListener("levelClick", (e:any) => { 
+                        this.dispatchEvent({ type: "levelClick", level: e.level, parameters: e.parameters }); });
                     this.levelGrid.x = 180;
                     this.levelGrid.y = 1538 - 2048;
                     levelMachine.addChild(this.levelGrid);

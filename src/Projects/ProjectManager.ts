@@ -62,6 +62,11 @@ module FlipPlus.Projects {
             
         }
 
+        //undo a level
+        public undoLevel(level: Level) {
+            level.userdata.solved = false
+        }
+  
         //skip a project
         public skipLevel(level: Level) {
             if (level == null) return;
@@ -150,21 +155,6 @@ module FlipPlus.Projects {
             return null;
         }
 
-        //TODO remove
-        //Get all avaliable projects to work or to unlock
-        public agetUnlockedProjects(): Project[] {
-
-            //return array with avaliable projects
-            var avaliableProjects: Project[] = [];
-
-            //verifies all projects and add the non complete to array, till reach max number
-            for (var i = 0; i < this.projects.length;i++)
-                if (this.projects[i].UserData.unlocked) 
-                    avaliableProjects.push(this.projects[i]);
-                
-            return avaliableProjects;
-        }
-
         //get all finished Projects
         public getFinihedProjects(): Project[] {
             //return array with avaliable projects
@@ -202,9 +192,7 @@ module FlipPlus.Projects {
             return stars;
         }
 
-        //----------------------------- Actions -----------------------------------------------------
-
-        //unlock a project based on user parts ballance
+       //unlock a project based on user parts ballance
         public unlockProject(project: Project) {
 
            // //verifies if money was propery taken

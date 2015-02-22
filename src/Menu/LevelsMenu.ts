@@ -91,22 +91,19 @@ module FlipPlus.Menu {
                 this.projectViews.push(projectView);
                 projectView.activate();
                 projectView.x = defaultWidth * p; 
-                projectView.addEventListener("levelClick", (e: createjs.Event) => { this.openLevel(e) });
+                projectView.addEventListener("levelClick", (e:any) => { this.openLevel(e.level,e.parameters) });
 
                 this.projectsContainer.addChild(projectView);
             }   
-
-            
-            
         }
 
-        private openLevel(event: createjs.Event) {
+        private openLevel(level: Projects.Level, parameters) {
 
             //cancel click in case of drag
             if (this.pagesSwipe.cancelClick) return;
 
-            var level: Projects.Level = <Projects.Level>event.target['level'];
-            var parameters = event.target['parameters']
+            var level: Projects.Level = level;
+            var parameters = parameters;
 
             if (level != null)
                 if (level.userdata.unlocked)
@@ -142,6 +139,7 @@ module FlipPlus.Menu {
             for (var pv in this.projectViews)
                 this.projectViews[pv].redim(headerY, footerY);
         }
+
         public desactivate(parameters?: any) {
             super.desactivate(parameters);
             this.factorySound.stop();
@@ -151,7 +149,6 @@ module FlipPlus.Menu {
         public activate(parameters?: any) {
 
             super.activate();
-
 
             // play music
             gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
@@ -183,7 +180,7 @@ module FlipPlus.Menu {
                             this.content.mouseEnabled = true;
                             this.header.mouseEnabled = true;
                         
-                            FlipPlusGame.showMainMenu();
+                            FlipPlusGame.completeProject(project);
                         }, 3500);
                     }
                 }

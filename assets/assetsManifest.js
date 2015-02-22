@@ -332,10 +332,12 @@ function getAssetsManifest(assetscale) {
         { src: imagePath + "myBots/Y0S1_01.png", id: "Y0S1_01" },
         { src: imagePath + "myBots/Y0S1_02.png", id: "Y0S1_02" },
         { src: imagePath + "myBots/Y0S1_03.png", id: "Y0S1_03" },
+        { src: imagePath + "myBots/bgnewbot.png", id: "bgnewbot" },
         
 
         { id: "puzzle/btrest", src: imagePath + "puzzle/btrest.png" },
 
+        { id: "puzzle/btbuypower", src: imagePath + "puzzle/btbuypower.png" },
         /*
         { id: "puzzle/bg", src: imagePath + "puzzle/bg.jpg" },
         { id: "puzzle/btplay1", src: imagePath + "puzzle/btplay1.png" },
@@ -397,6 +399,12 @@ function getAssetsManifest(assetscale) {
         { id: "popups/popup", src: imagePath + "popups/popup.png" },
         { id: "popups/message", src: imagePath + "popups/message.png" },
         { id: "popups/popupTutorial", src: imagePath + "popups/popupbot.png" },
+
+        { id: "popups/popup", src: imagePath + "popups/popup.png" },
+        { id: "popups/message", src: imagePath + "popups/message.png" },
+        { id: "popups/popupTutorial", src: imagePath + "popups/popupbot.png" },
+
+
 
         //Legacy
         { id: "bolinhas", src: imagePath  + "bolinhas.png" },
