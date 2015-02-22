@@ -2,17 +2,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Flip+ LevelCreator</title>
-    <script src="data/stringResources.js"></script>
-    <script src="data/Levels.js"></script>
+
+
+
+    <!-- Libs =================================================================================-->
+
     <script src="jquery-ui-1.11.3/external/jquery/jquery.js"></script>
     <script src="jquery-ui-1.11.3/jquery-ui.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script>
     <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
 
-    <script src="script/file.js"></script>
-    <script src="script/FileSaver.js"></script>
 
     <script src="script/createjs-2014.12.12.min.js"></script>
+    <script src="script/movieclip-0.8.0.min.js"></script>
+    <script src="script/timer.js"></script>
+    <script src="script/md5.js"></script>
+
+    <!-- file saver -->
+    <script src="script/FileSaver.js"></script>
+    <script src="script/file.js"></script>
+
+    <!-- Bitmap  patch ===================================================================-->
+    <script src="script/BitmapScalePath.js"></script>
+    <script src="script/getQueryVariable.js"></script>
+
+    <!-- Data =================================================================================-->
+    <script src="data/stringResources.js"></script>
+    <script src="data/Levels.js"></script>
+    <script src="data/Bonus.js"></script>
+    <script src="data/Items.js"></script>
+
+    <!-- Assets  ===============================================================================-->
+    <script src="assets/spritesheets.js"></script>
+    <script src="assets/assetsManifest.js"></script>
+    <script src="assets/Intro.js"></script>
+    <script src="assets/MyBots.js"></script>
+    <script src="assets/LogoScreen.js"></script>
+    <script src="assets/Bonus3.js"></script>
+
+    <!-- code script -->
     <script src="script/script.js"></script>
 
     <link href="jquery-ui-1.11.3/jquery-ui.css" rel="stylesheet" />
@@ -41,8 +69,6 @@
         html, body {
             margin: 10px;
             overflow: auto;
-            background-color: black;
-            background-image: none;
             text-align: left;
         }
 
@@ -55,8 +81,8 @@
             float: left;
             margin: 10px;
             padding: 20px;
-            background-color: #222;
-            height:660px;
+            background-color: rgba(0,0,0,0.5);
+            height: 660px;
         }
 
         .fixed {
@@ -83,7 +109,7 @@
         });
 
 
-        function createCanvasThumb(canvasId,level) {
+        function createCanvasThumb(canvasId, level) {
             var stage = new createjs.Stage(canvasId);
 
             var shape = new FlipPlus.Menu.View.LevelThumb2(level);
@@ -92,6 +118,8 @@
             stage.removeAllChildren();
             stage.addChild(shape);
             stage.update()
+            shape.updateUserData();
+
             stage.enableDOMEvents = false;
             stage.mouseEnabled = false;
         }
@@ -110,11 +138,11 @@
                     $scope.projects = levelsData;
             }
 
-            $scope.saveDefault= function () {
+            $scope.saveDefault = function () {
                 localStorage.setItem("customLevels", JSON.stringify($scope.projects));
             }
 
-            $scope.loadFile= function () {
+            $scope.loadFile = function () {
                 loadFile(function (data) {
                     try {
                         data = data.replace("var levelsData =", "");
@@ -135,30 +163,46 @@
                 connectWith: ".connectedSortable",
             };
 
-            $scope.editLevel = function (level) {
-
-                var level = level;
-                $scope.currentLevel = level;
-                f = document.getElementById("gameframe");
-                var _this = this;
-                this.level = level;
-                f.contentWindow.FlipPlus.FlipPlusGame.toLevelCreator(level, function (level) {
-                    
+            $scope.reloadEditor = function (level) {
+                FlipPlus.FlipPlusGame.toLevelCreator(level, function (level) {
                     $scope.$apply();
                     $scope.saveDefault();
                 });
             }
 
-            $scope.$watch('currentLevel.theme',  function (value) {$scope.editLevel( $scope.currentLevel) });
-            $scope.$watch('currentLevel.width',  function (value) {$scope.editLevel( $scope.currentLevel) });
-            $scope.$watch('currentLevel.height', function (value) {$scope.editLevel( $scope.currentLevel) });
-            $scope.$watch('currentLevel.type',   function (value) {$scope.editLevel( $scope.currentLevel) });
+            $scope.editLevel = function (level) {
+
+                var level = level;
+                $scope.currentLevel = level;
+                $scope.reloadEditor(level)
+            }
+
+            $scope.$watch('currentLevel.theme', function (value) {
+                $scope.reloadEditor($scope.currentLevel)
+            });
+            $scope.$watch('currentLevel.type', function (value) {
+                $scope.reloadEditor($scope.currentLevel)
+            });
+            $scope.$watch('currentLevel.width', function (value) {
+                $scope.reloadEditor($scope.currentLevel)
+            });
+            $scope.$watch('currentLevel.height', function (value) {
+                $scope.reloadEditor($scope.currentLevel)
+            });
+
 
             $scope.createCanvasThumb = createCanvasThumb;
 
             $scope.loadDefault();
+
+            
         });
- 
+
+        var levelCreatorMode = true;
+        window.onload = function () {
+            FlipPlus.FlipPlusGame.initializeGame();
+        };
+
     </script>
 
 </head>
@@ -183,14 +227,14 @@
     </div>
     <div id="Puzzle" class="pannel">
         <h2>Puzzle</h2>
-        <iframe src="index.html" id="gameframe" frameborder="0" width="400" height="600"> </iframe>
-        </div>
+        <canvas id="myCanvas" screencanvas="true" width="400" height="600"></canvas>
+    </div>
     <div id="Settings" class="pannel">
         <h2>Properties</h2>
         <div>
             <h3>size</h3>
-            <label for="height">Width:</label> <input class="spinner ui-corner-all ui-widget-content " ng-model="currentLevel.width"   />
-            <label for="width">Heigth:</label> <input class="spinner ui-corner-all ui-widget-content " ng-model="currentLevel.height"  />
+            <label for="height">Width:</label> <input class="spinner ui-corner-all ui-widget-content " ng-model="currentLevel.width" />
+            <label for="width">Heigth:</label> <input class="spinner ui-corner-all ui-widget-content " ng-model="currentLevel.height" />
 
         </div>
         <h3>Type</h3>
@@ -198,9 +242,9 @@
             <input type="radio" id="radio1a" ng-model="currentLevel.type" value="puzzle" name="radioType"><label for="radio1">Puzzle</label>
             <input type="radio" id="radio2a" ng-model="currentLevel.type" value="time" name="radioType"><label for="radio2">Time</label>
             <input type="radio" id="radio3a" ng-model="currentLevel.type" value="moves" name="radioType"><label for="radio3">Moves</label>
-        </div>                   
-        <h3>Color</h3>           
-        <div class="radio">      
+        </div>
+        <h3>Color</h3>
+        <div class="radio">
             <input type="radio" id="radio1b" ng-model="currentLevel.theme" value="green" name="radioColor"><label for="radio1b">Green</label>
             <input type="radio" id="radio2b" ng-model="currentLevel.theme" value="purple" name="radioColor"><label for="radio2b">Purple</label>
             <input type="radio" id="radio3b" ng-model="currentLevel.theme" value="yellow" name="radioColor"><label for="radio3b">Yellow</label>

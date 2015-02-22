@@ -78,7 +78,13 @@ module FlipPlus {
 
 
         public static toLevelCreator(level?:Projects.Level,callback?) {
-            this.gameScreen.switchScreen(new GamePlay.LevelCreator2(level,callback));
+            if (!level) {
+                level = new Projects.Level();
+                level.width = 0;
+                level.height = 0;
+            }
+            
+            this.gameScreen.switchScreen(new GamePlay.LevelCreator2(level, callback), null, { type: "none" });
         }
 
         public static showProjectsMenu() {

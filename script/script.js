@@ -781,7 +781,12 @@ var FlipPlus;
         };
         // ----------------------------- Game Methods ---------------------------------------------//
         FlipPlusGame.toLevelCreator = function (level, callback) {
-            this.gameScreen.switchScreen(new FlipPlus.GamePlay.LevelCreator2(level, callback));
+            if (!level) {
+                level = new FlipPlus.Projects.Level();
+                level.width = 0;
+                level.height = 0;
+            }
+            this.gameScreen.switchScreen(new FlipPlus.GamePlay.LevelCreator2(level, callback), null, { type: "none" });
         };
         FlipPlusGame.showProjectsMenu = function () {
             this.levelScreeen = null;
@@ -1912,7 +1917,8 @@ var FlipPlus;
                         for (var i = 0; i < invertedBlocks.length; i++) {
                             var row = Math.floor(invertedBlocks[i] / this.width);
                             var col = invertedBlocks[i] - row * this.width;
-                            this.invertCross(col, row);
+                            if (col < this.width && row < this.height)
+                                this.invertCross(col, row);
                         }
                         this.initializePrizes(prizesCount, invertedBlocks.length);
                     }
@@ -6063,9 +6069,12 @@ var FlipPlus;
         var LevelCreator2 = (function (_super) {
             __extends(LevelCreator2, _super);
             function LevelCreator2(levelData, callback) {
-                if (!levelData.width)
+                FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen(420, 600, false);
+                FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen = function () {
+                };
+                if (!levelData.width && levelData.width != 0)
                     levelData.width = 5;
-                if (!levelData.height)
+                if (!levelData.height && levelData.height != 0)
                     levelData.height = 5;
                 if (!levelData.theme)
                     levelData.theme = "yellow";
@@ -6524,9 +6533,11 @@ var FlipPlus;
                 LevelThumb2.prototype.createBackgroud = function (level, assetName, assetSufix) {
                     var _this = this;
                     var sbg = new createjs.Bitmap("assets/images_1x/workshop/" + assetName + assetSufix + ".png");
-                    sbg.on("load", function () {
+                    sbg.image.onload = function () {
                         _this.getStage().update();
-                    });
+                    };
+                    if (this.getStage())
+                        this.getStage().update();
                     sbg.regX = sbg.regY = 98;
                     return sbg;
                 };
@@ -6535,9 +6546,11 @@ var FlipPlus;
                     //TODO: essas string devem estar em um enum
                     if (level.type == "time" || level.type == "flip" || level.type == "moves") {
                         var tag = new createjs.Bitmap("assets/images_1x/workshop/" + assetName + (level.type == "moves" ? "flip" : level.type) + assetSufix + ".png");
-                        tag.on("load", function () {
+                        tag.image.onload = function () {
                             _this.getStage().update();
-                        });
+                        };
+                        if (this.getStage())
+                            this.getStage().update();
                         tag.regX = tag.regY = 100;
                         tag.scaleX = tag.scaleY = 0.5;
                         tag.x = tag.y = 70;

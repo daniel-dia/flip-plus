@@ -1294,8 +1294,8 @@
     <Content Include="jquery-ui-1.11.3\jquery-ui.structure.min.css" />
     <Content Include="jquery-ui-1.11.3\jquery-ui.theme.css" />
     <Content Include="jquery-ui-1.11.3\jquery-ui.theme.min.css" />
-    <Content Include="levelCreator.htm" />
-    <Content Include="LevelCreator2.html" />
+    <Content Include="LevelCreator.html" />
+    <Content Include="levelCreatorold.htm" />
     <Content Include="script\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

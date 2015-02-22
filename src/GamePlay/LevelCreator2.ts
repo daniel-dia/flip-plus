@@ -18,8 +18,11 @@ module FlipPlus.GamePlay {
 
         constructor(levelData: Projects.Level, callback:any) {
 
-            if (!levelData.width) levelData.width = 5;
-            if (!levelData.height) levelData.height = 5;
+            FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen(420, 600, false);
+            FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen = function () { };
+
+            if (!levelData.width && levelData.width!= 0 ) levelData.width = 5;
+            if (!levelData.height && levelData.height != 0) levelData.height = 5;
             if (!levelData.theme) levelData.theme= "yellow";
             if (!levelData.type) levelData.type = "puzzle";
 

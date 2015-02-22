@@ -13,7 +13,8 @@ module FlipPlus.Menu.View {
         protected createBackgroud(level: Projects.Level, assetName, assetSufix): createjs.DisplayObject {
 
             var sbg = new createjs.Bitmap("assets/images_1x/workshop/" + assetName + assetSufix + ".png");
-            sbg.on("load", () => { this.getStage().update() });
+            sbg.image.onload = () => { this.getStage().update() }
+            if (this.getStage()) this.getStage().update();
             sbg.regX = sbg.regY = 98;
             return sbg;
         }
@@ -22,7 +23,8 @@ module FlipPlus.Menu.View {
             //TODO: essas string devem estar em um enum
             if (level.type == "time" || level.type == "flip" || level.type == "moves") {
                 var tag = new createjs.Bitmap("assets/images_1x/workshop/" + assetName + (level.type == "moves" ? "flip" : level.type) + assetSufix + ".png");
-                tag.on("load", () => { this.getStage().update() });
+                tag.image.onload = () => { this.getStage().update() }
+                if(this.getStage())this.getStage().update();
                 tag.regX = tag.regY = 100;
                 tag.scaleX = tag.scaleY = 0.5
                 tag.x = tag.y = 70;

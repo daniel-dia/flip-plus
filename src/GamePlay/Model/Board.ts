@@ -121,6 +121,7 @@ module FlipPlus.GamePlay.Model {
                 for (var i: number = 0; i < invertedBlocks.length; i++) {
                     var row = Math.floor(invertedBlocks[i] / this.width);
                     var col = invertedBlocks[i] - row * this.width;
+                    if(col<this.width && row < this.height)
                     this.invertCross(col, row);
                 }
                 this.initializePrizes(prizesCount, invertedBlocks.length);
