@@ -39,7 +39,7 @@ module FlipPlus.Menu {
             
             //create projects container
             this.projectsContainer = new createjs.Container();
-
+            
             //creates projectViews array
             this.projectViews = new Array();
 

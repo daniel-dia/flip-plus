@@ -43,6 +43,7 @@ module FlipPlus.Menu.View {
 
             //add robot preview
             this.addRobotPreview(project);
+            
 
         }
 
@@ -50,7 +51,7 @@ module FlipPlus.Menu.View {
         private addRobotPreview(project: Projects.Project) {
 
             this.robotPreview = new View.RobotPreview(project);
-
+            
             this.robotPreview.x = defaultWidth / 2;
             this.robotPreview.y = 1100;
             this.robotPreview.update();
@@ -125,6 +126,8 @@ module FlipPlus.Menu.View {
                 text.x = defaultWidth / 2;
                 levelMachine.addChild(text);
             }
+
+         
 
         }
 

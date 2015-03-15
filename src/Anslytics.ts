@@ -72,7 +72,7 @@ class Analytics {
     }
 
     private sendEvent(eventId: string,subEventId,value:number, level?:string,x?:number,y?:number) {
-
+        return;
         var game_key = '1fc43682061946f75bfbecd4bbb2718b'                                  
         var secret_key = '9b4ab4006d241ab5042eb3a730eec6c3e171d483'
         var data_api_key = 'd519f8572c1893fb49873fa2345d444c03afa172'

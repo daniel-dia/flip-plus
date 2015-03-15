@@ -21,7 +21,7 @@
     <TypeScriptCompile Include="gameui\Button.ts" />
     <TypeScriptCompile Include="gameui\GameScreen.ts" />
     <TypeScriptCompile Include="gameui\Grid.ts" />
-    <TypeScriptCompile Include="gameui\ImagesManager.ts" />
+    <TypeScriptCompile Include="gameui\AssetsManager.ts" />
     <TypeScriptCompile Include="gameui\Label.ts" />
     <TypeScriptCompile Include="gameui\MenuContainer.ts" />
     <TypeScriptCompile Include="gameui\ScreenState.ts" />

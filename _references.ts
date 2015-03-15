@@ -2,7 +2,7 @@
 /// <reference path="src/preferences.ts" />
 
 /// <reference path="gameui/AudioManager.ts" />
-/// <reference path="gameui/ImagesManager.ts" />
+/// <reference path="gameui/AssetsManager.ts" />
 /// <reference path="gameui/GameScreen.ts" />
 /// <reference path="gameui/UIItem.ts" />
 /// <reference path="gameui/Grid.ts" />

@@ -22,11 +22,7 @@ module gameui {
         }
 
         public fadeOut(scaleX: number= 0.5, scaleY: number= 0.5) {
-            this.animating = true;
-            this.antX = this.x;
-            this.antY = this.y;
-            this.mouseEnabled = false;
-            createjs.Tween.removeTweens(this);
+            this.resetFade()
             createjs.Tween.get(this).to({
                 scaleX: scaleX,
                 scaleY: scaleY,
@@ -44,7 +40,17 @@ module gameui {
                 });
         }
 
+        private resetFade() {
+            this.animating = true;
+            this.antX = this.x;
+            this.antY = this.y;
+            this.mouseEnabled = false;
+            createjs.Tween.removeTweens(this);
+        }
+
         public fadeIn(scaleX: number= 0.5, scaleY: number= 0.5) {
+            if (this.visible = true) this.antX = null;
+
             this.visible = true;
             this.animating = true;
 

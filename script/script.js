@@ -90,7 +90,7 @@ var gameui;
         };
         // load a font spritesheet
         AssetsManager.loadFontSpriteSheet = function (id, spritesheetData) {
-            this.bitmapFontSpriteSheetDataArray[id] = spritesheetData;
+            this.bitmapFontSpriteSheetDataArray[id] = new createjs.SpriteSheet(spritesheetData);
         };
         // cleans all sprites in the bitmap array;
         AssetsManager.cleanAssets = function () {
@@ -111,8 +111,11 @@ var gameui;
         AssetsManager.getBitmap = function (name) {
             //if image id is described in spritesheets
             if (this.spriteSheets)
-                if (this.spriteSheets[name])
-                    return this.getSprite(name, false);
+                if (this.spriteSheets[name]) {
+                    var sprite = this.getSprite(name, false);
+                    sprite.mouseEnabled = false;
+                    return sprite;
+                }
             //if image is preloaded
             var image = this.getLoadedImage(name);
             if (image) {
@@ -127,10 +130,10 @@ var gameui;
         };
         //get a bitmap Text
         AssetsManager.getBitmapText = function (text, bitmapFontId) {
-            var bt = new createjs.BitmapText(text, new createjs.SpriteSheet(this.bitmapFontSpriteSheetDataArray[bitmapFontId]));
-            bt.lineHeight = 100;
-            bt.mouseEnabled = AssetsManager.defaultMouseEnabled;
-            return bt;
+            var bitmapText = new createjs.BitmapText(text, this.bitmapFontSpriteSheetDataArray[bitmapFontId]);
+            bitmapText.lineHeight = 100;
+            bitmapText.mouseEnabled = AssetsManager.defaultMouseEnabled;
+            return bitmapText;
         };
         //Get a preloaded Image from assets
         AssetsManager.getLoadedImage = function (name) {
@@ -161,14 +164,13 @@ var gameui;
 (function (gameui) {
     var GameScreen = (function () {
         //-----------------------------------------------------------------------
-        function GameScreen(canvasElement, gameWidth, gameHeight, fps, showFps) {
+        function GameScreen(canvasId, gameWidth, gameHeight, fps, showFps) {
             var _this = this;
             if (fps === void 0) { fps = 60; }
             this.defaultWidth = gameWidth;
             this.defaultHeight = gameHeight;
             //Initializes canvas Context            
-            this.myCanvas = document.getElementById(canvasElement);
-            this.stage = new createjs.Stage(canvasElement);
+            this.stage = new createjs.Stage(canvasId);
             createjs.Touch.enable(this.stage);
             var x = 0;
             createjs.Ticker.addEventListener("tick", function () {
@@ -273,8 +275,8 @@ var gameui;
                     deviceWidth = this.defaultWidth * s;
                 }
             }
-            this.myCanvas.width = deviceWidth;
-            this.myCanvas.height = deviceHeight;
+            this.stage.canvas.width = deviceWidth;
+            this.stage.canvas.height = deviceHeight;
             this.updateViewerScale(deviceWidth, deviceHeight, this.defaultWidth, this.defaultHeight);
         };
         //updates screen viewer scale
@@ -330,11 +332,7 @@ var gameui;
             var _this = this;
             if (scaleX === void 0) { scaleX = 0.5; }
             if (scaleY === void 0) { scaleY = 0.5; }
-            this.animating = true;
-            this.antX = this.x;
-            this.antY = this.y;
-            this.mouseEnabled = false;
-            createjs.Tween.removeTweens(this);
+            this.resetFade();
             createjs.Tween.get(this).to({
                 scaleX: scaleX,
                 scaleY: scaleY,
@@ -352,10 +350,19 @@ var gameui;
                 ;
             });
         };
+        UIItem.prototype.resetFade = function () {
+            this.animating = true;
+            this.antX = this.x;
+            this.antY = this.y;
+            this.mouseEnabled = false;
+            createjs.Tween.removeTweens(this);
+        };
         UIItem.prototype.fadeIn = function (scaleX, scaleY) {
             var _this = this;
             if (scaleX === void 0) { scaleX = 0.5; }
             if (scaleY === void 0) { scaleY = 0.5; }
+            if (this.visible = true)
+                this.antX = null;
             this.visible = true;
             this.animating = true;
             if (this.antX == null) {
@@ -673,7 +680,7 @@ var gameui;
             _super.call(this, background, event, soundId);
             //add text into it.
             text = text.toUpperCase();
-            this.text = new createjs.Text(text, "bold 130px Arial", color);
+            this.text = new createjs.Text(text, font, color);
             this.text.textBaseline = "middle";
             this.text.textAlign = "center";
             //createHitArea
@@ -682,6 +689,7 @@ var gameui;
                 this.height = this.text.getMeasuredHeight() * 1.5;
             }
             this.addChild(this.text);
+            this.createHitArea();
             this.createHitArea();
         }
         return TextButton;
@@ -5568,6 +5576,7 @@ var Analytics = (function () {
         this.sendEvent("bonus", bonusid.toString(), items, bonusid);
     };
     Analytics.prototype.sendEvent = function (eventId, subEventId, value, level, x, y) {
+        return;
         var game_key = '1fc43682061946f75bfbecd4bbb2718b';
         var secret_key = '9b4ab4006d241ab5042eb3a730eec6c3e171d483';
         var data_api_key = 'd519f8572c1893fb49873fa2345d444c03afa172';

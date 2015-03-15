@@ -8,8 +8,7 @@ module gameui{
 
     export class GameScreen {
         
-        public stage: createjs.Stage;
-        private myCanvas: HTMLCanvasElement;
+        public stage: createjs.Stage; 
 
         private defaultWidth: number;
         private defaultHeight: number;
@@ -33,14 +32,13 @@ module gameui{
 
         //-----------------------------------------------------------------------
 
-        constructor(canvasElement: string, gameWidth: number, gameHeight?: number, fps:number=60, showFps?: boolean) {
+        constructor(canvasId: string, gameWidth: number, gameHeight?: number, fps:number=60, showFps?: boolean) {
 
             this.defaultWidth = gameWidth;
             this.defaultHeight = gameHeight;
 
             //Initializes canvas Context            
-            this.myCanvas = <HTMLCanvasElement> document.getElementById(canvasElement);
-            this.stage = new createjs.Stage(canvasElement);
+            this.stage = new createjs.Stage(canvasId);
 
             createjs.Touch.enable(this.stage);
 
@@ -174,8 +172,8 @@ module gameui{
                 }
             }
 
-            this.myCanvas.width = deviceWidth;
-            this.myCanvas.height = deviceHeight;
+            this.stage.canvas.width = deviceWidth;
+            this.stage.canvas.height = deviceHeight;
 
             this.updateViewerScale(deviceWidth, deviceHeight, this.defaultWidth, this.defaultHeight);
         }

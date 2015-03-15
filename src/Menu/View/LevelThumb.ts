@@ -15,6 +15,7 @@ module FlipPlus.Menu.View {
             this.level = level;
             this.name = level.name;
             this.theme = level.theme;
+            
         }
         
         //updates thumbnail with user data information
