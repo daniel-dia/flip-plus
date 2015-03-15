@@ -5382,19 +5382,158 @@ var FlipPlus;
         Robots.MyBots = MyBots;
     })(Robots = FlipPlus.Robots || (FlipPlus.Robots = {}));
 })(FlipPlus || (FlipPlus = {}));
-/// <reference path="scripts/typing/createjs/createjs.d.ts" />
+/// <reference path="script/typing/createjs/createjs.d.ts" />
 /// <reference path="src/preferences.ts" />
 //module gameui {
+//Adds a inertial drag movement to a Display Object
+var Inertia = (function () {
+    function Inertia() {
+    }
+    //Adds a inertial drag movement to a Display Object
+    Inertia.addInertia = function (target, moveX, moveY, eventOrigin, inertiaFactor) {
+        if (moveX === void 0) { moveX = true; }
+        if (moveY === void 0) { moveY = true; }
+        if (inertiaFactor === void 0) { inertiaFactor = 0.95; }
+        var pivotX = 0;
+        var pivotY = 0;
+        var oldPosX = 0;
+        var oldPosY = 0;
+        var speedX = 0;
+        var speedY = 0;
+        var inertiaInterval;
+        var mouseDown = false;
+        if (!eventOrigin)
+            eventOrigin = target;
+        eventOrigin.addEventListener("mousedown", function (evt) {
+            clearInterval(inertiaInterval);
+            speedX = speedY = 0;
+            oldPosX = target.x;
+            oldPosY = target.y;
+            var pos = eventOrigin.globalToLocal(evt.stageX, evt.stageY);
+            pivotX = pos.x - target.x;
+            pivotY = pos.y - target.y;
+            mouseDown = true;
+            inertiaInterval = setInterval(function () {
+                if (moveX)
+                    speedX = speedX * inertiaFactor;
+                if (moveY)
+                    speedY = speedY * inertiaFactor;
+                target.x += speedX;
+                target.y += speedY;
+                target.dispatchEvent("onmoving");
+                if (mouseDown == false && Math.abs(speedX) + Math.abs(speedY) < 5) {
+                    clearInterval(inertiaInterval);
+                    target.dispatchEvent("onstop");
+                }
+            }, 1000 / createjs.Ticker.getFPS());
+        });
+        eventOrigin.addEventListener("pressmove", function (evt) {
+            var pos = eventOrigin.globalToLocal(evt.stageX, evt.stageY);
+            if (moveX)
+                target.x = pos.x - pivotX;
+            if (moveY)
+                target.y = pos.y - pivotY;
+            target.dispatchEvent("onmoving");
+            speedX = target.x - oldPosX;
+            speedY = target.y - oldPosY;
+            oldPosX = target.x;
+            oldPosY = target.y;
+            mouseDown = true;
+        });
+        eventOrigin.addEventListener("pressup", function (evt) {
+            mouseDown = false;
+        });
+    };
+    return Inertia;
+})();
+var SmokeFX;
+(function (SmokeFX) {
+    // Class
+    var SmokeFXEmmiter = (function (_super) {
+        __extends(SmokeFXEmmiter, _super);
+        function SmokeFXEmmiter(imageFile, width, height) {
+            var _this = this;
+            _super.call(this);
+            this.birthrate = 1;
+            this.aging = 1000;
+            this.ageVariation = 50;
+            this.spin = 90;
+            this.spinVariation = 180;
+            this.speedX = -0.03;
+            this.speedY = 0;
+            this.speedVariationX = 0;
+            this.speedVariationY = 0;
+            this.scale = 1;
+            this.scaleFinal = 2;
+            this.scaleVariation = 0.1;
+            this.alpha = 1;
+            this.alphaVariation = 0.1;
+            this.finalAlpha = 0;
+            this.rateCount = 0;
+            this.emmiterWidth = 500;
+            this.emmiterHeight = 100;
+            this.imageFile = imageFile;
+            this.emmiterWidth = width;
+            this.emmiterHeight = height;
+            var test = new createjs.Bitmap(imageFile);
+            this.addChild(test);
+            createjs.Ticker.addEventListener("tick", function () {
+                _this.tickrate();
+            });
+        }
+        SmokeFXEmmiter.prototype.tickrate = function () {
+            if (Math.random() > this.birthrate)
+                return;
+            var imageFile = this.imageFile;
+            var x = Math.random() * this.emmiterWidth;
+            var y = Math.random() * this.emmiterHeight;
+            var speedX = 0.5 - Math.random() * this.speedVariationX + this.speedX;
+            var speedY = 0.5 - Math.random() * this.speedVariationY + this.speedY;
+            var spin = 0.5 - Math.random() * this.spinVariation + this.spin;
+            var age = 0.5 - Math.random() * this.ageVariation + this.aging;
+            var alpha = 0.5 - Math.random() * this.alphaVariation + this.alpha;
+            var finalAlpha = this.finalAlpha;
+            var scale = Math.random() * this.scaleVariation + this.scale;
+            var finalScale = Math.random() * this.scaleVariation + this.scaleFinal;
+            this.emmit(imageFile, x, y, speedX, speedY, scale, finalScale, spin, age, alpha, finalAlpha);
+        };
+        SmokeFXEmmiter.prototype.emmit = function (imageFile, x, y, speedX, speedY, scale, finalScale, spin, age, alpha, finalAlpha) {
+            var _this = this;
+            var asset = new createjs.Bitmap(imageFile);
+            this.addChild(asset);
+            asset.regX = this.imageRegX;
+            asset.regY = this.imageRegY;
+            asset.x = x;
+            asset.y = y;
+            asset.scaleX = asset.scaleY = scale;
+            createjs.Tween.get(asset).to({
+                x: x + speedX * age / 1000,
+                y: y + speedY * age / 1000,
+                rotation: spin * age / 1000,
+                scaleX: finalScale,
+                scaleY: finalScale
+            }, age * 1.1).call(function (e) {
+                _this.removeChild(asset);
+            });
+            asset.alpha = 0;
+            createjs.Tween.get(asset).to({ alpha: alpha }, age * 0.1).call(function (e) {
+                createjs.Tween.get(asset).to({ alpha: finalAlpha }, age * 0.9);
+            });
+        };
+        return SmokeFXEmmiter;
+    })(createjs.Container);
+    SmokeFX.SmokeFXEmmiter = SmokeFXEmmiter;
+})(SmokeFX || (SmokeFX = {}));
 var Analytics = (function () {
     function Analytics() {
     }
     //create a random user ID
     Analytics.prototype.getUser = function () {
         if (!this.userId)
-            this.userId = localStorage.getItem("dia_userID");
+            this.userId = localStorage.getItem("lirum_userId");
         if (!this.userId) {
             this.userId = (Math.random() * 9999999999).toString();
-            localStorage.setItem("dia_userID", this.userId);
+            localStorage.setItem("lirum_userId", this.userId);
         }
         return this.userId;
     };
@@ -5456,16 +5595,17 @@ var Analytics = (function () {
         var md5_msg = CryptoJS.MD5(json_message + secret_key);
         var header_auth_hex = CryptoJS.enc.Hex.stringify(md5_msg);
         var url = 'http://api-eu.gameanalytics.com/1/' + game_key + '/' + category;
-        this.postAjax(url, message, header_auth_hex);
-    };
-    Analytics.prototype.postAjax = function (url, data, header_auth_hex) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader('Content-Type', 'text/plain');
-        xhr.setRequestHeader('Content-Length', JSON.stringify(data).length.toString());
-        xhr.setRequestHeader("Authorization", header_auth_hex);
-        //xhr.addEventListener('load', function (e) {}, false);
-        xhr.send(JSON.stringify(data));
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: json_message,
+            headers: {
+                "Authorization": header_auth_hex
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Content-Type', 'text/plain');
+            }
+        });
     };
     return Analytics;
 })();

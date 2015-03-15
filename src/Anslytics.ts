@@ -1,5 +1,4 @@
-﻿declare var $;
-declare var CryptoJS;
+﻿declare var CryptoJS;
 
 class Analytics {
 
@@ -9,12 +8,12 @@ class Analytics {
     //create a random user ID
     private getUser(): string {
 
-        if (!this.userId) 
-            this.userId = localStorage.getItem("lirum_userId");
+        if (!this.userId)
+            this.userId = localStorage.getItem("dia_userID");
 
         if (!this.userId) {
             this.userId = (Math.random() * 9999999999).toString();
-            localStorage.setItem("lirum_userId", this.userId );
+            localStorage.setItem("dia_userID", this.userId);
         }
 
         return this.userId;
@@ -96,35 +95,20 @@ class Analytics {
  
         var url = 'http://api-eu.gameanalytics.com/1/' + game_key + '/' + category;
  
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: json_message,
 
-            headers: {
-                "Authorization": header_auth_hex,
-            },
+        this.postAjax(url, message, header_auth_hex);
+    }
 
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Content-Type', 'text/plain');
-            },
-            //success: function (data, textStatus, XMLHttpRequest) {
-            //    console.log("GOOD! textStatus: " + textStatus);
+    private postAjax(url: string, data: any, header_auth_hex: string) {
 
-            //},
-            //error: function (XMLHttpRequest, textStatus, errorThrown) {
-            //    console.log("ERROR ajax call. error: " + errorThrown + ", url: " + url);
+        var xhr: XMLHttpRequest = new XMLHttpRequest();
+        xhr.open("POST", url, true)
 
-            //} 
-        });
+        xhr.setRequestHeader('Content-Type', 'text/plain');
+        xhr.setRequestHeader('Content-Length', JSON.stringify(data).length.toString());
+        xhr.setRequestHeader("Authorization", header_auth_hex);
+        //xhr.addEventListener('load', function (e) {}, false);
+
+        xhr.send(JSON.stringify(data));
     }
 }
-
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 

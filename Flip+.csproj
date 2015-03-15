@@ -28,14 +28,12 @@
     <TypeScriptCompile Include="gameui\Transition.ts" />
     <TypeScriptCompile Include="gameui\UIItem.ts" />
     <TypeScriptCompile Include="gameui\WpAudioManager.ts" />
-    <TypeScriptCompile Include="script\typing\createjs-lib\createjs-lib.d.ts" />
-    <TypeScriptCompile Include="script\typing\createjs\createjs.d.ts" />
-    <TypeScriptCompile Include="lib\Inertia.ts" />
-    <TypeScriptCompile Include="script\typing\easeljs\easeljs.d.ts" />
-    <TypeScriptCompile Include="lib\SmokeFX.ts" />
-    <TypeScriptCompile Include="script\typing\preloadjs\preloadjs.d.ts" />
-    <TypeScriptCompile Include="script\typing\soundjs\soundjs.d.ts" />
-    <TypeScriptCompile Include="script\typing\tweenjs\tweenjs.d.ts" />
+    <TypeScriptCompile Include="scripts\typing\createjs-lib\createjs-lib.d.ts" />
+    <TypeScriptCompile Include="scripts\typing\createjs\createjs.d.ts" />
+    <TypeScriptCompile Include="scripts\typing\easeljs\easeljs.d.ts" />
+    <TypeScriptCompile Include="scripts\typing\preloadjs\preloadjs.d.ts" />
+    <TypeScriptCompile Include="scripts\typing\soundjs\soundjs.d.ts" />
+    <TypeScriptCompile Include="scripts\typing\tweenjs\tweenjs.d.ts" />
     <TypeScriptCompile Include="src\Anslytics.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus1.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus2.5.ts" />
@@ -1296,18 +1294,18 @@
     <Content Include="jquery-ui-1.11.3\jquery-ui.theme.min.css" />
     <Content Include="LevelCreator.html" />
     <Content Include="levelCreatorold.htm" />
-    <Content Include="script\BitmapScalePath.js">
+    <Content Include="scripts\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="script\CocoonJStouchPathc.js" />
-    <Content Include="script\createjs-2014.12.12.min.js" />
-    <Content Include="script\file.js" />
-    <Content Include="script\FileSaver.js" />
-    <Content Include="script\getQueryVariable.js">
+    <Content Include="scripts\CocoonJStouchPathc.js" />
+    <Content Include="scripts\createjs-2014.12.12.min.js" />
+    <Content Include="scripts\file.js" />
+    <Content Include="scripts\FileSaver.js" />
+    <Content Include="scripts\getQueryVariable.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="script\hitAreaBounds.js" />
-    <Content Include="script\ImageHitAreaPatch.js">
+    <Content Include="scripts\hitAreaBounds.js" />
+    <Content Include="scripts\ImageHitAreaPatch.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="index.html">
@@ -1330,11 +1328,11 @@
     <TypeScriptCompile Include="src\GamePlay\Views\GameplayMenu.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\StatusArea.ts" />
     <TypeScriptCompile Include="src\Menu\LevelsMenu.ts" />
-    <Content Include="script\jquery-1.11.1.min.js" />
-    <Content Include="script\md5.js" />
-    <Content Include="script\movieclip-0.6.1.min.js" />
-    <Content Include="script\movieclip-0.8.0.min.js" />
-    <Content Include="script\timer.js" />
+    <Content Include="scripts\jquery-1.11.1.min.js" />
+    <Content Include="scripts\md5.js" />
+    <Content Include="scripts\movieclip-0.6.1.min.js" />
+    <Content Include="scripts\movieclip-0.8.0.min.js" />
+    <Content Include="scripts\timer.js" />
     <TypeScriptCompile Include="src\UserData\Settings.ts" />
     <TypeScriptCompile Include="src\Menu\Loading.ts" />
     <TypeScriptCompile Include="src\Menu\SoundMenu.ts" />
@@ -1349,8 +1347,8 @@
     <TypeScriptCompile Include="src\Projects\Project.ts" />
     <TypeScriptCompile Include="src\UserData\Timers.ts" />
     <TypeScriptCompile Include="src\Projects\ProjectManager.ts" />
-    <Content Include="script\plataform.js" />
-    <Content Include="script\script.js" />
+    <Content Include="scripts\plataform.js" />
+    <Content Include="scripts\script.js" />
     <Content Include="src\UserData\ProjectsData.ts" />
     <Content Include="data\Levels.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1371,7 +1369,7 @@
     <TypeScriptCompile Include="src\GamePlay\Tutorial.ts" />
     <Content Include="src\GamePlay\Model\Block.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\BoardSprite.ts" />
-    <Content Include="script\setMobileScale.js">
+    <Content Include="scripts\setMobileScale.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="style\main.css">

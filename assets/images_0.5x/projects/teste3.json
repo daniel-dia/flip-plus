@@ -1,0 +1,15 @@
+{
+"images": ["teste3.png"],
+"frames": [
+
+    [0, 0, 478, 472]
+],
+"animations": {
+    
+        "Bot01":[0]
+},
+"texturepacker": [
+        "SmartUpdateHash: $TexturePacker:SmartUpdate:6664ffcf4b642199f10cde209938cb14:9b5932799a026e729e6824751fc4777a:e2a5affbe31ead4f783e27c6352202ac$",
+        "Created with TexturePacker (http://www.texturepacker.com) for EaselJS"
+]
+}
