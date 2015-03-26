@@ -39,7 +39,7 @@ module FlipPlus {
 
         public static initializeGame() {
 
-            assetscale = 1;
+            assetscale =0.5;
             if (window.innerWidth <= 1024) assetscale = 0.5;
             if (window.innerWidth <= 420) assetscale = 0.25;   
 

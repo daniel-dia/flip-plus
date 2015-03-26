@@ -1,5 +1,7 @@
 declare var images: any;
 declare var spriteSheets: any;
+declare var imagesManifest;
+declare var soundsManifest;
 
 // Module
 module FlipPlus.Menu {
@@ -14,9 +16,16 @@ module FlipPlus.Menu {
             this.initializeImages()
         }
 
+  
+
         public initializeImages() {
 
-            var loader = gameui.AssetsManager.loadAssets(getAssetsManifest(assetscale), "", spriteSheets, images);
+            var imagePath = "assets/images_" + assetscale + "x/";
+            var audioPath = "assets/sound/";
+
+            createjs.Sound.registerManifest(soundsManifest, audioPath);
+
+            var loader = gameui.AssetsManager.loadAssets(imagesManifest, imagePath, spriteSheets, images);
 
             gameui.Button.setDefaultSoundId("button");
 

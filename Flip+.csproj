@@ -1455,7 +1455,7 @@
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <DefineConstants>DEBUG</DefineConstants>
-    <TypeScriptOutFile>script/script.js</TypeScriptOutFile>
+    <TypeScriptOutFile>scripts/script.js</TypeScriptOutFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES3</TypeScriptTarget>
