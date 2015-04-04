@@ -1,7 +1,7 @@
 ﻿module gameui {
 
     // Class
-    export class AssetsManager {
+    export class AssetsManager{
 
         private static loader: createjs.LoadQueue;
         private static spriteSheets: Array<any>;
@@ -10,39 +10,50 @@
         private static assetsManifest: Array<any>;
         private static defaultMouseEnabled: boolean = false;
 
-        //load assets
-        public static loadAssets(assetsManifest: Array<any>, path: string= "", spriteSheets?: Array<any>, imagesArray?: Array<HTMLImageElement>): createjs.LoadQueue {
+        public static onProgress: (progress: number) => void;
+        public static onComplete: () => void;
 
-            //cleans previous loaded assets.
-            this.cleanAssets();
+        //load assets
+        public static loadAssets(
+            imagesManifest: Array<any>,
+            imagesPath: string= "", 
+            spriteSheets?: Array<any>,
+            imagesArray?:Array<HTMLImageElement>){
 
             // initialize objects
             this.spriteSheets = spriteSheets ? spriteSheets : new Array();
             this.imagesArray = imagesArray ? imagesArray : new Array();
-            this.bitmapFontSpriteSheetDataArray = new Array();
-            this.assetsManifest = assetsManifest;
+            this.bitmapFontSpriteSheetDataArray = this.bitmapFontSpriteSheetDataArray ? this.bitmapFontSpriteSheetDataArray: new Array();
+            this.assetsManifest = imagesManifest;
 
-            //creates a preload queue
-            this.loader = new createjs.LoadQueue(false);
+            if (!this.loader) {
+                //creates a preload queue
+                this.loader = new createjs.LoadQueue(false);
+                
+                //install sound plug-in for sounds format
+                createjs.Sound.alternateExtensions = ["mp3"];
 
-            //install sound plug-in for sounds format
-            this.loader.installPlugin(createjs.Sound);
+                this.loader.installPlugin(createjs.Sound);
+                
+                // Adds callbacks
+                this.loader.addEventListener("filestart", (evt: any) => { console.log("loading " + evt.item.src) })
+                this.loader.addEventListener("fileload", (evt: any) => { console.log("loaded " + evt.item.src) })
+                this.loader.addEventListener("complete", (evt: any) => { if (this.onComplete) this.onComplete(); })
+                this.loader.addEventListener("progress", (evt: any) => { if (this.onProgress) this.onProgress(evt.progress) })
+                this.loader.addEventListener("fileload", (evt: any): boolean => {
+                    if (evt.item.type == "image")
+                        this.imagesArray[evt.item.id] = <HTMLImageElement>evt.result;
+                    return true;
+                });
+ 
+            }
 
-            //create eventListeners
-            this.loader.addEventListener("fileload", (evt: any): boolean => {
-                if (evt.item.type == "image")
-                    this.imagesArray[evt.item.id] = <HTMLImageElement>evt.result;
-                return true;
-            });
-
-            //loads entire manifest
-            this.loader.loadManifest(this.assetsManifest, true, path);
-
-            return this.loader;
+            //loads entire manifest 
+            this.loader.loadManifest(imagesManifest, true, imagesPath); 
         }
-
+        
         // load a font spritesheet
-        public static loadFontSpriteSheet(id: string, spritesheetData: any) {
+        public static loadFontSpriteSheet(id:string,spritesheetData: any) {
             this.bitmapFontSpriteSheetDataArray[id] = new createjs.SpriteSheet(spritesheetData);
         }
 
@@ -51,7 +62,7 @@
             if (this.imagesArray);
             for (var i in this.imagesArray) {
                 var img = <any>this.imagesArray[i]
-                if (img.dispose) img.dispose();
+                if (img.dispose)img.dispose();
                 delete this.imagesArray[i]
             }
         }
@@ -66,14 +77,14 @@
 
             //if image id is described in spritesheets
             if (this.spriteSheets)
-                if (this.spriteSheets[name])
-                    return this.getSprite(name, false);
+            if (this.spriteSheets[name])
+                return this.getSprite(name, false);
 
             //if image is preloaded
             var image = this.getLoadedImage(name);
             if (image) {
                 var imgobj = new createjs.Bitmap(image);
-                imgobj.mouseEnabled = AssetsManager.defaultMouseEnabled;
+                imgobj.mouseEnabled = AssetsManager.defaultMouseEnabled; 
                 return imgobj;
             }
 
@@ -83,13 +94,14 @@
             return imgobj;
 
         }
+
         //get a bitmap Text
-        public static getBitmapText(text: string, bitmapFontId: string): createjs.BitmapText {
+        public static getBitmapText(text:string, bitmapFontId:string):createjs.BitmapText { 
             var bitmapText = new createjs.BitmapText(text, this.bitmapFontSpriteSheetDataArray[bitmapFontId]);
             bitmapText.lineHeight = 100;
             bitmapText.mouseEnabled = AssetsManager.defaultMouseEnabled;
             return bitmapText;
-
+            
         }
 
         //Get a preloaded Image from assets
@@ -98,9 +110,9 @@
                 return <HTMLImageElement>this.loader.getResult(name);
             return null;
         }
-
+        
         //return a sprite according to the image
-        public static getSprite(name: string, play: boolean= true): createjs.Sprite {
+        public static getSprite (name: string, play:boolean=true): createjs.Sprite {
             var data = this.spriteSheets[name];
             for (var i in data.images) if (typeof data.images[i] == "string") data.images[i] = this.getLoadedImage(data.images[i]);
 
@@ -113,7 +125,7 @@
 
 
 
-
+      
 
         // #endregion
     }

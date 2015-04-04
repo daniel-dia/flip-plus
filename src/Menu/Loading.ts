@@ -13,23 +13,17 @@ module FlipPlus.Menu {
 
         constructor() {
             super();
-            this.initializeImages()
-        }
-
-  
-
-        public initializeImages() {
+ 
 
             var imagePath = "assets/images_" + assetscale + "x/";
             var audioPath = "assets/sound/";
 
-            createjs.Sound.registerManifest(soundsManifest, audioPath);
-
-            var loader = gameui.AssetsManager.loadAssets(imagesManifest, imagePath, spriteSheets, images);
-
+             
+            gameui.AssetsManager.loadAssets(soundsManifest, audioPath);
+            gameui.AssetsManager.loadAssets(imagesManifest, imagePath, spriteSheets, images);
+            
             gameui.Button.setDefaultSoundId("button");
 
-            //var loader = Assets.loadAssets();
             var text = new createjs.Text("", "600 90px Arial", "#FFF");
             text.x = defaultWidth / 2;
             text.y = defaultHeight / 2;
@@ -39,16 +33,15 @@ module FlipPlus.Menu {
 
 
             //add update% functtion
-            loader.addEventListener("progress", (evt: Object): boolean => {
-                text.text = stringResources.ld + "\n" + Math.floor(evt["progress"] * 100).toString() + "%";
-                return true;
-            });
+            gameui.AssetsManager.onProgress= (progress: number)=> {
+                text.text = stringResources.ld + "\n" + Math.floor(progress * 100).toString() + "%";
+               
+            };
 
             //creates load complete action
-            loader.addEventListener("complete", (evt: Object): boolean => {
+            gameui.AssetsManager.onComplete = () => {
                 if (this.loaded) this.loaded();
-                return true;
-            });
+            }
         }
 
     }

@@ -64,29 +64,43 @@ var gameui;
         function AssetsManager() {
         }
         //load assets
-        AssetsManager.loadAssets = function (assetsManifest, path, spriteSheets, imagesArray) {
+        AssetsManager.loadAssets = function (imagesManifest, imagesPath, spriteSheets, imagesArray) {
             var _this = this;
-            if (path === void 0) { path = ""; }
-            //cleans previous loaded assets.
-            this.cleanAssets();
+            if (imagesPath === void 0) { imagesPath = ""; }
             // initialize objects
             this.spriteSheets = spriteSheets ? spriteSheets : new Array();
             this.imagesArray = imagesArray ? imagesArray : new Array();
-            this.bitmapFontSpriteSheetDataArray = new Array();
-            this.assetsManifest = assetsManifest;
-            //creates a preload queue
-            this.loader = new createjs.LoadQueue(false);
-            //install sound plug-in for sounds format
-            this.loader.installPlugin(createjs.Sound);
-            //create eventListeners
-            this.loader.addEventListener("fileload", function (evt) {
-                if (evt.item.type == "image")
-                    _this.imagesArray[evt.item.id] = evt.result;
-                return true;
-            });
-            //loads entire manifest
-            this.loader.loadManifest(this.assetsManifest, true, path);
-            return this.loader;
+            this.bitmapFontSpriteSheetDataArray = this.bitmapFontSpriteSheetDataArray ? this.bitmapFontSpriteSheetDataArray : new Array();
+            this.assetsManifest = imagesManifest;
+            if (!this.loader) {
+                //creates a preload queue
+                this.loader = new createjs.LoadQueue(false);
+                //install sound plug-in for sounds format
+                createjs.Sound.alternateExtensions = ["mp3"];
+                this.loader.installPlugin(createjs.Sound);
+                // Adds callbacks
+                this.loader.addEventListener("filestart", function (evt) {
+                    console.log("loading " + evt.item.src);
+                });
+                this.loader.addEventListener("fileload", function (evt) {
+                    console.log("loaded " + evt.item.src);
+                });
+                this.loader.addEventListener("complete", function (evt) {
+                    if (_this.onComplete)
+                        _this.onComplete();
+                });
+                this.loader.addEventListener("progress", function (evt) {
+                    if (_this.onProgress)
+                        _this.onProgress(evt.progress);
+                });
+                this.loader.addEventListener("fileload", function (evt) {
+                    if (evt.item.type == "image")
+                        _this.imagesArray[evt.item.id] = evt.result;
+                    return true;
+                });
+            }
+            //loads entire manifest 
+            this.loader.loadManifest(imagesManifest, true, imagesPath);
         };
         // load a font spritesheet
         AssetsManager.loadFontSpriteSheet = function (id, spritesheetData) {
@@ -3912,34 +3926,28 @@ var FlipPlus;
         var Loading = (function (_super) {
             __extends(Loading, _super);
             function Loading() {
-                _super.call(this);
-                this.initializeImages();
-            }
-            Loading.prototype.initializeImages = function () {
                 var _this = this;
+                _super.call(this);
                 var imagePath = "assets/images_" + assetscale + "x/";
                 var audioPath = "assets/sound/";
-                createjs.Sound.registerManifest(soundsManifest, audioPath);
-                var loader = gameui.AssetsManager.loadAssets(imagesManifest, imagePath, spriteSheets, images);
+                gameui.AssetsManager.loadAssets(soundsManifest, audioPath);
+                gameui.AssetsManager.loadAssets(imagesManifest, imagePath, spriteSheets, images);
                 gameui.Button.setDefaultSoundId("button");
-                //var loader = Assets.loadAssets();
                 var text = new createjs.Text("", "600 90px Arial", "#FFF");
                 text.x = defaultWidth / 2;
                 text.y = defaultHeight / 2;
                 text.textAlign = "center";
                 this.content.addChild(text);
                 //add update% functtion
-                loader.addEventListener("progress", function (evt) {
-                    text.text = stringResources.ld + "\n" + Math.floor(evt["progress"] * 100).toString() + "%";
-                    return true;
-                });
+                gameui.AssetsManager.onProgress = function (progress) {
+                    text.text = stringResources.ld + "\n" + Math.floor(progress * 100).toString() + "%";
+                };
                 //creates load complete action
-                loader.addEventListener("complete", function (evt) {
+                gameui.AssetsManager.onComplete = function () {
                     if (_this.loaded)
                         _this.loaded();
-                    return true;
-                });
-            };
+                };
+            }
             return Loading;
         })(gameui.ScreenState);
         Menu.Loading = Loading;
@@ -5382,9 +5390,7 @@ var FlipPlus;
         Robots.MyBots = MyBots;
     })(Robots = FlipPlus.Robots || (FlipPlus.Robots = {}));
 })(FlipPlus || (FlipPlus = {}));
-/// <reference path="scripts/typing/createjs/createjs.d.ts" />
 /// <reference path="src/preferences.ts" />
-//module gameui {
 var Analytics = (function () {
     function Analytics() {
     }

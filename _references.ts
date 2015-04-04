@@ -1,4 +1,4 @@
-/// <reference path="scripts/typing/createjs/createjs.d.ts" />
+
 /// <reference path="src/preferences.ts" />
 
 /// <reference path="gameui/AudioManager.ts" />

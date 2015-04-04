@@ -147,6 +147,7 @@ module gameui {
             text = text.toUpperCase();
 
             this.bitmapText = AssetsManager.getBitmapText(text, bitmapFontId);
+      
             this.addChild(this.bitmapText);
              
             this.bitmapText.regX = this.bitmapText.getBounds().width / 2;
