@@ -27,6 +27,7 @@
     <TypeScriptCompile Include="gameui\ScreenState.ts" />
     <TypeScriptCompile Include="gameui\Transition.ts" />
     <TypeScriptCompile Include="gameui\UIItem.ts" />
+    <TypeScriptCompile Include="typing\cocoon.d.ts" />
     <TypeScriptCompile Include="typing\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="typing\createjs\createjs.d.ts" />
     <TypeScriptCompile Include="typing\easeljs\easeljs.d.ts" />
@@ -1306,6 +1307,7 @@
     <Content Include="scripts\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="scripts\cocoon.js" />
     <Content Include="scripts\CocoonJStouchPathc.js" />
     <Content Include="scripts\createjs-2014.12.12.min.js" />
     <Content Include="scripts\file.js" />

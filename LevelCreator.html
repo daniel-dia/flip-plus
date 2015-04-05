@@ -11,12 +11,11 @@
     <script src="jquery-ui-1.11.3/jquery-ui.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script>
     <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
-
-
-    <script src="script/createjs-2014.12.12.min.js"></script>
-    <script src="script/movieclip-0.8.0.min.js"></script>
-    <script src="script/timer.js"></script>
-    <script src="script/md5.js"></script>
+    <script src="scripts/cocoon.js"></script>
+    <script src="scripts/createjs-2014.12.12.min.js"></script>
+    <script src="scripts/movieclip-0.8.0.min.js"></script>
+    <script src="scripts/timer.js"></script>
+    <script src="scripts/md5.js"></script>
 
     <!-- file saver -->
     <script src="scripts/FileSaver.js"></script>
@@ -31,6 +30,7 @@
     <script src="data/Levels.js"></script>
     <script src="data/Bonus.js"></script>
     <script src="data/Items.js"></script>
+
 
     <!-- Assets  ===============================================================================-->
     <script src="assets/spritesheets.js"></script>
@@ -164,10 +164,27 @@
             };
 
             $scope.reloadEditor = function (level) {
-                FlipPlus.FlipPlusGame.toLevelCreator(level, function (level) {
-                    $scope.$apply();
-                    $scope.saveDefault();
-                });
+                if (level) {
+                    FlipPlus.FlipPlusGame.toLevelCreator(level, function (level) {
+                        $scope.$apply();
+                        $scope.saveDefault();
+                    });
+                }
+            }
+            $scope.deleteLevel = function (index) {
+                if (confirm("deseja apagar o level atual?")) {
+                    var indexl = $scope.projects[index].levels.indexOf($scope.currentLevel);
+
+                    if (indexl > 0) {
+                        $scope.projects[index].levels.splice(indexl, 1);
+                        $scope.saveDefault();
+                    }
+                }
+            }
+
+            $scope.addLevel = function (index) {
+                $scope.projects[index].levels.push({});
+                $scope.saveDefault();
             }
 
             $scope.editLevel = function (level) {
@@ -193,15 +210,17 @@
 
             $scope.createCanvasThumb = createCanvasThumb;
 
-            $scope.loadDefault();
+       
+                $scope.loadDefault();
+           
 
-            
         });
 
         var levelCreatorMode = true;
         window.onload = function () {
             FlipPlus.FlipPlusGame.initializeGame();
-        };
+        }
+
 
     </script>
 
@@ -213,7 +232,10 @@
         <h2>Projects</h2>
         <div style="height:600px; overflow:auto ; width: 450px;">
             <div class="app" ng-repeat="project in projects">
-                <h3> {{project.nickName}}</h3>
+                <h3> {{project.nickName}}  </h3>
+                <a href="#" value="add" ng-click="addLevel($index)">Add</a>
+                <a href="#" value="add" ng-click="deleteLevel($index)">DELETE</a>
+
                 <div class="sortable connectedSortable" ui-sortable="sortableOptions">
 
                     <canvas ng-attr-id="{{$id}}" width="75" height="75" class="levelThumb" ng-repeat="level in project.levels"

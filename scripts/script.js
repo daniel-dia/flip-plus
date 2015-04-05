@@ -769,11 +769,6 @@ var FlipPlus;
         // ----------------------------- Initialization -------------------------------------------//
         FlipPlusGame.initializeGame = function () {
             var _this = this;
-            assetscale = 0.5;
-            if (window.innerWidth <= 1024)
-                assetscale = 0.5;
-            if (window.innerWidth <= 420)
-                assetscale = 0.25;
             this.gameScreen = new gameui.GameScreen("myCanvas", defaultWidth, defaultHeight, 60, true);
             //userData
             this.projectData = new FlipPlus.UserData.ProjectsData();
@@ -3928,9 +3923,23 @@ var FlipPlus;
             function Loading() {
                 var _this = this;
                 _super.call(this);
+                assetscale = 0.5;
+                if (window.innerWidth <= 1024)
+                    assetscale = 0.5;
+                if (window.innerWidth <= 420)
+                    assetscale = 0.25;
+                if (levelCreatorMode) {
+                    assetscale = 1;
+                }
                 var imagePath = "assets/images_" + assetscale + "x/";
                 var audioPath = "assets/sound/";
-                gameui.AssetsManager.loadAssets(soundsManifest, audioPath);
+                //load assets
+                if (!levelCreatorMode) {
+                    if (!Cocoon.Device.getDeviceInfo() || Cocoon.Device.getDeviceInfo().os == "windows")
+                        gameui.AssetsManager.loadAssets(soundsManifest, audioPath);
+                    else
+                        createjs.Sound.registerManifest(soundsManifest, audioPath);
+                }
                 gameui.AssetsManager.loadAssets(imagesManifest, imagePath, spriteSheets, images);
                 gameui.Button.setDefaultSoundId("button");
                 var text = new createjs.Text("", "600 90px Arial", "#FFF");
@@ -3938,7 +3947,7 @@ var FlipPlus;
                 text.y = defaultHeight / 2;
                 text.textAlign = "center";
                 this.content.addChild(text);
-                //add update% functtion
+                //add update % functtion
                 gameui.AssetsManager.onProgress = function (progress) {
                     text.text = stringResources.ld + "\n" + Math.floor(progress * 100).toString() + "%";
                 };
@@ -5391,6 +5400,7 @@ var FlipPlus;
     })(Robots = FlipPlus.Robots || (FlipPlus.Robots = {}));
 })(FlipPlus || (FlipPlus = {}));
 /// <reference path="src/preferences.ts" />
+/// <reference path="typing/createjs/createjs.d.ts" />
 var Analytics = (function () {
     function Analytics() {
     }
