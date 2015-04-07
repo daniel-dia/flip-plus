@@ -1,350 +1,349 @@
 var levelsData =[
-      {
-          "nickName": "S-N3S",
-          "name": "Bot01",
-          "cost": 0,
-          "free": true,
-          "levels": [
-              {
-                  "name": "0/0",
-                  "width": 5,
-                  "height": 5,
-                  "type": "tutorial",
-                  "theme": "green",
-                  "moves": null,
-                  "time": null,
-                  "puzzlesToSolve": null,
-                  "blocksData": [
-                      12
-                  ],
-                  "tutorial": [
-                      {
-                          "text": stringResources["tut_1_1_text"],
-                          "title": stringResources["tut_1_1_title"]
-                      },
-                      {
-                          "click": 12
-                      },
-                      {
-                          "atEnd": true,
-                          "text": stringResources["tut_1_2_text"],
-                          "title": stringResources["tut_1_2_title"]
-                      }
-                  ]
-              },
-              {
-                  "name": "0/1",
-                  "width": 5,
-                  "height": 5,
-                  "type": "tutorial",
-                  "theme": "green",
-                  "moves": null,
-                  "time": null,
-                  "puzzlesToSolve": null,
-                  "blocksData": [
-                      16,
-                      8
-                  ],
-                  "tutorial": [
-                      {
-                          "text": stringResources["tut_2_1_text"],
-                          "title": stringResources["tut_2_1_title"]
-                      },
-                      {
-                          "click": 16
-                      },
-                      {
-                          "atEnd": true,
-                          "text": stringResources["tut_2_2_text"],
-                          "title": stringResources["tut_2_2_title"]
-                      },
-                      {
-                          "atEnd": true,
-                          "text": stringResources["tut_2_3_text"],
-                          "title": stringResources["tut_2_3_title"]
-                      }
-                  ]
-              },
-              {
-                  "name": "0/2",
-                  "width": 5,
-                  "height": 5,
-                  "type": "tutorial",
-                  "theme": "purple",
-                  "moves": null,
-                  "time": null,
-                  "puzzlesToSolve": null,
-                  "blocksData": [
-                      10,
-                      12,
-                      14
-                  ],
-                  "tutorial": [
-                      {
-                          "text": stringResources["tut_3_1_text"],
-                          "title": stringResources["tut_3_1_title"]
-                      },
-                      {
-                          "click": 10
-                      },
-                      {
-                          "atEnd": true,
-                          "text": stringResources["tut_3_2_text"],
-                          "title": stringResources["tut_3_2_title"]
-                      }
-                  ]
-              },
-              {
-                  "name": "0/3",
-                  "width": 5,
-                  "height": 5,
-                  "type": "tutorial",
-                  "theme": "purple",
-                  "moves": null,
-                  "time": null,
-                  "puzzlesToSolve": null,
-                  "blocksData": [
-                      11,
-                      12,
-                      13
-                  ],
-                  "tutorial": [
-                      {
-                          "text": stringResources["tut_4_1_title"],
-                          "title": stringResources["tut_4_1_title"]
-                      },
-                      {
-                          "item": "hint",
-                          "parameter": 12
-                      },
-                      {
-                          "click": 12
-                      },
-                      {
-                          "atEnd": true,
-                          "text": stringResources["tut_4_2_title"],
-                          "title": stringResources["tut_4_2_title"]
-                      },
-
-                  ]
-              },
-              {
-                  "name": "0/4",
-                  "width": 5,
-                  "height": 5,
-                  "type": "tutorial",
-                  "theme": "yellow",
-                  "moves": null,
-                  "time": null,
-                  "puzzlesToSolve": null,
-                  "blocksData": [
-                      10,
-                      2,
-                      12,
-                      22,
-                      14
-                  ],
-                  "tutorial": [
-                      {
-                          "text": stringResources["tut_5_1_title"],
-                          "title": stringResources["tut_5_1_text"]
-                      },
-                      {
-                          "click": 10
-                      }
-                  ]
-              }
-          ]
-      },
-      {
-        "nickName": "R-MS",
-        "name": "Bot02",
+    {
+        "nickName": "S-N3S",
+        "name": "Bot01",
         "cost": 0,
         "free": true,
         "levels": [
-             {
-                "name": "1/0",
+            {
+                "name": "0/0",
                 "width": 5,
                 "height": 5,
-                "type": "puzzle",
+                "type": "tutorial",
                 "theme": "green",
                 "moves": null,
                 "time": null,
                 "puzzlesToSolve": null,
                 "blocksData": [
-                    20,
-                    16,
-                    8,
-                    4
+                    12
                 ],
-                "hiddenBlocks": [
-                    15,
-                    9
-                ],
-                "mirroredBlocks": [
-                    1,
-                    3
+                "tutorial": [
+                    {
+                        "text": stringResources["tut_1_1_text"],
+                        "title": stringResources["tut_1_1_title"]
+                    },
+                    {
+                        "click": 12
+                    },
+                    {
+                        "atEnd": true,
+                        "text": stringResources["tut_1_2_text"],
+                        "title": stringResources["tut_1_2_title"]
+                    }
                 ]
             },
             {
-                "name": "1/1",
+                "name": "0/1",
                 "width": 5,
                 "height": 5,
-                "type": "puzzle",
+                "type": "tutorial",
                 "theme": "green",
                 "moves": null,
                 "time": null,
                 "puzzlesToSolve": null,
                 "blocksData": [
-                    11,
-                    7,
-                    17,
-                    13
-                ]
-            },
-            {
-                "name": "1/2",
-                "width": 5,
-                "height": 5,
-                "type": "puzzle",
-                "theme": "green",
-                "moves": null,
-                "time": null,
-                "puzzlesToSolve": null,
-                "blocksData": [
-                    0,
-                    20,
-                    6,
-                    12,
-                    18,
-                    4,
-                    24
-                ]
-            },
-            {
-                "name": "1/3",
-                "width": 5,
-                "height": 5,
-                "type": "puzzle",
-                "theme": "green",
-                "moves": null,
-                "time": null,
-                "puzzlesToSolve": null,
-                "blocksData": [
-                    6,
                     16,
-                    12,
-                    8,
-                    18
-                ]
-            },
-            {
-                "name": "1/4",
-                "width": 5,
-                "height": 5,
-                "type": "puzzle",
-                "theme": "purple",
-                "moves": null,
-                "time": null,
-                "puzzlesToSolve": null,
-                "blocksData": [
-                    5,
-                    1,
-                    23,
-                    19
-                ]
-            },
-            {
-                "name": "1/5",
-                "width": 5,
-                "height": 5,
-                "type": "puzzle",
-                "theme": "purple",
-                "moves": null,
-                "time": null,
-                "puzzlesToSolve": null,
-                "blocksData": [
-                    5,
-                    20,
-                    7,
-                    22,
-                    9,
-                    24
-                ]
-            },
-            {
-                "name": "1/6",
-                "width": 5,
-                "height": 5,
-                "type": "puzzle",
-                "theme": "purple",
-                "moves": null,
-                "time": null,
-                "puzzlesToSolve": null,
-                "blocksData": [
-                    15,
-                    11,
-                    21,
-                    7,
-                    17,
-                    3,
-                    13,
-                    9
-                ]
-            },
-            {
-                "name": "1/7",
-                "width": 5,
-                "height": 5,
-                "type": "puzzle",
-                "theme": "purple",
-                "moves": null,
-                "time": null,
-                "puzzlesToSolve": null,
-                "blocksData": [
-                    20,
-                    1,
-                    17,
                     8
+                ],
+                "tutorial": [
+                    {
+                        "text": stringResources["tut_2_1_text"],
+                        "title": stringResources["tut_2_1_title"]
+                    },
+                    {
+                        "click": 16
+                    },
+                    {
+                        "atEnd": true,
+                        "text": stringResources["tut_2_2_text"],
+                        "title": stringResources["tut_2_2_title"]
+                    },
+                    {
+                        "atEnd": true,
+                        "text": stringResources["tut_2_3_text"],
+                        "title": stringResources["tut_2_3_title"]
+                    }
                 ]
             },
             {
-                "name": "1/8",
+                "name": "0/2",
                 "width": 5,
                 "height": 5,
-                "type": "puzzle",
-                "theme": "yellow",
+                "type": "tutorial",
+                "theme": "purple",
                 "moves": null,
-                "time": 30,
-                "puzzlesToSolve": 3,
+                "time": null,
+                "puzzlesToSolve": null,
                 "blocksData": [
                     10,
-                    1,
-                    21,
-                    3,
-                    23,
+                    12,
                     14
+                ],
+                "tutorial": [
+                    {
+                        "text": stringResources["tut_3_1_text"],
+                        "title": stringResources["tut_3_1_title"]
+                    },
+                    {
+                        "click": 10
+                    },
+                    {
+                        "atEnd": true,
+                        "text": stringResources["tut_3_2_text"],
+                        "title": stringResources["tut_3_2_title"]
+                    }
                 ]
             },
             {
-                "name": "1/9",
+                "name": "0/3",
                 "width": 5,
                 "height": 5,
-                "type": "puzzle",
+                "type": "tutorial",
+                "theme": "purple",
+                "moves": null,
+                "time": null,
+                "puzzlesToSolve": null,
+                "blocksData": [
+                    11,
+                    12,
+                    13
+                ],
+                "tutorial": [
+                    {
+                        "text": stringResources["tut_4_1_title"],
+                        "title": stringResources["tut_4_1_title"]
+                    },
+                    {
+                        "item": "hint",
+                        "parameter": 12
+                    },
+                    {
+                        "click": 12
+                    },
+                    {
+                        "atEnd": true,
+                        "text": stringResources["tut_4_2_title"],
+                        "title": stringResources["tut_4_2_title"]
+                    }
+                ]
+            },
+            {
+                "name": "0/4",
+                "width": 5,
+                "height": 5,
+                "type": "tutorial",
                 "theme": "yellow",
                 "moves": null,
                 "time": null,
                 "puzzlesToSolve": null,
                 "blocksData": [
-                    0,
-                    15,
-                    7,
-                    4,
-                    19
+                    10,
+                    2,
+                    12,
+                    22,
+                    14
+                ],
+                "tutorial": [
+                    {
+                        "text": stringResources["tut_5_1_title"],
+                        "title": stringResources["tut_5_1_text"]
+                    },
+                    {
+                        "click": 10
+                    }
                 ]
             }
         ]
     },
+    {
+    "nickName": "R-MS",
+    "name": "Bot02",
+    "cost": 0,
+    "free": true,
+    "levels": [
+            {
+            "name": "1/0",
+            "width": 5,
+            "height": 5,
+            "type": "puzzle",
+            "theme": "green",
+            "moves": null,
+            "time": null,
+            "puzzlesToSolve": null,
+            "blocksData": [
+                20,
+                16,
+                8,
+                4
+            ],
+            "hiddenBlocks": [
+                15,
+                9
+            ],
+            "mirroredBlocks": [
+                1,
+                3
+            ]
+        },
+        {
+            "name": "1/1",
+            "width": 5,
+            "height": 5,
+            "type": "puzzle",
+            "theme": "green",
+            "moves": null,
+            "time": null,
+            "puzzlesToSolve": null,
+            "blocksData": [
+                11,
+                7,
+                17,
+                13
+            ]
+        },
+        {
+            "name": "1/2",
+            "width": 5,
+            "height": 5,
+            "type": "puzzle",
+            "theme": "green",
+            "moves": null,
+            "time": null,
+            "puzzlesToSolve": null,
+            "blocksData": [
+                0,
+                20,
+                6,
+                12,
+                18,
+                4,
+                24
+            ]
+        },
+        {
+            "name": "1/3",
+            "width": 5,
+            "height": 5,
+            "type": "puzzle",
+            "theme": "green",
+            "moves": null,
+            "time": null,
+            "puzzlesToSolve": null,
+            "blocksData": [
+                6,
+                16,
+                12,
+                8,
+                18
+            ]
+        },
+        {
+            "name": "1/4",
+            "width": 5,
+            "height": 5,
+            "type": "puzzle",
+            "theme": "purple",
+            "moves": null,
+            "time": null,
+            "puzzlesToSolve": null,
+            "blocksData": [
+                5,
+                1,
+                23,
+                19
+            ]
+        },
+        {
+            "name": "1/5",
+            "width": 5,
+            "height": 5,
+            "type": "puzzle",
+            "theme": "purple",
+            "moves": null,
+            "time": null,
+            "puzzlesToSolve": null,
+            "blocksData": [
+                5,
+                20,
+                7,
+                22,
+                9,
+                24
+            ]
+        },
+        {
+            "name": "1/6",
+            "width": 5,
+            "height": 5,
+            "type": "puzzle",
+            "theme": "purple",
+            "moves": null,
+            "time": null,
+            "puzzlesToSolve": null,
+            "blocksData": [
+                15,
+                11,
+                21,
+                7,
+                17,
+                3,
+                13,
+                9
+            ]
+        },
+        {
+            "name": "1/7",
+            "width": 5,
+            "height": 5,
+            "type": "puzzle",
+            "theme": "purple",
+            "moves": null,
+            "time": null,
+            "puzzlesToSolve": null,
+            "blocksData": [
+                20,
+                1,
+                17,
+                8
+            ]
+        },
+        {
+            "name": "1/8",
+            "width": 5,
+            "height": 5,
+            "type": "puzzle",
+            "theme": "yellow",
+            "moves": null,
+            "time": 30,
+            "puzzlesToSolve": 3,
+            "blocksData": [
+                10,
+                1,
+                21,
+                3,
+                23,
+                14
+            ]
+        },
+        {
+            "name": "1/9",
+            "width": 5,
+            "height": 5,
+            "type": "puzzle",
+            "theme": "yellow",
+            "moves": null,
+            "time": null,
+            "puzzlesToSolve": null,
+            "blocksData": [
+                0,
+                15,
+                7,
+                4,
+                19
+            ]
+        }
+    ]
+},
     {
         "nickName": "P1K-4",
         "name": "Bot03",

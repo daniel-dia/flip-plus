@@ -10,9 +10,8 @@
 
         <script src="jquery-ui-1.11.3/external/jquery/jquery.js"></script>
         <script src="jquery-ui-1.11.3/jquery-ui.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script>
-        <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
-
+        <script src="scripts/angular.min.js"></script>
+        <script src="scripts/sortable.js"></script>
         <script src="scripts/createjs-2014.12.12.min.js"></script>
         <script src="scripts/movieclip-0.8.0.min.js"></script>
 
@@ -155,14 +154,19 @@
                 loadFile(function (data) {
                     try {
                         data = data.replace("var levelsData =", "");
+                        data = data.replace(/stringResources\["/g, '["stringResources.');
+
                         $scope.projects = JSON.parse(data);
-                        setTimeout(function () { alert("Levels imported"); }, 200);
-                        saveDefault();
+                        alert("Levels imported");
+                        $scope.saveDefault();
+                        location.reload();
+                        
                     } catch (er) {
                         alert("This file is invalid " + er.message);
                     }
                 });
             }
+
 
             $scope.saveFile = function () {
                 saveFile('Levels.js', "var levelsData =" + JSON.stringify($scope.projects))

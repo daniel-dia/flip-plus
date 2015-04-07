@@ -1304,6 +1304,7 @@
     <Content Include="jquery-ui-1.11.3\jquery-ui.theme.min.css" />
     <Content Include="LevelCreator.html" />
     <Content Include="levelCreatorold.htm" />
+    <Content Include="scripts\angular.min.js" />
     <Content Include="scripts\BitmapScalePath.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1343,6 +1344,7 @@
     <Content Include="scripts\md5.js" />
     <Content Include="scripts\movieclip-0.6.1.min.js" />
     <Content Include="scripts\movieclip-0.8.0.min.js" />
+    <Content Include="scripts\sortable.js" />
     <Content Include="scripts\timer.js" />
     <TypeScriptCompile Include="src\UserData\Settings.ts" />
     <TypeScriptCompile Include="src\Menu\Loading.ts" />
