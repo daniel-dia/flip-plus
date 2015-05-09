@@ -1,7 +1,7 @@
 module FlipPlus.Menu.View {
 
     // Class
-    export class ProjectWorkshopView extends createjs.Container {
+    export class ProjectWorkshopView extends Page {
 
         private project: Projects.Project;
 
@@ -17,11 +17,18 @@ module FlipPlus.Menu.View {
             this.project = project;
             this.name = project.name;
 
-            //add hitArea
-            this.addHitArea();
+           
 
-            //add levels information
-            this.addObjects(project);
+			this.onShowPage = () => {
+				//add hitArea
+				this.addHitArea();
+				//add levels information
+				this.addObjects(project);
+			}
+
+			this.onHidePage = () => {
+				this.removeAllChildren();
+			}
 
         }
 
@@ -43,8 +50,6 @@ module FlipPlus.Menu.View {
 
             //add robot preview
             this.addRobotPreview(project);
-            
-
         }
 
         //create projetview control
@@ -137,8 +142,7 @@ module FlipPlus.Menu.View {
             this.robotPreview.x = this.statusArea.x= -pos *0.35 + defaultWidth/2;
         }
 
-
-        //--Behaviour-----------------------------------------------------------
+		//--Behaviour-----------------------------------------------------------
 
         //open a level
         private openLevel(event: createjs.Event) {

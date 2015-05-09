@@ -84,7 +84,7 @@ module FlipPlus.Menu.View {
             thumbContainer.addChild(this.createLevelModificator(level));
 
             //cache thumb
-            thumbContainer.cache(-99, -102, 198, 204);
+            //thumbContainer.cache(-99, -102, 198, 204);
         }
 
         //defines accentColor based on level type.

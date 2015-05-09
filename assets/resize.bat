@@ -1,7 +1,13 @@
 @echo off
+SET PATH=%PATH%;C:\Users\artsj_000\Documents\Trabalhos\Games\Tools\pngquant
+
 setlocal enabledelayedexpansion
-call:copyAndResize images_1x images_0.5x 50%%%% 
-call:copyAndResize images_1x images_0.25x 25%%%% 
+call:copyAndResize images images_1x 100%%%% 
+call:copyAndResize images images_0.5x 50%%%% 
+call:copyAndResize images images_0.25x 25%%%% 
+echo DONE
+PAUSE
+
 goto:eof
 
 :copyAndResize
@@ -21,6 +27,7 @@ for /f %%a in ('xcopy "%~1"  "%~2" /L /D /S /Y') do @(
 
 		xcopy "%%a" "!np!" /D /Y /Q > nul
 		convert "!nf!" -resize %~3 "!nf!"
+		pngquant --force --quality=35-85 "!nf!" --ext .png
 	)
 )
  

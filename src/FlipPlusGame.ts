@@ -107,7 +107,7 @@ module FlipPlus {
 
             //create a new levels menu, if needed
             if (this.levelsMenu == undefined)
-                this.levelsMenu = new Menu.LevelsMenu();
+                this.levelsMenu = new Menu.WorkshopMenu();
 
             //switch screens
             this.gameScreen.switchScreen(this.levelsMenu, parameters);

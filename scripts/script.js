@@ -3775,7 +3775,7 @@ var FlipPlus;
                 this.offset = 0;
                 this.lastx = 0;
                 this.addObjects();
-                this.pagesSwipe = new FlipPlus.PagesSwipe(this.projectsContainer, this.projectViews, defaultWidth, 200, 1500);
+                this.pagesSwipe = new Menu.View.PagesSwiper(this.projectsContainer, this.projectViews, defaultWidth, 200, 1500);
                 this.createPaginationButtons(this.projectsContainer);
             }
             //--------------------- Initialization ---------------------
@@ -4127,7 +4127,7 @@ var FlipPlus;
                 this.addHeader();
                 this.addProjects();
                 this.addBonuses();
-                this.pagesSwipe = new FlipPlus.PagesSwipe(this.projectsGrid, this.pages, defaultWidth);
+                this.pagesSwipe = new PagesSwipe(this.projectsGrid, this.pages, defaultWidth);
                 this.createPaginationButtons(this.projectsGrid);
                 this.createPopup();
             };
@@ -4594,7 +4594,7 @@ var FlipPlus;
                     //Adds level modificator
                     thumbContainer.addChild(this.createLevelModificator(level));
                     //cache thumb
-                    thumbContainer.cache(-99, -102, 198, 204);
+                    //thumbContainer.cache(-99, -102, 198, 204);
                 };
                 //defines accentColor based on level type.
                 LevelThumb.prototype.defineAssetName = function (level) {
@@ -5401,6 +5401,59 @@ var FlipPlus;
 })(FlipPlus || (FlipPlus = {}));
 /// <reference path="src/preferences.ts" />
 /// <reference path="typing/createjs/createjs.d.ts" />
+/// <reference path="gameui/AudioManager.ts" />
+/// <reference path="gameui/AssetsManager.ts" />
+/// <reference path="gameui/GameScreen.ts" />
+/// <reference path="gameui/UIItem.ts" />
+/// <reference path="gameui/Grid.ts" />
+/// <reference path="gameui/Label.ts" />
+/// <reference path="gameui/MenuContainer.ts" />
+/// <reference path="gameui/ScreenState.ts" />
+/// <reference path="gameui/Transition.ts" />
+/// <reference path="gameui/Button.ts" />
+/*scripts*/
+/// <reference path="src/FlipPlusGame.ts" />
+/// <reference path="src/UserData/Items.ts" />
+/// <reference path="src/UserData/Settings.ts" />
+/// <reference path="src/UserData/Story.ts" />
+/// <reference path="src/UserData/Timers.ts" />
+/// <reference path="src/UserData/ProjectsData.ts" />
+/// <reference path="src/GamePlay/LevelScreen.ts" />
+/// <reference path="src/GamePlay/Puzzle.ts" />
+/// <reference path="src/GamePlay/TimeAttack.ts" />
+/// <reference path="src/GamePlay/Tutorial.ts" />
+/// <reference path="src/GamePlay/Model/Block.ts" />
+/// <reference path="src/GamePlay/Model/Board.ts" />
+/// <reference path="src/GamePlay/Model/Level.ts" />
+/// <reference path="src/GamePlay/Views/BlockSprite.ts" />
+/// <reference path="src/GamePlay/Views/BoardSprite.ts" />
+/// <reference path="src/GamePlay/Views/Overlay.ts" />
+/// <reference path="src/GamePlay/Views/GameplayMenu.ts" />
+/// <reference path="src/GamePlay/Views/StatusArea.ts" />
+/// <reference path="src/bonus/bonusscreen.ts" />
+/// <reference path="src/bonus/bonus1.ts" />
+/// <reference path="src/bonus/bonus2.ts" />
+/// <reference path="src/bonus/bonus3.ts" />
+/// <reference path="src/bonus/bonusmanager.ts" />
+/// <reference path="src/Menu/LevelsMenu.ts" />
+/// <reference path="src/Menu/Loading.ts" />
+/// <reference path="src/Menu/MainMenu.ts" />
+/// <reference path="src/Menu/OptionsMenu.ts" />
+/// <reference path="src/Menu/ProjectsMenu.ts" />
+/// <reference path="src/Menu/SoundMenu.ts" />
+/// <reference path="src/Menu/View/Terminal.ts" />
+/// <reference path="src/Menu/View/ScreenMenu.ts" />
+/// <reference path="src/Menu/View/LevelGrid.ts" />
+/// <reference path="src/Menu/View/LevelThumb.ts" />
+/// <reference path="src/Menu/View/StarsIndicator.ts" />
+/// <reference path="src/Menu/View/CoinsIndicator.ts" />
+/// <reference path="src/Menu/View/ProjectItem.ts" />
+/// <reference path="src/Menu/View/ProjectProgressIndicator.ts" />
+/// <reference path="src/Menu/View/ProjectStarsIndicator.ts" />
+/// <reference path="src/Projects/Level.ts" />
+/// <reference path="src/Projects/Project.ts" />
+/// <reference path="src/Projects/ProjectManager.ts" />
+/// <reference path="src/Robots/MyBots.ts" /> 
 var Analytics = (function () {
     function Analytics() {
     }
@@ -6509,6 +6562,159 @@ var FlipPlus;
     (function (Menu) {
         var View;
         (function (View) {
+            // Class
+            var Page = (function (_super) {
+                __extends(Page, _super);
+                function Page() {
+                    _super.apply(this, arguments);
+                    this.pageVisibility = false;
+                }
+                Page.prototype.showPage = function () {
+                    if (this.pageVisibility == false) {
+                        this.pageVisibility = this.visible = true;
+                        if (this.onShowPage)
+                            this.onShowPage();
+                    }
+                };
+                Page.prototype.hidePage = function () {
+                    if (this.pageVisibility == true) {
+                        this.pageVisibility = this.visible = false;
+                        if (this.onHidePage)
+                            this.onHidePage();
+                    }
+                };
+                return Page;
+            })(createjs.Container);
+            View.Page = Page;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            // Class
+            var PagesSwiper = (function () {
+                function PagesSwiper(pagesContainer, pages, pageWidth, minY, maxY) {
+                    var _this = this;
+                    this.cancelClick = false;
+                    this.currentPageIndex = 0;
+                    this.pagewidth = pageWidth;
+                    this.pagesContainer = pagesContainer;
+                    this.pages = pages;
+                    for (var i in pages)
+                        pages[i].x = this.pagewidth * i;
+                    //adds event
+                    var xpos;
+                    var initialclick;
+                    var moving = false;
+                    // records position on mouse down
+                    pagesContainer.addEventListener("mousedown", function (e) {
+                        var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                        if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
+                            initialclick = pos.x;
+                            xpos = pos.x - pagesContainer.x;
+                            moving = true;
+                        }
+                    });
+                    //drag the container
+                    pagesContainer.addEventListener("pressmove", function (e) {
+                        if (moving) {
+                            var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                            pagesContainer.x = pos.x - xpos;
+                            if (Math.abs(pos.x - initialclick) > 50)
+                                _this.cancelClick = true;
+                            //hide all pages
+                            _this.showOlnyPage(_this.currentPageIndex, 1);
+                        }
+                    });
+                    //verifies the relase point to tween to the next page
+                    pagesContainer.addEventListener("pressup", function (e) {
+                        if (moving) {
+                            moving = false;
+                            var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                            //calculate the drag percentage.
+                            var p = (pos.x - xpos + _this.pagewidth * _this.currentPageIndex) / _this.pagewidth;
+                            //choses if goes to the next or previous page.
+                            if (p < -0.25)
+                                _this.gotoNextPage();
+                            else if (p > +0.25)
+                                _this.gotoPreviousPage();
+                            else
+                                _this.stayOnPage();
+                            //release click for user
+                            setTimeout(function () {
+                                _this.cancelClick = false;
+                            }, 100);
+                        }
+                    });
+                }
+                //----------------------pages-----------------------------------------------//
+                PagesSwiper.prototype.gotoPage = function (pageId, tween) {
+                    var _this = this;
+                    if (tween === void 0) { tween = true; }
+                    if (pageId < 0)
+                        pageId = 0;
+                    if (pageId == this.pages.length)
+                        pageId = this.pages.length - 1;
+                    if (this.onPageChange)
+                        this.onPageChange(pageId);
+                    var oldpage = this.currentPageIndex;
+                    this.currentPageIndex = pageId;
+                    if (tween) {
+                        this.pages[pageId].visible = true;
+                        createjs.Tween.removeTweens(this.pagesContainer);
+                        createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut).call(function () {
+                            _this.showOlnyPage(pageId);
+                        });
+                    }
+                    else {
+                        //move current page
+                        this.pagesContainer.x = -this.pagewidth * pageId;
+                        this.showOlnyPage(pageId);
+                    }
+                };
+                PagesSwiper.prototype.showOlnyPage = function (id, margin) {
+                    if (margin === void 0) { margin = 0; }
+                    for (var i in this.pages)
+                        if (i == id || i == id - margin || i == id + margin)
+                            this.showPage(i);
+                        else
+                            this.hidePage(i);
+                };
+                PagesSwiper.prototype.showPage = function (id) {
+                    if (this.pages[id].visible)
+                        return;
+                    this.pages[id].showPage();
+                };
+                PagesSwiper.prototype.hidePage = function (id) {
+                    if (!this.pages[id].visible)
+                        return;
+                    this.pages[id].hidePage();
+                };
+                PagesSwiper.prototype.stayOnPage = function () {
+                    this.gotoPage(this.currentPageIndex);
+                };
+                PagesSwiper.prototype.gotoNextPage = function () {
+                    this.gotoPage(1 + this.currentPageIndex);
+                };
+                PagesSwiper.prototype.gotoPreviousPage = function () {
+                    this.gotoPage(this.currentPageIndex - 1);
+                };
+                return PagesSwiper;
+            })();
+            View.PagesSwiper = PagesSwiper;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
             // View Class
             var Popup = (function (_super) {
                 __extends(Popup, _super);
@@ -6798,13 +7004,19 @@ var FlipPlus;
                 __extends(ProjectWorkshopView, _super);
                 // Constructor
                 function ProjectWorkshopView(project) {
+                    var _this = this;
                     _super.call(this);
                     this.project = project;
                     this.name = project.name;
-                    //add hitArea
-                    this.addHitArea();
-                    //add levels information
-                    this.addObjects(project);
+                    this.onShowPage = function () {
+                        //add hitArea
+                        _this.addHitArea();
+                        //add levels information
+                        _this.addObjects(project);
+                    };
+                    this.onHidePage = function () {
+                        _this.removeAllChildren();
+                    };
                 }
                 //--------------------- Initialization ---------------------
                 ProjectWorkshopView.prototype.addHitArea = function () {
@@ -6923,7 +7135,7 @@ var FlipPlus;
                     //this.animateIn(complete, direction);
                 };
                 return ProjectWorkshopView;
-            })(createjs.Container);
+            })(View.Page);
             View.ProjectWorkshopView = ProjectWorkshopView;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
@@ -7165,116 +7377,5 @@ var FlipPlus;
         return Effects;
     })(createjs.Container);
     FlipPlus.Effects = Effects;
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    // Class
-    var PagesSwipe = (function () {
-        function PagesSwipe(pagesContainer, pages, pageWidth, minY, maxY) {
-            var _this = this;
-            this.cancelClick = false;
-            this.currentPageIndex = 0;
-            this.pagewidth = pageWidth;
-            this.pagesContainer = pagesContainer;
-            this.pages = pages;
-            for (var i in pages)
-                pages[i].x = this.pagewidth * i;
-            //adds event
-            var xpos;
-            var initialclick;
-            var moving = false;
-            // records position on mouse down
-            pagesContainer.addEventListener("mousedown", function (e) {
-                var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
-                if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
-                    initialclick = pos.x;
-                    xpos = pos.x - pagesContainer.x;
-                    moving = true;
-                }
-            });
-            //drag the container
-            pagesContainer.addEventListener("pressmove", function (e) {
-                if (moving) {
-                    var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
-                    pagesContainer.x = pos.x - xpos;
-                    if (Math.abs(pos.x - initialclick) > 50)
-                        _this.cancelClick = true;
-                    for (var i in _this.pages)
-                        _this.pages[i].visible = false;
-                    //show only visible pages
-                    _this.pages[_this.currentPageIndex].visible = true;
-                    if (pos.x - initialclick < 0) {
-                        if (_this.pages[_this.currentPageIndex + 1])
-                            _this.pages[_this.currentPageIndex + 1].visible = true;
-                    }
-                    else {
-                        if (_this.pages[_this.currentPageIndex - 1])
-                            _this.pages[_this.currentPageIndex - 1].visible = true;
-                    }
-                }
-            });
-            //verifies the relase point to tween to the next page
-            pagesContainer.addEventListener("pressup", function (e) {
-                if (moving) {
-                    moving = false;
-                    var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
-                    //calculate the drag percentage.
-                    var p = (pos.x - xpos + _this.pagewidth * _this.currentPageIndex) / _this.pagewidth;
-                    //choses if goes to the next or previous page.
-                    if (p < -0.25)
-                        _this.gotoNextPage();
-                    else if (p > +0.25)
-                        _this.gotoPreviousPage();
-                    else
-                        _this.stayOnPage();
-                    //release click for user
-                    setTimeout(function () {
-                        _this.cancelClick = false;
-                    }, 100);
-                }
-            });
-        }
-        //----------------------pages-----------------------------------------------//
-        PagesSwipe.prototype.gotoPage = function (pageId, tween) {
-            var _this = this;
-            if (tween === void 0) { tween = true; }
-            if (pageId < 0)
-                pageId = 0;
-            if (pageId == this.pages.length)
-                pageId = this.pages.length - 1;
-            if (this.onPageChange)
-                this.onPageChange(pageId);
-            var oldpage = this.currentPageIndex;
-            this.currentPageIndex = pageId;
-            if (tween) {
-                this.pages[pageId].visible = true;
-                createjs.Tween.removeTweens(this.pagesContainer);
-                createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut).call(function () {
-                    for (var i in _this.pages)
-                        _this.pages[i].visible = false;
-                    //show current page
-                    _this.pages[pageId].visible = true;
-                });
-            }
-            else {
-                for (var i in this.pages)
-                    this.pages[i].visible = false;
-                //show current page
-                this.pages[pageId].visible = true;
-                this.pagesContainer.x = -this.pagewidth * pageId;
-            }
-        };
-        PagesSwipe.prototype.stayOnPage = function () {
-            this.gotoPage(this.currentPageIndex);
-        };
-        PagesSwipe.prototype.gotoNextPage = function () {
-            this.gotoPage(1 + this.currentPageIndex);
-        };
-        PagesSwipe.prototype.gotoPreviousPage = function () {
-            this.gotoPage(this.currentPageIndex - 1);
-        };
-        return PagesSwipe;
-    })();
-    FlipPlus.PagesSwipe = PagesSwipe;
 })(FlipPlus || (FlipPlus = {}));
 //# sourceMappingURL=script.js.map

@@ -27,6 +27,7 @@
     <TypeScriptCompile Include="gameui\ScreenState.ts" />
     <TypeScriptCompile Include="gameui\Transition.ts" />
     <TypeScriptCompile Include="gameui\UIItem.ts" />
+    <TypeScriptCompile Include="src\Menu\View\Page.ts" />
     <TypeScriptCompile Include="typing\cocoon.d.ts" />
     <TypeScriptCompile Include="typing\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="typing\createjs\createjs.d.ts" />
@@ -1340,7 +1341,7 @@
     <TypeScriptCompile Include="src\UserData\Story.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\GameplayMenu.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\StatusArea.ts" />
-    <TypeScriptCompile Include="src\Menu\LevelsMenu.ts" />
+    <TypeScriptCompile Include="src\Menu\WorkshopMenu.ts" />
     <Content Include="scripts\jquery-1.11.1.min.js" />
     <Content Include="scripts\md5.js" />
     <Content Include="scripts\movieclip-0.6.1.min.js" />
@@ -1386,7 +1387,7 @@
     <Content Include="style\main.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <TypeScriptCompile Include="src\Utils\Swipe.ts" />
+    <TypeScriptCompile Include="src\Menu\View\PageSwiper.ts" />
     <TypeScriptCompile Include="_references.ts" />
   </ItemGroup>
   <ItemGroup>
