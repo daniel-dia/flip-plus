@@ -13,7 +13,7 @@ module FlipPlus.Menu {
         private menu: View.ScreenMenu;
         private popup: View.Popup;
 
-        private pagesSwipe: PagesSwipe ;
+        private pagesSwipe: View.PagesSwiper ;
         private pages: Array<createjs.Container>;
 
         //==================================== initialization ==============================================
@@ -34,7 +34,7 @@ module FlipPlus.Menu {
             this.addProjects();
             this.addBonuses();
            
-            this.pagesSwipe = new PagesSwipe(this.projectsGrid, this.pages,defaultWidth);
+            this.pagesSwipe = new View.PagesSwiper(this.projectsGrid, this.pages,defaultWidth);
             this.createPaginationButtons(this.projectsGrid);
             
             this.createPopup();
