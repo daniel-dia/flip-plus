@@ -37,7 +37,7 @@ module FlipPlus.GamePlay {
             super();
 
             this.itemsFunctions = {};
-            this.itemTimes = <Array<number>>{};
+            this.itemTimes = <Array<number>>new Object();
             this.clicks = 0;
 
             //Store level data;

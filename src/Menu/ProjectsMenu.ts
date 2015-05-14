@@ -13,8 +13,8 @@ module FlipPlus.Menu {
         private menu: View.ScreenMenu;
         private popup: View.Popup;
 
-        private pagesSwipe: View.PagesSwiper ;
-        private pages: Array<createjs.Container>;
+        private pagesSwipe: View.PagesSwiper;
+        private pages: Array<View.Page>;
 
         //==================================== initialization ==============================================
         // Constructor
@@ -34,7 +34,7 @@ module FlipPlus.Menu {
             this.addProjects();
             this.addBonuses();
            
-            this.pagesSwipe = new View.PagesSwiper(this.projectsGrid, this.pages,defaultWidth);
+            this.pagesSwipe = new View.PagesSwiper(this.projectsGrid, this.pages, defaultWidth);
             this.createPaginationButtons(this.projectsGrid);
             
             this.createPopup();
@@ -98,7 +98,7 @@ module FlipPlus.Menu {
 
             // create Pages
             this.pages = [];
-            var currentPage: createjs.Container;
+            var currentPage: View.Page;
             
             // Create projectItens
             var projects = FlipPlusGame.projectManager.getAllProjects();
@@ -107,8 +107,8 @@ module FlipPlus.Menu {
             for (var i = 0; i < projects.length; i++) {
 
                 //create current page
-                if (i % (cols*rows) == 0) {
-                    currentPage = new createjs.Container();
+                if (i % (cols * rows) == 0) {
+                    currentPage = new View.Page();
 
                     var hit = new createjs.Container;
                     hit.hitArea = (new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, defaultWidth, defaultHeight)));

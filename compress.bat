@@ -9,4 +9,4 @@ echo ------------------------------------------------------
 "C:\Program Files\7-Zip\7z" d LudeiPackage.zip *.bat -r
 echo ------------------------------------------------------
 "C:\Program Files\7-Zip\7z" d LudeiPackage.zip assets/images
-Pause
+timeout 20

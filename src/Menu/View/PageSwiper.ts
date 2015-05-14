@@ -5,12 +5,12 @@ module FlipPlus.Menu.View {
 
         public cancelClick = false;
         private pagesContainer: createjs.Container;
-        private pages: createjs.DisplayObject[];
+        private pages: Page[];
         private currentPageIndex: number = 0;
         private pagewidth: number;
         public onPageChange: (pageId: number) => void;
 
-        constructor(pagesContainer: createjs.Container, pages: Array<createjs.DisplayObject>, pageWidth: number, minY?: number, maxY?: number) {
+        constructor(pagesContainer: createjs.Container, pages: Array<Page>, pageWidth: number, minY?: number, maxY?: number) {
 
             this.pagewidth = pageWidth;
             this.pagesContainer = pagesContainer;
@@ -109,12 +109,10 @@ module FlipPlus.Menu.View {
 		}
 
 		private showPage(id: number) {
-			if (this.pages[id].visible) return;
 			this.pages[id].showPage();
 		}
 
 		private hidePage(id: number) {
-			if (!this.pages[id].visible) return;
 			this.pages[id].hidePage();
 		}
 

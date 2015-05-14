@@ -11,19 +11,25 @@ module FlipPlus.Menu.View {
         private robotPreview: View.RobotPreview;
         private levelsMahine: createjs.Container;
 
+
+		private headerY :number = 0;
+		private footerY: number = 0;
+
         // Constructor
         constructor(project: Projects.Project) {
             super();
             this.project = project;
             this.name = project.name;
-
-           
-
+			
 			this.onShowPage = () => {
 				//add hitArea
 				this.addHitArea();
 				//add levels information
 				this.addObjects(project);
+				//activate layer
+				this.activate();
+
+				this.redim(this.headerY, this.footerY);
 			}
 
 			this.onHidePage = () => {
@@ -68,7 +74,7 @@ module FlipPlus.Menu.View {
             this.statusArea = new createjs.Container();
             this.statusArea.regX = this.statusArea.x = defaultWidth / 2;
             var bg = gameui.AssetsManager.getBitmap("partshud");
-            bg.y = 00//150;
+            bg.y = 0//150;
             bg.x = defaultWidth/ 2;
             bg.scaleX = 2;
             bg.regX = bg.getBounds().width/2;
@@ -156,9 +162,11 @@ module FlipPlus.Menu.View {
         }
 
         public redim(headerY: number, footerY: number) {
-            this.levelsMahine.y = footerY;
-            this.statusArea.y = headerY;
+			this.headerY = headerY;
+			this.footerY = footerY;
 
+			if (this.levelsMahine) this.levelsMahine.y = footerY;
+            if (this.statusArea) this.statusArea.y = headerY;
         }
 
         public activate(parameters?: any) {
@@ -173,8 +181,8 @@ module FlipPlus.Menu.View {
             
             if (this.levelGrid) this.levelGrid.updateUserData();
 
-            this.starsIndicator.updateProjectInfo();
-            this.robotPreview.update(complete);
+            if (this.starsIndicator) this.starsIndicator.updateProjectInfo();
+			if (this.robotPreview) this.robotPreview.update(complete);
             //this.animateIn(complete, direction);
         }
     }
