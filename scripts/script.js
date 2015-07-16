@@ -6952,7 +6952,6 @@ var FlipPlus;
                 };
                 //method for close popup 
                 Popup.prototype.closePopUp = function () {
-                    gameui.AudiosManager.playSound("Close");
                     //hide the popup{
                     this.fadeOut(1, 0.5);
                     //dispatch a event for parent objects

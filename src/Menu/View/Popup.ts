@@ -262,8 +262,6 @@ module FlipPlus.Menu.View {
         //method for close popup 
         private closePopUp() {
 
-            gameui.AudiosManager.playSound("Close")
-
             //hide the popup{
             this.fadeOut(1,0.5);
 
