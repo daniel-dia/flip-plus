@@ -15,6 +15,9 @@ module gameui {
         private antX;
         private antY;
 
+        private oldScaleX;
+        private oldScaleY;
+
         public centralize() {
             this.regX = this.width / 2;
             this.regY = this.height / 2;
@@ -23,6 +26,13 @@ module gameui {
 
         public fadeOut(scaleX: number= 0.5, scaleY: number= 0.5) {
             this.resetFade()
+
+            if (!this.scaleX) this.scaleX = 1;
+            if (!this.scaleY) this.scaleY = 1;
+
+            this.oldScaleX = this.scaleX;
+            this.oldScaleY = this.scaleY;
+
             createjs.Tween.get(this).to({
                 scaleX: scaleX,
                 scaleY: scaleY,
@@ -33,7 +43,8 @@ module gameui {
                     this.visible = false;
                     this.x = this.antX;
                     this.y = this.antY;
-                    this.scaleX = this.scaleY = 1;
+                    this.scaleX = this.oldScaleX;
+                    this.scaleY = this.oldScaleY;
                     this.alpha = 1;
                     this.animating = false;
                     this.mouseEnabled = true;;
@@ -44,6 +55,8 @@ module gameui {
             this.animating = true;
             this.antX = this.x;
             this.antY = this.y;
+            this.scaleX = this.oldScaleX;
+            this.scaleY = this.oldScaleY;
             this.mouseEnabled = false;
             createjs.Tween.removeTweens(this);
         }
@@ -51,6 +64,12 @@ module gameui {
         public fadeIn(scaleX: number= 0.5, scaleY: number= 0.5) {
             if (this.visible = true) this.antX = null;
 
+            if (!this.scaleX) this.scaleX = 1;
+            if (!this.scaleY) this.scaleY = 1;
+
+            this.oldScaleX = this.scaleX;
+            this.oldScaleY = this.scaleY;
+                        
             this.visible = true;
             this.animating = true;
 
@@ -68,8 +87,8 @@ module gameui {
             this.mouseEnabled = false;
             createjs.Tween.removeTweens(this);
             createjs.Tween.get(this).to({
-                scaleX: 1,
-                scaleY: 1,
+                scaleX: this.oldScaleX,
+                scaleY: this.oldScaleY,
                 alpha: 1,
                 x: this.antX,
                 y: this.antY,

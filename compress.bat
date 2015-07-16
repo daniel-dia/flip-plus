@@ -5,8 +5,11 @@ del LudeiPackage.zip
 timeout 2
 echo ------------------------------------------------------
 "C:\Program Files\7-Zip\7z" d LudeiPackage.zip *.mp3 -r
+"C:\Program Files\7-Zip\7z" d LudeiPackage.zip *.xmp -r
 echo ------------------------------------------------------
 "C:\Program Files\7-Zip\7z" d LudeiPackage.zip *.bat -r
 echo ------------------------------------------------------
 "C:\Program Files\7-Zip\7z" d LudeiPackage.zip assets/images
-timeout 20
+"C:\Program Files\7-Zip\7z" d LudeiPackage.zip assets/imagens
+
+timeout 10

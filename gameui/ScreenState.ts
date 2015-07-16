@@ -1,4 +1,4 @@
-declare function exitApp():void;
+
 
 module gameui {
     export class ScreenState {
@@ -14,7 +14,9 @@ module gameui {
         public screenHeight: number;
         public screenWidth: number;
 
-        public bgmusic:   createjs.SoundInstance;
+        public bgmusic: createjs.SoundInstance;
+
+		public onback: ()=>void;
 
         constructor() {
             this.view = new createjs.Container();
@@ -39,14 +41,14 @@ module gameui {
             this.content.visible = false;
         }
 
-        public redim(headerY: number, footerY: number, width: number,heigth:number) {
+        public redim(headerY: number, footerY: number, width: number, heigth: number) {
 
             this.screenHeight = heigth;
             this.screenWidth = width;
 
             this.footer.y = footerY;
             this.header.y = headerY;
-             
+
             var dh = footerY + headerY;
             var ch = footerY - headerY;
             var scale = ch / dh;
@@ -57,20 +59,24 @@ module gameui {
                 this.background.x = 0;
             } else {
                 this.background.y = headerY;
-                this.background.x = -(width*scale - width)/2;
+
+				if (false) {
+					this.background.x = -(width * scale - width) / 2;
+					this.background.scaleX = this.background.scaleY = scale;
+				} else {
+					this.background.x = 0;
+					this.background.scaleY = scale;
+				}
             }
 
-            this.background.scaleX = this.background.scaleY = scale;
-           
+
+
+
             var mask = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, -(heigth - defaultHeight) / 2, width, heigth))
             this.background.mask = mask;
             this.footer.mask = mask;
             this.header.mask = mask;
             this.content.mask = mask;
-        }
-
-        public back(): void {
-            exitApp();
         }
     }
 }

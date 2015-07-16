@@ -38,7 +38,7 @@ var gameui;
         AudiosManager.playMusic = function (name, volume) {
             if (volume === void 0) { volume = 1; }
             if (this.currentMusic) {
-                this.currentMusic.setVolume(volume);
+                this.currentMusic.setVolume(volume * this.getMusicVolume());
                 if (this.currentMusicName == name)
                     return;
                 this.currentMusic.stop();
@@ -57,6 +57,7 @@ var gameui;
     })();
     gameui.AudiosManager = AudiosManager;
 })(gameui || (gameui = {}));
+var images;
 var gameui;
 (function (gameui) {
     // Class
@@ -64,20 +65,21 @@ var gameui;
         function AssetsManager() {
         }
         //load assets
-        AssetsManager.loadAssets = function (imagesManifest, imagesPath, spriteSheets, imagesArray) {
+        AssetsManager.loadAssets = function (manifest, path, spriteSheets) {
             var _this = this;
-            if (imagesPath === void 0) { imagesPath = ""; }
+            if (path === void 0) { path = ""; }
             // initialize objects
             this.spriteSheets = spriteSheets ? spriteSheets : new Array();
-            this.imagesArray = imagesArray ? imagesArray : new Array();
             this.bitmapFontSpriteSheetDataArray = this.bitmapFontSpriteSheetDataArray ? this.bitmapFontSpriteSheetDataArray : new Array();
-            this.assetsManifest = imagesManifest;
+            this.assetsManifest = manifest;
+            if (!images)
+                images = new Array();
             if (!this.loader) {
                 //creates a preload queue
                 this.loader = new createjs.LoadQueue(false);
                 //install sound plug-in for sounds format
-                createjs.Sound.alternateExtensions = ["mp3"];
                 this.loader.installPlugin(createjs.Sound);
+                createjs.Sound.alternateExtensions = ["mp3"];
                 // Adds callbacks
                 this.loader.addEventListener("filestart", function (evt) {
                     console.log("loading " + evt.item.src);
@@ -95,12 +97,12 @@ var gameui;
                 });
                 this.loader.addEventListener("fileload", function (evt) {
                     if (evt.item.type == "image")
-                        _this.imagesArray[evt.item.id] = evt.result;
+                        images[evt.item.id] = evt.result;
                     return true;
                 });
             }
             //loads entire manifest 
-            this.loader.loadManifest(imagesManifest, true, imagesPath);
+            this.loader.loadManifest(manifest, true, path);
         };
         // load a font spritesheet
         AssetsManager.loadFontSpriteSheet = function (id, spritesheetData) {
@@ -108,18 +110,18 @@ var gameui;
         };
         // cleans all sprites in the bitmap array;
         AssetsManager.cleanAssets = function () {
-            if (this.imagesArray)
+            if (images)
                 ;
-            for (var i in this.imagesArray) {
-                var img = this.imagesArray[i];
+            for (var i in images) {
+                var img = images[i];
                 if (img.dispose)
                     img.dispose();
-                delete this.imagesArray[i];
+                delete images[i];
             }
         };
         // return loaded image array
         AssetsManager.getImagesArray = function () {
-            return this.imagesArray;
+            return images;
         };
         //gets a image from assets
         AssetsManager.getBitmap = function (name) {
@@ -207,7 +209,7 @@ var gameui;
                 _this.resizeGameScreen(window.innerWidth, window.innerHeight);
             };
         }
-        //switch current screen, optionaly with a pre defined transition
+        // switch current screen, optionaly with a pre defined transition
         GameScreen.prototype.switchScreen = function (newScreen, parameters, transition) {
             var _this = this;
             //save oldscreen
@@ -248,7 +250,7 @@ var gameui;
                     newScreen.view.set({ alpha: alpha, x: -x, y: -y });
                     oldScreen.view.set({ 1: alpha, x: 0, y: 0 });
                     //fade old screen out
-                    createjs.Tween.get(oldScreen.view).to({ alpha: alpha, x: x, y: y }, transition.time, createjs.Ease.quadInOut);
+                    createjs.Tween.get(oldScreen.view).to({ alpha: 1, x: x, y: y }, transition.time, createjs.Ease.quadInOut);
                     createjs.Tween.get(newScreen.view).to({ alpha: 1, x: 0, y: 0 }, transition.time, createjs.Ease.quadInOut).call(function () {
                         oldScreen.view.set({ 1: alpha, x: 0, y: 0 });
                         newScreen.view.set({ 1: alpha, x: 0, y: 0 });
@@ -274,7 +276,7 @@ var gameui;
             //updates current screen
             this.currentScreen.redim(this.headerPosition, this.footerPosition, this.currentWidth, this.currentHeight);
         };
-        //resize GameScreen to a diferent scale
+        // resize GameScreen to a diferent scale
         GameScreen.prototype.resizeGameScreen = function (deviceWidth, deviceHeight, updateCSS) {
             if (updateCSS === void 0) { updateCSS = true; }
             //keep aspect ratio 
@@ -290,7 +292,16 @@ var gameui;
             this.stage.canvas.height = deviceHeight;
             this.updateViewerScale(deviceWidth, deviceHeight, this.defaultWidth, this.defaultHeight);
         };
-        //updates screen viewer scale
+        // send hw back button event
+        GameScreen.prototype.sendBackButtonEvent = function () {
+            if (this.currentScreen && this.currentScreen.onback) {
+                this.currentScreen.onback();
+                return false;
+            }
+            else
+                return true;
+        };
+        // updates screen viewer scale
         GameScreen.prototype.updateViewerScale = function (realWidth, realHeight, defaultWidth, defaultHeight) {
             var scale = realWidth / defaultWidth;
             this.currentHeight = realHeight / scale;
@@ -306,7 +317,7 @@ var gameui;
             if (this.currentScreen)
                 this.currentScreen.redim(this.headerPosition, this.footerPosition, this.currentWidth, this.currentHeight);
         };
-        //deletes old screen
+        // deletes old screen
         GameScreen.prototype.removeOldScreen = function (oldScreen) {
             if (oldScreen != null) {
                 oldScreen.desactivate();
@@ -344,6 +355,12 @@ var gameui;
             if (scaleX === void 0) { scaleX = 0.5; }
             if (scaleY === void 0) { scaleY = 0.5; }
             this.resetFade();
+            if (!this.scaleX)
+                this.scaleX = 1;
+            if (!this.scaleY)
+                this.scaleY = 1;
+            this.oldScaleX = this.scaleX;
+            this.oldScaleY = this.scaleY;
             createjs.Tween.get(this).to({
                 scaleX: scaleX,
                 scaleY: scaleY,
@@ -354,7 +371,8 @@ var gameui;
                 _this.visible = false;
                 _this.x = _this.antX;
                 _this.y = _this.antY;
-                _this.scaleX = _this.scaleY = 1;
+                _this.scaleX = _this.oldScaleX;
+                _this.scaleY = _this.oldScaleY;
                 _this.alpha = 1;
                 _this.animating = false;
                 _this.mouseEnabled = true;
@@ -365,6 +383,8 @@ var gameui;
             this.animating = true;
             this.antX = this.x;
             this.antY = this.y;
+            this.scaleX = this.oldScaleX;
+            this.scaleY = this.oldScaleY;
             this.mouseEnabled = false;
             createjs.Tween.removeTweens(this);
         };
@@ -374,6 +394,12 @@ var gameui;
             if (scaleY === void 0) { scaleY = 0.5; }
             if (this.visible = true)
                 this.antX = null;
+            if (!this.scaleX)
+                this.scaleX = 1;
+            if (!this.scaleY)
+                this.scaleY = 1;
+            this.oldScaleX = this.scaleX;
+            this.oldScaleY = this.scaleY;
             this.visible = true;
             this.animating = true;
             if (this.antX == null) {
@@ -385,8 +411,8 @@ var gameui;
             this.mouseEnabled = false;
             createjs.Tween.removeTweens(this);
             createjs.Tween.get(this).to({
-                scaleX: 1,
-                scaleY: 1,
+                scaleX: this.oldScaleX,
+                scaleY: this.oldScaleY,
                 alpha: 1,
                 x: this.antX,
                 y: this.antY
@@ -562,17 +588,20 @@ var gameui;
             }
             else {
                 this.background.y = headerY;
-                this.background.x = -(width * scale - width) / 2;
+                if (false) {
+                    this.background.x = -(width * scale - width) / 2;
+                    this.background.scaleX = this.background.scaleY = scale;
+                }
+                else {
+                    this.background.x = 0;
+                    this.background.scaleY = scale;
+                }
             }
-            this.background.scaleX = this.background.scaleY = scale;
             var mask = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, -(heigth - defaultHeight) / 2, width, heigth));
             this.background.mask = mask;
             this.footer.mask = mask;
             this.header.mask = mask;
             this.content.mask = mask;
-        };
-        ScreenState.prototype.back = function () {
-            exitApp();
         };
         return ScreenState;
     })();
@@ -3933,14 +3962,12 @@ var FlipPlus;
                 }
                 var imagePath = "assets/images_" + assetscale + "x/";
                 var audioPath = "assets/sound/";
-                //load assets
-                if (!levelCreatorMode) {
-                    if (!Cocoon.Device.getDeviceInfo() || Cocoon.Device.getDeviceInfo().os == "windows")
-                        gameui.AssetsManager.loadAssets(soundsManifest, audioPath);
-                    else
-                        createjs.Sound.registerManifest(soundsManifest, audioPath);
+                //load audio
+                if (!levelCreatorMode && typeof WPAudioManager == 'undefined') {
+                    createjs.Sound.alternateExtensions = ["mp3"];
+                    createjs.Sound.registerSounds(audioManifest, audioPath);
                 }
-                gameui.AssetsManager.loadAssets(imagesManifest, imagePath, spriteSheets, images);
+                gameui.AssetsManager.loadAssets(imageManifest, imagePath, spriteSheets);
                 gameui.Button.setDefaultSoundId("button");
                 var text = new createjs.Text("", "600 90px Arial", "#FFF");
                 text.x = defaultWidth / 2;

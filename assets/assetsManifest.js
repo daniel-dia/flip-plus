@@ -1,4 +1,4 @@
-﻿var imagesManifest  = [
+﻿var imageManifest = [
         //common
         { id: "partshud", src:  "partshud.png" },
         { id: "partsicon", src:  "partsicon.png" },
@@ -371,7 +371,7 @@
         //Legacy
         { id: "bolinhas", src:  "bolinhas.png" },
     ]
-var soundsManifest = [
+var audioManifest = [
 
         //Sound
         { id: "Music Dot Robot", src: "Music Dot Robot.ogg" },

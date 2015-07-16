@@ -1,11 +1,12 @@
-﻿module gameui {
+﻿var images: Array<HTMLImageElement>;
+
+module gameui {
 
     // Class
     export class AssetsManager{
 
         private static loader: createjs.LoadQueue;
         private static spriteSheets: Array<any>;
-        private static imagesArray: Array<HTMLImageElement>;
         private static bitmapFontSpriteSheetDataArray: Array<createjs.SpriteSheet>;
         private static assetsManifest: Array<any>;
         private static defaultMouseEnabled: boolean = false;
@@ -15,25 +16,26 @@
 
         //load assets
         public static loadAssets(
-            imagesManifest: Array<any>,
-            imagesPath: string= "", 
-            spriteSheets?: Array<any>,
-            imagesArray?:Array<HTMLImageElement>){
+            manifest: Array<any>,
+            path: string= "", 
+            spriteSheets?: Array<any>){
 
             // initialize objects
             this.spriteSheets = spriteSheets ? spriteSheets : new Array();
-            this.imagesArray = imagesArray ? imagesArray : new Array();
             this.bitmapFontSpriteSheetDataArray = this.bitmapFontSpriteSheetDataArray ? this.bitmapFontSpriteSheetDataArray: new Array();
-            this.assetsManifest = imagesManifest;
+            this.assetsManifest = manifest;
 
+
+            if (!images) images = new Array();
+		
             if (!this.loader) {
                 //creates a preload queue
                 this.loader = new createjs.LoadQueue(false);
-                
-                //install sound plug-in for sounds format
-                createjs.Sound.alternateExtensions = ["mp3"];
 
+				//install sound plug-in for sounds format
                 this.loader.installPlugin(createjs.Sound);
+				createjs.Sound.alternateExtensions = ["mp3"];
+
                 
                 // Adds callbacks
                 this.loader.addEventListener("filestart", (evt: any) => { console.log("loading " + evt.item.src) })
@@ -42,14 +44,14 @@
                 this.loader.addEventListener("progress", (evt: any) => { if (this.onProgress) this.onProgress(evt.progress) })
                 this.loader.addEventListener("fileload", (evt: any): boolean => {
                     if (evt.item.type == "image")
-                        this.imagesArray[evt.item.id] = <HTMLImageElement>evt.result;
+                        images[evt.item.id] = <HTMLImageElement>evt.result;
                     return true;
                 });
  
             }
 
             //loads entire manifest 
-            this.loader.loadManifest(imagesManifest, true, imagesPath); 
+            this.loader.loadManifest(manifest, true, path); 
         }
         
         // load a font spritesheet
@@ -59,17 +61,17 @@
 
         // cleans all sprites in the bitmap array;
         public static cleanAssets() {
-            if (this.imagesArray);
-            for (var i in this.imagesArray) {
-                var img = <any>this.imagesArray[i]
+            if (images);
+            for (var i in images) {
+                var img = <any>images[i]
                 if (img.dispose)img.dispose();
-                delete this.imagesArray[i]
+                delete images[i]
             }
         }
 
         // return loaded image array
         public static getImagesArray(): Array<HTMLImageElement> {
-            return this.imagesArray;
+            return images;
         }
 
         //gets a image from assets
@@ -122,11 +124,6 @@
             if (play) sprite.play();
             return sprite;
         }
-
-
-
-      
-
         // #endregion
     }
 }

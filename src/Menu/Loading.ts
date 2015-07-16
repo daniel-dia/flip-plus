@@ -1,8 +1,8 @@
-declare var images: any;
 declare var spriteSheets: any;
-declare var imagesManifest;
-declare var soundsManifest;
- 
+declare var imageManifest;
+declare var audioManifest;
+declare var WPAudioManager;
+
 // Module
 module FlipPlus.Menu {
     // Class
@@ -24,20 +24,13 @@ module FlipPlus.Menu {
             var audioPath = "assets/sound/";
 
              
-            //load assets
-         
-          
-
-            if (!levelCreatorMode) {
-                if (!Cocoon.Device.getDeviceInfo() || Cocoon.Device.getDeviceInfo().os == "windows")
-                    gameui.AssetsManager.loadAssets(soundsManifest, audioPath);
-                else
-                    createjs.Sound.registerManifest(soundsManifest, audioPath);
+            //load audio
+            if (!levelCreatorMode && typeof WPAudioManager == 'undefined') {
+                createjs.Sound.alternateExtensions = ["mp3"];
+                createjs.Sound.registerSounds(audioManifest, audioPath);
             }
 
-           
-            gameui.AssetsManager.loadAssets(imagesManifest, imagePath, spriteSheets, images);
-
+            gameui.AssetsManager.loadAssets(imageManifest, imagePath, spriteSheets);
             gameui.Button.setDefaultSoundId("button");
 
             var text = new createjs.Text("", "600 90px Arial", "#FFF");

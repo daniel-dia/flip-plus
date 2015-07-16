@@ -15,6 +15,7 @@
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
     <UseIISExpress>true</UseIISExpress>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="gameui\AssetsManager.ts" />
@@ -1391,7 +1392,6 @@
     <TypeScriptCompile Include="_references.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="web.config" />
     <Content Include="fonts\exo.woff" />
     <Content Include="fonts\Exo2.0-Bold.otf" />
     <Content Include="fonts\Exo2.0-Regular.otf" />
@@ -1414,15 +1414,18 @@
     <Content Include="assets\images_1x\workshop\workshop0.json" />
     <Content Include="assets\images_1x\workshop\workshop1.json" />
     <Content Include="assets\images_1x\workshop\workshop2.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="assets\images_1x\Temp\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="web.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="assets\images_1x\Temp\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

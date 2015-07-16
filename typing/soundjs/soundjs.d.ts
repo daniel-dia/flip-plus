@@ -32,12 +32,12 @@ declare module createjs {
         static isSupported(): boolean;
         preload(src: string, instance: Object): void;
         register(src: string, instances: number): Object;
-        removeAllSounds (): void;
+        removeAllSounds(): void;
         removeSound(src: string): void;
         setMute(value: boolean): boolean;
         setVolume(value: number): boolean;
     }
-    
+
     export class HTMLAudioPlugin {
         constructor();
         
@@ -55,7 +55,7 @@ declare module createjs {
         removeAllSounds(): void;
         removeSound(src: string): void;
     }
-    
+
     export class Sound {
         // properties
         static activePlugin: Object;
@@ -85,6 +85,7 @@ declare module createjs {
         static loadComplete(src: string): boolean;
         static play(src: string, interrupt?: any, delay?: number, offset?: number, loop?: number, volume?: number, pan?: number): SoundInstance;
         static registerManifest(manifest: any[], basePath: string): Object;
+        static registerSounds(manifest: any[], basePath: string): Object;
         static registerPlugins(plugins: any[]): boolean;
         static registerSound(src: string, id?: string, data?: number, preload?: boolean, basePath?: string): Object;
         static registerSound(src: string, id?: string, data?: Object, preload?: boolean, basePath?: string): Object;
@@ -125,7 +126,7 @@ declare module createjs {
         static toString(): string;
         static willTrigger(type: string): boolean;
     }
-    
+
     export class SoundInstance extends EventDispatcher {
         constructor(src: string, owner: Object);
         
@@ -154,14 +155,14 @@ declare module createjs {
         setPosition(value: number): void;
         setVolume(value: number): boolean;
         stop(): boolean;
-        
+
     }
-    
+
     export class SoundJS {
         static buildDate: string;
         static version: string;
     }
-    
+
     export class WebAudioPlugin {
         constructor();
         
