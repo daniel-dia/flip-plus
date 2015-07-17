@@ -1307,16 +1307,16 @@ var FlipPlus;
                 this.coinsIndicator = new FlipPlus.Menu.View.CoinsIndicator();
                 this.header.addChild(this.coinsIndicator);
                 this.coinsIndicator.x = defaultWidth / 2;
-                ////upper staus area
-                //if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
-                //    var levels: Projects.Level[] = FlipPlusGame.projectManager.getCurrentProject().levels;
-                //    this.statusArea = new Views.StatusArea();
-                //    this.statusArea.y += 80;
-                //    this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
-                //    this.statusArea.setText1("");
-                //    this.statusArea.setText3("");
-                //    this.header.addChild(this.statusArea);
-                //}
+                //upper staus area
+                if (FlipPlus.FlipPlusGame.projectManager.getCurrentProject() != undefined) {
+                    var levels = FlipPlus.FlipPlusGame.projectManager.getCurrentProject().levels;
+                    this.statusArea = new GamePlay.Views.StatusArea();
+                    this.statusArea.y += 80;
+                    this.statusArea.setText2("");
+                    this.statusArea.setText1("");
+                    this.statusArea.setText3("");
+                    this.header.addChild(this.statusArea);
+                }
             };
             LevelScreen.prototype.initializeBoardSprites = function (width, height, theme, blocks, type) {
                 var _this = this;

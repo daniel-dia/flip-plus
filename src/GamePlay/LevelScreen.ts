@@ -121,16 +121,16 @@ module FlipPlus.GamePlay {
             this.header.addChild(this.coinsIndicator);
             this.coinsIndicator.x = defaultWidth / 2;
             
-           ////upper staus area
-           //if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
-           //    var levels: Projects.Level[] = FlipPlusGame.projectManager.getCurrentProject().levels;
-           //    this.statusArea = new Views.StatusArea();
-           //    this.statusArea.y += 80;
-           //    this.statusArea.setText2(levels.indexOf(this.levelData) + 1 + " - " + levels.length);
-           //    this.statusArea.setText1("");
-           //    this.statusArea.setText3("");
-           //    this.header.addChild(this.statusArea);
-           //}
+            //upper staus area
+            if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
+                var levels: Projects.Level[] = FlipPlusGame.projectManager.getCurrentProject().levels;
+                this.statusArea = new Views.StatusArea();
+                this.statusArea.y += 80;
+                this.statusArea.setText2("");
+                this.statusArea.setText1("");
+                this.statusArea.setText3("");
+                this.header.addChild(this.statusArea);
+            }
         }
 
         private initializeBoardSprites(width: number, height: number, theme: string, blocks: any, type: string) {
