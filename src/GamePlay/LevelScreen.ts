@@ -30,6 +30,7 @@ module FlipPlus.GamePlay {
         private startedTime: number;
         private clicks: number;
 
+
         // #region Initialization methodos ===================================================================================================
 
         constructor(leveldata: Projects.Level) {

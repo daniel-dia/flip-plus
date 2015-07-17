@@ -3102,9 +3102,11 @@ var FlipPlus;
                     var itemId = itemsArray[i];
                     //add icon
                     var itemObj = gameui.AssetsManager.getBitmap("puzzle/icon_" + itemId);
-                    itemObj.y = 100;
-                    itemObj.x = defaultWidth / itemsArray.length * i + 40;
+                    itemObj.y = 180;
+                    itemObj.x = defaultWidth / itemsArray.length * i + 80;
                     itemObj.name = itemId;
+                    itemObj.regX = itemObj.getBounds().width / 2;
+                    itemObj.regY = itemObj.getBounds().height / 2;
                     this.footerContainer.addChild(itemObj);
                     //add "max" text
                     var max = gameui.AssetsManager.getBitmap("max");
@@ -3152,11 +3154,11 @@ var FlipPlus;
                     // cast effect
                     this.fx.castEffect(startPoint.x + 50, startPoint.y + 50, "Bolinhas", 3);
                     // Animate item
-                    createjs.Tween.get(itemObj).to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).to({ x: endPoint.x, y: endPoint.y, regX: 0, regY: 0 }, 700, createjs.Ease.quadInOut).call(function () {
+                    createjs.Tween.get(itemObj).to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).to({ x: endPoint.x, y: endPoint.y }, 700, createjs.Ease.quadInOut).call(function () {
                         _this.updateFooterValues();
                         // cast effect
                         var fxPoint = _this.footerContainer.localToLocal(footerItem.x, footerItem.y, _this.content);
-                        _this.fx.castEffect(fxPoint.x + 50, fxPoint.y + 50, "Bolinhas", 2);
+                        _this.fx.castEffect(fxPoint.x, fxPoint.y, "Bolinhas", 2);
                         //play Sound
                         gameui.AudiosManager.playSound("Correct Answer 2");
                     });
@@ -3429,7 +3431,7 @@ var FlipPlus;
             }
             Bonus2.prototype.addObjects = function () {
                 _super.prototype.addObjects.call(this);
-                var cards = this.generateCards(12, 5, ["coin", "coin", "coin", "coin", "coin"]);
+                var cards = this.generateCards(12, 5, ["coin", "coin", "coin", "2coin", "3coin"]);
                 this.pairs = 5;
                 this.addCards(cards);
             };
@@ -3443,8 +3445,17 @@ var FlipPlus;
             Bonus2.prototype.matchPair = function (card1, card2) {
                 var _this = this;
                 if (card1.name == card2.name && card1 != card2) {
-                    this.userAquireItem(card1.name);
-                    this.userAquireItem(card1.name);
+                    var multiplier = 1;
+                    if (card1.name == "2coin") {
+                        card1.name = card2.name = "coin";
+                        multiplier = 2;
+                    }
+                    if (card1.name == "3coin") {
+                        card1.name = card2.name = "coin";
+                        multiplier = 3;
+                    }
+                    for (var i = 0; i < multiplier * 2; i++)
+                        this.userAquireItem(card1.name);
                     card1.opened = false;
                     card2.opened = false;
                     //animate itens
@@ -3593,7 +3604,7 @@ var FlipPlus;
                 this.getChildByName("item").visible = true;
                 var cover = this.getChildByName("cover");
                 createjs.Tween.removeTweens(cover);
-                createjs.Tween.get(cover).to({ rotation: 90, y: 1000 }, 500, createjs.Ease.sineIn).call(function () {
+                createjs.Tween.get(cover).to({ rotation: 90, y: 1000, alpha: 0 }, 500, createjs.Ease.sineIn).call(function () {
                     cover.visible = false;
                 });
                 this.mouseEnabled = false;

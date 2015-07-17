@@ -101,9 +101,11 @@
                 
                 //add icon
                 var itemObj = gameui.AssetsManager.getBitmap("puzzle/icon_" + itemId);
-                itemObj.y = 100;
-                itemObj.x = defaultWidth / itemsArray.length * i + 40;
+                itemObj.y = 180;
+                itemObj.x = defaultWidth / itemsArray.length * i + 80;
                 itemObj.name = itemId;
+                itemObj.regX = itemObj.getBounds().width/2;
+                itemObj.regY = itemObj.getBounds().height / 2;
                 this.footerContainer.addChild(itemObj);
 
                 //add "max" text
@@ -166,13 +168,13 @@
                 // Animate item
                 createjs.Tween.get(itemObj).
                     to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
-                    to({ x: endPoint.x, y: endPoint.y, regX:0 , regY:0}, 700, createjs.Ease.quadInOut).
+                    to({ x: endPoint.x, y: endPoint.y}, 700, createjs.Ease.quadInOut).
                     call(() => {
                         this.updateFooterValues();
 
                         // cast effect
                         var fxPoint = this.footerContainer.localToLocal(footerItem.x, footerItem.y, this.content);
-                        this.fx.castEffect(fxPoint.x + 50, fxPoint.y+50, "Bolinhas", 2);
+                        this.fx.castEffect(fxPoint.x, fxPoint.y,"Bolinhas", 2);
 
                         //play Sound
                         gameui.AudiosManager.playSound("Correct Answer 2");

@@ -19,7 +19,7 @@
 
         addObjects() {
             super.addObjects();
-            var cards = this.generateCards(12, 5, ["coin", "coin", "coin", "coin", "coin"]);
+            var cards = this.generateCards(12, 5, ["coin", "coin", "coin", "2coin", "3coin"]);
             this.pairs = 5;
             this.addCards(cards);
         }
@@ -35,9 +35,21 @@
         //verifies if two cards matches
         private matchPair(card1: Card, card2: Card): boolean {
             if (card1.name == card2.name && card1 != card2) {
-                this.userAquireItem(card1.name);
-                this.userAquireItem(card1.name);
 
+                var multiplier = 1;
+
+                if (card1.name == "2coin") {
+                    card1.name = card2.name = "coin";
+                    multiplier = 2;
+                }
+                if (card1.name == "3coin") {
+                    card1.name = card2.name = "coin";
+                    multiplier = 3;
+                }
+
+                for (var i = 0; i < multiplier*2; i++)
+                    this.userAquireItem(card1.name);
+                
                 card1.opened = false;
                 card2.opened = false;
                 //animate itens
@@ -221,7 +233,7 @@
             var cover = this.getChildByName("cover");
             createjs.Tween.removeTweens(cover);
             
-            createjs.Tween.get(cover).to({ rotation:90, y:1000 }, 500, createjs.Ease.sineIn).call(() => { cover.visible = false });
+            createjs.Tween.get(cover).to({ rotation: 90, y: 1000, alpha: 0 }, 500, createjs.Ease.sineIn).call(() => { cover.visible = false });
             this.mouseEnabled = false;
             this.opened = true;
         }
