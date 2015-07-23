@@ -5,20 +5,21 @@ module FlipPlus.GamePlay {
     //Controller
     export class LevelScreen extends gameui.ScreenState {
 
-        //Display Sprites
+        // Display Sprites
         public boardSprite: Views.BoardSprite;
         private fx: Effects;
-        //Overlays // friendly
-        public gameplayMenu: Views.GamePlayMenu;
-        public coinsIndicator: Menu.View.CoinsIndicator;
-        public statusArea: Views.StatusArea;
-        public popup: Menu.View.Popup;
-        public message: Menu.View.Message;
-        public textEffext: Menu.View.TextEffect;
+        
+        // Overlays
+        protected gameplayMenu: Views.GamePlayMenu;
+        protected coinsIndicator: Menu.View.CoinsIndicator;
+        protected statusArea: Views.StatusArea;
+        protected popup: Menu.View.Popup;
+        protected message: Menu.View.Message;
+        protected textEffext: Menu.View.TextEffect;
 
-        //Level
-        public levelLogic: Model.Level; //friendly
-        public levelData: Projects.Level;
+        // Level
+        protected levelLogic: Model.Level;
+        protected levelData: Projects.Level;
 
         public itemsFunctions: any;
 
@@ -31,7 +32,7 @@ module FlipPlus.GamePlay {
         private clicks: number;
 
 
-        // #region Initialization methodos ===================================================================================================
+        // #region Initialization methodos ==================================================================================================
 
         constructor(leveldata: Projects.Level) {
 
@@ -41,19 +42,24 @@ module FlipPlus.GamePlay {
             this.itemTimes = <Array<number>>new Object();
             this.clicks = 0;
 
-            //Store level data;
+            // Store level data;
             this.levelData = leveldata;
 
-            //initializate level Model
+            // initializate level Model
             this.levelLogic = new Model.Level(leveldata);
 
-            //creates all screen objects
+            // creates all screen objects
             this.createScene(leveldata);
 
+            // incremente played times
+            if (!this.levelData.userdata.playedTimes)
+                this.levelData.userdata.playedTimes = 0;
+
+            this.levelData.userdata.playedTimes++;
         }
         // #endregion
 
-        // #region Create Scene ===============================================================================================================
+        // #region Create Scene =============================================================================================================
 
         private createScene(leveldata: Projects.Level) {
 
@@ -178,6 +184,41 @@ module FlipPlus.GamePlay {
                 this.win(col, row);
 
             this.levelLogic.moves++;
+        }
+
+        // #endregion
+
+        // #region  Helpers =========================================================================================================
+        
+        // user helper
+        private trySuggestHelp() {
+
+            var plays = this.levelData.userdata.playedTimes;
+            var invertsInitial = this.levelData.blocksData.length;
+            var inverts = this.levelLogic.board.getInvertedBlocksCount();
+
+            // verify if user went too far from solution.
+            if (inverts > invertsInitial * 2) {
+                // verifies if user play a the same level lot of times
+                if (plays > 3)
+                    // send message to ask to skip
+                    this.showSkipMessage();
+                else
+                    // show message to ask restart
+                    this.showRestartMessage();
+            }
+        }
+
+        // show a message asking for user to restart
+        private showRestartMessage() {
+            // TODO
+            this.message.showtext("RESTART");
+        }
+
+        // show a message asking for user to skip
+        private showSkipMessage() {
+            // TODO
+            this.message.showtext("SKIP");
         }
 
         // #endregion
@@ -390,7 +431,7 @@ module FlipPlus.GamePlay {
         }
         // #endregion
         
-        // #region Menus =====================================================================================================================
+        // #region Menus ====================================================================================================================
 
         protected pauseGame() {
 
@@ -426,7 +467,7 @@ module FlipPlus.GamePlay {
 
         // #endregion
 
-        // #region  Screen =================================================================================================================
+        // #region  Screen ===================================================================================================================
 
         public activate(parameters?: any) {
 

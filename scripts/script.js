@@ -1234,21 +1234,25 @@ var FlipPlus;
         //Controller
         var LevelScreen = (function (_super) {
             __extends(LevelScreen, _super);
-            // #region Initialization methodos ===================================================================================================
+            // #region Initialization methodos ==================================================================================================
             function LevelScreen(leveldata) {
                 _super.call(this);
                 this.itemsFunctions = {};
                 this.itemTimes = new Object();
                 this.clicks = 0;
-                //Store level data;
+                // Store level data;
                 this.levelData = leveldata;
-                //initializate level Model
+                // initializate level Model
                 this.levelLogic = new GamePlay.Model.Level(leveldata);
-                //creates all screen objects
+                // creates all screen objects
                 this.createScene(leveldata);
+                // incremente played times
+                if (!this.levelData.userdata.playedTimes)
+                    this.levelData.userdata.playedTimes = 0;
+                this.levelData.userdata.playedTimes++;
             }
             // #endregion
-            // #region Create Scene ===============================================================================================================
+            // #region Create Scene =============================================================================================================
             LevelScreen.prototype.createScene = function (leveldata) {
                 var _this = this;
                 //creates a Background
@@ -1351,6 +1355,34 @@ var FlipPlus;
                 if (this.levelLogic.verifyWin())
                     this.win(col, row);
                 this.levelLogic.moves++;
+            };
+            // #endregion
+            // #region  Helpers =========================================================================================================
+            // user helper
+            LevelScreen.prototype.trySuggestHelp = function () {
+                var plays = this.levelData.userdata.playedTimes;
+                var invertsInitial = this.levelData.blocksData.length;
+                var inverts = this.levelLogic.board.getInvertedBlocksCount();
+                // verify if user went too far from solution.
+                if (inverts > invertsInitial * 2) {
+                    // verifies if user play a the same level lot of times
+                    if (plays > 3)
+                        // send message to ask to skip
+                        this.showSkipMessage();
+                    else
+                        // show message to ask restart
+                        this.showRestartMessage();
+                }
+            };
+            // show a message asking for user to restart
+            LevelScreen.prototype.showRestartMessage = function () {
+                // TODO
+                this.message.showtext("RESTART");
+            };
+            // show a message asking for user to skip
+            LevelScreen.prototype.showSkipMessage = function () {
+                // TODO
+                this.message.showtext("SKIP");
             };
             // #endregion
             // #region  GamePlay methods =========================================================================================================
@@ -1524,7 +1556,7 @@ var FlipPlus;
                 this.win(0, 0);
             };
             // #endregion
-            // #region Menus =====================================================================================================================
+            // #region Menus ====================================================================================================================
             LevelScreen.prototype.pauseGame = function () {
                 var _this = this;
                 this.boardSprite.lock();
@@ -1551,7 +1583,7 @@ var FlipPlus;
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: defaultWidth / 2, y: defaultHeight / 2 }, 500, createjs.Ease.quadInOut);
             };
             // #endregion
-            // #region  Screen =================================================================================================================
+            // #region  Screen ===================================================================================================================
             LevelScreen.prototype.activate = function (parameters) {
                 var _this = this;
                 _super.prototype.activate.call(this, parameters);
