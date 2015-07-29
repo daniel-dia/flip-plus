@@ -28,10 +28,10 @@ module FlipPlus.Menu.View {
             //updates text
             textDO.text = text.toUpperCase();
 
-            this.addsClickIndicaator();
+            this.addsClickIndicator();
         }
 
-        addsClickIndicaator() {
+        addsClickIndicator() {
             //add click indicator
             var ind = gameui.AssetsManager.getSprite("touch")
             this.addChild(ind);

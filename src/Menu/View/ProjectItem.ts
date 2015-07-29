@@ -34,7 +34,7 @@ module FlipPlus.Menu.View {
                 //robot name text
                 var robotName = new createjs.Text(project.nickName, font, color);
                 robotName.x = 14;
-                robotName.y = 00;
+                robotName.y = 0;
                 this.addChild(robotName)
 
                 //percentage text 

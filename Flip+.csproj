@@ -29,6 +29,7 @@
     <TypeScriptCompile Include="gameui\Transition.ts" />
     <TypeScriptCompile Include="gameui\UIItem.ts" />
     <TypeScriptCompile Include="src\Menu\View\Page.ts" />
+    <TypeScriptCompile Include="src\Menu\View\PopupHelper.ts" />
     <TypeScriptCompile Include="typing\cocoon.d.ts" />
     <TypeScriptCompile Include="typing\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="typing\createjs\createjs.d.ts" />

@@ -83,6 +83,12 @@
         "desc_item_hint": "Hint",
         "desc_item_skip": "Skip",
         "desc_item_solve": "Solve board",
+
+        "help_restart": "Are you lost?\nIn the pause menu you can restart!",
+        "help_skip": "Don't worry, you\ncan use parts\nto skip this board and move on!",
+        "help_restart_bt": "Great!",
+        "help_skip_bt": "Not now",
+        "skip": "Skip",
     }
     ,
     pt:{
@@ -169,7 +175,13 @@
         "desc_item_time": "Mais tempo", 
         "desc_item_hint": "Dica", 
         "desc_item_skip": "Pular", 
-        "desc_item_solve": "Resolva este quadro", 
+        "desc_item_solve": "Resolva este quadro",
+
+        "help_restart": "Se perdeu? No menu\n de pausa você, pode\nrecomeçar a tela!",
+        "help_skip": "Não esquenta, você\npode usar peças para\npular esta tela e\nseguir em frente!",
+        "help_skip_bt": "Agora não",
+        "skip": "Pular",
+        "help_restart_bt": "Ótimo!",
     }
 
 }

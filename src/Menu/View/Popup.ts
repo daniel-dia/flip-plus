@@ -4,8 +4,8 @@ module FlipPlus.Menu.View {
     export class Popup extends gameui.UIItem{
 
         private closeinterval;
-        //class contructor
-        constructor() {
+        // class contructor
+        constructor(disableInput: boolean=false) {
             super();
             this.drawObject();
             
@@ -16,22 +16,24 @@ module FlipPlus.Menu.View {
             this.y = defaultHeight / 2;
             this.centralize();
 
-            //set Hit Area
-            var hit = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0,0, defaultWidth, defaultHeight));
-            this.hitArea = hit;
+            if (!disableInput) {
+                //set Hit Area
+                var hit = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, defaultWidth, defaultHeight));
+                this.hitArea = hit;
 
-            //hide popup
-            this.visible = false;
+                //hide popup
+                this.visible = false;
 
-            //add callback
-            this.addEventListener("click", () => {
-                this.closePopUp();
-                clearTimeout(this.closeinterval);
-            });
-
+                //add callback
+         
+                this.addEventListener("click", () => {
+                    this.closePopUp();
+                    clearTimeout(this.closeinterval);
+                });
+            }
         }
 
-        //public method to invoke the popup
+        // public method to invoke the popup
         public showtext(title:string, text?: string, timeout: number= 7000,delay:number=0) {
 
             this.showsPopup(timeout, delay);
@@ -77,7 +79,7 @@ module FlipPlus.Menu.View {
             titleShadow.y = titleDO.y + 15;
             textDO.y = b + 300;
 
-            this.addsClickIndicaator();
+            this.addsClickIndicator();
        }
         
         public showTimeAttack(title: string, text: string, time: string, boards:string,text2:string,text3:string, timeout: number= 7000, delay: number= 0) {
@@ -164,7 +166,7 @@ module FlipPlus.Menu.View {
             timeDO.x = 500;
             boardsDO.x = defaultWidth - 500;
 
-            this.addsClickIndicaator();
+            this.addsClickIndicator();
         }
         
         public showflips(title: string, text: string, flips: string, timeout: number= 7000, delay: number= 0) {
@@ -229,10 +231,11 @@ module FlipPlus.Menu.View {
             flipsDO.y = 450 + b;
 
 
-            this.addsClickIndicaator();
+            this.addsClickIndicator();
         }
-
-        showsPopup(timeout:number, delay:number) {
+         
+        // other stuff
+        protected showsPopup(timeout:number, delay:number) {
 
             //shows the popus
             this.closeinterval = setTimeout(() => {
@@ -243,6 +246,7 @@ module FlipPlus.Menu.View {
             }, delay);;
 
             //create a interval for closing the popopu
+            if (timeout >0)
             this.closeinterval = setTimeout(() => {
                 this.closePopUp();
             }, timeout + delay);
@@ -251,7 +255,7 @@ module FlipPlus.Menu.View {
             this.dispatchEvent("onshow");
         }
 
-        addsClickIndicaator() {
+        protected addsClickIndicator() {
             //add click indicator
             var ind = gameui.AssetsManager.getSprite("touch")
             this.addChild(ind);
@@ -259,8 +263,8 @@ module FlipPlus.Menu.View {
             ind.y = 1100;
         }
 
-        //method for close popup 
-        private closePopUp() {
+        // method for close popup 
+        protected closePopUp() {
 
             //hide the popup{
             this.fadeOut(1,0.5);
@@ -269,8 +273,8 @@ module FlipPlus.Menu.View {
             this.dispatchEvent("onclose");
         }
         
-        //desenha os objetos do popup
-        private drawObject() {
+        // desenha os objetos do popup
+        protected drawObject() {
             
 
 

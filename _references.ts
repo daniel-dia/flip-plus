@@ -1,8 +1,7 @@
 
 /// <reference path="src/preferences.ts" />
 /// <reference path="typing/createjs/createjs.d.ts" />
-
-/// <reference path="gameui/AudioManager.ts" />
+ 
 /// <reference path="gameui/AssetsManager.ts" />
 /// <reference path="gameui/GameScreen.ts" />
 /// <reference path="gameui/UIItem.ts" />
@@ -61,5 +60,6 @@
 /// <reference path="src/Projects/Level.ts" />
 /// <reference path="src/Projects/Project.ts" />
 /// <reference path="src/Projects/ProjectManager.ts" />
+/// <reference path="src/menu/view/popup.ts" />
 
 /// <reference path="src/Robots/MyBots.ts" />

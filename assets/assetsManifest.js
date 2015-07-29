@@ -77,11 +77,8 @@
         { id: "projects/Bonus3", src:  "projects/Bonus3.png" },
 
 
-        //projects
-
-
+        //projects other stuff
         { id: "projects/bgprojects", src:  "projects/bgprojects.jpg" },
-
         { id: "projects/slot1", src:  "projects/slot1.png" },
         { id: "projects/slot2", src:  "projects/slot2.png" },
         { id: "projects/slot3", src:  "projects/slot3.png" },
@@ -93,7 +90,7 @@
         { id: "projects/bigslot1", src:  "projects/bigslot1.png" },
         { id: "projects/btpage", src:  "projects/btpage.png" },
 
-        //projects
+        //projects bots
         { id: "projects/Bot01", src:  "projects/bots/Bot01.png" },
         { id: "projects/Bot02", src:  "projects/bots/Bot02.png" },
         { id: "projects/Bot03", src:  "projects/bots/Bot03.png" },
@@ -132,7 +129,7 @@
         { id: "projects/Bot18_shadow", src:  "projects/bots/Bot18_shadow.png" },
 
 
-        //workshop 
+        //workshop bots
         { src:  "workshop/bots/Bot01.png", id: "workshop/Bot01" },
         { src:  "workshop/bots/Bot02.png", id: "workshop/Bot02" },
         { src:  "workshop/bots/Bot03.png", id: "workshop/Bot03" },
@@ -189,7 +186,7 @@
         { src:  "workshop/bots/Bot18_stroke.png", id: "workshop/Bot18_stroke" },
 
 
-        //workshow
+        //workshow other stuff
         { id: "workshop/basefases", src:  "workshop/basefases.png" },
         { id: "workshop/bgworkshop", src:  "workshop/bgworkshop.jpg" },
         { id: "workshop/estrelaworkshop", src:  "workshop/estrelaworkshop.png" },
@@ -366,9 +363,9 @@
         { id: "popups/message", src:  "popups/message.png" },
         { id: "popups/popupTutorial", src:  "popups/popupbot.png" },
 
-        { id: "popups/popup", src:  "popups/popup.png" },
-        { id: "popups/message", src:  "popups/message.png" },
-        { id: "popups/popupTutorial", src:  "popups/popupbot.png" },
+        { id: "menu/imrestart", src: "menu/imrestart.png" },
+        { id: "menu/imskip", src: "menu/imskip.png" },
+        { id: "menu/btoptions", src: "menu/btoptions.png" },
 
         //Legacy
         { id: "bolinhas", src:  "bolinhas.png" },

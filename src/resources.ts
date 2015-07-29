@@ -62,5 +62,12 @@ module FlipPlus {
         b3_finish: string;
         b3_noMoreChances: string;
 
+        help_restart: string;
+        help_skip: string;
+
+        help_skip_bt: string;
+        help_restart_bt: string;
+
+        skip: string;
     }
 }

@@ -14,6 +14,7 @@ module FlipPlus.GamePlay {
         protected coinsIndicator: Menu.View.CoinsIndicator;
         protected statusArea: Views.StatusArea;
         protected popup: Menu.View.Popup;
+        protected popupHelper: Menu.View.PopupHelper;
         protected message: Menu.View.Message;
         protected textEffext: Menu.View.TextEffect;
 
@@ -30,6 +31,9 @@ module FlipPlus.GamePlay {
         // statistics
         private startedTime: number;
         private clicks: number;
+
+        // help
+        private helped: boolean;
 
 
         // #region Initialization methodos ==================================================================================================
@@ -83,6 +87,9 @@ module FlipPlus.GamePlay {
             //adds popup
             this.popup = new Menu.View.Popup();
             this.content.addChild(this.popup)
+
+            this.popupHelper = new Menu.View.PopupHelper();
+            this.content.addChild(this.popupHelper)
 
             this.popup.addEventListener("onshow", () => {
                 this.gameplayMenu.fadeOut();
@@ -184,6 +191,8 @@ module FlipPlus.GamePlay {
                 this.win(col, row);
 
             this.levelLogic.moves++;
+
+            this.trySuggestHelp();
         }
 
         // #endregion
@@ -192,7 +201,8 @@ module FlipPlus.GamePlay {
         
         // user helper
         private trySuggestHelp() {
-
+            if (this.helped) return;
+            
             var plays = this.levelData.userdata.playedTimes;
             var invertsInitial = this.levelData.blocksData.length;
             var inverts = this.levelLogic.board.getInvertedBlocksCount();
@@ -200,27 +210,28 @@ module FlipPlus.GamePlay {
             // verify if user went too far from solution.
             if (inverts > invertsInitial * 2) {
                 // verifies if user play a the same level lot of times
-                if (plays > 3)
+                if (plays > 2) {
                     // send message to ask to skip
                     this.showSkipMessage();
-                else
+                    this.helped = true;
+                }
+                else {
                     // show message to ask restart
                     this.showRestartMessage();
+                    this.helped = true;
+                }
             }
         }
 
         // show a message asking for user to restart
         private showRestartMessage() {
-            // TODO
-            this.message.showtext("RESTART");
+             this.popupHelper.showRestartMessage();
         }
 
         // show a message asking for user to skip
         private showSkipMessage() {
-            // TODO
-            this.message.showtext("SKIP");
+            this.popupHelper.showSkipPessage(this.getItemPrice("skip"), () => { this.useItemSkip(); });
         }
-
         // #endregion
 
         // #region  GamePlay methods =========================================================================================================

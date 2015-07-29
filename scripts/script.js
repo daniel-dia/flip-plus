@@ -11,52 +11,6 @@ var alternativeFontColor = "#3d8c9a";
 var shadowFontColor = "#1b4f5e";
 var grayColor = "#565656";
 var storagePrefix = "flipp_";
-var gameui;
-(function (gameui) {
-    // Class
-    var AudiosManager = (function () {
-        function AudiosManager() {
-        }
-        AudiosManager.setMusicVolume = function (volume) {
-            if (this.currentMusic)
-                this.currentMusic.volume = volume;
-            this.musicVolue = volume;
-        };
-        AudiosManager.setSoundVeolume = function (volume) {
-            this.soundVolume = volume;
-        };
-        AudiosManager.getMusicVolume = function () {
-            if (this.musicVolue == undefined)
-                return 1;
-            return this.musicVolue;
-        };
-        AudiosManager.getSoundVolume = function () {
-            if (this.soundVolume == undefined)
-                return 1;
-            return this.soundVolume;
-        };
-        AudiosManager.playMusic = function (name, volume) {
-            if (volume === void 0) { volume = 1; }
-            if (this.currentMusic) {
-                this.currentMusic.setVolume(volume * this.getMusicVolume());
-                if (this.currentMusicName == name)
-                    return;
-                this.currentMusic.stop();
-                delete this.currentMusic;
-            }
-            this.currentMusicName = name;
-            this.currentMusic = createjs.Sound.play(name, null, null, null, 1000);
-            this.currentMusic.setVolume(volume * this.getMusicVolume());
-        };
-        AudiosManager.playSound = function (name, interrupt, delay, offset, loop, volume) {
-            if (delay === void 0) { delay = 0; }
-            if (volume === void 0) { volume = 1; }
-            return createjs.Sound.play(name, interrupt, delay, offset, loop, volume * this.getSoundVolume());
-        };
-        return AudiosManager;
-    })();
-    gameui.AudiosManager = AudiosManager;
-})(gameui || (gameui = {}));
 var images;
 var gameui;
 (function (gameui) {
@@ -81,20 +35,12 @@ var gameui;
                 this.loader.installPlugin(createjs.Sound);
                 createjs.Sound.alternateExtensions = ["mp3"];
                 // Adds callbacks
-                this.loader.addEventListener("filestart", function (evt) {
-                    console.log("loading " + evt.item.src);
-                });
-                this.loader.addEventListener("fileload", function (evt) {
-                    console.log("loaded " + evt.item.src);
-                });
-                this.loader.addEventListener("complete", function (evt) {
-                    if (_this.onComplete)
-                        _this.onComplete();
-                });
-                this.loader.addEventListener("progress", function (evt) {
-                    if (_this.onProgress)
-                        _this.onProgress(evt.progress);
-                });
+                this.loader.addEventListener("filestart", function (evt) { console.log("loading " + evt.item.src); });
+                this.loader.addEventListener("fileload", function (evt) { console.log("loaded " + evt.item.src); });
+                this.loader.addEventListener("complete", function (evt) { if (_this.onComplete)
+                    _this.onComplete(); });
+                this.loader.addEventListener("progress", function (evt) { if (_this.onProgress)
+                    _this.onProgress(evt.progress); });
                 this.loader.addEventListener("fileload", function (evt) {
                     if (evt.item.type == "image")
                         images[evt.item.id] = evt.result;
@@ -186,9 +132,7 @@ var gameui;
             this.stage = new createjs.Stage(canvasId);
             createjs.Touch.enable(this.stage);
             var x = 0;
-            createjs.Ticker.addEventListener("tick", function () {
-                _this.stage.update();
-            });
+            createjs.Ticker.addEventListener("tick", function () { _this.stage.update(); });
             createjs.Ticker.setFPS(fps);
             this.screenContainer = new createjs.Container();
             this.stage.addChild(this.screenContainer);
@@ -205,9 +149,7 @@ var gameui;
             }
             //var windowWidth = window.innerWidth;
             this.resizeGameScreen(window.innerWidth, window.innerHeight);
-            window.onresize = function () {
-                _this.resizeGameScreen(window.innerWidth, window.innerHeight);
-            };
+            window.onresize = function () { _this.resizeGameScreen(window.innerWidth, window.innerHeight); };
         }
         // switch current screen, optionaly with a pre defined transition
         GameScreen.prototype.switchScreen = function (newScreen, parameters, transition) {
@@ -329,7 +271,7 @@ var gameui;
     })();
     gameui.GameScreen = GameScreen;
 })(gameui || (gameui = {}));
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -406,7 +348,10 @@ var gameui;
                 this.antX = this.x;
                 this.antY = this.y;
             }
-            this.scaleX = scaleX, this.scaleY = scaleY, this.alpha = 0, this.x = this.x;
+            this.scaleX = scaleX,
+                this.scaleY = scaleY,
+                this.alpha = 0,
+                this.x = this.x;
             this.y = this.y;
             this.mouseEnabled = false;
             createjs.Tween.removeTweens(this);
@@ -416,7 +361,8 @@ var gameui;
                 alpha: 1,
                 x: this.antX,
                 y: this.antY
-            }, 400, createjs.Ease.quadOut).call(function () {
+            }, 400, createjs.Ease.quadOut)
+                .call(function () {
                 _this.mouseEnabled = true;
                 _this.animating = false;
             });
@@ -628,18 +574,10 @@ var gameui;
             _super.call(this);
             this.enableAnimation = true;
             this.mouse = false;
-            this.addEventListener("mousedown", function (event) {
-                _this.onPress(event);
-            });
-            this.addEventListener("pressup", function (event) {
-                _this.onPressUp(event);
-            });
-            this.addEventListener("mouseover", function () {
-                _this.mouse = true;
-            });
-            this.addEventListener("mouseout", function () {
-                _this.mouse = false;
-            });
+            this.addEventListener("mousedown", function (event) { _this.onPress(event); });
+            this.addEventListener("pressup", function (event) { _this.onPressUp(event); });
+            this.addEventListener("mouseover", function () { _this.mouse = true; });
+            this.addEventListener("mouseout", function () { _this.mouse = false; });
             this.soundId = soundId;
         }
         Button.setDefaultSoundId = function (soundId) {
@@ -697,9 +635,7 @@ var gameui;
                     this.centralizeImage();
                 }
                 else if (this.background["image"])
-                    this.background["image"].onload = function () {
-                        _this.centralizeImage();
-                    };
+                    this.background["image"].onload = function () { _this.centralizeImage(); };
             }
             this.createHitArea();
         }
@@ -1009,12 +945,8 @@ var FlipPlus;
                 this.soundFX = (localStorage.getItem("sfx") != "false");
                 this.music = (localStorage.getItem("mus") != "false");
             }
-            Settings.prototype.getMusic = function () {
-                return this.music;
-            };
-            Settings.prototype.getSoundfx = function () {
-                return this.soundFX;
-            };
+            Settings.prototype.getMusic = function () { return this.music; };
+            Settings.prototype.getSoundfx = function () { return this.soundFX; };
             Settings.prototype.setSoundfX = function (value) {
                 localStorage.setItem("sfx", "" + value);
                 this.soundFX = value;
@@ -1270,6 +1202,8 @@ var FlipPlus;
                 //adds popup
                 this.popup = new FlipPlus.Menu.View.Popup();
                 this.content.addChild(this.popup);
+                this.popupHelper = new FlipPlus.Menu.View.PopupHelper();
+                this.content.addChild(this.popupHelper);
                 this.popup.addEventListener("onshow", function () {
                     _this.gameplayMenu.fadeOut();
                     _this.boardSprite.mouseEnabled = false;
@@ -1293,12 +1227,8 @@ var FlipPlus;
                 this.gameplayMenu.y = -100;
                 this.footer.addChild(this.gameplayMenu);
                 //level control
-                this.gameplayMenu.addEventListener("pause", function () {
-                    _this.pauseGame();
-                });
-                this.gameplayMenu.addEventListener("unpause", function () {
-                    _this.unPauseGame();
-                });
+                this.gameplayMenu.addEventListener("pause", function () { _this.pauseGame(); });
+                this.gameplayMenu.addEventListener("unpause", function () { _this.unPauseGame(); });
                 this.gameplayMenu.addEventListener("restart", function (e) {
                     FlipPlus.FlipPlusGame.analytics.logLevelRestart(_this.levelData.name, Date.now() - _this.startedTime, _this.clicks);
                     FlipPlus.FlipPlusGame.replayLevel();
@@ -1329,9 +1259,7 @@ var FlipPlus;
                 this.content.addChild(this.boardSprite);
                 this.boardSprite.x = defaultWidth / 2;
                 this.boardSprite.y = defaultHeight / 2;
-                this.boardSprite.addInputCallback(function (col, row) {
-                    _this.userInput(col, row);
-                });
+                this.boardSprite.addInputCallback(function (col, row) { _this.userInput(col, row); });
                 //TODO create a custom event
             };
             LevelScreen.prototype.back = function () {
@@ -1355,34 +1283,40 @@ var FlipPlus;
                 if (this.levelLogic.verifyWin())
                     this.win(col, row);
                 this.levelLogic.moves++;
+                this.trySuggestHelp();
             };
             // #endregion
             // #region  Helpers =========================================================================================================
             // user helper
             LevelScreen.prototype.trySuggestHelp = function () {
+                if (this.helped)
+                    return;
                 var plays = this.levelData.userdata.playedTimes;
                 var invertsInitial = this.levelData.blocksData.length;
                 var inverts = this.levelLogic.board.getInvertedBlocksCount();
                 // verify if user went too far from solution.
                 if (inverts > invertsInitial * 2) {
                     // verifies if user play a the same level lot of times
-                    if (plays > 3)
+                    if (plays > 2) {
                         // send message to ask to skip
                         this.showSkipMessage();
-                    else
+                        this.helped = true;
+                    }
+                    else {
                         // show message to ask restart
                         this.showRestartMessage();
+                        this.helped = true;
+                    }
                 }
             };
             // show a message asking for user to restart
             LevelScreen.prototype.showRestartMessage = function () {
-                // TODO
-                this.message.showtext("RESTART");
+                this.popupHelper.showRestartMessage();
             };
             // show a message asking for user to skip
             LevelScreen.prototype.showSkipMessage = function () {
-                // TODO
-                this.message.showtext("SKIP");
+                var _this = this;
+                this.popupHelper.showSkipPessage(this.getItemPrice("skip"), function () { _this.useItemSkip(); });
             };
             // #endregion
             // #region  GamePlay methods =========================================================================================================
@@ -1425,9 +1359,7 @@ var FlipPlus;
                     _this.boardSprite.winEffect(col, row);
                 }, 200);
                 //animates board to fade out;
-                setTimeout(function () {
-                    _this.winSwitchScreen(complete1stTime);
-                }, 1800);
+                setTimeout(function () { _this.winSwitchScreen(complete1stTime); }, 1800);
             };
             LevelScreen.prototype.winSwitchScreen = function (complete1stTime) {
                 var _this = this;
@@ -1449,9 +1381,7 @@ var FlipPlus;
                 this.gameplayMenu.fadeOut();
                 this.boardSprite.lock();
                 this.boardSprite.looseEffect();
-                setTimeout(function () {
-                    FlipPlus.FlipPlusGame.looseLevel();
-                }, 3000);
+                setTimeout(function () { FlipPlus.FlipPlusGame.looseLevel(); }, 3000);
                 ;
             };
             // #endregion
@@ -1601,9 +1531,28 @@ var FlipPlus;
                     var x = defaultWidth / 2;
                     var t = 100;
                     this.boardSprite.mouseEnabled = false;
-                    createjs.Tween.get(this.boardSprite).wait(500).to({ x: x - 5 }, 0).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).wait(200).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).wait(200).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).wait(200).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).to({ x: x - 5 }, t).to({ x: x + 5 }, t).wait(200).call(function () {
-                        _this.boardSprite.mouseEnabled = true;
-                    });
+                    createjs.Tween.get(this.boardSprite)
+                        .wait(500)
+                        .to({ x: x - 5 }, 0).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .wait(200)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .wait(200)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .wait(200)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .to({ x: x - 5 }, t).to({ x: x + 5 }, t)
+                        .wait(200).call(function () { _this.boardSprite.mouseEnabled = true; });
                 }
             };
             return LevelScreen;
@@ -1624,12 +1573,8 @@ var FlipPlus;
                     this.gameplayMenu.addButtons(levelData.customItems);
                 else
                     this.gameplayMenu.addButtons(["skip", "hint"]);
-                this.gameplayMenu.addEventListener("skip", function (parameter) {
-                    _this.useItemSkip();
-                });
-                this.gameplayMenu.addEventListener("hint", function (parameter) {
-                    _this.useItemHint(parameter.target);
-                });
+                this.gameplayMenu.addEventListener("skip", function (parameter) { _this.useItemSkip(); });
+                this.gameplayMenu.addEventListener("hint", function (parameter) { _this.useItemHint(parameter.target); });
                 this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
                 //draw blocks
                 if (levelData.type == "draw" && levelData.drawData == null)
@@ -1663,18 +1608,10 @@ var FlipPlus;
                 this.currentPuzzle = 1;
                 this.puzzlesToSolve = 0;
                 this.gameplayMenu.addButtons(["skip", "time", "solve", "hint"]);
-                this.gameplayMenu.addEventListener("skip", function () {
-                    _this.useItemSkip();
-                });
-                this.gameplayMenu.addEventListener("time", function () {
-                    _this.useItemTime();
-                });
-                this.gameplayMenu.addEventListener("solve", function () {
-                    _this.useItemSolve();
-                });
-                this.gameplayMenu.addEventListener("hint", function () {
-                    _this.useItemHint();
-                });
+                this.gameplayMenu.addEventListener("skip", function () { _this.useItemSkip(); });
+                this.gameplayMenu.addEventListener("time", function () { _this.useItemTime(); });
+                this.gameplayMenu.addEventListener("solve", function () { _this.useItemSolve(); });
+                this.gameplayMenu.addEventListener("hint", function () { _this.useItemHint(); });
                 this.puzzlesToSolve = levelData.puzzlesToSolve;
                 this.currentTime = levelData.time;
                 this.randomBoard(levelData.randomMinMoves, levelData.randomMaxMoves);
@@ -1967,6 +1904,7 @@ var FlipPlus;
                         blocksArray[s] = false;
                     for (var i = 0; i < invertedBlocks.length; i++)
                         blocksArray[invertedBlocks[i]] = true;
+                    //verifies for each solutions
                     for (var s = 0; s < solutions.length; s++) {
                         var sol = solutions[s];
                         invertsCount[s] = 0;
@@ -2061,6 +1999,7 @@ var FlipPlus;
                     this.mirrorBlocks(blocks);
                 };
                 Board.prototype.invertBlocks = function (blocks) {
+                    //invert all blocks
                     for (var b in blocks)
                         blocks[b].toggleState();
                 };
@@ -2269,9 +2208,7 @@ var FlipPlus;
                     }
                     if (oldStateImage != null) {
                         createjs.Tween.removeTweens(oldStateImage);
-                        createjs.Tween.get(oldStateImage).to({ scaleY: 0, scaleX: 0 }, 100, createjs.Ease.cubicIn).call(function () {
-                            oldStateImage.visible = false;
-                        });
+                        createjs.Tween.get(oldStateImage).to({ scaleY: 0, scaleX: 0 }, 100, createjs.Ease.cubicIn).call(function () { oldStateImage.visible = false; });
                         oldStateImage.scaleY = 1;
                         oldStateImage.scaleX = 1;
                     }
@@ -2309,6 +2246,7 @@ var FlipPlus;
                         { name: "Inv", images: ["puzzle/tilex"] },
                         { name: "DInv", images: ["puzzle/tileDgray"] },
                         { name: "DNor", images: ["puzzle/tileD" + theme] },
+                        //{ name: "DInv", images: ["puzzle/tilexD"] },
                         { name: "null", images: ["puzzle/tile0"] },
                     ];
                     for (var state = 0; state < manifest.length; state++) {
@@ -2341,7 +2279,18 @@ var FlipPlus;
                     this.memoryImage.alpha = 0;
                     this.memoryImage.scaleX = this.memoryImage.scaleY = 1.1;
                     this.memoryImage.x = this.memoryImage.y = -BlockSprite.defaultBlockSize * 0.05;
-                    createjs.Tween.get(this.memoryImage).to({ alpha: 1 }).wait(500).to({ alpha: 0 }).wait(500).to({ alpha: 1 }).wait(500).to({ alpha: 0 }).wait(500).to({ alpha: 1 }).wait(500).to({ alpha: 0 }).wait(500).to({ alpha: 1 }).wait(250).to({ alpha: 0 }).wait(250).to({ alpha: 1 }).wait(250).to({ alpha: 0 }).wait(250).to({ alpha: 1 });
+                    createjs.Tween.get(this.memoryImage)
+                        .to({ alpha: 1 }).wait(500)
+                        .to({ alpha: 0 }).wait(500)
+                        .to({ alpha: 1 }).wait(500)
+                        .to({ alpha: 0 }).wait(500)
+                        .to({ alpha: 1 }).wait(500)
+                        .to({ alpha: 0 }).wait(500)
+                        .to({ alpha: 1 }).wait(250)
+                        .to({ alpha: 0 }).wait(250)
+                        .to({ alpha: 1 }).wait(250)
+                        .to({ alpha: 0 }).wait(250)
+                        .to({ alpha: 1 });
                 };
                 BlockSprite.prototype.reveal = function () {
                     this.memoryImage.alpha = 0;
@@ -2386,11 +2335,10 @@ var FlipPlus;
                 BlockSprite.prototype.animatePreInvertRelease = function () {
                     var _this = this;
                     createjs.Tween.removeTweens(this);
-                    this.container.scaleX = 0.8, this.container.scaleY = 0.8;
+                    this.container.scaleX = 0.8,
+                        this.container.scaleY = 0.8;
                     createjs.Tween.removeTweens(this.highlight);
-                    createjs.Tween.get(this.highlight).to({ alpha: 0 }, 400, createjs.Ease.backOut).call(function () {
-                        _this.highlight.visible = false;
-                    });
+                    createjs.Tween.get(this.highlight).to({ alpha: 0 }, 400, createjs.Ease.backOut).call(function () { _this.highlight.visible = false; });
                     createjs.Tween.get(this.container).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.backOut);
                 };
                 BlockSprite.prototype.applyBounceEffect = function (delay) {
@@ -2455,6 +2403,7 @@ var FlipPlus;
                 BoardSprite.prototype.addBlocks = function (width, height, theme, levelType) {
                     var _this = this;
                     this.blocksSprites = [];
+                    //todo:  Talvez esse trecho não seja de responsabilidade do ThemeLoader
                     for (var col = 0; col < width; col++) {
                         this.blocksSprites[col] = [];
                         for (var row = 0; row < height; row++) {
@@ -2683,12 +2632,8 @@ var FlipPlus;
                     return response;
                 };
                 //===================================================  Lock     =================================================================
-                BoardSprite.prototype.lock = function () {
-                    this.locked = true;
-                };
-                BoardSprite.prototype.unlock = function () {
-                    this.locked = false;
-                };
+                BoardSprite.prototype.lock = function () { this.locked = true; };
+                BoardSprite.prototype.unlock = function () { this.locked = false; };
                 return BoardSprite;
             })(createjs.Container);
             Views.BoardSprite = BoardSprite;
@@ -2707,12 +2652,8 @@ var FlipPlus;
                     _super.call(this);
                     this.buildObjects();
                 }
-                Overlay.prototype.show = function () {
-                    this.visible = true;
-                };
-                Overlay.prototype.hide = function () {
-                    this.visible = false;
-                };
+                Overlay.prototype.show = function () { this.visible = true; };
+                Overlay.prototype.hide = function () { this.visible = false; };
                 Overlay.prototype.buildObjects = function () {
                     //nothin to do here
                 };
@@ -2826,10 +2767,9 @@ var FlipPlus;
                     this.overlayMenu = new gameui.UIItem();
                     this.overlayMenu.width = 2 * defaultWidth;
                     this.overlayMenu.height = 0;
-                    var pausBt = new gameui.IconButton("puzzle/iconepause", "", "", "", "puzzle/btpowerup", function () {
-                        _this.pause();
-                    });
-                    this.overlayMenu.addChild(pausBt), pausBt.x = 1390;
+                    var pausBt = new gameui.IconButton("puzzle/iconepause", "", "", "", "puzzle/btpowerup", function () { _this.pause(); });
+                    this.overlayMenu.addChild(pausBt),
+                        pausBt.x = 1390;
                     this.addChild(this.overlayMenu);
                 };
                 // ================ Add Buttons ==========================================
@@ -2878,25 +2818,15 @@ var FlipPlus;
                 GamePlayMenu.prototype.createPauseMenu = function () {
                     var _this = this;
                     var pauseMenu = new gameui.UIItem();
-                    var playBt = new gameui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", function () {
-                        _this.unpause();
-                    }, "buttonOut");
+                    var playBt = new gameui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", function () { _this.unpause(); }, "buttonOut");
                     playBt.x = 600;
-                    var snd1Bt = new gameui.ImageButton("puzzle/btsom1", function () {
-                        _this.dispatchEvent("soundOn");
-                    }, "buttonOut");
+                    var snd1Bt = new gameui.ImageButton("puzzle/btsom1", function () { _this.dispatchEvent("soundOn"); }, "buttonOut");
                     snd1Bt.x = 160;
-                    var snd2Bt = new gameui.ImageButton("puzzle/btsom2", function () {
-                        _this.dispatchEvent("soundOff");
-                    }, "buttonOut");
+                    var snd2Bt = new gameui.ImageButton("puzzle/btsom2", function () { _this.dispatchEvent("soundOff"); }, "buttonOut");
                     snd2Bt.x = 160;
-                    var backBt = new gameui.ImageButton("puzzle/btsair", function () {
-                        _this.dispatchEvent("back");
-                    }, "buttonOut");
+                    var backBt = new gameui.ImageButton("puzzle/btsair", function () { _this.dispatchEvent("back"); }, "buttonOut");
                     backBt.x = 400;
-                    var restBt = new gameui.ImageButton("puzzle/btrest", function () {
-                        _this.dispatchEvent("restart");
-                    }, "buttonOut");
+                    var restBt = new gameui.ImageButton("puzzle/btrest", function () { _this.dispatchEvent("restart"); }, "buttonOut");
                     restBt.x = -80;
                     pauseMenu.addChild(playBt);
                     pauseMenu.addChild(snd1Bt);
@@ -3018,16 +2948,15 @@ var FlipPlus;
                 StatusArea.prototype.createAlertAnimation = function () {
                     var instance = this.rightIcon;
                     this.rightIconMC = new createjs.MovieClip(createjs.MovieClip.SYNCHED, 0, false);
-                    this.rightIconMC.timeline.addTween(createjs.Tween.get(instance).to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 }, 8).to({ scaleX: 1.2, scaleY: 1.2, rotation: 19.2 }, 8).to({ scaleX: 1, scaleY: 1, rotation: 0 }, 4).to({ startPosition: 0 }, 35).wait(1));
+                    this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
+                        .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).
+                        to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 }, 8).
+                        to({ scaleX: 1.2, scaleY: 1.2, rotation: 19.2 }, 8).
+                        to({ scaleX: 1, scaleY: 1, rotation: 0 }, 4).
+                        to({ startPosition: 0 }, 35).wait(1));
                 };
-                StatusArea.prototype.setText1 = function (text) {
-                    this.bg1.visible = !(text == "" || text == null);
-                    this.text1.text = text;
-                };
-                StatusArea.prototype.setText2 = function (text) {
-                    ;
-                    this.text2.text = text;
-                };
+                StatusArea.prototype.setText1 = function (text) { this.bg1.visible = !(text == "" || text == null); this.text1.text = text; };
+                StatusArea.prototype.setText2 = function (text) { ; this.text2.text = text; };
                 StatusArea.prototype.setText3 = function (text) {
                     this.bg3.visible = !(text == "" || text == null);
                     this.text3.text = text;
@@ -3122,14 +3051,14 @@ var FlipPlus;
                 footer.y = -291;
             };
             //adds objects to the view <<interface>>
-            BonusScreen.prototype.addObjects = function () {
-            };
+            BonusScreen.prototype.addObjects = function () { };
             //create sa footer
             BonusScreen.prototype.addFooter = function (itemsArray) {
                 this.footerContainer = new createjs.Container();
                 this.footerContainer.y = -291;
                 this.footerTexts = [];
                 this.footerMaxs = [];
+                //adds Items to the footer
                 for (var i = 0; i < itemsArray.length; i++) {
                     var itemId = itemsArray[i];
                     //add icon
@@ -3186,7 +3115,10 @@ var FlipPlus;
                     // cast effect
                     this.fx.castEffect(startPoint.x + 50, startPoint.y + 50, "Bolinhas", 3);
                     // Animate item
-                    createjs.Tween.get(itemObj).to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).to({ x: endPoint.x, y: endPoint.y }, 700, createjs.Ease.quadInOut).call(function () {
+                    createjs.Tween.get(itemObj).
+                        to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
+                        to({ x: endPoint.x, y: endPoint.y }, 700, createjs.Ease.quadInOut).
+                        call(function () {
                         _this.updateFooterValues();
                         // cast effect
                         var fxPoint = _this.footerContainer.localToLocal(footerItem.x, footerItem.y, _this.content);
@@ -3204,12 +3136,8 @@ var FlipPlus;
             BonusScreen.prototype.addMenu = function () {
                 var _this = this;
                 this.menu = new FlipPlus.Menu.View.ScreenMenu();
-                this.menu.addEventListener("menu", function () {
-                    FlipPlus.FlipPlusGame.showOptions();
-                });
-                this.menu.addEventListener("back", function () {
-                    _this.back();
-                });
+                this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
+                this.menu.addEventListener("back", function () { _this.back(); });
                 this.header.addChild(this.menu);
             };
             //updates user Data with new Item
@@ -3289,11 +3217,10 @@ var FlipPlus;
                 ];
                 //creates a container
                 var barrelsContainer = new createjs.Container();
+                //adds 3 barrels
                 for (var b = 0; b < barrelsCount; b++) {
                     var barrel = new gameui.Button();
-                    barrel.addEventListener("click", function (event) {
-                        _this.barrelTap(event);
-                    });
+                    barrel.addEventListener("click", function (event) { _this.barrelTap(event); });
                     //adds Barrel 
                     var spriteBarrel = gameui.AssetsManager.getBitmap("Bonus1/barrel" + b);
                     spriteBarrel.rotation = 10;
@@ -3323,9 +3250,15 @@ var FlipPlus;
                     if (Math.random() > 0.5)
                         barrel.scaleX = -1;
                     //animate barrel
-                    createjs.Tween.get(barrel, { loop: true }).wait(Math.random() * 2000).to({ x: barrel.x - 30 }, 2000, createjs.Ease.quadInOut).wait(Math.random() * 2000).to({ x: barrel.x }, 2000, createjs.Ease.quadInOut);
+                    createjs.Tween.get(barrel, { loop: true })
+                        .wait(Math.random() * 2000)
+                        .to({ x: barrel.x - 30 }, 2000, createjs.Ease.quadInOut)
+                        .wait(Math.random() * 2000)
+                        .to({ x: barrel.x }, 2000, createjs.Ease.quadInOut);
                     setTimeout(function (a) {
-                        createjs.Tween.get(a, { loop: true }).to({ y: a.y - 15 }, 500, createjs.Ease.quadInOut).to({ y: a.y }, 500, createjs.Ease.quadInOut);
+                        createjs.Tween.get(a, { loop: true })
+                            .to({ y: a.y - 15 }, 500, createjs.Ease.quadInOut)
+                            .to({ y: a.y }, 500, createjs.Ease.quadInOut);
                     }, Math.random() * 1000, spriteBarrel);
                     //save obj to local array
                     this.barrels.push(barrel);
@@ -3353,14 +3286,17 @@ var FlipPlus;
                 //avoid errors
                 if (itemsCount > barrelsCount)
                     itemsCount = barrelsCount;
+                //show all barrels
                 for (var ba in this.barrels) {
                     this.barrels[ba].visible = true;
                     this.barrels[ba].mouseEnabled = true;
                 }
+                //show all contents
                 for (var co in this.BarrelsItens)
                     this.BarrelsItens[co].removeAllChildren();
                 //clean all items
                 this.items = this.randomItensInArray(itemsCount, barrelsCount);
+                //adds objects in barrel
                 for (var b = 0; b < this.barrels.length; b++) {
                     //show the item
                     if (this.items[b])
@@ -3380,6 +3316,7 @@ var FlipPlus;
                 var indexesLists = [];
                 for (var b = 0; b < arrayLength; b++)
                     indexesLists.push(b);
+                //for each item
                 for (var i = 0; i < itemsCount; i++) {
                     //select and remove a barrel from a list, and set a item to it
                     var index = Math.floor(Math.random() * indexesLists.length);
@@ -3430,8 +3367,10 @@ var FlipPlus;
             //finalizes bonus game
             BonusBarrel.prototype.endBonus = function () {
                 var _this = this;
+                //locks barrels interactions
                 for (var barrel in this.barrels)
                     this.barrels[barrel].mouseEnabled = false;
+                //adds objects in barrel
                 for (var b = 0; b < this.barrels.length; b++)
                     this.BarrelsItens[b].visible = true;
                 //delay and hide others barrels and show other barrels content
@@ -3439,9 +3378,7 @@ var FlipPlus;
                     for (var barrel in _this.barrels)
                         createjs.Tween.get(_this.barrels[barrel]).wait(barrel * 100).to({ alpha: 0 }, 150);
                 }, 1000);
-                setTimeout(function () {
-                    _super.prototype.endBonus.call(_this);
-                }, 3500);
+                setTimeout(function () { _super.prototype.endBonus.call(_this); }, 3500);
             };
             return BonusBarrel;
         })(Bonus.BonusScreen);
@@ -3520,9 +3457,7 @@ var FlipPlus;
                         //if there is no more lives, than end game
                         this.content.mouseEnabled = false;
                         this.message.showtext(stringResources.b2_noMoreChances, 2000, 500);
-                        this.message.addEventListener("onclose", function () {
-                            _this.endBonus();
-                        });
+                        this.message.addEventListener("onclose", function () { _this.endBonus(); });
                         // play sound
                         gameui.AudiosManager.playSound("Wrong Answer");
                     }
@@ -3535,9 +3470,7 @@ var FlipPlus;
                     //ends the game
                     this.content.mouseEnabled = false;
                     this.message.showtext(stringResources.b2_finish, 2000, 500);
-                    this.message.addEventListener("onclose", function () {
-                        _this.endBonus();
-                    });
+                    this.message.addEventListener("onclose", function () { _this.endBonus(); });
                 }
             };
             //retuns all oppened cards
@@ -3561,6 +3494,7 @@ var FlipPlus;
                 cardsContainer.x = 184 + 93 + 45;
                 cardsContainer.y = 135 + 400;
                 this.cardsContainer = cardsContainer;
+                //for each cards
                 for (var c in cards) {
                     var card = new Card(cards[c]);
                     card.x = c % cols * width;
@@ -3568,9 +3502,7 @@ var FlipPlus;
                     cardsContainer.addChild(card);
                     this.cards.push(card);
                     //add cards event listener
-                    card.addEventListener("click", function (e) {
-                        _this.cardClick(e.currentTarget);
-                    });
+                    card.addEventListener("click", function (e) { _this.cardClick(e.currentTarget); });
                 }
                 this.content.addChild(cardsContainer);
             };
@@ -3581,12 +3513,14 @@ var FlipPlus;
                 items2 = items2.concat(items);
                 //set number of lives
                 this.lives = cardsCount - pairs * 2;
+                //add Cards Pairs
                 for (var p = 0; p < pairs; p++) {
                     var itemIndex = Math.floor(Math.random() * items2.length);
                     cards.push(items2[itemIndex]);
                     cards.push(items2[itemIndex]);
                     items2.splice(itemIndex, 1);
                 }
+                //Adds empty spaces
                 for (var p = 0; p < cardsCount - pairs * 2; p++)
                     cards.push(null);
                 //randomize cards
@@ -3636,16 +3570,19 @@ var FlipPlus;
                 this.getChildByName("item").visible = true;
                 var cover = this.getChildByName("cover");
                 createjs.Tween.removeTweens(cover);
-                createjs.Tween.get(cover).to({ rotation: 90, y: 1000, alpha: 0 }, 500, createjs.Ease.sineIn).call(function () {
-                    cover.visible = false;
-                });
+                createjs.Tween.get(cover).to({ rotation: 90, y: 1000, alpha: 0 }, 500, createjs.Ease.sineIn).call(function () { cover.visible = false; });
                 this.mouseEnabled = false;
                 this.opened = true;
             };
             Card.prototype.shakeObj = function () {
                 var item = this.getChildByName("item");
                 createjs.Tween.removeTweens(item);
-                createjs.Tween.get(item).to({ x: 184 + -25, scaleX: 1.1, scaleY: 1.1 }, 150, createjs.Ease.quadInOut).to({ x: 184 + +25, scaleX: 1.3, scaleY: 1.3 }, 150, createjs.Ease.quadInOut).to({ x: 184 + -25, scaleX: 1.3, scaleY: 1.3 }, 150, createjs.Ease.quadInOut).to({ x: 184 + +25, scaleX: 1.1, scaleY: 1.1 }, 150, createjs.Ease.quadInOut).to({ x: 184 + +0, scaleX: 1.0, scaleY: 1.0 }, 150, createjs.Ease.quadInOut);
+                createjs.Tween.get(item)
+                    .to({ x: 184 + -25, scaleX: 1.1, scaleY: 1.1 }, 150, createjs.Ease.quadInOut)
+                    .to({ x: 184 + +25, scaleX: 1.3, scaleY: 1.3 }, 150, createjs.Ease.quadInOut)
+                    .to({ x: 184 + -25, scaleX: 1.3, scaleY: 1.3 }, 150, createjs.Ease.quadInOut)
+                    .to({ x: 184 + +25, scaleX: 1.1, scaleY: 1.1 }, 150, createjs.Ease.quadInOut)
+                    .to({ x: 184 + +0, scaleX: 1.0, scaleY: 1.0 }, 150, createjs.Ease.quadInOut);
             };
             return Card;
         })(createjs.Container);
@@ -3674,33 +3611,21 @@ var FlipPlus;
                 this.content.addChild(mc);
                 this.mainClip = mc;
                 //set stops
-                this.mainClip.addEventListener("ready", function () {
-                    _this.mainClip.stop();
-                });
-                this.mainClip.addEventListener("WrongEnd", function () {
-                    _this.mainClip.stop();
-                });
+                this.mainClip.addEventListener("ready", function () { _this.mainClip.stop(); });
+                this.mainClip.addEventListener("WrongEnd", function () { _this.mainClip.stop(); });
                 this.mainClip.addEventListener("End", function () {
                     _this.mainClip.stop();
                     _this.message.showtext(stringResources.b3_finish, 2000, 1000);
-                    _this.message.addEventListener("onclose", function () {
-                        _this.endBonus();
-                    });
+                    _this.message.addEventListener("onclose", function () { _this.endBonus(); });
                 });
                 //add keys 
                 this.keys = new Array();
                 this.keys.push(this.mainClip["key1"]);
                 this.keys.push(this.mainClip["key2"]);
                 this.keys.push(this.mainClip["key3"]);
-                this.keys[0].addEventListener("click", function () {
-                    _this.pickKey(0);
-                });
-                this.keys[1].addEventListener("click", function () {
-                    _this.pickKey(1);
-                });
-                this.keys[2].addEventListener("click", function () {
-                    _this.pickKey(2);
-                });
+                this.keys[0].addEventListener("click", function () { _this.pickKey(0); });
+                this.keys[1].addEventListener("click", function () { _this.pickKey(1); });
+                this.keys[2].addEventListener("click", function () { _this.pickKey(2); });
                 this.mainClip["indicator"].stop();
             };
             //========================= Game behaviour =======================
@@ -3760,9 +3685,7 @@ var FlipPlus;
                 if (this.chances < 0) {
                     this.content.mouseEnabled = false;
                     this.message.showtext(stringResources.b3_noMoreChances, 2000, 1100);
-                    this.message.addEventListener("onclose", function () {
-                        _this.endBonus();
-                    });
+                    this.message.addEventListener("onclose", function () { _this.endBonus(); });
                     // play sound
                     gameui.AudiosManager.playSound("Wrong Answer");
                 }
@@ -3774,13 +3697,14 @@ var FlipPlus;
                 this.itemsContainer.removeAllChildren();
                 var items = this.selectRandomItems(4);
                 var itemsDo = [];
+                //create items objects
                 for (var i in items) {
                     FlipPlus.FlipPlusGame.coinsData.increaseAmount(1);
                     var item = this.createItem(items[i]);
                     item.set({ x: defaultWidth / 2, y: defaultHeight / 2 - 100, alpha: 0 });
-                    createjs.Tween.get(item).wait(500 + i * 300).to({ alpha: 1, x: defaultWidth / 2.5 + (300 * (i - 1)), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut).call(function (itemDo) {
-                        _this.animateItemObjectToFooter(itemDo, itemDo.name);
-                    }, [item]);
+                    createjs.Tween.get(item).wait(500 + i * 300)
+                        .to({ alpha: 1, x: defaultWidth / 2.5 + (300 * (i - 1)), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
+                        .call(function (itemDo) { _this.animateItemObjectToFooter(itemDo, itemDo.name); }, [item]);
                     this.itemsContainer.addChild(item);
                 }
             };
@@ -3879,12 +3803,8 @@ var FlipPlus;
                 this.menu = new Menu.View.ScreenMenu();
                 //TODO fazer camada intermediaria
                 //TODO o options sempre volta pro menu principal. O_o
-                this.menu.addEventListener("menu", function () {
-                    FlipPlus.FlipPlusGame.showOptions();
-                });
-                this.menu.addEventListener("back", function () {
-                    _this.back();
-                });
+                this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
+                this.menu.addEventListener("back", function () { _this.back(); });
                 this.header.addChild(this.menu);
             };
             //adds all projects in swipe view
@@ -3892,14 +3812,13 @@ var FlipPlus;
                 var _this = this;
                 //pega projetos
                 var projects = FlipPlus.FlipPlusGame.projectManager.getUnlockedProjects();
+                //add every project
                 for (var p = this.projectViews.length; p < projects.length; p++) {
                     var projectView = new Menu.View.ProjectWorkshopView(projects[p]);
                     this.projectViews.push(projectView);
                     projectView.activate();
                     projectView.x = defaultWidth * p;
-                    projectView.addEventListener("levelClick", function (e) {
-                        _this.openLevel(e.level, e.parameters);
-                    });
+                    projectView.addEventListener("levelClick", function (e) { _this.openLevel(e.level, e.parameters); });
                     this.projectsContainer.addChild(projectView);
                 }
             };
@@ -3920,16 +3839,12 @@ var FlipPlus;
             WorkshopMenu.prototype.createPaginationButtons = function (pagesContainer) {
                 var _this = this;
                 //create leftButton
-                var lb = new gameui.ImageButton("projects/btpage", function () {
-                    _this.pagesSwipe.gotoPreviousPage();
-                }, "buttonOut");
+                var lb = new gameui.ImageButton("projects/btpage", function () { _this.pagesSwipe.gotoPreviousPage(); }, "buttonOut");
                 lb.y = 1050;
                 lb.x = defaultWidth * 0.1;
                 this.content.addChild(lb);
                 //create right button
-                var rb = new gameui.ImageButton("projects/btpage", function () {
-                    _this.pagesSwipe.gotoNextPage();
-                });
+                var rb = new gameui.ImageButton("projects/btpage", function () { _this.pagesSwipe.gotoNextPage(); });
                 rb.y = 1050;
                 rb.x = defaultWidth * 0.9;
                 rb.scaleX = -1;
@@ -3955,6 +3870,7 @@ var FlipPlus;
                 this.factorySound.setVolume(0.4);
                 //update enabled Projects
                 this.addProjects();
+                //update all projects views
                 for (var pv in this.projectViews) {
                     var project = FlipPlus.FlipPlusGame.projectManager.getProjectByName(this.projectViews[pv].name);
                     if (project == FlipPlus.FlipPlusGame.projectManager.getCurrentProject()) {
@@ -4100,9 +4016,7 @@ var FlipPlus;
             MainMenu.prototype.addMenu = function () {
                 var _this = this;
                 this.menu = new Menu.View.ScreenMenu();
-                this.menu.addEventListener("back", function () {
-                    _this.back();
-                });
+                this.menu.addEventListener("back", function () { _this.back(); });
                 this.menu.addEventListener("menu", function () {
                     //TODO fazer camada intermediaria
                     FlipPlus.FlipPlusGame.showOptions();
@@ -4214,12 +4128,8 @@ var FlipPlus;
                 this.menu = new Menu.View.ScreenMenu(true, true);
                 //TODO fazer camada intermediaria
                 //TODO o options sempre volta pro menu principal. O_o
-                this.menu.addEventListener("menu", function () {
-                    FlipPlus.FlipPlusGame.showOptions();
-                });
-                this.menu.addEventListener("back", function () {
-                    _this.back();
-                });
+                this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
+                this.menu.addEventListener("back", function () { _this.back(); });
                 this.header.addChild(this.menu);
                 //create starsIndicator
                 this.starsIndicator = new Menu.View.StarsIndicator();
@@ -4256,6 +4166,7 @@ var FlipPlus;
                 var currentPage;
                 // Create projectItens
                 var projects = FlipPlus.FlipPlusGame.projectManager.getAllProjects();
+                //creates all itens
                 for (var i = 0; i < projects.length; i++) {
                     //create current page
                     if (i % (cols * rows) == 0) {
@@ -4268,9 +4179,7 @@ var FlipPlus;
                     }
                     var pview = new Menu.View.ProjectItem(projects[i]);
                     //add click event to the item
-                    pview.addEventListener("click", function (e) {
-                        _this.projectItemClick(e);
-                    });
+                    pview.addEventListener("click", function (e) { _this.projectItemClick(e); });
                     //add item to scene
                     this.projectsItems.push(pview);
                     currentPage.addChild(pview);
@@ -4346,16 +4255,12 @@ var FlipPlus;
                 bg.y = -246;
                 this.footer.addChild(bg);
                 //create leftButton
-                var lb = new gameui.ImageButton("projects/btpage", function () {
-                    _this.pagesSwipe.gotoPreviousPage();
-                }, "buttonOut");
+                var lb = new gameui.ImageButton("projects/btpage", function () { _this.pagesSwipe.gotoPreviousPage(); }, "buttonOut");
                 lb.y = -100;
                 lb.x = defaultWidth * 0.1;
                 this.footer.addChild(lb);
                 //create right button
-                var rb = new gameui.ImageButton("projects/btpage", function () {
-                    _this.pagesSwipe.gotoNextPage();
-                });
+                var rb = new gameui.ImageButton("projects/btpage", function () { _this.pagesSwipe.gotoNextPage(); });
                 rb.y = -100;
                 rb.x = defaultWidth * 0.9;
                 rb.scaleX = -1;
@@ -4520,16 +4425,12 @@ var FlipPlus;
                     if (backVisible === void 0) { backVisible = true; }
                     if (starsVisible === void 0) { starsVisible = false; }
                     //adds menu button
-                    var menuBt = new gameui.ImageButton("MenuBt", function () {
-                        _this.dispatchEvent("menu", menuBt);
-                    });
+                    var menuBt = new gameui.ImageButton("MenuBt", function () { _this.dispatchEvent("menu", menuBt); });
                     menuBt.y = 90;
                     menuBt.x = defaultWidth - 130;
                     this.addChild(menuBt);
                     //add a bacl buttton
-                    var backBt = new gameui.ImageButton("BackBt", function () {
-                        _this.dispatchEvent("back", menuBt);
-                    }, "buttonOut");
+                    var backBt = new gameui.ImageButton("BackBt", function () { _this.dispatchEvent("back", menuBt); }, "buttonOut");
                     backBt.y = 90;
                     backBt.x = 130;
                     backBt.visible = backVisible;
@@ -4560,6 +4461,7 @@ var FlipPlus;
                 //create a chapter menu, containing a lot o challanges
                 LevelGrid.prototype.createChapterSet = function (chapter) {
                     var _this = this;
+                    //creates a icon tiles
                     for (var i = 0; i < chapter.levels.length; i++) {
                         //get current chapter
                         var level = chapter.levels[i];
@@ -4588,6 +4490,7 @@ var FlipPlus;
                     }
                 };
                 LevelGrid.prototype.updateUserData = function () {
+                    //get User data from storage
                     for (var i = 0; i < this.thumbs.length; i++) {
                         var level = this.challangesMap[this.thumbs[i].name];
                         var chapter = this.currentChapter;
@@ -4653,7 +4556,9 @@ var FlipPlus;
                         this.setSound(null);
                         //create bounce effect if is active
                         thumbContainer.set({ scaleX: 1, scaleY: 1 });
-                        createjs.Tween.get(thumbContainer, { loop: true }).to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut);
+                        createjs.Tween.get(thumbContainer, { loop: true })
+                            .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut);
                     }
                     //Adds Thumb Backgroud
                     thumbContainer.addChild(this.createBackgroud(level, assetName, assetSufix));
@@ -4708,6 +4613,7 @@ var FlipPlus;
                     var size = 40;
                     var totalSize = level.width * level.height;
                     var blocks = [];
+                    //clean blocks
                     for (var i = 0; i < totalSize; i++)
                         blocks[i] = false;
                     //invert a crosses in the block
@@ -4895,7 +4801,7 @@ var FlipPlus;
                         //robot name text
                         var robotName = new createjs.Text(project.nickName, font, color);
                         robotName.x = 14;
-                        robotName.y = 00;
+                        robotName.y = 0;
                         this.addChild(robotName);
                         //percentage text 
                         var percenttext = new createjs.Text((project.UserData.percent * 100).toString() + "%", font, color);
@@ -4950,7 +4856,9 @@ var FlipPlus;
                     //if is new (unlocked and not played) do an animation
                     if (this.project.UserData.percent == 0 && this.project.UserData.unlocked) {
                         this.set({ scaleX: 1, scaleY: 1 });
-                        createjs.Tween.get(this, { loop: true }).to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut);
+                        createjs.Tween.get(this, { loop: true })
+                            .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut);
                     }
                 };
                 return ProjectItem;
@@ -5055,10 +4963,12 @@ var FlipPlus;
                     //for (var i = 0; i < this.projectsTypes.length; i++)
                     //    this.stars[i].visible = false;
                     var starsInfo = new Object();
+                    //shows only existent levels
                     for (var i = 0; i < this.projectsThemes.length; i++)
                         for (var l = 0; l < project.levels.length; l++)
                             if (this.projectsThemes[i] == project.levels[l].theme)
                                 starsInfo[i] = true;
+                    //hide uncompleted.
                     for (var i = 0; i < this.projectsThemes.length; i++)
                         for (var l = 0; l < project.levels.length; l++)
                             if (this.projectsThemes[i] == project.levels[l].theme)
@@ -5240,13 +5150,9 @@ var FlipPlus;
             };
             // ------------------------------- manager Projects ----------------------------------------
             //get current Project
-            ProjectManager.prototype.getCurrentProject = function () {
-                return this.currentProject;
-            };
+            ProjectManager.prototype.getCurrentProject = function () { return this.currentProject; };
             //set current project
-            ProjectManager.prototype.setCurrentProject = function (project) {
-                this.currentProject = project;
-            };
+            ProjectManager.prototype.setCurrentProject = function (project) { this.currentProject = project; };
             //Get all Projects
             ProjectManager.prototype.getAllProjects = function () {
                 return this.projects;
@@ -5262,6 +5168,7 @@ var FlipPlus;
             ProjectManager.prototype.getFinihedProjects = function () {
                 //return array with avaliable projects
                 var finishedProjects = [];
+                //verifies all projects and add the non complete to array, till reach max number
                 for (var i = 0; i < this.projects.length; i++)
                     if (this.projects[i].UserData.complete)
                         finishedProjects.push(this.projects[i]);
@@ -5271,6 +5178,7 @@ var FlipPlus;
             ProjectManager.prototype.getUnlockedProjects = function () {
                 //return array with avaliable projects
                 var unlockedProjects = [];
+                //verifies all projects and add the non complete to array, till reach max number
                 for (var i = 0; i < this.projects.length; i++)
                     if (this.projects[i].UserData.unlocked)
                         unlockedProjects.push(this.projects[i]);
@@ -5321,8 +5229,11 @@ var FlipPlus;
             //Updates user data project status
             ProjectManager.prototype.updateProjectUserData = function (project) {
                 var solvedLevels = 0;
+                //count solved levels
                 for (var l = 0; l < project.levels.length; l++)
-                    if (project.levels[l].userdata.solved || project.levels[l].userdata.skip || project.levels[l].userdata.item)
+                    if (project.levels[l].userdata.solved ||
+                        project.levels[l].userdata.skip ||
+                        project.levels[l].userdata.item)
                         solvedLevels++;
                 //calculate percentage
                 project.UserData.percent = solvedLevels / project.levels.length;
@@ -5352,6 +5263,245 @@ var FlipPlus;
         })();
         Projects.ProjectManager = ProjectManager;
     })(Projects = FlipPlus.Projects || (FlipPlus.Projects = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            // View Class
+            var Popup = (function (_super) {
+                __extends(Popup, _super);
+                // class contructor
+                function Popup(disableInput) {
+                    var _this = this;
+                    if (disableInput === void 0) { disableInput = false; }
+                    _super.call(this);
+                    this.drawObject();
+                    //centralize the popup on screen
+                    this.width = defaultWidth;
+                    this.height = defaultHeight;
+                    this.x = defaultWidth / 2;
+                    this.y = defaultHeight / 2;
+                    this.centralize();
+                    if (!disableInput) {
+                        //set Hit Area
+                        var hit = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, defaultWidth, defaultHeight));
+                        this.hitArea = hit;
+                        //hide popup
+                        this.visible = false;
+                        //add callback
+                        this.addEventListener("click", function () {
+                            _this.closePopUp();
+                            clearTimeout(_this.closeinterval);
+                        });
+                    }
+                }
+                // public method to invoke the popup
+                Popup.prototype.showtext = function (title, text, timeout, delay) {
+                    if (timeout === void 0) { timeout = 7000; }
+                    if (delay === void 0) { delay = 0; }
+                    this.showsPopup(timeout, delay);
+                    //clean display Object
+                    this.removeAllChildren();
+                    //draw background
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+                    //create a titleShadow
+                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+                    titleShadow.textAlign = "center";
+                    titleShadow.textBaseline = "middle";
+                    titleShadow.x = defaultWidth / 2;
+                    this.addChild(titleShadow);
+                    //create a title
+                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
+                    titleDO.textAlign = "center";
+                    titleDO.textBaseline = "middle";
+                    titleDO.x = defaultWidth / 2;
+                    this.addChild(titleDO);
+                    //create a text
+                    var textDO = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
+                    textDO.textAlign = "center";
+                    textDO.textBaseline = "middle";
+                    textDO.x = defaultWidth / 2;
+                    this.addChild(textDO);
+                    //updates title and text values
+                    titleShadow.text = titleDO.text = title.toUpperCase();
+                    textDO.text = text;
+                    var b = defaultHeight / 2 - 500;
+                    titleDO.y = 0 + b + 50;
+                    titleShadow.y = titleDO.y + 15;
+                    textDO.y = b + 300;
+                    this.addsClickIndicator();
+                };
+                Popup.prototype.showTimeAttack = function (title, text, time, boards, text2, text3, timeout, delay) {
+                    if (timeout === void 0) { timeout = 7000; }
+                    if (delay === void 0) { delay = 0; }
+                    this.showsPopup(timeout, delay);
+                    //clean display Object
+                    this.removeAllChildren();
+                    //draw background
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+                    //create a titleShadow
+                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+                    titleShadow.textAlign = "center";
+                    titleShadow.textBaseline = "middle";
+                    titleShadow.x = defaultWidth / 2;
+                    this.addChild(titleShadow);
+                    //create a title
+                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
+                    titleDO.textAlign = "center";
+                    titleDO.textBaseline = "middle";
+                    titleDO.x = defaultWidth / 2;
+                    this.addChild(titleDO);
+                    //create a text
+                    var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+                    textDO.textAlign = "center";
+                    textDO.textBaseline = "middle";
+                    textDO.x = defaultWidth / 2;
+                    this.addChild(textDO);
+                    //create a text
+                    var textDO1 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+                    textDO1.textAlign = "center";
+                    textDO1.textBaseline = "middle";
+                    textDO1.x = defaultWidth / 2;
+                    this.addChild(textDO1);
+                    //create a text
+                    var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+                    textDO2.textAlign = "center";
+                    textDO2.textBaseline = "middle";
+                    textDO2.x = defaultWidth / 2;
+                    this.addChild(textDO2);
+                    //create a text
+                    var timeDO = new createjs.Text("", defaultNumberHighlight, "white");
+                    timeDO.textAlign = "center";
+                    timeDO.textBaseline = "middle";
+                    timeDO.x = defaultWidth / 2;
+                    this.addChild(timeDO);
+                    //create a text
+                    var boardsDO = new createjs.Text("", defaultNumberHighlight, "white");
+                    boardsDO.textAlign = "center";
+                    boardsDO.textBaseline = "middle";
+                    boardsDO.x = defaultWidth / 2;
+                    this.addChild(boardsDO);
+                    //updates title and text values
+                    titleShadow.text = titleDO.text = title.toUpperCase();
+                    textDO.text = text;
+                    textDO1.text = text2;
+                    textDO2.text = text3;
+                    timeDO.text = time;
+                    boardsDO.text = boards;
+                    var b = defaultHeight / 2 - 500;
+                    titleDO.y = 0 + b + 50;
+                    titleShadow.y = titleDO.y + 15;
+                    textDO.y = 300 + b;
+                    textDO1.y = 450 + b;
+                    textDO2.y = 600 + b;
+                    timeDO.y = 450 + b;
+                    boardsDO.y = 450 + b;
+                    timeDO.x = 500;
+                    boardsDO.x = defaultWidth - 500;
+                    this.addsClickIndicator();
+                };
+                Popup.prototype.showflips = function (title, text, flips, timeout, delay) {
+                    if (timeout === void 0) { timeout = 7000; }
+                    if (delay === void 0) { delay = 0; }
+                    this.showsPopup(timeout, delay);
+                    //clean display Object
+                    this.removeAllChildren();
+                    //draw background
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+                    //create a titleShadow
+                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+                    titleShadow.textAlign = "center";
+                    titleShadow.textBaseline = "middle";
+                    titleShadow.x = defaultWidth / 2;
+                    this.addChild(titleShadow);
+                    //create a title
+                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
+                    titleDO.textAlign = "center";
+                    titleDO.textBaseline = "middle";
+                    titleDO.x = defaultWidth / 2;
+                    this.addChild(titleDO);
+                    //create a text
+                    var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+                    textDO.textAlign = "center";
+                    textDO.textBaseline = "middle";
+                    textDO.x = defaultWidth / 2;
+                    this.addChild(textDO);
+                    //create a text
+                    var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
+                    textDO2.textAlign = "center";
+                    textDO2.textBaseline = "middle";
+                    textDO2.x = defaultWidth / 2;
+                    this.addChild(textDO2);
+                    //create a text
+                    var flipsDO = new createjs.Text("", defaultNumberHighlight, "white");
+                    flipsDO.textAlign = "center";
+                    flipsDO.textBaseline = "middle";
+                    flipsDO.x = defaultWidth / 2;
+                    this.addChild(flipsDO);
+                    //updates title and text values
+                    titleShadow.text = titleDO.text = title.toUpperCase();
+                    textDO.text = text;
+                    textDO2.text = "";
+                    flipsDO.text = flips;
+                    var b = defaultHeight / 2 - 500;
+                    titleDO.y = 0 + b + 50;
+                    titleShadow.y = titleDO.y + 15;
+                    textDO.y = 300 + b;
+                    textDO2.y = 600 + b;
+                    flipsDO.y = 450 + b;
+                    this.addsClickIndicator();
+                };
+                // other stuff
+                Popup.prototype.showsPopup = function (timeout, delay) {
+                    var _this = this;
+                    //shows the popus
+                    this.closeinterval = setTimeout(function () {
+                        gameui.AudiosManager.playSound("Open");
+                        _this.fadeIn(1, 0.5);
+                    }, delay);
+                    ;
+                    //create a interval for closing the popopu
+                    if (timeout > 0)
+                        this.closeinterval = setTimeout(function () {
+                            _this.closePopUp();
+                        }, timeout + delay);
+                    //dispatch a event for parent objects
+                    this.dispatchEvent("onshow");
+                };
+                Popup.prototype.addsClickIndicator = function () {
+                    //add click indicator
+                    var ind = gameui.AssetsManager.getSprite("touch");
+                    this.addChild(ind);
+                    ind.x = 1350;
+                    ind.y = 1100;
+                };
+                // method for close popup 
+                Popup.prototype.closePopUp = function () {
+                    //hide the popup{
+                    this.fadeOut(1, 0.5);
+                    //dispatch a event for parent objects
+                    this.dispatchEvent("onclose");
+                };
+                // desenha os objetos do popup
+                Popup.prototype.drawObject = function () {
+                };
+                return Popup;
+            })(gameui.UIItem);
+            View.Popup = Popup;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
@@ -5390,9 +5540,7 @@ var FlipPlus;
                 for (var c = 0; c < this.myBots.getNumChildren(); c++) {
                     var robot = this.myBots.getChildAt(c);
                     ;
-                    robot.addEventListener("click", function (e) {
-                        _this.userfeedback(e);
-                    });
+                    robot.addEventListener("click", function (e) { _this.userfeedback(e); });
                     var hit = new createjs.Shape();
                     hit.graphics.beginFill("#000").drawRect(robot.getBounds().x, robot.getBounds().y, robot.getBounds().width, robot.getBounds().height);
                     robot.hitArea = hit;
@@ -5415,6 +5563,7 @@ var FlipPlus;
                 var projects = this.projectManager.getFinihedProjects();
                 //set all robots to start position
                 this.hideAllRobots();
+                //set idle to the finished projects
                 for (var r = 0; r < projects.length; r++)
                     this.showRobot(projects[r].name);
             };
@@ -5459,9 +5608,11 @@ var FlipPlus;
                     bgnewbot1.y = robotMC.y;
                     bgnewbot1.visible = true;
                     this.addChild(this.myBots);
-                    createjs.Tween.get(bgnewbot1).to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 0 }).to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 }, 1000).to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 + 90 }, 2000).to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 45 + 90 + 45 }, 1000).call(function () {
-                        _this.removeChild(bgnewbot1);
-                    });
+                    createjs.Tween.get(bgnewbot1).
+                        to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 0 }).
+                        to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 }, 1000).
+                        to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 + 90 }, 2000).
+                        to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 45 + 90 + 45 }, 1000).call(function () { _this.removeChild(bgnewbot1); });
                 }
             };
             return MyBots;
@@ -5471,7 +5622,6 @@ var FlipPlus;
 })(FlipPlus || (FlipPlus = {}));
 /// <reference path="src/preferences.ts" />
 /// <reference path="typing/createjs/createjs.d.ts" />
-/// <reference path="gameui/AudioManager.ts" />
 /// <reference path="gameui/AssetsManager.ts" />
 /// <reference path="gameui/GameScreen.ts" />
 /// <reference path="gameui/UIItem.ts" />
@@ -5523,7 +5673,192 @@ var FlipPlus;
 /// <reference path="src/Projects/Level.ts" />
 /// <reference path="src/Projects/Project.ts" />
 /// <reference path="src/Projects/ProjectManager.ts" />
+/// <reference path="src/menu/view/popup.ts" />
 /// <reference path="src/Robots/MyBots.ts" /> 
+var gameui;
+(function (gameui) {
+    // Class
+    var AudiosManager = (function () {
+        function AudiosManager() {
+        }
+        AudiosManager.setMusicVolume = function (volume) {
+            if (this.currentMusic)
+                this.currentMusic.volume = volume;
+            this.musicVolue = volume;
+        };
+        AudiosManager.setSoundVeolume = function (volume) {
+            this.soundVolume = volume;
+        };
+        AudiosManager.getMusicVolume = function () {
+            if (this.musicVolue == undefined)
+                return 1;
+            return this.musicVolue;
+        };
+        AudiosManager.getSoundVolume = function () {
+            if (this.soundVolume == undefined)
+                return 1;
+            return this.soundVolume;
+        };
+        AudiosManager.playMusic = function (name, volume) {
+            if (volume === void 0) { volume = 1; }
+            if (this.currentMusic) {
+                this.currentMusic.setVolume(volume * this.getMusicVolume());
+                if (this.currentMusicName == name)
+                    return;
+                this.currentMusic.stop();
+                delete this.currentMusic;
+            }
+            this.currentMusicName = name;
+            this.currentMusic = createjs.Sound.play(name, null, null, null, 1000);
+            this.currentMusic.setVolume(volume * this.getMusicVolume());
+        };
+        AudiosManager.playSound = function (name, interrupt, delay, offset, loop, volume) {
+            if (delay === void 0) { delay = 0; }
+            if (volume === void 0) { volume = 1; }
+            return createjs.Sound.play(name, interrupt, delay, offset, loop, volume * this.getSoundVolume());
+        };
+        return AudiosManager;
+    })();
+    gameui.AudiosManager = AudiosManager;
+})(gameui || (gameui = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            // Class
+            var Page = (function (_super) {
+                __extends(Page, _super);
+                function Page() {
+                    _super.apply(this, arguments);
+                    this.pageVisibility = false;
+                }
+                Page.prototype.showPage = function () {
+                    if (this.pageVisibility == false) {
+                        this.pageVisibility = this.visible = true;
+                        if (this.onShowPage)
+                            this.onShowPage();
+                    }
+                };
+                Page.prototype.hidePage = function () {
+                    if (this.pageVisibility == true) {
+                        this.pageVisibility = this.visible = false;
+                        if (this.onHidePage)
+                            this.onHidePage();
+                    }
+                };
+                return Page;
+            })(createjs.Container);
+            View.Page = Page;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            // View Class
+            var PopupHelper = (function (_super) {
+                __extends(PopupHelper, _super);
+                // class contructor
+                function PopupHelper() {
+                    _super.call(this, true);
+                }
+                PopupHelper.prototype.showRestartMessage = function () {
+                    var _this = this;
+                    this.showsPopup(0, 0);
+                    //clean display Object
+                    this.removeAllChildren();
+                    //draw background
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+                    // create a text
+                    var textDO = new createjs.Text(stringResources.help_restart, defaultFontFamilyNormal, "white");
+                    textDO.textAlign = "center";
+                    textDO.textBaseline = "middle";
+                    textDO.x = defaultWidth / 2;
+                    this.addChild(textDO);
+                    // add Image
+                    var img = gameui.AssetsManager.getBitmap("menu/imrestart");
+                    this.addChild(img);
+                    img.x = 80;
+                    img.y = 540;
+                    // updates title and text values
+                    textDO.y = 550;
+                    textDO.x = 1000;
+                    // Add Buttons
+                    var bt = new gameui.TextButton(stringResources.help_restart_bt, defaultFontFamilyNormal, "white", "menu/btoptions", function () {
+                        _this.closePopUp();
+                    });
+                    this.addChild(bt);
+                    bt.x = 1000;
+                    bt.y = 1100;
+                };
+                PopupHelper.prototype.showSkipPessage = function (price, callback) {
+                    var _this = this;
+                    this.showsPopup(0, 0);
+                    //clean display Object
+                    this.removeAllChildren();
+                    //draw background
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+                    // create a text
+                    var textDO = new createjs.Text(stringResources.help_skip, defaultFontFamilyNormal, "white");
+                    textDO.textAlign = "center";
+                    textDO.textBaseline = "middle";
+                    textDO.x = defaultWidth / 2;
+                    this.addChild(textDO);
+                    // add Image
+                    var img = gameui.AssetsManager.getBitmap("menu/imskip");
+                    this.addChild(img);
+                    img.x = 80;
+                    img.y = 540;
+                    // updates title and text values
+                    textDO.y = 550;
+                    textDO.x = 1000;
+                    // Add Buttons
+                    var cancelButton = new gameui.TextButton(stringResources.help_skip_bt, defaultFontFamilyNormal, "white", "menu/btoptions", function () {
+                        _this.closePopUp();
+                    });
+                    this.addChild(cancelButton);
+                    cancelButton.x = defaultWidth / 4;
+                    cancelButton.y = 1150;
+                    // Add Buttons
+                    var skipButton = new gameui.TextButton(stringResources.skip, defaultFontFamilyNormal, "white", "menu/btoptions", function () {
+                        _this.closePopUp();
+                        callback();
+                    });
+                    skipButton.text.y -= 50;
+                    skipButton.addChild(a);
+                    skipButton.addChild(b);
+                    skipButton.addChild(c);
+                    this.addChild(skipButton);
+                    skipButton.x = defaultWidth / 4 * 3;
+                    skipButton.y = 1150;
+                    var a = gameui.AssetsManager.getBitmap("puzzle/icon_skip");
+                    var b = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
+                    var c = new createjs.Text(price.toString(), defaultFontFamilyNormal, "white");
+                    a.x = -300;
+                    a.y -= 75;
+                    b.x = -120;
+                    b.y = 10;
+                    b.scaleX = 0.8;
+                    b.scaleY = 0.8;
+                    c.x = 30;
+                };
+                return PopupHelper;
+            })(View.Popup);
+            View.PopupHelper = PopupHelper;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
 var Analytics = (function () {
     function Analytics() {
     }
@@ -5664,9 +5999,7 @@ var FlipPlus;
                         //if there is no more lives, than end game
                         this.content.mouseEnabled = false;
                         this.message.showtext(stringResources.b2_noMoreChances, 2000, 500);
-                        this.message.addEventListener("onclose", function () {
-                            _this.endBonus();
-                        });
+                        this.message.addEventListener("onclose", function () { _this.endBonus(); });
                     }
                     return;
                 }
@@ -5679,9 +6012,7 @@ var FlipPlus;
                     if (this.pairsMatched >= this.pairs) {
                         //ends the game
                         this.message.showtext(stringResources.b2_finish, 2000, 500);
-                        this.message.addEventListener("onclose", function () {
-                            _this.endBonus();
-                        });
+                        this.message.addEventListener("onclose", function () { _this.endBonus(); });
                         this.endBonus();
                     }
                     this.currentCard = null;
@@ -5699,15 +6030,14 @@ var FlipPlus;
                 var cardsContainer = new createjs.Container();
                 cardsContainer.x = 184 + 93 + 45;
                 cardsContainer.y = 135 + 400;
+                //for each cards
                 for (var c in cards) {
                     var card = this.createCard(cards[c]);
                     card.x = c % cols * width;
                     card.y = Math.floor(c / cols) * height;
                     cardsContainer.addChild(card);
                     //add cards event listener
-                    card.addEventListener("click", function (e) {
-                        _this.cardClick(e.currentTarget);
-                    });
+                    card.addEventListener("click", function (e) { _this.cardClick(e.currentTarget); });
                 }
                 this.content.addChild(cardsContainer);
             };
@@ -5716,11 +6046,13 @@ var FlipPlus;
                 var cards = new Array();
                 //set number of lives
                 this.lives = cardsCount - pairs * 2;
+                //add Cards Pairs
                 for (var p = 0; p < pairs; p++) {
                     var itemIndex = Math.floor(Math.random() * items.length);
                     cards.push(items[itemIndex]);
                     cards.push(items[itemIndex]);
                 }
+                //Adds empty spaces
                 for (var p = 0; p < cardsCount - pairs * 2; p++)
                     cards.push(null);
                 //randomize cards
@@ -5762,9 +6094,7 @@ var FlipPlus;
             Bonus2OLD.prototype.openCard = function (card) {
                 var cover = card.getChildByName("cover");
                 createjs.Tween.removeTweens(cover);
-                createjs.Tween.get(cover).to({ scaleY: 0 }, 200, createjs.Ease.quadIn).call(function () {
-                    cover.visible = false;
-                });
+                createjs.Tween.get(cover).to({ scaleY: 0 }, 200, createjs.Ease.quadIn).call(function () { cover.visible = false; });
                 card.mouseEnabled = false;
             };
             //closing a card animation
@@ -5787,6 +6117,356 @@ var FlipPlus;
 (function (FlipPlus) {
     var GamePlay;
     (function (GamePlay) {
+        var LevelCreator2 = (function (_super) {
+            __extends(LevelCreator2, _super);
+            function LevelCreator2(levelData, callback) {
+                FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen(420, 600, false);
+                FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen = function () { };
+                if (!levelData.width && levelData.width != 0)
+                    levelData.width = 5;
+                if (!levelData.height && levelData.height != 0)
+                    levelData.height = 5;
+                if (!levelData.theme)
+                    levelData.theme = "yellow";
+                if (!levelData.type)
+                    levelData.type = "puzzle";
+                this.callback = callback;
+                _super.call(this, levelData);
+                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+                this.gameplayMenu.visible = false;
+            }
+            //threat user input
+            LevelCreator2.prototype.userInput = function (col, row) {
+                var id = row + col * this.levelData.height;
+                //invert a cross
+                this.levelLogic.invertCross(col, row);
+                //update sprites 
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+                this.levelData.blocksData = this.levelLogic.board.getInvertedBlocks();
+                if (this.callback)
+                    this.callback(this.levelData);
+            };
+            LevelCreator2.prototype.toogleItemInArray = function (array, item) {
+                var index = array.indexOf(item);
+                if (index >= 0)
+                    array.splice(index, 1);
+                else
+                    array.push(item);
+            };
+            LevelCreator2.prototype.win = function (col, row) {
+            };
+            LevelCreator2.key = "customProjects";
+            return LevelCreator2;
+        })(GamePlay.Puzzle);
+        GamePlay.LevelCreator2 = LevelCreator2;
+    })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            var BonusItem = (function (_super) {
+                __extends(BonusItem, _super);
+                function BonusItem(bonusId, action) {
+                    _super.call(this, "projects/bigslot1", action);
+                    this.bonusId = bonusId;
+                    this.y = 470;
+                    this.x = 768;
+                    this.regX = 1458 / 2;
+                    this.regY = 410 / 2;
+                    this.updateProjectInfo();
+                }
+                //createObjects
+                BonusItem.prototype.createObjects = function (bonusId) {
+                    var _this = this;
+                    var color = "#cfe3ec";
+                    var font = "Bold 100px " + defaultFont;
+                    //clean all objects
+                    this.removeAllChildren();
+                    //if unlocked
+                    var stars = FlipPlus.FlipPlusGame.projectManager.getStarsCount();
+                    if (stars >= bonusData[bonusId].cost) {
+                        //background
+                        var bg = "projects/" + bonusId;
+                        var s = gameui.AssetsManager.getBitmap(bg);
+                        this.addChild(s);
+                        //timer text 
+                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
+                        this.timerText.textBaseline = "middle";
+                        this.timerText.textAlign = "center";
+                        this.timerText.x = 1000;
+                        this.timerText.y = 180;
+                        this.addChild(this.timerText);
+                        //auto updateObject
+                        this.timerintervalTick();
+                        if (this.updateInterval)
+                            clearInterval(this.updateInterval);
+                        this.updateInterval = setInterval(function () { _this.timerintervalTick(); }, 900);
+                    }
+                    else {
+                        //adds Background
+                        var bg = "projects/bigslot1";
+                        var s = gameui.AssetsManager.getBitmap(bg);
+                        this.addChild(s);
+                        //adds lock indicator
+                        var star = gameui.AssetsManager.getBitmap("projects/star");
+                        this.addChild(star);
+                        star.x = 670;
+                        star.y = 150;
+                        //addsText
+                        //TODO da onde vai tirar as estrelas?
+                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
+                        this.addChild(tx);
+                        tx.textAlign = "right";
+                        tx.x = 650;
+                        tx.y = 135;
+                    }
+                    //create hitArea
+                    this.createHitArea();
+                };
+                //updates based on porject 
+                BonusItem.prototype.updateProjectInfo = function () {
+                    //update the objects display     
+                    this.createObjects(this.bonusId);
+                };
+                BonusItem.prototype.timerintervalTick = function () {
+                    var time = FlipPlus.FlipPlusGame.timersData.getTimer(this.bonusId);
+                    if (time == 0) {
+                        this.timerText.text = stringResources.mm_play;
+                        if (!createjs.Tween.hasActiveTweens(this.timerText)) {
+                            ////this.timerText.cache(-200, -50, 400, 100);
+                            this.timerText.set({ scaleX: 1, scaleY: 1 });
+                            createjs.Tween.get(this.timerText, { loop: true })
+                                .to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut)
+                                .to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
+                        }
+                    }
+                    else {
+                        createjs.Tween.removeTweens(this.timerText);
+                        this.timerText.text = this.toHHMMSS(time);
+                        this.timerText.scaleX = this.scaleY = 1;
+                    }
+                };
+                BonusItem.prototype.toHHMMSS = function (sec_num) {
+                    var hours = Math.floor(sec_num / 3600);
+                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+                    if (hours < 10) {
+                        hours = 0 + hours;
+                    }
+                    if (minutes < 10) {
+                        minutes = 0 + minutes;
+                    }
+                    if (seconds < 10) {
+                        seconds = 0 + seconds;
+                    }
+                    var time = hours + ':' + minutes + ':' + seconds;
+                    return time;
+                };
+                return BonusItem;
+            })(gameui.ImageButton);
+            View.BonusItem = BonusItem;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            // View Class
+            var TextEffect = (function (_super) {
+                __extends(TextEffect, _super);
+                //class contructor
+                function TextEffect() {
+                    _super.call(this);
+                    //centralize the popup on screen
+                    this.width = defaultWidth;
+                    this.height = defaultHeight;
+                    this.x = defaultWidth / 2;
+                    this.y = defaultHeight / 2;
+                    this.centralize();
+                    //hide popup
+                    this.visible = false;
+                    this.mouseEnabled = false;
+                }
+                //public method to invoke the popup
+                TextEffect.prototype.showtext = function (text, timeout, delay) {
+                    var _this = this;
+                    if (timeout === void 0) { timeout = 3000; }
+                    if (delay === void 0) { delay = 0; }
+                    //clean everything
+                    this.removeAllChildren();
+                    //create a titleShadow
+                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
+                    titleShadow.textAlign = "center";
+                    titleShadow.textBaseline = "middle";
+                    titleShadow.x = defaultWidth / 2;
+                    this.addChild(titleShadow);
+                    //create a title
+                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
+                    titleDO.textAlign = "center";
+                    titleDO.textBaseline = "middle";
+                    titleDO.x = defaultWidth / 2;
+                    this.addChild(titleDO);
+                    titleShadow.y = titleDO.y = defaultHeight / 2;
+                    titleShadow.y += 15;
+                    //updates text
+                    titleDO.text = titleShadow.text = text.toUpperCase();
+                    var ty = defaultHeight * 0.9;
+                    this.set({
+                        alpha: 0,
+                        y: ty
+                    });
+                    this.visible = true;
+                    createjs.Tween.removeTweens(this);
+                    createjs.Tween.get(this)
+                        .to({ alpha: 1, y: ty - 50 }, 200, createjs.Ease.quadOut)
+                        .to({ alpha: 1, y: ty - 100 }, 1000, createjs.Ease.linear)
+                        .to({ alpha: 0, y: ty - 300 }, 200, createjs.Ease.quadIn)
+                        .call(function () {
+                        _this.visible = false;
+                        _this.dispatchEvent("onclose");
+                    });
+                };
+                return TextEffect;
+            })(gameui.UIItem);
+            View.TextEffect = TextEffect;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var GamePlay;
+    (function (GamePlay) {
+        var Moves = (function (_super) {
+            __extends(Moves, _super);
+            function Moves(levelData) {
+                var _this = this;
+                _super.call(this, levelData);
+                this.currentPuzzle = 1;
+                this.puzzlesToSolve = 0;
+                //threat user input
+                this.loosing = false;
+                //only adds this level if there are more than 1 puzzle to solve
+                this.gameplayMenu.addButtons(["skip"]);
+                if (this.levelData.puzzlesToSolve > 1)
+                    this.gameplayMenu.addButtons(["solve"]);
+                //adds buttons and items
+                this.gameplayMenu.addButtons(["touch", "hint"]);
+                this.gameplayMenu.addEventListener("touch", function () { _this.useItemTouch(); });
+                this.gameplayMenu.addEventListener("solve", function () { _this.useItemSolve(); });
+                this.gameplayMenu.addEventListener("hint", function () { _this.useItemHint(); });
+                this.gameplayMenu.addEventListener("skip", function () { _this.useItemSkip(); });
+                this.moves = this.levelData.moves;
+                if (levelData.blocksData && levelData.blocksData.length > 0) {
+                    this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+                    this.levelData.puzzlesToSolve = 1;
+                }
+                else {
+                    if (!this.levelData.puzzlesToSolve)
+                        this.levelData.puzzlesToSolve = 1;
+                    this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
+                }
+                this.puzzlesToSolve = levelData.puzzlesToSolve;
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+                //set default puzzles to solve
+                this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3);
+                this.statusArea.setMode("moves");
+                this.statusArea.setText3(this.moves.toString());
+            }
+            Moves.prototype.userInput = function (col, row) {
+                var _this = this;
+                _super.prototype.userInput.call(this, col, row);
+                if (!this.levelLogic.verifyWin()) {
+                    //verifies if is a multiTouch
+                    if (Date.now() - this.lastTouchTime > 110 || !this.lastTouchTime)
+                        this.moves--;
+                    this.lastTouchTime = Date.now();
+                    setTimeout(function () {
+                        if (!_this.loosing)
+                            if (!_this.levelLogic.verifyWin()) {
+                                //loses game, if moves is over
+                                if (_this.moves <= 0) {
+                                    _this.message.showtext(stringResources.gp_mv_noMoreMoves);
+                                    // play sound
+                                    gameui.AudiosManager.playSound("Power Down");
+                                    _this.loose();
+                                    _this.loosing = true;
+                                }
+                            }
+                    }, 110);
+                }
+                //updates moves count
+                this.statusArea.setText3(this.moves.toString());
+            };
+            //Overriding methods.
+            Moves.prototype.win = function (col, row) {
+                var _this = this;
+                if (this.currentPuzzle >= this.puzzlesToSolve) {
+                    _super.prototype.win.call(this, col, row);
+                }
+                else {
+                    //animate board and switch
+                    var defaultX = this.boardSprite.x;
+                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(function () {
+                        _this.currentPuzzle++;
+                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
+                        _this.boardSprite.clearHint();
+                        _this.boardSprite.x = defaultX + defaultWidth;
+                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
+                    });
+                }
+            };
+            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
+                if (minMoves === void 0) { minMoves = 2; }
+                if (maxMoves === void 0) { maxMoves = 5; }
+                if (!this.puzzlesToSolve)
+                    this.puzzlesToSolve = 1;
+                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
+                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
+                var inverted = [];
+                for (var m = 0; m < moves; m++) {
+                    var index = Math.floor(Math.random() * (lenght));
+                    while (inverted[index] == true)
+                        index = (index + 1) % lenght;
+                    inverted[index] = true;
+                }
+                for (var i = 0; i < lenght; i++) {
+                    if (inverted[i] == true)
+                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
+                }
+                this.levelLogic.board.initializePrizes(2);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+            };
+            //========================== items ==================================
+            Moves.prototype.useItemTouch = function () {
+                if (!this.useItem("touch"))
+                    return;
+                this.moves += 2;
+            };
+            Moves.prototype.useItemSolve = function () {
+                if (!this.useItem("solve"))
+                    return;
+                this.win(0, 0);
+            };
+            return Moves;
+        })(GamePlay.LevelScreen);
+        GamePlay.Moves = Moves;
+    })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+})(FlipPlus || (FlipPlus = {}));
+var levelsDataBackup;
+var levelCreatorMode;
+var levelCreatorTestMode;
+var FlipPlus;
+(function (FlipPlus) {
+    var GamePlay;
+    (function (GamePlay) {
         var LevelCreator = (function (_super) {
             __extends(LevelCreator, _super);
             function LevelCreator(levelData, editorWindow, postback) {
@@ -5796,8 +6476,7 @@ var FlipPlus;
                     levelsDataBackup = levelData;
                 this.editWindow = editorWindow;
                 if (!postback) {
-                    window.onresize = function () {
-                    };
+                    window.onresize = function () { };
                     FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen(420, 600, false);
                     if (levelData == null) {
                         levelData = new FlipPlus.Projects.Level();
@@ -5841,6 +6520,7 @@ var FlipPlus;
                 this.editWindow.document.getElementById("c_export").onclick = function () {
                     var data = _this.loadStored();
                     if (data) {
+                        //remove trashes from saved data
                         for (var p in data) {
                             delete data[p].UserData;
                         }
@@ -5873,9 +6553,7 @@ var FlipPlus;
                             data = JSON.stringify(dataParsed);
                             localStorage.setItem(LevelCreator.key, data);
                             _this.updateSelectList();
-                            setTimeout(function () {
-                                alert("Levels imported");
-                            }, 200);
+                            setTimeout(function () { alert("Levels imported"); }, 200);
                         }
                         catch (er) {
                             alert("This file is invalid " + er.message);
@@ -6021,188 +6699,6 @@ var FlipPlus;
         GamePlay.LevelCreator = LevelCreator;
     })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
 })(FlipPlus || (FlipPlus = {}));
-var levelsDataBackup;
-var levelCreatorMode;
-var levelCreatorTestMode;
-var FlipPlus;
-(function (FlipPlus) {
-    var GamePlay;
-    (function (GamePlay) {
-        var LevelCreator2 = (function (_super) {
-            __extends(LevelCreator2, _super);
-            function LevelCreator2(levelData, callback) {
-                FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen(420, 600, false);
-                FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen = function () {
-                };
-                if (!levelData.width && levelData.width != 0)
-                    levelData.width = 5;
-                if (!levelData.height && levelData.height != 0)
-                    levelData.height = 5;
-                if (!levelData.theme)
-                    levelData.theme = "yellow";
-                if (!levelData.type)
-                    levelData.type = "puzzle";
-                this.callback = callback;
-                _super.call(this, levelData);
-                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-                this.gameplayMenu.visible = false;
-            }
-            //threat user input
-            LevelCreator2.prototype.userInput = function (col, row) {
-                var id = row + col * this.levelData.height;
-                //invert a cross
-                this.levelLogic.invertCross(col, row);
-                //update sprites 
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-                this.levelData.blocksData = this.levelLogic.board.getInvertedBlocks();
-                if (this.callback)
-                    this.callback(this.levelData);
-            };
-            LevelCreator2.prototype.toogleItemInArray = function (array, item) {
-                var index = array.indexOf(item);
-                if (index >= 0)
-                    array.splice(index, 1);
-                else
-                    array.push(item);
-            };
-            LevelCreator2.prototype.win = function (col, row) {
-            };
-            LevelCreator2.key = "customProjects";
-            return LevelCreator2;
-        })(GamePlay.Puzzle);
-        GamePlay.LevelCreator2 = LevelCreator2;
-    })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var GamePlay;
-    (function (GamePlay) {
-        var Moves = (function (_super) {
-            __extends(Moves, _super);
-            function Moves(levelData) {
-                var _this = this;
-                _super.call(this, levelData);
-                this.currentPuzzle = 1;
-                this.puzzlesToSolve = 0;
-                //threat user input
-                this.loosing = false;
-                //only adds this level if there are more than 1 puzzle to solve
-                this.gameplayMenu.addButtons(["skip"]);
-                if (this.levelData.puzzlesToSolve > 1)
-                    this.gameplayMenu.addButtons(["solve"]);
-                //adds buttons and items
-                this.gameplayMenu.addButtons(["touch", "hint"]);
-                this.gameplayMenu.addEventListener("touch", function () {
-                    _this.useItemTouch();
-                });
-                this.gameplayMenu.addEventListener("solve", function () {
-                    _this.useItemSolve();
-                });
-                this.gameplayMenu.addEventListener("hint", function () {
-                    _this.useItemHint();
-                });
-                this.gameplayMenu.addEventListener("skip", function () {
-                    _this.useItemSkip();
-                });
-                this.moves = this.levelData.moves;
-                if (levelData.blocksData && levelData.blocksData.length > 0) {
-                    this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
-                    this.levelData.puzzlesToSolve = 1;
-                }
-                else {
-                    if (!this.levelData.puzzlesToSolve)
-                        this.levelData.puzzlesToSolve = 1;
-                    this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
-                }
-                this.puzzlesToSolve = levelData.puzzlesToSolve;
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-                //set default puzzles to solve
-                this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3);
-                this.statusArea.setMode("moves");
-                this.statusArea.setText3(this.moves.toString());
-            }
-            Moves.prototype.userInput = function (col, row) {
-                var _this = this;
-                _super.prototype.userInput.call(this, col, row);
-                if (!this.levelLogic.verifyWin()) {
-                    //verifies if is a multiTouch
-                    if (Date.now() - this.lastTouchTime > 110 || !this.lastTouchTime)
-                        this.moves--;
-                    this.lastTouchTime = Date.now();
-                    setTimeout(function () {
-                        if (!_this.loosing)
-                            if (!_this.levelLogic.verifyWin()) {
-                                //loses game, if moves is over
-                                if (_this.moves <= 0) {
-                                    _this.message.showtext(stringResources.gp_mv_noMoreMoves);
-                                    // play sound
-                                    gameui.AudiosManager.playSound("Power Down");
-                                    _this.loose();
-                                    _this.loosing = true;
-                                }
-                            }
-                    }, 110);
-                }
-                //updates moves count
-                this.statusArea.setText3(this.moves.toString());
-            };
-            //Overriding methods.
-            Moves.prototype.win = function (col, row) {
-                var _this = this;
-                if (this.currentPuzzle >= this.puzzlesToSolve) {
-                    _super.prototype.win.call(this, col, row);
-                }
-                else {
-                    //animate board and switch
-                    var defaultX = this.boardSprite.x;
-                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(function () {
-                        _this.currentPuzzle++;
-                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
-                        _this.boardSprite.clearHint();
-                        _this.boardSprite.x = defaultX + defaultWidth;
-                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
-                    });
-                }
-            };
-            Moves.prototype.randomBoard = function (minMoves, maxMoves) {
-                if (minMoves === void 0) { minMoves = 2; }
-                if (maxMoves === void 0) { maxMoves = 5; }
-                if (!this.puzzlesToSolve)
-                    this.puzzlesToSolve = 1;
-                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
-                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
-                var inverted = [];
-                for (var m = 0; m < moves; m++) {
-                    var index = Math.floor(Math.random() * (lenght));
-                    while (inverted[index] == true)
-                        index = (index + 1) % lenght;
-                    inverted[index] = true;
-                }
-                for (var i = 0; i < lenght; i++) {
-                    if (inverted[i] == true)
-                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
-                }
-                this.levelLogic.board.initializePrizes(2);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-            };
-            //========================== items ==================================
-            Moves.prototype.useItemTouch = function () {
-                if (!this.useItem("touch"))
-                    return;
-                this.moves += 2;
-            };
-            Moves.prototype.useItemSolve = function () {
-                if (!this.useItem("solve"))
-                    return;
-                this.win(0, 0);
-            };
-            return Moves;
-        })(GamePlay.LevelScreen);
-        GamePlay.Moves = Moves;
-    })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
-})(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
     var Menu;
@@ -6216,22 +6712,11 @@ var FlipPlus;
                 this.introMc = new lib.Intro();
                 this.addChild(this.introMc);
                 this.introMc.stop();
-                this.introMc.addEventListener("d1", function () {
-                    _this.popup.showBotText(stringResources.it_text1);
-                });
-                this.introMc.addEventListener("readyToPlay", function () {
-                    _this.dispatchEvent("readyToPlay");
-                });
-                this.introMc.addEventListener("d2", function () {
-                    _this.popup.showBotText(stringResources.it_text2);
-                });
-                this.introMc.addEventListener("end", function () {
-                    FlipPlus.FlipPlusGame.showProjectsMenu();
-                    _this.dispatchEvent("end");
-                });
-                this.popup.addEventListener("onclose", function () {
-                    _this.introMc.play();
-                });
+                this.introMc.addEventListener("d1", function () { _this.popup.showBotText(stringResources.it_text1); });
+                this.introMc.addEventListener("readyToPlay", function () { _this.dispatchEvent("readyToPlay"); });
+                this.introMc.addEventListener("d2", function () { _this.popup.showBotText(stringResources.it_text2); });
+                this.introMc.addEventListener("end", function () { FlipPlus.FlipPlusGame.showProjectsMenu(); _this.dispatchEvent("end"); });
+                this.popup.addEventListener("onclose", function () { _this.introMc.play(); });
                 this.addChild(this.popup);
             }
             Intro.prototype.playPart1 = function () {
@@ -6278,6 +6763,7 @@ var FlipPlus;
             SlideShow.prototype.loadSlides = function (slides) {
                 //initializes the image array
                 this.images = new Array();
+                //load all images in images array
                 for (var s in slides) {
                     var image = gameui.AssetsManager.getBitmap(slides[s]);
                     this.images.push(image);
@@ -6310,6 +6796,7 @@ var FlipPlus;
                 //verifies if slide is valid
                 if (slideIndex > this.images.length - 1 || slideIndex < 0)
                     return;
+                //hide all images   
                 for (var i in this.images)
                     this.images[i].visible = false;
                 //show s a current slide
@@ -6374,182 +6861,6 @@ var FlipPlus;
     (function (Menu) {
         var View;
         (function (View) {
-            var BonusItem = (function (_super) {
-                __extends(BonusItem, _super);
-                function BonusItem(bonusId, action) {
-                    _super.call(this, "projects/bigslot1", action);
-                    this.bonusId = bonusId;
-                    this.y = 470;
-                    this.x = 768;
-                    this.regX = 1458 / 2;
-                    this.regY = 410 / 2;
-                    this.updateProjectInfo();
-                }
-                //createObjects
-                BonusItem.prototype.createObjects = function (bonusId) {
-                    var _this = this;
-                    var color = "#cfe3ec";
-                    var font = "Bold 100px " + defaultFont;
-                    //clean all objects
-                    this.removeAllChildren();
-                    //if unlocked
-                    var stars = FlipPlus.FlipPlusGame.projectManager.getStarsCount();
-                    if (stars >= bonusData[bonusId].cost) {
-                        //background
-                        var bg = "projects/" + bonusId;
-                        var s = gameui.AssetsManager.getBitmap(bg);
-                        this.addChild(s);
-                        //timer text 
-                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
-                        this.timerText.textBaseline = "middle";
-                        this.timerText.textAlign = "center";
-                        this.timerText.x = 1000;
-                        this.timerText.y = 180;
-                        this.addChild(this.timerText);
-                        //auto updateObject
-                        this.timerintervalTick();
-                        if (this.updateInterval)
-                            clearInterval(this.updateInterval);
-                        this.updateInterval = setInterval(function () {
-                            _this.timerintervalTick();
-                        }, 900);
-                    }
-                    else {
-                        //adds Background
-                        var bg = "projects/bigslot1";
-                        var s = gameui.AssetsManager.getBitmap(bg);
-                        this.addChild(s);
-                        //adds lock indicator
-                        var star = gameui.AssetsManager.getBitmap("projects/star");
-                        this.addChild(star);
-                        star.x = 670;
-                        star.y = 150;
-                        //addsText
-                        //TODO da onde vai tirar as estrelas?
-                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
-                        this.addChild(tx);
-                        tx.textAlign = "right";
-                        tx.x = 650;
-                        tx.y = 135;
-                    }
-                    //create hitArea
-                    this.createHitArea();
-                };
-                //updates based on porject 
-                BonusItem.prototype.updateProjectInfo = function () {
-                    //update the objects display     
-                    this.createObjects(this.bonusId);
-                };
-                BonusItem.prototype.timerintervalTick = function () {
-                    var time = FlipPlus.FlipPlusGame.timersData.getTimer(this.bonusId);
-                    if (time == 0) {
-                        this.timerText.text = stringResources.mm_play;
-                        if (!createjs.Tween.hasActiveTweens(this.timerText)) {
-                            ////this.timerText.cache(-200, -50, 400, 100);
-                            this.timerText.set({ scaleX: 1, scaleY: 1 });
-                            createjs.Tween.get(this.timerText, { loop: true }).to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut).to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
-                        }
-                    }
-                    else {
-                        createjs.Tween.removeTweens(this.timerText);
-                        this.timerText.text = this.toHHMMSS(time);
-                        this.timerText.scaleX = this.scaleY = 1;
-                    }
-                };
-                BonusItem.prototype.toHHMMSS = function (sec_num) {
-                    var hours = Math.floor(sec_num / 3600);
-                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
-                    if (hours < 10) {
-                        hours = 0 + hours;
-                    }
-                    if (minutes < 10) {
-                        minutes = 0 + minutes;
-                    }
-                    if (seconds < 10) {
-                        seconds = 0 + seconds;
-                    }
-                    var time = hours + ':' + minutes + ':' + seconds;
-                    return time;
-                };
-                return BonusItem;
-            })(gameui.ImageButton);
-            View.BonusItem = BonusItem;
-        })(View = Menu.View || (Menu.View = {}));
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var View;
-        (function (View) {
-            var LevelThumb2 = (function (_super) {
-                __extends(LevelThumb2, _super);
-                // Constructor
-                function LevelThumb2(level) {
-                    _super.call(this, level);
-                    this.mouseEnabled = false;
-                    this.updateUserData();
-                }
-                LevelThumb2.prototype.createBackgroud = function (level, assetName, assetSufix) {
-                    var _this = this;
-                    var sbg = new createjs.Bitmap("assets/images_1x/workshop/" + assetName + assetSufix + ".png");
-                    sbg.image.onload = function () {
-                        _this.getStage().update();
-                    };
-                    if (this.getStage())
-                        this.getStage().update();
-                    sbg.regX = sbg.regY = 98;
-                    return sbg;
-                };
-                LevelThumb2.prototype.createTags = function (level, assetName, assetSufix) {
-                    var _this = this;
-                    //TODO: essas string devem estar em um enum
-                    if (level.type == "time" || level.type == "flip" || level.type == "moves") {
-                        var tag = new createjs.Bitmap("assets/images_1x/workshop/" + assetName + (level.type == "moves" ? "flip" : level.type) + assetSufix + ".png");
-                        tag.image.onload = function () {
-                            _this.getStage().update();
-                        };
-                        if (this.getStage())
-                            this.getStage().update();
-                        tag.regX = tag.regY = 100;
-                        tag.scaleX = tag.scaleY = 0.5;
-                        tag.x = tag.y = 70;
-                        return tag;
-                    }
-                };
-                LevelThumb2.prototype.createThumbs = function (level) {
-                    this.removeAllChildren();
-                    var color1;
-                    var color2;
-                    var assetSufix;
-                    var assetName = this.defineAssetName(level);
-                    var thumbContainer = new createjs.Container();
-                    this.addChild(thumbContainer);
-                    assetSufix = "3";
-                    color1 = "rgba(255,255,255,0.9)";
-                    color2 = "rgba(0,0,0,0.3)";
-                    this.setSound(null);
-                    //Adds Thumb Backgroud
-                    thumbContainer.addChild(this.createBackgroud(level, assetName, assetSufix));
-                    //Adds Thumb Blocks
-                    thumbContainer.addChild(this.createBlocks(level, color1, color2));
-                    //Adds thumb tags
-                    thumbContainer.addChild(this.createTags(level, assetName, assetSufix));
-                };
-                return LevelThumb2;
-            })(View.LevelThumb);
-            View.LevelThumb2 = LevelThumb2;
-        })(View = Menu.View || (Menu.View = {}));
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var View;
-        (function (View) {
             // View Class
             var Message = (function (_super) {
                 __extends(Message, _super);
@@ -6567,9 +6878,7 @@ var FlipPlus;
                     this.visible = false;
                     this.mouseEnabled = true;
                     this.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("white").drawRect(0, 0, defaultWidth, defaultHeight));
-                    this.addEventListener("click", function () {
-                        _this.closePopUp();
-                    });
+                    this.addEventListener("click", function () { _this.closePopUp(); });
                 }
                 //public method to invoke the popup
                 Message.prototype.showtext = function (text, timeout, delay) {
@@ -6632,389 +6941,6 @@ var FlipPlus;
     (function (Menu) {
         var View;
         (function (View) {
-            // Class
-            var Page = (function (_super) {
-                __extends(Page, _super);
-                function Page() {
-                    _super.apply(this, arguments);
-                    this.pageVisibility = false;
-                }
-                Page.prototype.showPage = function () {
-                    if (this.pageVisibility == false) {
-                        this.pageVisibility = this.visible = true;
-                        if (this.onShowPage)
-                            this.onShowPage();
-                    }
-                };
-                Page.prototype.hidePage = function () {
-                    if (this.pageVisibility == true) {
-                        this.pageVisibility = this.visible = false;
-                        if (this.onHidePage)
-                            this.onHidePage();
-                    }
-                };
-                return Page;
-            })(createjs.Container);
-            View.Page = Page;
-        })(View = Menu.View || (Menu.View = {}));
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var View;
-        (function (View) {
-            // Class
-            var PagesSwiper = (function () {
-                function PagesSwiper(pagesContainer, pages, pageWidth, minY, maxY) {
-                    var _this = this;
-                    this.cancelClick = false;
-                    this.currentPageIndex = 0;
-                    this.pagewidth = pageWidth;
-                    this.pagesContainer = pagesContainer;
-                    this.pages = pages;
-                    for (var i in pages)
-                        pages[i].x = this.pagewidth * i;
-                    //adds event
-                    var xpos;
-                    var initialclick;
-                    var moving = false;
-                    // records position on mouse down
-                    pagesContainer.addEventListener("mousedown", function (e) {
-                        var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
-                        if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
-                            initialclick = pos.x;
-                            xpos = pos.x - pagesContainer.x;
-                            moving = true;
-                        }
-                    });
-                    //drag the container
-                    pagesContainer.addEventListener("pressmove", function (e) {
-                        if (moving) {
-                            var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
-                            pagesContainer.x = pos.x - xpos;
-                            if (Math.abs(pos.x - initialclick) > 50)
-                                _this.cancelClick = true;
-                            //hide all pages
-                            _this.showOlnyPage(_this.currentPageIndex, 1);
-                        }
-                    });
-                    //verifies the relase point to tween to the next page
-                    pagesContainer.addEventListener("pressup", function (e) {
-                        if (moving) {
-                            moving = false;
-                            var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
-                            //calculate the drag percentage.
-                            var p = (pos.x - xpos + _this.pagewidth * _this.currentPageIndex) / _this.pagewidth;
-                            //choses if goes to the next or previous page.
-                            if (p < -0.25)
-                                _this.gotoNextPage();
-                            else if (p > +0.25)
-                                _this.gotoPreviousPage();
-                            else
-                                _this.stayOnPage();
-                            //release click for user
-                            setTimeout(function () {
-                                _this.cancelClick = false;
-                            }, 100);
-                        }
-                    });
-                }
-                //----------------------pages-----------------------------------------------//
-                PagesSwiper.prototype.gotoPage = function (pageId, tween) {
-                    var _this = this;
-                    if (tween === void 0) { tween = true; }
-                    if (pageId < 0)
-                        pageId = 0;
-                    if (pageId == this.pages.length)
-                        pageId = this.pages.length - 1;
-                    if (this.onPageChange)
-                        this.onPageChange(pageId);
-                    var oldpage = this.currentPageIndex;
-                    this.currentPageIndex = pageId;
-                    if (tween) {
-                        this.pages[pageId].visible = true;
-                        createjs.Tween.removeTweens(this.pagesContainer);
-                        createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut).call(function () {
-                            _this.showOlnyPage(pageId);
-                        });
-                    }
-                    else {
-                        //move current page
-                        this.pagesContainer.x = -this.pagewidth * pageId;
-                        this.showOlnyPage(pageId);
-                    }
-                };
-                PagesSwiper.prototype.showOlnyPage = function (id, margin) {
-                    if (margin === void 0) { margin = 0; }
-                    for (var i in this.pages)
-                        if (i == id || i == id - margin || i == id + margin)
-                            this.showPage(i);
-                        else
-                            this.hidePage(i);
-                };
-                PagesSwiper.prototype.showPage = function (id) {
-                    this.pages[id].showPage();
-                };
-                PagesSwiper.prototype.hidePage = function (id) {
-                    this.pages[id].hidePage();
-                };
-                PagesSwiper.prototype.stayOnPage = function () {
-                    this.gotoPage(this.currentPageIndex);
-                };
-                PagesSwiper.prototype.gotoNextPage = function () {
-                    this.gotoPage(1 + this.currentPageIndex);
-                };
-                PagesSwiper.prototype.gotoPreviousPage = function () {
-                    this.gotoPage(this.currentPageIndex - 1);
-                };
-                return PagesSwiper;
-            })();
-            View.PagesSwiper = PagesSwiper;
-        })(View = Menu.View || (Menu.View = {}));
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var View;
-        (function (View) {
-            // View Class
-            var Popup = (function (_super) {
-                __extends(Popup, _super);
-                //class contructor
-                function Popup() {
-                    var _this = this;
-                    _super.call(this);
-                    this.drawObject();
-                    //centralize the popup on screen
-                    this.width = defaultWidth;
-                    this.height = defaultHeight;
-                    this.x = defaultWidth / 2;
-                    this.y = defaultHeight / 2;
-                    this.centralize();
-                    //set Hit Area
-                    var hit = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, defaultWidth, defaultHeight));
-                    this.hitArea = hit;
-                    //hide popup
-                    this.visible = false;
-                    //add callback
-                    this.addEventListener("click", function () {
-                        _this.closePopUp();
-                        clearTimeout(_this.closeinterval);
-                    });
-                }
-                //public method to invoke the popup
-                Popup.prototype.showtext = function (title, text, timeout, delay) {
-                    if (timeout === void 0) { timeout = 7000; }
-                    if (delay === void 0) { delay = 0; }
-                    this.showsPopup(timeout, delay);
-                    //clean display Object
-                    this.removeAllChildren();
-                    //draw background
-                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
-                    bg.x = 0;
-                    bg.y = 100;
-                    this.addChild(bg);
-                    //create a titleShadow
-                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-                    titleShadow.textAlign = "center";
-                    titleShadow.textBaseline = "middle";
-                    titleShadow.x = defaultWidth / 2;
-                    this.addChild(titleShadow);
-                    //create a title
-                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
-                    titleDO.textAlign = "center";
-                    titleDO.textBaseline = "middle";
-                    titleDO.x = defaultWidth / 2;
-                    this.addChild(titleDO);
-                    //create a text
-                    var textDO = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
-                    textDO.textAlign = "center";
-                    textDO.textBaseline = "middle";
-                    textDO.x = defaultWidth / 2;
-                    this.addChild(textDO);
-                    //updates title and text values
-                    titleShadow.text = titleDO.text = title.toUpperCase();
-                    textDO.text = text;
-                    var b = defaultHeight / 2 - 500;
-                    titleDO.y = 0 + b + 50;
-                    titleShadow.y = titleDO.y + 15;
-                    textDO.y = b + 300;
-                    this.addsClickIndicaator();
-                };
-                Popup.prototype.showTimeAttack = function (title, text, time, boards, text2, text3, timeout, delay) {
-                    if (timeout === void 0) { timeout = 7000; }
-                    if (delay === void 0) { delay = 0; }
-                    this.showsPopup(timeout, delay);
-                    //clean display Object
-                    this.removeAllChildren();
-                    //draw background
-                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
-                    bg.x = 0;
-                    bg.y = 100;
-                    this.addChild(bg);
-                    //create a titleShadow
-                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-                    titleShadow.textAlign = "center";
-                    titleShadow.textBaseline = "middle";
-                    titleShadow.x = defaultWidth / 2;
-                    this.addChild(titleShadow);
-                    //create a title
-                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-                    titleDO.textAlign = "center";
-                    titleDO.textBaseline = "middle";
-                    titleDO.x = defaultWidth / 2;
-                    this.addChild(titleDO);
-                    //create a text
-                    var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-                    textDO.textAlign = "center";
-                    textDO.textBaseline = "middle";
-                    textDO.x = defaultWidth / 2;
-                    this.addChild(textDO);
-                    //create a text
-                    var textDO1 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-                    textDO1.textAlign = "center";
-                    textDO1.textBaseline = "middle";
-                    textDO1.x = defaultWidth / 2;
-                    this.addChild(textDO1);
-                    //create a text
-                    var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-                    textDO2.textAlign = "center";
-                    textDO2.textBaseline = "middle";
-                    textDO2.x = defaultWidth / 2;
-                    this.addChild(textDO2);
-                    //create a text
-                    var timeDO = new createjs.Text("", defaultNumberHighlight, "white");
-                    timeDO.textAlign = "center";
-                    timeDO.textBaseline = "middle";
-                    timeDO.x = defaultWidth / 2;
-                    this.addChild(timeDO);
-                    //create a text
-                    var boardsDO = new createjs.Text("", defaultNumberHighlight, "white");
-                    boardsDO.textAlign = "center";
-                    boardsDO.textBaseline = "middle";
-                    boardsDO.x = defaultWidth / 2;
-                    this.addChild(boardsDO);
-                    //updates title and text values
-                    titleShadow.text = titleDO.text = title.toUpperCase();
-                    textDO.text = text;
-                    textDO1.text = text2;
-                    textDO2.text = text3;
-                    timeDO.text = time;
-                    boardsDO.text = boards;
-                    var b = defaultHeight / 2 - 500;
-                    titleDO.y = 0 + b + 50;
-                    titleShadow.y = titleDO.y + 15;
-                    textDO.y = 300 + b;
-                    textDO1.y = 450 + b;
-                    textDO2.y = 600 + b;
-                    timeDO.y = 450 + b;
-                    boardsDO.y = 450 + b;
-                    timeDO.x = 500;
-                    boardsDO.x = defaultWidth - 500;
-                    this.addsClickIndicaator();
-                };
-                Popup.prototype.showflips = function (title, text, flips, timeout, delay) {
-                    if (timeout === void 0) { timeout = 7000; }
-                    if (delay === void 0) { delay = 0; }
-                    this.showsPopup(timeout, delay);
-                    //clean display Object
-                    this.removeAllChildren();
-                    //draw background
-                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
-                    bg.x = 0;
-                    bg.y = 100;
-                    this.addChild(bg);
-                    //create a titleShadow
-                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-                    titleShadow.textAlign = "center";
-                    titleShadow.textBaseline = "middle";
-                    titleShadow.x = defaultWidth / 2;
-                    this.addChild(titleShadow);
-                    //create a title
-                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-                    titleDO.textAlign = "center";
-                    titleDO.textBaseline = "middle";
-                    titleDO.x = defaultWidth / 2;
-                    this.addChild(titleDO);
-                    //create a text
-                    var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-                    textDO.textAlign = "center";
-                    textDO.textBaseline = "middle";
-                    textDO.x = defaultWidth / 2;
-                    this.addChild(textDO);
-                    //create a text
-                    var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-                    textDO2.textAlign = "center";
-                    textDO2.textBaseline = "middle";
-                    textDO2.x = defaultWidth / 2;
-                    this.addChild(textDO2);
-                    //create a text
-                    var flipsDO = new createjs.Text("", defaultNumberHighlight, "white");
-                    flipsDO.textAlign = "center";
-                    flipsDO.textBaseline = "middle";
-                    flipsDO.x = defaultWidth / 2;
-                    this.addChild(flipsDO);
-                    //updates title and text values
-                    titleShadow.text = titleDO.text = title.toUpperCase();
-                    textDO.text = text;
-                    textDO2.text = "";
-                    flipsDO.text = flips;
-                    var b = defaultHeight / 2 - 500;
-                    titleDO.y = 0 + b + 50;
-                    titleShadow.y = titleDO.y + 15;
-                    textDO.y = 300 + b;
-                    textDO2.y = 600 + b;
-                    flipsDO.y = 450 + b;
-                    this.addsClickIndicaator();
-                };
-                Popup.prototype.showsPopup = function (timeout, delay) {
-                    var _this = this;
-                    //shows the popus
-                    this.closeinterval = setTimeout(function () {
-                        gameui.AudiosManager.playSound("Open");
-                        _this.fadeIn(1, 0.5);
-                    }, delay);
-                    ;
-                    //create a interval for closing the popopu
-                    this.closeinterval = setTimeout(function () {
-                        _this.closePopUp();
-                    }, timeout + delay);
-                    //dispatch a event for parent objects
-                    this.dispatchEvent("onshow");
-                };
-                Popup.prototype.addsClickIndicaator = function () {
-                    //add click indicator
-                    var ind = gameui.AssetsManager.getSprite("touch");
-                    this.addChild(ind);
-                    ind.x = 1350;
-                    ind.y = 1100;
-                };
-                //method for close popup 
-                Popup.prototype.closePopUp = function () {
-                    //hide the popup{
-                    this.fadeOut(1, 0.5);
-                    //dispatch a event for parent objects
-                    this.dispatchEvent("onclose");
-                };
-                //desenha os objetos do popup
-                Popup.prototype.drawObject = function () {
-                };
-                return Popup;
-            })(gameui.UIItem);
-            View.Popup = Popup;
-        })(View = Menu.View || (Menu.View = {}));
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var View;
-        (function (View) {
             // View Class
             var PopupBot = (function (_super) {
                 __extends(PopupBot, _super);
@@ -7043,9 +6969,9 @@ var FlipPlus;
                     textDO.y = defaultHeight * 0.3;
                     //updates text
                     textDO.text = text.toUpperCase();
-                    this.addsClickIndicaator();
+                    this.addsClickIndicator();
                 };
-                PopupBot.prototype.addsClickIndicaator = function () {
+                PopupBot.prototype.addsClickIndicator = function () {
                     //add click indicator
                     var ind = gameui.AssetsManager.getSprite("touch");
                     this.addChild(ind);
@@ -7248,13 +7174,13 @@ var FlipPlus;
                         this.complete.visible = false;
                         //mask
                         this.percentMask = new createjs.Shape();
-                        this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, -this.fill.getBounds().height).endFill();
+                        this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, -this.fill.getBounds().height)
+                            .endFill();
                         this.percentMask.scaleY = 0;
                         this.percentMask.y = 50;
                         this.fill.mask = this.percentMask;
                     }
-                    catch (e) {
-                    }
+                    catch (e) { }
                 };
                 //update percentage
                 RobotPreview.prototype.update = function (complete) {
@@ -7271,8 +7197,7 @@ var FlipPlus;
                         else
                             this.animateLevelComplete();
                     }
-                    catch (e) {
-                    }
+                    catch (e) { }
                     ;
                 };
                 //animate
@@ -7285,19 +7210,13 @@ var FlipPlus;
                     boxShape.graphics.beginFill(color).drawRect(-700, -700, 1400, 1400);
                     boxShape.y = -300;
                     this.addChild(boxShape);
-                    createjs.Tween.get(boxShape).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(function () {
-                        _this.removeChild(boxShape);
-                    });
+                    createjs.Tween.get(boxShape).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(function () { _this.removeChild(boxShape); });
                     createjs.Tween.get(this.percentMask).wait(600).to({ scaleY: newValue }, 700, createjs.Ease.quadInOut).call(function () {
                         if (_this.project.UserData.complete) {
                             _this.complete.alpha = 0;
                             _this.complete.visible = true;
-                            createjs.Tween.get(_this.fill).wait(300).to({ alpha: 0 }, 600).call(function () {
-                                _this.fill.visible = false;
-                            });
-                            createjs.Tween.get(_this.stroke).wait(300).to({ alpha: 0 }, 600).call(function () {
-                                _this.stroke.visible = false;
-                            });
+                            createjs.Tween.get(_this.fill).wait(300).to({ alpha: 0 }, 600).call(function () { _this.fill.visible = false; });
+                            createjs.Tween.get(_this.stroke).wait(300).to({ alpha: 0 }, 600).call(function () { _this.stroke.visible = false; });
                             createjs.Tween.get(_this.complete).wait(300).to({ alpha: 1 }, 600);
                         }
                     });
@@ -7305,69 +7224,6 @@ var FlipPlus;
                 return RobotPreview;
             })(createjs.Container);
             View.RobotPreview = RobotPreview;
-        })(View = Menu.View || (Menu.View = {}));
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var View;
-        (function (View) {
-            // View Class
-            var TextEffect = (function (_super) {
-                __extends(TextEffect, _super);
-                //class contructor
-                function TextEffect() {
-                    _super.call(this);
-                    //centralize the popup on screen
-                    this.width = defaultWidth;
-                    this.height = defaultHeight;
-                    this.x = defaultWidth / 2;
-                    this.y = defaultHeight / 2;
-                    this.centralize();
-                    //hide popup
-                    this.visible = false;
-                    this.mouseEnabled = false;
-                }
-                //public method to invoke the popup
-                TextEffect.prototype.showtext = function (text, timeout, delay) {
-                    var _this = this;
-                    if (timeout === void 0) { timeout = 3000; }
-                    if (delay === void 0) { delay = 0; }
-                    //clean everything
-                    this.removeAllChildren();
-                    //create a titleShadow
-                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-                    titleShadow.textAlign = "center";
-                    titleShadow.textBaseline = "middle";
-                    titleShadow.x = defaultWidth / 2;
-                    this.addChild(titleShadow);
-                    //create a title
-                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-                    titleDO.textAlign = "center";
-                    titleDO.textBaseline = "middle";
-                    titleDO.x = defaultWidth / 2;
-                    this.addChild(titleDO);
-                    titleShadow.y = titleDO.y = defaultHeight / 2;
-                    titleShadow.y += 15;
-                    //updates text
-                    titleDO.text = titleShadow.text = text.toUpperCase();
-                    var ty = defaultHeight * 0.9;
-                    this.set({
-                        alpha: 0,
-                        y: ty
-                    });
-                    this.visible = true;
-                    createjs.Tween.removeTweens(this);
-                    createjs.Tween.get(this).to({ alpha: 1, y: ty - 50 }, 200, createjs.Ease.quadOut).to({ alpha: 1, y: ty - 100 }, 1000, createjs.Ease.linear).to({ alpha: 0, y: ty - 300 }, 200, createjs.Ease.quadIn).call(function () {
-                        _this.visible = false;
-                        _this.dispatchEvent("onclose");
-                    });
-                };
-                return TextEffect;
-            })(gameui.UIItem);
-            View.TextEffect = TextEffect;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
@@ -7453,5 +7309,183 @@ var FlipPlus;
         return Effects;
     })(createjs.Container);
     FlipPlus.Effects = Effects;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            var LevelThumb2 = (function (_super) {
+                __extends(LevelThumb2, _super);
+                // Constructor
+                function LevelThumb2(level) {
+                    _super.call(this, level);
+                    this.mouseEnabled = false;
+                    this.updateUserData();
+                }
+                LevelThumb2.prototype.createBackgroud = function (level, assetName, assetSufix) {
+                    var _this = this;
+                    var sbg = new createjs.Bitmap("assets/images_1x/workshop/" + assetName + assetSufix + ".png");
+                    sbg.image.onload = function () { _this.getStage().update(); };
+                    if (this.getStage())
+                        this.getStage().update();
+                    sbg.regX = sbg.regY = 98;
+                    return sbg;
+                };
+                LevelThumb2.prototype.createTags = function (level, assetName, assetSufix) {
+                    var _this = this;
+                    //TODO: essas string devem estar em um enum
+                    if (level.type == "time" || level.type == "flip" || level.type == "moves") {
+                        var tag = new createjs.Bitmap("assets/images_1x/workshop/" + assetName + (level.type == "moves" ? "flip" : level.type) + assetSufix + ".png");
+                        tag.image.onload = function () { _this.getStage().update(); };
+                        if (this.getStage())
+                            this.getStage().update();
+                        tag.regX = tag.regY = 100;
+                        tag.scaleX = tag.scaleY = 0.5;
+                        tag.x = tag.y = 70;
+                        return tag;
+                    }
+                };
+                LevelThumb2.prototype.createThumbs = function (level) {
+                    this.removeAllChildren();
+                    var color1;
+                    var color2;
+                    var assetSufix;
+                    var assetName = this.defineAssetName(level);
+                    var thumbContainer = new createjs.Container();
+                    this.addChild(thumbContainer);
+                    assetSufix = "3";
+                    color1 = "rgba(255,255,255,0.9)";
+                    color2 = "rgba(0,0,0,0.3)";
+                    this.setSound(null);
+                    //Adds Thumb Backgroud
+                    thumbContainer.addChild(this.createBackgroud(level, assetName, assetSufix));
+                    //Adds Thumb Blocks
+                    thumbContainer.addChild(this.createBlocks(level, color1, color2));
+                    //Adds thumb tags
+                    thumbContainer.addChild(this.createTags(level, assetName, assetSufix));
+                };
+                return LevelThumb2;
+            })(View.LevelThumb);
+            View.LevelThumb2 = LevelThumb2;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            // Class
+            var PagesSwiper = (function () {
+                function PagesSwiper(pagesContainer, pages, pageWidth, minY, maxY) {
+                    var _this = this;
+                    this.cancelClick = false;
+                    this.currentPageIndex = 0;
+                    this.pagewidth = pageWidth;
+                    this.pagesContainer = pagesContainer;
+                    this.pages = pages;
+                    //configure pages
+                    for (var i in pages)
+                        pages[i].x = this.pagewidth * i;
+                    //adds event
+                    var xpos;
+                    var initialclick;
+                    var moving = false;
+                    // records position on mouse down
+                    pagesContainer.addEventListener("mousedown", function (e) {
+                        var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                        if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
+                            initialclick = pos.x;
+                            xpos = pos.x - pagesContainer.x;
+                            moving = true;
+                        }
+                    });
+                    //drag the container
+                    pagesContainer.addEventListener("pressmove", function (e) {
+                        if (moving) {
+                            var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                            pagesContainer.x = pos.x - xpos;
+                            if (Math.abs(pos.x - initialclick) > 50)
+                                _this.cancelClick = true;
+                            //hide all pages
+                            _this.showOlnyPage(_this.currentPageIndex, 1);
+                        }
+                    });
+                    //verifies the relase point to tween to the next page
+                    pagesContainer.addEventListener("pressup", function (e) {
+                        if (moving) {
+                            moving = false;
+                            var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                            //calculate the drag percentage.
+                            var p = (pos.x - xpos + _this.pagewidth * _this.currentPageIndex) / _this.pagewidth;
+                            //choses if goes to the next or previous page.
+                            if (p < -0.25)
+                                _this.gotoNextPage();
+                            else if (p > +0.25)
+                                _this.gotoPreviousPage();
+                            else
+                                _this.stayOnPage();
+                            //release click for user
+                            setTimeout(function () { _this.cancelClick = false; }, 100);
+                        }
+                    });
+                }
+                //----------------------pages-----------------------------------------------//
+                PagesSwiper.prototype.gotoPage = function (pageId, tween) {
+                    var _this = this;
+                    if (tween === void 0) { tween = true; }
+                    if (pageId < 0)
+                        pageId = 0;
+                    if (pageId == this.pages.length)
+                        pageId = this.pages.length - 1;
+                    if (this.onPageChange)
+                        this.onPageChange(pageId);
+                    var oldpage = this.currentPageIndex;
+                    this.currentPageIndex = pageId;
+                    if (tween) {
+                        this.pages[pageId].visible = true;
+                        createjs.Tween.removeTweens(this.pagesContainer);
+                        createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut).call(function () {
+                            _this.showOlnyPage(pageId);
+                        });
+                    }
+                    else {
+                        //move current page
+                        this.pagesContainer.x = -this.pagewidth * pageId;
+                        this.showOlnyPage(pageId);
+                    }
+                };
+                PagesSwiper.prototype.showOlnyPage = function (id, margin) {
+                    if (margin === void 0) { margin = 0; }
+                    //hide all other pages
+                    for (var i in this.pages)
+                        if (i == id || i == id - margin || i == id + margin)
+                            this.showPage(i);
+                        else
+                            this.hidePage(i);
+                };
+                PagesSwiper.prototype.showPage = function (id) {
+                    this.pages[id].showPage();
+                };
+                PagesSwiper.prototype.hidePage = function (id) {
+                    this.pages[id].hidePage();
+                };
+                PagesSwiper.prototype.stayOnPage = function () {
+                    this.gotoPage(this.currentPageIndex);
+                };
+                PagesSwiper.prototype.gotoNextPage = function () {
+                    this.gotoPage(1 + this.currentPageIndex);
+                };
+                PagesSwiper.prototype.gotoPreviousPage = function () {
+                    this.gotoPage(this.currentPageIndex - 1);
+                };
+                return PagesSwiper;
+            })();
+            View.PagesSwiper = PagesSwiper;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
 //# sourceMappingURL=script.js.map
