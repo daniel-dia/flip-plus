@@ -333,7 +333,7 @@
          { id: "puzzle/icon_skip", src:  "puzzle/icon_skip.png" },
          { id: "puzzle/icon_solve", src:  "puzzle/icon_solve.png" },
          { id: "puzzle/icon_time", src:  "puzzle/icon_time.png" },
-         { id: "puzzle/icon_touch", src:  "puzzle/icon_touch.png" },
+         { id: "puzzle/icon_tap", src:  "puzzle/icon_tap.png" },
          { id: "puzzle/paginacaopuzzle", src:  "puzzle/paginacaopuzzle.png" },
          { id: "puzzle/painelpuzzle2", src:  "puzzle/painelpuzzle2.png" },
          { id: "puzzle/tile0", src:  "puzzle/tile0.png" },
@@ -364,6 +364,7 @@
         { id: "popups/popupTutorial", src:  "popups/popupbot.png" },
 
         { id: "menu/imrestart", src: "menu/imrestart.png" },
+        { id: "menu/imitem", src: "menu/imitem.png" },
         { id: "menu/imskip", src: "menu/imskip.png" },
         { id: "menu/btoptions", src: "menu/btoptions.png" },
 

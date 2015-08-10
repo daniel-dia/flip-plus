@@ -1276,7 +1276,6 @@
     <Content Include="data\Bonus.js" />
     <Content Include="data\Items.js" />
     <Content Include="data\Levels.js" />
-    <Content Include="data\stringResources.js" />
     <Content Include="fonts\Exo2.0-Bold.woff" />
     <Content Include="fonts\Exo2.0-Regular.woff" />
     <Content Include="jquery-ui-1.11.3\external\jquery\jquery.js" />
@@ -1365,7 +1364,6 @@
     <TypeScriptCompile Include="src\UserData\Timers.ts" />
     <TypeScriptCompile Include="src\Projects\ProjectManager.ts" />
     <Content Include="scripts\plataform.js" />
-    <Content Include="scripts\script.js" />
     <Content Include="src\UserData\ProjectsData.ts" />
     <TypeScriptCompile Include="src\Robots\MyBots.ts" />
     <TypeScriptCompile Include="src\Menu\MainMenu.ts" />

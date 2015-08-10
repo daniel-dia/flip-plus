@@ -13,18 +13,18 @@ module FlipPlus.GamePlay {
         constructor(levelData: Projects.Level) {
             super(levelData);
 
-            this.gameplayMenu.addButtons(["skip", "time", "solve", "hint"]);
-            this.gameplayMenu.addEventListener("skip", () => { this.useItemSkip(); });
-            this.gameplayMenu.addEventListener("time", () => { this.useItemTime(); });
-            this.gameplayMenu.addEventListener("solve", () => { this.useItemSolve(); });
-            this.gameplayMenu.addEventListener("hint", () => { this.useItemHint(); })
+            this.gameplayMenu.addButtons([Items.SKIP, Items.TIME, Items.SOLVE, Items.HINT]);
+            this.gameplayMenu.addEventListener(Items.SKIP, () => { this.useItemSkip(); });
+            this.gameplayMenu.addEventListener(Items.TIME, () => { this.useItemTime(); });
+            this.gameplayMenu.addEventListener(Items.SOLVE, () => { this.useItemSolve(); });
+            this.gameplayMenu.addEventListener(Items.HINT, () => { this.useItemHint(); })
                                                 
             this.puzzlesToSolve = levelData.puzzlesToSolve;
             this.currentTime = levelData.time;
 
             this.randomBoard(levelData.randomMinMoves,levelData.randomMaxMoves); 
 
-            this.statusArea.setMode("time");
+            this.statusArea.setMode(Items.TIME);
             this.statusArea.setText3(levelData.time.toString());
 
             this.createsTimer();
@@ -40,14 +40,23 @@ module FlipPlus.GamePlay {
                 this.statusArea.setText3(this.currentTime.toString());
                 if (this.currentTime <= 0) {
 
-                    // play sound
-                    gameui.AudiosManager.playSound("Power Down");
-                    this.statusArea.setText3(stringResources.gp_pz_statusEnd);
-                    
-                    this.message.showtext(stringResources.gp_pz_timeUP);
-                    this.loose();
-
+                    // suggest more time
                     this.timer.stop();
+                    this.boardSprite.mouseEnabled = false;
+                    this.popupHelper.showItemMessage(Items.TIME, this.getItemPrice(Items.TIME),
+                        () => {
+                            this.useItemTime();
+                            this.boardSprite.mouseEnabled = true;
+                            this.timer.start();
+                        },
+                        () => {
+                            gameui.AudiosManager.playSound("Power Down");
+                            this.statusArea.setText3(stringResources.gp_pz_statusEnd);
+                            this.message.showtext(stringResources.gp_pz_timeUP);
+                            this.loose();
+                        });
+
+ 
                 }
                 if (this.currentTime == 4) {
                     // play sound
@@ -84,7 +93,7 @@ module FlipPlus.GamePlay {
 
             }
         }
-
+     
         public pauseGame() {
             super.pauseGame();
             this.timer.stop();
@@ -122,12 +131,12 @@ module FlipPlus.GamePlay {
         }
 
         private useItemSolve() {
-            if (!this.useItem("solve")) return;
+            if (!this.useItem(Items.SOLVE)) return;
             this.win(0,0);
         }
 
         private useItemTime() {
-            if (!this.useItem("time")) return;
+            if (!this.useItem(Items.TIME)) return;
             this.currentTime += 10;
         }
 

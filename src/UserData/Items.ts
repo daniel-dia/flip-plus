@@ -1,13 +1,23 @@
+class Items {
+
+    // static items
+    public static HINT = "hint";
+    public static SKIP = "skip";
+    public static SOLVE = "solve";
+    public static TIME = "time";
+    public static TAP = "tap";
+}
+
 module FlipPlus.UserData {
 
     // Class
-    export class Items{
+    export class ItemsManager{
 
         private itensDictionary: any;
 
         //defines existent Itens
         //TODO shall not be in userData
-        public static itemsNames: Array<string> = ["hint", "skip", "solve", "time", "touch"];
+        public static itemsNames: Array<string> = [Items.TAP, Items.HINT, Items.SKIP, Items.SOLVE, Items.TIME];
 
 
         constructor() {
@@ -45,3 +55,4 @@ module FlipPlus.UserData {
         }
     }
 }
+

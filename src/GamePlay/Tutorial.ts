@@ -86,20 +86,21 @@ module FlipPlus.GamePlay {
 
             if (this.tutorialStepsEnd.length == 0)
                 super.win(col, row);
-            else
+            else {
+                this.boardSprite.mouseEnabled = false;
 
-            setTimeout(() => {
-                this.currentTutorialStep = 0;
-                this.tutorialSteps = this.tutorialStepsEnd;
+                setTimeout(() => {
+                    this.currentTutorialStep = 0;
+                    this.tutorialSteps = this.tutorialStepsEnd;
 
-                this.playNextTurorialStep();
+                    this.playNextTurorialStep();
 
-                this.endTutorial = () => {
-                    super.win(col, row, false);
-                }
+                    this.endTutorial = () => {
+                        super.win(col, row, false);
+                    }
 
-            }, 500);
-
+                }, 500);
+            }
           
         }
     }

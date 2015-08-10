@@ -32,8 +32,6 @@ module FlipPlus.GamePlay {
         private startedTime: number;
         private clicks: number;
 
-        // help
-        private helped: boolean;
 
 
         // #region Initialization methodos ==================================================================================================
@@ -100,6 +98,15 @@ module FlipPlus.GamePlay {
                 this.gameplayMenu.fadeIn();
                 this.boardSprite.mouseEnabled = true;
             });
+            this.popupHelper.addEventListener("onshow", () => {
+                this.gameplayMenu.fadeOut();
+                this.boardSprite.mouseEnabled = false;
+            });
+            this.popupHelper.addEventListener("onclose", () => {
+                this.gameplayMenu.fadeIn();
+                this.boardSprite.mouseEnabled = true;
+            });
+          
         }
 
         private addBackground() {
@@ -192,47 +199,10 @@ module FlipPlus.GamePlay {
 
             this.levelLogic.moves++;
 
-            this.trySuggestHelp();
         }
 
         // #endregion
 
-        // #region  Helpers =========================================================================================================
-        
-        // user helper
-        private trySuggestHelp() {
-            if (this.helped) return;
-            
-            var plays = this.levelData.userdata.playedTimes;
-            var invertsInitial = this.levelData.blocksData.length;
-            var inverts = this.levelLogic.board.getInvertedBlocksCount();
-
-            // verify if user went too far from solution.
-            if (inverts > invertsInitial * 2) {
-                // verifies if user play a the same level lot of times
-                if (plays > 2) {
-                    // send message to ask to skip
-                    this.showSkipMessage();
-                    this.helped = true;
-                }
-                else {
-                    // show message to ask restart
-                    this.showRestartMessage();
-                    this.helped = true;
-                }
-            }
-        }
-
-        // show a message asking for user to restart
-        private showRestartMessage() {
-             this.popupHelper.showRestartMessage();
-        }
-
-        // show a message asking for user to skip
-        private showSkipMessage() {
-            this.popupHelper.showSkipPessage(this.getItemPrice("skip"), () => { this.useItemSkip(); });
-        }
-        // #endregion
 
         // #region  GamePlay methods =========================================================================================================
 
@@ -255,7 +225,10 @@ module FlipPlus.GamePlay {
             // analytics
             FlipPlusGame.analytics.logLevelWin(this.levelData.name, (Date.now() - this.startedTime) / 100, this.clicks)
 
-            //play a win sound
+            // freze the board
+            this.boardSprite.mouseEnabled = false;
+
+            // play a win sound
             gameui.AudiosManager.playSound("final");
 
             //verifies if user already completed this level and verifies if player used any item in the game
@@ -310,6 +283,8 @@ module FlipPlus.GamePlay {
 
             FlipPlusGame.analytics.logLevelLoose(this.levelData.name, Date.now() - this.startedTime, this.clicks)
 
+            this.boardSprite.mouseEnabled = false;
+
             this.gameplayMenu.fadeOut();
             this.boardSprite.lock();
             this.boardSprite.looseEffect();
@@ -321,7 +296,7 @@ module FlipPlus.GamePlay {
         // #region  Items ====================================================================================================================
 
         // get item value based on how many times it has been used.
-        private getItemPrice(item): number {
+        protected getItemPrice(item): number {
 
             // increase the times counter
             var times = this.itemTimes[item];
@@ -366,7 +341,7 @@ module FlipPlus.GamePlay {
 
                 //updates data
                 FlipPlusGame.coinsData.decreaseAmount(value);
-                if (item != "hint") this.usedItem = item;
+                if (item != Items.HINT) this.usedItem = item;
 
                 //updates Items buttons labels Quantity on footer
                 this.coinsIndicator.updateCoinsAmmount(FlipPlusGame.coinsData.getAmount());
@@ -391,7 +366,7 @@ module FlipPlus.GamePlay {
 
         //skips the level
         protected useItemSkip() {
-            if (!this.useItem("skip")) return;
+            if (!this.useItem(Items.SKIP)) return;
             if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
                 this.message.showtext("Skip Level");
                 this.message.addEventListener("onclose", () => {
@@ -409,7 +384,7 @@ module FlipPlus.GamePlay {
         //set hint for a block
         protected useItemHint(blockId?) {
 
-            if (!this.useItem("hint")) return;
+            if (!this.useItem(Items.HINT)) return;
 
             //if the hint block is not pre defined
             if (typeof blockId != "number") {

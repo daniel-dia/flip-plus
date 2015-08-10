@@ -1,16 +1,13 @@
 module FlipPlus.Menu.View {
 
     // View Class
-    export class PopupHelper extends Popup{
-
-       
+    export class PopupHelper extends Popup {
+               
         // class contructor
         constructor() {
             super(true);
-           
- 
         }
- 
+
         public showRestartMessage() {
 
             this.showsPopup(0, 0);
@@ -40,7 +37,7 @@ module FlipPlus.Menu.View {
             // updates title and text values
       
             textDO.y = 550;
-            textDO.x = 1000 ;
+            textDO.x = 1000;
 
             // Add Buttons
             var bt = new gameui.TextButton(stringResources.help_restart_bt, defaultFontFamilyNormal, "white", "menu/btoptions", () => {
@@ -49,10 +46,10 @@ module FlipPlus.Menu.View {
             this.addChild(bt);
             bt.x = 1000;
             bt.y = 1100;
-         
+
         }
 
-        public showSkipPessage(price: number, callback: () => void) {
+        public showItemMessage(item: string, price: number, accept: () => void, cancel: () => void, customImage?: string) {
             this.showsPopup(0, 0);
 
             //clean display Object
@@ -65,62 +62,45 @@ module FlipPlus.Menu.View {
             this.addChild(bg);
 
             // create a text
-            var textDO = new createjs.Text(stringResources.help_skip, defaultFontFamilyNormal, "white");
+            var textDO = new createjs.Text(stringResources["help_" + item], defaultFontFamilyNormal, "white");
             textDO.textAlign = "center";
             textDO.textBaseline = "middle";
             textDO.x = defaultWidth / 2;
+            textDO.y = 550;
+            textDO.x = 1000;
             this.addChild(textDO);
 
             // add Image
-            var img = gameui.AssetsManager.getBitmap("menu/imskip")
+            var img = gameui.AssetsManager.getBitmap(customImage || "menu/imitem")
             this.addChild(img)
             img.x = 80
-            img.y = 540;
+            img.y = 740;
+            img.regY = img.getBounds().height / 2;
 
-            // updates title and text values
-            textDO.y = 550;
-            textDO.x = 1000;
-
-            // Add Buttons
-            var cancelButton = new gameui.TextButton(stringResources.help_skip_bt, defaultFontFamilyNormal, "white", "menu/btoptions", () => {
+            // Add cancel Buttons
+            var cancelButton = new gameui.TextButton(stringResources.help_cancel_bt, defaultFontFamilyNormal, "white", "menu/btoptions", () => {
                 this.closePopUp();
-              
+                cancel();
             });
             this.addChild(cancelButton);
-            cancelButton.x = defaultWidth/4
+            cancelButton.x = defaultWidth / 4
             cancelButton.y = 1150
 
-            // Add Buttons
-            var skipButton = new gameui.TextButton(stringResources.skip, defaultFontFamilyNormal, "white", "menu/btoptions", () => {
+            // Add ok Buttons
+            var acceptBt = new gameui.TextButton(stringResources["help_" + item + "_bt"], defaultFontFamilyNormal, "white", "menu/btoptions", () => {
                 this.closePopUp();
-                callback();
-
+                accept();
             });
+            this.addChild(acceptBt);
+            acceptBt.text.y -= 50;
+            acceptBt.x = defaultWidth / 4 * 3
+            acceptBt.y = 1150;
 
-            skipButton.text.y -= 50;
-            skipButton.addChild(a);
-            skipButton.addChild(b);
-            skipButton.addChild(c);
-
-            this.addChild(skipButton);
-            skipButton.x = defaultWidth / 4 * 3
-            skipButton.y = 1150;
-
-
-            var a = gameui.AssetsManager.getBitmap("puzzle/icon_skip");
-            var b = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
-            var c = new createjs.Text(price.toString(), defaultFontFamilyNormal, "white");
-
-            a.x = -300;
-            a.y -= 75;
-            b.x = -120;
-            b.y = 10
-            b.scaleX = 0.8;
-            b.scaleY = 0.8;
-            c.x = 30;
-
+            //add stuff on button
+            acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + item).set({ x: -170, y: 0 }));
+            acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_coin").set({ x: 90, y: 20, scaleX: 0.8, scaleY: 0.8 }));
+            acceptBt.addChild(new createjs.Text(price.toString(), defaultFontFamilyNormal, "white").set({ x: 10 }));
 
         }
- 
     }
 }

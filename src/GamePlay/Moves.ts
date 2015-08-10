@@ -13,19 +13,19 @@
 
             
             //only adds this level if there are more than 1 puzzle to solve
-            this.gameplayMenu.addButtons(["skip"]);
+            this.gameplayMenu.addButtons([Items.SKIP]);
 
             if (this.levelData.puzzlesToSolve > 1) 
-                this.gameplayMenu.addButtons(["solve"]);
+                this.gameplayMenu.addButtons([Items.SOLVE]);
             
             //adds buttons and items
-            this.gameplayMenu.addButtons(["touch", "hint"]);
+            this.gameplayMenu.addButtons([Items.TAP, Items.HINT]);
 
 
-            this.gameplayMenu.addEventListener("touch", () => { this.useItemTouch()});
-            this.gameplayMenu.addEventListener("solve", () => { this.useItemSolve(); })
-            this.gameplayMenu.addEventListener("hint", () => { this.useItemHint(); })
-            this.gameplayMenu.addEventListener("skip", () => { this.useItemSkip(); })
+            this.gameplayMenu.addEventListener(Items.TAP, () => { this.useItemTouch()});
+            this.gameplayMenu.addEventListener(Items.SOLVE, () => { this.useItemSolve(); })
+            this.gameplayMenu.addEventListener(Items.HINT, () => { this.useItemHint(); })
+            this.gameplayMenu.addEventListener(Items.SKIP, () => { this.useItemSkip(); })
 
             this.moves = this.levelData.moves;
 
@@ -145,11 +145,11 @@
 
         //========================== items ==================================
         private useItemTouch() {
-            if (!this.useItem("touch")) return;
+            if (!this.useItem(Items.TAP)) return;
             this.moves += 2;
         }
         private useItemSolve() {
-            if (!this.useItem("solve")) return;
+            if (!this.useItem(Items.SOLVE)) return;
             this.win(0, 0);
         }
 
