@@ -1347,6 +1347,7 @@
     <Content Include="scripts\md5.js" />
     <Content Include="scripts\movieclip-0.6.1.min.js" />
     <Content Include="scripts\movieclip-0.8.0.min.js" />
+    <Content Include="scripts\script.js" />
     <Content Include="scripts\sortable.js" />
     <Content Include="scripts\timer.js" />
     <TypeScriptCompile Include="src\UserData\Settings.ts" />

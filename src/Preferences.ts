@@ -2,8 +2,9 @@ var defaultWidth = 1536;
 var defaultHeight = 2048 - 8;
 var defaultFont = "'Exo 2.0'";
 
+var defaultFontFamilySmall = " 50px  " + defaultFont;
 var defaultFontFamilyNormal = " 80px  " + defaultFont;
-var defaultFontFamilyStrong = " 80px " + defaultFont;
+var defaultFontFamilyStrong = " Bold 80px " + defaultFont;
 var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
 var defaultNumberHighlight = " 220px " + defaultFont;
 

@@ -12,22 +12,22 @@ module FlipPlus.Menu {
 
         private createObjects() {
             
-            var sfxon: createjs.DisplayObject = new gameui.IconButton("botaofxon.png", "", "", "", "botaosom.png", () => {
+            var sfxon: createjs.DisplayObject = new gameui.IconTextButton("botaofxon.png", "", "", "", "botaosom.png", () => {
                 FlipPlusGame.settings.setSoundfX(false);
                 sfxon.visible = false;
                 sfxoff.visible = true;
             });
-            var sfxoff: createjs.DisplayObject = new gameui.IconButton("botaofxoff.png", "", "", "", "botaosom.png", () => {
+            var sfxoff: createjs.DisplayObject = new gameui.IconTextButton("botaofxoff.png", "", "", "", "botaosom.png", () => {
                 FlipPlusGame.settings.setSoundfX(true);
                 sfxoff.visible = false;
                 sfxon.visible = true;
             });
-            var muson: createjs.DisplayObject = new gameui.IconButton("botaomusicaon.png", "", "", "", "botaosom.png", () => {
+            var muson: createjs.DisplayObject = new gameui.IconTextButton("botaomusicaon.png", "", "", "", "botaosom.png", () => {
                 FlipPlusGame.settings.setMusic(false);
                 muson.visible = false;
                 musoff.visible = true;
             });
-            var musoff: createjs.DisplayObject = new gameui.IconButton("botaomusicaoff.png", "", "", "", "botaosom.png", () => {
+            var musoff: createjs.DisplayObject = new gameui.IconTextButton("botaomusicaoff.png", "", "", "", "botaosom.png", () => {
                 FlipPlusGame.settings.setMusic(true);
                 musoff.visible = false;
                 muson.visible = true;

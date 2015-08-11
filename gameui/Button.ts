@@ -158,7 +158,7 @@ module gameui {
     }
 
 
-    export class IconButton extends TextButton {
+    export class IconTextButton extends TextButton {
 
         public icon: createjs.DisplayObject;
 
@@ -166,8 +166,8 @@ module gameui {
 
             //add space before text
             if (text != "") text = " " + text;
-            
-            super(text, font, color ,background, event,soundId);
+
+            super(text, font, color, background, event, soundId);
 
             //loads icon Image
             this.icon = AssetsManager.getBitmap(icon);
@@ -176,12 +176,12 @@ module gameui {
 
             if (this.icon.getBounds())
                 this.icon.regY = this.icon.getBounds().height / 2;
-            else 
-                if(this.icon["image"])
+            else
+                if (this.icon["image"])
                     this.icon["image"].onload = () => {
                         this.icon.regY = this.icon.getBounds().height / 2;
                     }
-            
+
             this.updateLabel(text);
 
             this.createHitArea();
@@ -196,6 +196,12 @@ module gameui {
         }
 
         centralizeIcon() {
+        }
+    }
+
+    export class IconButton extends IconTextButton {
+        constructor(icon: string = "", background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string) {
+            super(icon,"", "", "", background, event, soundId);
         }
     }
 }

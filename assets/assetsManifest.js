@@ -1,20 +1,38 @@
 ﻿var imageManifest = [
+
+        // menus
+        { id: "MenuBt", src: "MenuBt.png" },
+        { id: "BackBt", src: "BackBt.png" },
+        { id: "menu/btmenu", src: "menu/btmenu.png" },
+        { id: "menu/btmusicoff", src: "menu/btmusicoff.png" },
+        { id: "menu/btmusicon", src: "menu/btmusicon.png" },
+        { id: "menu/btoptions", src: "menu/btoptions.png" },
+        { id: "menu/iccontinue", src: "menu/iccontinue.png" },
+        { id: "menu/icleave", src: "menu/icleave.png" },
+        { id: "menu/icmusic", src: "menu/icmusic.png" },
+        { id: "menu/icrestart", src: "menu/icrestart.png" },
+        { id: "menu/icskip", src: "menu/icskip.png" },
+        { id: "menu/icsound", src: "menu/icsound.png" },
+        { id: "menu/imitem", src: "menu/imitem.png" },
+        { id: "menu/imrestart", src: "menu/imrestart.png" },
+        { id: "menu/imskip", src: "menu/imskip.png" },
+        { id: "menu/menubg", src: "menu/menubg.png" },
+        { id: "menu/x", src: "menu/x.png" },
+
         //common
-        { id: "partshud", src:  "partshud.png" },
-        { id: "partsicon", src:  "partsicon.png" },
-        { id: "starsicon", src:  "staricon.png" },
-        { id: "MenuBt", src:  "MenuBt.png" },
-        { id: "BackBt", src:  "BackBt.png" },
-        { id: "touch", src:  "touch.png" },
-        { id: "max", src:  "max.png" },
+        { id: "touch", src: "touch.png" },
+        { id: "max", src: "max.png" },
+        { id: "partshud", src: "partshud.png" },
+        { id: "partsicon", src: "partsicon.png" },
+        { id: "starsicon", src: "staricon.png" },
 
         //title 
-        { src:  "logo/bandeira1.png", id: "bandeira1" },
-        { src:  "logo/bandeira2.png", id: "bandeira2" },
-        { src:  "logo/bandeira3.png", id: "bandeira3" },
-        { src:  "logo/Cenario.jpg", id: "Cenario" },
-        { src:  "logo/coqueiro02.png", id: "coqueiro02" },
-        { src:  "logo/coqueiro1.png", id: "coqueiro1" },
+        { src: "logo/bandeira1.png", id: "bandeira1" },
+        { src: "logo/bandeira2.png", id: "bandeira2" },
+        { src: "logo/bandeira3.png", id: "bandeira3" },
+        { src: "logo/Cenario.jpg", id: "Cenario" },
+        { src: "logo/coqueiro02.png", id: "coqueiro02" },
+        { src: "logo/coqueiro1.png", id: "coqueiro1" },
         { src:  "logo/coqueiro2.png", id: "coqueiro2" },
         { src:  "logo/logo.png", id: "logo" },
         { src:  "logo/matoareia.png", id: "matoareia" },
@@ -184,8 +202,7 @@
         { src:  "workshop/bots/Bot09_stroke.png", id: "workshop/Bot16_stroke" },
         { src:  "workshop/bots/Bot17_stroke.png", id: "workshop/Bot17_stroke" },
         { src:  "workshop/bots/Bot18_stroke.png", id: "workshop/Bot18_stroke" },
-
-
+        
         //workshow other stuff
         { id: "workshop/basefases", src:  "workshop/basefases.png" },
         { id: "workshop/bgworkshop", src:  "workshop/bgworkshop.jpg" },
@@ -308,7 +325,6 @@
         { src:  "myBots/bgnewbot.png", id: "bgnewbot" },
 
         //puzzle
-
          { id: "puzzle/bg", src:  "puzzle/bg.jpg" },
          { id: "puzzle/btbuypower", src:  "puzzle/btbuypower.png" },
          { id: "puzzle/btplay1", src:  "puzzle/btplay1.png" },
@@ -362,11 +378,6 @@
         { id: "popups/popup", src:  "popups/popup.png" },
         { id: "popups/message", src:  "popups/message.png" },
         { id: "popups/popupTutorial", src:  "popups/popupbot.png" },
-
-        { id: "menu/imrestart", src: "menu/imrestart.png" },
-        { id: "menu/imitem", src: "menu/imitem.png" },
-        { id: "menu/imskip", src: "menu/imskip.png" },
-        { id: "menu/btoptions", src: "menu/btoptions.png" },
 
         //Legacy
         { id: "bolinhas", src:  "bolinhas.png" },

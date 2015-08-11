@@ -19,11 +19,17 @@ createjs.Bitmap.prototype.draw = function (ctx, ignoreCache) {
     return true;
 };
 
+ createjs.Bitmap.prototype.isVisible = function () {
+    var image = this.image;
+    var hasContent = this.cacheCanvas || (image && (image.complete || image.getContext || image.readyState >= 2));
+    return !!(this.visible && this.alpha > 0 && this.scaleX != 0 && this.scaleY != 0 && hasContent);
+};
+
 createjs.Bitmap.prototype.getBounds = function () {
     var rect = this.DisplayObject_getBounds();
     if (rect) { return rect; }
-    var o = this.sourceRect || this.image;
-    var hasContent = (this.image && (this.image.complete || this.image.getContext || this.image.readyState >= 2));
+    var image = this.image, o = this.sourceRect || image;
+    var hasContent = (image && (image.complete || image.getContext || image.readyState >= 2));
     return hasContent ? this._rectangle.setValues(0, 0, o.width * 1 / assetscale, o.height * 1 / assetscale) : null;
 };
 
@@ -36,7 +42,25 @@ createjs.DisplayObject.prototype.cache = function (x, y, width, height, scale) {
     this._cacheOffsetX = x;
     this._cacheOffsetY = y;
     this._cacheScale = scale;
-    this.updateCache();
+    this.updateCache(); 
+};
+
+ 
+
+createjs.DisplayObject.prototype.uncache = function () {
+    var x = this.cacheCanvas;
+    
+    this._cacheDataURL = this.cacheCanvas = null;
+    this.cacheID = this._cacheOffsetX = this._cacheOffsetY = this._filterOffsetX = this._filterOffsetY = 0;
+    this._cacheScale = 1;
+
+    if (x && x.dispose) {
+        x.dispose();
+        x.dispose();
+        setTimeout(function () { x.dispose(); }, 1000)
+    }
+
+
 };
 
 createjs.Sprite.prototype.draw = function (ctx, ignoreCache) {

@@ -1,8 +1,9 @@
 var defaultWidth = 1536;
 var defaultHeight = 2048 - 8;
 var defaultFont = "'Exo 2.0'";
+var defaultFontFamilySmall = " 50px  " + defaultFont;
 var defaultFontFamilyNormal = " 80px  " + defaultFont;
-var defaultFontFamilyStrong = " 80px " + defaultFont;
+var defaultFontFamilyStrong = " Bold 80px " + defaultFont;
 var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
 var defaultNumberHighlight = " 220px " + defaultFont;
 var defaultFontColor = "#FF6";
@@ -35,8 +36,8 @@ var gameui;
                 this.loader.installPlugin(createjs.Sound);
                 createjs.Sound.alternateExtensions = ["mp3"];
                 // Adds callbacks
-                this.loader.addEventListener("filestart", function (evt) { console.log("loading " + evt.item.src); });
-                this.loader.addEventListener("fileload", function (evt) { console.log("loaded " + evt.item.src); });
+                //this.loader.addEventListener("filestart", (evt: any) => { console.log("loading " + evt.item.src) })
+                //this.loader.addEventListener("fileload", (evt: any) => { console.log("loaded " + evt.item.src) })
                 this.loader.addEventListener("complete", function (evt) { if (_this.onComplete)
                     _this.onComplete(); });
                 this.loader.addEventListener("progress", function (evt) { if (_this.onProgress)
@@ -372,7 +373,10 @@ var gameui;
             var hit = new createjs.Shape();
             var b = this.getBounds();
             if (b)
-                hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
+                if (this.hitPadding)
+                    hit.graphics.beginFill("#000").drawRect(b.x - this.hitPadding, b.y - this.hitPadding, b.width + this.hitPadding, b.height + this.hitPadding);
+                else
+                    hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
             //TODO. se for texto colocar uma sobra. !
             this.hitArea = hit;
         };
@@ -686,9 +690,9 @@ var gameui;
         return BitmapTextButton;
     })(ImageButton);
     gameui.BitmapTextButton = BitmapTextButton;
-    var IconButton = (function (_super) {
-        __extends(IconButton, _super);
-        function IconButton(icon, text, font, color, background, event, soundId) {
+    var IconTextButton = (function (_super) {
+        __extends(IconTextButton, _super);
+        function IconTextButton(icon, text, font, color, background, event, soundId) {
             var _this = this;
             if (icon === void 0) { icon = ""; }
             if (text === void 0) { text = ""; }
@@ -710,17 +714,26 @@ var gameui;
             this.updateLabel(text);
             this.createHitArea();
         }
-        IconButton.prototype.updateLabel = function (value) {
+        IconTextButton.prototype.updateLabel = function (value) {
             this.text.text = value;
             if (this.icon.getBounds()) {
                 this.icon.x = -(this.icon.getBounds().width + 10 + this.text.getMeasuredWidth()) / 2;
                 this.text.x = this.icon.x + this.icon.getBounds().width + 10;
             }
         };
-        IconButton.prototype.centralizeIcon = function () {
+        IconTextButton.prototype.centralizeIcon = function () {
         };
-        return IconButton;
+        return IconTextButton;
     })(TextButton);
+    gameui.IconTextButton = IconTextButton;
+    var IconButton = (function (_super) {
+        __extends(IconButton, _super);
+        function IconButton(icon, background, event, soundId) {
+            if (icon === void 0) { icon = ""; }
+            _super.call(this, icon, "", "", "", background, event, soundId);
+        }
+        return IconButton;
+    })(IconTextButton);
     gameui.IconButton = IconButton;
 })(gameui || (gameui = {}));
 //declare var spriteSheets;
@@ -2801,7 +2814,7 @@ var FlipPlus;
                     this.overlayMenu = new gameui.UIItem();
                     this.overlayMenu.width = 2 * defaultWidth;
                     this.overlayMenu.height = 0;
-                    var pausBt = new gameui.IconButton("puzzle/iconepause", "", "", "", "puzzle/btpowerup", function () { _this.pause(); });
+                    var pausBt = new gameui.IconTextButton("puzzle/iconepause", "", "", "", "puzzle/btpowerup", function () { _this.pause(); });
                     this.overlayMenu.addChild(pausBt),
                         pausBt.x = 1390;
                     this.addChild(this.overlayMenu);
@@ -2817,7 +2830,7 @@ var FlipPlus;
                 GamePlayMenu.prototype.createItemButton = function (buttonId, pos) {
                     var _this = this;
                     this.items.push(buttonId);
-                    var button = new gameui.IconButton("puzzle/icon_" + buttonId, "", defaultFontFamilyNormal, "white", "puzzle/btpowerup", function () {
+                    var button = new gameui.IconTextButton("puzzle/icon_" + buttonId, "", defaultFontFamilyNormal, "white", "puzzle/btpowerup", function () {
                         var parameter = null;
                         if (_this.parameters)
                             parameter = _this.parameters[buttonId];
@@ -2852,7 +2865,7 @@ var FlipPlus;
                 GamePlayMenu.prototype.createPauseMenu = function () {
                     var _this = this;
                     var pauseMenu = new gameui.UIItem();
-                    var playBt = new gameui.IconButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", function () { _this.unpause(); }, "buttonOut");
+                    var playBt = new gameui.IconTextButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", function () { _this.unpause(); }, "buttonOut");
                     playBt.x = 600;
                     var snd1Bt = new gameui.ImageButton("puzzle/btsom1", function () { _this.dispatchEvent("soundOn"); }, "buttonOut");
                     snd1Bt.x = 160;
@@ -4103,20 +4116,46 @@ var FlipPlus;
                 this.buildObjects();
             }
             OptionsMenu.prototype.buildObjects = function () {
-                //Add Back Button
-                var bb = new gameui.TextButton(stringResources.op_back, defaultFontFamilyNormal, defaultFontColor, "", function () {
-                    FlipPlus.FlipPlusGame.showMainMenu();
-                });
-                bb.x = bb.y = 100;
-                this.content.addChild(bb);
-                var cdb = new gameui.TextButton(stringResources.op_erase, defaultFontFamilyNormal, defaultFontColor, "", function () {
+                var _this = this;
+                // add bg
+                this.content.addChild(gameui.AssetsManager.getBitmap("mybotsbg").set({ y: -339, scaleY: 1.3310546875 }));
+                var menu = new createjs.Container();
+                menu.set({ x: defaultWidth / 2, y: defaultHeight / 2 });
+                this.content.addChild(menu);
+                // add bg menu
+                menu.addChild(gameui.AssetsManager.getBitmap("menu/menubg").set({ regX: 1536 / 2, regY: 1840 / 2 }));
+                // add menu buttons
+                var p0 = -350;
+                var p = 0;
+                var s = 330;
+                menu.addChild(new gameui.IconButton("menu/icmusic", "menu/btmusicon", function () { }).set({ x: -200, y: p0 }));
+                menu.addChild(new gameui.IconButton("menu/icsound", "menu/btmusicon", function () { }).set({ x: 200, y: p0 }));
+                p++;
+                menu.addChild(new gameui.TextButton("Help", defaultFontFamilyHighlight, "#343171", "menu/btmenu", function () { }).set({ x: 0, y: p0 + p * s }));
+                p++;
+                menu.addChild(new gameui.TextButton("Store", defaultFontFamilyHighlight, "#343171", "menu/btmenu", function () { }).set({ x: 0, y: p0 + p * s }));
+                p++;
+                //add Other Buttons
+                menu.addChild(new gameui.TextButton(stringResources.op_erase, defaultFontFamilySmall, "#343171", "", function () {
                     FlipPlus.FlipPlusGame.projectData.clearAllData();
                     window.location.reload();
+                }).set({ y: p0 + p * s }));
+                //Add Back Button
+                var bb = new gameui.IconButton("menu/x", "", function () {
+                    FlipPlus.FlipPlusGame.showMainMenu();
+                    _this.animateOut(menu);
                 });
-                cdb.x = defaultWidth / 2;
-                cdb.y = defaultHeight / 2;
-                //add Other Buttons
-                this.content.addChild(cdb);
+                bb.set({ x: 550, y: -690, hitPadding: 100 });
+                bb.createHitArea();
+                menu.addChild(bb);
+                menu.addChild(new gameui.Label("MENU", defaultFontFamilyHighlight, "white").set({ x: -400, y: -690 }));
+                this.animateIn(menu);
+            };
+            OptionsMenu.prototype.animateIn = function (menu) {
+                createjs.Tween.get(menu).to({ x: 1536, y: 0, scaleY: 0, scaleX: 0 }).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1  }, 400, createjs.Ease.quadOut);
+            };
+            OptionsMenu.prototype.animateOut = function (menu) {
+                createjs.Tween.get(menu).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1  }).to({ x: 1536, y: 0, scaleY: 0, scaleX: 0  }, 300, createjs.Ease.quadIn);
             };
             return OptionsMenu;
         })(gameui.ScreenState);
@@ -4355,22 +4394,22 @@ var FlipPlus;
                 this.createObjects();
             }
             SoundMenu.prototype.createObjects = function () {
-                var sfxon = new gameui.IconButton("botaofxon.png", "", "", "", "botaosom.png", function () {
+                var sfxon = new gameui.IconTextButton("botaofxon.png", "", "", "", "botaosom.png", function () {
                     FlipPlus.FlipPlusGame.settings.setSoundfX(false);
                     sfxon.visible = false;
                     sfxoff.visible = true;
                 });
-                var sfxoff = new gameui.IconButton("botaofxoff.png", "", "", "", "botaosom.png", function () {
+                var sfxoff = new gameui.IconTextButton("botaofxoff.png", "", "", "", "botaosom.png", function () {
                     FlipPlus.FlipPlusGame.settings.setSoundfX(true);
                     sfxoff.visible = false;
                     sfxon.visible = true;
                 });
-                var muson = new gameui.IconButton("botaomusicaon.png", "", "", "", "botaosom.png", function () {
+                var muson = new gameui.IconTextButton("botaomusicaon.png", "", "", "", "botaosom.png", function () {
                     FlipPlus.FlipPlusGame.settings.setMusic(false);
                     muson.visible = false;
                     musoff.visible = true;
                 });
-                var musoff = new gameui.IconButton("botaomusicaoff.png", "", "", "", "botaosom.png", function () {
+                var musoff = new gameui.IconTextButton("botaomusicaoff.png", "", "", "", "botaosom.png", function () {
                     FlipPlus.FlipPlusGame.settings.setMusic(true);
                     musoff.visible = false;
                     muson.visible = true;

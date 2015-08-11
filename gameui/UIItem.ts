@@ -10,6 +10,8 @@ module gameui {
         public height: number;
         public centered: boolean = false;
 
+        public hitPadding: number;
+
         public animating = false;
 
         private antX;
@@ -107,7 +109,11 @@ module gameui {
 
             var b = this.getBounds();
 
-            if (b) hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
+            if (b)
+                if (this.hitPadding)
+                    hit.graphics.beginFill("#000").drawRect(b.x - this.hitPadding, b.y - this.hitPadding, b.width + this.hitPadding, b.height + this.hitPadding);
+                else
+                    hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
             //TODO. se for texto colocar uma sobra. !
 
             this.hitArea = hit;
