@@ -15,7 +15,7 @@
             this.musicVolue = volume;
         }
 
-        public static setSoundVeolume(volume: number) {
+        public static setSoundVolume(volume: number) {
 
             this.soundVolume = volume;
         }
