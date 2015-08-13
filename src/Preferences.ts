@@ -13,6 +13,7 @@ var highlightFontColor = "#f2cb46";
 var alternativeFontColor = "#3d8c9a";
 var shadowFontColor = "#1b4f5e";
 var grayColor = "#565656";
+var blueColor = "#343171";
 
 var storagePrefix = "flipp_";
 

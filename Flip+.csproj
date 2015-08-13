@@ -28,6 +28,8 @@
     <TypeScriptCompile Include="gameui\ScreenState.ts" />
     <TypeScriptCompile Include="gameui\Transition.ts" />
     <TypeScriptCompile Include="gameui\UIItem.ts" />
+    <TypeScriptCompile Include="src\Menu\ShopMenu.ts" />
+    <TypeScriptCompile Include="src\Menu\GenericMenu.ts" />
     <TypeScriptCompile Include="src\Menu\View\Page.ts" />
     <TypeScriptCompile Include="src\Menu\View\PopupHelper.ts" />
     <TypeScriptCompile Include="typing\cocoon.d.ts" />

@@ -17,6 +17,7 @@
         { id: "menu/imrestart", src: "menu/imrestart.png" },
         { id: "menu/imskip", src: "menu/imskip.png" },
         { id: "menu/menubg", src: "menu/menubg.png" },
+        { id: "menu/storeItem", src: "menu/storeItem.png" },
         { id: "menu/x", src: "menu/x.png" },
 
         //common

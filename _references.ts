@@ -40,6 +40,7 @@
 /// <reference path="src/bonus/bonus3.ts" />
 /// <reference path="src/bonus/bonusmanager.ts" />
 
+/// <reference path="src/Menu/genericmenu.ts" />
 /// <reference path="src/Menu/WorkshopMenu.ts" />
 /// <reference path="src/Menu/Loading.ts" />
 /// <reference path="src/Menu/MainMenu.ts" />

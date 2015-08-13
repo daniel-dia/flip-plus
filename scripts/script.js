@@ -11,6 +11,7 @@ var highlightFontColor = "#f2cb46";
 var alternativeFontColor = "#3d8c9a";
 var shadowFontColor = "#1b4f5e";
 var grayColor = "#565656";
+var blueColor = "#343171";
 var storagePrefix = "flipp_";
 var images;
 var gameui;
@@ -873,6 +874,9 @@ var FlipPlus;
             if (!this.titleScreen)
                 this.titleScreen = new FlipPlus.Menu.TitleScreen();
             this.gameScreen.switchScreen(this.titleScreen);
+        };
+        FlipPlusGame.showStore = function (previousScreen) {
+            this.gameScreen.switchScreen(new FlipPlus.Menu.ShopMenu(previousScreen));
         };
         FlipPlusGame.replayLevel = function () {
             var currentLevel = this.projectManager.getCurrentLevel();
@@ -3807,6 +3811,50 @@ var FlipPlus;
 (function (FlipPlus) {
     var Menu;
     (function (Menu) {
+        var GenericMenu = (function (_super) {
+            __extends(GenericMenu, _super);
+            function GenericMenu(title, previousScreen) {
+                _super.call(this);
+                this.originX = defaultWidth / 2;
+                this.originY = defaultHeight / 2;
+                this.content.set({ x: defaultWidth / 2, y: defaultHeight / 2 });
+                this.buildHeader(title, previousScreen);
+            }
+            GenericMenu.prototype.activate = function (parameters) {
+                _super.prototype.activate.call(this, parameters);
+                this.animateIn(this.content);
+            };
+            GenericMenu.prototype.buildHeader = function (title, previousScreen) {
+                var _this = this;
+                // add bg
+                this.background.addChild(gameui.AssetsManager.getBitmap("mybotsbg").set({ y: -339, scaleY: 1.3310546875 }));
+                // add bg menu
+                this.content.addChild(gameui.AssetsManager.getBitmap("menu/menubg").set({ regX: 1536 / 2, regY: 1840 / 2 }));
+                //Add Back Button
+                var backButton = new gameui.IconButton("menu/x", "", function () {
+                    FlipPlus.FlipPlusGame.gameScreen.switchScreen(previousScreen);
+                    _this.animateOut(_this.content);
+                });
+                backButton.set({ x: 550, y: -690, hitPadding: 100 });
+                backButton.createHitArea();
+                this.content.addChild(backButton);
+                this.content.addChild(new gameui.Label(title, defaultFontFamilyHighlight, "white").set({ x: -400, y: -690 }));
+            };
+            GenericMenu.prototype.animateIn = function (menu) {
+                createjs.Tween.get(menu).to({ x: this.originX, y: this.originY, scaleY: 0, scaleX: 0, alpha: 0 }).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 1 }, 400, createjs.Ease.quadOut);
+            };
+            GenericMenu.prototype.animateOut = function (menu) {
+                createjs.Tween.get(menu).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 5 }).to({ x: this.originX, y: this.originY, scaleY: 0, scaleX: 0, alpha: 1 }, 600, createjs.Ease.quadIn);
+            };
+            return GenericMenu;
+        })(gameui.ScreenState);
+        Menu.GenericMenu = GenericMenu;
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
         var WorkshopMenu = (function (_super) {
             __extends(WorkshopMenu, _super);
             // Constructor
@@ -4112,19 +4160,14 @@ var FlipPlus;
         var OptionsMenu = (function (_super) {
             __extends(OptionsMenu, _super);
             function OptionsMenu() {
-                _super.call(this);
+                _super.call(this, "MENU", FlipPlus.FlipPlusGame.mainScreen);
+                this.originY = 1;
+                this.originX = defaultWidth;
                 this.buildObjects();
                 this.updateVolumeButtons();
             }
             OptionsMenu.prototype.buildObjects = function () {
                 var _this = this;
-                // add bg
-                this.content.addChild(gameui.AssetsManager.getBitmap("mybotsbg").set({ y: -339, scaleY: 1.3310546875 }));
-                var menu = new createjs.Container();
-                menu.set({ x: defaultWidth / 2, y: defaultHeight / 2 });
-                this.content.addChild(menu);
-                // add bg menu
-                menu.addChild(gameui.AssetsManager.getBitmap("menu/menubg").set({ regX: 1536 / 2, regY: 1840 / 2 }));
                 // add menu buttons
                 var p0 = -350;
                 var p = 0;
@@ -4133,30 +4176,22 @@ var FlipPlus;
                 this.btMusOf = new gameui.IconButton("menu/icmusic", "menu/btmusicoff", function () { gameui.AudiosManager.setMusicVolume(1); _this.updateVolumeButtons(); }).set({ x: -200, y: p0 });
                 this.btSndOn = new gameui.IconButton("menu/icsound", "menu/btmusicon", function () { gameui.AudiosManager.setSoundVolume(0); _this.updateVolumeButtons(); }).set({ x: 200, y: p0 });
                 this.btSndOf = new gameui.IconButton("menu/icsound", "menu/btmusicoff", function () { gameui.AudiosManager.setSoundVolume(1); _this.updateVolumeButtons(); }).set({ x: 200, y: p0 });
-                menu.addChild(this.btMusOn);
-                menu.addChild(this.btMusOf);
-                menu.addChild(this.btSndOn);
-                menu.addChild(this.btSndOf);
+                this.content.addChild(this.btMusOn);
+                this.content.addChild(this.btMusOf);
+                this.content.addChild(this.btSndOn);
+                this.content.addChild(this.btSndOf);
                 p++;
-                menu.addChild(new gameui.TextButton("Help", defaultFontFamilyHighlight, "#343171", "menu/btmenu", function () { }).set({ x: 0, y: p0 + p * s }));
+                this.content.addChild(new gameui.TextButton("Help", defaultFontFamilyHighlight, blueColor, "menu/btmenu", function () { }).set({ x: 0, y: p0 + p * s }));
                 p++;
-                menu.addChild(new gameui.TextButton("Store", defaultFontFamilyHighlight, "#343171", "menu/btmenu", function () { }).set({ x: 0, y: p0 + p * s }));
+                this.content.addChild(new gameui.TextButton("Store", defaultFontFamilyHighlight, blueColor, "menu/btmenu", function () {
+                    FlipPlus.FlipPlusGame.showStore(_this);
+                }).set({ x: 0, y: p0 + p * s }));
                 p++;
                 //add Other Buttons
-                menu.addChild(new gameui.TextButton(stringResources.op_erase, defaultFontFamilySmall, "#343171", "", function () {
+                this.content.addChild(new gameui.TextButton(stringResources.op_erase, defaultFontFamilySmall, blueColor, "", function () {
                     FlipPlus.FlipPlusGame.projectData.clearAllData();
                     window.location.reload();
                 }).set({ y: p0 + p * s }));
-                //Add Back Button
-                var bb = new gameui.IconButton("menu/x", "", function () {
-                    FlipPlus.FlipPlusGame.showMainMenu();
-                    _this.animateOut(menu);
-                });
-                bb.set({ x: 550, y: -690, hitPadding: 100 });
-                bb.createHitArea();
-                menu.addChild(bb);
-                menu.addChild(new gameui.Label("MENU", defaultFontFamilyHighlight, "white").set({ x: -400, y: -690 }));
-                this.animateIn(menu);
             };
             OptionsMenu.prototype.updateVolumeButtons = function () {
                 this.btMusOn.visible = gameui.AudiosManager.getMusicVolume() == 1;
@@ -4164,14 +4199,8 @@ var FlipPlus;
                 this.btSndOn.visible = gameui.AudiosManager.getSoundVolume() == 1;
                 this.btSndOf.visible = gameui.AudiosManager.getSoundVolume() == 0;
             };
-            OptionsMenu.prototype.animateIn = function (menu) {
-                createjs.Tween.get(menu).to({ x: 1536, y: 0, scaleY: 0, scaleX: 0, alpha: 0 }).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 2 }, 400, createjs.Ease.quadOut);
-            };
-            OptionsMenu.prototype.animateOut = function (menu) {
-                createjs.Tween.get(menu).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 5 }).to({ x: 1536, y: 0, scaleY: 0, scaleX: 0, alpha: 1 }, 600, createjs.Ease.quadIn);
-            };
             return OptionsMenu;
-        })(gameui.ScreenState);
+        })(Menu.GenericMenu);
         Menu.OptionsMenu = OptionsMenu;
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
@@ -5741,6 +5770,7 @@ var FlipPlus;
 /// <reference path="src/bonus/bonus2.ts" />
 /// <reference path="src/bonus/bonus3.ts" />
 /// <reference path="src/bonus/bonusmanager.ts" />
+/// <reference path="src/Menu/genericmenu.ts" />
 /// <reference path="src/Menu/WorkshopMenu.ts" />
 /// <reference path="src/Menu/Loading.ts" />
 /// <reference path="src/Menu/MainMenu.ts" />
@@ -6504,6 +6534,210 @@ var FlipPlus;
             return Intro;
         })(createjs.Container);
         Menu.Intro = Intro;
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var ShopMenu = (function (_super) {
+            __extends(ShopMenu, _super);
+            function ShopMenu(previousScreen) {
+                _super.call(this, "Shop", previousScreen);
+                this.productInfo = [
+                    { name: "50", price: "U$ 0,99", img: "partsicon" },
+                    { name: "200", price: "U$ 1,99", img: "partsicon" },
+                    { name: "500", price: "U$ 3,99", img: "partsicon" },
+                    { name: "1000", price: "U$ 4,99", img: "partsicon" },
+                ];
+                this.productIdList = ["50", "200", "500", "100"];
+                this.initializeScreen();
+                this.initializeStore();
+            }
+            //#region Interface =====================================================================================
+            ShopMenu.prototype.initializeScreen = function () {
+                this.loadingObject = new createjs.Container();
+                this.statusText = new createjs.Text("", defaultFontFamilyNormal, blueColor);
+                this.statusText.textAlign = "center";
+                this.content.addChild(this.loadingObject);
+                this.content.addChild(this.statusText);
+                this.statusText.y = -400;
+            };
+            // add all products in the list
+            ShopMenu.prototype.fillProducts = function (productList) {
+                var dic = {};
+                this.productsListItems = dic;
+                this.showLoaded();
+                for (var p in productList) {
+                    var productListItem = this.createProduct(productList[p]);
+                    productListItem.y = p * 380 + 380;
+                    productListItem.x = 70;
+                    this.content.addChild(productListItem);
+                }
+            };
+            // add a single product in the list
+            ShopMenu.prototype.createProduct = function (product) {
+                var productListItem = new ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice);
+                this.productsListItems[product.productId] = productListItem;
+                console.log(JSON.stringify(product));
+                // add function callback
+                productListItem.addEventListener("click", function (event) { Cocoon.Store.purchase(product.productId); });
+                return productListItem;
+            };
+            // show a loading message
+            ShopMenu.prototype.showLoading = function () {
+                this.statusText.text = stringResources.menus.loading;
+                this.loadingObject.visible = true;
+            };
+            // show a loading message
+            ShopMenu.prototype.showLoaded = function () {
+                this.statusText.visible = false;
+                this.loadingObject.visible = false;
+            };
+            // show a error message in it
+            ShopMenu.prototype.showError = function () {
+                this.statusText.text = stringResources.menus.errorShop;
+                this.loadingObject.visible = false;
+            };
+            //lock UI for a time interval
+            ShopMenu.prototype.lockUI = function (timeout) {
+                var _this = this;
+                if (timeout === void 0) { timeout = 5000; }
+                this.content.mouseEnabled = false;
+                setTimeout(function () { _this.unlockUI(); }, timeout);
+            };
+            //locks unlocks ui
+            ShopMenu.prototype.unlockUI = function () {
+                this.content.mouseEnabled = true;
+            };
+            // update footer
+            ShopMenu.prototype.updateUI = function () {
+                // TODO
+            };
+            // reurn a object corresponding to productId
+            ShopMenu.prototype.getProductListItem = function (productId) {
+                return this.productsListItems[productId];
+            };
+            // animate footer item
+            ShopMenu.prototype.animateItem = function (productId) {
+                switch (productId) {
+                }
+            };
+            //#endregion 
+            //#region market =====================================================================================
+            // initialize product listing
+            ShopMenu.prototype.initializeStore = function () {
+                var _this = this;
+                //  if (!Cocoon.Store.nativeAvailable) return;
+                this.showError();
+                // on loaded products
+                Cocoon.Store.on("load", {
+                    started: function () {
+                        _this.showLoading();
+                    },
+                    success: function (products) {
+                        _this.products = products;
+                        _this.fillProducts(products);
+                    },
+                    error: function (errorMessage) {
+                        _this.showError();
+                    }
+                }, { once: true });
+                // on purchasing products
+                Cocoon.Store.on("purchase", {
+                    started: function (productId) {
+                        _this.getProductListItem(productId).setPurchasing();
+                        _this.lockUI();
+                    },
+                    success: function (purchaseInfo) {
+                        _this.fullFillPurchase(purchaseInfo.productId);
+                        _this.updateUI();
+                        _this.unlockUI();
+                        _this.animateItem(purchaseInfo.productId);
+                        if (_this.products[purchaseInfo.productId].productType == Cocoon.Store.ProductType.CONSUMABLE) {
+                            _this.getProductListItem(purchaseInfo.productId).setPurchased(true);
+                            Cocoon.Store.consume(purchaseInfo.transactionId, purchaseInfo.productId);
+                        }
+                        _this.getProductListItem(purchaseInfo.productId).setPurchased();
+                        Cocoon.Store.finish(purchaseInfo.transactionId);
+                    },
+                    error: function (productId, error) {
+                        _this.getProductListItem(productId).setNormal();
+                        _this.unlockUI();
+                    }
+                }, { once: true });
+                // initialize store
+                Cocoon.Store.initialize({ sandbox: true, managed: true });
+                // load products
+                Cocoon.Store.loadProducts(this.productIdList);
+            };
+            // verify product avaliability
+            ShopMenu.prototype.updateProductsAvaliability = function () {
+            };
+            // show that product is consumed
+            ShopMenu.prototype.fullFillPurchase = function (productId) {
+                switch (productId) {
+                }
+                return true;
+            };
+            return ShopMenu;
+        })(Menu.GenericMenu);
+        Menu.ShopMenu = ShopMenu;
+        var ProductListItem = (function (_super) {
+            __extends(ProductListItem, _super);
+            function ProductListItem(productId, name, description, localizedPrice, image) {
+                _super.call(this);
+                // adds BG
+                this.addChild(gameui.AssetsManager.getBitmap("menu/storeItem").set({ regX: 1204 / 2, regY: 277 / 2 }));
+                // adds icon
+                this.addChild(gameui.AssetsManager.getBitmap(image).set({ x: -400, regY: 150, regX: 150 }));
+                // adds text
+                this.addChild(new gameui.Label(name, defaultFontFamilyHighlight, "#333071").set({ x: -100 }));
+                // adds Value
+                this.addChild(new gameui.Label(localizedPrice, defaultFontFamilyNormal, "white").set({ x: 375, y: -70 }));
+                // adds buy text
+                this.addChild(new gameui.Label("BUY", defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));
+                this.createHitArea();
+            }
+            ProductListItem.prototype.setPurchasing = function () {
+                this.disable();
+                this.loadingIcon.visible = true;
+            };
+            ProductListItem.prototype.loading = function () {
+                this.disable();
+                this.loadingIcon.visible = true;
+            };
+            ProductListItem.prototype.setNotAvaliable = function () {
+                this.purchaseButton.fadeOut();
+                this.purchasedIcon.visible = false;
+                this.loadingIcon.visible = false;
+            };
+            ProductListItem.prototype.setAvaliable = function () { };
+            ProductListItem.prototype.setPurchased = function (timeOut) {
+                var _this = this;
+                if (timeOut === void 0) { timeOut = false; }
+                this.purchaseButton.fadeOut();
+                this.purchasedIcon.visible = true;
+                this.loadingIcon.visible = false;
+                gameui.AudiosManager.playSound("Interface Sound-11");
+                if (timeOut)
+                    setTimeout(function () { _this.setNormal(); }, 1000);
+            };
+            ProductListItem.prototype.setNormal = function () {
+                this.purchaseButton.fadeIn();
+                this.purchasedIcon.visible = false;
+                this.loadingIcon.visible = false;
+            };
+            ProductListItem.prototype.enable = function () {
+                this.purchaseButton.fadeIn();
+                this.loadingIcon.visible = false;
+            };
+            ProductListItem.prototype.disable = function () {
+                this.purchasedIcon.visible = false;
+                this.purchaseButton.fadeOut();
+            };
+            return ProductListItem;
+        })(gameui.Button);
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
@@ -7555,7 +7789,39 @@ var stringResources = {
     help_touch_bt: "More Taps",
     skip: "Skip",
     time: "Touch",
-    touch: "Time"
+    touch: "Time",
+    menus: {
+        highScore: "High Score",
+        loading: "loading",
+        score: "score",
+        level: "level",
+        options: "options",
+        gameOver: "GAME OVER",
+        pause: "paused",
+        sound: "Sound",
+        menu: "menu",
+        leaderboards: "Leaderboards",
+        reset: "Reset All Data",
+        restore: "Restore",
+        restoreWarning: "It will restore your purchases from store, Continue?",
+        resetWarning: "Are you sure. All you progress will be lost",
+        about: "About",
+        aboutText: "Develop by",
+        aboutURL: "www.dia-studio.com",
+        tutorial: "Tutorial",
+        shop: "shop",
+        playerName: "Player Name",
+        playerNameDesc: "Type your name for the leaderboards.",
+        error: "Sorry, Something went wrong",
+        errorShop: "Sorry, Shop Not avaliable",
+        errorAds: "Can't load Ads, try again",
+        rating: "Rate us",
+        ratingDesc: "Are you enjoying?\nPlease rate us",
+        like: "Like us",
+        share: "Share",
+        watchVideo: "Watch Video",
+        gift: "gift in @ minutes"
+    }
 };
 var stringResources_pt = {
     ld: "Carregando",
@@ -7629,7 +7895,40 @@ var stringResources_pt = {
     help_time_bt: "Mais Tempo",
     help_touch_bt: "Mais Toques",
     time: "Tempo",
-    touch: "Toques"
+    touch: "Toques",
+    menus: {
+        highScore: "Recorde",
+        loading: "Carregando",
+        score: "Pontos",
+        level: "level",
+        options: "opções",
+        highJelly: "maior",
+        gameOver: "GAME OVER",
+        pause: "pausa",
+        sound: "Sons",
+        menu: "Menu",
+        leaderboards: "Placar",
+        reset: "Apagar tudo",
+        restore: "Recuperar",
+        restoreWarning: "Isso vai recuperar suas compras da loja, quer continuar?",
+        resetWarning: "Você tem certeza? tudo que voce consquistou será perdido.",
+        about: "Sobre",
+        aboutText: "Desenvolvido por",
+        aboutURL: "www.dia-studio.com",
+        tutorial: "Tutorial",
+        shop: "Compras",
+        playerName: "Nome do Jogador",
+        playerNameDesc: "Digite seu nome para aparecer no placar dos melhores",
+        error: "Desculpe, algo deu errado.",
+        errorShop: "A loja não está disponível.",
+        errorAds: "Tente de novo",
+        rating: "Avaliação",
+        ratingDesc: "Está gostando? \nNos Ajude. Dê sua avaliação",
+        like: "Curtir",
+        share: "Compartilhar",
+        watchVideo: "Veja um Video",
+        gift: "vídeo em @ min"
+    }
 };
 var language = navigator.language || navigator.userLanguage;
 if (language == "pt-BR")
