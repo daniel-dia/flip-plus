@@ -119,7 +119,9 @@
         aboutText: "Develop by",
         aboutURL: "www.dia-studio.com",
         tutorial: "Tutorial",
+        specialOffer: "Special Offer",
         shop: "shop",
+        buy: "Buy",
         playerName: "Player Name",
 
         playerNameDesc: "Type your name for the leaderboards.",
@@ -260,6 +262,8 @@ var stringResources_pt = {
         aboutURL: "www.dia-studio.com",
         tutorial: "Tutorial",
         shop: "Compras",
+        buy: "obter",
+        specialOffer:"Oferta!",
         playerName: "Nome do Jogador",
 
         playerNameDesc: "Digite seu nome para aparecer no placar dos melhores",

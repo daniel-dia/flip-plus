@@ -7,9 +7,12 @@ module FlipPlus.Menu {
         private btSndOf: createjs.DisplayObject;
 
         constructor() {
-            super("MENU", FlipPlusGame.mainScreen);
+
             this.originY = 1;
             this.originX = defaultWidth;
+
+            super(stringResources.menus.menu, FlipPlusGame.mainScreen);
+
 
             this.buildObjects();
             this.updateVolumeButtons();
@@ -33,10 +36,12 @@ module FlipPlus.Menu {
             this.content.addChild(this.btSndOf);
 
             p++;
-            this.content.addChild(new gameui.TextButton("Help", defaultFontFamilyHighlight, blueColor, "menu/btmenu", () => { }).set({ x: 0, y: p0 + p * s }));
+            this.content.addChild(new gameui.TextButton("Help", defaultFontFamilyHighlight, blueColor, "menu/btmenu", () => {
+                FlipPlusGame.showSpecialOffer(this);
+            }).set({ x: 0, y: p0 + p * s }));
             p++;
             this.content.addChild(new gameui.TextButton("Store", defaultFontFamilyHighlight, blueColor, "menu/btmenu", () => {
-                FlipPlusGame.showStore(this);
+                FlipPlusGame.showShopMenu(this);
             }).set({ x: 0, y: p0 + p * s }));
             p++
             

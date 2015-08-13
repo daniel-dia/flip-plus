@@ -13,10 +13,10 @@
             { name: "1000", price: "U$ 4,99", img: "partsicon" },
         ]
 
-        private productIdList = ["50", "200", "500", "100"];
+        protected productIdList = ["50", "200", "500", "1000"];
 
         constructor(previousScreen: gameui.ScreenState) {
-            super("Shop", previousScreen, "menu/titleRed");
+            super(stringResources.menus.shop, previousScreen, "menu/titleRed");
 
             this.initializeScreen();
 
@@ -25,7 +25,7 @@
 
         //#region Interface =====================================================================================
 
-        private initializeScreen() {
+        protected initializeScreen() {
             this.loadingObject = new createjs.Container();
             this.statusText = new createjs.Text("", defaultFontFamilyNormal, blueColor);
             this.statusText.textAlign = "center";
@@ -35,7 +35,7 @@
         }
 
         // add all products in the list
-        private fillProducts(productList: Array<Cocoon.Store.ProductInfo>) {
+        protected fillProducts(productList: Array<Cocoon.Store.ProductInfo>) {
             var dic = {};
             this.productsListItems = <Array<ProductListItem>>dic;
             this.showLoaded();
@@ -49,7 +49,7 @@
         }
 
         // add a single product in the list
-        private createProduct(product: Cocoon.Store.ProductInfo): createjs.DisplayObject {
+        protected createProduct(product: Cocoon.Store.ProductInfo): createjs.DisplayObject {
 
             var productListItem = new ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice);
             this.productsListItems[product.productId] = productListItem;
@@ -208,7 +208,7 @@
             this.addChild(new gameui.Label(localizedPrice, defaultFontFamilyNormal, "white").set({ x: 375, y: -70 }));
 
             // adds buy text
-            this.addChild(new gameui.Label("BUY", defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));
+            this.addChild(new gameui.Label(stringResources.menus.shop, defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));
 
             this.createHitArea();
 

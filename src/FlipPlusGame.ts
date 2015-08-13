@@ -200,9 +200,13 @@ module FlipPlus {
             this.gameScreen.switchScreen(this.titleScreen);
         }
 
-        public static showStore(previousScreen: gameui.ScreenState) {
+        public static showShopMenu(previousScreen: gameui.ScreenState) {
             this.gameScreen.switchScreen(new Menu.ShopMenu(previousScreen));
         }
+        public static showSpecialOffer(previousScreen: gameui.ScreenState) {
+            this.gameScreen.switchScreen(new Menu.SpecialOfferMenu(previousScreen));
+        }
+
 
         public static replayLevel() {
             var currentLevel = this.projectManager.getCurrentLevel();

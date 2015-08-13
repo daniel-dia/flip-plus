@@ -453,16 +453,14 @@ var gameui;
             if (text === void 0) { text = ""; }
             if (font === void 0) { font = "600 90px Myriad Pro"; }
             if (color === void 0) { color = "#82e790"; }
-            _super.call(this);
-            text = text.toUpperCase();
+            _super.call(this, text, font, color);
+            this.text = this.text.toUpperCase();
             //add text into it.
-            this.textField = new createjs.Text(text, font, color);
-            this.textField.textBaseline = "middle";
-            this.textField.textAlign = "center";
-            this.addChild(this.textField);
+            this.textBaseline = "middle";
+            this.textAlign = "center";
         }
         return Label;
-    })(gameui.UIItem);
+    })(createjs.Text);
     gameui.Label = Label;
 })(gameui || (gameui = {}));
 var gameui;
@@ -483,7 +481,7 @@ var gameui;
             var textObj;
             textObj = new gameui.Label(text);
             this.addObject(textObj);
-            return textObj.textField;
+            return textObj;
         };
         //creates a button object
         MenuContainer.prototype.addButton = function (text, event) {
@@ -875,8 +873,11 @@ var FlipPlus;
                 this.titleScreen = new FlipPlus.Menu.TitleScreen();
             this.gameScreen.switchScreen(this.titleScreen);
         };
-        FlipPlusGame.showStore = function (previousScreen) {
+        FlipPlusGame.showShopMenu = function (previousScreen) {
             this.gameScreen.switchScreen(new FlipPlus.Menu.ShopMenu(previousScreen));
+        };
+        FlipPlusGame.showSpecialOffer = function (previousScreen) {
+            this.gameScreen.switchScreen(new FlipPlus.Menu.SpecialOfferMenu(previousScreen));
         };
         FlipPlusGame.replayLevel = function () {
             var currentLevel = this.projectManager.getCurrentLevel();
@@ -3815,15 +3816,14 @@ var FlipPlus;
             __extends(GenericMenu, _super);
             function GenericMenu(title, previousScreen, color) {
                 _super.call(this);
-                this.originX = defaultWidth / 2;
-                this.originY = defaultHeight / 2;
+                if (!this.originX)
+                    this.originX = defaultWidth / 2;
+                if (!this.originY)
+                    this.originY = defaultHeight / 2;
                 this.content.set({ x: defaultWidth / 2, y: defaultHeight / 2 });
                 this.buildHeader(title, previousScreen, color);
-            }
-            GenericMenu.prototype.activate = function (parameters) {
-                _super.prototype.activate.call(this, parameters);
                 this.animateIn(this.content);
-            };
+            }
             GenericMenu.prototype.buildHeader = function (title, previousScreen, color) {
                 var _this = this;
                 // add bg
@@ -3839,13 +3839,15 @@ var FlipPlus;
                 backButton.set({ x: 550, y: -690, hitPadding: 100 });
                 backButton.createHitArea();
                 this.content.addChild(backButton);
-                this.content.addChild(new gameui.Label(title, defaultFontFamilyHighlight, "white").set({ x: -400, y: -690 }));
+                var t = new gameui.Label(title, defaultFontFamilyHighlight, "white").set({ x: -500, y: -690, textAlign: "left" });
+                t;
+                this.content.addChild(t);
             };
             GenericMenu.prototype.animateIn = function (menu) {
                 createjs.Tween.get(menu).to({ x: this.originX, y: this.originY, scaleY: 0, scaleX: 0, alpha: 0 }).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 1 }, 400, createjs.Ease.quadOut);
             };
             GenericMenu.prototype.animateOut = function (menu) {
-                createjs.Tween.get(menu).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 5 }).to({ x: this.originX, y: this.originY, scaleY: 0, scaleX: 0, alpha: 1 }, 600, createjs.Ease.quadIn);
+                createjs.Tween.get(menu).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 5 }).to({ x: this.originX, y: this.originY, scaleY: 0, scaleX: 0, alpha: 1 }, 200, createjs.Ease.quadIn);
             };
             return GenericMenu;
         })(gameui.ScreenState);
@@ -4161,9 +4163,9 @@ var FlipPlus;
         var OptionsMenu = (function (_super) {
             __extends(OptionsMenu, _super);
             function OptionsMenu() {
-                _super.call(this, "MENU", FlipPlus.FlipPlusGame.mainScreen);
                 this.originY = 1;
                 this.originX = defaultWidth;
+                _super.call(this, stringResources.menus.menu, FlipPlus.FlipPlusGame.mainScreen);
                 this.buildObjects();
                 this.updateVolumeButtons();
             }
@@ -4182,10 +4184,12 @@ var FlipPlus;
                 this.content.addChild(this.btSndOn);
                 this.content.addChild(this.btSndOf);
                 p++;
-                this.content.addChild(new gameui.TextButton("Help", defaultFontFamilyHighlight, blueColor, "menu/btmenu", function () { }).set({ x: 0, y: p0 + p * s }));
+                this.content.addChild(new gameui.TextButton("Help", defaultFontFamilyHighlight, blueColor, "menu/btmenu", function () {
+                    FlipPlus.FlipPlusGame.showSpecialOffer(_this);
+                }).set({ x: 0, y: p0 + p * s }));
                 p++;
                 this.content.addChild(new gameui.TextButton("Store", defaultFontFamilyHighlight, blueColor, "menu/btmenu", function () {
-                    FlipPlus.FlipPlusGame.showStore(_this);
+                    FlipPlus.FlipPlusGame.showShopMenu(_this);
                 }).set({ x: 0, y: p0 + p * s }));
                 p++;
                 //add Other Buttons
@@ -6544,14 +6548,14 @@ var FlipPlus;
         var ShopMenu = (function (_super) {
             __extends(ShopMenu, _super);
             function ShopMenu(previousScreen) {
-                _super.call(this, "Shop", previousScreen, "menu/titleRed");
+                _super.call(this, stringResources.menus.shop, previousScreen, "menu/titleRed");
                 this.productInfo = [
                     { name: "50", price: "U$ 0,99", img: "partsicon" },
                     { name: "200", price: "U$ 1,99", img: "partsicon" },
                     { name: "500", price: "U$ 3,99", img: "partsicon" },
                     { name: "1000", price: "U$ 4,99", img: "partsicon" },
                 ];
-                this.productIdList = ["50", "200", "500", "100"];
+                this.productIdList = ["50", "200", "500", "1000"];
                 this.initializeScreen();
                 this.initializeStore();
             }
@@ -6697,7 +6701,7 @@ var FlipPlus;
                 // adds Value
                 this.addChild(new gameui.Label(localizedPrice, defaultFontFamilyNormal, "white").set({ x: 375, y: -70 }));
                 // adds buy text
-                this.addChild(new gameui.Label("BUY", defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));
+                this.addChild(new gameui.Label(stringResources.menus.shop, defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));
                 this.createHitArea();
             }
             ProductListItem.prototype.setPurchasing = function () {
@@ -6823,6 +6827,36 @@ var FlipPlus;
             return SlideShow;
         })(gameui.ScreenState);
         Menu.SlideShow = SlideShow;
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+/// <reference path="shopmenu.ts" />
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var SpecialOfferMenu = (function (_super) {
+            __extends(SpecialOfferMenu, _super);
+            function SpecialOfferMenu(previousScreen) {
+                _super.call(this, previousScreen);
+                this.productIdList = ["100"];
+            }
+            // add all products in the list
+            SpecialOfferMenu.prototype.fillProducts = function (productList) {
+                var bt = new gameui.ImageButton("menu/specialOffer");
+                this.content.addChild(bt);
+                // add function callback
+                bt.addEventListener("click", function (event) { Cocoon.Store.purchase(productList[0].productId); });
+                // adds Value
+                bt.addChild(new gameui.Label(productList[0].localizedPrice, defaultFontFamilyNormal, "white").set({ x: -210, y: 255 }));
+                // adds buy text
+                bt.addChild(new gameui.Label(stringResources.menus.buy, defaultFontFamilyHighlight, "#86c0f1").set({ x: 165, y: 250 }));
+            };
+            SpecialOfferMenu.prototype.buildHeader = function (title, previousScreen, color) {
+                _super.prototype.buildHeader.call(this, stringResources.menus.specialOffer, previousScreen, color);
+            };
+            return SpecialOfferMenu;
+        })(Menu.ShopMenu);
+        Menu.SpecialOfferMenu = SpecialOfferMenu;
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
@@ -7810,7 +7844,9 @@ var stringResources = {
         aboutText: "Develop by",
         aboutURL: "www.dia-studio.com",
         tutorial: "Tutorial",
+        specialOffer: "Special Offer",
         shop: "shop",
+        buy: "Buy",
         playerName: "Player Name",
         playerNameDesc: "Type your name for the leaderboards.",
         error: "Sorry, Something went wrong",
@@ -7917,6 +7953,8 @@ var stringResources_pt = {
         aboutURL: "www.dia-studio.com",
         tutorial: "Tutorial",
         shop: "Compras",
+        buy: "obter",
+        specialOffer: "Oferta!",
         playerName: "Nome do Jogador",
         playerNameDesc: "Digite seu nome para aparecer no placar dos melhores",
         error: "Desculpe, algo deu errado.",

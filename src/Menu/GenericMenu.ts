@@ -6,21 +6,18 @@
 
         constructor(title: string, previousScreen: gameui.ScreenState, color?: string) {
             super();
-         
-            this.originX = defaultWidth / 2;
-            this.originY = defaultHeight / 2;
-                           
-            this.content.set({ x: defaultWidth / 2, y: defaultHeight / 2 })
-            
-            this.buildHeader(title, previousScreen,color);
-        }
 
-        public activate(parameters:any) {
-            super.activate(parameters);
+            if (!this.originX) this.originX = defaultWidth / 2;
+            if (!this.originY) this.originY = defaultHeight / 2;
+
+            this.content.set({ x: defaultWidth / 2, y: defaultHeight / 2 })
+
+            this.buildHeader(title, previousScreen, color);
+
             this.animateIn(this.content);
         }
 
-        private buildHeader(title, previousScreen, color?:string) {
+        protected buildHeader(title, previousScreen, color?:string) {
             // add bg
             this.background.addChild(gameui.AssetsManager.getBitmap("mybotsbg").set({ y: -339, scaleY: 1.3310546875 }));
             // add bg menu
@@ -36,7 +33,10 @@
             backButton.createHitArea();
             this.content.addChild(backButton);
 
-            this.content.addChild(new gameui.Label(title, defaultFontFamilyHighlight, "white").set({ x: -400, y: -690 }));
+            var t = new gameui.Label(title, defaultFontFamilyHighlight, "white").set({ x: -500, y: -690, textAlign:"left" });
+            t
+            this.content.addChild(t);
+
         }
             
         private animateIn(menu: createjs.DisplayObject) {
@@ -44,7 +44,7 @@
         }
 
         private animateOut(menu: createjs.DisplayObject) {
-            createjs.Tween.get(menu).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 5 }).to({ x: this.originX, y: this.originY, scaleY: 0, scaleX: 0, alpha: 1 }, 600, createjs.Ease.quadIn);
+            createjs.Tween.get(menu).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 5 }).to({ x: this.originX, y: this.originY, scaleY: 0, scaleX: 0, alpha: 1 }, 200, createjs.Ease.quadIn);
         }
     }
 }

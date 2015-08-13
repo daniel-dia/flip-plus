@@ -14,7 +14,7 @@ module gameui {
             var textObj: Label;
             textObj = new Label(text);
             this.addObject(textObj);
-            return textObj.textField;
+            return textObj;
         }
         
         //creates a button object
