@@ -7,8 +7,8 @@
     tut_1_1_title: "The plus shape",
     tut_1_1_text: "flip the white squares to make \nthem color squares",
 
-    tut_1_2_title: "tiles always flip in a \"plus shape\" \nfrom the center",
-    tut_1_2_text: "Great",
+    tut_1_2_text: "tiles always flip in a \"plus shape\" \nfrom the center",
+    tut_1_2_title: "Great",
 
     tut_2_1_title: "Flip to build",
     tut_2_1_text: "to finish the board, you have to turn \nevery white block in color block",
@@ -86,11 +86,13 @@
     help_restart: "Are you lost?\nIn the pause menu you can restart!",
     help_skip: "Don't worry, you\ncan use parts\nto skip this board and move on!",
     help_time: "Don't worry, you\ncan use parts\nto get more time!",
-    help_touch:"Don't worry, you\ncan use parts\nto get more taps!",
+    help_touch: "Don't worry, you\ncan use parts\nto get more taps!",
+
     help_restart_bt: "Great!",
     help_cancel_bt: "Not now",
     help_time_bt: "More Time",
     help_touch_bt: "More Taps",
+
     skip: "Skip",
     time: "Touch",
     touch: "Time",
@@ -101,26 +103,31 @@
         score: "score",
         level: "level",
         options: "options",
+
         gameOver: "GAME OVER",
         pause: "paused",
         sound: "Sound",
         menu: "menu",
         leaderboards: "Leaderboards",
+
         reset: "Reset All Data",
         restore: "Restore",
         restoreWarning: "It will restore your purchases from store, Continue?",
         resetWarning: "Are you sure. All you progress will be lost",
         about: "About",
+
         aboutText: "Develop by",
         aboutURL: "www.dia-studio.com",
         tutorial: "Tutorial",
         shop: "shop",
         playerName: "Player Name",
+
         playerNameDesc: "Type your name for the leaderboards.",
         error: "Sorry, Something went wrong",
         errorShop: "Sorry, Shop Not avaliable",
         errorAds: "Can't load Ads, try again",
         rating: "Rate us",
+
         ratingDesc: "Are you enjoying?\nPlease rate us",
         like: "Like us",
         share: "Share",
@@ -218,14 +225,15 @@ var stringResources_pt = {
 
     help_restart: "Se perdeu? No menu\n de pausa você, pode\nrecomeçar a tela!",
     help_skip: "Não esquenta, você\npode usar peças para\npular esta tela e\nseguir em frente!",
-    help_cancel_bt: "Agora não",
-    skip: "Pular",
-    help_restart_bt: "Ótimo!",
-     
-    help_time:  "Não esquenta, você\npode usar peças para\nganhar mais tempo!",
+    help_time: "Não esquenta, você\npode usar peças para\nganhar mais tempo!",
     help_touch: "Não esquenta, você\npode usar peças para\nganhar mais toques!",
+
+    help_restart_bt: "Ótimo!",
+    help_cancel_bt: "Agora não",
     help_time_bt: "Mais Tempo",
     help_touch_bt: "Mais Toques",
+
+    skip: "Pular",
     time: "Tempo",
     touch: "Toques",
 
@@ -235,27 +243,31 @@ var stringResources_pt = {
         score: "Pontos",
         level: "level",
         options: "opções",
-        highJelly: "maior",
+        
         gameOver: "GAME OVER",
         pause: "pausa",
         sound: "Sons",
         menu: "Menu",
         leaderboards: "Placar",
+
         reset: "Apagar tudo",
         restore: "Recuperar",
         restoreWarning: "Isso vai recuperar suas compras da loja, quer continuar?",
         resetWarning: "Você tem certeza? tudo que voce consquistou será perdido.",
         about: "Sobre",
+
         aboutText: "Desenvolvido por",
         aboutURL: "www.dia-studio.com",
         tutorial: "Tutorial",
         shop: "Compras",
         playerName: "Nome do Jogador",
+
         playerNameDesc: "Digite seu nome para aparecer no placar dos melhores",
         error: "Desculpe, algo deu errado.",
         errorShop: "A loja não está disponível.",
         errorAds: "Tente de novo",
         rating: "Avaliação",
+
         ratingDesc: "Está gostando? \nNos Ajude. Dê sua avaliação",
         like: "Curtir",
         share: "Compartilhar",

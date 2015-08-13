@@ -17,6 +17,8 @@
         { id: "menu/imrestart", src: "menu/imrestart.png" },
         { id: "menu/imskip", src: "menu/imskip.png" },
         { id: "menu/menubg", src: "menu/menubg.png" },
+        { id: "menu/titlePurple", src: "menu/titlePurple.png" },
+        { id: "menu/titleRed", src: "menu/titleRed.png" },
         { id: "menu/storeItem", src: "menu/storeItem.png" },
         { id: "menu/x", src: "menu/x.png" },
 

@@ -16,7 +16,7 @@
         private productIdList = ["50", "200", "500", "100"];
 
         constructor(previousScreen: gameui.ScreenState) {
-            super("Shop", previousScreen);
+            super("Shop", previousScreen, "menu/titleRed");
 
             this.initializeScreen();
 

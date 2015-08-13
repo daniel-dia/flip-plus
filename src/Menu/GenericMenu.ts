@@ -4,7 +4,7 @@
         protected originX:number;
         protected originY:number;
 
-        constructor(title: string, previousScreen: gameui.ScreenState) {
+        constructor(title: string, previousScreen: gameui.ScreenState, color?: string) {
             super();
          
             this.originX = defaultWidth / 2;
@@ -12,7 +12,7 @@
                            
             this.content.set({ x: defaultWidth / 2, y: defaultHeight / 2 })
             
-            this.buildHeader(title, previousScreen);
+            this.buildHeader(title, previousScreen,color);
         }
 
         public activate(parameters:any) {
@@ -20,11 +20,12 @@
             this.animateIn(this.content);
         }
 
-        private buildHeader(title, previousScreen) {
+        private buildHeader(title, previousScreen, color?:string) {
             // add bg
             this.background.addChild(gameui.AssetsManager.getBitmap("mybotsbg").set({ y: -339, scaleY: 1.3310546875 }));
             // add bg menu
             this.content.addChild(gameui.AssetsManager.getBitmap("menu/menubg").set({ regX: 1536 / 2, regY: 1840 / 2 }));
+            this.content.addChild(gameui.AssetsManager.getBitmap(color || "menu/titlePurple").set({ regX: 1536 / 2, regY: 1840 / 2 }));
       
             //Add Back Button
             var backButton = new gameui.IconButton("menu/x", "", () => {

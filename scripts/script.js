@@ -3813,23 +3813,24 @@ var FlipPlus;
     (function (Menu) {
         var GenericMenu = (function (_super) {
             __extends(GenericMenu, _super);
-            function GenericMenu(title, previousScreen) {
+            function GenericMenu(title, previousScreen, color) {
                 _super.call(this);
                 this.originX = defaultWidth / 2;
                 this.originY = defaultHeight / 2;
                 this.content.set({ x: defaultWidth / 2, y: defaultHeight / 2 });
-                this.buildHeader(title, previousScreen);
+                this.buildHeader(title, previousScreen, color);
             }
             GenericMenu.prototype.activate = function (parameters) {
                 _super.prototype.activate.call(this, parameters);
                 this.animateIn(this.content);
             };
-            GenericMenu.prototype.buildHeader = function (title, previousScreen) {
+            GenericMenu.prototype.buildHeader = function (title, previousScreen, color) {
                 var _this = this;
                 // add bg
                 this.background.addChild(gameui.AssetsManager.getBitmap("mybotsbg").set({ y: -339, scaleY: 1.3310546875 }));
                 // add bg menu
                 this.content.addChild(gameui.AssetsManager.getBitmap("menu/menubg").set({ regX: 1536 / 2, regY: 1840 / 2 }));
+                this.content.addChild(gameui.AssetsManager.getBitmap(color || "menu/titlePurple").set({ regX: 1536 / 2, regY: 1840 / 2 }));
                 //Add Back Button
                 var backButton = new gameui.IconButton("menu/x", "", function () {
                     FlipPlus.FlipPlusGame.gameScreen.switchScreen(previousScreen);
@@ -6543,7 +6544,7 @@ var FlipPlus;
         var ShopMenu = (function (_super) {
             __extends(ShopMenu, _super);
             function ShopMenu(previousScreen) {
-                _super.call(this, "Shop", previousScreen);
+                _super.call(this, "Shop", previousScreen, "menu/titleRed");
                 this.productInfo = [
                     { name: "50", price: "U$ 0,99", img: "partsicon" },
                     { name: "200", price: "U$ 1,99", img: "partsicon" },
@@ -7723,8 +7724,8 @@ var stringResources = {
     it_text2: "alone = bad\nfriends=good",
     tut_1_1_title: "The plus shape",
     tut_1_1_text: "flip the white squares to make \nthem color squares",
-    tut_1_2_title: "tiles always flip in a \"plus shape\" \nfrom the center",
-    tut_1_2_text: "Great",
+    tut_1_2_text: "tiles always flip in a \"plus shape\" \nfrom the center",
+    tut_1_2_title: "Great",
     tut_2_1_title: "Flip to build",
     tut_2_1_text: "to finish the board, you have to turn \nevery white block in color block",
     tut_2_2_title: "Board complete!",
@@ -7887,13 +7888,13 @@ var stringResources_pt = {
     desc_item_solve: "Resolva este quadro",
     help_restart: "Se perdeu? No menu\n de pausa você, pode\nrecomeçar a tela!",
     help_skip: "Não esquenta, você\npode usar peças para\npular esta tela e\nseguir em frente!",
-    help_cancel_bt: "Agora não",
-    skip: "Pular",
-    help_restart_bt: "Ótimo!",
     help_time: "Não esquenta, você\npode usar peças para\nganhar mais tempo!",
     help_touch: "Não esquenta, você\npode usar peças para\nganhar mais toques!",
+    help_restart_bt: "Ótimo!",
+    help_cancel_bt: "Agora não",
     help_time_bt: "Mais Tempo",
     help_touch_bt: "Mais Toques",
+    skip: "Pular",
     time: "Tempo",
     touch: "Toques",
     menus: {
@@ -7902,7 +7903,6 @@ var stringResources_pt = {
         score: "Pontos",
         level: "level",
         options: "opções",
-        highJelly: "maior",
         gameOver: "GAME OVER",
         pause: "pausa",
         sound: "Sons",
