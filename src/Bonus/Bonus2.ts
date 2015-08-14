@@ -36,19 +36,8 @@
         private matchPair(card1: Card, card2: Card): boolean {
             if (card1.name == card2.name && card1 != card2) {
 
-                var multiplier = 1;
-
-                if (card1.name == "2coin") {
-                    card1.name = card2.name = "coin";
-                    multiplier = 2;
-                }
-                if (card1.name == "3coin") {
-                    card1.name = card2.name = "coin";
-                    multiplier = 3;
-                }
-
-                for (var i = 0; i < multiplier*2; i++)
-                    this.userAquireItem(card1.name);
+                this.userAquireItem(card1.name);
+                this.userAquireItem(card2.name);
                 
                 card1.opened = false;
                 card2.opened = false;

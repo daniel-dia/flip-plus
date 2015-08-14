@@ -1,7 +1,8 @@
 ﻿var items = {
-    "hint": { price: [1, 2, 3, 4, 5], },
-    "solve":{price: [1, 2, 3, 4, 5],  },
-    "time": {price:[1, 2, 3, 4, 5],   },
-    "tap":{price: [1, 2, 3, 4, 5],  },
+    "hint": {price:   [2, 5, 10, 30, 50], },
+    "solve": { price: [2, 5, 10, 30, 50], },
+    "time": { price: [2, 5, 10, 30, 50], },
+    "tap": { price: [2, 5, 10, 30, 50], },
     "skip": {price:[1]},
 }
+ 

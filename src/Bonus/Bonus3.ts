@@ -97,13 +97,12 @@
                     //play movie clip
                     this.mainClip.gotoAndPlay("Ok" + (this.currentChestId))
 
-                    //go to next chest
-                    this.nextChest();
-
                     //prvide item to user
                     this.getItems(this.currentChestId);
 
-
+                    //go to next chest
+                    this.nextChest();
+                    
                     // play sound
                     gameui.AudiosManager.playSound("Correct Answer",true,300);
                 }
@@ -148,7 +147,13 @@
         //give items to the user
         private getItems(chestId: number) {
             this.itemsContainer.removeAllChildren();
-            var items = this.selectRandomItems(4);
+            
+            //barris mais elevados tem mais items
+            var numItems = 2;
+            if (chestId == 2) numItems = 5;
+            if (chestId == 3) numItems = 10;
+
+            var items = this.selectRandomItems(numItems);
             var itemsDo = [];
 
             //create items objects
@@ -156,13 +161,15 @@
 
                 FlipPlusGame.coinsData.increaseAmount(1);
 
-                var item = this.createItem(items[i])
+                var itemObj = this.createItem(items[i])
                 
-                item.set ({x : defaultWidth / 2, y : defaultHeight / 2 -100 ,alpha:0})
-                createjs.Tween.get(item).wait(500 + i * 300)
-                    .to({ alpha: 1, x: defaultWidth / 2.5 + (300 * (i - 1)), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
-                    .call((itemDo: createjs.DisplayObject) => { this.animateItemObjectToFooter(itemDo, itemDo.name) }, [item])
-                this.itemsContainer.addChild(item);
+                itemObj.set({ x: defaultWidth / 2, y: defaultHeight / 2 - 100, alpha: 0 })
+                itemObj.regX = itemObj.getBounds().width / 2;
+                itemObj.regY = itemObj.getBounds().height / 2;
+                createjs.Tween.get(itemObj).wait(500 + i * 300)
+                    .to({ alpha: 1, x: defaultWidth *0.15 + i * (defaultWidth * 0.7 / items.length), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
+                    .call((itemDo: createjs.DisplayObject) => { this.animateItemObjectToFooter(itemDo, itemDo.name) }, [itemObj])
+                this.itemsContainer.addChild(itemObj);
             }
         }
 

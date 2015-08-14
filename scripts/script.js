@@ -3160,6 +3160,8 @@ var FlipPlus;
             //animate a display object to the menu
             BonusScreen.prototype.animateItemObjectToFooter = function (itemObj, itemId) {
                 var _this = this;
+                if (itemId == "2coin" || itemId == "3coin")
+                    itemId = "coin";
                 var footerItem = this.footerContainer.getChildByName(itemId);
                 if (footerItem && itemObj.parent) {
                     var startPoint = itemObj.localToLocal(0, 0, this.content);
@@ -3194,7 +3196,14 @@ var FlipPlus;
             };
             //updates user Data with new Item
             BonusScreen.prototype.userAquireItem = function (itemId) {
-                FlipPlus.FlipPlusGame.coinsData.increaseAmount(1);
+                var ammount = 1;
+                if (itemId == "2coin")
+                    ammount = 2;
+                if (itemId == "3coin")
+                    ammount = 3;
+                if (itemId == "2coin" || itemId == "3coin")
+                    itemId = "coin";
+                FlipPlus.FlipPlusGame.coinsData.increaseAmount(ammount);
                 //FlipPlusGame.itemsData.increaseItemQuantity(itemId);
             };
             BonusScreen.prototype.selectRandomItems = function (quantity) {
@@ -3288,9 +3297,9 @@ var FlipPlus;
                     barrel.addChild(spriteReflection);
                     var bn = barrel.getBounds();
                     barrel.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(bn.x, bn.y, bn.width, bn.height));
-                    var spriteWater = gameui.AssetsManager.getSprite("Bonus1/agua");
-                    barrel.addChild(spriteWater);
-                    spriteWater.gotoAndPlay(Math.random() * 120);
+                    //var spriteWater = gameui.AssetsManager.getSprite("Bonus1/agua");
+                    //barrel.addChild(spriteWater);
+                    //spriteWater.gotoAndPlay(Math.random() * 120)
                     barrelsContainer.addChild(barrel);
                     barrelsContainer.y = defaultHeight / 2 - 1024;
                     //positionning
@@ -3351,10 +3360,17 @@ var FlipPlus;
                 //adds objects in barrel
                 for (var b = 0; b < this.barrels.length; b++) {
                     //show the item
-                    if (this.items[b])
-                        this.BarrelsItens[b].addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]));
-                    else
+                    if (this.items[b]) {
+                        var itemDO = gameui.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]);
+                        this.BarrelsItens[b].addChild(itemDO);
+                        itemDO.regX = itemDO.getBounds().width / 2;
+                        itemDO.regY = itemDO.getBounds().height / 2;
+                        this.BarrelsItens[b].x += itemDO.regX;
+                        this.BarrelsItens[b].y += itemDO.regY;
+                    }
+                    else {
                         this.BarrelsItens[b].addChild(gameui.AssetsManager.getBitmap("Bonus1/icone_lata"));
+                    }
                     //hidesItem
                     this.BarrelsItens[b].visible = false;
                 }
@@ -3381,7 +3397,7 @@ var FlipPlus;
             };
             //get a random item from the items list
             BonusBarrel.prototype.getRandomItem = function () {
-                var itemArray = this.itemsArray;
+                var itemArray = ["coin", "coin", "2coin", "3coin"];
                 var i = Math.floor(Math.random() * itemArray.length);
                 var itemId = itemArray[i];
                 return itemId;
@@ -3466,17 +3482,8 @@ var FlipPlus;
             Bonus2.prototype.matchPair = function (card1, card2) {
                 var _this = this;
                 if (card1.name == card2.name && card1 != card2) {
-                    var multiplier = 1;
-                    if (card1.name == "2coin") {
-                        card1.name = card2.name = "coin";
-                        multiplier = 2;
-                    }
-                    if (card1.name == "3coin") {
-                        card1.name = card2.name = "coin";
-                        multiplier = 3;
-                    }
-                    for (var i = 0; i < multiplier * 2; i++)
-                        this.userAquireItem(card1.name);
+                    this.userAquireItem(card1.name);
+                    this.userAquireItem(card2.name);
                     card1.opened = false;
                     card2.opened = false;
                     //animate itens
@@ -3711,10 +3718,10 @@ var FlipPlus;
                     if (keyId == _this.correctKeyId) {
                         //play movie clip
                         _this.mainClip.gotoAndPlay("Ok" + (_this.currentChestId));
-                        //go to next chest
-                        _this.nextChest();
                         //prvide item to user
                         _this.getItems(_this.currentChestId);
+                        //go to next chest
+                        _this.nextChest();
                         // play sound
                         gameui.AudiosManager.playSound("Correct Answer", true, 300);
                     }
@@ -3747,17 +3754,25 @@ var FlipPlus;
             Bonus3.prototype.getItems = function (chestId) {
                 var _this = this;
                 this.itemsContainer.removeAllChildren();
-                var items = this.selectRandomItems(4);
+                //barris mais elevados tem mais items
+                var numItems = 2;
+                if (chestId == 2)
+                    numItems = 5;
+                if (chestId == 3)
+                    numItems = 10;
+                var items = this.selectRandomItems(numItems);
                 var itemsDo = [];
                 //create items objects
                 for (var i in items) {
                     FlipPlus.FlipPlusGame.coinsData.increaseAmount(1);
-                    var item = this.createItem(items[i]);
-                    item.set({ x: defaultWidth / 2, y: defaultHeight / 2 - 100, alpha: 0 });
-                    createjs.Tween.get(item).wait(500 + i * 300)
-                        .to({ alpha: 1, x: defaultWidth / 2.5 + (300 * (i - 1)), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
-                        .call(function (itemDo) { _this.animateItemObjectToFooter(itemDo, itemDo.name); }, [item]);
-                    this.itemsContainer.addChild(item);
+                    var itemObj = this.createItem(items[i]);
+                    itemObj.set({ x: defaultWidth / 2, y: defaultHeight / 2 - 100, alpha: 0 });
+                    itemObj.regX = itemObj.getBounds().width / 2;
+                    itemObj.regY = itemObj.getBounds().height / 2;
+                    createjs.Tween.get(itemObj).wait(500 + i * 300)
+                        .to({ alpha: 1, x: defaultWidth * 0.15 + i * (defaultWidth * 0.7 / items.length), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
+                        .call(function (itemDo) { _this.animateItemObjectToFooter(itemDo, itemDo.name); }, [itemObj]);
+                    this.itemsContainer.addChild(itemObj);
                 }
             };
             Bonus3.prototype.createItem = function (item) {

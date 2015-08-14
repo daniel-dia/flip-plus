@@ -12,6 +12,7 @@
 
         constructor(itemsArray: Array<string>, sufix: string= "1") {
             super(itemsArray, "Bonus1");
+           
         }
 
         addObjects() {
@@ -74,9 +75,9 @@
 
                 var bn = barrel.getBounds();
                 barrel.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(bn.x,bn.y,bn.width,bn.height));
-                var spriteWater = gameui.AssetsManager.getSprite("Bonus1/agua");
-                barrel.addChild(spriteWater);
-                spriteWater.gotoAndPlay(Math.random() * 120)
+                //var spriteWater = gameui.AssetsManager.getSprite("Bonus1/agua");
+                //barrel.addChild(spriteWater);
+                //spriteWater.gotoAndPlay(Math.random() * 120)
   
                 
                 barrelsContainer.addChild(barrel);
@@ -84,7 +85,6 @@
 
                 //positionning
                 barrel.set(positions[b]);
-
 
                 barrel.regX = 180;
                 barrel.regY = 180;
@@ -160,11 +160,18 @@
             for (var b = 0; b < this.barrels.length; b++) {
 
                 //show the item
-                if (this.items[b]) this.BarrelsItens[b].addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]));
-
+                if (this.items[b]) {
+                    var itemDO = gameui.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]);
+                    this.BarrelsItens[b].addChild(itemDO);
+                    itemDO.regX = itemDO.getBounds().width / 2;
+                    itemDO.regY = itemDO.getBounds().height / 2;
+                    this.BarrelsItens[b].x += itemDO.regX;
+                    this.BarrelsItens[b].y += itemDO.regY;
+                }
                 //or show a can
-                else this.BarrelsItens[b].addChild(gameui.AssetsManager.getBitmap("Bonus1/icone_lata"));
-
+                else {
+                    this.BarrelsItens[b].addChild(gameui.AssetsManager.getBitmap("Bonus1/icone_lata"));
+                }
                 //hidesItem
                 this.BarrelsItens[b].visible = false;
             }
@@ -195,7 +202,7 @@
 
         //get a random item from the items list
         private getRandomItem(): string {
-            var itemArray = this.itemsArray;
+            var itemArray = ["coin", "coin", "2coin", "3coin"];
             var i = Math.floor(Math.random() * itemArray.length);
             var itemId = itemArray[i];
 
@@ -222,7 +229,6 @@
 
                 // play sound
                 gameui.AudiosManager.playSound("Correct Answer");
-
                 this.userAquireItem(this.items[barrelId]);
                 this.animateItemObjectToFooter(this.BarrelsItens[barrelId], this.items[barrelId]);
                 createjs.Tween.get(this.contentShadow[barrelId]).to({alpha:0},600);

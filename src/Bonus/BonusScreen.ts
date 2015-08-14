@@ -3,14 +3,14 @@
     // Class
     export class BonusScreen extends gameui.ScreenState {
 
-        itemsArray: Array<string>;
+        protected itemsArray: Array<string>;
 
-        footerContainer: createjs.Container;
+        protected footerContainer: createjs.Container;
 
-        footerTexts: Array<createjs.Text>;
-        footerMaxs:  Array<createjs.Bitmap>;
+        protected footerTexts: Array<createjs.Text>;
+        protected footerMaxs:  Array<createjs.Bitmap>;
 
-        menu: Menu.View.ScreenMenu;
+        protected  menu: Menu.View.ScreenMenu;
 
         public popup: Menu.View.Popup;
         public message: Menu.View.Message;
@@ -57,7 +57,7 @@
         }
 
         //add Scene objects to the view
-        addScene(bonusId:string) {
+        protected addScene(bonusId:string) {
             //adds Background
             var background = gameui.AssetsManager.getBitmap(bonusId + "/back");
             background.scaleX = background.scaleY = 2
@@ -84,10 +84,10 @@
         }
 
         //adds objects to the view <<interface>>
-        addObjects() {}
+        protected addObjects() {}
 
         //create sa footer
-        addFooter(itemsArray: Array<string>) {
+        protected addFooter(itemsArray: Array<string>) {
             
             this.footerContainer = new createjs.Container();
             this.footerContainer.y = - 291;
@@ -154,8 +154,9 @@
         }
 
         //animate a display object to the menu
-        animateItemObjectToFooter(itemObj: createjs.DisplayObject, itemId: string) {
+        protected animateItemObjectToFooter(itemObj: createjs.DisplayObject, itemId: string) {
 
+            if (itemId == "2coin" || itemId == "3coin") itemId = "coin"
             var footerItem = this.footerContainer.getChildByName(itemId);
             if (footerItem && itemObj.parent) {
                     
@@ -184,12 +185,13 @@
         }
 
         //create a loop animation for a item
-        animateItemObjectIdle(itemObj: createjs.DisplayObject) {
+        protected animateItemObjectIdle(itemObj: createjs.DisplayObject) {
+        
             createjs.Tween.get(itemObj, { loop: true }).to({ y: itemObj.y - 20 }, 500, createjs.Ease.quadInOut).to({ y: itemObj.y}, 500, createjs.Ease.quadInOut);
         }
 
         //adds menu to the view
-        addMenu() {
+        protected addMenu() {
             this.menu = new Menu.View.ScreenMenu();
             this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions() });
             this.menu.addEventListener("back", () => { this.back(); });
@@ -198,12 +200,17 @@
 
         //updates user Data with new Item
         protected userAquireItem(itemId: string) {
+            var ammount = 1;
 
-            FlipPlusGame.coinsData.increaseAmount(1);
+            if (itemId == "2coin") ammount = 2;
+            if (itemId == "3coin") ammount = 3;
+
+            if (itemId == "2coin" || itemId == "3coin")itemId = "coin"
+            FlipPlusGame.coinsData.increaseAmount(ammount);
             //FlipPlusGame.itemsData.increaseItemQuantity(itemId);
         }
 
-        selectRandomItems(quantity: number): Array<string> {
+        protected selectRandomItems(quantity: number): Array<string> {
             this.itemsArray
             var items = new Array();
 
