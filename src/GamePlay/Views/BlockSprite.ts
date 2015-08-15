@@ -208,10 +208,9 @@ module FlipPlus.GamePlay.Views {
             //load hint symbol
             this.hintimage = gameui.AssetsManager.getBitmap("puzzle/icon_hint");
             this.container.addChild(this.hintimage);
-            this.hintimage.regX = 36;
-            this.hintimage.regY = 20;
-            this.hintimage.x = 36*2;
-            this.hintimage.y = 20*2;
+            this.hintimage.regX = 139/2;
+            this.hintimage.regY = 148/2;
+            this.hintimage.x = this.hintimage.y = 90;
             this.hintimage.visible = false;
 
             //load nurrir modificator tile
