@@ -3,7 +3,7 @@ declare var TimerEvent;
 
 module FlipPlus.GamePlay { 
 
-    export class TimeAtack extends LevelScreen {
+    export class LevelTimeAtack extends LevelScreen {
          
         private currentPuzzle: number = 1;
         private puzzlesToSolve: number = 0;
@@ -14,10 +14,10 @@ module FlipPlus.GamePlay {
             super(levelData);
 
             this.gameplayMenu.addButtons([Items.SKIP, Items.TIME, Items.SOLVE, Items.HINT]);
-            this.gameplayMenu.addEventListener(Items.SKIP, () => { this.useItemSkip(); });
-            this.gameplayMenu.addEventListener(Items.TIME, () => { this.useItemTime(); });
-            this.gameplayMenu.addEventListener(Items.SOLVE, () => { this.useItemSolve(); });
-            this.gameplayMenu.addEventListener(Items.HINT, () => { this.useItemHint(); })
+            this.gameplayMenu.addEventListener(Items.SKIP, () => { this.useItem(Items.SKIP); });
+            this.gameplayMenu.addEventListener(Items.TIME, () => { this.useItem(Items.TIME); });
+            this.gameplayMenu.addEventListener(Items.SOLVE, () => { this.useItem(Items.SOLVE); });
+            this.gameplayMenu.addEventListener(Items.HINT, () => { this.useItem(Items.HINT); })
                                                 
             this.puzzlesToSolve = levelData.puzzlesToSolve;
             this.currentTime = levelData.time;
@@ -45,7 +45,7 @@ module FlipPlus.GamePlay {
                     this.boardSprite.mouseEnabled = false;
                     this.popupHelper.showItemMessage(Items.TIME, this.getItemPrice(Items.TIME),
                         () => {
-                            this.useItemTime();
+                            this.useItem(Items.TIME);
                             this.boardSprite.mouseEnabled = true;
                             this.timer.start();
                         },
@@ -130,13 +130,7 @@ module FlipPlus.GamePlay {
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
         }
 
-        private useItemSolve() {
-            if (!this.useItem(Items.SOLVE)) return;
-            this.win(0,0);
-        }
-
-        private useItemTime() {
-            if (!this.useItem(Items.TIME)) return;
+        protected useItemTime() {
             this.currentTime += 10;
         }
 

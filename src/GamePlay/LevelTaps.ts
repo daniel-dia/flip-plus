@@ -1,5 +1,5 @@
 ﻿module FlipPlus.GamePlay {
-    export class Moves extends LevelScreen {
+    export class LevelTaps extends LevelScreen {
 
         private moves;
         private currentPuzzle: number = 1;
@@ -22,10 +22,10 @@
             this.gameplayMenu.addButtons([Items.TAP, Items.HINT]);
 
 
-            this.gameplayMenu.addEventListener(Items.TAP, () => { this.useItemTouch()});
-            this.gameplayMenu.addEventListener(Items.SOLVE, () => { this.useItemSolve(); })
-            this.gameplayMenu.addEventListener(Items.HINT, () => { this.useItemHint(); })
-            this.gameplayMenu.addEventListener(Items.SKIP, () => { this.useItemSkip(); })
+            this.gameplayMenu.addEventListener(Items.TAP, () => { this.useItem(Items.TAP) });
+            this.gameplayMenu.addEventListener(Items.SOLVE, () => { this.useItem(Items.SOLVE); })
+            this.gameplayMenu.addEventListener(Items.HINT, () => { this.useItem(Items.HINT); })
+            this.gameplayMenu.addEventListener(Items.SKIP, () => { this.useItem(Items.SKIP); })
 
             this.moves = this.levelData.moves;
 
@@ -141,17 +141,10 @@
             this.levelLogic.board.initializePrizes(2);
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
         }
-
-
+        
         //========================== items ==================================
         private useItemTouch() {
-            if (!this.useItem(Items.TAP)) return;
             this.moves += 2;
         }
-        private useItemSolve() {
-            if (!this.useItem(Items.SOLVE)) return;
-            this.win(0, 0);
-        }
-
     }
 }

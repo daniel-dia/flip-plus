@@ -77,7 +77,6 @@ module FlipPlus.UserData {
             this.saveToStorage();
         }
 
-
         private saveToStorage() {
             if (this.projectsUserData) {
                 var str = JSON.stringify(this.projectsUserData);

@@ -203,7 +203,6 @@ module FlipPlus.GamePlay {
 
         // #endregion
 
-
         // #region  GamePlay methods =========================================================================================================
 
         private earnPrize(col: number, row: number) {
@@ -323,7 +322,7 @@ module FlipPlus.GamePlay {
         }
 
         // use an item
-        protected useItem(item: string): boolean {
+        protected useItem(item: string,parameters?:any, free?: boolean): boolean {
 
             //analytics
             FlipPlusGame.analytics.logUsedItem(item, this.levelData.name);
@@ -333,25 +332,40 @@ module FlipPlus.GamePlay {
 
             //if user is able to use this item
             var coinsAmount = FlipPlusGame.coinsData.getAmount()
-            if (coinsAmount >= value) {
+            if (free || coinsAmount >= value) {
 
-                // sava item used information
+                // saves item used information
                 if (!this.itemTimes[item]) this.itemTimes[item] = 0;
                 this.itemTimes[item]++;
 
-                //updates data
-                FlipPlusGame.coinsData.decreaseAmount(value);
+                // updates data
                 if (item != Items.HINT) this.usedItem = item;
 
-                //updates Items buttons labels Quantity on footer
-                this.coinsIndicator.updateCoinsAmmount(FlipPlusGame.coinsData.getAmount());
+
+                if (!free) {
+                    // updates player coins
+                    FlipPlusGame.coinsData.decreaseAmount(value);
+
+                    // animate coins
+                    this.coinsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item) - 768, 1900, value);
+
+                    //show text effect
+                    this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
+
+                    //updates Items buttons labels Quantity on footer
+                    this.coinsIndicator.updateCoinsAmmount(FlipPlusGame.coinsData.getAmount());
+                }
+
                 this.gameplayMenu.updateItemsPrice(this.listItemPrices());
 
-                // animate coins
-                this.coinsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item)-768,1900, value);
-
-                //show text effect
-                this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
+                // use the item
+                switch (item) {
+                    case Items.SKIP:  this.useItemSkip(); break;
+                    case Items.SOLVE: this.useItemSolve(); break;
+                    case Items.HINT: this.useItemHint(); break;
+                    case Items.TIME: break;
+                    case Items.TAP:  break;
+                }
 
                 return true;
 
@@ -366,7 +380,7 @@ module FlipPlus.GamePlay {
 
         //skips the level
         protected useItemSkip() {
-            if (!this.useItem(Items.SKIP)) return;
+            
             if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
                 this.message.showtext("Skip Level");
                 this.message.addEventListener("onclose", () => {
@@ -382,11 +396,9 @@ module FlipPlus.GamePlay {
         }
 
         //set hint for a block
-        protected useItemHint(blockId?) {
+        protected useItemHint(blockId?:number) {
 
-            if (!this.useItem(Items.HINT)) return;
-
-            //if the hint block is not pre defined
+            // if the hint block is not pre defined
             if (typeof blockId != "number") {
 
                 //get all inverted blocks
@@ -406,14 +418,27 @@ module FlipPlus.GamePlay {
                 blockId = filtredInvertedBlocks[index];
             }
 
-            //enablehint for the selected block;
+            // enablehint for the selected block;
             this.boardSprite.getBlockById(blockId).enableHint();
 
+            // save used hint on level
+            this.levelData.userdata.hints = this.levelData.userdata.hints || [];
+            this.levelData.userdata.hints.push(blockId);
+            // saves 
+            FlipPlusGame.projectData.saveLevelData(this.levelData);
         }
 
         //set hint for a solve
-        protected usesolve() {
+        protected useItemSolve() {
             this.win(0, 0);
+        }
+
+        //ovveridable
+        protected useItemTime() {
+        }
+
+        //ovveridable
+        protected useItemTap() {
         }
         // #endregion
         
@@ -471,6 +496,11 @@ module FlipPlus.GamePlay {
             this.coinsIndicator.updateCoinsAmmount(FlipPlusGame.coinsData.getAmount());
             this.gameplayMenu.updateItemsPrice(this.listItemPrices());
 
+
+            // update hints already used
+            if (this.levelData.userdata.hints)
+                for (var h in this.levelData.userdata.hints)
+                    this.useItem(Items.HINT, this.levelData.userdata.hints[h],true);
 
             // if there are hidden blocks. shake and lock the board for 4 seconds
             if (this.levelData.hiddenBlocks && this.levelData.hiddenBlocks.length > 0) {

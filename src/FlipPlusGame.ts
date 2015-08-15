@@ -145,13 +145,13 @@ module FlipPlus {
 
             switch (level.type) {
                 case "puzzle": case "draw":
-                    return new GamePlay.Puzzle(level);
+                    return new GamePlay.LevelPuzzle(level);
                 case "moves": case "flip": case "combo":
-                    return new GamePlay.Moves(level);
+                    return new GamePlay.LevelTaps(level);
                 case "tutorial":
                     return new GamePlay.Tutorial(level);
                 case "time":
-                    return new GamePlay.TimeAtack(level);
+                    return new GamePlay.LevelTimeAtack(level);
             }
 
             return null;

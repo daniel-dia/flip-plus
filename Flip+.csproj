@@ -1329,7 +1329,7 @@
     <Content Include="index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <TypeScriptCompile Include="src\GamePlay\Moves.ts" />
+    <TypeScriptCompile Include="src\GamePlay\LevelTaps.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelCreator.ts" />
     <TypeScriptCompile Include="src\Menu\IntroScreen.ts" />
     <TypeScriptCompile Include="src\Menu\SlideShow.ts" />
@@ -1374,8 +1374,8 @@
     <TypeScriptCompile Include="src\GamePlay\Views\Overlay.ts" />
     <TypeScriptCompile Include="src\Utils\Effects.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelScreen.ts" />
-    <TypeScriptCompile Include="src\GamePlay\Puzzle.ts" />
-    <TypeScriptCompile Include="src\GamePlay\TimeAttack.ts" />
+    <TypeScriptCompile Include="src\GamePlay\LevelPuzzle.ts" />
+    <TypeScriptCompile Include="src\GamePlay\LevelTimeAttack.ts" />
     <TypeScriptCompile Include="src\Projects\Level.ts" />
     <TypeScriptCompile Include="src\FlipPlusGame.ts" />
     <TypeScriptCompile Include="src\Menu\View\LevelThumbNovo.ts" />

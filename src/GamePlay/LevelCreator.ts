@@ -7,7 +7,7 @@ var levelCreatorMode;
 var levelCreatorTestMode;
 
 module FlipPlus.GamePlay {
-    export class LevelCreator extends Puzzle {
+    export class LevelCreator extends LevelPuzzle {
 
         private stateDraw;
         private levelsBackup;

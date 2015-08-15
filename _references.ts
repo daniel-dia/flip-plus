@@ -4,13 +4,14 @@
  
 /// <reference path="gameui/AssetsManager.ts" />
 /// <reference path="gameui/GameScreen.ts" />
+/// <reference path="gameui/ScreenState.ts" />
 /// <reference path="gameui/UIItem.ts" />
 /// <reference path="gameui/Grid.ts" />
 /// <reference path="gameui/Label.ts" />
 /// <reference path="gameui/MenuContainer.ts" />
-/// <reference path="gameui/ScreenState.ts" />
 /// <reference path="gameui/Transition.ts" />
 /// <reference path="gameui/Button.ts" />
+
 
 /*scripts*/
 /// <reference path="src/FlipPlusGame.ts" />
@@ -21,10 +22,14 @@
 /// <reference path="src/UserData/Timers.ts" />
 /// <reference path="src/UserData/ProjectsData.ts" />
 
-/// <reference path="src/GamePlay/LevelScreen.ts" />
-/// <reference path="src/GamePlay/Puzzle.ts" />
-/// <reference path="src/GamePlay/TimeAttack.ts" />
+/// <reference path="src/GamePlay/LevelScreen.ts" /> 
+/// <reference path="src/GamePlay/levelpuzzle.ts" />
+/// <reference path="src/GamePlay/levelcreator.ts" />
+/// <reference path="src/GamePlay/levelcreator2.ts" />
+/// <reference path="src/GamePlay/leveltaps.ts" />
+/// <reference path="src/GamePlay/leveltimeattack.ts" />
 /// <reference path="src/GamePlay/Tutorial.ts" />
+
 /// <reference path="src/GamePlay/Model/Block.ts" />
 /// <reference path="src/GamePlay/Model/Board.ts" />
 /// <reference path="src/GamePlay/Model/Level.ts" />

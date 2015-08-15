@@ -1,5 +1,5 @@
 module FlipPlus.GamePlay {
-    export class Puzzle extends LevelScreen {
+    export class LevelPuzzle extends LevelScreen {
 
         // help
         private helped: boolean;
@@ -12,8 +12,8 @@ module FlipPlus.GamePlay {
             else
                 this.gameplayMenu.addButtons([Items.SKIP, Items.HINT]);
 
-            this.gameplayMenu.addEventListener(Items.SKIP, (parameter) => { this.useItemSkip(); });
-            this.gameplayMenu.addEventListener(Items.HINT, (parameter) => { this.useItemHint((<any>parameter).target); });
+            this.gameplayMenu.addEventListener(Items.SKIP, (parameter) => { this.useItem(Items.SKIP); });
+            this.gameplayMenu.addEventListener(Items.HINT, (parameter) => { this.useItem(Items.HINT,(<any>parameter).target); }); //solve this problem
 
             this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
 
@@ -77,8 +77,9 @@ module FlipPlus.GamePlay {
 
         // show a message asking for user to skip
         private showSkipMessage() {
-            this.popupHelper.showItemMessage(Items.SKIP, this.getItemPrice(Items.SKIP), () => { }, () => { this.useItemSkip() },"menu/imskip" );
+            this.popupHelper.showItemMessage(Items.SKIP, this.getItemPrice(Items.SKIP), () => { }, () => { this.useItem(Items.SKIP) }, "menu/imskip");
         }
+
         // #endregion
 
     }

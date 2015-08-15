@@ -81,5 +81,6 @@ module FlipPlus.Projects {
         public unlocked: boolean;
         public item: string;
         public playedTimes: number;
+        public hints: Array<number>;
     }
 }

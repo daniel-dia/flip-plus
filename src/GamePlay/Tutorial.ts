@@ -1,5 +1,5 @@
 module FlipPlus.GamePlay {
-    export class Tutorial extends Puzzle {
+    export class Tutorial extends LevelPuzzle {
 
         private currentTutorialStep: number = 0;
 
