@@ -1,5 +1,3 @@
-declare var lib: any;
-
 module FlipPlus.Menu {
 
     export class MainMenu extends gameui.ScreenState {
@@ -22,12 +20,8 @@ module FlipPlus.Menu {
             bg.scaleY = 1.3310546875;
             this.content.addChild(bg);
 
-            this.addIntro();
-
             this.addMyBots();
-
-            //this.addSmoke();
-
+             
             this.addMenu();
 
             this.addTerminal();
@@ -39,51 +33,30 @@ module FlipPlus.Menu {
             super.activate();
 
             //play BgSound
-
-            // play music
             gameui.AudiosManager.playMusic("Music Dot Robot");
 
 
             //Verifies if it is the first time playing
             if (!FlipPlusGame.storyData.getStoryPlayed("intro")) {
-                this.intro.visible = true;
-                this.myBots.visible = false;
-                this.playBt.visible = false;
-                this.intro.playPart1();
-
+                this.myBots.playIntroPartA();
+            
             }
             else if (!FlipPlusGame.storyData.getStoryPlayed("intro2")) {
                 FlipPlusGame.storyData.setStoryPlayed("intro2")
-                this.intro.visible = true;
-                this.myBots.visible = false;
-                this.playBt.visible = false;
-                this.intro.playPart2();
-
+                this.myBots.playIntroPartB();
             }
             else {
 
-                this.intro.visible = false;
-                this.playBt.visible = true;
-                this.myBots.visible = true;
-                
                 //updates robots lobby
                 this.myBots.update();
             }
         }
 
-        private addIntro() {
-            this.intro = new Intro();
-            this.content.addChild(this.intro);
-
-            this.intro.addEventListener("readyToPlay", () => {
-                this.playBt.visible = true;
-            })
-
-            this.intro.addEventListener("end", () => {
-                this.playBt.visible = true;
-            })
+        public desactivate(parameters?: any) {
+            super.desactivate(parameters);
+            this.myBots.clear();
         }
-
+      
         private addMyBots() {
             this.myBots = new Robots.MyBots(FlipPlusGame.projectManager);
             this.content.addChild(this.myBots);
@@ -127,10 +100,6 @@ module FlipPlus.Menu {
         }
 
         //------------Robots Behaviour ---------------------------------
-
-        public openRobot(robot: string) {
-            this.myBots.openRobot(robot);
-        }
 
         private robotClick(robot: string) {
             var t = FlipPlusGame.timersData.getTimer(robot);

@@ -1,4 +1,4 @@
-declare var lib: any;
+declare var lib_bots: any;
 
 module FlipPlus.Robots {
 
@@ -7,6 +7,7 @@ module FlipPlus.Robots {
 
         public myBots: createjs.Container;
         private projectManager: Projects.ProjectManager;
+        private popup: Menu.View.PopupBot;
 
         //----------------------initialization ---------------------------
 
@@ -16,14 +17,15 @@ module FlipPlus.Robots {
             this.projectManager = projectManager;
             this.initializeGraphics();
             this.initializeNames();
-
-            FlipPlusGame.projectManager.undoLevel(levelsData[1].levels[9]);
         }
 
         //loads and add lobby graphics to the view
         private initializeGraphics() {
-            this.myBots = new lib.MyBots();
+            this.myBots = new lib_bots.NewBotsLobby();
             this.addChild(this.myBots);
+
+            this.popup = new Menu.View.PopupBot();
+            this.addChild(this.popup);
         }
 
         //add names for each robot instance in lobby (toolkit plugin does not make it automatically)
@@ -86,10 +88,10 @@ module FlipPlus.Robots {
 
         //hide All Robots from Screen
         private hideAllRobots() {
-            for (var c = 0; c < this.myBots.getNumChildren(); c++)
+            for (var c = 0; c < this.myBots.getNumChildren(); c++) {
                 (<createjs.MovieClip>this.myBots.getChildAt(c)).visible = false;
-           //
-           // this.showRobot("main");
+                (<createjs.MovieClip>this.myBots.getChildAt(c)).stop();
+            }
         }
 
         //show a robot on screen by name
@@ -98,14 +100,8 @@ module FlipPlus.Robots {
             if (robotMC != null) {
                 robotMC.visible = true;
                 this.castNewEffect(robotMC);
+                robotMC.play();
             }
-        }
-
-        //play robot opening animation
-        public openRobot(botId: string) {
-            var robotMC = this.myBots[botId];
-           //if (robotMC != null)
-           //    robotMC.gotoAndPlay("opening");
         }
 
         //play robot alert animation
@@ -121,25 +117,37 @@ module FlipPlus.Robots {
             var robotMC = this.myBots[botId];
             if (robotMC != null) {
 
-                var bgnewbot1 = <createjs.Bitmap>gameui.AssetsManager.getBitmap("bgnewbot");
-                bgnewbot1.regX = bgnewbot1.image.width / 2;
-                bgnewbot1.regY = bgnewbot1.image.height / 2;
-                this.addChild(bgnewbot1);
-                bgnewbot1.visible = false;
-                bgnewbot1.x = robotMC.x;
-                bgnewbot1.y = robotMC.y;
-                bgnewbot1.visible = true;
+                var bgnewbot = <createjs.Bitmap>gameui.AssetsManager.getBitmap("bgnewbot");
+                bgnewbot.regX = bgnewbot.getBounds().width / 2;
+                bgnewbot.regY = bgnewbot.getBounds().height / 2;
+                bgnewbot.x = robotMC.x ;
+                bgnewbot.y = robotMC.y;
+                bgnewbot.visible = true;
+                this.addChildAt(bgnewbot,0);
 
-                this.addChild(this.myBots);
-
-                createjs.Tween.get(bgnewbot1).
-                    to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 0 }).
-                    to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 }, 1000).
-                    to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 + 90 }, 2000).
-                    to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 45 + 90 + 45 }, 1000).call(() => { this.removeChild(bgnewbot1) });
+                createjs.Tween.get(bgnewbot).
+                    to({ alpha: 0, scaleX: 0.3, scaleY: 0.3 }).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200).to({ alpha: 0, scaleX: 1.6, scaleY: 1.6 }, 200).    
+                    to({ alpha: 0, scaleX: 0.3, scaleY: 0.3 }).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200).to({ alpha: 0, scaleX: 1.6, scaleY: 1.6 }, 200).    
+                    to({ alpha: 0, scaleX: 0.3, scaleY: 0.3 }).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200).to({ alpha: 0, scaleX: 1.6, scaleY: 1.6 }, 200).    
+                    to({ alpha: 0, scaleX: 0.3, scaleY: 0.3 }).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200).to({ alpha: 0, scaleX: 1.6, scaleY: 1.6 }, 200).    
+                    call(() => { this.removeChild(bgnewbot) });
             }
+        }
 
+        public playIntroPartA() {
+            this.hideAllRobots();
+            this.showRobot("Bot01a");
+            this.popup.showBotText(stringResources.it_text1, 6000, 1000)
+        }
 
+        public playIntroPartB() {
+            this.hideAllRobots();
+            this.showRobot("Bot01b");
+            this.popup.showBotText(stringResources.it_text2,6000,1000);
+        }
+
+        public clear() {
+            this.hideAllRobots();
         }
     }
 }

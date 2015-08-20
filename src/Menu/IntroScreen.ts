@@ -14,9 +14,9 @@ module FlipPlus.Menu {
             this.addChild(this.introMc);
             this.introMc.stop();
 
-            this.introMc.addEventListener("d1", () => { this.popup.showBotText(stringResources.it_text1); });
+            this.introMc.addEventListener("d1", () => { ; });
             this.introMc.addEventListener("readyToPlay", () => { this.dispatchEvent("readyToPlay");});
-            this.introMc.addEventListener("d2", () => { this.popup.showBotText(stringResources.it_text2); });
+            this.introMc.addEventListener("d2", () => {  });
             this.introMc.addEventListener("end", () => {  FlipPlusGame.showProjectsMenu(); this.dispatchEvent("end"); });
             this.popup.addEventListener("onclose", () => { this.introMc.play() });
 
@@ -24,7 +24,7 @@ module FlipPlus.Menu {
           
         }
 
-        public playPart1() {
+        public playIntroPart1() {
             this.introMc.gotoAndPlay("part1");
             this.popup.visible = false;
             var m = <createjs.Shape>this.introMc.children[0];
@@ -33,7 +33,7 @@ module FlipPlus.Menu {
 
         }   
 
-        public playPart2() {
+        public playIntroPart2() {
             this.introMc.gotoAndPlay("part2");
             this.popup.visible = false;
         }

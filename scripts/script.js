@@ -768,7 +768,14 @@ var FlipPlus;
                 else
                     _this.showTitleScreen();
             };
-            this.coinsData.setAmount(10);
+            // give 10 coins to user first time
+            if (!this.storyData.getStoryPlayed("coins")) {
+                this.storyData.setStoryPlayed("coins");
+                this.coinsData.setAmount(10);
+            }
+            ////for testing only
+            //var ps = this.projectManager.getAllProjects();
+            //for (var p in ps)  ps[p].levels.length = 1;
         };
         // ----------------------------- Game Methods ---------------------------------------------//
         FlipPlusGame.toLevelCreator = function (level, callback) {
@@ -4421,11 +4428,12 @@ var FlipPlus;
                             this.footer.mouseEnabled = false;
                             this.content.mouseEnabled = false;
                             this.header.mouseEnabled = false;
+                            var proj = project;
                             setTimeout(function () {
                                 _this.footer.mouseEnabled = true;
                                 _this.content.mouseEnabled = true;
                                 _this.header.mouseEnabled = true;
-                                FlipPlus.FlipPlusGame.completeProject(project);
+                                FlipPlus.FlipPlusGame.completeProject(proj);
                             }, 3500);
                         }
                     }
@@ -4498,9 +4506,7 @@ var FlipPlus;
                 bg.y = -339;
                 bg.scaleY = 1.3310546875;
                 this.content.addChild(bg);
-                this.addIntro();
                 this.addMyBots();
-                //this.addSmoke();
                 this.addMenu();
                 this.addTerminal();
                 this.addPlayButton();
@@ -4508,40 +4514,23 @@ var FlipPlus;
             MainMenu.prototype.activate = function () {
                 _super.prototype.activate.call(this);
                 //play BgSound
-                // play music
                 gameui.AudiosManager.playMusic("Music Dot Robot");
                 //Verifies if it is the first time playing
                 if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro")) {
-                    this.intro.visible = true;
-                    this.myBots.visible = false;
-                    this.playBt.visible = false;
-                    this.intro.playPart1();
+                    this.myBots.playIntroPartA();
                 }
                 else if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro2")) {
                     FlipPlus.FlipPlusGame.storyData.setStoryPlayed("intro2");
-                    this.intro.visible = true;
-                    this.myBots.visible = false;
-                    this.playBt.visible = false;
-                    this.intro.playPart2();
+                    this.myBots.playIntroPartB();
                 }
                 else {
-                    this.intro.visible = false;
-                    this.playBt.visible = true;
-                    this.myBots.visible = true;
                     //updates robots lobby
                     this.myBots.update();
                 }
             };
-            MainMenu.prototype.addIntro = function () {
-                var _this = this;
-                this.intro = new Menu.Intro();
-                this.content.addChild(this.intro);
-                this.intro.addEventListener("readyToPlay", function () {
-                    _this.playBt.visible = true;
-                });
-                this.intro.addEventListener("end", function () {
-                    _this.playBt.visible = true;
-                });
+            MainMenu.prototype.desactivate = function (parameters) {
+                _super.prototype.desactivate.call(this, parameters);
+                this.myBots.clear();
             };
             MainMenu.prototype.addMyBots = function () {
                 var _this = this;
@@ -4580,9 +4569,6 @@ var FlipPlus;
                 FlipPlus.FlipPlusGame.showTitleScreen();
             };
             //------------Robots Behaviour ---------------------------------
-            MainMenu.prototype.openRobot = function (robot) {
-                this.myBots.openRobot(robot);
-            };
             MainMenu.prototype.robotClick = function (robot) {
                 var t = FlipPlus.FlipPlusGame.timersData.getTimer(robot);
                 this.terminal.setText(Math.floor(t / 1000 / 60) + " minutes");
@@ -6076,12 +6062,13 @@ var FlipPlus;
                 this.projectManager = projectManager;
                 this.initializeGraphics();
                 this.initializeNames();
-                FlipPlus.FlipPlusGame.projectManager.undoLevel(levelsData[1].levels[9]);
             }
             //loads and add lobby graphics to the view
             MyBots.prototype.initializeGraphics = function () {
-                this.myBots = new lib.MyBots();
+                this.myBots = new lib_bots.NewBotsLobby();
                 this.addChild(this.myBots);
+                this.popup = new FlipPlus.Menu.View.PopupBot();
+                this.addChild(this.popup);
             };
             //add names for each robot instance in lobby (toolkit plugin does not make it automatically)
             MyBots.prototype.initializeNames = function () {
@@ -6129,10 +6116,10 @@ var FlipPlus;
             };
             //hide All Robots from Screen
             MyBots.prototype.hideAllRobots = function () {
-                for (var c = 0; c < this.myBots.getNumChildren(); c++)
+                for (var c = 0; c < this.myBots.getNumChildren(); c++) {
                     this.myBots.getChildAt(c).visible = false;
-                //
-                // this.showRobot("main");
+                    this.myBots.getChildAt(c).stop();
+                }
             };
             //show a robot on screen by name
             MyBots.prototype.showRobot = function (botId) {
@@ -6140,13 +6127,8 @@ var FlipPlus;
                 if (robotMC != null) {
                     robotMC.visible = true;
                     this.castNewEffect(robotMC);
+                    robotMC.play();
                 }
-            };
-            //play robot opening animation
-            MyBots.prototype.openRobot = function (botId) {
-                var robotMC = this.myBots[botId];
-                //if (robotMC != null)
-                //    robotMC.gotoAndPlay("opening");
             };
             //play robot alert animation
             MyBots.prototype.alertRobot = function (botId) {
@@ -6159,21 +6141,33 @@ var FlipPlus;
                 var _this = this;
                 var robotMC = this.myBots[botId];
                 if (robotMC != null) {
-                    var bgnewbot1 = gameui.AssetsManager.getBitmap("bgnewbot");
-                    bgnewbot1.regX = bgnewbot1.image.width / 2;
-                    bgnewbot1.regY = bgnewbot1.image.height / 2;
-                    this.addChild(bgnewbot1);
-                    bgnewbot1.visible = false;
-                    bgnewbot1.x = robotMC.x;
-                    bgnewbot1.y = robotMC.y;
-                    bgnewbot1.visible = true;
-                    this.addChild(this.myBots);
-                    createjs.Tween.get(bgnewbot1).
-                        to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 0 }).
-                        to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 }, 1000).
-                        to({ alpha: 1, scaleX: 1, scaleY: 1, rotation: 45 + 90 }, 2000).
-                        to({ alpha: 0, scaleX: 1, scaleY: 1, rotation: 45 + 90 + 45 }, 1000).call(function () { _this.removeChild(bgnewbot1); });
+                    var bgnewbot = gameui.AssetsManager.getBitmap("bgnewbot");
+                    bgnewbot.regX = bgnewbot.getBounds().width / 2;
+                    bgnewbot.regY = bgnewbot.getBounds().height / 2;
+                    bgnewbot.x = robotMC.x;
+                    bgnewbot.y = robotMC.y;
+                    bgnewbot.visible = true;
+                    this.addChildAt(bgnewbot, 0);
+                    createjs.Tween.get(bgnewbot).
+                        to({ alpha: 0, scaleX: 0.3, scaleY: 0.3 }).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200).to({ alpha: 0, scaleX: 1.6, scaleY: 1.6 }, 200).
+                        to({ alpha: 0, scaleX: 0.3, scaleY: 0.3 }).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200).to({ alpha: 0, scaleX: 1.6, scaleY: 1.6 }, 200).
+                        to({ alpha: 0, scaleX: 0.3, scaleY: 0.3 }).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200).to({ alpha: 0, scaleX: 1.6, scaleY: 1.6 }, 200).
+                        to({ alpha: 0, scaleX: 0.3, scaleY: 0.3 }).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200).to({ alpha: 0, scaleX: 1.6, scaleY: 1.6 }, 200).
+                        call(function () { _this.removeChild(bgnewbot); });
                 }
+            };
+            MyBots.prototype.playIntroPartA = function () {
+                this.hideAllRobots();
+                this.showRobot("Bot01a");
+                this.popup.showBotText(stringResources.it_text1, 6000, 1000);
+            };
+            MyBots.prototype.playIntroPartB = function () {
+                this.hideAllRobots();
+                this.showRobot("Bot01b");
+                this.popup.showBotText(stringResources.it_text2, 6000, 1000);
+            };
+            MyBots.prototype.clear = function () {
+                this.hideAllRobots();
             };
             return MyBots;
         })(createjs.Container);
@@ -6549,21 +6543,21 @@ var FlipPlus;
                 this.introMc = new lib.Intro();
                 this.addChild(this.introMc);
                 this.introMc.stop();
-                this.introMc.addEventListener("d1", function () { _this.popup.showBotText(stringResources.it_text1); });
+                this.introMc.addEventListener("d1", function () { ; });
                 this.introMc.addEventListener("readyToPlay", function () { _this.dispatchEvent("readyToPlay"); });
-                this.introMc.addEventListener("d2", function () { _this.popup.showBotText(stringResources.it_text2); });
+                this.introMc.addEventListener("d2", function () { });
                 this.introMc.addEventListener("end", function () { FlipPlus.FlipPlusGame.showProjectsMenu(); _this.dispatchEvent("end"); });
                 this.popup.addEventListener("onclose", function () { _this.introMc.play(); });
                 this.addChild(this.popup);
             }
-            Intro.prototype.playPart1 = function () {
+            Intro.prototype.playIntroPart1 = function () {
                 this.introMc.gotoAndPlay("part1");
                 this.popup.visible = false;
                 var m = this.introMc.children[0];
                 m.visible = false;
                 this.introMc["Bot01"].mask = m;
             };
-            Intro.prototype.playPart2 = function () {
+            Intro.prototype.playIntroPart2 = function () {
                 this.introMc.gotoAndPlay("part2");
                 this.popup.visible = false;
             };

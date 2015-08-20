@@ -1226,8 +1226,7 @@
     <Content Include="assets\images_1x\workshop\workshop2.png" />
     <Content Include="assets\Intro.js" />
     <Content Include="assets\LogoScreen.js" />
-    <Content Include="assets\MyBots.js" />
-    <Content Include="assets\pr.jpg" />
+    <Content Include="assets\NewBotsLobby.js" />
     <Content Include="assets\resize.bat" />
     <Content Include="assets\RobotsAssets.js" />
     <Content Include="assets\smokePart.png" />
