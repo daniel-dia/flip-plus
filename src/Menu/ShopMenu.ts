@@ -102,9 +102,7 @@
 
         // animate footer item
         private animateItem(productId: string) {
-            switch (productId) {
-                //todo
-            }
+           // TODO
         }
 
         //#endregion 
@@ -176,7 +174,26 @@
         private fullFillPurchase(productId: string): boolean {
 
             switch (productId) {
-                // todo
+                case "50":
+                    FlipPlusGame.coinsData.increaseAmount(50);
+                    break;
+
+                case "200":
+                    FlipPlusGame.coinsData.increaseAmount(200);
+                    break;
+
+                case "500":
+                    FlipPlusGame.coinsData.increaseAmount(500);
+                    break;
+
+                case "1000":
+                    FlipPlusGame.coinsData.increaseAmount(1000);
+                    break;
+
+                case "100":
+                    FlipPlusGame.coinsData.increaseAmount(100);
+                    FlipPlusGame.storyData.setStoryPlayed("halfTime");
+                    break;
             }
 
             return true;

@@ -7,9 +7,6 @@ module FlipPlus.Menu {
 
         constructor(previousScreen: gameui.ScreenState) {
             super( previousScreen);
-
-         
-
         }
 
         // add all products in the list

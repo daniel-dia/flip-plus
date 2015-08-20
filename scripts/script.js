@@ -819,7 +819,10 @@ var FlipPlus;
                 default:
             }
             //restart time
-            this.timersData.setTimer(bonusId, bonusData[bonusId].timeOut);
+            var timeout = bonusData[bonusId].timeOut;
+            if (FlipPlusGame.storyData.getStoryPlayed("halfTime"))
+                timeout = timeout / 2;
+            this.timersData.setTimer(bonusId, timeout);
             this.gameScreen.switchScreen(bonusScreen);
         };
         FlipPlusGame.showLevel = function (level, parameters) {
@@ -6647,8 +6650,7 @@ var FlipPlus;
             };
             // animate footer item
             ShopMenu.prototype.animateItem = function (productId) {
-                switch (productId) {
-                }
+                // TODO
             };
             //#endregion 
             //#region market =====================================================================================
@@ -6704,6 +6706,22 @@ var FlipPlus;
             // show that product is consumed
             ShopMenu.prototype.fullFillPurchase = function (productId) {
                 switch (productId) {
+                    case "50":
+                        FlipPlus.FlipPlusGame.coinsData.increaseAmount(50);
+                        break;
+                    case "200":
+                        FlipPlus.FlipPlusGame.coinsData.increaseAmount(200);
+                        break;
+                    case "500":
+                        FlipPlus.FlipPlusGame.coinsData.increaseAmount(500);
+                        break;
+                    case "1000":
+                        FlipPlus.FlipPlusGame.coinsData.increaseAmount(1000);
+                        break;
+                    case "100":
+                        FlipPlus.FlipPlusGame.coinsData.increaseAmount(100);
+                        FlipPlus.FlipPlusGame.storyData.setStoryPlayed("halfTime");
+                        break;
                 }
                 return true;
             };

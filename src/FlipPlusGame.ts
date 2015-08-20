@@ -134,7 +134,9 @@ module FlipPlus {
 
 
             //restart time
-            this.timersData.setTimer(bonusId, bonusData[bonusId].timeOut);
+            var timeout = bonusData[bonusId].timeOut;
+            if (FlipPlusGame.storyData.getStoryPlayed("halfTime")) timeout = timeout / 2;
+            this.timersData.setTimer(bonusId, timeout);
 
             this.gameScreen.switchScreen(bonusScreen);
         }
