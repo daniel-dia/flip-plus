@@ -72,12 +72,7 @@ module FlipPlus {
             if (!this.storyData.getStoryPlayed("coins")){
                 this.storyData.setStoryPlayed("coins")
                 this.coinsData.setAmount(10);
-            }
-
-            ////for testing only
-            //var ps = this.projectManager.getAllProjects();
-            //for (var p in ps)  ps[p].levels.length = 1;
-            
+            }            
         }
 
         // ----------------------------- Game Methods ---------------------------------------------//
