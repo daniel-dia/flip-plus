@@ -1,4 +1,4 @@
-declare var lib_bots: any;
+declare var libmybots: any;
 
 module FlipPlus.Robots {
 
@@ -21,7 +21,7 @@ module FlipPlus.Robots {
 
         //loads and add lobby graphics to the view
         private initializeGraphics() {
-            this.myBots = new lib_bots.NewBotsLobby();
+            this.myBots = new libmybots.NewBotsLobby();
             this.addChild(this.myBots);
 
             this.popup = new Menu.View.PopupBot();

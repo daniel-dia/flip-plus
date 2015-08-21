@@ -35,10 +35,7 @@ module FlipPlus.Menu.View {
             
                 //mask
                 this.percentMask = new createjs.Shape();
-                this.percentMask.graphics.beginFill("#FFF").drawRect(
-                    -size / 2, 0, size,
-                    -this.fill.getBounds().height)
-                    .endFill();
+                this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, -this.fill.getBounds().height).endFill();
                 this.percentMask.scaleY = 0;
                 this.percentMask.y = 50;
                 this.fill.mask = this.percentMask;
@@ -50,7 +47,10 @@ module FlipPlus.Menu.View {
                 if (!complete)
                     if (this.project.UserData.complete) {
                         this.fill.visible = false;
-                        this.stroke.visible = false; 
+                        this.stroke.visible = false
+                        var bot = new libmybots[this.project.name]();
+                        this.addChild(bot);
+                        bot.y -= 260;
                     }
                     else
                         this.percentMask.scaleY = this.project.UserData.percent;
@@ -77,7 +77,7 @@ module FlipPlus.Menu.View {
                      
                     createjs.Tween.get(this.fill).wait(300).to({ alpha: 0 }, 600).call(() => { this.fill.visible = false })
                     createjs.Tween.get(this.stroke).wait(300).to({ alpha: 0 }, 600).call(() => { this.stroke.visible = false})
- 
+                    
                 }
             });
         }

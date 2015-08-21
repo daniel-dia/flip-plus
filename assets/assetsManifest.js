@@ -14,7 +14,7 @@
 		{ src: "botparts/BJKZarm2.png", id: "BJKZarm2" },
 		{ src: "botparts/BJKZbody.png", id: "BJKZbody" },
 		{ src: "botparts/BJKZpart.png", id: "BJKZpart" },
-		{ src: "botparts/body.png", id: "body1" },
+		{ src: "botparts/body.png", id: "body" },
 		{ src: "botparts/BUMbody.png", id: "BUMbody" },
 		{ src: "botparts/BUMleg1.png", id: "BUMleg1" },
 		{ src: "botparts/BUMleg2.png", id: "BUMleg2" },
