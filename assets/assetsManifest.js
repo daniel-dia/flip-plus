@@ -102,6 +102,8 @@
         { id: "menu/x", src: "menu/x.png" },
 
         //common
+        { id: "loadingbj", src: "loadingbj.png" },
+        { id: "loadingBar", src: "loadingBar.png" },
         { id: "touch", src: "touch.png" },
         { id: "max", src: "max.png" },
         { id: "partshud", src: "partshud.png" },
