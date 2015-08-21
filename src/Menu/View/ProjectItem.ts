@@ -27,9 +27,14 @@ module FlipPlus.Menu.View {
             if (project.UserData.unlocked) {
 
                 //background
-                var bg = "projects/slot" + (project.UserData.stars ? project.UserData.stars : 0);
-                var s = gameui.AssetsManager.getBitmap(bg);
-                this.addChild(s);
+                this.addChild(gameui.AssetsManager.getBitmap("projects/slot"));
+
+                //bars
+                var bar = "projects/bar" + (project.UserData.stars ? project.UserData.stars : 0);
+                this.addChild(gameui.AssetsManager.getBitmap(bar).set({ x: 5, y: 363}));
+                this.addChild(gameui.AssetsManager.getBitmap(bar).set({ x: 229 - 461 -20}));
+
+                
 
                 //robot name text
                 var robotName = new createjs.Text(project.nickName, font, color);

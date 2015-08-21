@@ -12,7 +12,7 @@ goto:eof
 
 :copyAndResize
 echo. Resising "%~1"  "%~2"  at "%~3"
-for /f %%a in ('xcopy "%~1"  "%~2" /L /D /S /Y') do @(
+for /f "tokens=*" %%a in ('xcopy "%~1"  "%~2" /L /D /S /Y') do @(
 	if exist "%%a" (
 		echo. %%a 
 				

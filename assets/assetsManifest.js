@@ -176,11 +176,12 @@
 
         //projects other stuff
         { id: "projects/bgprojects", src: "projects/bgprojects.jpg" },
-        { id: "projects/slot1", src: "projects/slot1.png" },
-        { id: "projects/slot2", src: "projects/slot2.png" },
-        { id: "projects/slot3", src: "projects/slot3.png" },
-        { id: "projects/slot0", src: "projects/slot0.png" },
+        { id: "projects/bar1", src: "projects/bar1.png" },
+        { id: "projects/bar2", src: "projects/bar2.png" },
+        { id: "projects/bar3", src: "projects/bar3.png" },
+        { id: "projects/bar0", src: "projects/bar0.png" },
         { id: "projects/slotl", src: "projects/slotl.png" },
+        { id: "projects/slot", src: "projects/slot.png" },
         { id: "projects/star", src: "projects/star.png" },
         { id: "projects/pageon", src: "projects/pageon.png" },
         { id: "projects/pageoff", src: "projects/pageoff.png" },

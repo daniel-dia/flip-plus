@@ -9,7 +9,7 @@ module FlipPlus.Menu {
 
         private projectsItems: View.ProjectItem[] = [];
         private bonusItems: View.BonusItem[] = [];
-        
+
         private menu: View.ScreenMenu;
         private popup: View.Popup;
 
@@ -33,10 +33,10 @@ module FlipPlus.Menu {
             this.addHeader();
             this.addProjects();
             this.addBonuses();
-           
+
             this.pagesSwipe = new View.PagesSwiper(this.projectsGrid, this.pages, defaultWidth);
             this.createPaginationButtons(this.projectsGrid);
-            
+
             this.createPopup();
         }
 
@@ -63,7 +63,7 @@ module FlipPlus.Menu {
             //create starsIndicator
             this.starsIndicator = new Menu.View.StarsIndicator();
             this.header.addChild(this.starsIndicator);
-            this.starsIndicator.x = defaultWidth ;
+            this.starsIndicator.x = defaultWidth;
             this.starsIndicator.y = 220;
 
             //create bots statistics
@@ -71,7 +71,7 @@ module FlipPlus.Menu {
             this.header.addChild(this.statisticsTextField);
             this.statisticsTextField.y = 220;
             this.statisticsTextField.x = 80;
-            
+
         }
 
         //update statistics 
@@ -93,7 +93,7 @@ module FlipPlus.Menu {
             //create grid
             this.projectsGrid = new createjs.Container();
             this.content.addChild(this.projectsGrid);
-            this.projectsGrid.x = (defaultWidth -xspacing*cols)/2 +xspacing/2;
+            this.projectsGrid.x = (defaultWidth - xspacing * cols) / 2 + xspacing / 2;
             this.projectsGrid.y = 600;
 
             // create Pages
@@ -117,7 +117,7 @@ module FlipPlus.Menu {
                     this.projectsGrid.addChild(currentPage);
                     this.pages.push(currentPage);
                 }
-                
+
                 var projectView = new View.ProjectItem(projects[i]);
                 
                 //add click event to the item
@@ -129,7 +129,7 @@ module FlipPlus.Menu {
                 
                 //set item position
                 projectView.x = xspacing * (i % cols) + 260;
-                projectView.y = yspacing * Math.floor((i % (cols*rows)) / cols);
+                projectView.y = yspacing * Math.floor((i % (cols * rows)) / cols);
 
             }
         }
@@ -149,7 +149,7 @@ module FlipPlus.Menu {
                         else this.showtimeWarning(timer.toString());
                     }
                     else {
-                        this.showStarWarning(FlipPlusGame.projectManager.getStarsCount(),bonusData[bonusId].cost);
+                        this.showStarWarning(FlipPlusGame.projectManager.getStarsCount(), bonusData[bonusId].cost);
                     }
                 });
 
@@ -171,28 +171,28 @@ module FlipPlus.Menu {
             var p = pv.project;
 
             if (p.UserData.unlocked)
-                FlipPlusGame.showProjectLevelsMenu(p, {rebuild:true});
+                FlipPlusGame.showProjectLevelsMenu(p, { rebuild: true });
 
             else {
                 var stars = FlipPlusGame.projectManager.getStarsCount();
-            if (stars < p.cost)
-                this.showStarWarning(stars,p.cost);
+                if (stars < p.cost)
+                    this.showStarWarning(stars, p.cost);
             }
         }
 
         //Show warning for no using stars
-        private showStarWarning(stars:number,cost:number) {
+        private showStarWarning(stars: number, cost: number) {
             this.popup.showtext(stringResources.pr_notStarsTitle, stringResources.pr_notStarsText.split("#")[0] + stars.toString() + stringResources.pr_notStarsText.split("#")[1] + cost.toString() + stringResources.pr_notStarsText.split("#")[2], 10000);
         }
 
         //show there is no time for it
-        private showtimeWarning(time:string) {
-                this.popup.showtext(stringResources.pr_notTimeText.split("#")[0], stringResources.pr_notTimeText.split("#")[1] + time + stringResources.pr_notTimeText.split("#")[2], 10000);
+        private showtimeWarning(time: string) {
+            this.popup.showtext(stringResources.pr_notTimeText.split("#")[0], stringResources.pr_notTimeText.split("#")[1] + time + stringResources.pr_notTimeText.split("#")[2], 10000);
         }
 
         //update all projects preview in the menu page
         private updateProjects() {
-            for (var i = 0; i < this.projectsItems.length; i++) 
+            for (var i = 0; i < this.projectsItems.length; i++)
                 this.projectsItems[i].updateProjectInfo();
         }
 
@@ -206,7 +206,7 @@ module FlipPlus.Menu {
 
         //create paginations buttons
         private createPaginationButtons(pagesContainer: createjs.Container) {
-            
+
             var bg = gameui.AssetsManager.getBitmap("projects/projectFooter")
             bg.y = -246;
             this.footer.addChild(bg);
@@ -227,10 +227,10 @@ module FlipPlus.Menu {
             //create pagination indicator
             var indicatorContainer: createjs.Container = new createjs.Container();
             indicatorContainer.mouseEnabled = false;
-            indicatorContainer.x=500;
-            indicatorContainer.y=-130;
+            indicatorContainer.x = 500;
+            indicatorContainer.y = -130;
             for (var i = 0; i < 3; i++) {
-                
+
                 var off = gameui.AssetsManager.getBitmap("projects/pageoff")
                 off.x = i * 200;
                 indicatorContainer.addChild(off);
@@ -243,7 +243,7 @@ module FlipPlus.Menu {
             }
 
             this.pagesSwipe.onPageChange = (pageId) => {
-                for (var i = 0; i < 3; i++) 
+                for (var i = 0; i < 3; i++)
                     indicatorContainer.getChildByName(i.toString()).visible = false;
                 indicatorContainer.getChildByName(pageId.toString()).visible = true;
             }
@@ -267,7 +267,7 @@ module FlipPlus.Menu {
             this.updateProjects();
             this.updateStatistcs();
             this.updateBonuses();
-           
+
             this.starsIndicator.updateStarsAmount(FlipPlusGame.projectManager.getStarsCount());
         }
 
@@ -275,8 +275,5 @@ module FlipPlus.Menu {
         public back() {
             FlipPlus.FlipPlusGame.showMainMenu();
         }
-
-
     }
-
 }
