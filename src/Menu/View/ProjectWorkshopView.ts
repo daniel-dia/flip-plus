@@ -21,7 +21,7 @@ module FlipPlus.Menu.View {
             this.project = project;
             this.name = project.name;
 			
-			this.onShowPage = () => {
+            this.onShowPage = () => {
 				//add hitArea
 				this.addHitArea();
 				//add levels information

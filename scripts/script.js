@@ -7326,6 +7326,7 @@ var FlipPlus;
                     var oldpage = this.currentPageIndex;
                     this.currentPageIndex = pageId;
                     if (tween) {
+                        this.showPage(pageId);
                         this.pages[pageId].visible = true;
                         createjs.Tween.removeTweens(this.pagesContainer);
                         createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut).call(function () {
