@@ -4753,15 +4753,15 @@ var FlipPlus;
                         this.projectsGrid.addChild(currentPage);
                         this.pages.push(currentPage);
                     }
-                    var pview = new Menu.View.ProjectItem(projects[i]);
+                    var projectView = new Menu.View.ProjectItem(projects[i]);
                     //add click event to the item
-                    pview.addEventListener("click", function (e) { _this.projectItemClick(e); });
+                    projectView.addEventListener("click", function (e) { _this.projectItemClick(e); });
                     //add item to scene
-                    this.projectsItems.push(pview);
-                    currentPage.addChild(pview);
+                    this.projectsItems.push(projectView);
+                    currentPage.addChild(projectView);
                     //set item position
-                    pview.x = xspacing * (i % cols) + 260;
-                    pview.y = yspacing * Math.floor((i % (cols * rows)) / cols);
+                    projectView.x = xspacing * (i % cols) + 260;
+                    projectView.y = yspacing * Math.floor((i % (cols * rows)) / cols);
                 }
             };
             //adds bonuses objects to the view
@@ -5409,14 +5409,14 @@ var FlipPlus;
                         star.x = 240;
                         star.y = 190;
                         //addsText
-                        var tx = new createjs.Text(project.cost.toString(), "Bold 100px " + defaultFont, grayColor);
+                        var tx = new createjs.Text(project.cost.toString(), defaultFontFamilyStrong, grayColor);
                         this.addChild(tx);
                         tx.textAlign = "right";
                         tx.x = 220;
                         tx.y = 175;
                     }
                     //cache object
-                    //this.cache(0, 0, 480, 480);
+                    this.cache(0, 0, 480, 480);
                     //create hitArea
                     this.createHitArea();
                 };
@@ -7687,28 +7687,22 @@ var FlipPlus;
                 }
                 //create graphics
                 RobotPreview.prototype.createGraphics = function (project) {
-                    try {
-                        var size = 1000;
-                        this.fill = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
-                        this.stroke = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
-                        this.complete = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name));
-                        this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
-                        this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
-                        this.complete.regX = this.fill.regX - 50;
-                        this.complete.regY = this.fill.regY - 50;
-                        this.addChild(this.fill);
-                        this.addChild(this.stroke);
-                        this.addChild(this.complete);
-                        this.complete.visible = false;
-                        //mask
-                        this.percentMask = new createjs.Shape();
-                        this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, -this.fill.getBounds().height)
-                            .endFill();
-                        this.percentMask.scaleY = 0;
-                        this.percentMask.y = 50;
-                        this.fill.mask = this.percentMask;
-                    }
-                    catch (e) { }
+                    var size = 1000;
+                    this.fill = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
+                    this.stroke = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
+                    this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
+                    this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
+                    this.fill.regX - 50;
+                    this.fill.regY - 50;
+                    this.addChild(this.fill);
+                    this.addChild(this.stroke);
+                    //mask
+                    this.percentMask = new createjs.Shape();
+                    this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, -this.fill.getBounds().height)
+                        .endFill();
+                    this.percentMask.scaleY = 0;
+                    this.percentMask.y = 50;
+                    this.fill.mask = this.percentMask;
                 };
                 //update percentage
                 RobotPreview.prototype.update = function (complete) {
@@ -7718,7 +7712,6 @@ var FlipPlus;
                             if (this.project.UserData.complete) {
                                 this.fill.visible = false;
                                 this.stroke.visible = false;
-                                this.complete.visible = true;
                             }
                             else
                                 this.percentMask.scaleY = this.project.UserData.percent;
@@ -7741,11 +7734,8 @@ var FlipPlus;
                     createjs.Tween.get(boxShape).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(function () { _this.removeChild(boxShape); });
                     createjs.Tween.get(this.percentMask).wait(600).to({ scaleY: newValue }, 700, createjs.Ease.quadInOut).call(function () {
                         if (_this.project.UserData.complete) {
-                            _this.complete.alpha = 0;
-                            _this.complete.visible = true;
                             createjs.Tween.get(_this.fill).wait(300).to({ alpha: 0 }, 600).call(function () { _this.fill.visible = false; });
                             createjs.Tween.get(_this.stroke).wait(300).to({ alpha: 0 }, 600).call(function () { _this.stroke.visible = false; });
-                            createjs.Tween.get(_this.complete).wait(300).to({ alpha: 1 }, 600);
                         }
                     });
                 };

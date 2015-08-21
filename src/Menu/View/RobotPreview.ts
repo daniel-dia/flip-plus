@@ -6,8 +6,7 @@ module FlipPlus.Menu.View {
         private percentMask: createjs.Shape;
 
         private fill:createjs.DisplayObject;
-        private stroke: createjs.DisplayObject;
-        private complete: createjs.DisplayObject;
+        private stroke: createjs.DisplayObject; 
         
         //Constructor
         constructor(project: FlipPlus.Projects.Project) {
@@ -19,28 +18,21 @@ module FlipPlus.Menu.View {
         }
 
         //create graphics
-        private createGraphics(project: FlipPlus.Projects.Project)
-
-        //aqui se estiver completo ne, carrega as outras coisas
-        {
-            try {
+        private createGraphics(project: FlipPlus.Projects.Project){
+          
                 var size: number = 1000;
                 this.fill = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
                 this.stroke = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
-                this.complete = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name));
-
+                 
                 this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
                 this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
 
-                this.complete.regX = this.fill.regX - 50;
-                this.complete.regY = this.fill.regY - 50;
+                this.fill.regX - 50;
+                this.fill.regY - 50;
 
                 this.addChild(this.fill);
-                this.addChild(this.stroke);
-                this.addChild(this.complete);
-
-                this.complete.visible = false;
-
+                this.addChild(this.stroke); 
+            
                 //mask
                 this.percentMask = new createjs.Shape();
                 this.percentMask.graphics.beginFill("#FFF").drawRect(
@@ -50,8 +42,6 @@ module FlipPlus.Menu.View {
                 this.percentMask.scaleY = 0;
                 this.percentMask.y = 50;
                 this.fill.mask = this.percentMask;
-
-            }catch(e){ }
         }
 
         //update percentage
@@ -60,8 +50,7 @@ module FlipPlus.Menu.View {
                 if (!complete)
                     if (this.project.UserData.complete) {
                         this.fill.visible = false;
-                        this.stroke.visible = false;
-                        this.complete.visible = true;
+                        this.stroke.visible = false; 
                     }
                     else
                         this.percentMask.scaleY = this.project.UserData.percent;
@@ -85,11 +74,10 @@ module FlipPlus.Menu.View {
 
             createjs.Tween.get(this.percentMask).wait(600).to({ scaleY: newValue }, 700, createjs.Ease.quadInOut).call(() => {
                 if (this.project.UserData.complete) {
-                    this.complete.alpha = 0;
-                    this.complete.visible = true;
+                     
                     createjs.Tween.get(this.fill).wait(300).to({ alpha: 0 }, 600).call(() => { this.fill.visible = false })
                     createjs.Tween.get(this.stroke).wait(300).to({ alpha: 0 }, 600).call(() => { this.stroke.visible = false})
-                    createjs.Tween.get(this.complete).wait(300).to({alpha:1}, 600)
+ 
                 }
             });
         }

@@ -74,7 +74,7 @@ module FlipPlus.Menu.View {
                 star.y = 190;
 
                 //addsText
-                var tx = new createjs.Text(project.cost.toString(), "Bold 100px " + defaultFont , grayColor);
+                var tx = new createjs.Text(project.cost.toString(), defaultFontFamilyStrong, grayColor);
                 this.addChild(tx);
                 tx.textAlign = "right";
                 tx.x = 220;
@@ -83,7 +83,7 @@ module FlipPlus.Menu.View {
             }
 
             //cache object
-            //this.cache(0, 0, 480, 480);
+            this.cache(0, 0, 480, 480);
 
             //create hitArea
             this.createHitArea();
@@ -109,9 +109,6 @@ module FlipPlus.Menu.View {
                     .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
                     .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
             }
-            
-
-
         }
     }
 }
