@@ -74,8 +74,8 @@ module FlipPlus {
                 this.coinsData.setAmount(10);
             }            
 
-            var ps = this.projectManager.getAllProjects();
-            for (var p in ps) ps[p].levels.length = 1;
+            //var ps = this.projectManager.getAllProjects();
+            //for (var p in ps) ps[p].levels.length = 1;
         }
 
         // ----------------------------- Game Methods ---------------------------------------------//
