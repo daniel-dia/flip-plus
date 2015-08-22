@@ -39,7 +39,8 @@ module gameui {
                 
                 // Adds callbacks
                 //this.loader.addEventListener("filestart", (evt: any) => { console.log("loading " + evt.item.src) })
-                //this.loader.addEventListener("fileload", (evt: any) => { console.log("loaded " + evt.item.src) })
+                this.loader.addEventListener("error ", (evt: any) => { console.log("error " + evt.item.src) })
+                this.loader.addEventListener("fileerror ", (evt: any) => { console.log("ferror " + evt.item.src) })
                 this.loader.addEventListener("complete", (evt: any) => { if (this.onComplete) this.onComplete(); })
                 this.loader.addEventListener("progress", (evt: any) => { if (this.onProgress) this.onProgress(evt.progress) })
                 this.loader.addEventListener("fileload", (evt: any): boolean => {

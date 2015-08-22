@@ -37,18 +37,21 @@ module FlipPlus.Menu {
 
 
             //Verifies if it is the first time playing
-            if (!FlipPlusGame.storyData.getStoryPlayed("intro")) {
+            if (!FlipPlusGame.storyData.getStoryPlayed("intro")) { 
                 this.myBots.playIntroPartA();
+                console.log("i1")
             
             }
             else if (!FlipPlusGame.storyData.getStoryPlayed("intro2")) {
                 FlipPlusGame.storyData.setStoryPlayed("intro2")
                 this.myBots.playIntroPartB();
+                console.log("i2")
             }
             else {
 
                 //updates robots lobby
                 this.myBots.update();
+                console.log("ub")
             }
         }
 

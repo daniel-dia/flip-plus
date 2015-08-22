@@ -15,7 +15,7 @@ module FlipPlus.Menu {
             super();
  
 
-            assetscale = 0.5;
+            assetscale = 1;
             if (window.innerWidth <= 1070) assetscale = 0.5;
             if (window.innerWidth <= 384) assetscale = 0.25; 
             if (levelCreatorMode) { assetscale = 1 }
@@ -77,8 +77,8 @@ module FlipPlus.Menu {
             var h = 104;
 
             text.regX = text.getBounds().width / 2;
-            bar.regX = bg.regX = w / 2;
-            bar.regY = bg.regY = h/ 2;
+            bar.regX = Math.floor(bg.regX = w / 2 )
+            bar.regY = Math.floor(bg.regY = h/ 2  )
 
             text.y = -200;
 
