@@ -39,7 +39,8 @@ module FlipPlus {
 
         public static initializeGame() {
 
-        
+            Cocoon.Utils.setNPOTEnabled(true);
+
             this.gameScreen = new gameui.GameScreen("myCanvas", defaultWidth, defaultHeight,60,true);
 
             //userData

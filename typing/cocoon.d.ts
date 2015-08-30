@@ -289,8 +289,8 @@
         function forward(code: string);
         function forwardAsync(code: string, callback: () => void)
         function hideTheWebView()
-        function load(path: string, storageType: STORAGETYPE)
-        function loadInTheWebView(path: string, callback: any, storageType: STORAGETYPE)
+        function load(path: string, storageType: StorageType)
+        function loadInTheWebView(path: string, callback: any, storageType: StorageType)
         function openURL(url: string)
         function pause()
         function reload()
@@ -298,8 +298,8 @@
         function resume()
         function showTheWebView(x: number, y: number, width: number, height: number)
         function on(event: string, callback: () => void);
-        var StorageType: STORAGETYPE;
-        enum STORAGETYPE {
+         
+        export enum StorageType {
             PORTRAIT,
             INTERNAL_STORAGE,
             EXTERNAL_STORAGE,
@@ -329,4 +329,23 @@
         }
     }
 
+    export module Utils {
+
+
+        export function captureScreen(fileName: string, storageType: Cocoon.App.StorageType, captureType: CaptureType);
+        export function captureScreenAsync(fileName: string, storageType: Cocoon.App.StorageType, captureType: CaptureType, callback);
+        export function existsPath(path: string, storageType: Cocoon.App.StorageType);
+        export function logMemoryInfo();
+        export function setAntialias(enabled: boolean);
+        export function setMaxMemory(memoryInMBs: number);
+        export function setNPOTEnabled(enabled: boolean);
+        export function setTextCacheSize(size: number);
+        export function setTextureReduction(sizeThreshold: number, applyTo: string | Array<string>, forbidFor: string | Array<string>);
+
+        enum CaptureType {
+            EVERYTHING ,//Captures everything, both the CocoonJS GL hardware accelerated surface and the system views (like the WebView).
+            COCOONJS_GL_SURFACE , //Captures just the CocoonJS GL hardware accelerated surface.
+            JUST_SYSTEM_VIEWS // Captures just the sustem views (like the webview)
+        }
+    }
 }
