@@ -70,8 +70,10 @@ module FlipPlus.Menu.View {
 
 
             //updates title and text values
-            titleShadow.text  = titleDO.text = title.toUpperCase();
-            textDO.text = text;
+            if (text) {
+                titleShadow.text = titleDO.text = title.toUpperCase();
+                textDO.text = text;
+            }
 
             var b = defaultHeight / 2 - 500;
 

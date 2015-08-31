@@ -31,7 +31,11 @@ module FlipPlus.GamePlay {
 
             //create for text step
             if (step.text) {
-                this.popup.showtext(step.title,step.text);
+
+                var text = StringResources[step.text];
+                var title = StringResources[step.title];
+
+                this.popup.showtext(title, text);
                 var listener = this.popup.addEventListener("onclose", () => {
                     this.playNextTurorialStep();
                     this.popup.removeEventListener("onclose", listener);

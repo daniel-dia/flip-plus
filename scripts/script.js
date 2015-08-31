@@ -2225,7 +2225,9 @@ var FlipPlus;
                 var _this = this;
                 //create for text step
                 if (step.text) {
-                    this.popup.showtext(step.title, step.text);
+                    var text = StringResources[step.text];
+                    var title = StringResources[step.title];
+                    this.popup.showtext(title, text);
                     var listener = this.popup.addEventListener("onclose", function () {
                         _this.playNextTurorialStep();
                         _this.popup.removeEventListener("onclose", listener);
@@ -5901,8 +5903,10 @@ var FlipPlus;
                     textDO.x = defaultWidth / 2;
                     this.addChild(textDO);
                     //updates title and text values
-                    titleShadow.text = titleDO.text = title.toUpperCase();
-                    textDO.text = text;
+                    if (text) {
+                        titleShadow.text = titleDO.text = title.toUpperCase();
+                        textDO.text = text;
+                    }
                     var b = defaultHeight / 2 - 500;
                     titleDO.y = 0 + b + 50;
                     titleShadow.y = titleDO.y + 15;
@@ -8118,24 +8122,24 @@ var stringResources_pt = {
     it_text2: "sozinho = ruim \n amigos= bom",
     tut_1_1_title: "Forma de cruz",
     tut_1_1_text: "Vire todos os blocos brancos \n para blocos verdes",
-    tut_1_2_text: "Os blocos sempre são invertidos em \"forma de cruz\" quando ativados",
+    tut_1_2_text: "Os blocos sempre são invertidos \nem \"forma de cruz\" quando ativados",
     tut_1_2_title: "Ótimo!",
     tut_2_1_title: "Vire para construir",
-    tut_2_1_text: "Para concluir o quadro vire todos os blocos brancos para coloridos.",
+    tut_2_1_text: "Para concluir o quadro vire todos \nos blocos brancos para coloridos.",
     tut_2_2_title: "Nível completo!",
     tut_2_2_text: "Ótimo, sem blocos brancos no quadro",
     tut_2_3_title: "Estrela",
     tut_2_3_text: "Você resolveu todos os quadros verdes.",
     tut_3_1_title: "toque para inverter",
-    tut_3_1_text: "A forma de cruz sempre inverte a cor do quadradinho \n entre branco e colorido",
+    tut_3_1_text: "A forma de cruz sempre \ninverte a cor do quadradinho \n entre branco e colorido",
     tut_3_2_title: "Parabéns",
     tut_3_2_text: "Os blocos roxos fucionam da \nmesma forma que os verdes",
     tut_4_1_title: "Dicas",
-    tut_4_1_text: "As lâmpadas são uma dica de qual quadradinho tocar",
+    tut_4_1_text: "As lâmpadas são uma dica \nde qual quadradinho tocar",
     tut_4_2_title: "Facil?",
-    tut_4_2_text: "As lãmpadas te ajudam, mas elas são limitadas\n você consegue mais lampadas e \n outros items jogando \BONUS",
+    tut_4_2_text: "As lâmpadas precisam de peças.\nConsiga peças jogando BONUS",
     tut_5_1_title: "Bot S-N3S",
-    tut_5_1_text: "Termine essa tela para \nfinalizar os repados no S-N3S!",
+    tut_5_1_text: "Termine essa tela para \nfinalizar os reparos no S-N3S!",
     mm_play: "JOGAR",
     op_back: "Voltar",
     op_erase: "apagar todos os dados",
