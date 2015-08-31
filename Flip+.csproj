@@ -28,6 +28,7 @@
     <TypeScriptCompile Include="gameui\ScreenState.ts" />
     <TypeScriptCompile Include="gameui\Transition.ts" />
     <TypeScriptCompile Include="gameui\UIItem.ts" />
+    <TypeScriptCompile Include="src\GameServices.ts" />
     <TypeScriptCompile Include="src\Menu\SpecialOfferMenu.ts" />
     <TypeScriptCompile Include="src\Menu\ShopMenu.ts" />
     <TypeScriptCompile Include="src\Menu\GenericMenu.ts" />
@@ -52,7 +53,7 @@
     <TypeScriptCompile Include="src\Menu\View\LevelThumb.ts" />
     <TypeScriptCompile Include="src\Menu\View\StarsIndicator.ts" />
     <TypeScriptCompile Include="src\Menu\View\TextEffect.ts" />
-    <TypeScriptCompile Include="src\Preferences.ts" />
+    <TypeScriptCompile Include="src\Constants.ts" />
     <Content Include="assets\assetsManifest.js" />
     <Content Include="assets\bg.jpg" />
     <Content Include="assets\Bonus1.js" />

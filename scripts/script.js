@@ -1,18 +1,3 @@
-var defaultWidth = 1536;
-var defaultHeight = 2048 - 8;
-var defaultFont = "'Exo 2.0'";
-var defaultFontFamilySmall = " 50px  " + defaultFont;
-var defaultFontFamilyNormal = " 80px  " + defaultFont;
-var defaultFontFamilyStrong = " Bold 80px " + defaultFont;
-var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
-var defaultNumberHighlight = " 220px " + defaultFont;
-var defaultFontColor = "#FF6";
-var highlightFontColor = "#f2cb46";
-var alternativeFontColor = "#3d8c9a";
-var shadowFontColor = "#1b4f5e";
-var grayColor = "#565656";
-var blueColor = "#343171";
-var storagePrefix = "flipp_";
 var images;
 var gameui;
 (function (gameui) {
@@ -749,12 +734,14 @@ var FlipPlus;
             var _this = this;
             Cocoon.Utils.setNPOTEnabled(true);
             this.gameScreen = new gameui.GameScreen("myCanvas", defaultWidth, defaultHeight, 60, true);
-            //userData
+            // userData
             this.projectData = new FlipPlus.UserData.ProjectsData();
             this.settings = new FlipPlus.UserData.Settings();
             this.coinsData = new FlipPlus.UserData.Coins();
             this.storyData = new FlipPlus.UserData.Story();
             this.timersData = new FlipPlus.UserData.Timers();
+            // game service
+            this.gameServices = new FlipPlus.GameServices();
             // analytics
             this.analytics = new Analytics();
             this.analytics.logGameStart();
@@ -1363,7 +1350,11 @@ var FlipPlus;
                 if (!this.levelData.userdata.solved)
                     complete1stTime = true;
                 //set model to complete level.
+                var projectCompleted = FlipPlus.FlipPlusGame.projectManager.getCurrentProject().UserData.complete;
                 FlipPlus.FlipPlusGame.projectManager.completeLevel(this.levelData);
+                // send achievement if project was completed
+                if (!projectCompleted && FlipPlus.FlipPlusGame.projectManager.getCurrentProject().UserData.complete)
+                    FlipPlus.FlipPlusGame.gameServices.submitAchievent("ACH_" + FlipPlus.FlipPlusGame.projectManager.getCurrentProject().name);
                 //change screen and animate.
                 if (messageText)
                     this.message.showtext(stringResources.gp_finishPuzzle, 1000, 800);
@@ -6209,7 +6200,6 @@ var FlipPlus;
         Robots.MyBots = MyBots;
     })(Robots = FlipPlus.Robots || (FlipPlus.Robots = {}));
 })(FlipPlus || (FlipPlus = {}));
-/// <reference path="src/preferences.ts" />
 /// <reference path="typing/createjs/createjs.d.ts" />
 /// <reference path="gameui/AssetsManager.ts" />
 /// <reference path="gameui/GameScreen.ts" />
@@ -6564,6 +6554,184 @@ var FlipPlus;
         })(Bonus.BonusScreen);
         Bonus.Bonus2OLD = Bonus2OLD;
     })(Bonus = FlipPlus.Bonus || (FlipPlus.Bonus = {}));
+})(FlipPlus || (FlipPlus = {}));
+var defaultWidth = 1536;
+var defaultHeight = 2048 - 8;
+var defaultFont = "'Exo 2.0'";
+var defaultFontFamilySmall = " 50px  " + defaultFont;
+var defaultFontFamilyNormal = " 80px  " + defaultFont;
+var defaultFontFamilyStrong = " Bold 80px " + defaultFont;
+var defaultFontFamilyHighlight = " Bold 130px " + defaultFont;
+var defaultNumberHighlight = " 220px " + defaultFont;
+var defaultFontColor = "#FF6";
+var highlightFontColor = "#f2cb46";
+var alternativeFontColor = "#3d8c9a";
+var shadowFontColor = "#1b4f5e";
+var grayColor = "#565656";
+var blueColor = "#343171";
+var storagePrefix = "flipp_";
+var contantsAndroid = {
+    ACH_JELLY_1: 'CgkI49ztp64KEAIQBA',
+    ACH_JELLY_2: 'CgkI49ztp64KEAIQBQ',
+    ACH_JELLY_3: 'CgkI49ztp64KEAIQBg',
+    ACH_JELLY_4: 'CgkI49ztp64KEAIQBA',
+    ACH_JELLY_5: 'CgkI49ztp64KEAIQBQ',
+    ACH_JELLY_6: 'CgkI49ztp64KEAIQBg',
+    ACH_JELLY_7: 'CgkI49ztp64KEAIQBw',
+    ACH_JELLY_8: 'CgkI49ztp64KEAIQCA',
+    ACH_JELLY_9: 'CgkI49ztp64KEAIQCQ',
+    ACH_JELLY_10: 'CgkI49ztp64KEAIQCg',
+    ACH_JELLY_11: 'CgkI49ztp64KEAIQCw',
+    ACH_JELLY_12: 'CgkI49ztp64KEAIQDA',
+    ACH_JELLY_13: 'CgkI49ztp64KEAIQDQ',
+    ACH_JELLY_14: 'CgkI49ztp64KEAIQDg',
+    ACH_JELLY_15: 'CgkI49ztp64KEAIQDw',
+    ACH_JELLY_16: 'CgkI49ztp64KEAIQEA',
+    ACH_JELLY_17: 'CgkI49ztp64KEAIQEQ',
+    CLIENT_ID: '356029001315-1uh0g6avko4g7aqfsj2kpt3srs6ssiqd.apps.googleusercontent.com',
+    LEAD_LEADERBOARD: 'CgkI49ztp64KEAIQAg'
+};
+var constantsiOS = {
+    ACH_JELLY_1: 'jelly01',
+    ACH_JELLY_2: 'jelly02',
+    ACH_JELLY_3: 'jelly03',
+    ACH_JELLY_4: 'jelly04',
+    ACH_JELLY_5: 'jelly05',
+    ACH_JELLY_6: 'jelly06',
+    ACH_JELLY_7: 'jelly07',
+    ACH_JELLY_8: 'jelly08',
+    ACH_JELLY_9: 'jelly09',
+    ACH_JELLY_10: 'jelly10',
+    ACH_JELLY_11: 'jelly11',
+    ACH_JELLY_12: 'jelly12',
+    ACH_JELLY_13: 'jelly13',
+    ACH_JELLY_14: 'jelly14',
+    ACH_JELLY_15: 'jelly15',
+    ACH_JELLY_16: 'jelly16',
+    ACH_JELLY_17: 'jelly17',
+    LEAD_LEADERBOARD: 'leaderboards'
+};
+var FlipPlus;
+(function (FlipPlus) {
+    var GameServices = (function () {
+        function GameServices() {
+            var _this = this;
+            if (!navigator.onLine)
+                return;
+            // get device os info
+            var os = "web";
+            if (Cocoon.Device.getDeviceInfo())
+                os = Cocoon.Device.getDeviceInfo().os;
+            if (os == "windows" || os == "web")
+                return;
+            if (os == "ios") {
+                //initializes game services
+                this.socialService = Cocoon.Social.GameCenter.getSocialInterface();
+                // set achievement Map
+                this.socialService.setAchievementsMap(constantsiOS);
+            }
+            else if (os == "android") {
+                //initializes game services
+                var gp = Cocoon.Social.GooglePlayGames;
+                //if (!this.socialService.isLoggedIn()) {
+                gp.init({
+                    defaultLeaderboard: contantsAndroid.LEAD_LEADERBOARD
+                });
+                this.socialService = gp.getSocialInterface();
+                // set achievement Map
+                this.socialService.setAchievementsMap(contantsAndroid);
+            }
+            else if (os == "web") {
+                //initializes game services
+                var gp = Cocoon.Social.GooglePlayGames;
+                gp.init({
+                    clientId: contantsAndroid.CLIENT_ID,
+                    defaultLeaderboard: contantsAndroid.LEAD_LEADERBOARD
+                });
+                this.socialService = gp.getSocialInterface();
+                // set achievement Map
+                this.socialService.setAchievementsMap(contantsAndroid);
+                this.socialService.setTemplates("scripts/templates/leaderboards.html", "scripts/templates/achievements.html");
+            }
+            // login into game Services
+            setTimeout(function () {
+                if (_this.socialService && !_this.socialService.isLoggedIn()) {
+                    _this.socialService.login(function (loggedIn, error) {
+                        if (error)
+                            console.error("login error: " + error.message + " " + error.code);
+                        else if (!loggedIn)
+                            console.log("login cancelled");
+                    });
+                }
+            }, 10000);
+        }
+        // show native leaderboards
+        GameServices.prototype.showLeaderboard = function () {
+            if (!navigator.onLine)
+                return;
+            if (!this.socialService)
+                return;
+            try {
+                this.socialService.showLeaderboard();
+            }
+            catch (e) { }
+        };
+        // show a achievement.
+        GameServices.prototype.showAchievements = function () {
+            if (!navigator.onLine)
+                return;
+            if (!this.socialService)
+                return;
+            try {
+                this.socialService.showAchievements();
+            }
+            catch (e) { }
+        };
+        // submit a score
+        GameServices.prototype.submitScore = function (score) {
+            if (!this.socialService) {
+                console.error("No social Service");
+                return;
+            }
+            if (!navigator.onLine) {
+                console.error("No social connection");
+                return;
+            }
+            try {
+                var sc;
+                sc = score;
+                if (Cocoon.Device.getDeviceInfo().os == "android")
+                    sc = score.toString();
+                this.socialService.submitScore(sc, function (error) {
+                    if (error)
+                        console.error("score error: " + error.message);
+                    else
+                        console.log("submited score: " + score);
+                });
+            }
+            catch (e) {
+                console.error("error: " + JSON.stringify(e));
+            }
+        };
+        // submit an achievement
+        GameServices.prototype.submitAchievent = function (achievementId) {
+            if (!navigator.onLine)
+                return;
+            if (!this.socialService)
+                return;
+            try {
+                this.socialService.submitAchievement(achievementId, function (error) {
+                    if (error)
+                        console.error("submitAchievement error: " + error.message);
+                    else
+                        console.log("submited Achievement: " + achievementId);
+                });
+            }
+            catch (e) { }
+        };
+        return GameServices;
+    })();
+    FlipPlus.GameServices = GameServices;
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {

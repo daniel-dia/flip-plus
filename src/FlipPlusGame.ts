@@ -18,6 +18,7 @@ module FlipPlus {
         public static timersData: UserData.Timers;
         public static coinsData: UserData.Coins;
         public static storyData: UserData.Story;
+        public static gameServices: GameServices;
 
         //analytics
         public static analytics: Analytics;
@@ -43,12 +44,15 @@ module FlipPlus {
 
             this.gameScreen = new gameui.GameScreen("myCanvas", defaultWidth, defaultHeight,60,true);
 
-            //userData
+            // userData
             this.projectData = new UserData.ProjectsData();
             this.settings = new UserData.Settings();
             this.coinsData = new UserData.Coins();
             this.storyData = new UserData.Story();
             this.timersData = new UserData.Timers();
+
+            // game service
+            this.gameServices = new GameServices();
 
             // analytics
             this.analytics = new Analytics();
@@ -213,10 +217,10 @@ module FlipPlus {
         public static showShopMenu(previousScreen: gameui.ScreenState) {
             this.gameScreen.switchScreen(new Menu.ShopMenu(previousScreen));
         }
+
         public static showSpecialOffer(previousScreen: gameui.ScreenState) {
             this.gameScreen.switchScreen(new Menu.SpecialOfferMenu(previousScreen));
         }
-
 
         public static replayLevel() {
             var currentLevel = this.projectManager.getCurrentLevel();

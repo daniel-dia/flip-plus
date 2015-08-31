@@ -1,4 +1,4 @@
-module FlipPlus.Menu.View {
+﻿module FlipPlus.Menu.View {
 
     export class RobotPreview extends createjs.Container {
 
@@ -61,7 +61,7 @@ module FlipPlus.Menu.View {
         //update percentage
         public update(animate: boolean= false) {
             try {
-                //j� acabou de terminar um level
+                //já acabou de terminar um level
                 if (animate) this.animateBotFillTo();
 
                 if (!animate)

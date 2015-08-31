@@ -242,7 +242,12 @@ module FlipPlus.GamePlay {
             if (!this.levelData.userdata.solved) complete1stTime = true;
 
             //set model to complete level.
+            var projectCompleted = FlipPlusGame.projectManager.getCurrentProject().UserData.complete;
             FlipPlusGame.projectManager.completeLevel(this.levelData);
+            
+            // send achievement if project was completed
+            if (!projectCompleted && FlipPlusGame.projectManager.getCurrentProject().UserData.complete)
+                FlipPlusGame.gameServices.submitAchievent("ACH_" + FlipPlusGame.projectManager.getCurrentProject().name);
 
             //change screen and animate.
             if (messageText)
