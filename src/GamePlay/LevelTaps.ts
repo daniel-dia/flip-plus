@@ -48,7 +48,7 @@
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             
             //set default puzzles to solve
-            this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3); 
+            this.popup.showTimeAttack(StringResources.gp_mv_Popup1Title, StringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), StringResources.gp_mv_Popup1Text2, StringResources.gp_mv_Popup1Text3); 
 
             
             this.statusArea.setMode("moves");
@@ -75,7 +75,7 @@
                         if (!this.levelLogic.verifyWin()) {
                             //loses game, if moves is over
                             if (this.moves <= 0) {
-                                this.message.showtext(stringResources.gp_mv_noMoreMoves);
+                                this.message.showtext(StringResources.gp_mv_noMoreMoves);
                                 
                                 // play sound
                                 gameui.AudiosManager.playSound("Power Down");

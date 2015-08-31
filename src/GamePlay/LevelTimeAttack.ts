@@ -51,8 +51,8 @@ module FlipPlus.GamePlay {
                         },
                         () => {
                             gameui.AudiosManager.playSound("Power Down");
-                            this.statusArea.setText3(stringResources.gp_pz_statusEnd);
-                            this.message.showtext(stringResources.gp_pz_timeUP);
+                            this.statusArea.setText3(StringResources.gp_pz_statusEnd);
+                            this.message.showtext(StringResources.gp_pz_timeUP);
                             this.loose();
                         });
 
@@ -139,7 +139,7 @@ module FlipPlus.GamePlay {
 
             this.boardSprite.visible = false;
             //shows popup
-            this.popup.showTimeAttack(stringResources.b1_popup1Ttitle,stringResources.gp_pz_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.time.toString(),stringResources.gp_pz_Popup1Text2,stringResources.gp_pz_Popup1Text3); 
+            this.popup.showTimeAttack(StringResources.b1_popup1Ttitle,StringResources.gp_pz_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.time.toString(),StringResources.gp_pz_Popup1Text2,StringResources.gp_pz_Popup1Text3); 
             this.popup.addEventListener("onclose", () => {
 
                 this.boardSprite.visible = true;

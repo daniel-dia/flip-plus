@@ -1357,7 +1357,7 @@ var FlipPlus;
                     FlipPlus.FlipPlusGame.gameServices.submitAchievent("ACH_" + FlipPlus.FlipPlusGame.projectManager.getCurrentProject().name);
                 //change screen and animate.
                 if (messageText)
-                    this.message.showtext(stringResources.gp_finishPuzzle, 1000, 800);
+                    this.message.showtext(StringResources.gp_finishPuzzle, 1000, 800);
                 //hide all menus
                 this.gameplayMenu.fadeOut();
                 this.boardSprite.lock();
@@ -1437,7 +1437,7 @@ var FlipPlus;
                         // animate coins
                         this.coinsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item) - 768, 1900, value);
                         //show text effect
-                        this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
+                        this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
                         //updates Items buttons labels Quantity on footer
                         this.coinsIndicator.updateCoinsAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
                     }
@@ -1460,8 +1460,8 @@ var FlipPlus;
                 }
                 else {
                     //show text effect
-                    this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
-                    this.popup.showtext(stringResources.gp_noMoreSkip, stringResources.gp_noMoreHints);
+                    this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
+                    this.popup.showtext(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints);
                     return false;
                 }
             };
@@ -1996,7 +1996,7 @@ var FlipPlus;
                 this.puzzlesToSolve = levelData.puzzlesToSolve;
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
                 //set default puzzles to solve
-                this.popup.showTimeAttack(stringResources.gp_mv_Popup1Title, stringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), stringResources.gp_mv_Popup1Text2, stringResources.gp_mv_Popup1Text3);
+                this.popup.showTimeAttack(StringResources.gp_mv_Popup1Title, StringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), StringResources.gp_mv_Popup1Text2, StringResources.gp_mv_Popup1Text3);
                 this.statusArea.setMode("moves");
                 this.statusArea.setText3(this.moves.toString());
             }
@@ -2013,7 +2013,7 @@ var FlipPlus;
                             if (!_this.levelLogic.verifyWin()) {
                                 //loses game, if moves is over
                                 if (_this.moves <= 0) {
-                                    _this.message.showtext(stringResources.gp_mv_noMoreMoves);
+                                    _this.message.showtext(StringResources.gp_mv_noMoreMoves);
                                     // play sound
                                     gameui.AudiosManager.playSound("Power Down");
                                     _this.loose();
@@ -2114,8 +2114,8 @@ var FlipPlus;
                             _this.timer.start();
                         }, function () {
                             gameui.AudiosManager.playSound("Power Down");
-                            _this.statusArea.setText3(stringResources.gp_pz_statusEnd);
-                            _this.message.showtext(stringResources.gp_pz_timeUP);
+                            _this.statusArea.setText3(StringResources.gp_pz_statusEnd);
+                            _this.message.showtext(StringResources.gp_pz_timeUP);
                             _this.loose();
                         });
                     }
@@ -2184,7 +2184,7 @@ var FlipPlus;
                 _super.prototype.activate.call(this);
                 this.boardSprite.visible = false;
                 //shows popup
-                this.popup.showTimeAttack(stringResources.b1_popup1Ttitle, stringResources.gp_pz_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.time.toString(), stringResources.gp_pz_Popup1Text2, stringResources.gp_pz_Popup1Text3);
+                this.popup.showTimeAttack(StringResources.b1_popup1Ttitle, StringResources.gp_pz_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.time.toString(), StringResources.gp_pz_Popup1Text2, StringResources.gp_pz_Popup1Text3);
                 this.popup.addEventListener("onclose", function () {
                     _this.boardSprite.visible = true;
                     //shows puzzle
@@ -3517,7 +3517,7 @@ var FlipPlus;
                 this.background.addChild(background);
                 //adds header
                 this.header.addChild(gameui.AssetsManager.getBitmap(bonusId + "/header"));
-                var titleText = new createjs.Text(stringResources[bonusId + "_title"], defaultFontFamilyNormal, "white");
+                var titleText = new createjs.Text(StringResources[bonusId + "_title"], defaultFontFamilyNormal, "white");
                 titleText.textAlign = "center";
                 titleText.text = titleText.text.toUpperCase();
                 titleText.x = defaultWidth / 2;
@@ -3682,7 +3682,7 @@ var FlipPlus;
             BonusBarrel.prototype.activate = function (parameters) {
                 _super.prototype.activate.call(this, parameters);
                 this.setNewGame();
-                this.popup.showtext(stringResources.b1_popup1Ttitle, stringResources.b1_popup1Text);
+                this.popup.showtext(StringResources.b1_popup1Ttitle, StringResources.b1_popup1Text);
             };
             //adds barrels to the scene
             BonusBarrel.prototype.addBarrels = function (barrelsCount, cols) {
@@ -3942,7 +3942,7 @@ var FlipPlus;
                     if (this.lives == 0) {
                         //if there is no more lives, than end game
                         this.content.mouseEnabled = false;
-                        this.message.showtext(stringResources.b2_noMoreChances, 2000, 500);
+                        this.message.showtext(StringResources.b2_noMoreChances, 2000, 500);
                         this.message.addEventListener("onclose", function () { _this.endBonus(); });
                         // play sound
                         gameui.AudiosManager.playSound("Wrong Answer");
@@ -3955,7 +3955,7 @@ var FlipPlus;
                 if (this.matchesFound >= this.pairs) {
                     //ends the game
                     this.content.mouseEnabled = false;
-                    this.message.showtext(stringResources.b2_finish, 2000, 500);
+                    this.message.showtext(StringResources.b2_finish, 2000, 500);
                     this.message.addEventListener("onclose", function () { _this.endBonus(); });
                 }
             };
@@ -4101,7 +4101,7 @@ var FlipPlus;
                 this.mainClip.addEventListener("WrongEnd", function () { _this.mainClip.stop(); });
                 this.mainClip.addEventListener("End", function () {
                     _this.mainClip.stop();
-                    _this.message.showtext(stringResources.b3_finish, 2000, 1000);
+                    _this.message.showtext(StringResources.b3_finish, 2000, 1000);
                     _this.message.addEventListener("onclose", function () { _this.endBonus(); });
                 });
                 //add keys 
@@ -4170,7 +4170,7 @@ var FlipPlus;
                 //verify if user looses
                 if (this.chances < 0) {
                     this.content.mouseEnabled = false;
-                    this.message.showtext(stringResources.b3_noMoreChances, 2000, 1100);
+                    this.message.showtext(StringResources.b3_noMoreChances, 2000, 1100);
                     this.message.addEventListener("onclose", function () { _this.endBonus(); });
                     // play sound
                     gameui.AudiosManager.playSound("Wrong Answer");
@@ -4492,7 +4492,7 @@ var FlipPlus;
             __extends(LoadingBar, _super);
             function LoadingBar(imagePath) {
                 _super.call(this);
-                var text = new createjs.Text(stringResources.menus.loading.toUpperCase(), defaultFontFamilyNormal, "white");
+                var text = new createjs.Text(StringResources.menus.loading.toUpperCase(), defaultFontFamilyNormal, "white");
                 var bg = gameui.AssetsManager.getBitmap(imagePath + "loadingbj.png");
                 var bar = gameui.AssetsManager.getBitmap(imagePath + "loadingBar.png");
                 this.addChild(bg);
@@ -4581,7 +4581,7 @@ var FlipPlus;
                 this.content.addChild(this.terminal);
             };
             MainMenu.prototype.addPlayButton = function () {
-                var playBt = new gameui.TextButton(stringResources["mm_play"], defaultFontFamilyHighlight, highlightFontColor, "", function () {
+                var playBt = new gameui.TextButton(StringResources["mm_play"], defaultFontFamilyHighlight, highlightFontColor, "", function () {
                     FlipPlus.FlipPlusGame.showProjectsMenu();
                 });
                 this.content.addChild(playBt);
@@ -4615,7 +4615,7 @@ var FlipPlus;
             function OptionsMenu() {
                 this.originY = 1;
                 this.originX = defaultWidth;
-                _super.call(this, stringResources.menus.menu, FlipPlus.FlipPlusGame.mainScreen);
+                _super.call(this, StringResources.menus.menu, FlipPlus.FlipPlusGame.mainScreen);
                 this.buildObjects();
                 this.updateVolumeButtons();
             }
@@ -4643,7 +4643,7 @@ var FlipPlus;
                 }).set({ x: 0, y: p0 + p * s }));
                 p++;
                 //add Other Buttons
-                this.content.addChild(new gameui.TextButton(stringResources.op_erase, defaultFontFamilySmall, blueColor, "", function () {
+                this.content.addChild(new gameui.TextButton(StringResources.op_erase, defaultFontFamilySmall, blueColor, "", function () {
                     FlipPlus.FlipPlusGame.projectData.clearAllData();
                     window.location.reload();
                 }).set({ y: p0 + p * s }));
@@ -4801,11 +4801,11 @@ var FlipPlus;
             };
             //Show warning for no using stars
             ProjectsMenu.prototype.showStarWarning = function (stars, cost) {
-                this.popup.showtext(stringResources.pr_notStarsTitle, stringResources.pr_notStarsText.split("#")[0] + stars.toString() + stringResources.pr_notStarsText.split("#")[1] + cost.toString() + stringResources.pr_notStarsText.split("#")[2], 10000);
+                this.popup.showtext(StringResources.pr_notStarsTitle, StringResources.pr_notStarsText.split("#")[0] + stars.toString() + StringResources.pr_notStarsText.split("#")[1] + cost.toString() + StringResources.pr_notStarsText.split("#")[2], 10000);
             };
             //show there is no time for it
             ProjectsMenu.prototype.showtimeWarning = function (time) {
-                this.popup.showtext(stringResources.pr_notTimeText.split("#")[0], stringResources.pr_notTimeText.split("#")[1] + time + stringResources.pr_notTimeText.split("#")[2], 10000);
+                this.popup.showtext(StringResources.pr_notTimeText.split("#")[0], StringResources.pr_notTimeText.split("#")[1] + time + StringResources.pr_notTimeText.split("#")[2], 10000);
             };
             //update all projects preview in the menu page
             ProjectsMenu.prototype.updateProjects = function () {
@@ -6185,12 +6185,12 @@ var FlipPlus;
             MyBots.prototype.playIntroPartA = function () {
                 this.hideAllRobots();
                 this.showRobot("Bot01a");
-                this.popup.showBotText(stringResources.it_text1, 6000, 1000);
+                this.popup.showBotText(StringResources.it_text1, 6000, 1000);
             };
             MyBots.prototype.playIntroPartB = function () {
                 this.hideAllRobots();
                 this.showRobot("Bot01b");
-                this.popup.showBotText(stringResources.it_text2, 6000, 1000);
+                this.popup.showBotText(StringResources.it_text2, 6000, 1000);
             };
             MyBots.prototype.clear = function () {
                 this.hideAllRobots();
@@ -6443,7 +6443,7 @@ var FlipPlus;
                     if (this.lives == 0) {
                         //if there is no more lives, than end game
                         this.content.mouseEnabled = false;
-                        this.message.showtext(stringResources.b2_noMoreChances, 2000, 500);
+                        this.message.showtext(StringResources.b2_noMoreChances, 2000, 500);
                         this.message.addEventListener("onclose", function () { _this.endBonus(); });
                     }
                     return;
@@ -6456,7 +6456,7 @@ var FlipPlus;
                     //verifies if matches all cards
                     if (this.pairsMatched >= this.pairs) {
                         //ends the game
-                        this.message.showtext(stringResources.b2_finish, 2000, 500);
+                        this.message.showtext(StringResources.b2_finish, 2000, 500);
                         this.message.addEventListener("onclose", function () { _this.endBonus(); });
                         this.endBonus();
                     }
@@ -6776,7 +6776,7 @@ var FlipPlus;
         var ShopMenu = (function (_super) {
             __extends(ShopMenu, _super);
             function ShopMenu(previousScreen) {
-                _super.call(this, stringResources.menus.shop, previousScreen, "menu/titleRed");
+                _super.call(this, StringResources.menus.shop, previousScreen, "menu/titleRed");
                 this.productInfo = [
                     { name: "50", price: "U$ 0,99", img: "partsicon" },
                     { name: "200", price: "U$ 1,99", img: "partsicon" },
@@ -6819,7 +6819,7 @@ var FlipPlus;
             };
             // show a loading message
             ShopMenu.prototype.showLoading = function () {
-                this.statusText.text = stringResources.menus.loading;
+                this.statusText.text = StringResources.menus.loading;
                 this.loadingObject.visible = true;
             };
             // show a loading message
@@ -6829,7 +6829,7 @@ var FlipPlus;
             };
             // show a error message in it
             ShopMenu.prototype.showError = function () {
-                this.statusText.text = stringResources.menus.errorShop;
+                this.statusText.text = StringResources.menus.errorShop;
                 this.loadingObject.visible = false;
             };
             //lock UI for a time interval
@@ -6944,7 +6944,7 @@ var FlipPlus;
                 // adds Value
                 this.addChild(new gameui.Label(localizedPrice, defaultFontFamilyNormal, "white").set({ x: 375, y: -70 }));
                 // adds buy text
-                this.addChild(new gameui.Label(stringResources.menus.shop, defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));
+                this.addChild(new gameui.Label(StringResources.menus.shop, defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));
                 this.createHitArea();
             }
             ProductListItem.prototype.setPurchasing = function () {
@@ -7092,10 +7092,10 @@ var FlipPlus;
                 // adds Value
                 bt.addChild(new gameui.Label(productList[0].localizedPrice, defaultFontFamilyNormal, "white").set({ x: -210, y: 255 }));
                 // adds buy text
-                bt.addChild(new gameui.Label(stringResources.menus.buy, defaultFontFamilyHighlight, "#86c0f1").set({ x: 165, y: 250 }));
+                bt.addChild(new gameui.Label(StringResources.menus.buy, defaultFontFamilyHighlight, "#86c0f1").set({ x: 165, y: 250 }));
             };
             SpecialOfferMenu.prototype.buildHeader = function (title, previousScreen, color) {
-                _super.prototype.buildHeader.call(this, stringResources.menus.specialOffer, previousScreen, color);
+                _super.prototype.buildHeader.call(this, StringResources.menus.specialOffer, previousScreen, color);
             };
             return SpecialOfferMenu;
         })(Menu.ShopMenu);
@@ -7211,7 +7211,7 @@ var FlipPlus;
                 BonusItem.prototype.timerintervalTick = function () {
                     var time = FlipPlus.FlipPlusGame.timersData.getTimer(this.bonusId);
                     if (time == 0) {
-                        this.timerText.text = stringResources.mm_play;
+                        this.timerText.text = StringResources.mm_play;
                         if (!createjs.Tween.hasActiveTweens(this.timerText)) {
                             ////this.timerText.cache(-200, -50, 400, 100);
                             this.timerText.set({ scaleX: 1, scaleY: 1 });
@@ -7613,7 +7613,7 @@ var FlipPlus;
                     bg.y = 100;
                     this.addChild(bg);
                     // create a text
-                    var textDO = new createjs.Text(stringResources.help_restart, defaultFontFamilyNormal, "white");
+                    var textDO = new createjs.Text(StringResources.help_restart, defaultFontFamilyNormal, "white");
                     textDO.textAlign = "center";
                     textDO.textBaseline = "middle";
                     textDO.x = defaultWidth / 2;
@@ -7627,7 +7627,7 @@ var FlipPlus;
                     textDO.y = 550;
                     textDO.x = 1000;
                     // Add Buttons
-                    var bt = new gameui.TextButton(stringResources.help_restart_bt, defaultFontFamilyNormal, "white", "menu/btoptions", function () {
+                    var bt = new gameui.TextButton(StringResources.help_restart_bt, defaultFontFamilyNormal, "white", "menu/btoptions", function () {
                         _this.closePopUp();
                     });
                     this.addChild(bt);
@@ -7645,7 +7645,7 @@ var FlipPlus;
                     bg.y = 100;
                     this.addChild(bg);
                     // create a text
-                    var textDO = new createjs.Text(stringResources["help_" + item], defaultFontFamilyNormal, "white");
+                    var textDO = new createjs.Text(StringResources["help_" + item], defaultFontFamilyNormal, "white");
                     textDO.textAlign = "center";
                     textDO.textBaseline = "middle";
                     textDO.x = defaultWidth / 2;
@@ -7659,7 +7659,7 @@ var FlipPlus;
                     img.y = 740;
                     img.regY = img.getBounds().height / 2;
                     // Add cancel Buttons
-                    var cancelButton = new gameui.TextButton(stringResources.help_cancel_bt, defaultFontFamilyNormal, "white", "menu/btoptions", function () {
+                    var cancelButton = new gameui.TextButton(StringResources.help_cancel_bt, defaultFontFamilyNormal, "white", "menu/btoptions", function () {
                         _this.closePopUp();
                         cancel();
                     });
@@ -7667,7 +7667,7 @@ var FlipPlus;
                     cancelButton.x = defaultWidth / 4;
                     cancelButton.y = 1150;
                     // Add ok Buttons
-                    var acceptBt = new gameui.TextButton(stringResources["help_" + item + "_bt"], defaultFontFamilyNormal, "white", "menu/btoptions", function () {
+                    var acceptBt = new gameui.TextButton(StringResources["help_" + item + "_bt"], defaultFontFamilyNormal, "white", "menu/btoptions", function () {
                         _this.closePopUp();
                         accept();
                     });
@@ -7784,7 +7784,7 @@ var FlipPlus;
                             levelMachine.addChild(this.levelGrid);
                         }
                         else {
-                            var text = new createjs.Text(stringResources.ws_Locked, defaultFontFamilyStrong, defaultFontColor);
+                            var text = new createjs.Text(StringResources.ws_Locked, defaultFontFamilyStrong, defaultFontColor);
                             text.textAlign = "center";
                             text.y = 1738 - 2048;
                             text.x = defaultWidth / 2;
@@ -7793,7 +7793,7 @@ var FlipPlus;
                     }
                     else {
                         //TODO mudar o nome disso.
-                        var text = new createjs.Text(stringResources.ws_NotFree, defaultFontFamilyStrong, defaultFontColor);
+                        var text = new createjs.Text(StringResources.ws_NotFree, defaultFontFamilyStrong, defaultFontColor);
                         text.textAlign = "center";
                         text.y = 1738 - 2048;
                         text.x = defaultWidth / 2;
@@ -8004,7 +8004,7 @@ var FlipPlus;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
-var stringResources = {
+var StringResources = {
     ld: "Loading",
     it_text1: "N3-S needs \n repair",
     it_text2: "alone = bad\nfriends=good",
@@ -8222,7 +8222,7 @@ var stringResources_pt = {
 };
 var language = navigator.language || navigator.userLanguage;
 if (language == "pt-BR")
-    var stringResources = stringResources_pt;
+    var StringResources = stringResources_pt;
 var FlipPlus;
 (function (FlipPlus) {
     var UserData;

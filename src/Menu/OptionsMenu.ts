@@ -11,7 +11,7 @@ module FlipPlus.Menu {
             this.originY = 1;
             this.originX = defaultWidth;
 
-            super(stringResources.menus.menu, FlipPlusGame.mainScreen);
+            super(StringResources.menus.menu, FlipPlusGame.mainScreen);
 
 
             this.buildObjects();
@@ -46,7 +46,7 @@ module FlipPlus.Menu {
             p++
             
             //add Other Buttons
-            this.content.addChild(new gameui.TextButton(stringResources.op_erase, defaultFontFamilySmall, blueColor, "", () => {
+            this.content.addChild(new gameui.TextButton(StringResources.op_erase, defaultFontFamilySmall, blueColor, "", () => {
                 FlipPlusGame.projectData.clearAllData();
                 window.location.reload();
             }).set({ y : p0 + p * s }));

@@ -1,4 +1,4 @@
-﻿var stringResources = {
+﻿var StringResources = {
     ld: "Loading",
 
     it_text1: "N3-S needs \n repair",
@@ -281,4 +281,4 @@ var stringResources_pt = {
 }
 
 var language = navigator.language || navigator.userLanguage;
-if (language == "pt-BR") var stringResources = stringResources_pt;
+if (language == "pt-BR") var StringResources = stringResources_pt;

@@ -21,12 +21,12 @@ module FlipPlus.Menu {
             bt.addChild(new gameui.Label(productList[0].localizedPrice, defaultFontFamilyNormal, "white").set({ x: -210, y: 255 }));
 
             // adds buy text
-            bt.addChild(new gameui.Label(stringResources.menus.buy, defaultFontFamilyHighlight, "#86c0f1").set({ x: 165, y: 250 }));
+            bt.addChild(new gameui.Label(StringResources.menus.buy, defaultFontFamilyHighlight, "#86c0f1").set({ x: 165, y: 250 }));
 
         }
 
         protected buildHeader(title, previousScreen, color?: string) {
-            super.buildHeader(stringResources.menus.specialOffer, previousScreen, color);
+            super.buildHeader(StringResources.menus.specialOffer, previousScreen, color);
         }
     }
 }

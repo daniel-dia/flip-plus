@@ -22,7 +22,7 @@ module FlipPlus.Menu.View {
             this.addChild(bg);
 
             // create a text
-            var textDO = new createjs.Text(stringResources.help_restart, defaultFontFamilyNormal, "white");
+            var textDO = new createjs.Text(StringResources.help_restart, defaultFontFamilyNormal, "white");
             textDO.textAlign = "center";
             textDO.textBaseline = "middle";
             textDO.x = defaultWidth / 2;
@@ -40,7 +40,7 @@ module FlipPlus.Menu.View {
             textDO.x = 1000;
 
             // Add Buttons
-            var bt = new gameui.TextButton(stringResources.help_restart_bt, defaultFontFamilyNormal, "white", "menu/btoptions", () => {
+            var bt = new gameui.TextButton(StringResources.help_restart_bt, defaultFontFamilyNormal, "white", "menu/btoptions", () => {
                 this.closePopUp();
             });
             this.addChild(bt);
@@ -62,7 +62,7 @@ module FlipPlus.Menu.View {
             this.addChild(bg);
 
             // create a text
-            var textDO = new createjs.Text(stringResources["help_" + item], defaultFontFamilyNormal, "white");
+            var textDO = new createjs.Text(StringResources["help_" + item], defaultFontFamilyNormal, "white");
             textDO.textAlign = "center";
             textDO.textBaseline = "middle";
             textDO.x = defaultWidth / 2;
@@ -78,7 +78,7 @@ module FlipPlus.Menu.View {
             img.regY = img.getBounds().height / 2;
 
             // Add cancel Buttons
-            var cancelButton = new gameui.TextButton(stringResources.help_cancel_bt, defaultFontFamilyNormal, "white", "menu/btoptions", () => {
+            var cancelButton = new gameui.TextButton(StringResources.help_cancel_bt, defaultFontFamilyNormal, "white", "menu/btoptions", () => {
                 this.closePopUp();
                 cancel();
             });
@@ -87,7 +87,7 @@ module FlipPlus.Menu.View {
             cancelButton.y = 1150
 
             // Add ok Buttons
-            var acceptBt = new gameui.TextButton(stringResources["help_" + item + "_bt"], defaultFontFamilyNormal, "white", "menu/btoptions", () => {
+            var acceptBt = new gameui.TextButton(StringResources["help_" + item + "_bt"], defaultFontFamilyNormal, "white", "menu/btoptions", () => {
                 this.closePopUp();
                 accept();
             });

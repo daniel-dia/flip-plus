@@ -251,7 +251,7 @@ module FlipPlus.GamePlay {
 
             //change screen and animate.
             if (messageText)
-                this.message.showtext(stringResources.gp_finishPuzzle, 1000, 800);
+                this.message.showtext(StringResources.gp_finishPuzzle, 1000, 800);
 
             //hide all menus
             this.gameplayMenu.fadeOut();
@@ -355,7 +355,7 @@ module FlipPlus.GamePlay {
                     this.coinsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item) - 768, 1900, value);
 
                     //show text effect
-                    this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
+                    this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
 
                     //updates Items buttons labels Quantity on footer
                     this.coinsIndicator.updateCoinsAmmount(FlipPlusGame.coinsData.getAmount());
@@ -376,8 +376,8 @@ module FlipPlus.GamePlay {
 
             } else {
                 //show text effect
-                this.textEffext.showtext(stringResources["desc_item_" + item].toUpperCase());
-                this.popup.showtext(stringResources.gp_noMoreSkip, stringResources.gp_noMoreHints);
+                this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
+                this.popup.showtext(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints);
 
                 return false;
             }

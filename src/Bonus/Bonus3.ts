@@ -43,7 +43,7 @@
             this.mainClip.addEventListener("End", () => {
                 this.mainClip.stop();
 
-                this.message.showtext(stringResources.b3_finish, 2000, 1000);
+                this.message.showtext(StringResources.b3_finish, 2000, 1000);
                 this.message.addEventListener("onclose", () => { this.endBonus(); });
             });
             
@@ -131,7 +131,7 @@
             //verify if user looses
             if (this.chances < 0) {
                 this.content.mouseEnabled = false;
-                this.message.showtext(stringResources.b3_noMoreChances, 2000, 1100);
+                this.message.showtext(StringResources.b3_noMoreChances, 2000, 1100);
                 this.message.addEventListener("onclose", () => { this.endBonus(); });
 
 

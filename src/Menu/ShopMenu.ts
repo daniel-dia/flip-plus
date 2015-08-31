@@ -16,7 +16,7 @@
         protected productIdList = ["50", "200", "500", "1000"];
 
         constructor(previousScreen: gameui.ScreenState) {
-            super(stringResources.menus.shop, previousScreen, "menu/titleRed");
+            super(StringResources.menus.shop, previousScreen, "menu/titleRed");
 
             this.initializeScreen();
 
@@ -63,7 +63,7 @@
 
         // show a loading message
         private showLoading() {
-            this.statusText.text = stringResources.menus.loading;
+            this.statusText.text = StringResources.menus.loading;
             this.loadingObject.visible = true;
         }
 
@@ -75,7 +75,7 @@
 
         // show a error message in it
         private showError() {
-            this.statusText.text = stringResources.menus.errorShop;
+            this.statusText.text = StringResources.menus.errorShop;
             this.loadingObject.visible = false;
         }
 
@@ -225,7 +225,7 @@
             this.addChild(new gameui.Label(localizedPrice, defaultFontFamilyNormal, "white").set({ x: 375, y: -70 }));
 
             // adds buy text
-            this.addChild(new gameui.Label(stringResources.menus.shop, defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));
+            this.addChild(new gameui.Label(StringResources.menus.shop, defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));
 
             this.createHitArea();
 

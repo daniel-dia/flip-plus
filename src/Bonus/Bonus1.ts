@@ -27,7 +27,7 @@
             super.activate(parameters);
             this.setNewGame();
 
-            this.popup.showtext(stringResources.b1_popup1Ttitle, stringResources.b1_popup1Text)
+            this.popup.showtext(StringResources.b1_popup1Ttitle, StringResources.b1_popup1Text)
         }
 
         //adds barrels to the scene

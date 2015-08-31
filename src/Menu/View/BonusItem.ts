@@ -92,7 +92,7 @@ module FlipPlus.Menu.View {
             var time = FlipPlusGame.timersData.getTimer(this.bonusId);
 
             if (time == 0) {
-                this.timerText.text = stringResources.mm_play;
+                this.timerText.text = StringResources.mm_play;
 
                 if(!createjs.Tween.hasActiveTweens(this.timerText)) {
                     ////this.timerText.cache(-200, -50, 400, 100);

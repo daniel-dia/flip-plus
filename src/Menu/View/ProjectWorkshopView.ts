@@ -123,7 +123,7 @@ module FlipPlus.Menu.View {
 
                 }
                 else {
-                    var text = new createjs.Text(stringResources.ws_Locked, defaultFontFamilyStrong, defaultFontColor);
+                    var text = new createjs.Text(StringResources.ws_Locked, defaultFontFamilyStrong, defaultFontColor);
                     text.textAlign = "center";
                     text.y = 1738 - 2048;
                     text.x = defaultWidth / 2;
@@ -131,7 +131,7 @@ module FlipPlus.Menu.View {
                 }
             } else {
                 //TODO mudar o nome disso.
-                var text = new createjs.Text(stringResources.ws_NotFree, defaultFontFamilyStrong, defaultFontColor);
+                var text = new createjs.Text(StringResources.ws_NotFree, defaultFontFamilyStrong, defaultFontColor);
                 text.textAlign = "center";
                 text.y = 1738 - 2048;
                 text.x = defaultWidth / 2;

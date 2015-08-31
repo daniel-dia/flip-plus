@@ -182,12 +182,12 @@ module FlipPlus.Menu {
 
         //Show warning for no using stars
         private showStarWarning(stars: number, cost: number) {
-            this.popup.showtext(stringResources.pr_notStarsTitle, stringResources.pr_notStarsText.split("#")[0] + stars.toString() + stringResources.pr_notStarsText.split("#")[1] + cost.toString() + stringResources.pr_notStarsText.split("#")[2], 10000);
+            this.popup.showtext(StringResources.pr_notStarsTitle, StringResources.pr_notStarsText.split("#")[0] + stars.toString() + StringResources.pr_notStarsText.split("#")[1] + cost.toString() + StringResources.pr_notStarsText.split("#")[2], 10000);
         }
 
         //show there is no time for it
         private showtimeWarning(time: string) {
-            this.popup.showtext(stringResources.pr_notTimeText.split("#")[0], stringResources.pr_notTimeText.split("#")[1] + time + stringResources.pr_notTimeText.split("#")[2], 10000);
+            this.popup.showtext(StringResources.pr_notTimeText.split("#")[0], StringResources.pr_notTimeText.split("#")[1] + time + StringResources.pr_notTimeText.split("#")[2], 10000);
         }
 
         //update all projects preview in the menu page

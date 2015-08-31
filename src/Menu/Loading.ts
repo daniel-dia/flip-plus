@@ -62,7 +62,7 @@ module FlipPlus.Menu {
         constructor(imagePath: string) {
             super();
 
-            var text = new createjs.Text(stringResources.menus.loading.toUpperCase(), defaultFontFamilyNormal, "white");
+            var text = new createjs.Text(StringResources.menus.loading.toUpperCase(), defaultFontFamilyNormal, "white");
             var bg = gameui.AssetsManager.getBitmap(imagePath + "loadingbj.png");
             var bar = gameui.AssetsManager.getBitmap(imagePath + "loadingBar.png");
 
