@@ -32,18 +32,14 @@ module FlipPlus.Menu {
             //load audio
             if (!levelCreatorMode && typeof WPAudioManager == 'undefined') {
                 createjs.Sound.alternateExtensions = ["mp3"];
-                createjs.Sound.registerSounds(audioManifest, audioPath);
+                //createjs.Sound.registerSounds(audioManifest, audioPath);
+                gameui.AssetsManager.loadAssets(audioManifest, audioPath);
             }
 
             gameui.AssetsManager.loadAssets(imageManifest, imagePath, spriteSheets);
             gameui.Button.setDefaultSoundId("button");
 
-            //var text = new createjs.Text("", "600 90px Arial", "#FFF");
-            //text.x = defaultWidth / 2;
-            //text.y = defaultHeight / 2;
-            //text.textAlign = "center"
-            //this.content.addChild(text);
-            
+          
             //add update % functtion
             gameui.AssetsManager.onProgress= (progress: number)=> {
                 loadinBar.update(progress)

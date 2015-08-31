@@ -6,19 +6,20 @@ module FlipPlus.Menu.View {
         private percentMask: createjs.Shape;
 
         private fill:createjs.DisplayObject;
-        private stroke: createjs.DisplayObject; 
-        
+        private stroke: createjs.DisplayObject;
+        private completeBox: createjs.DisplayObject;
+
         //Constructor
         constructor(project: FlipPlus.Projects.Project) {
             super();
 
             this.project = project;
-            this.createGraphics(project);
+            this.createPercentualFill(project);
             this.update();
         }
 
         //create graphics
-        private createGraphics(project: FlipPlus.Projects.Project){
+        private createPercentualFill(project: FlipPlus.Projects.Project){
           
                 var size: number = 1000;
                 this.fill = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
@@ -41,27 +42,46 @@ module FlipPlus.Menu.View {
                 this.fill.mask = this.percentMask;
         }
 
-        //update percentage
-        public update(complete: boolean= false) {
-            try {
-                if (!complete)
-                    if (this.project.UserData.complete) {
-                        this.fill.visible = false;
-                        this.stroke.visible = false
-                        var bot = new libmybots[this.project.name]();
-                        this.addChild(bot);
-                        bot.y -= 260;
-                    }
-                    else
-                        this.percentMask.scaleY = this.project.UserData.percent;
-                else
-                    this.animateLevelComplete();
-            } catch (e) { };
+        // shows up the completed bot
+        public createCompletedBot() {
+            // remove fill and stroke
+            this.fill.visible = false;
+            this.stroke.visible = false
+            this.removeChild(this.fill);
+            this.removeChild(this.stroke);
+                        
+            // if final completed bot does not exist, add it
+            if (!this.completeBox) {
+                this.completeBox = new libmybots[this.project.name]();
+                this.addChild(this.completeBox);
+                this.completeBox.y -= 260;
+            }
         }
 
+        //update percentage
+        public update(animate: boolean= false) {
+            try {
+                //já acabou de terminar um level
+                if (animate) this.animateBotFillTo();
+
+                if (!animate)
+                    if (this.project.UserData.complete)
+                        this.createCompletedBot()
+                    else
+                        this.updateFill();
+                    
+                    
+
+            } catch (e) { };
+        }
         
-        //animate
-        public animateLevelComplete(color: string= "#ffcc2e") {
+        // update bot fill based on user data
+        private updateFill() {
+            this.percentMask.scaleY = this.project.UserData.percent;
+        }
+
+        //animate finishing level
+        private animateBotFillTo(color: string= "#ffcc2e") {
 
             var newValue = this.project.UserData.percent;
 
@@ -74,9 +94,10 @@ module FlipPlus.Menu.View {
 
             createjs.Tween.get(this.percentMask).wait(600).to({ scaleY: newValue }, 700, createjs.Ease.quadInOut).call(() => {
                 if (this.project.UserData.complete) {
-                     
+                    this.createCompletedBot(); 
                     createjs.Tween.get(this.fill).wait(300).to({ alpha: 0 }, 600).call(() => { this.fill.visible = false })
-                    createjs.Tween.get(this.stroke).wait(300).to({ alpha: 0 }, 600).call(() => { this.stroke.visible = false})
+                    createjs.Tween.get(this.stroke).wait(300).to({ alpha: 0 }, 600).call(() => { this.stroke.visible = false })
+                    createjs.Tween.get(this.completeBox).wait(300).to({ alpha: 1 }, 600).call(() => { this.stroke.visible = false })
                     
                 }
             });
