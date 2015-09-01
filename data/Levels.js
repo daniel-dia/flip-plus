@@ -1,3 +1,33 @@
+/* bot names
+ 
+
+S-N3S
+R-MS
+P1K-4
+L-1NK
+B00-M
+
+K-R8Y
+R-GH
+ME64-x
+B-GH
+BJ-KZ
+
+BMS-M
+K0N-6
+S-H06
+D-D1
+P4C-M
+
+G-GH
+T-BLK
+Y0S-1
+
+Unlock a bot
+Bot unlocked
+  
+ */
+
 var levelsData = [
   {
       "nickName": "S-N3S",
