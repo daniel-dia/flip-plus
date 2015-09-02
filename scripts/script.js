@@ -765,6 +765,34 @@ var FlipPlus;
             //var ps = this.projectManager.getAllProjects();
             //for (var p in ps) ps[p].levels.length = 1;
         };
+        FlipPlusGame.initializeAds = function () {
+            var _this = this;
+            Cocoon.Ad.interstitial.on("ready", function () {
+                // tells that a ads s loaded
+                Cocoon.Ad.interstitial["loaded"] = true;
+                // once a ads is loaded so it is avaliable for this app.
+                _this.storyData.setStoryPlayed("ads_avaliable");
+                console.log("ads loaded");
+            });
+            console.log("ads initialized");
+            Cocoon.Ad.loadInterstitial();
+        };
+        FlipPlusGame.initializeSocial = function () {
+            try {
+                var os = "web";
+                if (Cocoon.Device.getDeviceInfo())
+                    os = Cocoon.Device.getDeviceInfo().os;
+                if (os == "windows")
+                    return;
+                //initialize the Facebook Service the same way as the Official JS SDK
+                if (navigator.onLine) {
+                    var fb = Cocoon.Social.Facebook;
+                    fb.init({ appId: fbAppId });
+                    this.FBSocialService = fb.getSocialInterface();
+                }
+            }
+            catch (e) { }
+        };
         // ----------------------------- Game Methods ---------------------------------------------//
         FlipPlusGame.toLevelCreator = function (level, callback) {
             if (!level) {
@@ -6574,6 +6602,10 @@ var shadowFontColor = "#1b4f5e";
 var grayColor = "#565656";
 var blueColor = "#343171";
 var storagePrefix = "flipp_";
+// Store Variables
+var fbAppId = "1416523228649363";
+var gameWebsite = "http://www.joinjelly.com";
+var gameWebsiteIcon = "http://www.joinjelly.com/preview.jpg";
 // TODO
 var contantsAndroid = {
     ACH_Bot01: '',

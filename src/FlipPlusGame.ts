@@ -19,6 +19,7 @@ module FlipPlus {
         public static coinsData: UserData.Coins;
         public static storyData: UserData.Story;
         public static gameServices: GameServices;
+        public static FBSocialService: any;
 
         //analytics
         public static analytics: Analytics;
@@ -83,9 +84,38 @@ module FlipPlus {
             //for (var p in ps) ps[p].levels.length = 1;
         }
 
+        public static initializeAds() {
+
+            Cocoon.Ad.interstitial.on("ready", () => {
+                // tells that a ads s loaded
+                Cocoon.Ad.interstitial["loaded"] = true;
+                // once a ads is loaded so it is avaliable for this app.
+                this.storyData.setStoryPlayed("ads_avaliable");
+                console.log("ads loaded");
+            })
+
+            console.log("ads initialized");
+            Cocoon.Ad.loadInterstitial();
+        }
+
+        public static initializeSocial() {
+            try {
+                var os = "web"
+                if (Cocoon.Device.getDeviceInfo()) os = Cocoon.Device.getDeviceInfo().os;
+
+                if (os == "windows") return;
+
+                //initialize the Facebook Service the same way as the Official JS SDK
+                if (navigator.onLine) {
+                    var fb = Cocoon.Social.Facebook;
+                    fb.init({ appId: fbAppId });
+                    this.FBSocialService = fb.getSocialInterface();
+                }
+            } catch (e) { }
+        }
+
         // ----------------------------- Game Methods ---------------------------------------------//
-
-
+        
         public static toLevelCreator(level?:Projects.Level,callback?) {
             if (!level) {
                 level = new Projects.Level();

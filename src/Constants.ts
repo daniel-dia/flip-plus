@@ -17,6 +17,12 @@ var blueColor = "#343171";
 
 var storagePrefix = "flipp_";
 
+// Store Variables
+
+var fbAppId: string = "1416523228649363";
+var gameWebsite: string = "http://www.joinjelly.com";
+var gameWebsiteIcon: string = "http://www.joinjelly.com/preview.jpg"; 
+
 // TODO
 var contantsAndroid = {
     ACH_Bot01: '',
