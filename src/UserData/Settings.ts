@@ -3,31 +3,26 @@ module FlipPlus.UserData {
     // Class
     export class Settings {
 
-        private soundFX: boolean = true;
-        private music: boolean = true;
+        private soundFX: number = 1;
+        private music: number = 1;
 
         constructor() {
-           
-            this.soundFX = (localStorage.getItem("sfx") != "false");
-            this.music = (localStorage.getItem("mus") != "false");
+            this.soundFX =  parseInt(localStorage.getItem("sfx")  ;
+            this.music =    parseInt(localStorage.getItem("mus");
         }
         
-        public getMusic(): boolean { return this.music; }
-        public getSoundfx(): boolean { return this.soundFX; }
+        public getMusic(): number {  return this.music; }
+        public getSoundfx(): number{ return this.soundFX; }
 
-        public setSoundfX(value: boolean) {
-            localStorage.setItem("sfx", ""+value);
+        public setSoundfX(value: number) {
+            localStorage.setItem("sfx", value.toString());
             this.soundFX = value;
             
         }
 
-        public setMusic(value: boolean) {
-            //localStorage.setItem("mus", "" +value);
-            //this.music = value;
-            //if (!value)
-            //    gameui.AssetsManager.stopMusic();
-            //else
-            //    gameui.AssetsManager.playMusic("");
+        public setMusic(value: number) {
+            localStorage.setItem("mus", value.toString());
+            this.music = value;
         }
     }
 }

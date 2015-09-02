@@ -25,10 +25,29 @@ module FlipPlus.Menu {
             var p = 0;
             var s = 330;
 
-            this.btMusOn = new gameui.IconButton("menu/icmusic", "menu/btmusicon",  () => { gameui.AudiosManager.setMusicVolume(0); this.updateVolumeButtons()}).set({ x: -200, y: p0 })
-            this.btMusOf = new gameui.IconButton("menu/icmusic", "menu/btmusicoff", () => { gameui.AudiosManager.setMusicVolume(1); this.updateVolumeButtons()}).set({ x: -200, y: p0 })
-            this.btSndOn = new gameui.IconButton("menu/icsound", "menu/btmusicon",  () => { gameui.AudiosManager.setSoundVolume(0); this.updateVolumeButtons()}).set({ x: 200, y: p0 })
-            this.btSndOf = new gameui.IconButton("menu/icsound", "menu/btmusicoff", () => { gameui.AudiosManager.setSoundVolume(1); this.updateVolumeButtons()}).set({ x: 200, y: p0 })
+            this.btMusOn = new gameui.IconButton("menu/icmusic", "menu/btmusicon", () => {
+                gameui.AudiosManager.setMusicVolume(0);
+                this.updateVolumeButtons()
+                FlipPlusGame.settings.setSoundfX(1)
+            }).set({ x: -200, y: p0 })
+
+            this.btMusOf = new gameui.IconButton("menu/icmusic", "menu/btmusicoff", () => {
+                gameui.AudiosManager.setMusicVolume(1);
+                this.updateVolumeButtons()
+                FlipPlusGame.settings.setMusic(1)
+            }).set({ x: -200, y: p0 })
+
+            this.btSndOn = new gameui.IconButton("menu/icsound", "menu/btmusicon", () => {
+                gameui.AudiosManager.setSoundVolume(0);
+                this.updateVolumeButtons()
+                FlipPlusGame.settings.setSoundfX(0)
+            }).set({ x: 200, y: p0 })
+
+            this.btSndOf = new gameui.IconButton("menu/icsound", "menu/btmusicoff", () => {
+                gameui.AudiosManager.setSoundVolume(1);
+                this.updateVolumeButtons()
+                FlipPlusGame.settings.setMusic(0)
+            }).set({ x: 200, y: p0 })
             
             this.content.addChild(this.btMusOn);
             this.content.addChild(this.btMusOf);

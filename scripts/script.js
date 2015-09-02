@@ -740,6 +740,9 @@ var FlipPlus;
             this.coinsData = new FlipPlus.UserData.Coins();
             this.storyData = new FlipPlus.UserData.Story();
             this.timersData = new FlipPlus.UserData.Timers();
+            // load options
+            gameui.AudiosManager.setSoundVolume(this.settings.getSoundfx());
+            gameui.AudiosManager.setMusicVolume(this.settings.getMusic());
             // game service
             this.gameServices = new FlipPlus.GameServices();
             // analytics
@@ -995,24 +998,20 @@ var FlipPlus;
         // Class
         var Settings = (function () {
             function Settings() {
-                this.soundFX = true;
-                this.music = true;
-                this.soundFX = (localStorage.getItem("sfx") != "false");
-                this.music = (localStorage.getItem("mus") != "false");
+                this.soundFX = 1;
+                this.music = 1;
+                this.soundFX = parseInt(localStorage.getItem("sfx"));
+                this.music = parseInt(localStorage.getItem("mus"));
             }
             Settings.prototype.getMusic = function () { return this.music; };
             Settings.prototype.getSoundfx = function () { return this.soundFX; };
             Settings.prototype.setSoundfX = function (value) {
-                localStorage.setItem("sfx", "" + value);
+                localStorage.setItem("sfx", value.toString());
                 this.soundFX = value;
             };
             Settings.prototype.setMusic = function (value) {
-                //localStorage.setItem("mus", "" +value);
-                //this.music = value;
-                //if (!value)
-                //    gameui.AssetsManager.stopMusic();
-                //else
-                //    gameui.AssetsManager.playMusic("");
+                localStorage.setItem("mus", value.toString());
+                this.music = value;
             };
             return Settings;
         })();
@@ -4655,10 +4654,26 @@ var FlipPlus;
                 var p0 = -350;
                 var p = 0;
                 var s = 330;
-                this.btMusOn = new gameui.IconButton("menu/icmusic", "menu/btmusicon", function () { gameui.AudiosManager.setMusicVolume(0); _this.updateVolumeButtons(); }).set({ x: -200, y: p0 });
-                this.btMusOf = new gameui.IconButton("menu/icmusic", "menu/btmusicoff", function () { gameui.AudiosManager.setMusicVolume(1); _this.updateVolumeButtons(); }).set({ x: -200, y: p0 });
-                this.btSndOn = new gameui.IconButton("menu/icsound", "menu/btmusicon", function () { gameui.AudiosManager.setSoundVolume(0); _this.updateVolumeButtons(); }).set({ x: 200, y: p0 });
-                this.btSndOf = new gameui.IconButton("menu/icsound", "menu/btmusicoff", function () { gameui.AudiosManager.setSoundVolume(1); _this.updateVolumeButtons(); }).set({ x: 200, y: p0 });
+                this.btMusOn = new gameui.IconButton("menu/icmusic", "menu/btmusicon", function () {
+                    gameui.AudiosManager.setMusicVolume(0);
+                    _this.updateVolumeButtons();
+                    FlipPlus.FlipPlusGame.settings.setSoundfX(1);
+                }).set({ x: -200, y: p0 });
+                this.btMusOf = new gameui.IconButton("menu/icmusic", "menu/btmusicoff", function () {
+                    gameui.AudiosManager.setMusicVolume(1);
+                    _this.updateVolumeButtons();
+                    FlipPlus.FlipPlusGame.settings.setMusic(1);
+                }).set({ x: -200, y: p0 });
+                this.btSndOn = new gameui.IconButton("menu/icsound", "menu/btmusicon", function () {
+                    gameui.AudiosManager.setSoundVolume(0);
+                    _this.updateVolumeButtons();
+                    FlipPlus.FlipPlusGame.settings.setSoundfX(0);
+                }).set({ x: 200, y: p0 });
+                this.btSndOf = new gameui.IconButton("menu/icsound", "menu/btmusicoff", function () {
+                    gameui.AudiosManager.setSoundVolume(1);
+                    _this.updateVolumeButtons();
+                    FlipPlus.FlipPlusGame.settings.setMusic(0);
+                }).set({ x: 200, y: p0 });
                 this.content.addChild(this.btMusOn);
                 this.content.addChild(this.btMusOf);
                 this.content.addChild(this.btSndOn);

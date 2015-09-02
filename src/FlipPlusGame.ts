@@ -52,6 +52,10 @@ module FlipPlus {
             this.storyData = new UserData.Story();
             this.timersData = new UserData.Timers();
 
+            // load options
+            gameui.AudiosManager.setSoundVolume(this.settings.getSoundfx());
+            gameui.AudiosManager.setMusicVolume(this.settings.getMusic());
+
             // game service
             this.gameServices = new GameServices();
 
