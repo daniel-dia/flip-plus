@@ -28,7 +28,7 @@
 
                 //if (!this.socialService.isLoggedIn()) {
                 gp.init({
-                    defaultLeaderboard: contantsAndroid.LEAD_LEADERBOARD
+                    //defaultLeaderboard: contantsAndroid.LEAD_LEADERBOARD
                 });
 
                 this.socialService = gp.getSocialInterface();
@@ -42,7 +42,7 @@
                 var gp = Cocoon.Social.GooglePlayGames;
                 gp.init({
                     clientId: contantsAndroid.CLIENT_ID,
-                    defaultLeaderboard: contantsAndroid.LEAD_LEADERBOARD
+                    //defaultLeaderboard: contantsAndroid.LEAD_LEADERBOARD
                 });
                 this.socialService = gp.getSocialInterface();
                 // set achievement Map

@@ -13,30 +13,30 @@ module FlipPlus.Menu {
         private createObjects() {
             
             var sfxon: createjs.DisplayObject = new gameui.IconTextButton("botaofxon.png", "", "", "", "botaosom.png", () => {
-                FlipPlusGame.settings.setSoundfX(false);
+                FlipPlusGame.settings.setSoundfX(0);
                 sfxon.visible = false;
                 sfxoff.visible = true;
             });
             var sfxoff: createjs.DisplayObject = new gameui.IconTextButton("botaofxoff.png", "", "", "", "botaosom.png", () => {
-                FlipPlusGame.settings.setSoundfX(true);
+                FlipPlusGame.settings.setSoundfX(0);
                 sfxoff.visible = false;
                 sfxon.visible = true;
             });
             var muson: createjs.DisplayObject = new gameui.IconTextButton("botaomusicaon.png", "", "", "", "botaosom.png", () => {
-                FlipPlusGame.settings.setMusic(false);
+                FlipPlusGame.settings.setMusic(0);
                 muson.visible = false;
                 musoff.visible = true;
             });
             var musoff: createjs.DisplayObject = new gameui.IconTextButton("botaomusicaoff.png", "", "", "", "botaosom.png", () => {
-                FlipPlusGame.settings.setMusic(true);
+                FlipPlusGame.settings.setMusic(0);
                 musoff.visible = false;
                 muson.visible = true;
             });
 
-            musoff.visible =   !FlipPlusGame.settings.getMusic();
-            muson.visible =     FlipPlusGame.settings.getMusic();
-            sfxoff.visible =   !FlipPlusGame.settings.getSoundfx();
-            sfxon.visible =     FlipPlusGame.settings.getSoundfx();
+            musoff.visible = FlipPlusGame.settings.getMusic() <=0;
+            muson.visible =  FlipPlusGame.settings.getMusic()>0;
+            sfxoff.visible = FlipPlusGame.settings.getSoundfx() <= 0;
+            sfxon.visible =  FlipPlusGame.settings.getSoundfx()>0;
 
             //Add Sound Buttons
             var soundMenuOn: gameui.Grid = new gameui.Grid(2, 1, 600, 372, null, true);

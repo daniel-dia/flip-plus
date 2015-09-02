@@ -1002,6 +1002,10 @@ var FlipPlus;
                 this.music = 1;
                 this.soundFX = parseInt(localStorage.getItem("sfx"));
                 this.music = parseInt(localStorage.getItem("mus"));
+                if (isNaN(this.soundFX))
+                    this.soundFX = 1;
+                if (isNaN(this.music))
+                    this.music = 1;
             }
             Settings.prototype.getMusic = function () { return this.music; };
             Settings.prototype.getSoundfx = function () { return this.soundFX; };
@@ -4657,7 +4661,7 @@ var FlipPlus;
                 this.btMusOn = new gameui.IconButton("menu/icmusic", "menu/btmusicon", function () {
                     gameui.AudiosManager.setMusicVolume(0);
                     _this.updateVolumeButtons();
-                    FlipPlus.FlipPlusGame.settings.setSoundfX(1);
+                    FlipPlus.FlipPlusGame.settings.setMusic(0);
                 }).set({ x: -200, y: p0 });
                 this.btMusOf = new gameui.IconButton("menu/icmusic", "menu/btmusicoff", function () {
                     gameui.AudiosManager.setMusicVolume(1);
@@ -4672,7 +4676,7 @@ var FlipPlus;
                 this.btSndOf = new gameui.IconButton("menu/icsound", "menu/btmusicoff", function () {
                     gameui.AudiosManager.setSoundVolume(1);
                     _this.updateVolumeButtons();
-                    FlipPlus.FlipPlusGame.settings.setMusic(0);
+                    FlipPlus.FlipPlusGame.settings.setSoundfX(1);
                 }).set({ x: 200, y: p0 });
                 this.content.addChild(this.btMusOn);
                 this.content.addChild(this.btMusOf);
@@ -4937,29 +4941,29 @@ var FlipPlus;
             }
             SoundMenu.prototype.createObjects = function () {
                 var sfxon = new gameui.IconTextButton("botaofxon.png", "", "", "", "botaosom.png", function () {
-                    FlipPlus.FlipPlusGame.settings.setSoundfX(false);
+                    FlipPlus.FlipPlusGame.settings.setSoundfX(0);
                     sfxon.visible = false;
                     sfxoff.visible = true;
                 });
                 var sfxoff = new gameui.IconTextButton("botaofxoff.png", "", "", "", "botaosom.png", function () {
-                    FlipPlus.FlipPlusGame.settings.setSoundfX(true);
+                    FlipPlus.FlipPlusGame.settings.setSoundfX(0);
                     sfxoff.visible = false;
                     sfxon.visible = true;
                 });
                 var muson = new gameui.IconTextButton("botaomusicaon.png", "", "", "", "botaosom.png", function () {
-                    FlipPlus.FlipPlusGame.settings.setMusic(false);
+                    FlipPlus.FlipPlusGame.settings.setMusic(0);
                     muson.visible = false;
                     musoff.visible = true;
                 });
                 var musoff = new gameui.IconTextButton("botaomusicaoff.png", "", "", "", "botaosom.png", function () {
-                    FlipPlus.FlipPlusGame.settings.setMusic(true);
+                    FlipPlus.FlipPlusGame.settings.setMusic(0);
                     musoff.visible = false;
                     muson.visible = true;
                 });
-                musoff.visible = !FlipPlus.FlipPlusGame.settings.getMusic();
-                muson.visible = FlipPlus.FlipPlusGame.settings.getMusic();
-                sfxoff.visible = !FlipPlus.FlipPlusGame.settings.getSoundfx();
-                sfxon.visible = FlipPlus.FlipPlusGame.settings.getSoundfx();
+                musoff.visible = FlipPlus.FlipPlusGame.settings.getMusic() <= 0;
+                muson.visible = FlipPlus.FlipPlusGame.settings.getMusic() > 0;
+                sfxoff.visible = FlipPlus.FlipPlusGame.settings.getSoundfx() <= 0;
+                sfxon.visible = FlipPlus.FlipPlusGame.settings.getSoundfx() > 0;
                 //Add Sound Buttons
                 var soundMenuOn = new gameui.Grid(2, 1, 600, 372, null, true);
                 var soundMenuOff = new gameui.Grid(2, 1, 600, 372, null, true);
@@ -6686,9 +6690,7 @@ var FlipPlus;
                 //initializes game services
                 var gp = Cocoon.Social.GooglePlayGames;
                 //if (!this.socialService.isLoggedIn()) {
-                gp.init({
-                    defaultLeaderboard: contantsAndroid.LEAD_LEADERBOARD
-                });
+                gp.init({});
                 this.socialService = gp.getSocialInterface();
                 // set achievement Map
                 this.socialService.setAchievementsMap(contantsAndroid);
@@ -6697,8 +6699,7 @@ var FlipPlus;
                 //initializes game services
                 var gp = Cocoon.Social.GooglePlayGames;
                 gp.init({
-                    clientId: contantsAndroid.CLIENT_ID,
-                    defaultLeaderboard: contantsAndroid.LEAD_LEADERBOARD
+                    clientId: contantsAndroid.CLIENT_ID
                 });
                 this.socialService = gp.getSocialInterface();
                 // set achievement Map

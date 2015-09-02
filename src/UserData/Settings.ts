@@ -7,8 +7,10 @@ module FlipPlus.UserData {
         private music: number = 1;
 
         constructor() {
-            this.soundFX =  parseInt(localStorage.getItem("sfx")  ;
-            this.music =    parseInt(localStorage.getItem("mus");
+            this.soundFX =  parseInt(localStorage.getItem("sfx"));
+            this.music = parseInt(localStorage.getItem("mus"));
+            if (isNaN(this.soundFX)) this.soundFX = 1;
+            if (isNaN(this.music)) this.music = 1;
         }
         
         public getMusic(): number {  return this.music; }
