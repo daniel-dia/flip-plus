@@ -78,7 +78,7 @@ module FlipPlus.GamePlay.Views {
 
             this.text1.textAlign = this.text2.textAlign = this.text3.textAlign = "center";
 
-            this.text1.y = this.text2.y = this.text3.y =65;
+            this.text1.y = this.text2.y = this.text3.y =50;
             
             this.addChild(this.text1);
             this.addChild(this.text2);
