@@ -765,9 +765,8 @@ var FlipPlus;
                 this.storyData.setStoryPlayed("coins");
                 this.coinsData.setAmount(10);
             }
-            var ps = this.projectManager.getAllProjects();
-            for (var p in ps)
-                ps[p].levels.length = 1;
+            // var ps = this.projectManager.getAllProjects();
+            // for (var p in ps) ps[p].levels.length = 1;
         };
         FlipPlusGame.initializeAds = function () {
             var _this = this;
@@ -1487,8 +1486,12 @@ var FlipPlus;
                         case Items.HINT:
                             this.useItemHint(parameters);
                             break;
-                        case Items.TIME: break;
-                        case Items.TAP: break;
+                        case Items.TIME:
+                            this.useItemTime();
+                            break;
+                        case Items.TAP:
+                            this.useItemTap();
+                            break;
                     }
                     return true;
                 }

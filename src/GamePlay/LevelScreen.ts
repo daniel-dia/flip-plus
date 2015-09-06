@@ -372,8 +372,8 @@ module FlipPlus.GamePlay {
                     case Items.SKIP:  this.useItemSkip(); break;
                     case Items.SOLVE: this.useItemSolve(); break;
                     case Items.HINT: this.useItemHint(parameters); break;
-                    case Items.TIME: break;
-                    case Items.TAP:  break;
+                    case Items.TIME: this.useItemTime(); break;
+                    case Items.TAP: this.useItemTap(); break;
                 }
 
                 return true;
