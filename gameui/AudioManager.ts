@@ -32,7 +32,7 @@
 
         public static playMusic(name: string, volume: number= 1) {
             if (this.currentMusic) {
-                this.currentMusic.setVolume(volume * this.getMusicVolume());
+                this.currentMusic.setVolume(volume * this.getMusicVolume()*0.6);
                 if (this.currentMusicName == name) return;
 
                 this.currentMusic.stop();
