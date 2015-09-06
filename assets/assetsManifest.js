@@ -456,6 +456,7 @@ var audioManifest = [
         { id: "Mecanical Click3", src: "Mecanical Click3.mp3" },
         { id: "final", src: "final.mp3" },
         { id: "Power Down", src: "Power Down.mp3" },
+        { id: "Power Up", src: "Power Up.mp3" },
         { id: "Robot Talk", src: "Robot Talk.mp3" },
         { id: "Task Complete", src: "Task Complete.mp3" },
         { id: "Ticking Clock", src: "Ticking Clock.mp3" },

@@ -58,6 +58,8 @@ module FlipPlus.GamePlay {
                 this.levelData.userdata.playedTimes = 0;
 
             this.levelData.userdata.playedTimes++;
+
+
         }
         // #endregion
 
@@ -107,6 +109,7 @@ module FlipPlus.GamePlay {
                 this.boardSprite.mouseEnabled = true;
             });
           
+            gameui.AudiosManager.playSound("Power Up")
         }
 
         private addBackground() {
@@ -130,10 +133,12 @@ module FlipPlus.GamePlay {
             this.gameplayMenu.addEventListener("restart", (e: createjs.Event) => {
                 FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
                 FlipPlusGame.replayLevel();
+                gameui.AudiosManager.playSound("Power Down")
             });
             this.gameplayMenu.addEventListener("back", () => {
                 FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
                 FlipPlusGame.exitLevel();
+                gameui.AudiosManager.playSound("Power Down")
             });
 
             // coins Indicator
