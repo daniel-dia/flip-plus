@@ -6144,6 +6144,7 @@ var FlipPlus;
                 this.projectManager = projectManager;
                 this.initializeGraphics();
                 this.initializeNames();
+                this.initializeUserFeedback();
             }
             //loads and add lobby graphics to the view
             MyBots.prototype.initializeGraphics = function () {
@@ -6179,10 +6180,22 @@ var FlipPlus;
             MyBots.prototype.userfeedback = function (event) {
                 var robotMc = event.currentTarget;
                 var project = this.projectManager.getProjectByName(robotMc.name);
+                if (createjs.Tween.hasActiveTweens(robotMc))
+                    return;
                 //verifies if robot is ready or have parts ready
                 if (project && project.UserData.complete || !project) {
+                    var px = robotMc.scaleX;
+                    var py = robotMc.scaleY;
+                    var ot = robotMc.y;
                     robotMc.gotoAndPlay("touch");
                     this.dispatchEvent("robot", robotMc.name);
+                    gameui.AudiosManager.playSound("Robot Talk_0" + Math.ceil(Math.random() * 7), true);
+                    createjs.Tween.get(robotMc)
+                        .to({ scaleX: px * 1.1, scaleY: py * 0.9 }, 100)
+                        .to({ scaleX: px, scaleY: py }, 1000, createjs.Ease.elasticOut);
+                    createjs.Tween.get(robotMc)
+                        .to({ y: ot - 50 }, 100, createjs.Ease.quadOut)
+                        .to({ y: ot }, 1000, createjs.Ease.bounceOut);
                 }
             };
             //-----------------------------------------------------------
