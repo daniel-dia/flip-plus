@@ -149,6 +149,10 @@ module FlipPlus.Menu {
 
             super.activate();
 
+            this.footer.mouseEnabled = false;
+            this.content.mouseEnabled = false;
+            this.header.mouseEnabled = false;
+
             // play music
             //gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
             this.factorySound = gameui.AudiosManager.playSound("Factory Ambience");
@@ -171,9 +175,7 @@ module FlipPlus.Menu {
 
                     //if complete changes to myBotScreen
                     if (project.UserData.complete && this.projectPreviousState[project.name]==false) {
-                        this.footer.mouseEnabled = false;
-                        this.content.mouseEnabled = false;
-                        this.header.mouseEnabled = false;
+
                         setTimeout(() => {
                             FlipPlusGame.showMainScreen();
                         }, 6000);

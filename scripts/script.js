@@ -4436,6 +4436,9 @@ var FlipPlus;
             };
             WorkshopMenu.prototype.activate = function (parameters) {
                 _super.prototype.activate.call(this);
+                this.footer.mouseEnabled = false;
+                this.content.mouseEnabled = false;
+                this.header.mouseEnabled = false;
                 // play music
                 //gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
                 this.factorySound = gameui.AudiosManager.playSound("Factory Ambience");
@@ -4452,9 +4455,6 @@ var FlipPlus;
                         this.pagesSwipe.gotoPage(parseInt(pv), false);
                         //if complete changes to myBotScreen
                         if (project.UserData.complete && this.projectPreviousState[project.name] == false) {
-                            this.footer.mouseEnabled = false;
-                            this.content.mouseEnabled = false;
-                            this.header.mouseEnabled = false;
                             setTimeout(function () {
                                 FlipPlus.FlipPlusGame.showMainScreen();
                             }, 6000);
@@ -8268,7 +8268,7 @@ var stringResources_pt = {
     b1_popup1Text: "Alguns Barris tem itens escondidos",
     Bonus2_title: "Encontre os pares",
     b2_noMoreChances: "acabaram as chances",
-    b2_finish: "Bem feito!",
+    b2_finish: "Muito bem!",
     Bonus3_title: "baú do Capitão",
     b3_finish: "Muito bem!",
     b3_noMoreChances: "acabaram as chances",

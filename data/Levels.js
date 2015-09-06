@@ -219,7 +219,7 @@ var levelsData =  [
   {
       "nickName": "R-MS",
       "name": "Bot02",
-      "cost": 0,
+      "cost": 3,
       "levels": [
         {
             "width": 5,
@@ -357,7 +357,7 @@ var levelsData =  [
   {
       "nickName": "P1K-4",
       "name": "Bot03",
-      "cost": 0,
+      "cost": 5,
       "levels": [
         {
             "name": "2/2",
@@ -526,7 +526,7 @@ var levelsData =  [
   {
       "nickName": "L-1NK",
       "name": "Bot04",
-      "cost": 0,
+      "cost": 8,
       "levels": [
         {
             "name": "3/0",
@@ -697,7 +697,7 @@ var levelsData =  [
   },
   {
       "name": "Bot05",
-      "cost": 0,
+      "cost": 10,
       "nickName": "B00-M",
       "levels": [
         {
@@ -874,7 +874,7 @@ var levelsData =  [
   },
   {
       "name": "Bot06",
-      "cost": 0,
+      "cost": 13,
       "nickName": "K-R8Y",
       "levels": [
         {
@@ -1047,7 +1047,7 @@ var levelsData =  [
   },
   {
       "name": "Bot14",
-      "cost": 0,
+      "cost": 16,
       "nickName": "R-GH",
       "levels": [
         {
@@ -1193,7 +1193,7 @@ var levelsData =  [
   },
   {
       "name": "Bot07",
-      "cost": 0,
+      "cost": 18,
       "nickName": "ME64-x",
       "levels": [
         {
@@ -1364,7 +1364,7 @@ var levelsData =  [
   },
   {
       "name": "Bot09",
-      "cost": 0,
+      "cost": 21,
       "nickName": "B-GH",
       "levels": [
         {
@@ -1604,7 +1604,7 @@ var levelsData =  [
   },
   {
       "name": "Bot10",
-      "cost": 0,
+      "cost": 24,
       "nickName": "BJ-KZ",
       "levels": [
         {
@@ -1831,7 +1831,7 @@ var levelsData =  [
   },
   {
       "name": "Bot11",
-      "cost": 0,
+      "cost": 26,
       "nickName": "BMS-M",
       "levels": [
         {
@@ -2030,7 +2030,7 @@ var levelsData =  [
   },
   {
       "name": "Bot08",
-      "cost": 0,
+      "cost": 29,
       "nickName": "K0N-6",
       "levels": [
         {
@@ -2282,7 +2282,7 @@ var levelsData =  [
   },
   {
       "name": "Bot12",
-      "cost": 0,
+      "cost": 32,
       "nickName": "S-H06",
       "levels": [
         {
@@ -2498,7 +2498,7 @@ var levelsData =  [
   },
   {
       "name": "Bot13",
-      "cost": 0,
+      "cost": 34,
       "nickName": "D-D1",
       "levels": [
         {
@@ -2674,7 +2674,7 @@ var levelsData =  [
   },
   {
       "name": "Bot15",
-      "cost": 0,
+      "cost": 37,
       "nickName": "P4C-M",
       "levels": [
         {
@@ -2873,7 +2873,7 @@ var levelsData =  [
   },
   {
       "name": "Bot16",
-      "cost": 0,
+      "cost": 40,
       "nickName": "G-GH",
       "levels": [
         {
@@ -3039,7 +3039,7 @@ var levelsData =  [
   },
   {
       "name": "Bot17",
-      "cost": 0,
+      "cost": 42,
       "nickName": "T-BLK",
       "levels": [
         {
@@ -3198,7 +3198,7 @@ var levelsData =  [
   },
   {
       "name": "Bot18",
-      "cost": 0,
+      "cost": 45,
       "nickName": "Y0S-1",
       "levels": [
         {

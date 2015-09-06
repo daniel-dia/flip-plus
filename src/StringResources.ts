@@ -211,7 +211,7 @@ var stringResources_pt = {
 
     Bonus2_title: "Encontre os pares",
     b2_noMoreChances: "acabaram as chances",
-    b2_finish: "Bem feito!",
+    b2_finish: "Muito bem!",
 
     Bonus3_title: "baú do Capitão",
     b3_finish: "Muito bem!",
