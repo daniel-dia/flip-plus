@@ -21,7 +21,7 @@ module FlipPlus.Menu.View {
         }
 
         //updates Parts indicator amount
-        public updateCoinsAmmount(newQuantity: number, tween:boolean=true) {
+        public updateAmmount(newQuantity: number, tween:boolean=true) {
             this.coinsTextField.text = newQuantity.toString();
         }
 
@@ -46,8 +46,11 @@ module FlipPlus.Menu.View {
         private addCoinIcon(): createjs.DisplayObject {
             var icon = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
             icon.scaleX = icon.scaleY = 0.9;
-            icon.x = -120;
-            icon.y = +35;
+            icon.regX = 119/2;
+            icon.regY = 93 / 2;
+            icon.x = -120 + icon.regX;
+            icon.y = +35 + icon.regY;
+            icon.name = "icon";
             this.addChild(icon);
             return icon;
         }

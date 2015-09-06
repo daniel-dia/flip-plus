@@ -1305,10 +1305,10 @@ var FlipPlus;
                     FlipPlus.FlipPlusGame.exitLevel();
                     gameui.AudiosManager.playSound("Power Down");
                 });
-                // coins Indicator
-                this.coinsIndicator = new FlipPlus.Menu.View.CoinsIndicator();
-                this.header.addChild(this.coinsIndicator);
-                this.coinsIndicator.x = defaultWidth / 2;
+                // parts Indicator
+                this.partsIndicator = new FlipPlus.Menu.View.CoinsIndicator();
+                this.header.addChild(this.partsIndicator);
+                this.partsIndicator.x = defaultWidth / 2;
                 //upper staus area
                 if (FlipPlus.FlipPlusGame.projectManager.getCurrentProject() != undefined) {
                     var levels = FlipPlus.FlipPlusGame.projectManager.getCurrentProject().levels;
@@ -1468,11 +1468,11 @@ var FlipPlus;
                         // updates player coins
                         FlipPlus.FlipPlusGame.coinsData.decreaseAmount(value);
                         // animate coins
-                        this.coinsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item) - 768, 1900, value);
+                        this.partsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item) - 768, 1900, value);
                         //show text effect
                         this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
                         //updates Items buttons labels Quantity on footer
-                        this.coinsIndicator.updateCoinsAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
+                        this.partsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
                     }
                     this.gameplayMenu.updateItemsPrice(this.listItemPrices());
                     // use the item
@@ -1593,7 +1593,7 @@ var FlipPlus;
                 // analytics
                 this.startedTime = Date.now();
                 // updates Items buttons labels Quantity on footer
-                this.coinsIndicator.updateCoinsAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
+                this.partsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
                 this.gameplayMenu.updateItemsPrice(this.listItemPrices());
                 // update hints already used
                 if (this.levelData.userdata.hints)
@@ -3531,7 +3531,11 @@ var FlipPlus;
                 //adds scenary
                 this.addScene(bonusId);
                 //adds footer and itens
-                this.addFooter(itemsArray);
+                //this.addFooter(itemsArray);
+                // add parts indicator
+                this.partsIndicator = new FlipPlus.Menu.View.CoinsIndicator();
+                this.header.addChild(this.partsIndicator);
+                this.partsIndicator.x = defaultWidth / 2;
                 //adds bonus objc
                 this.addObjects();
                 //adds message
@@ -3557,21 +3561,21 @@ var FlipPlus;
                 this.background.addChild(background);
                 //adds header
                 this.header.addChild(gameui.AssetsManager.getBitmap(bonusId + "/header"));
-                var titleText = new createjs.Text(StringResources[bonusId + "_title"], defaultFontFamilyNormal, "white");
-                titleText.textAlign = "center";
-                titleText.text = titleText.text.toUpperCase();
-                titleText.x = defaultWidth / 2;
-                titleText.y = 100;
-                titleText.textBaseline = "middle";
-                this.header.addChild(titleText);
                 //adds footer
                 var footer = gameui.AssetsManager.getBitmap(bonusId + "/footer");
                 this.footer.addChild(footer);
                 footer.y = -291;
+                var titleText = new createjs.Text(StringResources[bonusId + "_title"], defaultFontFamilyNormal, "white");
+                titleText.textAlign = "center";
+                titleText.text = titleText.text.toUpperCase();
+                titleText.x = defaultWidth / 2;
+                titleText.y = -130;
+                titleText.textBaseline = "middle";
+                this.footer.addChild(titleText);
             };
             //adds objects to the view <<interface>>
             BonusScreen.prototype.addObjects = function () { };
-            //create sa footer
+            //creates a footer
             BonusScreen.prototype.addFooter = function (itemsArray) {
                 this.footerContainer = new createjs.Container();
                 this.footerContainer.y = -291;
@@ -3607,32 +3611,19 @@ var FlipPlus;
                 this.footer.addChild(this.footerContainer);
             };
             //updates all footer labels 
-            BonusScreen.prototype.updateFooterValues = function () {
-                //var itemsArray = this.itemsArray;
-                //for (var i = 0; i < itemsArray.length; i++) {
-                //var itemId = itemsArray[i];
-                var itemId = "coin";
-                var textObj = this.footerTexts[itemId];
+            BonusScreen.prototype.updatePartsAmmount = function () {
                 var qt = FlipPlus.FlipPlusGame.coinsData.getAmount();
-                textObj.text = qt.toString();
-                ;
-                var max = this.footerMaxs[itemId];
-                //show max text if item is maximun or more
-                if (qt >= FlipPlus.UserData.Coins.max)
-                    max.visible = true;
-                else
-                    max.visible = false;
-                //}
+                this.partsIndicator.updateAmmount(qt);
             };
             //animate a display object to the menu
             BonusScreen.prototype.animateItemObjectToFooter = function (itemObj, itemId) {
                 var _this = this;
                 if (itemId == "2coin" || itemId == "3coin")
                     itemId = "coin";
-                var footerItem = this.footerContainer.getChildByName(itemId);
+                var footerItem = this.partsIndicator.getChildByName("icon");
                 if (footerItem && itemObj.parent) {
                     var startPoint = itemObj.localToLocal(0, 0, this.content);
-                    var endPoint = this.footerContainer.localToLocal(footerItem.x, footerItem.y, itemObj.parent);
+                    var endPoint = this.partsIndicator.localToLocal(footerItem.x, footerItem.y, itemObj.parent);
                     // cast effect
                     this.fx.castEffect(startPoint.x + 50, startPoint.y + 50, "Bolinhas", 3);
                     // Animate item
@@ -3640,13 +3631,13 @@ var FlipPlus;
                         to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
                         to({ x: endPoint.x, y: endPoint.y }, 700, createjs.Ease.quadInOut).
                         call(function () {
-                        _this.updateFooterValues();
+                        _this.updatePartsAmmount();
                         // cast effect
-                        var fxPoint = _this.footerContainer.localToLocal(footerItem.x, footerItem.y, _this.content);
+                        var fxPoint = _this.partsIndicator.localToLocal(footerItem.x, footerItem.y, _this.content);
                         _this.fx.castEffect(fxPoint.x, fxPoint.y, "Bolinhas", 2);
                         //play Sound
                         gameui.AudiosManager.playSound("Correct Answer 2");
-                    });
+                    }).to({ alpha: 0 }, 300);
                 }
             };
             //create a loop animation for a item
@@ -3684,7 +3675,7 @@ var FlipPlus;
             //===========================================================
             BonusScreen.prototype.activate = function (parameters) {
                 _super.prototype.activate.call(this, parameters);
-                this.updateFooterValues();
+                this.updatePartsAmmount();
             };
             BonusScreen.prototype.back = function () {
                 FlipPlus.FlipPlusGame.showProjectsMenu();
@@ -5349,7 +5340,7 @@ var FlipPlus;
                     this.addChild(this.fx);
                 }
                 //updates Parts indicator amount
-                CoinsIndicator.prototype.updateCoinsAmmount = function (newQuantity, tween) {
+                CoinsIndicator.prototype.updateAmmount = function (newQuantity, tween) {
                     if (tween === void 0) { tween = true; }
                     this.coinsTextField.text = newQuantity.toString();
                 };
@@ -5370,8 +5361,11 @@ var FlipPlus;
                 CoinsIndicator.prototype.addCoinIcon = function () {
                     var icon = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
                     icon.scaleX = icon.scaleY = 0.9;
-                    icon.x = -120;
-                    icon.y = +35;
+                    icon.regX = 119 / 2;
+                    icon.regY = 93 / 2;
+                    icon.x = -120 + icon.regX;
+                    icon.y = +35 + icon.regY;
+                    icon.name = "icon";
                     this.addChild(icon);
                     return icon;
                 };

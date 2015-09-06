@@ -9,6 +9,7 @@
 
         protected footerTexts: Array<createjs.Text>;
         protected footerMaxs:  Array<createjs.Bitmap>;
+        protected partsIndicator: Menu.View.CoinsIndicator;
 
         protected  menu: Menu.View.ScreenMenu;
 
@@ -33,8 +34,13 @@
             this.addScene(bonusId);
 
             //adds footer and itens
-            this.addFooter(itemsArray);
+            //this.addFooter(itemsArray);
 
+            // add parts indicator
+            this.partsIndicator = new Menu.View.CoinsIndicator();
+            this.header.addChild(this.partsIndicator);
+            this.partsIndicator.x = defaultWidth / 2;
+            
             //adds bonus objc
             this.addObjects();
  
@@ -67,26 +73,27 @@
 
             //adds header
             this.header.addChild(gameui.AssetsManager.getBitmap(bonusId + "/header"));
-            var titleText = new createjs.Text(StringResources[bonusId+"_title"], defaultFontFamilyNormal, "white");
-            titleText.textAlign = "center";
-            titleText.text = titleText.text.toUpperCase();
-            titleText.x = defaultWidth / 2;
-            titleText.y = 100;
-            titleText.textBaseline = "middle";
 
-            this.header.addChild(titleText);
 
             //adds footer
             var footer = gameui.AssetsManager.getBitmap(bonusId + "/footer");
             this.footer.addChild(footer);
             footer.y = - 291;
 
+            var titleText = new createjs.Text(StringResources[bonusId + "_title"], defaultFontFamilyNormal, "white");
+            titleText.textAlign = "center";
+            titleText.text = titleText.text.toUpperCase();
+            titleText.x = defaultWidth / 2;
+            titleText.y = - 130;
+            titleText.textBaseline = "middle";
+
+            this.footer.addChild(titleText);
         }
 
         //adds objects to the view <<interface>>
         protected addObjects() {}
 
-        //create sa footer
+        //creates a footer
         protected addFooter(itemsArray: Array<string>) {
             
             this.footerContainer = new createjs.Container();
@@ -130,38 +137,20 @@
         }
 
         //updates all footer labels 
-        protected updateFooterValues() {
-            //var itemsArray = this.itemsArray;
-            //for (var i = 0; i < itemsArray.length; i++) {
-            //var itemId = itemsArray[i];
-
-            var itemId = "coin";
-
-            var textObj = this.footerTexts[itemId];
-
+         protected updatePartsAmmount() {
             var qt = FlipPlusGame.coinsData.getAmount();
-
-            textObj.text = qt.toString();;
-
-            var max: createjs.DisplayObject = this.footerMaxs[itemId]
-
-            //show max text if item is maximun or more
-            if (qt >= UserData.Coins.max)
-                max.visible = true;
-            else
-                max.visible = false;
-            //}
+            this.partsIndicator.updateAmmount(qt);
         }
 
         //animate a display object to the menu
         protected animateItemObjectToFooter(itemObj: createjs.DisplayObject, itemId: string) {
 
             if (itemId == "2coin" || itemId == "3coin") itemId = "coin"
-            var footerItem = this.footerContainer.getChildByName(itemId);
+            var footerItem = this.partsIndicator.getChildByName("icon");
             if (footerItem && itemObj.parent) {
-                    
+
                 var startPoint = itemObj.localToLocal(0, 0, this.content);
-                var endPoint = this.footerContainer.localToLocal(footerItem.x, footerItem.y, itemObj.parent);
+                var endPoint = this.partsIndicator.localToLocal(footerItem.x, footerItem.y, itemObj.parent);
 
                 // cast effect
                 this.fx.castEffect(startPoint.x + 50, startPoint.y + 50, "Bolinhas", 3);
@@ -169,17 +158,18 @@
                 // Animate item
                 createjs.Tween.get(itemObj).
                     to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
-                    to({ x: endPoint.x, y: endPoint.y}, 700, createjs.Ease.quadInOut).
+                    to({ x: endPoint.x, y: endPoint.y }, 700, createjs.Ease.quadInOut).
                     call(() => {
-                        this.updateFooterValues();
+
+                        this.updatePartsAmmount();
 
                         // cast effect
-                        var fxPoint = this.footerContainer.localToLocal(footerItem.x, footerItem.y, this.content);
-                        this.fx.castEffect(fxPoint.x, fxPoint.y,"Bolinhas", 2);
+                        var fxPoint = this.partsIndicator.localToLocal(footerItem.x, footerItem.y, this.content);
+                        this.fx.castEffect(fxPoint.x, fxPoint.y, "Bolinhas", 2);
 
                         //play Sound
                         gameui.AudiosManager.playSound("Correct Answer 2");
-                    });
+                    }).to({ alpha: 0 },300);
             }
 
         }
@@ -228,7 +218,7 @@
 
             super.activate(parameters);
 
-            this.updateFooterValues();
+            this.updatePartsAmmount();
         }        
         
         back() {

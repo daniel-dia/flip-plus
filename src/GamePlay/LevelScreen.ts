@@ -11,7 +11,7 @@ module FlipPlus.GamePlay {
         
         // Overlays
         protected gameplayMenu: Views.GamePlayMenu;
-        protected coinsIndicator: Menu.View.CoinsIndicator;
+        protected partsIndicator: Menu.View.CoinsIndicator;
         protected statusArea: Views.StatusArea;
         protected popup: Menu.View.Popup;
         protected popupHelper: Menu.View.PopupHelper;
@@ -141,10 +141,10 @@ module FlipPlus.GamePlay {
                 gameui.AudiosManager.playSound("Power Down")
             });
 
-            // coins Indicator
-            this.coinsIndicator= new Menu.View.CoinsIndicator();
-            this.header.addChild(this.coinsIndicator);
-            this.coinsIndicator.x = defaultWidth / 2;
+            // parts Indicator
+            this.partsIndicator= new Menu.View.CoinsIndicator();
+            this.header.addChild(this.partsIndicator);
+            this.partsIndicator.x = defaultWidth / 2;
             
             //upper staus area
             if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
@@ -356,13 +356,13 @@ module FlipPlus.GamePlay {
                     FlipPlusGame.coinsData.decreaseAmount(value);
 
                     // animate coins
-                    this.coinsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item) - 768, 1900, value);
+                    this.partsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item) - 768, 1900, value);
 
                     //show text effect
                     this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
 
                     //updates Items buttons labels Quantity on footer
-                    this.coinsIndicator.updateCoinsAmmount(FlipPlusGame.coinsData.getAmount());
+                    this.partsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
                 }
 
                 this.gameplayMenu.updateItemsPrice(this.listItemPrices());
@@ -503,7 +503,7 @@ module FlipPlus.GamePlay {
             this.startedTime = Date.now();
 
             // updates Items buttons labels Quantity on footer
-            this.coinsIndicator.updateCoinsAmmount(FlipPlusGame.coinsData.getAmount());
+            this.partsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
             this.gameplayMenu.updateItemsPrice(this.listItemPrices());
 
 
