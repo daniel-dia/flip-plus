@@ -174,7 +174,7 @@ module FlipPlus.Menu.View {
             this.addsClickIndicator();
         }
         
-        public showTaps(title: string, text: string, taps: string, timeout: number= 7000, delay: number= 0) {
+        public showTaps(taps: string, timeout: number= 7000, delay: number= 0) {
             this.showsPopup(timeout, delay);
 
             //clean display Object
@@ -215,17 +215,18 @@ module FlipPlus.Menu.View {
             this.addChild(textDO2);
 
             //create a text
-            var flipsDO = new createjs.Text("", defaultNumberHighlight, "white");
-            flipsDO.textAlign = "center";
-            flipsDO.textBaseline = "middle";
-            flipsDO.x = defaultWidth / 2;
-            this.addChild(flipsDO);
+            var tapsDO = new createjs.Text("", defaultNumberHighlight, "white");
+            tapsDO.textAlign = "center";
+            tapsDO.textBaseline = "middle";
+            tapsDO.x = defaultWidth / 2;
+            this.addChild(tapsDO);
 
             //updates title and text values
-            titleShadow.text = titleDO.text = title.toUpperCase();
-            textDO.text = text;
-            textDO2.text = "";
-            flipsDO.text = taps;
+            titleShadow.text = titleDO.text = StringResources.gp_mv_Popup1Title.toUpperCase();
+            textDO.text = StringResources.gp_mv_Popup1Text1;
+            textDO2.text = StringResources.gp_mv_Popup1Text3;
+            tapsDO.text = taps;
+            
 
             var b = defaultHeight / 2 - 500;
 
@@ -233,10 +234,7 @@ module FlipPlus.Menu.View {
             titleShadow.y = titleDO.y + 15;
             textDO.y = 300 + b;
             textDO2.y = 600 + b;
-            flipsDO.y = 450 + b;
-
-            flipsDO.x = defaultWidth / 2 + 400;
-
+            tapsDO.y = 450 + b;
 
             this.addsClickIndicator();
         }

@@ -2034,7 +2034,7 @@ var FlipPlus;
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
                 //set default puzzles to solve
                 //this.popup.showTimeAttack(StringResources.gp_mv_Popup1Title, StringResources.gp_mv_Popup1Text1, this.levelData.moves.toString(), this.levelData.puzzlesToSolve.toString(), StringResources.gp_mv_Popup1Text2, StringResources.gp_mv_Popup1Text3); 
-                this.popup.showTaps(StringResources.gp_mv_Popup1Title, StringResources.gp_mv_Popup1Text1, this.levelData.moves.toString());
+                this.popup.showTaps(this.levelData.moves.toString());
                 this.statusArea.setMode("moves");
                 this.statusArea.setText3(this.moves.toString());
             }
@@ -6035,7 +6035,7 @@ var FlipPlus;
                     boardsDO.x = defaultWidth / 2 - 400;
                     this.addsClickIndicator();
                 };
-                Popup.prototype.showTaps = function (title, text, taps, timeout, delay) {
+                Popup.prototype.showTaps = function (taps, timeout, delay) {
                     if (timeout === void 0) { timeout = 7000; }
                     if (delay === void 0) { delay = 0; }
                     this.showsPopup(timeout, delay);
@@ -6071,23 +6071,22 @@ var FlipPlus;
                     textDO2.x = defaultWidth / 2;
                     this.addChild(textDO2);
                     //create a text
-                    var flipsDO = new createjs.Text("", defaultNumberHighlight, "white");
-                    flipsDO.textAlign = "center";
-                    flipsDO.textBaseline = "middle";
-                    flipsDO.x = defaultWidth / 2;
-                    this.addChild(flipsDO);
+                    var tapsDO = new createjs.Text("", defaultNumberHighlight, "white");
+                    tapsDO.textAlign = "center";
+                    tapsDO.textBaseline = "middle";
+                    tapsDO.x = defaultWidth / 2;
+                    this.addChild(tapsDO);
                     //updates title and text values
-                    titleShadow.text = titleDO.text = title.toUpperCase();
-                    textDO.text = text;
-                    textDO2.text = "";
-                    flipsDO.text = taps;
+                    titleShadow.text = titleDO.text = StringResources.gp_mv_Popup1Title.toUpperCase();
+                    textDO.text = StringResources.gp_mv_Popup1Text1;
+                    textDO2.text = StringResources.gp_mv_Popup1Text3;
+                    tapsDO.text = taps;
                     var b = defaultHeight / 2 - 500;
                     titleDO.y = 0 + b + 50;
                     titleShadow.y = titleDO.y + 15;
                     textDO.y = 300 + b;
                     textDO2.y = 600 + b;
-                    flipsDO.y = 450 + b;
-                    flipsDO.x = defaultWidth / 2 + 400;
+                    tapsDO.y = 450 + b;
                     this.addsClickIndicator();
                 };
                 // other stuff
@@ -8132,9 +8131,8 @@ var StringResources = {
     gp_pz_statusEnd: "END",
     gp_pz_timeUP: "Time's up",
     gp_mv_Popup1Title: "Flip Challenge",
-    gp_mv_Popup1Text1: "Solve",
-    gp_mv_Popup1Text2: "boards in",
-    gp_mv_Popup1Text3: "flips",
+    gp_mv_Popup1Text1: "Solve in",
+    gp_mv_Popup1Text3: "taps",
     gp_mv_statusEnd: "END",
     gp_mv_noMoreMoves: "No more moves",
     Bonus1_title: "pick 3 Barrels",
@@ -8240,8 +8238,7 @@ var stringResources_pt = {
     gp_pz_statusEnd: "Fim",
     gp_pz_timeUP: "Acabou o tempo",
     gp_mv_Popup1Title: "Movimentos",
-    gp_mv_Popup1Text1: "Resolva",
-    gp_mv_Popup1Text2: "quadros com",
+    gp_mv_Popup1Text1: "Resolva em",
     gp_mv_Popup1Text3: "movimentos",
     gp_mv_statusEnd: "fim",
     gp_mv_noMoreMoves: "Não há mais \nmovimentos",

@@ -59,9 +59,8 @@
     gp_pz_timeUP: "Time's up",
 
     gp_mv_Popup1Title: "Flip Challenge",
-    gp_mv_Popup1Text1: "Solve",
-    gp_mv_Popup1Text2: "boards in",
-    gp_mv_Popup1Text3: "flips",
+    gp_mv_Popup1Text1: "Solve in",
+    gp_mv_Popup1Text3: "taps",
     gp_mv_statusEnd: "END",
     gp_mv_noMoreMoves: "No more moves",
 
@@ -201,8 +200,7 @@ var stringResources_pt = {
     gp_pz_timeUP: "Acabou o tempo",
 
     gp_mv_Popup1Title: "Movimentos",
-    gp_mv_Popup1Text1: "Resolva",
-    gp_mv_Popup1Text2: "quadros com",
+    gp_mv_Popup1Text1: "Resolva em",
     gp_mv_Popup1Text3: "movimentos",
     gp_mv_statusEnd: "fim",
     gp_mv_noMoreMoves: "Não há mais \nmovimentos",
