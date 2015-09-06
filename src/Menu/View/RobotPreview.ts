@@ -28,8 +28,8 @@
                 this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
                 this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
 
-                this.fill.regX - 50;
-                this.fill.regY - 50;
+                this.fill.regX - 25;
+                this.fill.regY - 25;
 
                 this.addChild(this.fill);
                 this.addChild(this.stroke); 
@@ -38,7 +38,7 @@
                 this.percentMask = new createjs.Shape();
                 this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, -this.fill.getBounds().height).endFill();
                 this.percentMask.scaleY = 0;
-                this.percentMask.y = 50;
+                this.percentMask.y = -25;
                 this.fill.mask = this.percentMask;
         }
 

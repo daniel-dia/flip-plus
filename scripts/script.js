@@ -5170,7 +5170,15 @@ var FlipPlus;
                         this.setSound(null);
                         //create bounce effect if is active
                         thumbContainer.set({ scaleX: 1, scaleY: 1 });
-                        createjs.Tween.get(thumbContainer, { loop: true })
+                        createjs.Tween.get(thumbContainer)
+                            .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
                             .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
                             .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut);
                     }
@@ -5475,7 +5483,13 @@ var FlipPlus;
                     //if is new (unlocked and not played) do an animation
                     if (this.project.UserData.percent == 0 && this.project.UserData.unlocked) {
                         this.set({ scaleX: 1, scaleY: 1 });
-                        createjs.Tween.get(this, { loop: true })
+                        createjs.Tween.get(this)
+                            .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                            .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
                             .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
                             .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut);
                     }
@@ -7280,11 +7294,7 @@ var FlipPlus;
                     if (time == 0) {
                         this.timerText.text = StringResources.mm_play;
                         if (!createjs.Tween.hasActiveTweens(this.timerText)) {
-                            ////this.timerText.cache(-200, -50, 400, 100);
                             this.timerText.set({ scaleX: 1, scaleY: 1 });
-                            createjs.Tween.get(this.timerText, { loop: true })
-                                .to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut)
-                                .to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
                         }
                     }
                     else {
@@ -7933,15 +7943,15 @@ var FlipPlus;
                     this.stroke = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
                     this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
                     this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
-                    this.fill.regX - 50;
-                    this.fill.regY - 50;
+                    this.fill.regX - 25;
+                    this.fill.regY - 25;
                     this.addChild(this.fill);
                     this.addChild(this.stroke);
                     //mask
                     this.percentMask = new createjs.Shape();
                     this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, -this.fill.getBounds().height).endFill();
                     this.percentMask.scaleY = 0;
-                    this.percentMask.y = 50;
+                    this.percentMask.y = -25;
                     this.fill.mask = this.percentMask;
                 };
                 // shows up the completed bot

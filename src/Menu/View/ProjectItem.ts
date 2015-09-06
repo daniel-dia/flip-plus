@@ -110,7 +110,13 @@ module FlipPlus.Menu.View {
             //if is new (unlocked and not played) do an animation
             if (this.project.UserData.percent == 0 && this.project.UserData.unlocked) {
                 this.set({ scaleX: 1, scaleY: 1 })
-                createjs.Tween.get(this, { loop: true })
+                createjs.Tween.get(this)
+                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
                     .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
                     .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
             }

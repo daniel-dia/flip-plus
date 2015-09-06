@@ -94,19 +94,14 @@ module FlipPlus.Menu.View {
             if (time == 0) {
                 this.timerText.text = StringResources.mm_play;
 
-                if(!createjs.Tween.hasActiveTweens(this.timerText)) {
-                    ////this.timerText.cache(-200, -50, 400, 100);
+                if (!createjs.Tween.hasActiveTweens(this.timerText)) {
                     this.timerText.set({ scaleX: 1, scaleY: 1 });
-                    createjs.Tween.get(this.timerText, { loop: true })
-                        .to({ scaleX: 1.1, scaleY: 1.1 }, 400, createjs.Ease.sineInOut)
-                        .to({ scaleX: 1, scaleY: 1 }, 400, createjs.Ease.sineInOut);
-                    }
+                }
             }
             else {
                 createjs.Tween.removeTweens(this.timerText);
                 this.timerText.text = this.toHHMMSS(time);
-                this.timerText.scaleX = this.scaleY = 1;
-                ////this.timerText.cache(-200, -50, 400, 100);
+                this.timerText.scaleX = this.scaleY = 1; 
             }
             
             

@@ -66,9 +66,17 @@ module FlipPlus.Menu.View {
 
                 //create bounce effect if is active
                 thumbContainer.set({ scaleX: 1, scaleY: 1 })
-                createjs.Tween.get(thumbContainer, { loop: true })
+                createjs.Tween.get(thumbContainer)
                     .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
-                    .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut);
+                    .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                    .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
            }
 
             //Adds Thumb Backgroud
