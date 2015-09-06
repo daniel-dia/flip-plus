@@ -235,7 +235,7 @@ module FlipPlus {
             this.showProjectLevelsMenu(null, { complete: complete });
         }
 
-        public static showMainMenu() {
+        public static showMainScreen() {
             if (this.mainScreen == null)
                 this.mainScreen = new Menu.MainMenu();
 

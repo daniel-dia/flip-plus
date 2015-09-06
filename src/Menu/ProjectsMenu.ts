@@ -273,7 +273,7 @@ module FlipPlus.Menu {
 
         //back button
         public back() {
-            FlipPlus.FlipPlusGame.showMainMenu();
+            FlipPlus.FlipPlusGame.showMainScreen();
         }
     }
 }

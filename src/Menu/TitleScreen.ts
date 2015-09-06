@@ -21,7 +21,7 @@ module FlipPlus.Menu {
 
             //add event to go to main menu
             this.content.addEventListener("click", () => {
-                FlipPlusGame.showMainMenu();
+                FlipPlusGame.showMainScreen();
 
             });
 

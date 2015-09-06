@@ -174,6 +174,9 @@ module FlipPlus.Menu {
                         this.footer.mouseEnabled = false;
                         this.content.mouseEnabled = false;
                         this.header.mouseEnabled = false;
+                        setTimeout(() => {
+                            FlipPlusGame.showMainScreen();
+                        }, 6000);
                         var proj = project;
                     }
                 }
