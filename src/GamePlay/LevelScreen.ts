@@ -344,15 +344,14 @@ module FlipPlus.GamePlay {
             var coinsAmount = FlipPlusGame.coinsData.getAmount()
             if (free || coinsAmount >= value) {
 
-                // saves item used information
-                if (!this.itemTimes[item]) this.itemTimes[item] = 0;
-                this.itemTimes[item]++;
-
-                // updates data
-                if (item != Items.HINT) this.usedItem = item;
-
-
                 if (!free) {
+                    // saves item used information
+                    if (!this.itemTimes[item]) this.itemTimes[item] = 0;
+                    this.itemTimes[item]++;
+
+                    // updates data
+                    if (item != Items.HINT) this.usedItem = item;
+
                     // updates player coins
                     FlipPlusGame.coinsData.decreaseAmount(value);
 
@@ -372,7 +371,7 @@ module FlipPlus.GamePlay {
                 switch (item) {
                     case Items.SKIP:  this.useItemSkip(); break;
                     case Items.SOLVE: this.useItemSolve(); break;
-                    case Items.HINT: this.useItemHint(); break;
+                    case Items.HINT: this.useItemHint(parameters); break;
                     case Items.TIME: break;
                     case Items.TAP:  break;
                 }
@@ -434,6 +433,7 @@ module FlipPlus.GamePlay {
             // save used hint on level
             this.levelData.userdata.hints = this.levelData.userdata.hints || [];
             this.levelData.userdata.hints.push(blockId);
+
             // saves 
             FlipPlusGame.projectData.saveLevelData(this.levelData);
         }
