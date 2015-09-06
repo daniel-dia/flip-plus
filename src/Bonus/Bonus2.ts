@@ -43,9 +43,9 @@
                 card2.opened = false;
                 //animate itens
 
-                this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
+                this.animateItemToHeader(card1.getChildByName("item"), card1.name);
                 setTimeout(() => {
-                    this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
+                    this.animateItemToHeader(card2.getChildByName("item"), card2.name);
                 }, 200);
 
                 // play sound

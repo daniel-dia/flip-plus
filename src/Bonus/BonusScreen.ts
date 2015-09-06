@@ -143,17 +143,17 @@
         }
 
         //animate a display object to the menu
-        protected animateItemObjectToFooter(itemObj: createjs.DisplayObject, itemId: string) {
+         protected animateItemToHeader(itemObj: createjs.DisplayObject, itemId: string = "coin") {
 
             if (itemId == "2coin" || itemId == "3coin") itemId = "coin"
             var footerItem = this.partsIndicator.getChildByName("icon");
             if (footerItem && itemObj.parent) {
 
-                var startPoint = itemObj.localToLocal(0, 0, this.content);
+                var startPoint = itemObj.localToLocal(itemObj.regX, itemObj.regY, this.content);
                 var endPoint = this.partsIndicator.localToLocal(footerItem.x, footerItem.y, itemObj.parent);
 
                 // cast effect
-                this.fx.castEffect(startPoint.x + 50, startPoint.y + 50, "Bolinhas", 3);
+                this.fx.castEffect(startPoint.x, startPoint.y-50, "Bolinhas", 3);
                     
                 // Animate item
                 createjs.Tween.get(itemObj).

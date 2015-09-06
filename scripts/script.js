@@ -3616,16 +3616,17 @@ var FlipPlus;
                 this.partsIndicator.updateAmmount(qt);
             };
             //animate a display object to the menu
-            BonusScreen.prototype.animateItemObjectToFooter = function (itemObj, itemId) {
+            BonusScreen.prototype.animateItemToHeader = function (itemObj, itemId) {
                 var _this = this;
+                if (itemId === void 0) { itemId = "coin"; }
                 if (itemId == "2coin" || itemId == "3coin")
                     itemId = "coin";
                 var footerItem = this.partsIndicator.getChildByName("icon");
                 if (footerItem && itemObj.parent) {
-                    var startPoint = itemObj.localToLocal(0, 0, this.content);
+                    var startPoint = itemObj.localToLocal(itemObj.regX, itemObj.regY, this.content);
                     var endPoint = this.partsIndicator.localToLocal(footerItem.x, footerItem.y, itemObj.parent);
                     // cast effect
-                    this.fx.castEffect(startPoint.x + 50, startPoint.y + 50, "Bolinhas", 3);
+                    this.fx.castEffect(startPoint.x, startPoint.y - 50, "Bolinhas", 3);
                     // Animate item
                     createjs.Tween.get(itemObj).
                         to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
@@ -3820,6 +3821,7 @@ var FlipPlus;
                     //show the item
                     if (this.items[b]) {
                         var itemDO = gameui.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]);
+                        itemDO.name = "item";
                         this.BarrelsItens[b].addChild(itemDO);
                         itemDO.regX = itemDO.getBounds().width / 2;
                         itemDO.regY = itemDO.getBounds().height / 2;
@@ -3876,7 +3878,7 @@ var FlipPlus;
                     // play sound
                     gameui.AudiosManager.playSound("Correct Answer");
                     this.userAquireItem(this.items[barrelId]);
-                    this.animateItemObjectToFooter(this.BarrelsItens[barrelId], this.items[barrelId]);
+                    this.animateItemToHeader(this.BarrelsItens[barrelId].getChildByName("item"));
                     createjs.Tween.get(this.contentShadow[barrelId]).to({ alpha: 0 }, 600);
                 }
                 else {
@@ -3945,9 +3947,9 @@ var FlipPlus;
                     card1.opened = false;
                     card2.opened = false;
                     //animate itens
-                    this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
+                    this.animateItemToHeader(card1.getChildByName("item"), card1.name);
                     setTimeout(function () {
-                        _this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
+                        _this.animateItemToHeader(card2.getChildByName("item"), card2.name);
                     }, 200);
                     // play sound
                     gameui.AudiosManager.playSound("Correct Answer");
@@ -4229,7 +4231,7 @@ var FlipPlus;
                     itemObj.regY = itemObj.getBounds().height / 2;
                     createjs.Tween.get(itemObj).wait(500 + i * 300)
                         .to({ alpha: 1, x: defaultWidth * 0.15 + i * (defaultWidth * 0.7 / items.length), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
-                        .call(function (itemDo) { _this.animateItemObjectToFooter(itemDo, itemDo.name); }, [itemObj]);
+                        .call(function (itemDo) { _this.animateItemToHeader(itemDo, itemDo.name); }, [itemObj]);
                     this.itemsContainer.addChild(itemObj);
                 }
             };
@@ -6477,8 +6479,8 @@ var FlipPlus;
                     this.userAquireItem(card1.name);
                     this.userAquireItem(card1.name);
                     // animate itens
-                    this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
-                    this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
+                    this.animateItemToHeader(card1.getChildByName("item"), card1.name);
+                    this.animateItemToHeader(card2.getChildByName("item"), card2.name);
                     return true;
                 }
                 else {
@@ -8250,7 +8252,7 @@ var stringResources_pt = {
     gp_mv_Popup1Text1: "Resolva em",
     gp_mv_Popup1Text3: "movimentos",
     gp_mv_statusEnd: "fim",
-    gp_mv_noMoreMoves: "Não há mais \nmovimentos",
+    gp_mv_noMoreMoves: "Acabou",
     Bonus1_title: "Escolha 3 Barris",
     b1_popup1Ttitle: "Escolha 3 Barris",
     b1_popup1Text: "Alguns Barris tem itens escondidos",

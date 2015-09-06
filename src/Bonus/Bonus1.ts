@@ -162,6 +162,7 @@
                 //show the item
                 if (this.items[b]) {
                     var itemDO = gameui.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]);
+                    itemDO.name = "item";
                     this.BarrelsItens[b].addChild(itemDO);
                     itemDO.regX = itemDO.getBounds().width / 2;
                     itemDO.regY = itemDO.getBounds().height / 2;
@@ -230,7 +231,7 @@
                 // play sound
                 gameui.AudiosManager.playSound("Correct Answer");
                 this.userAquireItem(this.items[barrelId]);
-                this.animateItemObjectToFooter(this.BarrelsItens[barrelId], this.items[barrelId]);
+                this.animateItemToHeader(this.BarrelsItens[barrelId].getChildByName("item"));
                 createjs.Tween.get(this.contentShadow[barrelId]).to({alpha:0},600);
             }
             else {

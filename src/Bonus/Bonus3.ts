@@ -168,7 +168,7 @@
                 itemObj.regY = itemObj.getBounds().height / 2;
                 createjs.Tween.get(itemObj).wait(500 + i * 300)
                     .to({ alpha: 1, x: defaultWidth *0.15 + i * (defaultWidth * 0.7 / items.length), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
-                    .call((itemDo: createjs.DisplayObject) => { this.animateItemObjectToFooter(itemDo, itemDo.name) }, [itemObj])
+                    .call((itemDo: createjs.DisplayObject) => { this.animateItemToHeader(itemDo, itemDo.name) }, [itemObj])
                 this.itemsContainer.addChild(itemObj);
             }
         }

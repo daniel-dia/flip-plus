@@ -29,8 +29,8 @@
                 this.userAquireItem(card1.name);
 
                 // animate itens
-                this.animateItemObjectToFooter(card1.getChildByName("item"), card1.name);
-                this.animateItemObjectToFooter(card2.getChildByName("item"), card2.name);
+                this.animateItemToHeader(card1.getChildByName("item"), card1.name);
+                this.animateItemToHeader(card2.getChildByName("item"), card2.name);
                 return true;
 
             } else {

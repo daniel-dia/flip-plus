@@ -203,7 +203,7 @@ var stringResources_pt = {
     gp_mv_Popup1Text1: "Resolva em",
     gp_mv_Popup1Text3: "movimentos",
     gp_mv_statusEnd: "fim",
-    gp_mv_noMoreMoves: "Não há mais \nmovimentos",
+    gp_mv_noMoreMoves: "Acabou",
 
     Bonus1_title: "Escolha 3 Barris",
     b1_popup1Ttitle: "Escolha 3 Barris",
