@@ -205,7 +205,7 @@ var stringResources_pt = {
     gp_mv_Popup1Text2: "quadros com",
     gp_mv_Popup1Text3: "movimentos",
     gp_mv_statusEnd: "fim",
-    gp_mv_noMoreMoves: "Não há mais movimentos",
+    gp_mv_noMoreMoves: "Não há mais \nmovimentos",
 
     Bonus1_title: "Escolha 3 Barris",
     b1_popup1Ttitle: "Escolha 3 Barris",

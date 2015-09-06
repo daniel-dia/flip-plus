@@ -924,7 +924,7 @@ var FlipPlus;
         };
         // ---------------------------- license --------------------------------------------------//
         FlipPlusGame.isFree = function () {
-            return false;
+            return true;
         };
         return FlipPlusGame;
     })();
@@ -2033,7 +2033,8 @@ var FlipPlus;
                 this.puzzlesToSolve = levelData.puzzlesToSolve;
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
                 //set default puzzles to solve
-                this.popup.showTimeAttack(StringResources.gp_mv_Popup1Title, StringResources.gp_mv_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.moves.toString(), StringResources.gp_mv_Popup1Text2, StringResources.gp_mv_Popup1Text3);
+                //this.popup.showTimeAttack(StringResources.gp_mv_Popup1Title, StringResources.gp_mv_Popup1Text1, this.levelData.moves.toString(), this.levelData.puzzlesToSolve.toString(), StringResources.gp_mv_Popup1Text2, StringResources.gp_mv_Popup1Text3); 
+                this.popup.showTaps(StringResources.gp_mv_Popup1Title, StringResources.gp_mv_Popup1Text1, this.levelData.moves.toString());
                 this.statusArea.setMode("moves");
                 this.statusArea.setText3(this.moves.toString());
             }
@@ -2221,7 +2222,7 @@ var FlipPlus;
                 _super.prototype.activate.call(this);
                 this.boardSprite.visible = false;
                 //shows popup
-                this.popup.showTimeAttack(StringResources.b1_popup1Ttitle, StringResources.gp_pz_Popup1Text1, this.levelData.puzzlesToSolve.toString(), this.levelData.time.toString(), StringResources.gp_pz_Popup1Text2, StringResources.gp_pz_Popup1Text3);
+                this.popup.showTimeAttack(StringResources.gp_pz_Popup1Title, StringResources.gp_pz_Popup1Text1, this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString(), StringResources.gp_pz_Popup1Text2, StringResources.gp_pz_Popup1Text3);
                 this.popup.addEventListener("onclose", function () {
                     _this.boardSprite.visible = true;
                     //shows puzzle
@@ -6030,10 +6031,11 @@ var FlipPlus;
                     timeDO.y = 450 + b;
                     boardsDO.y = 450 + b;
                     timeDO.x = 500;
-                    boardsDO.x = defaultWidth - 500;
+                    timeDO.x = defaultWidth / 2 + 400;
+                    boardsDO.x = defaultWidth / 2 - 400;
                     this.addsClickIndicator();
                 };
-                Popup.prototype.showflips = function (title, text, flips, timeout, delay) {
+                Popup.prototype.showTaps = function (title, text, taps, timeout, delay) {
                     if (timeout === void 0) { timeout = 7000; }
                     if (delay === void 0) { delay = 0; }
                     this.showsPopup(timeout, delay);
@@ -6078,13 +6080,14 @@ var FlipPlus;
                     titleShadow.text = titleDO.text = title.toUpperCase();
                     textDO.text = text;
                     textDO2.text = "";
-                    flipsDO.text = flips;
+                    flipsDO.text = taps;
                     var b = defaultHeight / 2 - 500;
                     titleDO.y = 0 + b + 50;
                     titleShadow.y = titleDO.y + 15;
                     textDO.y = 300 + b;
                     textDO2.y = 600 + b;
                     flipsDO.y = 450 + b;
+                    flipsDO.x = defaultWidth / 2 + 400;
                     this.addsClickIndicator();
                 };
                 // other stuff
@@ -8241,7 +8244,7 @@ var stringResources_pt = {
     gp_mv_Popup1Text2: "quadros com",
     gp_mv_Popup1Text3: "movimentos",
     gp_mv_statusEnd: "fim",
-    gp_mv_noMoreMoves: "Não há mais movimentos",
+    gp_mv_noMoreMoves: "Não há mais \nmovimentos",
     Bonus1_title: "Escolha 3 Barris",
     b1_popup1Ttitle: "Escolha 3 Barris",
     b1_popup1Text: "Alguns Barris tem itens escondidos",

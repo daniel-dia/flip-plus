@@ -166,12 +166,15 @@ module FlipPlus.Menu.View {
             boardsDO.y = 450+b;
 
             timeDO.x = 500;
-            boardsDO.x = defaultWidth - 500;
+
+            timeDO.x = defaultWidth / 2 + 400;
+            boardsDO.x = defaultWidth / 2 - 400;
+
 
             this.addsClickIndicator();
         }
         
-        public showflips(title: string, text: string, flips: string, timeout: number= 7000, delay: number= 0) {
+        public showTaps(title: string, text: string, taps: string, timeout: number= 7000, delay: number= 0) {
             this.showsPopup(timeout, delay);
 
             //clean display Object
@@ -222,7 +225,7 @@ module FlipPlus.Menu.View {
             titleShadow.text = titleDO.text = title.toUpperCase();
             textDO.text = text;
             textDO2.text = "";
-            flipsDO.text = flips;
+            flipsDO.text = taps;
 
             var b = defaultHeight / 2 - 500;
 
@@ -231,6 +234,8 @@ module FlipPlus.Menu.View {
             textDO.y = 300 + b;
             textDO2.y = 600 + b;
             flipsDO.y = 450 + b;
+
+            flipsDO.x = defaultWidth / 2 + 400;
 
 
             this.addsClickIndicator();

@@ -277,7 +277,7 @@ module FlipPlus {
         // ---------------------------- license --------------------------------------------------//
 
         public static isFree():boolean {
-            return false;
+            return true;
         }
     }
 }

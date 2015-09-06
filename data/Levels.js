@@ -28,12 +28,11 @@ Bot unlocked
   
  */
 
-var levelsData = [
+var levelsData =  [
   {
       "nickName": "S-N3S",
       "name": "Bot01",
       "cost": 0,
-      "free": true,
       "levels": [
         {
             "name": "0/0",
@@ -87,7 +86,7 @@ var levelsData = [
                   "atEnd": true,
                   "text": "tut_2_2_text",
                   "title": "tut_2_2_title"
-              },
+              }
             ]
         },
         {
@@ -98,8 +97,7 @@ var levelsData = [
             "blocksData": [
               10,
               14
-            ],
-
+            ]
         },
         {
             "width": 5,
@@ -121,23 +119,23 @@ var levelsData = [
               13
             ],
             "tutorial": [
-                {
-                    "text": "tut_3_1_text",
-                    "title": "tut_3_1_title"
-                },
-                {
-                    "click": 11
-                },
-                {
-                    "atEnd": true,
-                    "text": "tut_3_2_text",
-                    "title": "tut_3_2_title"
-                }
+              {
+                  "text": "tut_3_1_text",
+                  "title": "tut_3_1_title"
+              },
+              {
+                  "click": 11
+              },
+              {
+                  "atEnd": true,
+                  "text": "tut_3_2_text",
+                  "title": "tut_3_2_title"
+              }
             ]
         },
         {
-            "width": "6",
-            "height": "6",
+            "width": 6,
+            "height": 6,
             "theme": "purple",
             "type": "tutorial",
             "blocksData": [
@@ -145,27 +143,27 @@ var levelsData = [
               21
             ],
             "tutorial": [
-            {
-                "text": "tut_4_1_text",
-                "title": "tut_4_1_title"
-            },
-            {
-                "item": "hint",
-                "parameter": 14
-            },
-            {
-                "click": 14
-            },
-            {
-                "atEnd": true,
-                "text": "tut_4_2_text",
-                "title": "tut_4_2_title"
-            }
+              {
+                  "text": "tut_4_1_text",
+                  "title": "tut_4_1_title"
+              },
+              {
+                  "item": "hint",
+                  "parameter": 14
+              },
+              {
+                  "click": 14
+              },
+              {
+                  "atEnd": true,
+                  "text": "tut_4_2_text",
+                  "title": "tut_4_2_title"
+              }
             ]
         },
         {
-            "width": "7",
-            "height": "3",
+            "width": 7,
+            "height": 3,
             "theme": "purple",
             "type": "puzzle",
             "blocksData": [
@@ -198,8 +196,8 @@ var levelsData = [
         },
         {
             "name": "0/2",
-            "width": "5",
-            "height": "5",
+            "width": 5,
+            "height": 5,
             "type": "tutorial",
             "theme": "yellow",
             "blocksData": [
@@ -213,7 +211,7 @@ var levelsData = [
               {
                   "text": "tut_5_1_text",
                   "title": "tut_5_1_title"
-              },
+              }
             ]
         }
       ]
@@ -222,7 +220,6 @@ var levelsData = [
       "nickName": "R-MS",
       "name": "Bot02",
       "cost": 0,
-      "free": true,
       "levels": [
         {
             "width": 5,
@@ -343,8 +340,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "7",
-            "height": "7",
+            "width": 7,
+            "height": 7,
             "theme": "yellow",
             "type": "puzzle",
             "blocksData": [
@@ -361,7 +358,6 @@ var levelsData = [
       "nickName": "P1K-4",
       "name": "Bot03",
       "cost": 0,
-      "free": true,
       "levels": [
         {
             "name": "2/2",
@@ -398,8 +394,8 @@ var levelsData = [
         },
         {
             "name": "1/4",
-            "width": "4",
-            "height": "4",
+            "width": 4,
+            "height": 4,
             "type": "puzzle",
             "theme": "green",
             "moves": null,
@@ -423,7 +419,7 @@ var levelsData = [
               11,
               12,
               13
-            ],
+            ]
         },
         {
             "name": "1/1",
@@ -444,7 +440,7 @@ var levelsData = [
         {
             "name": "2/4",
             "width": 5,
-            "height": "6",
+            "height": 6,
             "type": "puzzle",
             "theme": "purple",
             "moves": null,
@@ -531,7 +527,6 @@ var levelsData = [
       "nickName": "L-1NK",
       "name": "Bot04",
       "cost": 0,
-      "free": true,
       "levels": [
         {
             "name": "3/0",
@@ -601,7 +596,7 @@ var levelsData = [
         },
         {
             "name": "3/4",
-            "width": "5",
+            "width": 5,
             "height": 5,
             "type": "puzzle",
             "theme": "purple",
@@ -704,7 +699,6 @@ var levelsData = [
       "name": "Bot05",
       "cost": 0,
       "nickName": "B00-M",
-      "free": true,
       "levels": [
         {
             "name": "4/0",
@@ -713,9 +707,9 @@ var levelsData = [
             "type": "time",
             "theme": "green",
             "moves": null,
-            "time": "20",
+            "time": 20,
             "puzzlesToSolve": 5,
-            "randomMaxMoves": "2",
+            "randomMaxMoves": 2,
             "randomMinMoves": 2,
             "blocksData": []
         },
@@ -824,14 +818,14 @@ var levelsData = [
             "moves": null,
             "time": 25,
             "puzzlesToSolve": 5,
-            "randomMaxMoves": "5",
-            "randomMinMoves": "4",
+            "randomMaxMoves": 5,
+            "randomMinMoves": 4,
             "blocksData": [],
             "name": "4/9"
         },
         {
             "name": "3/9",
-            "width": "6",
+            "width": 6,
             "height": 4,
             "type": "puzzle",
             "theme": "yellow",
@@ -850,8 +844,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "4",
-            "height": "4",
+            "width": 4,
+            "height": 4,
             "theme": "yellow",
             "type": "puzzle",
             "blocksData": [
@@ -862,8 +856,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "7",
-            "height": "3",
+            "width": 7,
+            "height": 3,
             "theme": "yellow",
             "type": "puzzle",
             "blocksData": [
@@ -882,7 +876,6 @@ var levelsData = [
       "name": "Bot06",
       "cost": 0,
       "nickName": "K-R8Y",
-      "free": true,
       "levels": [
         {
             "width": 5,
@@ -902,8 +895,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "6",
-            "height": "6",
+            "width": 6,
+            "height": 6,
             "theme": "green",
             "type": "puzzle",
             "blocksData": [
@@ -918,8 +911,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "6",
-            "height": "6",
+            "width": 6,
+            "height": 6,
             "theme": "green",
             "type": "puzzle",
             "blocksData": [
@@ -954,7 +947,7 @@ var levelsData = [
             ]
         },
         {
-            "width": "4",
+            "width": 4,
             "height": 5,
             "theme": "purple",
             "type": "puzzle",
@@ -968,14 +961,14 @@ var levelsData = [
             ]
         },
         {
-            "width": "1",
-            "height": "6",
+            "width": 1,
+            "height": 6,
             "theme": "purple",
             "type": "time",
-            "time": "10",
-            "puzzlesToSolve": "16",
-            "randomMinMoves": "1",
-            "randomMaxMoves": "1"
+            "time": 20,
+            "puzzlesToSolve": 16,
+            "randomMinMoves": 1,
+            "randomMaxMoves": 1
         },
         {
             "width": 5,
@@ -1021,7 +1014,6 @@ var levelsData = [
             "theme": "yellow",
             "moves": 2,
             "time": 30,
-            "puzzlesToSolve": 8,
             "randomMaxMoves": 5,
             "randomMinMoves": 4,
             "blocksData": [
@@ -1039,7 +1031,6 @@ var levelsData = [
             "theme": "yellow",
             "moves": 3,
             "time": 25,
-            "puzzlesToSolve": 5,
             "randomMaxMoves": 2,
             "randomMinMoves": 2,
             "blocksData": [
@@ -1058,7 +1049,6 @@ var levelsData = [
       "name": "Bot14",
       "cost": 0,
       "nickName": "R-GH",
-      "free": true,
       "levels": [
         {
             "width": 5,
@@ -1106,8 +1096,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "3",
-            "height": "3",
+            "width": 3,
+            "height": 3,
             "theme": "purple",
             "type": "moves",
             "blocksData": [
@@ -1115,10 +1105,10 @@ var levelsData = [
               7,
               2
             ],
-            "moves": "2"
+            "moves": 2
         },
         {
-            "width": "3",
+            "width": 3,
             "height": 5,
             "theme": "purple",
             "type": "moves",
@@ -1128,11 +1118,11 @@ var levelsData = [
               5,
               14
             ],
-            "moves": "2"
+            "moves": 2
         },
         {
-            "width": "6",
-            "height": "6",
+            "width": 6,
+            "height": 6,
             "theme": "purple",
             "type": "puzzle",
             "blocksData": [
@@ -1147,18 +1137,18 @@ var levelsData = [
             ]
         },
         {
-            "width": "8",
-            "height": "3",
+            "width": 8,
+            "height": 3,
             "theme": "purple",
             "type": "time",
-            "time": "10",
-            "puzzlesToSolve": "3",
-            "randomMinMoves": "4",
-            "randomMaxMoves": "4"
+            "time": 10,
+            "puzzlesToSolve": 3,
+            "randomMinMoves": 4,
+            "randomMaxMoves": 4
         },
         {
-            "width": "4",
-            "height": "4",
+            "width": 4,
+            "height": 4,
             "theme": "yellow",
             "type": "puzzle",
             "blocksData": [
@@ -1171,8 +1161,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "3",
-            "height": "7",
+            "width": 3,
+            "height": 7,
             "theme": "yellow",
             "type": "puzzle",
             "blocksData": [
@@ -1205,11 +1195,10 @@ var levelsData = [
       "name": "Bot07",
       "cost": 0,
       "nickName": "ME64-x",
-      "free": true,
       "levels": [
         {
             "width": 5,
-            "height": "6",
+            "height": 6,
             "theme": "green",
             "type": "puzzle",
             "blocksData": [
@@ -1241,8 +1230,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "6",
-            "height": "6",
+            "width": 6,
+            "height": 6,
             "theme": "green",
             "type": "puzzle",
             "blocksData": [
@@ -1273,7 +1262,7 @@ var levelsData = [
             ]
         },
         {
-            "width": "6",
+            "width": 6,
             "height": 5,
             "theme": "purple",
             "type": "puzzle",
@@ -1286,8 +1275,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "6",
-            "height": "7",
+            "width": 6,
+            "height": 7,
             "theme": "purple",
             "type": "puzzle",
             "blocksData": [
@@ -1322,7 +1311,6 @@ var levelsData = [
             "theme": "yellow",
             "moves": 4,
             "time": 25,
-            "puzzlesToSolve": 5,
             "randomMaxMoves": 2,
             "randomMinMoves": 2,
             "blocksData": [
@@ -1342,7 +1330,6 @@ var levelsData = [
             "theme": "yellow",
             "moves": 8,
             "time": null,
-            "puzzlesToSolve": null,
             "randomMaxMoves": null,
             "randomMinMoves": null,
             "blocksData": [
@@ -1364,14 +1351,14 @@ var levelsData = [
             "name": "6/6"
         },
         {
-            "width": "5",
-            "height": "5",
+            "width": 5,
+            "height": 5,
             "theme": "yellow",
             "type": "time",
-            "time": "12",
-            "puzzlesToSolve": "3",
-            "randomMinMoves": "5",
-            "randomMaxMoves": "5"
+            "time": 12,
+            "puzzlesToSolve": 3,
+            "randomMinMoves": 5,
+            "randomMaxMoves": 5
         }
       ]
   },
@@ -1379,7 +1366,6 @@ var levelsData = [
       "name": "Bot09",
       "cost": 0,
       "nickName": "B-GH",
-      "free": true,
       "levels": [
         {
             "width": 1,
@@ -1388,7 +1374,6 @@ var levelsData = [
             "theme": "green",
             "moves": 4,
             "time": null,
-            "puzzlesToSolve": null,
             "randomMaxMoves": null,
             "randomMinMoves": null,
             "blocksData": [
@@ -1407,7 +1392,6 @@ var levelsData = [
             "theme": "green",
             "moves": 4,
             "time": null,
-            "puzzlesToSolve": null,
             "randomMaxMoves": null,
             "randomMinMoves": null,
             "blocksData": [
@@ -1471,7 +1455,6 @@ var levelsData = [
             "theme": "purple",
             "moves": 4,
             "time": null,
-            "puzzlesToSolve": 1,
             "randomMaxMoves": null,
             "randomMinMoves": null,
             "blocksData": [
@@ -1623,7 +1606,6 @@ var levelsData = [
       "name": "Bot10",
       "cost": 0,
       "nickName": "BJ-KZ",
-      "free": true,
       "levels": [
         {
             "width": 6,
@@ -1720,7 +1702,6 @@ var levelsData = [
             "theme": "purple",
             "moves": 7,
             "time": null,
-            "puzzlesToSolve": null,
             "randomMaxMoves": null,
             "randomMinMoves": null,
             "hiddenBlocks": [],
@@ -1790,7 +1771,6 @@ var levelsData = [
             "theme": "yellow",
             "moves": 4,
             "time": 12,
-            "puzzlesToSolve": null,
             "randomMaxMoves": 8,
             "randomMinMoves": 8,
             "hiddenBlocks": [],
@@ -1853,7 +1833,6 @@ var levelsData = [
       "name": "Bot11",
       "cost": 0,
       "nickName": "BMS-M",
-      "free": true,
       "levels": [
         {
             "width": 6,
@@ -1914,8 +1893,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "4",
-            "height": "4",
+            "width": 4,
+            "height": 4,
             "theme": "purple",
             "type": "moves",
             "blocksData": [
@@ -1924,11 +1903,11 @@ var levelsData = [
               2,
               14
             ],
-            "moves": "2"
+            "moves": 2
         },
         {
-            "width": "7",
-            "height": "7",
+            "width": 7,
+            "height": 7,
             "theme": "purple",
             "type": "puzzle",
             "blocksData": [
@@ -1994,7 +1973,6 @@ var levelsData = [
             "theme": "yellow",
             "moves": 5,
             "time": 12,
-            "puzzlesToSolve": null,
             "randomMaxMoves": 8,
             "randomMinMoves": 8,
             "hiddenBlocks": [],
@@ -2043,10 +2021,10 @@ var levelsData = [
             "height": 5,
             "theme": "yellow",
             "type": "time",
-            "time": "5",
-            "puzzlesToSolve": "1",
-            "randomMinMoves": "5",
-            "randomMaxMoves": "5"
+            "time": 5,
+            "puzzlesToSolve": 1,
+            "randomMinMoves": 5,
+            "randomMaxMoves": 5
         }
       ]
   },
@@ -2054,7 +2032,6 @@ var levelsData = [
       "name": "Bot08",
       "cost": 0,
       "nickName": "K0N-6",
-      "free": true,
       "levels": [
         {
             "width": 8,
@@ -2138,7 +2115,6 @@ var levelsData = [
             "theme": "purple",
             "moves": 9,
             "time": null,
-            "puzzlesToSolve": null,
             "randomMaxMoves": null,
             "randomMinMoves": null,
             "blocksData": [
@@ -2161,7 +2137,6 @@ var levelsData = [
             "theme": "purple",
             "moves": 3,
             "time": null,
-            "puzzlesToSolve": null,
             "randomMaxMoves": null,
             "randomMinMoves": null,
             "blocksData": [
@@ -2181,7 +2156,6 @@ var levelsData = [
             "theme": "purple",
             "moves": 8,
             "time": null,
-            "puzzlesToSolve": null,
             "randomMaxMoves": null,
             "randomMinMoves": null,
             "blocksData": [
@@ -2310,7 +2284,6 @@ var levelsData = [
       "name": "Bot12",
       "cost": 0,
       "nickName": "S-H06",
-      "free": true,
       "levels": [
         {
             "width": 4,
@@ -2527,21 +2500,20 @@ var levelsData = [
       "name": "Bot13",
       "cost": 0,
       "nickName": "D-D1",
-      "free": true,
       "levels": [
         {
-            "width": "6",
-            "height": "6",
+            "width": 6,
+            "height": 6,
             "theme": "green",
             "type": "time",
-            "time": "30",
-            "puzzlesToSolve": "10",
-            "randomMinMoves": "5",
-            "randomMaxMoves": "5"
+            "time": 30,
+            "puzzlesToSolve": 10,
+            "randomMinMoves": 5,
+            "randomMaxMoves": 5
         },
         {
             "width": 5,
-            "height": "7",
+            "height": 7,
             "theme": "green",
             "type": "puzzle",
             "blocksData": [
@@ -2561,8 +2533,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "6",
-            "height": "6",
+            "width": 6,
+            "height": 6,
             "theme": "green",
             "type": "puzzle",
             "blocksData": [
@@ -2579,8 +2551,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "4",
-            "height": "4",
+            "width": 4,
+            "height": 4,
             "theme": "purple",
             "type": "moves",
             "blocksData": [
@@ -2593,7 +2565,7 @@ var levelsData = [
               7,
               15
             ],
-            "moves": "4"
+            "moves": 4
         },
         {
             "name": "3/5",
@@ -2649,24 +2621,24 @@ var levelsData = [
             "name": "5/6"
         },
         {
-            "width": "8",
-            "height": "8",
+            "width": 8,
+            "height": 8,
             "theme": "yellow",
             "type": "time",
-            "time": "30",
-            "puzzlesToSolve": "1",
-            "randomMinMoves": "25",
-            "randomMaxMoves": "25"
+            "time": 30,
+            "puzzlesToSolve": 1,
+            "randomMinMoves": 25,
+            "randomMaxMoves": 25
         },
         {
-            "width": "7",
+            "width": 7,
             "height": 5,
             "theme": "yellow",
             "type": "time",
-            "time": "10",
-            "puzzlesToSolve": "4",
-            "randomMinMoves": "5",
-            "randomMaxMoves": "5"
+            "time": 10,
+            "puzzlesToSolve": 4,
+            "randomMinMoves": 5,
+            "randomMaxMoves": 5
         },
         {
             "width": 6,
@@ -2675,7 +2647,6 @@ var levelsData = [
             "theme": "yellow",
             "moves": 4,
             "time": null,
-            "puzzlesToSolve": 1,
             "randomMaxMoves": null,
             "randomMinMoves": null,
             "blocksData": [
@@ -2695,9 +2666,9 @@ var levelsData = [
             "height": 5,
             "theme": "yellow",
             "type": "moves",
-            "moves": "5",
-            "randomMinMoves": "8",
-            "randomMaxMoves": "10"
+            "moves": 5,
+            "randomMinMoves": 8,
+            "randomMaxMoves": 10
         }
       ]
   },
@@ -2705,7 +2676,6 @@ var levelsData = [
       "name": "Bot15",
       "cost": 0,
       "nickName": "P4C-M",
-      "free": true,
       "levels": [
         {
             "width": 6,
@@ -2736,8 +2706,8 @@ var levelsData = [
             "name": "5/0"
         },
         {
-            "width": "7",
-            "height": "7",
+            "width": 7,
+            "height": 7,
             "theme": "green",
             "type": "puzzle",
             "blocksData": [
@@ -2755,8 +2725,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "8",
-            "height": "3",
+            "width": 8,
+            "height": 3,
             "theme": "green",
             "type": "puzzle",
             "blocksData": [
@@ -2789,7 +2759,7 @@ var levelsData = [
               8,
               19
             ],
-            "moves": "5"
+            "moves": 5
         },
         {
             "width": 8,
@@ -2822,11 +2792,11 @@ var levelsData = [
             "name": "5/5"
         },
         {
-            "width": "8",
+            "width": 8,
             "height": 5,
             "theme": "purple",
             "type": "puzzle",
-            "randomMinMoves": "15",
+            "randomMinMoves": 15,
             "randomMaxMoves": "17"
         },
         {
@@ -2836,7 +2806,6 @@ var levelsData = [
             "theme": "yellow",
             "moves": 8,
             "time": null,
-            "puzzlesToSolve": null,
             "randomMaxMoves": null,
             "randomMinMoves": null,
             "blocksData": [
@@ -2856,8 +2825,8 @@ var levelsData = [
             "name": "6/8"
         },
         {
-            "width": "6",
-            "height": "6",
+            "width": 6,
+            "height": 6,
             "theme": "yellow",
             "type": "puzzle",
             "blocksData": [
@@ -2892,12 +2861,12 @@ var levelsData = [
             ]
         },
         {
-            "width": "7",
-            "height": "7",
+            "width": 7,
+            "height": 7,
             "theme": "yellow",
             "type": "time",
-            "time": "20",
-            "randomMinMoves": "15",
+            "time": 20,
+            "randomMinMoves": 15,
             "randomMaxMoves": "17"
         }
       ]
@@ -2906,21 +2875,20 @@ var levelsData = [
       "name": "Bot16",
       "cost": 0,
       "nickName": "G-GH",
-      "free": true,
       "levels": [
         {
-            "width": "4",
-            "height": "4",
+            "width": 4,
+            "height": 4,
             "theme": "green",
             "type": "time",
-            "time": "30",
-            "puzzlesToSolve": "10",
-            "randomMinMoves": "5",
-            "randomMaxMoves": "6"
+            "time": 30,
+            "puzzlesToSolve": 10,
+            "randomMinMoves": 5,
+            "randomMaxMoves": 6
         },
         {
-            "width": "8",
-            "height": "9",
+            "width": 8,
+            "height": 9,
             "theme": "green",
             "type": "moves",
             "blocksData": [
@@ -2945,11 +2913,11 @@ var levelsData = [
               23,
               47
             ],
-            "moves": "12"
+            "moves": 12
         },
         {
-            "width": "6",
-            "height": "6",
+            "width": 6,
+            "height": 6,
             "theme": "green",
             "type": "puzzle",
             "blocksData": [
@@ -2969,17 +2937,17 @@ var levelsData = [
             ]
         },
         {
-            "width": "3",
-            "height": "3",
+            "width": 3,
+            "height": 3,
             "theme": "purple",
             "type": "time",
-            "randomMinMoves": "4",
-            "randomMaxMoves": "5",
-            "time": "15",
-            "puzzlesToSolve": "5"
+            "randomMinMoves": 4,
+            "randomMaxMoves": 5,
+            "time": 15,
+            "puzzlesToSolve": 5
         },
         {
-            "width": "8",
+            "width": 8,
             "height": 5,
             "theme": "purple",
             "type": "moves",
@@ -2995,11 +2963,11 @@ var levelsData = [
               6,
               22
             ],
-            "moves": "6"
+            "moves": 6
         },
         {
-            "width": "6",
-            "height": "6",
+            "width": 6,
+            "height": 6,
             "theme": "purple",
             "type": "puzzle",
             "blocksData": [
@@ -3022,8 +2990,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "3",
-            "height": "8",
+            "width": 3,
+            "height": 8,
             "theme": "purple",
             "type": "puzzle",
             "blocksData": [
@@ -3041,31 +3009,31 @@ var levelsData = [
             ]
         },
         {
-            "width": "2",
-            "height": "8",
+            "width": 2,
+            "height": 8,
             "theme": "yellow",
             "type": "time",
-            "time": "20",
-            "puzzlesToSolve": "5",
-            "randomMinMoves": "6",
-            "randomMaxMoves": "8"
+            "time": 20,
+            "puzzlesToSolve": 5,
+            "randomMinMoves": 6,
+            "randomMaxMoves": 8
         },
         {
-            "width": "3",
-            "height": "6",
+            "width": 3,
+            "height": 6,
             "theme": "yellow",
             "type": "moves",
-            "moves": "5",
-            "randomMinMoves": "10",
-            "randomMaxMoves": "10"
+            "moves": 5,
+            "randomMinMoves": 10,
+            "randomMaxMoves": 10
         },
         {
             "width": 5,
             "height": 5,
             "theme": "yellow",
             "type": "puzzle",
-            "randomMinMoves": "12",
-            "randomMaxMoves": "14"
+            "randomMinMoves": 12,
+            "randomMaxMoves": 14
         }
       ]
   },
@@ -3073,7 +3041,6 @@ var levelsData = [
       "name": "Bot17",
       "cost": 0,
       "nickName": "T-BLK",
-      "free": true,
       "levels": [
         {
             "width": 5,
@@ -3096,22 +3063,22 @@ var levelsData = [
             "height": 5,
             "theme": "green",
             "type": "puzzle",
-            "randomMinMoves": "13",
-            "randomMaxMoves": "15"
+            "randomMinMoves": 13,
+            "randomMaxMoves": 15
         },
         {
             "width": 5,
             "height": 5,
             "theme": "green",
             "type": "time",
-            "time": "10",
-            "puzzlesToSolve": "5",
-            "randomMinMoves": "6",
-            "randomMaxMoves": "8"
+            "time": 10,
+            "puzzlesToSolve": 5,
+            "randomMinMoves": 6,
+            "randomMaxMoves": 8
         },
         {
-            "width": "5",
-            "height": "8",
+            "width": 5,
+            "height": 8,
             "theme": "purple",
             "type": "puzzle",
             "blocksData": [
@@ -3137,19 +3104,16 @@ var levelsData = [
             "height": 5,
             "theme": "purple",
             "type": "puzzle",
-            "randomMinMoves": "20",
-            "randomMaxMoves": "20"
+            "randomMinMoves": 20,
+            "randomMaxMoves": 20
         },
         {
             "width": 6,
             "height": 6,
             "type": "moves",
             "theme": "purple",
-            "moves": "6",
+            "moves": 6,
             "time": "",
-            "puzzlesToSolve": "",
-            "randomMaxMoves": "",
-            "randomMinMoves": "",
             "blocksData": [
               0,
               30,
@@ -3165,18 +3129,18 @@ var levelsData = [
             "name": "17/4"
         },
         {
-            "width": "3",
-            "height": "3",
+            "width": 3,
+            "height": 3,
             "theme": "purple",
             "type": "time",
-            "time": "20",
-            "puzzlesToSolve": "18",
-            "randomMinMoves": "3",
-            "randomMaxMoves": "4"
+            "time": 20,
+            "puzzlesToSolve": 18,
+            "randomMinMoves": 3,
+            "randomMaxMoves": 4
         },
         {
-            "width": "7",
-            "height": "8",
+            "width": 7,
+            "height": 8,
             "theme": "yellow",
             "type": "puzzle",
             "blocksData": [
@@ -3206,8 +3170,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "4",
-            "height": "8",
+            "width": 4,
+            "height": 8,
             "theme": "yellow",
             "type": "moves",
             "blocksData": [
@@ -3220,15 +3184,15 @@ var levelsData = [
               30,
               23
             ],
-            "moves": "11"
+            "moves": 11
         },
         {
-            "width": "7",
-            "height": "7",
+            "width": 7,
+            "height": 7,
             "theme": "yellow",
             "type": "puzzle",
-            "randomMinMoves": "20",
-            "randomMaxMoves": "25"
+            "randomMinMoves": 20,
+            "randomMaxMoves": 25
         }
       ]
   },
@@ -3236,20 +3200,19 @@ var levelsData = [
       "name": "Bot18",
       "cost": 0,
       "nickName": "Y0S-1",
-      "free": true,
       "levels": [
         {
             "name": "17/8",
-            "width": "8",
-            "height": "8",
+            "width": 8,
+            "height": 8,
             "theme": "green",
             "type": "puzzle",
-            "randomMinMoves": "20",
-            "randomMaxMoves": "20"
+            "randomMinMoves": 20,
+            "randomMaxMoves": 20
         },
         {
-            "width": "8",
-            "height": "4",
+            "width": 8,
+            "height": 4,
             "theme": "green",
             "type": "puzzle",
             "blocksData": [
@@ -3268,8 +3231,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "7",
-            "height": "7",
+            "width": 7,
+            "height": 7,
             "theme": "green",
             "type": "puzzle",
             "blocksData": [
@@ -3291,26 +3254,26 @@ var levelsData = [
         },
         {
             "name": "17/9",
-            "width": "8",
-            "height": "8",
+            "width": 8,
+            "height": 8,
             "theme": "purple",
             "type": "time",
-            "time": "30",
-            "puzzlesToSolve": "3",
-            "randomMinMoves": "15",
-            "randomMaxMoves": "18"
+            "time": 30,
+            "puzzlesToSolve": 3,
+            "randomMinMoves": 15,
+            "randomMaxMoves": 18
         },
         {
-            "width": "8",
-            "height": "3",
+            "width": 8,
+            "height": 3,
             "theme": "purple",
             "type": "puzzle",
-            "randomMinMoves": "16",
-            "randomMaxMoves": "16"
+            "randomMinMoves": 16,
+            "randomMaxMoves": 16
         },
         {
             "width": 5,
-            "height": "8",
+            "height": 8,
             "theme": "purple",
             "type": "puzzle",
             "blocksData": [
@@ -3332,27 +3295,27 @@ var levelsData = [
             ]
         },
         {
-            "width": "8",
-            "height": "8",
+            "width": 8,
+            "height": 8,
             "theme": "purple",
             "type": "time",
-            "randomMinMoves": "3",
-            "randomMaxMoves": "4",
-            "time": "20",
-            "puzzlesToSolve": "16"
+            "randomMinMoves": 3,
+            "randomMaxMoves": 4,
+            "time": 20,
+            "puzzlesToSolve": 16
         },
         {
-            "width": "8",
-            "height": "8",
+            "width": 8,
+            "height": 8,
             "theme": "yellow",
             "type": "moves",
-            "moves": "8",
-            "randomMinMoves": "14",
-            "randomMaxMoves": "14"
+            "moves": 8,
+            "randomMinMoves": 14,
+            "randomMaxMoves": 14
         },
         {
-            "width": "7",
-            "height": "8",
+            "width": 7,
+            "height": 8,
             "theme": "yellow",
             "type": "puzzle",
             "blocksData": [
@@ -3381,8 +3344,8 @@ var levelsData = [
             ]
         },
         {
-            "width": "8",
-            "height": "8",
+            "width": 8,
+            "height": 8,
             "theme": "yellow",
             "type": "puzzle",
             "blocksData": [
@@ -3412,4 +3375,4 @@ var levelsData = [
         }
       ]
   }
-]
+    ]
