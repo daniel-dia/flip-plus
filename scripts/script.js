@@ -2934,8 +2934,8 @@ var FlipPlus;
                                 var b = event.target;
                                 _this.callback(b.col, b.row);
                                 // play a Radom Sounds
-                                var randomsound = Math.ceil(Math.random() * 2);
-                                gameui.AudiosManager.playSound("Mecanical Click" + randomsound);
+                                var randomsound = Math.ceil(Math.random() * 4);
+                                gameui.AudiosManager.playSound("Mecanical Click" + randomsound, true);
                                 //tutorialrelease
                                 if (b.tutorialHighLighted) {
                                     _this.tutorialRelease();
@@ -5603,7 +5603,7 @@ var FlipPlus;
                                 // play sound and cast an effect
                                 setTimeout(function () {
                                     _this.fx.castEffect(_this.stars[an].x + 100, _this.stars[an].y + 100, "Bolinhas", 4);
-                                    gameui.AudiosManager.playSound("Correct Answer");
+                                    gameui.AudiosManager.playSound("star");
                                 }, 300 + 500);
                                 break;
                             }
@@ -7976,7 +7976,8 @@ var FlipPlus;
                             createjs.Tween.get(_this.fill).wait(300).to({ alpha: 0 }, 600).call(function () { _this.fill.visible = false; });
                             createjs.Tween.get(_this.stroke).wait(300).to({ alpha: 0 }, 600).call(function () { _this.stroke.visible = false; });
                             createjs.Tween.get(_this.completeBot).to({ alpha: 0, scaleX: 0.6, scaleY: 0.6 }).wait(300).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 600, createjs.Ease.quadOut);
-                            gameui.AudiosManager.playSound("win");
+                            gameui.AudiosManager.playSound("BotComplete");
+                            gameui.AudiosManager.playSound("Robot Talk_0" + Math.ceil(Math.random() * 7), true, 300);
                             _this.castNewEffect();
                         }
                     });

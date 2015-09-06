@@ -100,7 +100,9 @@
                     createjs.Tween.get(this.fill).wait(300).to({ alpha: 0 }, 600).call(() => { this.fill.visible = false })
                     createjs.Tween.get(this.stroke).wait(300).to({ alpha: 0 }, 600).call(() => { this.stroke.visible = false })
                     createjs.Tween.get(this.completeBot).to({ alpha: 0, scaleX: 0.6, scaleY: 0.6 }).wait(300).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 600, createjs.Ease.quadOut)
-                    gameui.AudiosManager.playSound("win");
+                    gameui.AudiosManager.playSound("BotComplete");
+                    gameui.AudiosManager.playSound("Robot Talk_0" + Math.ceil(Math.random()*7),true,300);
+                   
                     this.castNewEffect();
                 }
             });

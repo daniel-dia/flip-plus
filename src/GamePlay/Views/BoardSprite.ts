@@ -71,8 +71,8 @@
                         this.callback(b.col, b.row);
 
                         // play a Radom Sounds
-                        var randomsound = Math.ceil(Math.random() * 2) 
-                        gameui.AudiosManager.playSound("Mecanical Click" + randomsound); 
+                        var randomsound = Math.ceil(Math.random() * 4) 
+                        gameui.AudiosManager.playSound("Mecanical Click" + randomsound,true); 
 
                         //tutorialrelease
                         if (b.tutorialHighLighted) {

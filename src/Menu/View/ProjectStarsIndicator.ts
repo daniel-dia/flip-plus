@@ -82,7 +82,7 @@ module FlipPlus.Menu.View {
                         // play sound and cast an effect
                         setTimeout(() => {
                             this.fx.castEffect(this.stars[an].x + 100, this.stars[an].y + 100, "Bolinhas", 4);
-                            gameui.AudiosManager.playSound("Correct Answer");
+                            gameui.AudiosManager.playSound("star");
                         },300 + 500);
                         break;
                     }
