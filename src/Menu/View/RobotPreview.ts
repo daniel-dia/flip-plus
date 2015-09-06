@@ -7,7 +7,7 @@
 
         private fill:createjs.DisplayObject;
         private stroke: createjs.DisplayObject;
-        private completeBox: createjs.DisplayObject;
+        private completeBot: createjs.DisplayObject;
 
         //Constructor
         constructor(project: FlipPlus.Projects.Project) {
@@ -51,10 +51,10 @@
             this.removeChild(this.stroke);
                         
             // if final completed bot does not exist, add it
-            if (!this.completeBox) {
-                this.completeBox = new libmybots[this.project.name]();
-                this.addChild(this.completeBox);
-                this.completeBox.y -= 260;
+            if (!this.completeBot) {
+                this.completeBot = new libmybots[this.project.name]();
+                this.addChild(this.completeBot);
+                this.completeBot.y -= 260;
             }
         }
 
@@ -92,16 +92,51 @@
             this.addChild(boxShape);
             createjs.Tween.get(boxShape).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(() => { this.removeChild(boxShape); })
 
-            createjs.Tween.get(this.percentMask).wait(600).to({ scaleY: newValue }, 700, createjs.Ease.quadInOut).call(() => {
+           
+
+            createjs.Tween.get(this.percentMask).wait(900).to({ scaleY: newValue }, 700, createjs.Ease.quadInOut).wait(500).call(() => {
                 if (this.project.UserData.complete) {
                     this.createCompletedBot(); 
                     createjs.Tween.get(this.fill).wait(300).to({ alpha: 0 }, 600).call(() => { this.fill.visible = false })
                     createjs.Tween.get(this.stroke).wait(300).to({ alpha: 0 }, 600).call(() => { this.stroke.visible = false })
-                    createjs.Tween.get(this.completeBox).wait(300).to({ alpha: 1 }, 600).call(() => { this.stroke.visible = false })
-                    
+                    createjs.Tween.get(this.completeBot).to({ alpha: 0, scaleX: 0.6, scaleY: 0.6 }).wait(300).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 600, createjs.Ease.quadOut)
+                    gameui.AudiosManager.playSound("win");
+                    this.castNewEffect();
                 }
             });
         }
+
+
+
+        // show a new glare into the bot
+        public castNewEffect() {
+
+            var dark = <createjs.Bitmap>gameui.AssetsManager.getBitmap("dark");
+            dark.regX = 50;
+            dark.regY = 50; 
+            var bgnewbot = <createjs.Bitmap>gameui.AssetsManager.getBitmap("bgnewbot");
+            bgnewbot.regX = bgnewbot.getBounds().width / 2;
+            bgnewbot.regY = bgnewbot.getBounds().height / 2;
+            dark.y = bgnewbot.y = -260
+
+            this.addChildAt(bgnewbot, 0);
+            this.addChildAt(dark, 0);
+
+            createjs.Tween.get(dark).
+                to({ alpha: 0, scaleX: 0, scaleY: 0 }).
+                to({ alpha: 1, scaleX: 50, scaleY: 50 }, 400).
+                wait(2600).
+                to({ alpha: 0 }, 200).call(() => {
+                    this.removeChild(dark); 
+                });
+
+            createjs.Tween.get(bgnewbot).
+                to({ alpha: 0, scaleX: 0.3, scaleY: 0.3 }).to({ alpha: 1, scaleX: 1.8, scaleY: 1.8 }, 300).to({ alpha: 0, scaleX: 1.6, scaleY: 1.6 }, 3600).
+                call(() => {
+                   this.removeChild(bgnewbot);
+                });
+        }
+         
     }
 }
  

@@ -251,7 +251,7 @@ module FlipPlus.GamePlay {
 
             //change screen and animate.
             if (messageText)
-                this.message.showtext(StringResources.gp_finishPuzzle, 1000, 800);
+                this.textEffext.showtext(StringResources.gp_finishPuzzle, 2000, 1200);
 
             //hide all menus
             this.gameplayMenu.fadeOut();

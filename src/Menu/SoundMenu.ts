@@ -1,9 +1,7 @@
 module FlipPlus.Menu {
     export class SoundMenu extends createjs.Container{
         // Constructor
-
-
-
+        
         constructor() {
             super();
 

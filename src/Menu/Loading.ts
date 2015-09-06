@@ -32,8 +32,8 @@ module FlipPlus.Menu {
             //load audio
             if (!levelCreatorMode && typeof WPAudioManager == 'undefined') {
                 createjs.Sound.alternateExtensions = ["mp3"];
-                //createjs.Sound.registerSounds(audioManifest, audioPath);
-                gameui.AssetsManager.loadAssets(audioManifest, audioPath);
+                createjs.Sound.registerSounds(audioManifest, audioPath);
+                //gameui.AssetsManager.loadAssets(audioManifest, audioPath);
             }
 
             gameui.AssetsManager.loadAssets(imageManifest, imagePath, spriteSheets);

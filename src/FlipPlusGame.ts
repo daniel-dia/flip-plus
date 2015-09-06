@@ -84,8 +84,8 @@ module FlipPlus {
                 this.coinsData.setAmount(10);
             }            
 
-            //var ps = this.projectManager.getAllProjects();
-            //for (var p in ps) ps[p].levels.length = 1;
+            var ps = this.projectManager.getAllProjects();
+            for (var p in ps) ps[p].levels.length = 1;
         }
 
         public static initializeAds() {
@@ -261,12 +261,11 @@ module FlipPlus {
             this.showLevel(currentLevel);
         }
 
-        public static completeProject(project: Projects.Project) {
-              if (this.mainScreen == null)
-                this.mainScreen = new Menu.MainMenu();
-            this.gameScreen.switchScreen(this.mainScreen);
-            this.mainScreen.showNewBot(project.name);
-        }
+        //public static completeProject(project: Projects.Project) {
+        //    if (this.mainScreen == null) this.mainScreen = new Menu.MainMenu();
+        //    this.gameScreen.switchScreen(this.mainScreen);
+        //    this.mainScreen.showNewBot(project.name);
+        //}
 
         public static endGame() {
 

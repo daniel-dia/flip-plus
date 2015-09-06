@@ -175,13 +175,6 @@ module FlipPlus.Menu {
                         this.content.mouseEnabled = false;
                         this.header.mouseEnabled = false;
                         var proj = project;
-                        setTimeout(() => {
-                            this.footer.mouseEnabled = true;
-                            this.content.mouseEnabled = true;
-                            this.header.mouseEnabled = true;
-                        
-                            FlipPlusGame.completeProject(proj );
-                        }, 3500);
                     }
                 }
                 
