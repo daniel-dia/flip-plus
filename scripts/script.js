@@ -2222,7 +2222,7 @@ var FlipPlus;
                 _super.prototype.activate.call(this);
                 this.boardSprite.visible = false;
                 //shows popup
-                this.popup.showTimeAttack(StringResources.gp_pz_Popup1Title, StringResources.gp_pz_Popup1Text1, this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString(), StringResources.gp_pz_Popup1Text2, StringResources.gp_pz_Popup1Text3);
+                this.popup.showTimeAttack(this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString());
                 this.popup.addEventListener("onclose", function () {
                     _this.boardSprite.visible = true;
                     //shows puzzle
@@ -5962,7 +5962,8 @@ var FlipPlus;
                     textDO.y = b + 300;
                     this.addsClickIndicator();
                 };
-                Popup.prototype.showTimeAttack = function (title, text, time, boards, text2, text3, timeout, delay) {
+                // show a popup for timeAttack
+                Popup.prototype.showTimeAttack = function (time, boards, timeout, delay) {
                     if (timeout === void 0) { timeout = 7000; }
                     if (delay === void 0) { delay = 0; }
                     this.showsPopup(timeout, delay);
@@ -6016,10 +6017,10 @@ var FlipPlus;
                     boardsDO.x = defaultWidth / 2;
                     this.addChild(boardsDO);
                     //updates title and text values
-                    titleShadow.text = titleDO.text = title.toUpperCase();
-                    textDO.text = text;
-                    textDO1.text = text2;
-                    textDO2.text = text3;
+                    titleShadow.text = titleDO.text = StringResources.gp_pz_Popup1Title.toUpperCase();
+                    textDO.text = StringResources.gp_pz_Popup1Text1;
+                    textDO1.text = StringResources.gp_pz_Popup1Text2;
+                    textDO2.text = StringResources.gp_pz_Popup1Text3;
                     timeDO.text = time;
                     boardsDO.text = boards;
                     var b = defaultHeight / 2 - 500;
@@ -6035,6 +6036,7 @@ var FlipPlus;
                     boardsDO.x = defaultWidth / 2 - 400;
                     this.addsClickIndicator();
                 };
+                // shows a popup for taps level
                 Popup.prototype.showTaps = function (taps, timeout, delay) {
                     if (timeout === void 0) { timeout = 7000; }
                     if (delay === void 0) { delay = 0; }

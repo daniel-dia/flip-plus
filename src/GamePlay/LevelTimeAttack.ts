@@ -139,7 +139,7 @@ module FlipPlus.GamePlay {
 
             this.boardSprite.visible = false;
             //shows popup
-            this.popup.showTimeAttack(StringResources.gp_pz_Popup1Title, StringResources.gp_pz_Popup1Text1, this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString(), StringResources.gp_pz_Popup1Text2,StringResources.gp_pz_Popup1Text3); 
+            this.popup.showTimeAttack( this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString()); 
             this.popup.addEventListener("onclose", () => {
 
                 this.boardSprite.visible = true;

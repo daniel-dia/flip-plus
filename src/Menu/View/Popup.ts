@@ -84,7 +84,8 @@ module FlipPlus.Menu.View {
             this.addsClickIndicator();
        }
         
-        public showTimeAttack(title: string, text: string, time: string, boards:string,text2:string,text3:string, timeout: number= 7000, delay: number= 0) {
+        // show a popup for timeAttack
+        public showTimeAttack(time: string, boards:string, timeout: number= 7000, delay: number= 0) {
 
             this.showsPopup(timeout, delay);
 
@@ -148,10 +149,10 @@ module FlipPlus.Menu.View {
 
 
             //updates title and text values
-            titleShadow.text = titleDO.text = title.toUpperCase();
-            textDO.text = text;
-            textDO1.text = text2;
-            textDO2.text = text3;
+            titleShadow.text = titleDO.text = StringResources.gp_pz_Popup1Title.toUpperCase();
+            textDO.text = StringResources.gp_pz_Popup1Text1;
+            textDO1.text = StringResources.gp_pz_Popup1Text2;
+            textDO2.text = StringResources.gp_pz_Popup1Text3;
             timeDO.text = time;
             boardsDO.text = boards;
 
@@ -174,6 +175,7 @@ module FlipPlus.Menu.View {
             this.addsClickIndicator();
         }
         
+        // shows a popup for taps level
         public showTaps(taps: string, timeout: number= 7000, delay: number= 0) {
             this.showsPopup(timeout, delay);
 
