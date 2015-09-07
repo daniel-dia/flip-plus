@@ -13,7 +13,7 @@ module FlipPlus.GamePlay {
                 this.gameplayMenu.addButtons([Items.SKIP, Items.HINT]);
 
             this.gameplayMenu.addEventListener(Items.SKIP, (parameter) => { this.useItem(Items.SKIP); });
-            this.gameplayMenu.addEventListener(Items.HINT, (parameter) => { this.useItem(Items.HINT,(<any>parameter).target); }); //solve this problem
+            this.gameplayMenu.addEventListener(Items.HINT, (parameter) => { this.useItem(Items.HINT,(<any>parameter).parameters); }); //solve this problem
 
             this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
 

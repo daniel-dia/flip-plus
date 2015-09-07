@@ -149,9 +149,9 @@ module FlipPlus.Menu {
 
             super.activate();
 
-            this.footer.mouseEnabled = false;
-            this.content.mouseEnabled = false;
-            this.header.mouseEnabled = false;
+            this.footer.mouseEnabled =  true;
+            this.content.mouseEnabled = true;
+            this.header.mouseEnabled =  true;
 
             // play music
             //gameui.AudiosManager.playMusic("Music Dot Robot",0.5);

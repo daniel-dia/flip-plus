@@ -1647,7 +1647,7 @@ var FlipPlus;
                 else
                     this.gameplayMenu.addButtons([Items.SKIP, Items.HINT]);
                 this.gameplayMenu.addEventListener(Items.SKIP, function (parameter) { _this.useItem(Items.SKIP); });
-                this.gameplayMenu.addEventListener(Items.HINT, function (parameter) { _this.useItem(Items.HINT, parameter.target); }); //solve this problem
+                this.gameplayMenu.addEventListener(Items.HINT, function (parameter) { _this.useItem(Items.HINT, parameter.parameters); }); //solve this problem
                 this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
                 //draw blocks
                 if (levelData.type == "draw" && levelData.drawData == null)
@@ -3306,7 +3306,7 @@ var FlipPlus;
                         var parameter = null;
                         if (_this.parameters)
                             parameter = _this.parameters[buttonId];
-                        _this.dispatchEvent(buttonId, parameter);
+                        _this.dispatchEvent({ type: buttonId, parameters: parameter });
                         _this.parameters[buttonId] = null;
                     });
                     var coinIndicator = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
@@ -4436,9 +4436,9 @@ var FlipPlus;
             };
             WorkshopMenu.prototype.activate = function (parameters) {
                 _super.prototype.activate.call(this);
-                this.footer.mouseEnabled = false;
-                this.content.mouseEnabled = false;
-                this.header.mouseEnabled = false;
+                this.footer.mouseEnabled = true;
+                this.content.mouseEnabled = true;
+                this.header.mouseEnabled = true;
                 // play music
                 //gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
                 this.factorySound = gameui.AudiosManager.playSound("Factory Ambience");

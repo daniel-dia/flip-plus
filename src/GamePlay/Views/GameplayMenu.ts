@@ -73,10 +73,9 @@ module FlipPlus.GamePlay.Views {
             var button = new gameui.IconTextButton("puzzle/icon_" + buttonId, "",  defaultFontFamilyNormal,"white", "puzzle/btpowerup", () => {
                 var parameter = null;
                 if (this.parameters) parameter = this.parameters[buttonId]
-                this.dispatchEvent(buttonId, parameter);
+                this.dispatchEvent({ type: buttonId, parameters: parameter });
                 this.parameters[buttonId] = null;
-
-            
+                       
             });
 
             var coinIndicator = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
