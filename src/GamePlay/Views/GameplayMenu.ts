@@ -13,8 +13,9 @@ module FlipPlus.GamePlay.Views {
         private tutorial_highlightSprite: createjs.DisplayObject;
 
         private currentItem:number;
-        private xstart = 150;
-        private xstep = 310;
+        private xstart = 320;
+        private xstep = 600;
+
 
         constructor() {
 
@@ -48,9 +49,9 @@ module FlipPlus.GamePlay.Views {
             this.overlayMenu.width = 2*defaultWidth;
             this.overlayMenu.height = 0;
 
-            var pausBt = new gameui.IconTextButton("puzzle/iconepause", "","","", "puzzle/btpowerup", () => { this.pause(); });
+            var pausBt = new gameui.IconTextButton("puzzle/btpause", "","","", "puzzle/btpowerup", () => { this.pause(); });
             this.overlayMenu.addChild(pausBt),
-            pausBt.x = 1390; 
+            pausBt.x = 1360; 
 
             this.addChild(this.overlayMenu);
         }
@@ -70,7 +71,7 @@ module FlipPlus.GamePlay.Views {
         private createItemButton(buttonId: string, pos: number): createjs.DisplayObject {
             this.items.push(buttonId);
 
-            var button = new gameui.IconTextButton("puzzle/icon_" + buttonId, "",  defaultFontFamilyNormal,"white", "puzzle/btpowerup", () => {
+            var button = new gameui.TextButton("--", "90px "+ defaultFont, "white", "puzzle/btbuyitem", () => {
                 var parameter = null;
                 if (this.parameters) parameter = this.parameters[buttonId]
                 this.dispatchEvent({ type: buttonId, parameters: parameter });
@@ -78,28 +79,37 @@ module FlipPlus.GamePlay.Views {
                        
             });
 
-            var coinIndicator = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
-            button.addChild(coinIndicator);
-            coinIndicator.scaleX = coinIndicator.scaleY = 0.7;
-            coinIndicator.x = 100;
+            button.addChild();
+
+            var part = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
+            button.addChild(part);
+            part.regX = 113/2;
+            part.regY = 93 / 2;
+            part.x = 250 - 245;
+            part.scaleX = 0.8;
+            part.scaleY = 0.8;
+
+            var icon = gameui.AssetsManager.getBitmap("puzzle/icon_" + buttonId);
+            button.addChild(icon);
+            icon.regX = 139 / 2;
+            icon.regY = 148 / 2;
+            icon.x = 90 - 245;
+
+            button.text.textAlign = 'left';
+            button.text.x = 330 - 246;
+            button.text.y -= 5;
 
             this.overlayMenu.addChild(button);
             this.buttons[buttonId] = button;
             button.x = pos;
-            button.icon.x = -130;
+
             return button;
         }
-
-        //// updates buttons labels 
-        //public updateItemsQuatity() {
-        //    for (var i in this.items)
-        //        this.buttons[this.items[i]].updateLabel(FlipPlusGame.itemsData.getItemQuantity(this.items[i]));
-        //}
 
         public updateItemsPrice(prices:Array<number>) {
             for (var item in prices) {
                 if(this.buttons[item])
-                    this.buttons[item].updateLabel(prices[item]);
+                    this.buttons[item].text.text = prices[item];
             }
         }
 
