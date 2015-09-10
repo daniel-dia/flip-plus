@@ -1295,16 +1295,8 @@ var FlipPlus;
                 //level control
                 this.gameplayMenu.addEventListener("pause", function () { _this.pauseGame(); });
                 this.gameplayMenu.addEventListener("unpause", function () { _this.unPauseGame(); });
-                this.gameplayMenu.addEventListener("restart", function (e) {
-                    FlipPlus.FlipPlusGame.analytics.logLevelRestart(_this.levelData.name, Date.now() - _this.startedTime, _this.clicks);
-                    FlipPlus.FlipPlusGame.replayLevel();
-                    gameui.AudiosManager.playSound("Power Down");
-                });
-                this.gameplayMenu.addEventListener("back", function () {
-                    FlipPlus.FlipPlusGame.analytics.logLevelRestart(_this.levelData.name, Date.now() - _this.startedTime, _this.clicks);
-                    FlipPlus.FlipPlusGame.exitLevel();
-                    gameui.AudiosManager.playSound("Power Down");
-                });
+                this.gameplayMenu.addEventListener("restart", function () { _this.restart(); });
+                this.gameplayMenu.addEventListener("back", function () { _this.exit(); });
                 // parts Indicator
                 this.partsIndicator = new FlipPlus.Menu.View.CoinsIndicator();
                 this.header.addChild(this.partsIndicator);
@@ -1319,6 +1311,15 @@ var FlipPlus;
                     this.statusArea.setText3("");
                     this.header.addChild(this.statusArea);
                 }
+                //pause menu
+                this.pauseMenu = new FlipPlus.Menu.View.PauseMenu();
+                this.pauseMenu.x = defaultWidth / 2;
+                this.pauseMenu.y = defaultHeight / 2;
+                this.pauseMenu.addEventListener("continue", function () { _this.unPauseGame(); });
+                this.pauseMenu.addEventListener("restart", function () { _this.restart(); });
+                this.pauseMenu.addEventListener("skip", function () { _this.useItem("skip"); });
+                this.pauseMenu.addEventListener("leave", function () { _this.exit(); });
+                this.content.addChild(this.pauseMenu);
             };
             LevelScreen.prototype.initializeBoardSprites = function (width, height, theme, blocks, type) {
                 var _this = this;
@@ -1354,6 +1355,16 @@ var FlipPlus;
             };
             // #endregion
             // #region  GamePlay methods =========================================================================================================
+            LevelScreen.prototype.exit = function () {
+                FlipPlus.FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
+                FlipPlus.FlipPlusGame.exitLevel();
+                gameui.AudiosManager.playSound("Power Down");
+            };
+            LevelScreen.prototype.restart = function () {
+                FlipPlus.FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
+                FlipPlus.FlipPlusGame.replayLevel();
+                gameui.AudiosManager.playSound("Power Down");
+            };
             LevelScreen.prototype.earnPrize = function (col, row) {
                 var _this = this;
                 this.levelLogic.earnPrize();
@@ -1535,14 +1546,14 @@ var FlipPlus;
                     //randomly select one from the list
                     var index = Math.floor(Math.random() * filtredInvertedBlocks.length);
                     blockId = filtredInvertedBlocks[index];
+                    // save used hint on level
+                    this.levelData.userdata.hints = this.levelData.userdata.hints || [];
+                    this.levelData.userdata.hints.push(blockId);
+                    // saves 
+                    FlipPlus.FlipPlusGame.projectData.saveLevelData(this.levelData);
                 }
                 // enablehint for the selected block;
                 this.boardSprite.getBlockById(blockId).enableHint();
-                // save used hint on level
-                this.levelData.userdata.hints = this.levelData.userdata.hints || [];
-                this.levelData.userdata.hints.push(blockId);
-                // saves 
-                FlipPlus.FlipPlusGame.projectData.saveLevelData(this.levelData);
             };
             //set hint for a solve
             LevelScreen.prototype.useItemSolve = function () {
@@ -1564,6 +1575,8 @@ var FlipPlus;
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 0.5, scaleY: 0.5, alpha: 0 }, 300, createjs.Ease.quadIn).call(function () {
                     _this.boardSprite.visible = false;
                 });
+                this.gameplayMenu.fadeOut();
+                this.pauseMenu.fadeIn();
             };
             LevelScreen.prototype.unPauseGame = function () {
                 this.boardSprite.unlock();
@@ -1573,6 +1586,8 @@ var FlipPlus;
                 this.boardSprite.visible = true;
                 createjs.Tween.removeTweens(this.boardSprite);
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, alpha: 1 }, 150, createjs.Ease.circOut);
+                this.gameplayMenu.fadeIn();
+                this.pauseMenu.fadeOut();
             };
             LevelScreen.prototype.animatePuzzle = function (parameters) {
                 this.boardSprite.x = parameters.x;
@@ -1643,9 +1658,9 @@ var FlipPlus;
                 var _this = this;
                 _super.call(this, levelData);
                 if (levelData.customItems)
-                    this.gameplayMenu.addButtons(levelData.customItems);
+                    this.gameplayMenu.addItemsButtons(levelData.customItems);
                 else
-                    this.gameplayMenu.addButtons([Items.SKIP, Items.HINT]);
+                    this.gameplayMenu.addItemsButtons([Items.SKIP, Items.HINT]);
                 this.gameplayMenu.addEventListener(Items.SKIP, function (parameter) { _this.useItem(Items.SKIP); });
                 this.gameplayMenu.addEventListener(Items.HINT, function (parameter) { _this.useItem(Items.HINT, parameter.parameters); }); //solve this problem
                 this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
@@ -2011,11 +2026,11 @@ var FlipPlus;
                 //threat user input
                 this.loosing = false;
                 //only adds this level if there are more than 1 puzzle to solve
-                this.gameplayMenu.addButtons([Items.SKIP]);
+                this.gameplayMenu.addItemsButtons([Items.SKIP]);
                 if (this.levelData.puzzlesToSolve > 1)
-                    this.gameplayMenu.addButtons([Items.SOLVE]);
+                    this.gameplayMenu.addItemsButtons([Items.SOLVE]);
                 //adds buttons and items
-                this.gameplayMenu.addButtons([Items.TAP, Items.HINT]);
+                this.gameplayMenu.addItemsButtons([Items.TAP, Items.HINT]);
                 this.gameplayMenu.addEventListener(Items.TAP, function () { _this.useItem(Items.TAP); });
                 this.gameplayMenu.addEventListener(Items.SOLVE, function () { _this.useItem(Items.SOLVE); });
                 this.gameplayMenu.addEventListener(Items.HINT, function () { _this.useItem(Items.HINT); });
@@ -2123,7 +2138,7 @@ var FlipPlus;
                 _super.call(this, levelData);
                 this.currentPuzzle = 1;
                 this.puzzlesToSolve = 0;
-                this.gameplayMenu.addButtons([Items.SKIP, Items.TIME, Items.SOLVE, Items.HINT]);
+                this.gameplayMenu.addItemsButtons([Items.SKIP, Items.TIME, Items.SOLVE, Items.HINT]);
                 this.gameplayMenu.addEventListener(Items.SKIP, function () { _this.useItem(Items.SKIP); });
                 this.gameplayMenu.addEventListener(Items.TIME, function () { _this.useItem(Items.TIME); });
                 this.gameplayMenu.addEventListener(Items.SOLVE, function () { _this.useItem(Items.SOLVE); });
@@ -3165,100 +3180,6 @@ var FlipPlus;
     (function (GamePlay) {
         var Views;
         (function (Views) {
-            var Overlay = (function (_super) {
-                __extends(Overlay, _super);
-                function Overlay() {
-                    _super.call(this);
-                    this.buildObjects();
-                }
-                Overlay.prototype.show = function () { this.visible = true; };
-                Overlay.prototype.hide = function () { this.visible = false; };
-                Overlay.prototype.buildObjects = function () {
-                    //nothin to do here
-                };
-                return Overlay;
-            })(createjs.Container);
-            Views.Overlay = Overlay;
-            var MenuOverlay = (function (_super) {
-                __extends(MenuOverlay, _super);
-                function MenuOverlay() {
-                    _super.apply(this, arguments);
-                }
-                MenuOverlay.prototype.buildObjects = function () {
-                    //Add Back Button
-                    var menuContainer = new gameui.Grid(1, 1, null, 373, null, true);
-                    menuContainer.y = 1676;
-                    this.addChild(menuContainer);
-                    this.pauseButton = new gameui.TextButton("Pause");
-                    menuContainer.addObject(this.pauseButton);
-                };
-                return MenuOverlay;
-            })(Overlay);
-            Views.MenuOverlay = MenuOverlay;
-            var PauseOverlay = (function (_super) {
-                __extends(PauseOverlay, _super);
-                function PauseOverlay() {
-                    _super.apply(this, arguments);
-                }
-                PauseOverlay.prototype.buildObjects = function () {
-                    this.visible = false;
-                    var backgroundShape = new createjs.Shape();
-                    backgroundShape.graphics.beginFill("rgba(0,0,0,0.2)").drawRect(0, 0, defaultWidth, defaultHeight);
-                    this.addChild(backgroundShape);
-                    var mc = new gameui.MenuContainer();
-                    this.addChild(mc);
-                    //Add Back Button
-                    var menuContainer = new gameui.Grid(1, 1, null, 373, null, true);
-                    menuContainer.y = 1676;
-                    this.addChild(menuContainer);
-                    this.backButton = new gameui.TextButton("Continue");
-                    menuContainer.addObject(this.backButton);
-                    //add Label
-                    mc.addLabel("Paused");
-                    mc.addObject(new FlipPlus.Menu.SoundMenu());
-                    //add Other Buttons
-                    this.replayButton = mc.addButton("SKIP");
-                    this.replayButton = mc.addButton("RESTART");
-                    this.confirmMainButton = mc.addButton("LEAVE");
-                    //this.createConfirmationContainer();
-                    //this.addChild(this.confirm);
-                    //this.leaveButton.addEventListener("click", () => {
-                    //    this.confirm.fadeIn();
-                    //    this.leaveButton.fadeOut();
-                    //})
-                };
-                PauseOverlay.prototype.createConfirmationContainer = function () {
-                    var _this = this;
-                    this.confirm = new gameui.MenuContainer(null, 100);
-                    this.confirm.y = defaultHeight / 1.8;
-                    var smc;
-                    smc = new gameui.Grid(2, 1, 700, 100, null, true);
-                    this.confirm.addLabel("Are you sure?");
-                    this.confirm.addObject(smc);
-                    smc.regX = 700 / 2;
-                    smc.y -= 150;
-                    this.confirmMainButton = new gameui.TextButton("Yes", null, "botao2.png");
-                    smc.addObject(new gameui.TextButton("No", "", "", "botao2.png", function () {
-                        _this.confirm.fadeOut();
-                        _this.leaveButton.fadeIn();
-                    }));
-                    smc.addObject(this.confirmMainButton);
-                };
-                PauseOverlay.prototype.show = function () {
-                    _super.prototype.show.call(this);
-                };
-                return PauseOverlay;
-            })(Overlay);
-            Views.PauseOverlay = PauseOverlay;
-        })(Views = GamePlay.Views || (GamePlay.Views = {}));
-    })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var GamePlay;
-    (function (GamePlay) {
-        var Views;
-        (function (Views) {
             var GamePlayMenu = (function (_super) {
                 __extends(GamePlayMenu, _super);
                 function GamePlayMenu() {
@@ -3268,7 +3189,6 @@ var FlipPlus;
                     this.currentItem = 0;
                     this.items = [];
                     this.createGamePlayMenu();
-                    this.createPauseMenu();
                     this.addTutorialIndicator();
                     this.buttons = new Object();
                     this.parameters = new Object();
@@ -3283,99 +3203,40 @@ var FlipPlus;
                 //creates all menu butons
                 GamePlayMenu.prototype.createGamePlayMenu = function () {
                     var _this = this;
-                    this.overlayMenu = new gameui.UIItem();
-                    this.overlayMenu.width = 2 * defaultWidth;
-                    this.overlayMenu.height = 0;
-                    var pausBt = new gameui.IconTextButton("puzzle/btpause", "", "", "", "puzzle/btpowerup", function () { _this.pause(); });
-                    this.overlayMenu.addChild(pausBt),
-                        pausBt.x = 1360;
-                    this.addChild(this.overlayMenu);
+                    this.width = 2 * defaultWidth;
+                    this.height = 0;
+                    var pauseBt = new gameui.ImageButton("puzzle/btpause", function () { _this.dispatchEvent("pause"); });
+                    this.addChild(pauseBt),
+                        pauseBt.x = 1360;
                 };
-                // ================ Add Buttons ==========================================
-                GamePlayMenu.prototype.addButtons = function (buttons) {
-                    for (var b in buttons) {
-                        var bt = this.createItemButton(buttons[b], this.xstart + this.xstep * this.currentItem);
+                // ================ Add Items ==========================================
+                // add alls items buttons
+                GamePlayMenu.prototype.addItemsButtons = function (ItemId) {
+                    var _this = this;
+                    for (var i in ItemId) {
+                        this.items.push(ItemId[i]);
+                        var bt = new Views.ItemButton(ItemId[i], function (buttonId) {
+                            var parameter;
+                            if (_this.parameters)
+                                parameter = _this.parameters[buttonId];
+                            _this.dispatchEvent({ type: buttonId, parameters: parameter });
+                            _this.parameters[buttonId] = null;
+                        });
+                        this.addChild(bt);
+                        bt.x = this.xstart + this.xstep * this.currentItem;
+                        this.buttons[ItemId[i]] = bt;
                         this.currentItem++;
                     }
                 };
-                //creates a iitem button and its feedback pand parameters, and adds it to screensk
-                GamePlayMenu.prototype.createItemButton = function (buttonId, pos) {
-                    var _this = this;
-                    this.items.push(buttonId);
-                    var button = new gameui.TextButton("--", "90px " + defaultFont, "white", "puzzle/btbuyitem", function () {
-                        var parameter = null;
-                        if (_this.parameters)
-                            parameter = _this.parameters[buttonId];
-                        _this.dispatchEvent({ type: buttonId, parameters: parameter });
-                        _this.parameters[buttonId] = null;
-                    });
-                    button.addChild();
-                    var part = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
-                    button.addChild(part);
-                    part.regX = 113 / 2;
-                    part.regY = 93 / 2;
-                    part.x = 250 - 245;
-                    part.scaleX = 0.8;
-                    part.scaleY = 0.8;
-                    var icon = gameui.AssetsManager.getBitmap("puzzle/icon_" + buttonId);
-                    button.addChild(icon);
-                    icon.regX = 139 / 2;
-                    icon.regY = 148 / 2;
-                    icon.x = 90 - 245;
-                    button.text.textAlign = 'left';
-                    button.text.x = 330 - 246;
-                    button.text.y -= 5;
-                    this.overlayMenu.addChild(button);
-                    this.buttons[buttonId] = button;
-                    button.x = pos;
-                    return button;
-                };
+                // Update all items prices
                 GamePlayMenu.prototype.updateItemsPrice = function (prices) {
-                    for (var item in prices) {
+                    for (var item in prices)
                         if (this.buttons[item])
-                            this.buttons[item].text.text = prices[item];
-                    }
+                            this.buttons[item].updatePrice(prices[item]);
                 };
+                // 
                 GamePlayMenu.prototype.getButtonPosition = function (item) {
                     return this.buttons[item].x;
-                };
-                // ============== pause menus ============================================
-                GamePlayMenu.prototype.createPauseMenu = function () {
-                    var _this = this;
-                    var pauseMenu = new gameui.UIItem();
-                    var playBt = new gameui.IconTextButton("puzzle/iconeplay", "", "", "", "puzzle/btplay1", function () { _this.unpause(); }, "buttonOut");
-                    playBt.x = 600;
-                    var snd1Bt = new gameui.ImageButton("puzzle/btsom1", function () { _this.dispatchEvent("soundOn"); }, "buttonOut");
-                    snd1Bt.x = 160;
-                    var snd2Bt = new gameui.ImageButton("puzzle/btsom2", function () { _this.dispatchEvent("soundOff"); }, "buttonOut");
-                    snd2Bt.x = 160;
-                    var backBt = new gameui.ImageButton("puzzle/btsair", function () { _this.dispatchEvent("back"); }, "buttonOut");
-                    backBt.x = 400;
-                    var restBt = new gameui.ImageButton("puzzle/btrest", function () { _this.dispatchEvent("restart"); }, "buttonOut");
-                    restBt.x = -80;
-                    pauseMenu.addChild(playBt);
-                    pauseMenu.addChild(snd1Bt);
-                    pauseMenu.addChild(snd2Bt);
-                    pauseMenu.addChild(backBt);
-                    pauseMenu.addChild(restBt);
-                    var c = new createjs.Container();
-                    pauseMenu.addChild(c);
-                    this.addChild(pauseMenu);
-                    pauseMenu.x = 800;
-                    pauseMenu.visible = false;
-                    this.pauseMenu = pauseMenu;
-                    this.pauseMenu.width = defaultWidth;
-                    this.pauseMenu.height = 0;
-                };
-                GamePlayMenu.prototype.pause = function () {
-                    this.dispatchEvent("pause");
-                    this.overlayMenu.fadeOut();
-                    this.pauseMenu.fadeIn();
-                };
-                GamePlayMenu.prototype.unpause = function () {
-                    this.dispatchEvent("unpause");
-                    this.overlayMenu.fadeIn();
-                    this.pauseMenu.fadeOut();
                 };
                 //================== tutorial ============================================
                 GamePlayMenu.prototype.tutorial_HighlightItem = function (itemId, parameter) {
@@ -4647,42 +4508,17 @@ var FlipPlus;
         var OptionsMenu = (function (_super) {
             __extends(OptionsMenu, _super);
             function OptionsMenu() {
+                var _this = this;
                 this.originY = 1;
                 this.originX = defaultWidth;
                 _super.call(this, StringResources.menus.menu, FlipPlus.FlipPlusGame.mainScreen);
-                this.buildObjects();
-                this.updateVolumeButtons();
-            }
-            OptionsMenu.prototype.buildObjects = function () {
-                var _this = this;
                 // add menu buttons
                 var p0 = -350;
                 var p = 0;
                 var s = 330;
-                this.btMusOn = new gameui.IconButton("menu/icmusic", "menu/btmusicon", function () {
-                    gameui.AudiosManager.setMusicVolume(0);
-                    _this.updateVolumeButtons();
-                    FlipPlus.FlipPlusGame.settings.setMusic(0);
-                }).set({ x: -200, y: p0 });
-                this.btMusOf = new gameui.IconButton("menu/icmusic", "menu/btmusicoff", function () {
-                    gameui.AudiosManager.setMusicVolume(1);
-                    _this.updateVolumeButtons();
-                    FlipPlus.FlipPlusGame.settings.setMusic(1);
-                }).set({ x: -200, y: p0 });
-                this.btSndOn = new gameui.IconButton("menu/icsound", "menu/btmusicon", function () {
-                    gameui.AudiosManager.setSoundVolume(0);
-                    _this.updateVolumeButtons();
-                    FlipPlus.FlipPlusGame.settings.setSoundfX(0);
-                }).set({ x: 200, y: p0 });
-                this.btSndOf = new gameui.IconButton("menu/icsound", "menu/btmusicoff", function () {
-                    gameui.AudiosManager.setSoundVolume(1);
-                    _this.updateVolumeButtons();
-                    FlipPlus.FlipPlusGame.settings.setSoundfX(1);
-                }).set({ x: 200, y: p0 });
-                this.content.addChild(this.btMusOn);
-                this.content.addChild(this.btMusOf);
-                this.content.addChild(this.btSndOn);
-                this.content.addChild(this.btSndOf);
+                var soundMenu = new Menu.View.SoundMenu();
+                soundMenu.y = p0;
+                this.content.addChild(soundMenu);
                 p++;
                 this.content.addChild(new gameui.TextButton("Help", defaultFontFamilyHighlight, blueColor, "menu/btmenu", function () {
                     FlipPlus.FlipPlusGame.showSpecialOffer(_this);
@@ -4697,13 +4533,7 @@ var FlipPlus;
                     FlipPlus.FlipPlusGame.projectData.clearAllData();
                     window.location.reload();
                 }).set({ y: p0 + p * s }));
-            };
-            OptionsMenu.prototype.updateVolumeButtons = function () {
-                this.btMusOn.visible = gameui.AudiosManager.getMusicVolume() == 1;
-                this.btMusOf.visible = gameui.AudiosManager.getMusicVolume() == 0;
-                this.btSndOn.visible = gameui.AudiosManager.getSoundVolume() == 1;
-                this.btSndOf.visible = gameui.AudiosManager.getSoundVolume() == 0;
-            };
+            }
             return OptionsMenu;
         })(Menu.GenericMenu);
         Menu.OptionsMenu = OptionsMenu;
@@ -4927,59 +4757,6 @@ var FlipPlus;
             return ProjectsMenu;
         })(gameui.ScreenState);
         Menu.ProjectsMenu = ProjectsMenu;
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var SoundMenu = (function (_super) {
-            __extends(SoundMenu, _super);
-            // Constructor
-            function SoundMenu() {
-                _super.call(this);
-                this.createObjects();
-            }
-            SoundMenu.prototype.createObjects = function () {
-                var sfxon = new gameui.IconTextButton("botaofxon.png", "", "", "", "botaosom.png", function () {
-                    FlipPlus.FlipPlusGame.settings.setSoundfX(0);
-                    sfxon.visible = false;
-                    sfxoff.visible = true;
-                });
-                var sfxoff = new gameui.IconTextButton("botaofxoff.png", "", "", "", "botaosom.png", function () {
-                    FlipPlus.FlipPlusGame.settings.setSoundfX(0);
-                    sfxoff.visible = false;
-                    sfxon.visible = true;
-                });
-                var muson = new gameui.IconTextButton("botaomusicaon.png", "", "", "", "botaosom.png", function () {
-                    FlipPlus.FlipPlusGame.settings.setMusic(0);
-                    muson.visible = false;
-                    musoff.visible = true;
-                });
-                var musoff = new gameui.IconTextButton("botaomusicaoff.png", "", "", "", "botaosom.png", function () {
-                    FlipPlus.FlipPlusGame.settings.setMusic(0);
-                    musoff.visible = false;
-                    muson.visible = true;
-                });
-                musoff.visible = FlipPlus.FlipPlusGame.settings.getMusic() <= 0;
-                muson.visible = FlipPlus.FlipPlusGame.settings.getMusic() > 0;
-                sfxoff.visible = FlipPlus.FlipPlusGame.settings.getSoundfx() <= 0;
-                sfxon.visible = FlipPlus.FlipPlusGame.settings.getSoundfx() > 0;
-                //Add Sound Buttons
-                var soundMenuOn = new gameui.Grid(2, 1, 600, 372, null, true);
-                var soundMenuOff = new gameui.Grid(2, 1, 600, 372, null, true);
-                soundMenuOn.addObject(sfxon);
-                soundMenuOn.addObject(muson);
-                soundMenuOff.addObject(sfxoff);
-                soundMenuOff.addObject(musoff);
-                this.addChild(soundMenuOff);
-                this.addChild(soundMenuOn);
-                this.regX = 300;
-                this.regY = 186;
-            };
-            return SoundMenu;
-        })(createjs.Container);
-        Menu.SoundMenu = SoundMenu;
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
@@ -6313,8 +6090,7 @@ var FlipPlus;
 /// <reference path="src/GamePlay/Model/Board.ts" />
 /// <reference path="src/GamePlay/Model/Level.ts" />
 /// <reference path="src/GamePlay/Views/BlockSprite.ts" />
-/// <reference path="src/GamePlay/Views/BoardSprite.ts" />
-/// <reference path="src/GamePlay/Views/Overlay.ts" />
+/// <reference path="src/GamePlay/Views/BoardSprite.ts" /> 
 /// <reference path="src/GamePlay/Views/GameplayMenu.ts" />
 /// <reference path="src/GamePlay/Views/StatusArea.ts" />
 /// <reference path="src/bonus/bonusscreen.ts" />
@@ -6327,8 +6103,7 @@ var FlipPlus;
 /// <reference path="src/Menu/Loading.ts" />
 /// <reference path="src/Menu/MainMenu.ts" />
 /// <reference path="src/Menu/OptionsMenu.ts" />
-/// <reference path="src/Menu/ProjectsMenu.ts" />
-/// <reference path="src/Menu/SoundMenu.ts" />
+/// <reference path="src/Menu/ProjectsMenu.ts" /> 
 /// <reference path="src/Menu/View/Terminal.ts" />
 /// <reference path="src/Menu/View/ScreenMenu.ts" />
 /// <reference path="src/Menu/View/LevelGrid.ts" />
@@ -6389,6 +6164,43 @@ var gameui;
     })();
     gameui.AudiosManager = AudiosManager;
 })(gameui || (gameui = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var GamePlay;
+    (function (GamePlay) {
+        var Views;
+        (function (Views) {
+            var ItemButton = (function (_super) {
+                __extends(ItemButton, _super);
+                function ItemButton(item, event) {
+                    _super.call(this, "--", "90px " + defaultFont, "white", "puzzle/btbuyitem", function () {
+                        event(item);
+                    });
+                    var part = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
+                    this.addChild(part);
+                    part.regX = 113 / 2;
+                    part.regY = 93 / 2;
+                    part.x = 250 - 245;
+                    part.scaleX = 0.8;
+                    part.scaleY = 0.8;
+                    var icon = gameui.AssetsManager.getBitmap("puzzle/icon_" + item);
+                    this.addChild(icon);
+                    icon.regX = 139 / 2;
+                    icon.regY = 148 / 2;
+                    icon.x = 90 - 245;
+                    this.text.textAlign = 'left';
+                    this.text.x = 330 - 246;
+                    this.text.y -= 5;
+                }
+                ItemButton.prototype.updatePrice = function (price) {
+                    this.text.text = price.toString();
+                };
+                return ItemButton;
+            })(gameui.TextButton);
+            Views.ItemButton = ItemButton;
+        })(Views = GamePlay.Views || (GamePlay.Views = {}));
+    })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+})(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
     var GameServices = (function () {
@@ -6796,6 +6608,49 @@ var FlipPlus;
     (function (Menu) {
         var View;
         (function (View) {
+            var PauseMenu = (function (_super) {
+                __extends(PauseMenu, _super);
+                function PauseMenu() {
+                    var _this = this;
+                    _super.call(this);
+                    this.visible = false;
+                    // add menu buttons
+                    var p0 = -600;
+                    var p = 0;
+                    var s = 330;
+                    var soundMenu = new FlipPlus.Menu.View.SoundMenu();
+                    soundMenu.y = p0;
+                    this.addChild(soundMenu);
+                    p++;
+                    this.addChild(new gameui.IconTextButton("menu/icleave", "Leave", defaultFontFamilyHighlight, "white", "menu/btmenu", function () {
+                        _this.dispatchEvent("leave");
+                    }).set({ y: p0 + p * s }));
+                    p++;
+                    this.addChild(new gameui.IconTextButton("menu/icskip", "Skip", defaultFontFamilyHighlight, "white", "menu/btmenu", function () {
+                        _this.dispatchEvent("skip");
+                    }).set({ y: p0 + p * s }));
+                    p++;
+                    this.addChild(new gameui.IconTextButton("menu/icrestart", "Restart", defaultFontFamilyHighlight, "white", "menu/btmenu", function () {
+                        _this.dispatchEvent("restart");
+                    }).set({ y: p0 + p * s }));
+                    p++;
+                    this.addChild(new gameui.IconTextButton("menu/iccontinue", "Continue", defaultFontFamilyHighlight, "white", "menu/btmenu", function () {
+                        _this.dispatchEvent("continue");
+                    }).set({ y: p0 + p * s }));
+                    p++;
+                }
+                return PauseMenu;
+            })(gameui.UIItem);
+            View.PauseMenu = PauseMenu;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
             // View Class
             var PopupHelper = (function (_super) {
                 __extends(PopupHelper, _super);
@@ -6884,6 +6739,55 @@ var FlipPlus;
                 return PopupHelper;
             })(View.Popup);
             View.PopupHelper = PopupHelper;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            var SoundMenu = (function (_super) {
+                __extends(SoundMenu, _super);
+                function SoundMenu() {
+                    var _this = this;
+                    _super.call(this);
+                    this.btMusOn = new gameui.IconButton("menu/icmusic", "menu/btmusicon", function () {
+                        gameui.AudiosManager.setMusicVolume(0);
+                        _this.updateVolumeButtons();
+                        FlipPlus.FlipPlusGame.settings.setMusic(0);
+                    }).set({ x: -200 });
+                    this.btMusOf = new gameui.IconButton("menu/icmusic", "menu/btmusicoff", function () {
+                        gameui.AudiosManager.setMusicVolume(1);
+                        _this.updateVolumeButtons();
+                        FlipPlus.FlipPlusGame.settings.setMusic(1);
+                    }).set({ x: -200 });
+                    this.btSndOn = new gameui.IconButton("menu/icsound", "menu/btmusicon", function () {
+                        gameui.AudiosManager.setSoundVolume(0);
+                        _this.updateVolumeButtons();
+                        FlipPlus.FlipPlusGame.settings.setSoundfX(0);
+                    }).set({ x: 200 });
+                    this.btSndOf = new gameui.IconButton("menu/icsound", "menu/btmusicoff", function () {
+                        gameui.AudiosManager.setSoundVolume(1);
+                        _this.updateVolumeButtons();
+                        FlipPlus.FlipPlusGame.settings.setSoundfX(1);
+                    }).set({ x: 200 });
+                    this.addChild(this.btMusOn);
+                    this.addChild(this.btMusOf);
+                    this.addChild(this.btSndOn);
+                    this.addChild(this.btSndOf);
+                    this.updateVolumeButtons();
+                }
+                SoundMenu.prototype.updateVolumeButtons = function () {
+                    this.btMusOn.visible = gameui.AudiosManager.getMusicVolume() == 1;
+                    this.btMusOf.visible = gameui.AudiosManager.getMusicVolume() == 0;
+                    this.btSndOn.visible = gameui.AudiosManager.getSoundVolume() == 1;
+                    this.btSndOf.visible = gameui.AudiosManager.getSoundVolume() == 0;
+                };
+                return SoundMenu;
+            })(createjs.Container);
+            View.SoundMenu = SoundMenu;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));

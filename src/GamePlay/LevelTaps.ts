@@ -13,13 +13,13 @@
 
             
             //only adds this level if there are more than 1 puzzle to solve
-            this.gameplayMenu.addButtons([Items.SKIP]);
+            this.gameplayMenu.addItemsButtons([Items.SKIP]);
 
             if (this.levelData.puzzlesToSolve > 1) 
-                this.gameplayMenu.addButtons([Items.SOLVE]);
+                this.gameplayMenu.addItemsButtons([Items.SOLVE]);
             
             //adds buttons and items
-            this.gameplayMenu.addButtons([Items.TAP, Items.HINT]);
+            this.gameplayMenu.addItemsButtons([Items.TAP, Items.HINT]);
 
 
             this.gameplayMenu.addEventListener(Items.TAP, () => { this.useItem(Items.TAP) });

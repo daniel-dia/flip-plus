@@ -13,7 +13,7 @@ module FlipPlus.GamePlay {
         constructor(levelData: Projects.Level) {
             super(levelData);
 
-            this.gameplayMenu.addButtons([Items.SKIP, Items.TIME, Items.SOLVE, Items.HINT]);
+            this.gameplayMenu.addItemsButtons([Items.SKIP, Items.TIME, Items.SOLVE, Items.HINT]);
             this.gameplayMenu.addEventListener(Items.SKIP, () => { this.useItem(Items.SKIP); });
             this.gameplayMenu.addEventListener(Items.TIME, () => { this.useItem(Items.TIME); });
             this.gameplayMenu.addEventListener(Items.SOLVE, () => { this.useItem(Items.SOLVE); });

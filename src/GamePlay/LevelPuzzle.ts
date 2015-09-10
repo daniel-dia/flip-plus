@@ -8,9 +8,9 @@ module FlipPlus.GamePlay {
             super(levelData);
 
             if (levelData.customItems)
-                this.gameplayMenu.addButtons(levelData.customItems);
+                this.gameplayMenu.addItemsButtons(levelData.customItems);
             else
-                this.gameplayMenu.addButtons([Items.SKIP, Items.HINT]);
+                this.gameplayMenu.addItemsButtons([Items.SKIP, Items.HINT]);
 
             this.gameplayMenu.addEventListener(Items.SKIP, (parameter) => { this.useItem(Items.SKIP); });
             this.gameplayMenu.addEventListener(Items.HINT, (parameter) => { this.useItem(Items.HINT,(<any>parameter).parameters); }); //solve this problem

@@ -28,12 +28,15 @@
     <TypeScriptCompile Include="gameui\ScreenState.ts" />
     <TypeScriptCompile Include="gameui\Transition.ts" />
     <TypeScriptCompile Include="gameui\UIItem.ts" />
+    <TypeScriptCompile Include="src\GamePlay\Views\ItemButton.ts" />
     <TypeScriptCompile Include="src\GameServices.ts" />
     <TypeScriptCompile Include="src\Menu\SpecialOfferMenu.ts" />
     <TypeScriptCompile Include="src\Menu\ShopMenu.ts" />
     <TypeScriptCompile Include="src\Menu\GenericMenu.ts" />
     <TypeScriptCompile Include="src\Menu\View\Page.ts" />
+    <TypeScriptCompile Include="src\Menu\View\PauseMenu.ts" />
     <TypeScriptCompile Include="src\Menu\View\PopupHelper.ts" />
+    <TypeScriptCompile Include="src\Menu\View\SoundMenu.ts" />
     <TypeScriptCompile Include="typing\cocoon.d.ts" />
     <TypeScriptCompile Include="typing\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="typing\createjs\createjs.d.ts" />
@@ -1355,7 +1358,6 @@
     <Content Include="scripts\timer.js" />
     <TypeScriptCompile Include="src\UserData\Settings.ts" />
     <TypeScriptCompile Include="src\Menu\Loading.ts" />
-    <TypeScriptCompile Include="src\Menu\SoundMenu.ts" />
     <TypeScriptCompile Include="src\Menu\OptionsMenu.ts" />
     <TypeScriptCompile Include="src\Menu\ProjectsMenu.ts" />
     <TypeScriptCompile Include="src\Menu\View\CoinsIndicator.ts" />
@@ -1371,7 +1373,6 @@
     <Content Include="src\UserData\ProjectsData.ts" />
     <TypeScriptCompile Include="src\Robots\MyBots.ts" />
     <TypeScriptCompile Include="src\Menu\MainMenu.ts" />
-    <TypeScriptCompile Include="src\GamePlay\Views\Overlay.ts" />
     <TypeScriptCompile Include="src\Utils\Effects.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelScreen.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelPuzzle.ts" />

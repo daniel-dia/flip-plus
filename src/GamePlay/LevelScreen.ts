@@ -17,7 +17,7 @@ module FlipPlus.GamePlay {
         protected popupHelper: Menu.View.PopupHelper;
         protected message: Menu.View.Message;
         protected textEffext: Menu.View.TextEffect;
-
+        protected pauseMenu: gameui.UIItem;
         // Level
         protected levelLogic: Model.Level;
         protected levelData: Projects.Level;
@@ -130,16 +130,8 @@ module FlipPlus.GamePlay {
             //level control
             this.gameplayMenu.addEventListener("pause", () => { this.pauseGame(); });
             this.gameplayMenu.addEventListener("unpause", () => { this.unPauseGame(); });
-            this.gameplayMenu.addEventListener("restart", (e: createjs.Event) => {
-                FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
-                FlipPlusGame.replayLevel();
-                gameui.AudiosManager.playSound("Power Down")
-            });
-            this.gameplayMenu.addEventListener("back", () => {
-                FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
-                FlipPlusGame.exitLevel();
-                gameui.AudiosManager.playSound("Power Down")
-            });
+            this.gameplayMenu.addEventListener("restart", () => {this.restart();});
+            this.gameplayMenu.addEventListener("back", () => {this.exit();});
 
             // parts Indicator
             this.partsIndicator= new Menu.View.CoinsIndicator();
@@ -156,6 +148,17 @@ module FlipPlus.GamePlay {
                 this.statusArea.setText3("");
                 this.header.addChild(this.statusArea);
             }
+
+            //pause menu
+            this.pauseMenu = new Menu.View.PauseMenu();
+            this.pauseMenu.x = defaultWidth / 2;
+            this.pauseMenu.y = defaultHeight / 2;
+            this.pauseMenu.addEventListener("continue", () => { this.unPauseGame() });
+            this.pauseMenu.addEventListener("restart", () => { this.restart() });
+            this.pauseMenu.addEventListener("skip", () => { this.useItem("skip") });
+            this.pauseMenu.addEventListener("leave", () => { this.exit() });
+
+            this.content.addChild(this.pauseMenu);
         }
 
         private initializeBoardSprites(width: number, height: number, theme: string, blocks: any, type: string) {
@@ -209,6 +212,18 @@ module FlipPlus.GamePlay {
         // #endregion
 
         // #region  GamePlay methods =========================================================================================================
+
+        protected exit() {
+            FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
+            FlipPlusGame.exitLevel();
+            gameui.AudiosManager.playSound("Power Down")
+        }
+
+        protected restart() {
+            FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
+            FlipPlusGame.replayLevel();
+            gameui.AudiosManager.playSound("Power Down")
+        }
 
         private earnPrize(col: number, row: number) {
 
@@ -425,17 +440,18 @@ module FlipPlus.GamePlay {
                 //randomly select one from the list
                 var index = Math.floor(Math.random() * filtredInvertedBlocks.length);
                 blockId = filtredInvertedBlocks[index];
+
+                // save used hint on level
+                this.levelData.userdata.hints = this.levelData.userdata.hints || [];
+                this.levelData.userdata.hints.push(blockId);
+                
+                // saves 
+                FlipPlusGame.projectData.saveLevelData(this.levelData);
             }
 
             // enablehint for the selected block;
             this.boardSprite.getBlockById(blockId).enableHint();
 
-            // save used hint on level
-            this.levelData.userdata.hints = this.levelData.userdata.hints || [];
-            this.levelData.userdata.hints.push(blockId);
-
-            // saves 
-            FlipPlusGame.projectData.saveLevelData(this.levelData);
         }
 
         //set hint for a solve
@@ -463,6 +479,9 @@ module FlipPlus.GamePlay {
             createjs.Tween.get(this.boardSprite).to({ scaleX: 0.5, scaleY: 0.5, alpha: 0 }, 300, createjs.Ease.quadIn).call(() => {
                 this.boardSprite.visible = false;
             });
+
+            this.gameplayMenu.fadeOut();
+            this.pauseMenu.fadeIn();
         }
 
         protected unPauseGame() {
@@ -476,6 +495,9 @@ module FlipPlus.GamePlay {
 
             createjs.Tween.removeTweens(this.boardSprite);
             createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, alpha: 1 }, 150, createjs.Ease.circOut);
+
+            this.gameplayMenu.fadeIn();
+            this.pauseMenu.fadeOut();
         }
 
         protected animatePuzzle(parameters) {

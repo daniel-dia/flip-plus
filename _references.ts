@@ -34,8 +34,7 @@
 /// <reference path="src/GamePlay/Model/Board.ts" />
 /// <reference path="src/GamePlay/Model/Level.ts" />
 /// <reference path="src/GamePlay/Views/BlockSprite.ts" />
-/// <reference path="src/GamePlay/Views/BoardSprite.ts" />
-/// <reference path="src/GamePlay/Views/Overlay.ts" />
+/// <reference path="src/GamePlay/Views/BoardSprite.ts" /> 
 /// <reference path="src/GamePlay/Views/GameplayMenu.ts" />
 /// <reference path="src/GamePlay/Views/StatusArea.ts" />
 
@@ -50,8 +49,7 @@
 /// <reference path="src/Menu/Loading.ts" />
 /// <reference path="src/Menu/MainMenu.ts" />
 /// <reference path="src/Menu/OptionsMenu.ts" />
-/// <reference path="src/Menu/ProjectsMenu.ts" />
-/// <reference path="src/Menu/SoundMenu.ts" />
+/// <reference path="src/Menu/ProjectsMenu.ts" /> 
 
 /// <reference path="src/Menu/View/Terminal.ts" />
 /// <reference path="src/Menu/View/ScreenMenu.ts" />
