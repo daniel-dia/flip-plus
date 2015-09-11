@@ -1,5 +1,7 @@
 ﻿module FlipPlus.Menu.View {
     export class PauseMenu extends gameui.UIItem {
+        private skipPriceText: createjs.Text;
+        private skipPriceIcon: createjs.DisplayObject;
 
         constructor() {
             super();
@@ -16,29 +18,39 @@
             p++;
 
 
-            this.addChild(new gameui.IconTextButton("menu/icleave", "Leave", defaultFontFamilyHighlight, "white", "menu/btmenu", () => {
+            this.addChild(new gameui.IconTextButton("menu/icleave", StringResources.leave.toUpperCase(), defaultFontFamilyNormal, "white", "menu/btmenu", () => {
                 this.dispatchEvent("leave")
-            }).set({ y: p0 + p * s }));
+            }, undefined, "left").set({ y: p0 + p * s }));
             p++;
 
-
-            this.addChild(new gameui.IconTextButton("menu/icskip", "Skip", defaultFontFamilyHighlight, "white", "menu/btmenu", () => {
-                this.dispatchEvent("skip")
-            }).set({ y: p0 + p * s }));
+            var skipBt = new gameui.IconTextButton("menu/icskip", StringResources.skip.toUpperCase(), defaultFontFamilyNormal, "white", "menu/btmenu", () => {
+                this.dispatchEvent("skip");
+            }, undefined, "left")
+            skipBt.set({ y: p0 + p * s });
+            skipBt.text.y = -40;
+            this.addChild(skipBt);
+            this.skipPriceText = new createjs.Text("", defaultFontFamilyNormal, "white").set({ x: skipBt.text.x, textAlign: "left" });
+            this.skipPriceIcon = gameui.AssetsManager.getBitmap("puzzle/icon_coin").set({ x: skipBt.text.x + 100, y: 20, scaleX: 0.8, scaleY: 0.8 })
+            skipBt.addChild(this.skipPriceIcon);
+            skipBt.addChild(this.skipPriceText );
             p++
 
 
-            this.addChild(new gameui.IconTextButton("menu/icrestart", "Restart", defaultFontFamilyHighlight, "white", "menu/btmenu", () => {
+            this.addChild(new gameui.IconTextButton("menu/icrestart", StringResources.restart.toUpperCase(), defaultFontFamilyNormal, "white", "menu/btmenu", () => {
                 this.dispatchEvent("restart")
-            }).set({ y: p0 + p * s }));
+            }, undefined, "left").set({ y: p0 + p * s }));
             p++
 
 
-            this.addChild(new gameui.IconTextButton("menu/iccontinue", "Continue", defaultFontFamilyHighlight, "white", "menu/btmenu", () => {
+            this.addChild(new gameui.IconTextButton("menu/iccontinue", StringResources.continue.toUpperCase(), defaultFontFamilyNormal, "white", "menu/btmenu", () => {
                 this.dispatchEvent("continue")
-            }).set({ y: p0 + p * s }));
+            }, undefined, "left").set({ y: p0 + p * s }));
             p++
-  
+        }
+
+        public updateSkipPrice(price: number) {
+            this.skipPriceText.text = price.toString();
+            this.skipPriceIcon.x = this.skipPriceText.x + this.skipPriceText.getMeasuredWidth() + 30; 
         }
     }
 }

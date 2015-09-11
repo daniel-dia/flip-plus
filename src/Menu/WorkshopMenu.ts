@@ -155,9 +155,8 @@ module FlipPlus.Menu {
 
             // play music
             //gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
-            this.factorySound = gameui.AudiosManager.playSound("Factory Ambience");
-            this.factorySound.setVolume(0.4);
-
+            this.factorySound = gameui.AudiosManager.playSound("Factory Ambience",true,0,0,0,0.4);
+            
             //update enabled Projects
             this.addProjects();
 

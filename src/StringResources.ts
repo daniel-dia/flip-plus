@@ -96,6 +96,11 @@
     time: "Touch",
     touch: "Time",
 
+    restart: "Restart",
+    continue: "Continue",
+    leave: "Leave",
+    
+
     menus: {
         highScore: "High Score",
         loading: "loading",
@@ -236,6 +241,11 @@ var stringResources_pt = {
     skip: "Pular",
     time: "Tempo",
     touch: "Toques",
+
+    restart: "Recomeçar",
+    continue: "Continuar",
+    leave: "Sair",
+    
 
     menus: {
         highScore: "Recorde",

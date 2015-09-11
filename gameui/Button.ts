@@ -160,18 +160,18 @@ module gameui {
 
     export class IconTextButton extends TextButton {
 
+        private align: string;
         public icon: createjs.DisplayObject;
 
-        constructor(icon: string = "", text = "", font: string = null, color?: string, background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string) {
-
-            //add space before text
-            if (text != "") text = " " + text;
-
+        constructor(icon: string = "", text = "", font: string = null, color?: string, background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string, align: string = "center") {
+            this.align = align;
+              
             super(text, font, color, background, event, soundId);
 
             //loads icon Image
             this.icon = AssetsManager.getBitmap(icon);
             this.addChild(this.icon);
+
             this.text.textAlign = "left";
 
             if (this.icon.getBounds())
@@ -188,10 +188,19 @@ module gameui {
         }
 
         public updateLabel(value: string) {
+            
             this.text.text = value;
-            if (this.icon.getBounds()) {
-                this.icon.x = -(this.icon.getBounds().width + 10 + this.text.getMeasuredWidth()) / 2;
-                this.text.x = this.icon.x + this.icon.getBounds().width + 10;
+            if (!this.icon.getBounds()) return;
+
+            switch (this.align) {
+                case "center":
+                    this.icon.x = -(this.icon.getBounds().width + 10 + this.text.getMeasuredWidth()) / 2;
+                    this.text.x = this.icon.x + this.icon.getBounds().width + 10;
+                    break;
+                case "left":
+                    this.icon.x = -this.width / 2 + 80;
+                    this.text.x = -this.width / 2 + 80 + this.icon.getBounds().width + 100;
+                    break;
             }
         }
 

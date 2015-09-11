@@ -17,7 +17,7 @@ module FlipPlus.GamePlay {
         protected popupHelper: Menu.View.PopupHelper;
         protected message: Menu.View.Message;
         protected textEffext: Menu.View.TextEffect;
-        protected pauseMenu: gameui.UIItem;
+        protected pauseMenu: Menu.View.PauseMenu;
         // Level
         protected levelLogic: Model.Level;
         protected levelData: Projects.Level;
@@ -125,6 +125,7 @@ module FlipPlus.GamePlay {
             //intialize  menu overlay
             this.gameplayMenu = new Views.GamePlayMenu();
             this.gameplayMenu.y = -100;
+            this.gameplayMenu.x = this.gameplayMenu.regX = 1500;
             this.footer.addChild(this.gameplayMenu);
 
             //level control
@@ -155,7 +156,7 @@ module FlipPlus.GamePlay {
             this.pauseMenu.y = defaultHeight / 2;
             this.pauseMenu.addEventListener("continue", () => { this.unPauseGame() });
             this.pauseMenu.addEventListener("restart", () => { this.restart() });
-            this.pauseMenu.addEventListener("skip", () => { this.useItem("skip") });
+            this.pauseMenu.addEventListener("skip", () => { this.unPauseGame();this.useItem("skip") });
             this.pauseMenu.addEventListener("leave", () => { this.exit() });
 
             this.content.addChild(this.pauseMenu);
@@ -371,7 +372,7 @@ module FlipPlus.GamePlay {
                     FlipPlusGame.coinsData.decreaseAmount(value);
 
                     // animate coins
-                    this.partsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item) - 768, 1900, value);
+                    this.partsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item) - 768, this.footer.y - this.header.y - 100, value);
 
                     //show text effect
                     this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
@@ -482,6 +483,7 @@ module FlipPlus.GamePlay {
 
             this.gameplayMenu.fadeOut();
             this.pauseMenu.fadeIn();
+            this.pauseMenu.updateSkipPrice(this.getItemPrice("skip"));
         }
 
         protected unPauseGame() {
