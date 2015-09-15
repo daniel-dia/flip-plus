@@ -1669,7 +1669,7 @@ var FlipPlus;
                 if (levelData.customItems)
                     this.gameplayMenu.addItemsButtons(levelData.customItems);
                 else
-                    this.gameplayMenu.addItemsButtons([Items.SKIP, Items.HINT]);
+                    this.gameplayMenu.addItemsButtons([Items.HINT]);
                 this.gameplayMenu.addEventListener(Items.SKIP, function (parameter) { _this.useItem(Items.SKIP); });
                 this.gameplayMenu.addEventListener(Items.HINT, function (parameter) { _this.useItem(Items.HINT, parameter.parameters); }); //solve this problem
                 this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
@@ -2147,7 +2147,7 @@ var FlipPlus;
                 _super.call(this, levelData);
                 this.currentPuzzle = 1;
                 this.puzzlesToSolve = 0;
-                this.gameplayMenu.addItemsButtons([Items.SKIP, Items.TIME, Items.SOLVE, Items.HINT]);
+                this.gameplayMenu.addItemsButtons([Items.SOLVE, Items.HINT]);
                 this.gameplayMenu.addEventListener(Items.SKIP, function () { _this.useItem(Items.SKIP); });
                 this.gameplayMenu.addEventListener(Items.TIME, function () { _this.useItem(Items.TIME); });
                 this.gameplayMenu.addEventListener(Items.SOLVE, function () { _this.useItem(Items.SOLVE); });
