@@ -77,7 +77,7 @@ module FlipPlus.GamePlay {
 
         // show a message asking for user to skip
         private showSkipMessage() {
-            this.popupHelper.showItemMessage(Items.SKIP, this.getItemPrice(Items.SKIP), () => { }, () => { this.useItem(Items.SKIP) }, "menu/imskip");
+            this.popupHelper.showItemMessage(Items.SKIP, this.getItemPrice(Items.SKIP), () => { this.useItem(Items.SKIP) }, () => { },"menu/imskip");
         }
 
         // #endregion

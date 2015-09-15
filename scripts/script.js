@@ -1723,7 +1723,7 @@ var FlipPlus;
             // show a message asking for user to skip
             LevelPuzzle.prototype.showSkipMessage = function () {
                 var _this = this;
-                this.popupHelper.showItemMessage(Items.SKIP, this.getItemPrice(Items.SKIP), function () { }, function () { _this.useItem(Items.SKIP); }, "menu/imskip");
+                this.popupHelper.showItemMessage(Items.SKIP, this.getItemPrice(Items.SKIP), function () { _this.useItem(Items.SKIP); }, function () { }, "menu/imskip");
             };
             return LevelPuzzle;
         })(GamePlay.LevelScreen);
