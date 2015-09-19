@@ -27,7 +27,7 @@ module FlipPlus.GamePlay {
         // Used to know the last item used by the user in this level
         protected usedItem: string;
         private itemTimes: Array<number>;
-
+        private paused: boolean;
         // statistics
         private startedTime: number;
         private clicks: number;
@@ -59,6 +59,12 @@ module FlipPlus.GamePlay {
 
             this.levelData.userdata.playedTimes++;
 
+            this.onback = () => {
+                if (this.paused)
+                    this.unPauseGame();
+                else
+                    this.pauseGame();
+            };
 
         }
         // #endregion
@@ -176,9 +182,7 @@ module FlipPlus.GamePlay {
 
         }
 
-        public back() {
-            this.pauseGame();
-        }
+
 
         // #endregion
 
@@ -473,6 +477,7 @@ module FlipPlus.GamePlay {
 
         protected pauseGame() {
 
+            this.paused = true;
             this.boardSprite.lock();
             var med = defaultWidth / 4;
 
@@ -487,7 +492,7 @@ module FlipPlus.GamePlay {
         }
 
         protected unPauseGame() {
-
+            this.paused = false;
             this.boardSprite.unlock();
             var med = defaultWidth / 4;
 

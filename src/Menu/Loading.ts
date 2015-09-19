@@ -20,6 +20,7 @@ module FlipPlus.Menu {
             if (window.innerWidth <= 384) assetscale = 0.25; 
             if (levelCreatorMode) { assetscale = 1 }
 
+            alert("as"+assetscale);
             var imagePath = "assets/images_" + assetscale + "x/";
             var audioPath = "assets/sound/";
 

@@ -75,6 +75,8 @@ module FlipPlus {
                     this.toLevelCreator()
                 }
                 else
+
+                    //this.showProjectsMenu();
                     this.showTitleScreen();
             }
 
@@ -84,7 +86,13 @@ module FlipPlus {
                 this.coinsData.setAmount(10);
             }            
 
-           // var ps = this.projectManager.getAllProjects();
+            // back callback
+            // add back button callback
+            Cocoon.App.exitCallback(() => {
+                return this.gameScreen.sendBackButtonEvent()
+            })
+
+            // var ps = this.projectManager.getAllProjects();
            // for (var p in ps) ps[p].levels.length = 1;
         }
 

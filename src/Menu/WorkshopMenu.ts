@@ -23,7 +23,9 @@ module FlipPlus.Menu {
 
             this.addObjects();
             this.pagesSwipe = new View.PagesSwiper(this.projectsContainer, this.projectViews, defaultWidth, 200, 1500);
-            this.createPaginationButtons(this.projectsContainer)
+            this.createPaginationButtons(this.projectsContainer);
+
+            this.onback = () => { this.back(); };
 
         }
         

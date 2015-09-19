@@ -765,6 +765,7 @@ var FlipPlus;
                     _this.toLevelCreator();
                 }
                 else
+                    //this.showProjectsMenu();
                     _this.showTitleScreen();
             };
             // give 10 coins to user first time
@@ -772,6 +773,11 @@ var FlipPlus;
                 this.storyData.setStoryPlayed("coins");
                 this.coinsData.setAmount(10);
             }
+            // back callback
+            // add back button callback
+            Cocoon.App.exitCallback(function () {
+                return _this.gameScreen.sendBackButtonEvent();
+            });
             // var ps = this.projectManager.getAllProjects();
             // for (var p in ps) ps[p].levels.length = 1;
         };
@@ -1232,6 +1238,7 @@ var FlipPlus;
             __extends(LevelScreen, _super);
             // #region Initialization methodos ==================================================================================================
             function LevelScreen(leveldata) {
+                var _this = this;
                 _super.call(this);
                 this.itemsFunctions = {};
                 this.itemTimes = new Object();
@@ -1246,6 +1253,12 @@ var FlipPlus;
                 if (!this.levelData.userdata.playedTimes)
                     this.levelData.userdata.playedTimes = 0;
                 this.levelData.userdata.playedTimes++;
+                this.onback = function () {
+                    if (_this.paused)
+                        _this.unPauseGame();
+                    else
+                        _this.pauseGame();
+                };
             }
             // #endregion
             // #region Create Scene =============================================================================================================
@@ -1338,9 +1351,6 @@ var FlipPlus;
                 this.boardSprite.y = defaultHeight / 2;
                 this.boardSprite.addInputCallback(function (col, row) { _this.userInput(col, row); });
                 //TODO create a custom event
-            };
-            LevelScreen.prototype.back = function () {
-                this.pauseGame();
             };
             // #endregion
             // #region user input ===============================================================================================================
@@ -1577,6 +1587,7 @@ var FlipPlus;
             // #region Menus ====================================================================================================================
             LevelScreen.prototype.pauseGame = function () {
                 var _this = this;
+                this.paused = true;
                 this.boardSprite.lock();
                 var med = defaultWidth / 4;
                 createjs.Tween.removeTweens(this.boardSprite);
@@ -1588,6 +1599,7 @@ var FlipPlus;
                 this.pauseMenu.updateSkipPrice(this.getItemPrice("skip"));
             };
             LevelScreen.prototype.unPauseGame = function () {
+                this.paused = false;
                 this.boardSprite.unlock();
                 var med = defaultWidth / 4;
                 this.boardSprite.scaleX = 0.5;
@@ -4166,6 +4178,7 @@ var FlipPlus;
         var GenericMenu = (function (_super) {
             __extends(GenericMenu, _super);
             function GenericMenu(title, previousScreen, color) {
+                var _this = this;
                 _super.call(this);
                 if (!this.originX)
                     this.originX = defaultWidth / 2;
@@ -4174,7 +4187,14 @@ var FlipPlus;
                 this.content.set({ x: defaultWidth / 2, y: defaultHeight / 2 });
                 this.buildHeader(title, previousScreen, color);
                 this.animateIn(this.content);
+                this.onback = function () {
+                    _this.back(previousScreen);
+                };
             }
+            GenericMenu.prototype.back = function (previousScreen) {
+                FlipPlus.FlipPlusGame.gameScreen.switchScreen(previousScreen);
+                this.animateOut(this.content);
+            };
             GenericMenu.prototype.buildHeader = function (title, previousScreen, color) {
                 var _this = this;
                 // add bg
@@ -4184,8 +4204,7 @@ var FlipPlus;
                 this.content.addChild(gameui.AssetsManager.getBitmap(color || "menu/titlePurple").set({ regX: 1536 / 2, regY: 1840 / 2 }));
                 //Add Back Button
                 var backButton = new gameui.IconButton("menu/x", "", function () {
-                    FlipPlus.FlipPlusGame.gameScreen.switchScreen(previousScreen);
-                    _this.animateOut(_this.content);
+                    _this.back(previousScreen);
                 });
                 backButton.set({ x: 550, y: -690, hitPadding: 100 });
                 backButton.createHitArea();
@@ -4213,6 +4232,7 @@ var FlipPlus;
             __extends(WorkshopMenu, _super);
             // Constructor
             function WorkshopMenu() {
+                var _this = this;
                 _super.call(this);
                 //just to know when a user finished a project
                 this.projectPreviousState = {};
@@ -4222,6 +4242,7 @@ var FlipPlus;
                 this.addObjects();
                 this.pagesSwipe = new Menu.View.PagesSwiper(this.projectsContainer, this.projectViews, defaultWidth, 200, 1500);
                 this.createPaginationButtons(this.projectsContainer);
+                this.onback = function () { _this.back(); };
             }
             //--------------------- Initialization ---------------------
             WorkshopMenu.prototype.addObjects = function () {
@@ -4364,6 +4385,7 @@ var FlipPlus;
                 if (levelCreatorMode) {
                     assetscale = 1;
                 }
+                alert("as" + assetscale);
                 var imagePath = "assets/images_" + assetscale + "x/";
                 var audioPath = "assets/sound/";
                 // adds a loading bar
@@ -4425,6 +4447,7 @@ var FlipPlus;
         var MainMenu = (function (_super) {
             __extends(MainMenu, _super);
             function MainMenu() {
+                var _this = this;
                 _super.call(this);
                 var bg = gameui.AssetsManager.getBitmap("mybotsbg");
                 bg.y = -339;
@@ -4434,6 +4457,7 @@ var FlipPlus;
                 this.addMenu();
                 this.addTerminal();
                 this.addPlayButton();
+                this.onback = function () { _this.back(); };
             }
             MainMenu.prototype.activate = function () {
                 _super.prototype.activate.call(this);
@@ -4556,10 +4580,12 @@ var FlipPlus;
             //==================================== initialization ==============================================
             // Constructor
             function ProjectsMenu() {
+                var _this = this;
                 _super.call(this);
                 this.projectsItems = [];
                 this.bonusItems = [];
                 this.createObjects();
+                this.onback = function () { _this.back(); };
             }
             //populate View
             ProjectsMenu.prototype.createObjects = function () {

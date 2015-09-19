@@ -27,6 +27,8 @@ module FlipPlus.Menu {
             this.addTerminal();
 
             this.addPlayButton();
+
+            this.onback = () => {this.back();};
         }
 
         public activate() {

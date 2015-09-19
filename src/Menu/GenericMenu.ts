@@ -15,6 +15,17 @@
             this.buildHeader(title, previousScreen, color);
 
             this.animateIn(this.content);
+
+
+            this.onback = () => {
+                this.back(previousScreen);
+            };
+        }
+
+
+        private back(previousScreen) {
+            FlipPlusGame.gameScreen.switchScreen(previousScreen);
+            this.animateOut(this.content);
         }
 
         protected buildHeader(title, previousScreen, color?:string) {
@@ -26,9 +37,9 @@
       
             //Add Back Button
             var backButton = new gameui.IconButton("menu/x", "", () => {
-                FlipPlusGame.gameScreen.switchScreen(previousScreen);
-                this.animateOut(this.content);
+                this.back(previousScreen);
             });
+
             backButton.set({ x: 550, y: -690, hitPadding: 100 });
             backButton.createHitArea();
             this.content.addChild(backButton);

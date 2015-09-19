@@ -21,6 +21,8 @@ module FlipPlus.Menu {
         constructor() {
             super();
             this.createObjects();
+
+            this.onback = () => { this.back(); };
         }
         
         //populate View
