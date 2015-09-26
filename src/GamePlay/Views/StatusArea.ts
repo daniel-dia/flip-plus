@@ -2,12 +2,10 @@ module FlipPlus.GamePlay.Views {
 
     export class StatusArea extends createjs.Container{
 
-        private text1: createjs.BitmapText;
-        private text2: createjs.BitmapText;
+        private text1: createjs.BitmapText; 
         private text3: createjs.BitmapText;
 
-        private bg1: createjs.DisplayObject;
-        private bg2: createjs.DisplayObject;
+        private bg1: createjs.DisplayObject; 
         private bg3: createjs.DisplayObject;
 
         private iconepuzzle: createjs.DisplayObject;
@@ -29,19 +27,15 @@ module FlipPlus.GamePlay.Views {
 
             //Background
             this.bg1 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle2");
-            //this.bg2 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle1");
             this.bg3 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle2"); this.bg3.scaleX = -1;
 
             this.bg1.x = defaultWidth * 0.01;
-            //this.bg2.x = DefaultWidth * 0.5; this.bg2.x -= this.bg2.getBounds().width / 2;
             this.bg3.x = defaultWidth * 0.98;             
 
             this.bg1.y = 30;
-            //this.bg2.y = 30;
             this.bg3.y = 30;
 
             this.addChild(this.bg1);
-            //this.addChild(this.bg2);
             this.addChild(this.bg3);
 
             //Icons
@@ -69,19 +63,16 @@ module FlipPlus.GamePlay.Views {
             
             //Text
             this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, "white");
-            this.text2 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, "white");
             this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, "white");
                         
-            this.text1.x = defaultWidth * 0.17; 
-            this.text2.x = defaultWidth * 0.5; 
-            this.text3.x = defaultWidth * 0.83;
+            this.text1.x = defaultWidth * 0.13; 
+             this.text3.x = defaultWidth * 0.79;
 
             //this.text1.textAlign = this.text2.textAlign = this.text3.textAlign = "center";
 
-            this.text1.y = this.text2.y = this.text3.y =50;
+            this.text1.y =  this.text3.y =55;
             
             this.addChild(this.text1);
-            this.addChild(this.text2);
             this.addChild(this.text3);
 
             this.createAlertAnimation();
@@ -102,9 +93,9 @@ module FlipPlus.GamePlay.Views {
 
         }
 
-        public setText1(text: string) { this.bg1.visible = !(text == "" || text == null); this.text1.text = text; }
-        public setText2(text: string) { /*this.bg2.visible = !(text == "" || text == null)*/; this.text2.text = text; }
-
+        public setText1(text: string) {
+            this.bg1.visible = !(text == "" || text == null); this.text1.text = text;
+        }
         public setText3(text: string) {
             this.bg3.visible = !(text == "" || text == null);
             this.text3.text = text;

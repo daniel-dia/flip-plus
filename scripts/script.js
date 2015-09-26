@@ -821,15 +821,16 @@ var FlipPlus;
             Cocoon.App.exitCallback(function () {
                 return _this.gameScreen.sendBackButtonEvent();
             });
-            var ps = this.projectManager.getAllProjects();
-            for (var p in ps) {
-                ps[p].UserData.unlocked = false;
-                ps[p].UserData.stars = 0;
-                for (var l in ps[p].levels) {
-                    ps[p].levels[l].userdata.solved = false;
-                    ps[p].levels[l].userdata.unlocked = false;
-                }
-            }
+            // var ps = this.projectManager.getAllProjects();
+            // for (var p in ps) {
+            //     ps[p].UserData.unlocked = true;
+            //     ps[p].UserData.stars=0;
+            //     for (var l in ps[p].levels) {
+            //         ps[p].levels[l].userdata.solved = false;
+            //         ps[p].levels[l].userdata.unlocked = true;
+            //
+            //     }
+            // }
         };
         FlipPlusGame.initializeAds = function () {
             var _this = this;
@@ -1377,7 +1378,6 @@ var FlipPlus;
                     var levels = FlipPlus.FlipPlusGame.projectManager.getCurrentProject().levels;
                     this.statusArea = new GamePlay.Views.StatusArea();
                     this.statusArea.y += 80;
-                    this.statusArea.setText2("");
                     this.statusArea.setText1("");
                     this.statusArea.setText3("");
                     this.header.addChild(this.statusArea);
@@ -3357,17 +3357,13 @@ var FlipPlus;
                 StatusArea.prototype.createSprites = function () {
                     //Background
                     this.bg1 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle2");
-                    //this.bg2 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle1");
                     this.bg3 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle2");
                     this.bg3.scaleX = -1;
                     this.bg1.x = defaultWidth * 0.01;
-                    //this.bg2.x = DefaultWidth * 0.5; this.bg2.x -= this.bg2.getBounds().width / 2;
                     this.bg3.x = defaultWidth * 0.98;
                     this.bg1.y = 30;
-                    //this.bg2.y = 30;
                     this.bg3.y = 30;
                     this.addChild(this.bg1);
-                    //this.addChild(this.bg2);
                     this.addChild(this.bg3);
                     //Icons
                     this.rightIcon = new createjs.Container();
@@ -3389,15 +3385,12 @@ var FlipPlus;
                     this.addChild(rightIconContainer);
                     //Text
                     this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite"); // defaultFontFamilyNormal, "white");
-                    this.text2 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite"); // defaultFontFamilyNormal, "white");
                     this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite"); // defaultFontFamilyNormal, "white");
-                    this.text1.x = defaultWidth * 0.17;
-                    this.text2.x = defaultWidth * 0.5;
-                    this.text3.x = defaultWidth * 0.83;
+                    this.text1.x = defaultWidth * 0.13;
+                    this.text3.x = defaultWidth * 0.79;
                     //this.text1.textAlign = this.text2.textAlign = this.text3.textAlign = "center";
-                    this.text1.y = this.text2.y = this.text3.y = 50;
+                    this.text1.y = this.text3.y = 55;
                     this.addChild(this.text1);
-                    this.addChild(this.text2);
                     this.addChild(this.text3);
                     this.createAlertAnimation();
                 };
@@ -3412,8 +3405,10 @@ var FlipPlus;
                         to({ scaleX: 1, scaleY: 1, rotation: 0 }, 4).
                         to({ startPosition: 0 }, 35).wait(1));
                 };
-                StatusArea.prototype.setText1 = function (text) { this.bg1.visible = !(text == "" || text == null); this.text1.text = text; };
-                StatusArea.prototype.setText2 = function (text) { ; this.text2.text = text; };
+                StatusArea.prototype.setText1 = function (text) {
+                    this.bg1.visible = !(text == "" || text == null);
+                    this.text1.text = text;
+                };
                 StatusArea.prototype.setText3 = function (text) {
                     this.bg3.visible = !(text == "" || text == null);
                     this.text3.text = text;
@@ -5838,7 +5833,6 @@ var FlipPlus;
                     this.addChild(bg);
                     //create a titleShadow
                     var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
-                    titleDO.regX = titleDO.getBounds().width;
                     titleDO.x = defaultWidth / 2;
                     titleDO.y = defaultHeight / 2;
                     this.addChild(titleDO);
@@ -5902,7 +5896,6 @@ var FlipPlus;
                     this.addChild(bg);
                     //create a titleShadow
                     var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
-                    titleDO.regX = titleDO.getBounds().width;
                     titleDO.x = defaultWidth / 2;
                     titleDO.y = defaultHeight / 2;
                     this.addChild(titleDO);

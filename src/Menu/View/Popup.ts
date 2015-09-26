@@ -91,7 +91,6 @@ module FlipPlus.Menu.View {
 
             //create a titleShadow
             var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
-            titleDO.regX = titleDO.getBounds().width;
             titleDO.x = defaultWidth / 2;
             titleDO.y = defaultHeight / 2;
             this.addChild(titleDO);
@@ -170,8 +169,7 @@ module FlipPlus.Menu.View {
             this.addChild(bg);
 
             //create a titleShadow
-            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
-            titleDO.regX = titleDO.getBounds().width;
+            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle"); 
             titleDO.x = defaultWidth / 2;
             titleDO.y = defaultHeight / 2;
             this.addChild(titleDO);

@@ -149,8 +149,7 @@ module FlipPlus.GamePlay {
             if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
                 var levels: Projects.Level[] = FlipPlusGame.projectManager.getCurrentProject().levels;
                 this.statusArea = new Views.StatusArea();
-                this.statusArea.y += 80;
-                this.statusArea.setText2("");
+                this.statusArea.y += 80; 
                 this.statusArea.setText1("");
                 this.statusArea.setText3("");
                 this.header.addChild(this.statusArea);

@@ -118,7 +118,7 @@ createjs.BitmapText.prototype._updateText = function () {
         sprite.y = y;
         childIndex++;
 
-        x += sprite.getBounds().width + this.letterSpacing / assetscale;
+        x += sprite.getBounds().width + this.letterSpacing;
     }
     while (numKids > childIndex) {
         // faster than removeChild.
