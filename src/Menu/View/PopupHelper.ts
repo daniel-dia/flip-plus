@@ -86,7 +86,7 @@ module FlipPlus.Menu.View {
             cancelButton.y = 1150
 
             // Add ok Buttons
-            var acceptBt = new gameui.BitmapTextButton(StringResources[ item  ], "fontWhite", "menu/btoptions", () => {
+            var acceptBt = new gameui.BitmapTextButton(StringResources[item], "fontWhite", "menu/btoptions", () => {
                 this.closePopUp();
                 accept();
             });

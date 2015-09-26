@@ -1388,7 +1388,7 @@ var FlipPlus;
                 this.pauseMenu.y = defaultHeight / 2;
                 this.pauseMenu.addEventListener("continue", function () { _this.unPauseGame(); });
                 this.pauseMenu.addEventListener("restart", function () { _this.restart(); });
-                this.pauseMenu.addEventListener("skip", function () { _this.unPauseGame(); _this.useItem("skip"); });
+                this.pauseMenu.addEventListener("skip", function () { _this.pauseMenu.fadeOut(); _this.useItem("skip"); });
                 this.pauseMenu.addEventListener("leave", function () { _this.exit(); });
                 this.content.addChild(this.pauseMenu);
             };
@@ -1533,6 +1533,9 @@ var FlipPlus;
                 FlipPlus.FlipPlusGame.analytics.logUsedItem(item, this.levelData.name);
                 // define item value based on how many times it was used on the level
                 var value = this.getItemPrice(item);
+                // if item is skip and the level was already skipped, then does not waste parts.
+                if (item == Items.SKIP && (this.levelData.userdata.skip || this.levelData.userdata.solved))
+                    value = 0;
                 //if user is able to use this item
                 var coinsAmount = FlipPlus.FlipPlusGame.coinsData.getAmount();
                 if (free || coinsAmount >= value) {
@@ -1547,7 +1550,11 @@ var FlipPlus;
                         // updates player coins
                         FlipPlus.FlipPlusGame.coinsData.decreaseAmount(value);
                         // animate coins
-                        this.partsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item) - 768, this.footer.y - this.header.y - 100, value);
+                        var btx = this.gameplayMenu.getButtonPosition(item);
+                        if (btx)
+                            this.partsIndicator.createCoinEffect(btx - 768, this.footer.y - this.header.y - 100, value);
+                        else
+                            this.partsIndicator.createCoinEffect(0, 1024 - this.header.y, value);
                         //show text effect
                         this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
                         //updates Items buttons labels Quantity on footer
@@ -1583,14 +1590,15 @@ var FlipPlus;
             };
             //skips the level
             LevelScreen.prototype.useItemSkip = function () {
+                this.boardSprite.mouseEnabled = false;
+                this.gameplayMenu.mouseEnabled = false;
+                this.message.showtext(StringResources.skip);
                 if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
-                    this.message.showtext("Skip Level");
                     this.message.addEventListener("onclose", function () {
                         FlipPlus.FlipPlusGame.skipLevel(false);
                     });
                 }
                 else {
-                    this.message.showtext("Skip Level");
                     this.message.addEventListener("onclose", function () {
                         FlipPlus.FlipPlusGame.skipLevel(true);
                     });
@@ -2096,8 +2104,6 @@ var FlipPlus;
                 this.puzzlesToSolve = 0;
                 //threat user input
                 this.loosing = false;
-                //only adds this level if there are more than 1 puzzle to solve
-                this.gameplayMenu.addItemsButtons([Items.SKIP]);
                 if (this.levelData.puzzlesToSolve > 1)
                     this.gameplayMenu.addItemsButtons([Items.SOLVE]);
                 //adds buttons and items
@@ -3307,6 +3313,8 @@ var FlipPlus;
                 };
                 // 
                 GamePlayMenu.prototype.getButtonPosition = function (item) {
+                    if (!this.buttons[item])
+                        return null;
                     return this.buttons[item].x;
                 };
                 //================== tutorial ============================================
@@ -7378,10 +7386,11 @@ var FlipPlus;
                     bg.y = defaultHeight / 2 - 500;
                     this.addChild(bg);
                     //create a text 
-                    var titleDO = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");
-                    titleDO.regX = titleDO.getBounds().width;
+                    var titleDO = gameui.AssetsManager.getBitmapText(text, "fontTitle");
+                    titleDO.regX = titleDO.getBounds().width / 2;
                     titleDO.x = defaultWidth / 2;
-                    titleDO.y = defaultHeight / 2;
+                    titleDO.y = defaultHeight / 2 - 50;
+                    ;
                     this.addChild(titleDO);
                     //shows the popus
                     this.closeinterval = setTimeout(function () {

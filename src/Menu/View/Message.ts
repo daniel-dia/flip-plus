@@ -41,10 +41,10 @@ module FlipPlus.Menu.View {
             this.addChild(bg);
 
             //create a text 
-            var titleDO = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");
-            titleDO.regX = titleDO.getBounds().width;
+            var titleDO = gameui.AssetsManager.getBitmapText(text, "fontTitle");
+            titleDO.regX = titleDO.getBounds().width/2;
             titleDO.x = defaultWidth / 2;
-            titleDO.y = defaultHeight / 2; 
+            titleDO.y = defaultHeight / 2 - 50;; 
             this.addChild(titleDO);
             
             //shows the popus

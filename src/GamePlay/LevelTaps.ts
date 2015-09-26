@@ -10,11 +10,6 @@
         constructor(levelData: Projects.Level) {
             super(levelData);
             
-
-            
-            //only adds this level if there are more than 1 puzzle to solve
-            this.gameplayMenu.addItemsButtons([Items.SKIP]);
-
             if (this.levelData.puzzlesToSolve > 1) 
                 this.gameplayMenu.addItemsButtons([Items.SOLVE]);
             

@@ -80,7 +80,8 @@ module FlipPlus.GamePlay.Views {
         }
 
         // 
-        public getButtonPosition(item:string):number {
+        public getButtonPosition(item: string): number {
+            if (!this.buttons[item]) return null;
             return this.buttons[item].x; 
         }
 

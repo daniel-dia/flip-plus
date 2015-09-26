@@ -161,7 +161,7 @@ module FlipPlus.GamePlay {
             this.pauseMenu.y = defaultHeight / 2;
             this.pauseMenu.addEventListener("continue", () => { this.unPauseGame() });
             this.pauseMenu.addEventListener("restart", () => { this.restart() });
-            this.pauseMenu.addEventListener("skip", () => { this.unPauseGame();this.useItem("skip") });
+            this.pauseMenu.addEventListener("skip", () => { this.pauseMenu.fadeOut(); this.useItem("skip") });
             this.pauseMenu.addEventListener("leave", () => { this.exit() });
 
             this.content.addChild(this.pauseMenu);
@@ -359,6 +359,10 @@ module FlipPlus.GamePlay {
             // define item value based on how many times it was used on the level
             var value = this.getItemPrice(item);
 
+            // if item is skip and the level was already skipped, then does not waste parts.
+            if (item == Items.SKIP && (this.levelData.userdata.skip || this.levelData.userdata.solved))
+                value = 0;
+
             //if user is able to use this item
             var coinsAmount = FlipPlusGame.coinsData.getAmount()
             if (free || coinsAmount >= value) {
@@ -375,7 +379,11 @@ module FlipPlus.GamePlay {
                     FlipPlusGame.coinsData.decreaseAmount(value);
 
                     // animate coins
-                    this.partsIndicator.createCoinEffect(this.gameplayMenu.getButtonPosition(item) - 768, this.footer.y - this.header.y - 100, value);
+                    var btx = this.gameplayMenu.getButtonPosition(item);
+                    if(btx) 
+                        this.partsIndicator.createCoinEffect(btx - 768, this.footer.y - this.header.y - 100, value);
+                    else
+                        this.partsIndicator.createCoinEffect(0, 1024 - this.header.y, value);
 
                     //show text effect
                     this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
@@ -408,15 +416,20 @@ module FlipPlus.GamePlay {
 
         //skips the level
         protected useItemSkip() {
+
             
+            this.boardSprite.mouseEnabled=false;
+            this.gameplayMenu.mouseEnabled = false;
+            
+            this.message.showtext(StringResources.skip);
+
             if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
-                this.message.showtext("Skip Level");
+                
                 this.message.addEventListener("onclose", () => {
                     FlipPlusGame.skipLevel(false);
                 });
             }
             else {
-                this.message.showtext("Skip Level");
                 this.message.addEventListener("onclose", () => {
                     FlipPlusGame.skipLevel(true);
                 });
