@@ -28,25 +28,19 @@ module FlipPlus.Menu.View {
             //clean everything
             this.removeAllChildren();
                        
-            //create a titleShadow
-            var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-            titleShadow.textAlign = "center";
-            titleShadow.textBaseline = "middle";
-            titleShadow.x = defaultWidth / 2;
-            this.addChild(titleShadow);
-
+         
             //create a title
-            var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-            titleDO.textAlign = "center";
-            titleDO.textBaseline = "middle";
-            titleDO.x = defaultWidth / 2;
+            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
             this.addChild(titleDO);
-
-            titleShadow.y = titleDO.y = defaultHeight /2;
-            titleShadow.y += 15;
+            titleDO.x = defaultWidth / 2;
+            titleDO.y = defaultHeight / 2; 
+            
+           
 
             //updates text
-            titleDO.text = titleShadow.text = text.toUpperCase();
+            titleDO.text  = text.toUpperCase();
+            titleDO.regX = titleDO.getBounds().width / 2;
+
 
             var ty = defaultHeight * 0.9;
 

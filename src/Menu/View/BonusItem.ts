@@ -5,7 +5,7 @@ module FlipPlus.Menu.View {
     export class BonusItem extends gameui.ImageButton {
 
         public bonusId: string;
-        private timerText: createjs.Text;
+        private timerText: createjs.BitmapText;
 
         private updateInterval: number;
 
@@ -42,11 +42,10 @@ module FlipPlus.Menu.View {
                 this.addChild(s);
 
                 //timer text 
-                this.timerText = new createjs.Text(("--:--:--").toString() , font, color);
-                this.timerText.textBaseline = "middle";
-                this.timerText.textAlign= "center";
+                this.timerText = gameui.AssetsManager.getBitmapText("00:00:00", "fontTitle");
+                this.timerText.regX = this.timerText.getBounds().width / 2;
                 this.timerText.x = 1000;
-                this.timerText.y = 180;
+                this.timerText.y = 100;
                 this.addChild(this.timerText)
 
                 //auto updateObject
@@ -69,11 +68,11 @@ module FlipPlus.Menu.View {
 
                 //addsText
                 //TODO da onde vai tirar as estrelas?
-                var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
+                var tx = gameui.AssetsManager.getBitmapText(bonusData[bonusId].cost.toString(), "fontBlue");
                 this.addChild(tx);
-                tx.textAlign = "right";
+                tx.regX = tx.getBounds().width;
                 tx.x = 650;
-                tx.y = 135;
+                tx.y = 155;
             }
 
             //create hitArea
@@ -93,6 +92,7 @@ module FlipPlus.Menu.View {
 
             if (time == 0) {
                 this.timerText.text = StringResources.mm_play;
+                this.timerText.regX = this.timerText.getBounds().width / 2;
 
                 if (!createjs.Tween.hasActiveTweens(this.timerText)) {
                     this.timerText.set({ scaleX: 1, scaleY: 1 });
@@ -101,6 +101,7 @@ module FlipPlus.Menu.View {
             else {
                 createjs.Tween.removeTweens(this.timerText);
                 this.timerText.text = this.toHHMMSS(time);
+                this.timerText.regX = this.timerText.getBounds().width / 2;
                 this.timerText.scaleX = this.scaleY = 1; 
             }
             

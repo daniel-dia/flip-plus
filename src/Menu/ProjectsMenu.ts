@@ -4,7 +4,7 @@ module FlipPlus.Menu {
     export class ProjectsMenu extends gameui.ScreenState {
 
         private starsIndicator: View.StarsIndicator;
-        private statisticsTextField: createjs.Text;
+        private statisticsTextField: createjs.BitmapText;
         private projectsGrid: createjs.Container;
 
         private projectsItems: View.ProjectItem[] = [];
@@ -35,10 +35,10 @@ module FlipPlus.Menu {
             this.addHeader();
             this.addProjects();
             this.addBonuses();
-
+            
             this.pagesSwipe = new View.PagesSwiper(this.projectsGrid, this.pages, defaultWidth);
             this.createPaginationButtons(this.projectsGrid);
-
+            
             this.createPopup();
         }
 
@@ -69,7 +69,7 @@ module FlipPlus.Menu {
             this.starsIndicator.y = 220;
 
             //create bots statistics
-            this.statisticsTextField = new createjs.Text("0", defaultFontFamilyNormal, grayColor);
+            this.statisticsTextField = gameui.AssetsManager.getBitmapText("0", "fontBlue");
             this.header.addChild(this.statisticsTextField);
             this.statisticsTextField.y = 220;
             this.statisticsTextField.x = 80;
@@ -261,7 +261,7 @@ module FlipPlus.Menu {
         //executes when activate the screen
         public activate() {
             super.activate();
-
+            return;
             // play music
             gameui.AudiosManager.playMusic("Music Dot Robot");
 

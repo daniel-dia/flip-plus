@@ -43,7 +43,7 @@ module FlipPlus {
 
             Cocoon.Utils.setNPOTEnabled(true);
 
-            this.gameScreen = new gameui.GameScreen("myCanvas", defaultWidth, defaultHeight,60,true);
+            this.gameScreen = new gameui.GameScreen("myCanvas", defaultWidth, defaultHeight,60);
 
             // userData
             this.projectData = new UserData.ProjectsData();
@@ -76,8 +76,8 @@ module FlipPlus {
                 }
                 else
 
-                    //this.showProjectsMenu();
-                    this.showTitleScreen();
+                    this.showProjectsMenu();
+                    //this.showTitleScreen();
             }
 
             // give 10 coins to user first time
@@ -92,8 +92,16 @@ module FlipPlus {
                 return this.gameScreen.sendBackButtonEvent()
             })
 
-            // var ps = this.projectManager.getAllProjects();
-           // for (var p in ps) ps[p].levels.length = 1;
+             var ps = this.projectManager.getAllProjects();
+             for (var p in ps) {
+                 ps[p].UserData.unlocked = false;
+                 ps[p].UserData.stars=0;
+                 for (var l in ps[p].levels) {
+                     ps[p].levels[l].userdata.solved = false;
+                     ps[p].levels[l].userdata.unlocked = false;
+
+                 }
+             }
         }
 
         public static initializeAds() {

@@ -47,38 +47,29 @@ module FlipPlus.Menu.View {
             bg.y = 100;
             this.addChild(bg);
 
-            //create a titleShadow
-            var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-            titleShadow.textAlign = "center";
-            titleShadow.textBaseline = "middle";
-            titleShadow.x = defaultWidth / 2; 
-            this.addChild(titleShadow);
-
-            //create a title
-            var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
-            titleDO.textAlign = "center";
-            titleDO.textBaseline = "middle";
+            //create a title 
+            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
+            this.addChild(titleDO);            
             titleDO.x = defaultWidth / 2;
-            this.addChild(titleDO);
+            titleDO.y = defaultHeight / 2;
 
             //create a text
-            var textDO = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
-            textDO.textAlign = "center";
-            textDO.textBaseline = "middle";
+            var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
             textDO.x = defaultWidth / 2;
             this.addChild(textDO);
 
 
             //updates title and text values
             if (text) {
-                titleShadow.text = titleDO.text = title.toUpperCase();
                 textDO.text = text;
+                textDO.regX = textDO.getBounds().width / 2;
+                titleDO.text = title.toUpperCase();
+                titleDO.regX = titleDO.getBounds().width/2;
             }
 
             var b = defaultHeight / 2 - 500;
 
             titleDO.y = 0 + b + 50
-            titleShadow.y = titleDO.y + 15;
             textDO.y = b + 300;
 
             this.addsClickIndicator();
@@ -99,67 +90,57 @@ module FlipPlus.Menu.View {
             this.addChild(bg);
 
             //create a titleShadow
-            var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor );
-            titleShadow.textAlign = "center";
-            titleShadow.textBaseline = "middle";
-            titleShadow.x = defaultWidth / 2; 
-            this.addChild(titleShadow);
-
-            //create a title
-            var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-            titleDO.textAlign = "center";
-            titleDO.textBaseline = "middle";
+            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
+            titleDO.regX = titleDO.getBounds().width;
             titleDO.x = defaultWidth / 2;
+            titleDO.y = defaultHeight / 2;
             this.addChild(titleDO);
 
             //create a text
-            var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-            textDO.textAlign = "center";
-            textDO.textBaseline = "middle";
+            var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
             textDO.x = defaultWidth / 2;
             this.addChild(textDO);
 
             //create a text
-            var textDO1 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-            textDO1.textAlign = "center";
-            textDO1.textBaseline = "middle";
+            var textDO1 = gameui.AssetsManager.getBitmapText("", "fontWhite");
             textDO1.x = defaultWidth / 2;
             this.addChild(textDO1);
 
             //create a text
-            var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-            textDO2.textAlign = "center";
-            textDO2.textBaseline = "middle";
+            var textDO2 = gameui.AssetsManager.getBitmapText("", "fontWhite");
             textDO2.x = defaultWidth / 2;
             this.addChild(textDO2);
 
             //create a text
-            var timeDO = new createjs.Text("", defaultNumberHighlight, "white");
-            timeDO.textAlign = "center";
-            timeDO.textBaseline = "middle";
+            var timeDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
             timeDO.x = defaultWidth / 2;
             this.addChild(timeDO);
 
             //create a text
-            var boardsDO = new createjs.Text("", defaultNumberHighlight, "white");
-            boardsDO.textAlign = "center";
-            boardsDO.textBaseline = "middle";
+            var boardsDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
             boardsDO.x = defaultWidth / 2;
             this.addChild(boardsDO);
 
 
             //updates title and text values
-            titleShadow.text = titleDO.text = StringResources.gp_pz_Popup1Title.toUpperCase();
+            titleDO.text = StringResources.gp_pz_Popup1Title.toUpperCase();
+            titleDO.regX = titleDO.getBounds().width / 2;
             textDO.text = StringResources.gp_pz_Popup1Text1;
             textDO1.text = StringResources.gp_pz_Popup1Text2;
             textDO2.text = StringResources.gp_pz_Popup1Text3;
             timeDO.text = time;
             boardsDO.text = boards;
 
+            titleDO.regX = titleDO.getBounds().width / 2;
+            textDO.   regX  =    textDO.  getBounds().width / 2;
+            textDO1.  regX  =    textDO1. getBounds().width / 2;
+            textDO2.  regX  =    textDO2. getBounds().width / 2;
+            timeDO.   regX  =    timeDO.  getBounds().width / 2;
+            boardsDO. regX  =    boardsDO.getBounds().width / 2;
+
             var b = defaultHeight / 2 - 500;
 
             titleDO.y = 0 + b + 50
-            titleShadow.y = titleDO.y + 15 ;
             textDO.y = 300 + b;
             textDO1.y = 450 + b;
             textDO2.y = 600 + b;
@@ -189,51 +170,43 @@ module FlipPlus.Menu.View {
             this.addChild(bg);
 
             //create a titleShadow
-            var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-            titleShadow.textAlign = "center";
-            titleShadow.textBaseline = "middle";
-            titleShadow.x = defaultWidth / 2; 
-            this.addChild(titleShadow);
-
-            //create a title
-            var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-            titleDO.textAlign = "center";
-            titleDO.textBaseline = "middle";
+            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
+            titleDO.regX = titleDO.getBounds().width;
             titleDO.x = defaultWidth / 2;
+            titleDO.y = defaultHeight / 2;
             this.addChild(titleDO);
 
             //create a text
-            var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-            textDO.textAlign = "center";
-            textDO.textBaseline = "middle";
+            var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
             textDO.x = defaultWidth / 2;
             this.addChild(textDO);
 
             //create a text
-            var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-            textDO2.textAlign = "center";
-            textDO2.textBaseline = "middle";
+            var textDO2 = gameui.AssetsManager.getBitmapText("", "fontWhite");
             textDO2.x = defaultWidth / 2;
             this.addChild(textDO2);
 
             //create a text
-            var tapsDO = new createjs.Text("", defaultNumberHighlight, "white");
-            tapsDO.textAlign = "center";
-            tapsDO.textBaseline = "middle";
+            var tapsDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
             tapsDO.x = defaultWidth / 2;
             this.addChild(tapsDO);
 
             //updates title and text values
-            titleShadow.text = titleDO.text = StringResources.gp_mv_Popup1Title.toUpperCase();
+            titleDO.text = StringResources.gp_mv_Popup1Title.toUpperCase();
             textDO.text = StringResources.gp_mv_Popup1Text1;
             textDO2.text = StringResources.gp_mv_Popup1Text3;
             tapsDO.text = taps;
             
 
+            titleDO.regX = titleDO.getBounds().width / 2;
+            textDO.regX = textDO.getBounds().width / 2;;
+            textDO2.regX = textDO2.getBounds().width / 2;
+            tapsDO.regX = tapsDO.getBounds().width / 2;
+
+
             var b = defaultHeight / 2 - 500;
 
             titleDO.y = 0 + b + 50
-            titleShadow.y = titleDO.y + 15;
             textDO.y = 300 + b;
             textDO2.y = 600 + b;
             tapsDO.y = 450 + b;

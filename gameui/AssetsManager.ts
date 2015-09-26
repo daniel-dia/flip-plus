@@ -102,6 +102,7 @@ module gameui {
         public static getBitmapText(text:string, bitmapFontId:string):createjs.BitmapText { 
             var bitmapText = new createjs.BitmapText(text, this.bitmapFontSpriteSheetDataArray[bitmapFontId]);
             bitmapText.lineHeight = 100;
+            bitmapText.letterSpacing = 7;
             bitmapText.mouseEnabled = AssetsManager.defaultMouseEnabled;
             return bitmapText;
             

@@ -1,28 +1,41 @@
-﻿html, body {
-    margin: 0;
-    padding: 0;
-    -ms-user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    -ms-scroll-translation: vertical-to-horizontal;
-    -ms-content-zooming: none;
-    scroll-translation: vertical-to-horizontal;
-    content-zooming: none;
-    overflow: hidden;
-}
-img {
+﻿img {
     display: none;
 }
 
+html, body {
+	overflow: hidden;
+	margin: 0;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	-ms-scroll-translation: vertical-to-horizontal;
+	-webkit-scroll-translation: vertical-to-horizontal;
+	scroll-translation: vertical-to-horizontal;
+	-ms-content-zooming: none;
+	-webkit-content-zooming: none;
+	content-zooming: none;
+	background-color: black; 
+	background-size: cover; 
+	background-position-x: center;
+	background-image: url('htmlBG.jpg');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	text-align: center;  
 
+}
+
+canvas {
+	margin: 0;
+	background-color:black;
+}
  
 /*@-webkit-viewport{width:768px}
 @-moz-viewport{width:768px}
 @-ms-viewport{width:768px}
 @-o-viewport{width:768px}
 @viewport   {width:768px}*/
-
+/*
 ::-webkit-scrollbar {
     width: 12px;
 }
@@ -53,18 +66,7 @@ body, a {
     text-align:center;  
 }
 
-canvas {
-  -moz-backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    background: #000;
-    image-rendering: optimizeSpeed;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -webkit-optimize-contrast !important; /* Webkit  */
-    /*  (Safari now, Chrome soon)      */
-    -ms-interpolation-mode: nearest-neighbor;
-    -webkit-interpolation-mode: nearest-neighbor;
-}
+
 #myCanvas {
   
     margin-left: auto;
@@ -96,4 +98,4 @@ td{
 
 .hc {
     height:180px;
-}
+}*/

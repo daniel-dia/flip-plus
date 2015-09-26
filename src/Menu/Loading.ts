@@ -3,6 +3,12 @@ declare var imageManifest;
 declare var audioManifest;
 declare var WPAudioManager;
 
+declare var fontTitle;
+declare var fontBlue;
+declare var font;
+
+declare function createSpriteSheetFromFont(font: any, path: string);
+
 // Module
 module FlipPlus.Menu {
     // Class
@@ -20,15 +26,9 @@ module FlipPlus.Menu {
             if (window.innerWidth <= 384) assetscale = 0.25; 
             if (levelCreatorMode) { assetscale = 1 }
 
-            alert("as"+assetscale);
+          
             var imagePath = "assets/images_" + assetscale + "x/";
             var audioPath = "assets/sound/";
-
-            // adds a loading bar
-            var loadinBar = new LoadingBar(imagePath);
-            this.content.addChild(loadinBar);
-            loadinBar.x = defaultWidth / 2;
-            loadinBar.y = defaultHeight / 2;
 
             //load audio
             if (!levelCreatorMode && typeof WPAudioManager == 'undefined') {
@@ -38,7 +38,17 @@ module FlipPlus.Menu {
             }
 
             gameui.AssetsManager.loadAssets(imageManifest, imagePath, spriteSheets);
+            gameui.AssetsManager.loadFontSpriteSheet("fontWhite", createSpriteSheetFromFont(font, imagePath));
+            gameui.AssetsManager.loadFontSpriteSheet("fontBlue", createSpriteSheetFromFont(fontBlue, imagePath));
+            gameui.AssetsManager.loadFontSpriteSheet("fontTitle", createSpriteSheetFromFont(fontTitle, imagePath));
             gameui.Button.setDefaultSoundId("button");
+
+
+            // adds a loading bar
+            var loadinBar = new LoadingBar(imagePath);
+            this.content.addChild(loadinBar);
+            loadinBar.x = defaultWidth / 2;
+            loadinBar.y = defaultHeight / 2;
 
           
             //add update % functtion
@@ -63,7 +73,7 @@ module FlipPlus.Menu {
         constructor(imagePath: string) {
             super();
 
-            var text = new createjs.Text(StringResources.menus.loading.toUpperCase(), defaultFontFamilyNormal, "white");
+            var text = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, "white");
             var bg = gameui.AssetsManager.getBitmap(imagePath + "loadingbj.png");
             var bar = gameui.AssetsManager.getBitmap(imagePath + "loadingBar.png");
 

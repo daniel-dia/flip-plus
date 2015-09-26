@@ -19,7 +19,7 @@ createjs.Bitmap.prototype.draw = function (ctx, ignoreCache) {
     return true;
 };
 
- createjs.Bitmap.prototype.isVisible = function () {
+createjs.Bitmap.prototype.isVisible = function () {
     var image = this.image;
     var hasContent = this.cacheCanvas || (image && (image.complete || image.getContext || image.readyState >= 2));
     return !!(this.visible && this.alpha > 0 && this.scaleX != 0 && this.scaleY != 0 && hasContent);
@@ -42,14 +42,14 @@ createjs.DisplayObject.prototype.cache = function (x, y, width, height, scale) {
     this._cacheOffsetX = x;
     this._cacheOffsetY = y;
     this._cacheScale = scale;
-    this.updateCache(); 
+    this.updateCache();
 };
 
- 
+
 
 createjs.DisplayObject.prototype.uncache = function () {
     var x = this.cacheCanvas;
-    
+
     this._cacheDataURL = this.cacheCanvas = null;
     this.cacheID = this._cacheOffsetX = this._cacheOffsetY = this._filterOffsetX = this._filterOffsetY = 0;
     this._cacheScale = 1;
@@ -69,7 +69,7 @@ createjs.Sprite.prototype.draw = function (ctx, ignoreCache) {
     var o = this.spriteSheet.getFrame(this._currentFrame | 0);
     if (!o) { return false; }
     var rect = o.rect;
-    if (rect.width && rect.height) { ctx.drawImage(o.image, rect.x * assetscale, rect.y * assetscale, rect.width * assetscale, rect.height * assetscale, -o.regX , -o.regY , rect.width, rect.height); }
+    if (rect.width && rect.height) { ctx.drawImage(o.image, rect.x * assetscale, rect.y * assetscale, rect.width * assetscale, rect.height * assetscale, -o.regX, -o.regY, rect.width, rect.height); }
     return true;
 };
 
@@ -98,7 +98,7 @@ createjs.BitmapText.prototype._updateText = function () {
         } else if (character == "\n" || character == "\r") {
             if (character == "\r" && this.text.charAt(i + 1) == "\n") { i++; } // crlf
             x = 0;
-            y += lineH  ;
+            y += lineH;
             continue;
         }
 

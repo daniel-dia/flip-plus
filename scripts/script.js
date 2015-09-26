@@ -79,6 +79,7 @@ var gameui;
         AssetsManager.getBitmapText = function (text, bitmapFontId) {
             var bitmapText = new createjs.BitmapText(text, this.bitmapFontSpriteSheetDataArray[bitmapFontId]);
             bitmapText.lineHeight = 100;
+            bitmapText.letterSpacing = 7;
             bitmapText.mouseEnabled = AssetsManager.defaultMouseEnabled;
             return bitmapText;
         };
@@ -318,8 +319,7 @@ var gameui;
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var gameui;
 (function (gameui) {
@@ -718,6 +718,49 @@ var gameui;
         return IconTextButton;
     })(TextButton);
     gameui.IconTextButton = IconTextButton;
+    var IconBitmapTextButton = (function (_super) {
+        __extends(IconBitmapTextButton, _super);
+        function IconBitmapTextButton(icon, text, font, background, event, soundId, align) {
+            var _this = this;
+            if (icon === void 0) { icon = ""; }
+            if (text === void 0) { text = ""; }
+            if (font === void 0) { font = null; }
+            if (align === void 0) { align = "center"; }
+            this.align = align;
+            _super.call(this, text, font, background, event, soundId);
+            //loads icon Image
+            this.icon = gameui.AssetsManager.getBitmap(icon);
+            this.addChild(this.icon);
+            if (this.icon.getBounds())
+                this.icon.regY = this.icon.getBounds().height / 2;
+            else if (this.icon["image"])
+                this.icon["image"].onload = function () {
+                    _this.icon.regY = _this.icon.getBounds().height / 2;
+                };
+            this.updateLabel(text);
+            this.createHitArea();
+        }
+        IconBitmapTextButton.prototype.updateLabel = function (value) {
+            this.bitmapText.text = value;
+            if (!this.icon.getBounds())
+                return;
+            switch (this.align) {
+                case "center":
+                    this.icon.x = -(this.icon.getBounds().width + 10 + this.bitmapText.getBounds().width) / 2;
+                    this.bitmapText.x = this.icon.x + this.icon.getBounds().width + 10;
+                    break;
+                case "left":
+                    this.icon.x = -this.width / 2 + 80;
+                    this.bitmapText.regX = 0;
+                    this.bitmapText.x = -this.width / 2 + 80 + this.icon.getBounds().width + 100;
+                    break;
+            }
+        };
+        IconBitmapTextButton.prototype.centralizeIcon = function () {
+        };
+        return IconBitmapTextButton;
+    })(BitmapTextButton);
+    gameui.IconBitmapTextButton = IconBitmapTextButton;
     var IconButton = (function (_super) {
         __extends(IconButton, _super);
         function IconButton(icon, background, event, soundId) {
@@ -740,7 +783,7 @@ var FlipPlus;
         FlipPlusGame.initializeGame = function () {
             var _this = this;
             Cocoon.Utils.setNPOTEnabled(true);
-            this.gameScreen = new gameui.GameScreen("myCanvas", defaultWidth, defaultHeight, 60, true);
+            this.gameScreen = new gameui.GameScreen("myCanvas", defaultWidth, defaultHeight, 60);
             // userData
             this.projectData = new FlipPlus.UserData.ProjectsData();
             this.settings = new FlipPlus.UserData.Settings();
@@ -765,8 +808,8 @@ var FlipPlus;
                     _this.toLevelCreator();
                 }
                 else
-                    //this.showProjectsMenu();
-                    _this.showTitleScreen();
+                    _this.showProjectsMenu();
+                //this.showTitleScreen();
             };
             // give 10 coins to user first time
             if (!this.storyData.getStoryPlayed("coins")) {
@@ -778,8 +821,15 @@ var FlipPlus;
             Cocoon.App.exitCallback(function () {
                 return _this.gameScreen.sendBackButtonEvent();
             });
-            // var ps = this.projectManager.getAllProjects();
-            // for (var p in ps) ps[p].levels.length = 1;
+            var ps = this.projectManager.getAllProjects();
+            for (var p in ps) {
+                ps[p].UserData.unlocked = false;
+                ps[p].UserData.stars = 0;
+                for (var l in ps[p].levels) {
+                    ps[p].levels[l].userdata.solved = false;
+                    ps[p].levels[l].userdata.unlocked = false;
+                }
+            }
         };
         FlipPlusGame.initializeAds = function () {
             var _this = this;
@@ -3338,13 +3388,13 @@ var FlipPlus;
                     rightIconContainer.addChild(this.rightIcon);
                     this.addChild(rightIconContainer);
                     //Text
-                    this.text1 = new createjs.Text("", defaultFontFamilyStrong, "#FFF");
-                    this.text2 = new createjs.Text("", defaultFontFamilyNormal, "#888");
-                    this.text3 = new createjs.Text("", defaultFontFamilyStrong, "#FFF");
+                    this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite"); // defaultFontFamilyNormal, "white");
+                    this.text2 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite"); // defaultFontFamilyNormal, "white");
+                    this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite"); // defaultFontFamilyNormal, "white");
                     this.text1.x = defaultWidth * 0.17;
                     this.text2.x = defaultWidth * 0.5;
                     this.text3.x = defaultWidth * 0.83;
-                    this.text1.textAlign = this.text2.textAlign = this.text3.textAlign = "center";
+                    //this.text1.textAlign = this.text2.textAlign = this.text3.textAlign = "center";
                     this.text1.y = this.text2.y = this.text3.y = 50;
                     this.addChild(this.text1);
                     this.addChild(this.text2);
@@ -3453,12 +3503,11 @@ var FlipPlus;
                 var footer = gameui.AssetsManager.getBitmap(bonusId + "/footer");
                 this.footer.addChild(footer);
                 footer.y = -291;
-                var titleText = new createjs.Text(StringResources[bonusId + "_title"], defaultFontFamilyNormal, "white");
-                titleText.textAlign = "center";
-                titleText.text = titleText.text.toUpperCase();
+                var titleText = gameui.AssetsManager.getBitmapText(StringResources[bonusId + "_title"].toUpperCase(), "fontWhite");
+                titleText.regX = titleText.getBounds().width / 2;
                 titleText.x = defaultWidth / 2;
-                titleText.y = -130;
-                titleText.textBaseline = "middle";
+                titleText.y = -170;
+                //titleText.textBaseline = "middle";
                 this.footer.addChild(titleText);
             };
             //adds objects to the view <<interface>>
@@ -3489,7 +3538,7 @@ var FlipPlus;
                     max.visible = false;
                     this.footerContainer.addChild(max);
                     //add text
-                    var textObj = new createjs.Text("", defaultFontFamilyNormal, "white");
+                    var textObj = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     textObj.y = 120;
                     textObj.x = defaultWidth / itemsArray.length * i + 190;
                     textObj.name = itemId + "_text";
@@ -4385,21 +4434,23 @@ var FlipPlus;
                 if (levelCreatorMode) {
                     assetscale = 1;
                 }
-                alert("as" + assetscale);
                 var imagePath = "assets/images_" + assetscale + "x/";
                 var audioPath = "assets/sound/";
-                // adds a loading bar
-                var loadinBar = new LoadingBar(imagePath);
-                this.content.addChild(loadinBar);
-                loadinBar.x = defaultWidth / 2;
-                loadinBar.y = defaultHeight / 2;
                 //load audio
                 if (!levelCreatorMode && typeof WPAudioManager == 'undefined') {
                     createjs.Sound.alternateExtensions = ["mp3"];
                     createjs.Sound.registerSounds(audioManifest, audioPath);
                 }
                 gameui.AssetsManager.loadAssets(imageManifest, imagePath, spriteSheets);
+                gameui.AssetsManager.loadFontSpriteSheet("fontWhite", createSpriteSheetFromFont(font, imagePath));
+                gameui.AssetsManager.loadFontSpriteSheet("fontBlue", createSpriteSheetFromFont(fontBlue, imagePath));
+                gameui.AssetsManager.loadFontSpriteSheet("fontTitle", createSpriteSheetFromFont(fontTitle, imagePath));
                 gameui.Button.setDefaultSoundId("button");
+                // adds a loading bar
+                var loadinBar = new LoadingBar(imagePath);
+                this.content.addChild(loadinBar);
+                loadinBar.x = defaultWidth / 2;
+                loadinBar.y = defaultHeight / 2;
                 //add update % functtion
                 gameui.AssetsManager.onProgress = function (progress) {
                     loadinBar.update(progress);
@@ -4417,7 +4468,7 @@ var FlipPlus;
             __extends(LoadingBar, _super);
             function LoadingBar(imagePath) {
                 _super.call(this);
-                var text = new createjs.Text(StringResources.menus.loading.toUpperCase(), defaultFontFamilyNormal, "white");
+                var text = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite"); // defaultFontFamilyNormal, "white");
                 var bg = gameui.AssetsManager.getBitmap(imagePath + "loadingbj.png");
                 var bar = gameui.AssetsManager.getBitmap(imagePath + "loadingBar.png");
                 this.addChild(bg);
@@ -4552,16 +4603,16 @@ var FlipPlus;
                 soundMenu.y = p0;
                 this.content.addChild(soundMenu);
                 p++;
-                this.content.addChild(new gameui.TextButton("Help", defaultFontFamilyHighlight, blueColor, "menu/btmenu", function () {
+                this.content.addChild(new gameui.BitmapTextButton("Help", "fontBlue", "menu/btmenu", function () {
                     FlipPlus.FlipPlusGame.showSpecialOffer(_this);
                 }).set({ x: 0, y: p0 + p * s }));
                 p++;
-                this.content.addChild(new gameui.TextButton("Store", defaultFontFamilyHighlight, blueColor, "menu/btmenu", function () {
+                this.content.addChild(new gameui.BitmapTextButton("Store", "fontBlue", "menu/btmenu", function () {
                     FlipPlus.FlipPlusGame.showShopMenu(_this);
                 }).set({ x: 0, y: p0 + p * s }));
                 p++;
                 //add Other Buttons
-                this.content.addChild(new gameui.TextButton(StringResources.op_erase, defaultFontFamilySmall, blueColor, "", function () {
+                this.content.addChild(new gameui.BitmapTextButton(StringResources.op_erase, "fontBlue", "", function () {
                     FlipPlus.FlipPlusGame.projectData.clearAllData();
                     window.location.reload();
                 }).set({ y: p0 + p * s }));
@@ -4621,7 +4672,7 @@ var FlipPlus;
                 this.starsIndicator.x = defaultWidth;
                 this.starsIndicator.y = 220;
                 //create bots statistics
-                this.statisticsTextField = new createjs.Text("0", defaultFontFamilyNormal, grayColor);
+                this.statisticsTextField = gameui.AssetsManager.getBitmapText("0", "fontBlue");
                 this.header.addChild(this.statisticsTextField);
                 this.statisticsTextField.y = 220;
                 this.statisticsTextField.x = 80;
@@ -4777,6 +4828,7 @@ var FlipPlus;
             //executes when activate the screen
             ProjectsMenu.prototype.activate = function () {
                 _super.prototype.activate.call(this);
+                return;
                 // play music
                 gameui.AudiosManager.playMusic("Music Dot Robot");
                 this.updateProjects();
@@ -4808,8 +4860,7 @@ var FlipPlus;
                     this.screenContaier = new createjs.Container();
                     this.addChild(this.screenContaier);
                     //textBox
-                    this.textBox = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
-                    this.textBox.lineWidth = 840;
+                    this.textBox = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     this.screenContaier.addChild(this.textBox);
                     //set its own position
                     this.x = 361;
@@ -5116,27 +5167,17 @@ var FlipPlus;
                     this.createHitArea();
                 }
                 //updates Parts indicator amount
-                StarsIndicator.prototype.updatePartsAmount = function (newQuantity, tween) {
-                    if (tween === void 0) { tween = true; }
-                    //this.partsTextField.text = newQuantity.toString();  
-                };
-                //updates Parts indicator amount
                 StarsIndicator.prototype.updateStarsAmount = function (newQuantity, tween) {
                     if (tween === void 0) { tween = true; }
                     this.starsTextField.text = newQuantity.toString();
+                    this.starsTextField.regX;
                 };
                 //add objects to View
                 StarsIndicator.prototype.buildView = function () {
-                    //add Background
-                    //var bg = gameui.AssetsManager.getBitmap("partshud");
-                    //if (bg.getBounds())
-                    //this.regX = bg.getBounds().width/2;
-                    //this.addChild(bg);
-                    //this.infoCotainer = new createjs.Container();
                     var si = gameui.AssetsManager.getBitmap("starsicon");
                     si.scaleX = si.scaleY = 0.9;
-                    this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, grayColor);
-                    this.starsTextField.textAlign = "right";
+                    this.starsTextField = gameui.AssetsManager.getBitmapText("0", "fontBlue");
+                    this.starsTextField.regX = this.starsTextField.getBounds().width;
                     this.starsTextField.x = -140;
                     this.addChild(si);
                     this.addChild(this.starsTextField);
@@ -5203,7 +5244,7 @@ var FlipPlus;
                     bg.regX = 190;
                     this.addChild(bg);
                     var icon = this.addCoinIcon();
-                    this.coinsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
+                    this.coinsTextField = gameui.AssetsManager.getBitmapText("0", "fontWhite");
                     this.coinsTextField.x = 50;
                     this.coinsTextField.y = 30;
                     this.addChild(this.coinsTextField);
@@ -5243,12 +5284,14 @@ var FlipPlus;
                         this.addChild(gameui.AssetsManager.getBitmap(bar).set({ x: 5, y: 363 }));
                         this.addChild(gameui.AssetsManager.getBitmap(bar).set({ x: 229 - 461 - 20 }));
                         //robot name text
-                        var robotName = new createjs.Text(project.nickName, font, color);
+                        var robotName = gameui.AssetsManager.getBitmapText(project.nickName, "fontBlue");
+                        robotName.scaleX = robotName.scaleY = 0.6;
                         robotName.x = 14;
                         robotName.y = 0;
                         this.addChild(robotName);
                         //percentage text 
-                        var percenttext = new createjs.Text((project.UserData.percent * 100).toString() + "%", font, color);
+                        var percenttext = gameui.AssetsManager.getBitmapText((project.UserData.percent * 100).toString() + "%", "fontBlue");
+                        percenttext.scaleX = percenttext.scaleY = 0.6;
                         percenttext.x = 310;
                         percenttext.y = 364;
                         this.addChild(percenttext);
@@ -5277,11 +5320,11 @@ var FlipPlus;
                         star.x = 240;
                         star.y = 190;
                         //addsText
-                        var tx = new createjs.Text(project.cost.toString(), defaultFontFamilyStrong, grayColor);
+                        var tx = gameui.AssetsManager.getBitmapText(project.cost.toString(), "fontBlue");
                         this.addChild(tx);
-                        tx.textAlign = "right";
+                        tx.regX = tx.getBounds().width;
                         tx.x = 220;
-                        tx.y = 175;
+                        tx.y = 195;
                     }
                     //cache object
                     this.cache(0, 0, 480, 480);
@@ -5760,32 +5803,24 @@ var FlipPlus;
                     bg.x = 0;
                     bg.y = 100;
                     this.addChild(bg);
-                    //create a titleShadow
-                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-                    titleShadow.textAlign = "center";
-                    titleShadow.textBaseline = "middle";
-                    titleShadow.x = defaultWidth / 2;
-                    this.addChild(titleShadow);
-                    //create a title
-                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor);
-                    titleDO.textAlign = "center";
-                    titleDO.textBaseline = "middle";
-                    titleDO.x = defaultWidth / 2;
+                    //create a title 
+                    var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
                     this.addChild(titleDO);
+                    titleDO.x = defaultWidth / 2;
+                    titleDO.y = defaultHeight / 2;
                     //create a text
-                    var textDO = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
-                    textDO.textAlign = "center";
-                    textDO.textBaseline = "middle";
+                    var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     textDO.x = defaultWidth / 2;
                     this.addChild(textDO);
                     //updates title and text values
                     if (text) {
-                        titleShadow.text = titleDO.text = title.toUpperCase();
                         textDO.text = text;
+                        textDO.regX = textDO.getBounds().width / 2;
+                        titleDO.text = title.toUpperCase();
+                        titleDO.regX = titleDO.getBounds().width / 2;
                     }
                     var b = defaultHeight / 2 - 500;
                     titleDO.y = 0 + b + 50;
-                    titleShadow.y = titleDO.y + 15;
                     textDO.y = b + 300;
                     this.addsClickIndicator();
                 };
@@ -5802,57 +5837,47 @@ var FlipPlus;
                     bg.y = 100;
                     this.addChild(bg);
                     //create a titleShadow
-                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-                    titleShadow.textAlign = "center";
-                    titleShadow.textBaseline = "middle";
-                    titleShadow.x = defaultWidth / 2;
-                    this.addChild(titleShadow);
-                    //create a title
-                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-                    titleDO.textAlign = "center";
-                    titleDO.textBaseline = "middle";
+                    var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
+                    titleDO.regX = titleDO.getBounds().width;
                     titleDO.x = defaultWidth / 2;
+                    titleDO.y = defaultHeight / 2;
                     this.addChild(titleDO);
                     //create a text
-                    var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-                    textDO.textAlign = "center";
-                    textDO.textBaseline = "middle";
+                    var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     textDO.x = defaultWidth / 2;
                     this.addChild(textDO);
                     //create a text
-                    var textDO1 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-                    textDO1.textAlign = "center";
-                    textDO1.textBaseline = "middle";
+                    var textDO1 = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     textDO1.x = defaultWidth / 2;
                     this.addChild(textDO1);
                     //create a text
-                    var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-                    textDO2.textAlign = "center";
-                    textDO2.textBaseline = "middle";
+                    var textDO2 = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     textDO2.x = defaultWidth / 2;
                     this.addChild(textDO2);
                     //create a text
-                    var timeDO = new createjs.Text("", defaultNumberHighlight, "white");
-                    timeDO.textAlign = "center";
-                    timeDO.textBaseline = "middle";
+                    var timeDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
                     timeDO.x = defaultWidth / 2;
                     this.addChild(timeDO);
                     //create a text
-                    var boardsDO = new createjs.Text("", defaultNumberHighlight, "white");
-                    boardsDO.textAlign = "center";
-                    boardsDO.textBaseline = "middle";
+                    var boardsDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
                     boardsDO.x = defaultWidth / 2;
                     this.addChild(boardsDO);
                     //updates title and text values
-                    titleShadow.text = titleDO.text = StringResources.gp_pz_Popup1Title.toUpperCase();
+                    titleDO.text = StringResources.gp_pz_Popup1Title.toUpperCase();
+                    titleDO.regX = titleDO.getBounds().width / 2;
                     textDO.text = StringResources.gp_pz_Popup1Text1;
                     textDO1.text = StringResources.gp_pz_Popup1Text2;
                     textDO2.text = StringResources.gp_pz_Popup1Text3;
                     timeDO.text = time;
                     boardsDO.text = boards;
+                    titleDO.regX = titleDO.getBounds().width / 2;
+                    textDO.regX = textDO.getBounds().width / 2;
+                    textDO1.regX = textDO1.getBounds().width / 2;
+                    textDO2.regX = textDO2.getBounds().width / 2;
+                    timeDO.regX = timeDO.getBounds().width / 2;
+                    boardsDO.regX = boardsDO.getBounds().width / 2;
                     var b = defaultHeight / 2 - 500;
                     titleDO.y = 0 + b + 50;
-                    titleShadow.y = titleDO.y + 15;
                     textDO.y = 300 + b;
                     textDO1.y = 450 + b;
                     textDO2.y = 600 + b;
@@ -5876,43 +5901,35 @@ var FlipPlus;
                     bg.y = 100;
                     this.addChild(bg);
                     //create a titleShadow
-                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-                    titleShadow.textAlign = "center";
-                    titleShadow.textBaseline = "middle";
-                    titleShadow.x = defaultWidth / 2;
-                    this.addChild(titleShadow);
-                    //create a title
-                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-                    titleDO.textAlign = "center";
-                    titleDO.textBaseline = "middle";
+                    var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
+                    titleDO.regX = titleDO.getBounds().width;
                     titleDO.x = defaultWidth / 2;
+                    titleDO.y = defaultHeight / 2;
                     this.addChild(titleDO);
                     //create a text
-                    var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-                    textDO.textAlign = "center";
-                    textDO.textBaseline = "middle";
+                    var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     textDO.x = defaultWidth / 2;
                     this.addChild(textDO);
                     //create a text
-                    var textDO2 = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-                    textDO2.textAlign = "center";
-                    textDO2.textBaseline = "middle";
+                    var textDO2 = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     textDO2.x = defaultWidth / 2;
                     this.addChild(textDO2);
                     //create a text
-                    var tapsDO = new createjs.Text("", defaultNumberHighlight, "white");
-                    tapsDO.textAlign = "center";
-                    tapsDO.textBaseline = "middle";
+                    var tapsDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
                     tapsDO.x = defaultWidth / 2;
                     this.addChild(tapsDO);
                     //updates title and text values
-                    titleShadow.text = titleDO.text = StringResources.gp_mv_Popup1Title.toUpperCase();
+                    titleDO.text = StringResources.gp_mv_Popup1Title.toUpperCase();
                     textDO.text = StringResources.gp_mv_Popup1Text1;
                     textDO2.text = StringResources.gp_mv_Popup1Text3;
                     tapsDO.text = taps;
+                    titleDO.regX = titleDO.getBounds().width / 2;
+                    textDO.regX = textDO.getBounds().width / 2;
+                    ;
+                    textDO2.regX = textDO2.getBounds().width / 2;
+                    tapsDO.regX = tapsDO.getBounds().width / 2;
                     var b = defaultHeight / 2 - 500;
                     titleDO.y = 0 + b + 50;
-                    titleShadow.y = titleDO.y + 15;
                     textDO.y = 300 + b;
                     textDO2.y = 600 + b;
                     tapsDO.y = 450 + b;
@@ -6198,6 +6215,96 @@ var gameui;
     })();
     gameui.AudiosManager = AudiosManager;
 })(gameui || (gameui = {}));
+//module gameui {
+//    // Class
+//    export class WPAudioManager{
+//        // #region sound
+//        private static currentMusicName: string;
+//        private static currentMusic: HTMLAudioElement;
+//        private static musicVolue: number;
+//        private static soundVolume: number;
+//        private static limit = 3;
+//        private static effects = [];
+//        private static musicWatchdogInterval;
+//        // set and get music volume
+//        public static setMusicVolume(volume: number) {
+//            if (this.currentMusic) this.currentMusic.volume = volume;
+//            this.musicVolue = volume; 
+//        }
+//        public static setSoundVeolume(volume: number) { 
+//            this.soundVolume = volume;
+//        }
+//        public static getMusicVolume(): number { return this.musicVolue; }
+//        public static getSoundVolume(): number { return this.soundVolume; } 
+//        // play a music
+//        public static playMusic(name: string,volume:number=1) {
+//            if (!name) {
+//                this.stopCurrentMusic();
+//                return;
+//            }
+//            if (this.currentMusicName != name) {
+//                // if is there a music, then end it
+//                if (this.currentMusic) this.removeAudio(this.currentMusic);
+//                // create audio
+//                var music = this.createAudioElement(name);
+//                music.volume = this.getMusicVolume() * volume;
+//                music.play();
+//                // create loop for music
+//                music.onended = function () { music.play() };
+//                // create watchDogInterval for music accidentaly ended.
+//                this.musicWatchdogInterval = setInterval(function () {
+//                    if (music) try { music.play() } catch (e) { }
+//                }, 100);
+//                this.currentMusicName = name;
+//                this.currentMusic = music
+//            }
+//        }
+//        // play a sound
+//        public static playSound(name: string, interrupt?: boolean, delay: number= 0, offset?: number, loop?: number, volume: number= 1): HTMLAudioElement {
+//            if (this.getSoundVolume() * volume == 0) return;
+//            // create HTML Audio Tag
+//            var sfx = this.createAudioElement(name);
+//            sfx.volume = this.getSoundVolume() * volume;
+//            // add to the effects list
+//            this.effects.push(sfx);
+//            //removes sound greater than device limit
+//            while (this.effects.length >= this.limit)
+//                this.removeAudio(this.effects[0]);
+//            //remove sound when it ends.
+//            sfx.onended = function () {
+//                WPAudioManager.removeAudio(sfx);
+//            }
+//            // play the sound
+//            try { sfx.play(); } catch (e) { }
+//            return sfx;
+//        }
+//        // stops currentMusic
+//        private static stopCurrentMusic() {
+//            if (!this.currentMusic) return;
+//            clearInterval(this.musicWatchdogInterval);
+//            this.removeAudio(this.currentMusic);
+//        }
+//        // create audio Element
+//        private static createAudioElement(src) {
+//            var audio = new Audio();
+//            //audio.msAudioCategory = 2
+//            audio.src = "assets/sounds/" + src + ".mp3";
+//            return audio;
+//        }
+//        // remove sound from the device
+//        private static removeAudio(audio) {
+//            if (!audio) return;
+//            audio.pause();
+//            audio.src = null;
+//            // if the sound is on list, remove it
+//            if (this.effects.indexOf(audio) >= 0)
+//                this.effects.splice(this.effects.indexOf(audio), 1);
+//            // delete variable
+//            delete audio;
+//        }
+//    }
+//}
+//gameui.AudiosManager  = <any>gameui.WPAudioManager; 
 var Analytics = (function () {
     function Analytics() {
     }
@@ -6519,7 +6626,7 @@ var FlipPlus;
             var ItemButton = (function (_super) {
                 __extends(ItemButton, _super);
                 function ItemButton(item, event) {
-                    _super.call(this, "--", "90px " + defaultFont, "white", "puzzle/btbuyitem", function () {
+                    _super.call(this, "--", "fontWhite", "puzzle/btbuyitem", function () {
                         event(item);
                     });
                     var part = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
@@ -6534,15 +6641,15 @@ var FlipPlus;
                     icon.regX = 139 / 2;
                     icon.regY = 148 / 2;
                     icon.x = 90 - 245;
-                    this.text.textAlign = 'left';
-                    this.text.x = 330 - 246;
-                    this.text.y -= 5;
+                    this.bitmapText.regX = 0;
+                    this.bitmapText.x = 330 - 246;
+                    this.bitmapText.y -= 0;
                 }
                 ItemButton.prototype.updatePrice = function (price) {
-                    this.text.text = price.toString();
+                    this.bitmapText.text = price.toString();
                 };
                 return ItemButton;
-            })(gameui.TextButton);
+            })(gameui.BitmapTextButton);
             Views.ItemButton = ItemButton;
         })(Views = GamePlay.Views || (GamePlay.Views = {}));
     })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
@@ -6723,8 +6830,7 @@ var FlipPlus;
             //#region Interface =====================================================================================
             ShopMenu.prototype.initializeScreen = function () {
                 this.loadingObject = new createjs.Container();
-                this.statusText = new createjs.Text("", defaultFontFamilyNormal, blueColor);
-                this.statusText.textAlign = "center";
+                this.statusText = gameui.AssetsManager.getBitmapText("", "fontBlue");
                 this.content.addChild(this.loadingObject);
                 this.content.addChild(this.statusText);
                 this.statusText.y = -400;
@@ -6753,6 +6859,7 @@ var FlipPlus;
             // show a loading message
             ShopMenu.prototype.showLoading = function () {
                 this.statusText.text = StringResources.menus.loading;
+                this.statusText.regX = this.statusText.getBounds().width / 2;
                 this.loadingObject.visible = true;
             };
             // show a loading message
@@ -7103,11 +7210,10 @@ var FlipPlus;
                         var s = gameui.AssetsManager.getBitmap(bg);
                         this.addChild(s);
                         //timer text 
-                        this.timerText = new createjs.Text(("--:--:--").toString(), font, color);
-                        this.timerText.textBaseline = "middle";
-                        this.timerText.textAlign = "center";
+                        this.timerText = gameui.AssetsManager.getBitmapText("00:00:00", "fontTitle");
+                        this.timerText.regX = this.timerText.getBounds().width / 2;
                         this.timerText.x = 1000;
-                        this.timerText.y = 180;
+                        this.timerText.y = 100;
                         this.addChild(this.timerText);
                         //auto updateObject
                         this.timerintervalTick();
@@ -7127,11 +7233,11 @@ var FlipPlus;
                         star.y = 150;
                         //addsText
                         //TODO da onde vai tirar as estrelas?
-                        var tx = new createjs.Text(bonusData[bonusId].cost, "Bold 100px " + defaultFont, "#565656");
+                        var tx = gameui.AssetsManager.getBitmapText(bonusData[bonusId].cost.toString(), "fontBlue");
                         this.addChild(tx);
-                        tx.textAlign = "right";
+                        tx.regX = tx.getBounds().width;
                         tx.x = 650;
-                        tx.y = 135;
+                        tx.y = 155;
                     }
                     //create hitArea
                     this.createHitArea();
@@ -7145,6 +7251,7 @@ var FlipPlus;
                     var time = FlipPlus.FlipPlusGame.timersData.getTimer(this.bonusId);
                     if (time == 0) {
                         this.timerText.text = StringResources.mm_play;
+                        this.timerText.regX = this.timerText.getBounds().width / 2;
                         if (!createjs.Tween.hasActiveTweens(this.timerText)) {
                             this.timerText.set({ scaleX: 1, scaleY: 1 });
                         }
@@ -7152,6 +7259,7 @@ var FlipPlus;
                     else {
                         createjs.Tween.removeTweens(this.timerText);
                         this.timerText.text = this.toHHMMSS(time);
+                        this.timerText.regX = this.timerText.getBounds().width / 2;
                         this.timerText.scaleX = this.scaleY = 1;
                     }
                 };
@@ -7276,23 +7384,12 @@ var FlipPlus;
                     bg.x = 0;
                     bg.y = defaultHeight / 2 - 500;
                     this.addChild(bg);
-                    //create a text
-                    //create a titleShadow
-                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-                    titleShadow.textAlign = "center";
-                    titleShadow.textBaseline = "middle";
-                    titleShadow.x = defaultWidth / 2;
-                    this.addChild(titleShadow);
-                    //create a title
-                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-                    titleDO.textAlign = "center";
-                    titleDO.textBaseline = "middle";
+                    //create a text 
+                    var titleDO = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");
+                    titleDO.regX = titleDO.getBounds().width;
                     titleDO.x = defaultWidth / 2;
+                    titleDO.y = defaultHeight / 2;
                     this.addChild(titleDO);
-                    titleShadow.y = titleDO.y = defaultHeight / 2;
-                    titleShadow.y += 15;
-                    //updates text
-                    titleDO.text = titleShadow.text = text.toUpperCase();
                     //shows the popus
                     this.closeinterval = setTimeout(function () {
                         _this.fadeIn(1, 0.5);
@@ -7489,33 +7586,33 @@ var FlipPlus;
                     soundMenu.y = p0;
                     this.addChild(soundMenu);
                     p++;
-                    this.addChild(new gameui.IconTextButton("menu/icleave", StringResources.leave.toUpperCase(), defaultFontFamilyNormal, "white", "menu/btmenu", function () {
+                    this.addChild(new gameui.IconBitmapTextButton("menu/icleave", StringResources.leave.toUpperCase(), "fontWhite", "menu/btmenu", function () {
                         _this.dispatchEvent("leave");
                     }, undefined, "left").set({ y: p0 + p * s }));
                     p++;
-                    var skipBt = new gameui.IconTextButton("menu/icskip", StringResources.skip.toUpperCase(), defaultFontFamilyNormal, "white", "menu/btmenu", function () {
+                    var skipBt = new gameui.IconBitmapTextButton("menu/icskip", StringResources.skip.toUpperCase(), "fontWhite", "menu/btmenu", function () {
                         _this.dispatchEvent("skip");
                     }, undefined, "left");
                     skipBt.set({ y: p0 + p * s });
-                    skipBt.text.y = -40;
+                    skipBt.bitmapText.y = -40;
                     this.addChild(skipBt);
-                    this.skipPriceText = new createjs.Text("", defaultFontFamilyNormal, "white").set({ x: skipBt.text.x, textAlign: "left" });
-                    this.skipPriceIcon = gameui.AssetsManager.getBitmap("puzzle/icon_coin").set({ x: skipBt.text.x + 100, y: 20, scaleX: 0.8, scaleY: 0.8 });
+                    this.skipPriceText = gameui.AssetsManager.getBitmapText("", "fontWhite").set({ x: skipBt.bitmapText.x });
+                    this.skipPriceIcon = gameui.AssetsManager.getBitmap("puzzle/icon_coin").set({ x: skipBt.bitmapText.x + 100, y: 20, scaleX: 0.8, scaleY: 0.8 });
                     skipBt.addChild(this.skipPriceIcon);
                     skipBt.addChild(this.skipPriceText);
                     p++;
-                    this.addChild(new gameui.IconTextButton("menu/icrestart", StringResources.restart.toUpperCase(), defaultFontFamilyNormal, "white", "menu/btmenu", function () {
+                    this.addChild(new gameui.IconBitmapTextButton("menu/icrestart", StringResources.restart.toUpperCase(), "fontWhite", "menu/btmenu", function () {
                         _this.dispatchEvent("restart");
                     }, undefined, "left").set({ y: p0 + p * s }));
                     p++;
-                    this.addChild(new gameui.IconTextButton("menu/iccontinue", StringResources.continue.toUpperCase(), defaultFontFamilyNormal, "white", "menu/btmenu", function () {
+                    this.addChild(new gameui.IconBitmapTextButton("menu/iccontinue", StringResources.continue.toUpperCase(), "fontWhite", "menu/btmenu", function () {
                         _this.dispatchEvent("continue");
                     }, undefined, "left").set({ y: p0 + p * s }));
                     p++;
                 }
                 PauseMenu.prototype.updateSkipPrice = function (price) {
                     this.skipPriceText.text = price.toString();
-                    this.skipPriceIcon.x = this.skipPriceText.x + this.skipPriceText.getMeasuredWidth() + 30;
+                    this.skipPriceIcon.x = this.skipPriceText.x + this.skipPriceText.getBounds().width + 30;
                 };
                 return PauseMenu;
             })(gameui.UIItem);
@@ -7549,14 +7646,13 @@ var FlipPlus;
                     this.addChild(bg);
                     //create a text
                     //create a titleShadow
-                    var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-                    textDO.textAlign = "center";
-                    textDO.textBaseline = "middle";
+                    var textDO = gameui.AssetsManager.getBitmapText("", "fontBlue");
                     textDO.x = defaultWidth / 2;
                     this.addChild(textDO);
-                    textDO.y = defaultHeight * 0.3;
+                    textDO.y = defaultHeight * 0.2;
                     //updates text
                     textDO.text = text.toUpperCase();
+                    textDO.regX = textDO.getBounds().width / 2;
                     this.addsClickIndicator();
                 };
                 PopupBot.prototype.addsClickIndicator = function () {
@@ -7596,11 +7692,10 @@ var FlipPlus;
                     bg.y = 100;
                     this.addChild(bg);
                     // create a text
-                    var textDO = new createjs.Text(StringResources.help_restart, defaultFontFamilyNormal, "white");
-                    textDO.textAlign = "center";
-                    textDO.textBaseline = "middle";
-                    textDO.x = defaultWidth / 2;
+                    var textDO = gameui.AssetsManager.getBitmapText(StringResources.help_restart, "fontWhite");
                     this.addChild(textDO);
+                    textDO.regX = textDO.getBounds().width / 2;
+                    textDO.x = defaultWidth / 2;
                     // add Image
                     var img = gameui.AssetsManager.getBitmap("menu/imrestart");
                     this.addChild(img);
@@ -7628,13 +7723,11 @@ var FlipPlus;
                     bg.y = 100;
                     this.addChild(bg);
                     // create a text
-                    var textDO = new createjs.Text(StringResources["help_" + item], defaultFontFamilyNormal, "white");
-                    textDO.textAlign = "center";
-                    textDO.textBaseline = "middle";
-                    textDO.x = defaultWidth / 2;
-                    textDO.y = 550;
-                    textDO.x = 1000;
+                    var textDO = gameui.AssetsManager.getBitmapText(StringResources["help_" + item], "fontWhite");
                     this.addChild(textDO);
+                    textDO.regX = textDO.getBounds().width / 2;
+                    textDO.y = 550;
+                    textDO.x = 1100;
                     // add Image
                     var img = gameui.AssetsManager.getBitmap(customImage || "menu/imitem");
                     this.addChild(img);
@@ -7642,7 +7735,7 @@ var FlipPlus;
                     img.y = 740;
                     img.regY = img.getBounds().height / 2;
                     // Add cancel Buttons
-                    var cancelButton = new gameui.TextButton(StringResources.help_cancel_bt, defaultFontFamilyNormal, "white", "menu/btoptions", function () {
+                    var cancelButton = new gameui.BitmapTextButton(StringResources.help_cancel_bt, "fontWhite", "menu/btoptions", function () {
                         _this.closePopUp();
                         cancel();
                     });
@@ -7650,18 +7743,18 @@ var FlipPlus;
                     cancelButton.x = defaultWidth / 4;
                     cancelButton.y = 1150;
                     // Add ok Buttons
-                    var acceptBt = new gameui.TextButton(StringResources["help_" + item + "_bt"], defaultFontFamilyNormal, "white", "menu/btoptions", function () {
+                    var acceptBt = new gameui.BitmapTextButton(StringResources[item], "fontWhite", "menu/btoptions", function () {
                         _this.closePopUp();
                         accept();
                     });
                     this.addChild(acceptBt);
-                    acceptBt.text.y -= 50;
+                    acceptBt.bitmapText.y -= 50;
                     acceptBt.x = defaultWidth / 4 * 3;
                     acceptBt.y = 1150;
                     //add stuff on button
-                    acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + item).set({ x: -170, y: 0 }));
-                    acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_coin").set({ x: 90, y: 20, scaleX: 0.8, scaleY: 0.8 }));
-                    acceptBt.addChild(new createjs.Text(price.toString(), defaultFontFamilyNormal, "white").set({ x: 10 }));
+                    acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + item).set({ x: -170, y: -10 }));
+                    acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_coin").set({ x: 90, y: 10, scaleX: 0.8, scaleY: 0.8 }));
+                    acceptBt.addChild(gameui.AssetsManager.getBitmapText(price.toString(), "fontWhite").set({ x: 10 }));
                 };
                 return PopupHelper;
             })(View.Popup);
@@ -7731,10 +7824,9 @@ var FlipPlus;
                     bg.scaleX = 2;
                     bg.regX = bg.getBounds().width / 2;
                     this.statusArea.addChild(bg);
-                    var l = new createjs.Text(project.nickName.toUpperCase(), defaultFontFamilyStrong, defaultFontColor);
+                    var l = gameui.AssetsManager.getBitmapText(project.nickName.toUpperCase(), "fontWhite");
                     l.y = 20; //250;
-                    l.textAlign = "center";
-                    l.textBaseline = "top";
+                    l.regX = l.getBounds().width / 2;
                     l.x = defaultWidth / 2;
                     this.statusArea.addChild(l);
                     this.addChild(this.statusArea);
@@ -7767,8 +7859,8 @@ var FlipPlus;
                             levelMachine.addChild(this.levelGrid);
                         }
                         else {
-                            var text = new createjs.Text(StringResources.ws_Locked, defaultFontFamilyStrong, defaultFontColor);
-                            text.textAlign = "center";
+                            var text = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontBlue");
+                            text.regX = text.getBounds().width / 2;
                             text.y = 1738 - 2048;
                             text.x = defaultWidth / 2;
                             levelMachine.addChild(text);
@@ -7776,8 +7868,8 @@ var FlipPlus;
                     }
                     else {
                         //TODO mudar o nome disso.
-                        var text = new createjs.Text(StringResources.ws_NotFree, defaultFontFamilyStrong, defaultFontColor);
-                        text.textAlign = "center";
+                        var text = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontBlue");
+                        text.regX = text.getBounds().width / 2;
                         text.y = 1738 - 2048;
                         text.x = defaultWidth / 2;
                         levelMachine.addChild(text);
@@ -8026,22 +8118,14 @@ var FlipPlus;
                     if (delay === void 0) { delay = 0; }
                     //clean everything
                     this.removeAllChildren();
-                    //create a titleShadow
-                    var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-                    titleShadow.textAlign = "center";
-                    titleShadow.textBaseline = "middle";
-                    titleShadow.x = defaultWidth / 2;
-                    this.addChild(titleShadow);
                     //create a title
-                    var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-                    titleDO.textAlign = "center";
-                    titleDO.textBaseline = "middle";
-                    titleDO.x = defaultWidth / 2;
+                    var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
                     this.addChild(titleDO);
-                    titleShadow.y = titleDO.y = defaultHeight / 2;
-                    titleShadow.y += 15;
+                    titleDO.x = defaultWidth / 2;
+                    titleDO.y = defaultHeight / 2;
                     //updates text
-                    titleDO.text = titleShadow.text = text.toUpperCase();
+                    titleDO.text = text.toUpperCase();
+                    titleDO.regX = titleDO.getBounds().width / 2;
                     var ty = defaultHeight * 0.9;
                     this.set({
                         alpha: 0,

@@ -37,13 +37,15 @@ module FlipPlus.Menu.View {
                 
 
                 //robot name text
-                var robotName = new createjs.Text(project.nickName, font, color);
+                var robotName = gameui.AssetsManager.getBitmapText(project.nickName, "fontBlue");
+                robotName.scaleX = robotName.scaleY = 0.6;
                 robotName.x = 14;
                 robotName.y = 0;
                 this.addChild(robotName)
 
                 //percentage text 
-                var percenttext = new createjs.Text((project.UserData.percent * 100).toString() + "%", font, color);
+                var percenttext = gameui.AssetsManager.getBitmapText((project.UserData.percent * 100).toString() + "%", "fontBlue");
+                percenttext.scaleX = percenttext.scaleY = 0.6;
                 percenttext.x = 310;
                 percenttext.y = 364;
                 this.addChild(percenttext)
@@ -79,11 +81,11 @@ module FlipPlus.Menu.View {
                 star.y = 190;
 
                 //addsText
-                var tx = new createjs.Text(project.cost.toString(), defaultFontFamilyStrong, grayColor);
+                var tx = gameui.AssetsManager.getBitmapText(project.cost.toString(), "fontBlue");
                 this.addChild(tx);
-                tx.textAlign = "right";
+                tx.regX = tx.getBounds().width;
                 tx.x = 220;
-                tx.y = 175;
+                tx.y = 195; 
 
             }
 

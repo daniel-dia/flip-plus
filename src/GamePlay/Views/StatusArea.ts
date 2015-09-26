@@ -2,9 +2,9 @@ module FlipPlus.GamePlay.Views {
 
     export class StatusArea extends createjs.Container{
 
-        private text1: createjs.Text;
-        private text2: createjs.Text;
-        private text3: createjs.Text;
+        private text1: createjs.BitmapText;
+        private text2: createjs.BitmapText;
+        private text3: createjs.BitmapText;
 
         private bg1: createjs.DisplayObject;
         private bg2: createjs.DisplayObject;
@@ -68,15 +68,15 @@ module FlipPlus.GamePlay.Views {
             this.addChild(rightIconContainer);
             
             //Text
-            this.text1 = new createjs.Text("", defaultFontFamilyStrong, "#FFF");
-            this.text2 = new createjs.Text("", defaultFontFamilyNormal, "#888");
-            this.text3 = new createjs.Text("", defaultFontFamilyStrong, "#FFF");
+            this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, "white");
+            this.text2 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, "white");
+            this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, "white");
                         
             this.text1.x = defaultWidth * 0.17; 
             this.text2.x = defaultWidth * 0.5; 
             this.text3.x = defaultWidth * 0.83;
 
-            this.text1.textAlign = this.text2.textAlign = this.text3.textAlign = "center";
+            //this.text1.textAlign = this.text2.textAlign = this.text3.textAlign = "center";
 
             this.text1.y = this.text2.y = this.text3.y =50;
             

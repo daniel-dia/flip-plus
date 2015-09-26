@@ -17,17 +17,17 @@ module FlipPlus.Menu {
             this.content.addChild(soundMenu);
 
             p++;
-            this.content.addChild(new gameui.TextButton("Help", defaultFontFamilyHighlight, blueColor, "menu/btmenu", () => {
+            this.content.addChild(new gameui.BitmapTextButton("Help", "fontBlue", "menu/btmenu", () => {
                 FlipPlusGame.showSpecialOffer(this);
             }).set({ x: 0, y: p0 + p * s }));
-            p++;
-            this.content.addChild(new gameui.TextButton("Store", defaultFontFamilyHighlight, blueColor, "menu/btmenu", () => {
+            p++;                                                      
+            this.content.addChild(new gameui.BitmapTextButton("Store","fontBlue", "menu/btmenu", () => {
                 FlipPlusGame.showShopMenu(this);
             }).set({ x: 0, y: p0 + p * s }));
             p++
             
             //add Other Buttons
-            this.content.addChild(new gameui.TextButton(StringResources.op_erase, defaultFontFamilySmall, blueColor, "", () => {
+            this.content.addChild(new gameui.BitmapTextButton(StringResources.op_erase, "fontBlue", "", () => {
                 FlipPlusGame.projectData.clearAllData();
                 window.location.reload();
             }).set({ y : p0 + p * s }));

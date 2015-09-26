@@ -1,11 +1,12 @@
 ﻿module FlipPlus.GamePlay.Views {
 
-    export class ItemButton extends gameui.TextButton {
+    export class ItemButton extends gameui.BitmapTextButton {
 
         constructor(item: string, event: (itemId: string) => void) {
-            super("--", "90px " + defaultFont, "white", "puzzle/btbuyitem", () => {
+            super("--", "fontWhite" ,"puzzle/btbuyitem", () => {
                 event(item)
             });
+            
 
             var part = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
             this.addChild(part);
@@ -21,13 +22,13 @@
             icon.regY = 148 / 2;
             icon.x = 90 - 245;
 
-            this.text.textAlign = 'left';
-            this.text.x = 330 - 246;
-            this.text.y -= 5;
+            this.bitmapText.regX = 0;
+            this.bitmapText.x = 330 - 246;
+            this.bitmapText.y -= 0;
         }
 
         public updatePrice(price: number) {
-            this.text.text = price.toString();
+            this.bitmapText.text = price.toString();
         }
     }
 }

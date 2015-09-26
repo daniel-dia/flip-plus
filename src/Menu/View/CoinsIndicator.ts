@@ -3,13 +3,10 @@ module FlipPlus.Menu.View {
     // View Class
     export class CoinsIndicator extends createjs.Container{
 
-        private coinsTextField: createjs.Text;
-
+        private coinsTextField: createjs.BitmapText;
 
         private fx: FlipPlus.Effects;
-
-
-
+        
         // Constructor
         constructor() {
             super();
@@ -64,8 +61,8 @@ module FlipPlus.Menu.View {
             this.addChild(bg);
 
             var icon = this.addCoinIcon();
-            
-            this.coinsTextField = new createjs.Text("0", defaultFontFamilyNormal, defaultFontColor);
+
+            this.coinsTextField = gameui.AssetsManager.getBitmapText("0", "fontWhite");
             this.coinsTextField.x = 50;
             this.coinsTextField.y = 30;
             this.addChild(this.coinsTextField);

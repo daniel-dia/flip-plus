@@ -17,17 +17,15 @@ module FlipPlus.Menu.View {
 
             //create a text
             //create a titleShadow
-            var textDO = new createjs.Text("", defaultFontFamilyNormal, alternativeFontColor);
-            textDO.textAlign = "center";
-            textDO.textBaseline = "middle";
+            var textDO = gameui.AssetsManager.getBitmapText("", "fontBlue");
             textDO.x = defaultWidth / 2;
             this.addChild(textDO);
 
-            textDO.y =defaultHeight * 0.3;
+            textDO.y = defaultHeight * 0.2;
             
             //updates text
             textDO.text = text.toUpperCase();
-
+            textDO.regX = textDO.getBounds().width / 2;
             this.addsClickIndicator();
         }
 

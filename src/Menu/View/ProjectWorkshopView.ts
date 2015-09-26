@@ -80,10 +80,9 @@ module FlipPlus.Menu.View {
             bg.regX = bg.getBounds().width/2;
             this.statusArea.addChild(bg);
 
-            var l: createjs.Text = new createjs.Text(project.nickName.toUpperCase(), defaultFontFamilyStrong, defaultFontColor);
+            var l: createjs.BitmapText = gameui.AssetsManager.getBitmapText(project.nickName.toUpperCase(), "fontWhite");
             l.y = 20;//250;
-            l.textAlign = "center";
-            l.textBaseline = "top";
+            l.regX = l.getBounds().width / 2;
             l.x = defaultWidth / 2;
             this.statusArea.addChild(l);
 
@@ -123,16 +122,16 @@ module FlipPlus.Menu.View {
 
                 }
                 else {
-                    var text = new createjs.Text(StringResources.ws_Locked, defaultFontFamilyStrong, defaultFontColor);
-                    text.textAlign = "center";
+                    var text = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontBlue");
+                    text.regX = text.getBounds().width / 2;
                     text.y = 1738 - 2048;
                     text.x = defaultWidth / 2;
                     levelMachine.addChild(text);
                 }
             } else {
                 //TODO mudar o nome disso.
-                var text = new createjs.Text(StringResources.ws_NotFree, defaultFontFamilyStrong, defaultFontColor);
-                text.textAlign = "center";
+                var text = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontBlue"); 
+                text.regX = text.getBounds().width / 2;
                 text.y = 1738 - 2048;
                 text.x = defaultWidth / 2;
                 levelMachine.addChild(text);

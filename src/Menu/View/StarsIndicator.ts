@@ -3,8 +3,7 @@ module FlipPlus.Menu.View {
     // View Class
     export class StarsIndicator extends gameui.Button{
 
-        private partsTextField: createjs.Text;
-        private starsTextField: createjs.Text;
+        private starsTextField: createjs.BitmapText;
 
         private addButton: createjs.DisplayObject;
 
@@ -14,32 +13,20 @@ module FlipPlus.Menu.View {
             this.buildView();
             this.createHitArea();
         }
-
-        //updates Parts indicator amount
-        public updatePartsAmount(newQuantity: number, tween:boolean=true) {
-            //this.partsTextField.text = newQuantity.toString();  
-        }
-
+        
         //updates Parts indicator amount
         public updateStarsAmount(newQuantity: number, tween: boolean= true) {
             this.starsTextField.text = newQuantity.toString();
+            this.starsTextField.regX
         }
 
         //add objects to View
         private buildView() {
-
-            //add Background
-            //var bg = gameui.AssetsManager.getBitmap("partshud");
-            //if (bg.getBounds())
-            //this.regX = bg.getBounds().width/2;
-            //this.addChild(bg);
-
-            //this.infoCotainer = new createjs.Container();
             
             var si = gameui.AssetsManager.getBitmap("starsicon");
             si.scaleX = si.scaleY = 0.9;
-            this.starsTextField = new createjs.Text("0", defaultFontFamilyNormal, grayColor);
-            this.starsTextField.textAlign = "right";
+            this.starsTextField = gameui.AssetsManager.getBitmapText("0", "fontBlue");
+            this.starsTextField.regX = this.starsTextField.getBounds().width;
             this.starsTextField.x = -140;
 
             this.addChild(si); 
@@ -47,10 +34,6 @@ module FlipPlus.Menu.View {
      
             si.x = -120;
             si.y = -5;
-            
-                        
-            
-
         }
     }
 }

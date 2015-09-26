@@ -208,6 +208,58 @@ module gameui {
         }
     }
 
+
+    export class IconBitmapTextButton extends BitmapTextButton {
+
+        private align: string;
+        public icon: createjs.DisplayObject;
+
+        constructor(icon: string = "", text = "", font: string = null,  background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string, align: string = "center") {
+            this.align = align;
+
+            super(text, font, background, event, soundId);
+
+            //loads icon Image
+            this.icon = AssetsManager.getBitmap(icon);
+            this.addChild(this.icon);
+            
+            if (this.icon.getBounds())
+                this.icon.regY = this.icon.getBounds().height / 2;
+            else
+                if (this.icon["image"])
+                    this.icon["image"].onload = () => {
+                        this.icon.regY = this.icon.getBounds().height / 2;
+                    }
+
+            this.updateLabel(text);
+
+            this.createHitArea();
+        }
+
+        public updateLabel(value: string) {
+
+            this.bitmapText.text = value;
+            if (!this.icon.getBounds()) return;
+
+            switch (this.align) {
+                case "center":
+                    this.icon.x = -(this.icon.getBounds().width + 10 + this.bitmapText.getBounds().width) / 2;
+                    this.bitmapText.x = this.icon.x + this.icon.getBounds().width + 10;
+                    break;
+                case "left":
+                    this.icon.x = -this.width / 2 + 80
+                    this.bitmapText.regX = 0;
+                    this.bitmapText.x = -this.width / 2 + 80 + this.icon.getBounds().width + 100;
+                    break;
+            }
+        }
+
+        centralizeIcon() {
+        }
+    }
+
+
+
     export class IconButton extends IconTextButton {
         constructor(icon: string = "", background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string) {
             super(icon,"", "", "", background, event, soundId);

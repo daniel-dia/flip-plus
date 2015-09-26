@@ -4,7 +4,7 @@ module FlipPlus.Menu.View
     export class Terminal extends createjs.Container
     {
         private screenContaier: createjs.Container;
-        private textBox: createjs.Text;
+        private textBox: createjs.BitmapText;
 
         constructor()
         {
@@ -15,8 +15,7 @@ module FlipPlus.Menu.View
             this.addChild(this.screenContaier);
 
             //textBox
-            this.textBox = new createjs.Text("", defaultFontFamilyNormal, defaultFontColor);
-            this.textBox.lineWidth = 840;
+            this.textBox = gameui.AssetsManager.getBitmapText("", "fontWhite");
             this.screenContaier.addChild(this.textBox);
 
             //set its own position

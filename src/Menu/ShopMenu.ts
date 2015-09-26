@@ -2,7 +2,7 @@
     export class ShopMenu extends GenericMenu {
 
         private productsListItems: Array<ProductListItem>;
-        private statusText: createjs.Text;
+        private statusText: createjs.BitmapText;
         private loadingObject: createjs.DisplayObject;
         private products: Array<Cocoon.Store.ProductInfo>;
 
@@ -27,8 +27,7 @@
 
         protected initializeScreen() {
             this.loadingObject = new createjs.Container();
-            this.statusText = new createjs.Text("", defaultFontFamilyNormal, blueColor);
-            this.statusText.textAlign = "center";
+            this.statusText = gameui.AssetsManager.getBitmapText("", "fontBlue");
             this.content.addChild(this.loadingObject);
             this.content.addChild(this.statusText);
             this.statusText.y = -400;
@@ -64,6 +63,7 @@
         // show a loading message
         private showLoading() {
             this.statusText.text = StringResources.menus.loading;
+            this.statusText.regX = this.statusText.getBounds().width / 2;
             this.loadingObject.visible = true;
         }
 

@@ -80,12 +80,11 @@
             this.footer.addChild(footer);
             footer.y = - 291;
 
-            var titleText = new createjs.Text(StringResources[bonusId + "_title"], defaultFontFamilyNormal, "white");
-            titleText.textAlign = "center";
-            titleText.text = titleText.text.toUpperCase();
+            var titleText = gameui.AssetsManager.getBitmapText(StringResources[bonusId + "_title"].toUpperCase(), "fontWhite");
+            titleText.regX = titleText.getBounds().width / 2;
             titleText.x = defaultWidth / 2;
-            titleText.y = - 130;
-            titleText.textBaseline = "middle";
+            titleText.y = - 170;
+            //titleText.textBaseline = "middle";
 
             this.footer.addChild(titleText);
         }
@@ -125,7 +124,7 @@
                 this.footerContainer.addChild(max);
 
                 //add text
-                var textObj = new createjs.Text("",defaultFontFamilyNormal,"white");
+                var textObj = gameui.AssetsManager.getBitmapText("", "fontWhite");
                 textObj.y = 120;
                 textObj.x = defaultWidth / itemsArray.length * i + 190;
                 textObj.name = itemId + "_text";

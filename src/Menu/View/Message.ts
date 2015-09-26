@@ -40,27 +40,13 @@ module FlipPlus.Menu.View {
             bg.y = defaultHeight/2 -500;
             this.addChild(bg);
 
-            //create a text
-            //create a titleShadow
-            var titleShadow = new createjs.Text("", defaultFontFamilyHighlight, shadowFontColor);
-            titleShadow.textAlign = "center";
-            titleShadow.textBaseline = "middle";
-            titleShadow.x = defaultWidth / 2;
-            this.addChild(titleShadow);
-
-            //create a title
-            var titleDO = new createjs.Text("", defaultFontFamilyHighlight, highlightFontColor); //"#f8e5a2"
-            titleDO.textAlign = "center";
-            titleDO.textBaseline = "middle";
+            //create a text 
+            var titleDO = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");
+            titleDO.regX = titleDO.getBounds().width;
             titleDO.x = defaultWidth / 2;
+            titleDO.y = defaultHeight / 2; 
             this.addChild(titleDO);
-
-            titleShadow.y = titleDO.y = defaultHeight /2;
-            titleShadow.y += 15;
-
-            //updates text
-            titleDO.text = titleShadow.text = text.toUpperCase();
-
+            
             //shows the popus
             this.closeinterval = setTimeout(() => {
                 this.fadeIn(1,0.5);
