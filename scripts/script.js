@@ -4823,7 +4823,6 @@ var FlipPlus;
             //executes when activate the screen
             ProjectsMenu.prototype.activate = function () {
                 _super.prototype.activate.call(this);
-                return;
                 // play music
                 gameui.AudiosManager.playMusic("Music Dot Robot");
                 this.updateProjects();

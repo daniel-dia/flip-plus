@@ -21,7 +21,6 @@ module FlipPlus.Menu {
         constructor() {
             super();
             this.createObjects();
-
             this.onback = () => { this.back(); };
         }
         
@@ -261,7 +260,7 @@ module FlipPlus.Menu {
         //executes when activate the screen
         public activate() {
             super.activate();
-            return;
+            
             // play music
             gameui.AudiosManager.playMusic("Music Dot Robot");
 
