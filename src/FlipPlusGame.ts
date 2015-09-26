@@ -277,12 +277,6 @@ module FlipPlus {
             this.showLevel(currentLevel);
         }
 
-        //public static completeProject(project: Projects.Project) {
-        //    if (this.mainScreen == null) this.mainScreen = new Menu.MainMenu();
-        //    this.gameScreen.switchScreen(this.mainScreen);
-        //    this.mainScreen.showNewBot(project.name);
-        //}
-
         public static endGame() {
 
         }
