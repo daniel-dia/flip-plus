@@ -161,7 +161,7 @@ module FlipPlus.GamePlay {
             this.pauseMenu.y = defaultHeight / 2;
             this.pauseMenu.addEventListener("continue", () => { this.unPauseGame() });
             this.pauseMenu.addEventListener("restart", () => { this.restart() });
-            this.pauseMenu.addEventListener("skip", () => { this.pauseMenu.fadeOut(); this.useItem("skip") });
+            this.pauseMenu.addEventListener("skip", () => { this.unPauseGame(); this.gameplayMenu.fadeOut(); this.useItem("skip") });
             this.pauseMenu.addEventListener("leave", () => { this.exit() });
 
             this.content.addChild(this.pauseMenu);
@@ -421,19 +421,12 @@ module FlipPlus.GamePlay {
             this.boardSprite.mouseEnabled=false;
             this.gameplayMenu.mouseEnabled = false;
             
-            this.message.showtext(StringResources.skip);
-
-            if (this.levelData.userdata.skip || this.levelData.userdata.solved) {
-                
-                this.message.addEventListener("onclose", () => {
-                    FlipPlusGame.skipLevel(false);
-                });
-            }
-            else {
-                this.message.addEventListener("onclose", () => {
-                    FlipPlusGame.skipLevel(true);
-                });
-            }
+           setTimeout(() => {
+               if (this.levelData.userdata.skip || this.levelData.userdata.solved)
+                   FlipPlusGame.skipLevel(false);
+               else
+                   FlipPlusGame.skipLevel(true);
+           }, 3000);
         }
 
         //set hint for a block
