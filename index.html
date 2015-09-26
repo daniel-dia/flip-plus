@@ -1,19 +1,26 @@
 ﻿<!DOCTYPE html>
-<html>
-<head> 
+<html lang="en">
+<head>
     <title>Flip +</title>
+
+    <!-- style -->
+    <link href="style/main.css" rel="stylesheet" />
+
 
     <!-- Libs =================================================================================-->
     <script src="scripts/cocoon.js"></script>
-    <script src="scripts/createjs-2014.12.12.min.js"></script>
-    <script src="scripts/movieclip-0.8.0.min.js"></script>
-    <script src="scripts/timer.js"></script>
     <script src="scripts/md5.js"></script>
-    
+    <script src="scripts/createjs-2015.05.21.min.js"></script>
+    <script src="scripts/movieclip-0.8.1.min.js"></script>
+
+    <script src="scripts/timer.js"></script>
+
+
     <!-- Bitmap  patch ===================================================================-->
     <script src="scripts/BitmapScalePath.js"></script>
     <script src="scripts/setMobileScale.js"></script>
     <script src="scripts/getQueryVariable.js"></script>
+    <script src="scripts/fontConverter.js"></script>
 
     <!-- Data =================================================================================-->
     <script src="data/Levels.js"></script>
@@ -23,25 +30,22 @@
     <!-- Assets  ===============================================================================-->
     <script src="assets/spritesheets.js"></script>
     <script src="assets/assetsManifest.js"></script>
-    <script src="assets/Intro.js"></script>  
+    <script src="assets/Intro.js"></script>
     <script src="assets/NewBotsLobby.js"></script>
     <script src="assets/LogoScreen.js"></script>
     <script src="assets/Bonus3.js"></script>
+    <script src="assets/fontTitle.js"></script>
+    <script src="assets/font.js"></script>
 
     <!-- code script ===============================================================================-->
     <script src="scripts/script.js"></script>
 
     <script>
-        window.onload = function () { FlipPlus.FlipPlusGame.initializeGame(); };
+        window.onload = function () {
+            FlipPlus.FlipPlusGame.initializeGame();
+        };
     </script>
-    <!-- style -->
-    <link href="style/main.css" rel="stylesheet" />
-    <style>
-        img {
-            display: none;
-        }
-    </style>
-
+ 
 </head>
 <body>
     <!--cocoonJS screenCanvas
