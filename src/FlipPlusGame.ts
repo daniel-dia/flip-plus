@@ -92,16 +92,16 @@ module FlipPlus {
                 return this.gameScreen.sendBackButtonEvent()
             })
 
-            // var ps = this.projectManager.getAllProjects();
-            // for (var p in ps) {
-            //     ps[p].UserData.unlocked = true;
-            //     ps[p].UserData.stars=0;
-            //     for (var l in ps[p].levels) {
-            //         ps[p].levels[l].userdata.solved = false;
-            //         ps[p].levels[l].userdata.unlocked = true;
-            //
-            //     }
-            // }
+              var ps = this.projectManager.getAllProjects();
+              for (var p in ps) {
+                  ps[p].UserData.unlocked = true;
+                  ps[p].UserData.stars=0;
+                  for (var l in ps[p].levels) {
+                      ps[p].levels[l].userdata.solved = false;
+                      ps[p].levels[l].userdata.unlocked = true;
+             
+                  }
+              }
         }
 
         public static initializeAds() {
@@ -287,8 +287,8 @@ module FlipPlus {
 
         }
 
-        public static showOptions(){
-            this.gameScreen.switchScreen(new Menu.OptionsMenu());
+        public static showOptions(previousScreen?: gameui.ScreenState){
+            this.gameScreen.switchScreen(new Menu.OptionsMenu(previousScreen));
         }
         // ---------------------------- license --------------------------------------------------//
 

@@ -1,11 +1,12 @@
 module FlipPlus.Menu {
     export class OptionsMenu extends GenericMenu {
 
- 
-        constructor() {
+
+        constructor(previousScreen?: gameui.ScreenState) {
+            if (!previousScreen) previousScreen = FlipPlusGame.mainScreen;
             this.originY = 1;
-            this.originX = defaultWidth;
-            super(StringResources.menus.menu, FlipPlusGame.mainScreen);
+            this.originX = defaultWidth; 
+            super(StringResources.menus.menu, previousScreen);
             
             // add menu buttons
             var p0 = -350;
