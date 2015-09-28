@@ -74,7 +74,57 @@ module FlipPlus.Menu.View {
 
             this.addsClickIndicator();
        }
-        
+
+
+        public showtextBuy(title: string, text: string, previousScreen: gameui.ScreenState, timeout: number = 7000, delay: number = 0) {
+
+            this.showsPopup(timeout, delay);
+
+            //clean display Object
+            this.removeAllChildren();
+
+            //draw background
+            var bg = gameui.AssetsManager.getBitmap("popups/popup")
+            bg.x = 0;
+            bg.y = 100;
+            this.addChild(bg);
+
+            //create a title 
+            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
+            this.addChild(titleDO);
+            titleDO.x = defaultWidth / 2;
+            titleDO.y = defaultHeight / 2;
+
+            //create a text
+            var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
+            textDO.x = defaultWidth / 2;
+            this.addChild(textDO);
+
+
+            //updates title and text values
+            if (text) {
+                textDO.text = text;
+                textDO.regX = textDO.getBounds().width / 2;
+                titleDO.text = title.toUpperCase();
+                titleDO.regX = titleDO.getBounds().width / 2;
+            }
+
+            //add buton to store
+            this.addChild(
+                new gameui.BitmapTextButton(StringResources.menus.shop, "fontWhite", "menu/btmenu", () => {
+                    FlipPlusGame.showShopMenu(previousScreen);
+                })
+            ).set({ x: defaultWidth / 2, y: defaultHeight /2})
+
+            var b = defaultHeight / 2 - 500;
+
+            titleDO.y = 0 + b + 50
+            textDO.y = b + 300;
+
+            this.addsClickIndicator();
+        }
+
+
         // show a popup for timeAttack
         public showTimeAttack(time: string, boards:string, timeout: number= 7000, delay: number= 0) {
 

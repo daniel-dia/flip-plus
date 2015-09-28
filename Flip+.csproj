@@ -42,6 +42,7 @@
     <TypeScriptCompile Include="typing\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="typing\createjs\createjs.d.ts" />
     <TypeScriptCompile Include="typing\easeljs\easeljs.d.ts" />
+    <TypeScriptCompile Include="typing\pixi.js.d.ts" />
     <TypeScriptCompile Include="typing\preloadjs\preloadjs.d.ts" />
     <TypeScriptCompile Include="typing\soundjs\soundjs.d.ts" />
     <TypeScriptCompile Include="typing\tweenjs\tweenjs.d.ts" />
@@ -1359,6 +1360,8 @@
     <Content Include="scripts\movieclip-0.6.1.min.js" />
     <Content Include="scripts\movieclip-0.8.0.min.js" />
     <Content Include="scripts\movieclip-0.8.1.min.js" />
+    <Content Include="scripts\pixi.js" />
+    <Content Include="scripts\pixi.min.js" />
     <Content Include="scripts\script.js" />
     <Content Include="scripts\sortable.js" />
     <Content Include="scripts\timer.js" />

@@ -821,15 +821,16 @@ var FlipPlus;
             Cocoon.App.exitCallback(function () {
                 return _this.gameScreen.sendBackButtonEvent();
             });
-            var ps = this.projectManager.getAllProjects();
-            for (var p in ps) {
-                ps[p].UserData.unlocked = true;
-                ps[p].UserData.stars = 0;
-                for (var l in ps[p].levels) {
-                    ps[p].levels[l].userdata.solved = false;
-                    ps[p].levels[l].userdata.unlocked = true;
-                }
-            }
+            //  var ps = this.projectManager.getAllProjects();
+            //  for (var p in ps) {
+            //      ps[p].UserData.unlocked = true;
+            //      ps[p].UserData.stars=0;
+            //      for (var l in ps[p].levels) {
+            //          ps[p].levels[l].userdata.solved = false;
+            //          ps[p].levels[l].userdata.unlocked = true;
+            // 
+            //      }
+            //  }
         };
         FlipPlusGame.initializeAds = function () {
             var _this = this;
@@ -1578,7 +1579,7 @@ var FlipPlus;
                 else {
                     //show text effect
                     this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
-                    this.popup.showtext(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints);
+                    this.popup.showtextBuy(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints, this);
                     return false;
                 }
             };
@@ -5818,6 +5819,42 @@ var FlipPlus;
                     textDO.y = b + 300;
                     this.addsClickIndicator();
                 };
+                Popup.prototype.showtextBuy = function (title, text, previousScreen, timeout, delay) {
+                    if (timeout === void 0) { timeout = 7000; }
+                    if (delay === void 0) { delay = 0; }
+                    this.showsPopup(timeout, delay);
+                    //clean display Object
+                    this.removeAllChildren();
+                    //draw background
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+                    //create a title 
+                    var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
+                    this.addChild(titleDO);
+                    titleDO.x = defaultWidth / 2;
+                    titleDO.y = defaultHeight / 2;
+                    //create a text
+                    var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
+                    textDO.x = defaultWidth / 2;
+                    this.addChild(textDO);
+                    //updates title and text values
+                    if (text) {
+                        textDO.text = text;
+                        textDO.regX = textDO.getBounds().width / 2;
+                        titleDO.text = title.toUpperCase();
+                        titleDO.regX = titleDO.getBounds().width / 2;
+                    }
+                    //add buton to store
+                    this.addChild(new gameui.BitmapTextButton(StringResources.menus.shop, "fontWhite", "menu/btmenu", function () {
+                        FlipPlus.FlipPlusGame.showShopMenu(previousScreen);
+                    })).set({ x: defaultWidth / 2, y: defaultHeight / 2 });
+                    var b = defaultHeight / 2 - 500;
+                    titleDO.y = 0 + b + 50;
+                    textDO.y = b + 300;
+                    this.addsClickIndicator();
+                };
                 // show a popup for timeAttack
                 Popup.prototype.showTimeAttack = function (time, boards, timeout, delay) {
                     if (timeout === void 0) { timeout = 7000; }
@@ -8143,39 +8180,39 @@ var FlipPlus;
 })(FlipPlus || (FlipPlus = {}));
 var StringResources = {
     ld: "Loading",
-    it_text1: "N3-S needs \n repair",
+    it_text1: "N3-S needs\nrepair",
     it_text2: "alone = bad\nfriends=good",
     tut_1_1_title: "The plus shape",
-    tut_1_1_text: "flip the white squares to make \nthem color squares",
-    tut_1_2_text: "tiles always flip in a \"plus shape\" \nfrom the center",
+    tut_1_1_text: "flip the white squares to make\nthem color squares",
+    tut_1_2_text: "tiles always flip in a \"plus shape\"\nfrom the center",
     tut_1_2_title: "Great",
     tut_2_1_title: "Flip to build",
-    tut_2_1_text: "to finish the board, you have to turn \nevery white block in color block",
+    tut_2_1_text: "to finish the board, you have to turn\nevery white block in color block",
     tut_2_2_title: "Board complete!",
     tut_2_2_text: "Great, no white tiles in the board",
     tut_2_3_title: "Star",
     tut_2_3_text: "you solved all green blocks",
     tut_3_1_title: "Flip to invert",
-    tut_3_1_text: "the plus shape inverts the tiles, \nwhite gets color and color gets white",
+    tut_3_1_text: "the plus shape inverts the tiles,\nwhite gets color and color gets white",
     tut_3_2_title: "Nice Work",
-    tut_3_2_text: "purple tiles work the \nsame way as green tiles",
+    tut_3_2_text: "purple tiles work the\nsame way as green tiles",
     tut_4_1_title: "hints",
     tut_4_1_text: "the light bulb button gives you a hint",
     tut_4_2_title: "too easy?",
-    tut_4_2_text: "light bulbs help you out, \nbut they are limited",
+    tut_4_2_text: "light bulbs help you out,\nbut they are limited",
     tut_5_1_title: "Bot S-N3S",
-    tut_5_1_text: "finish this board \nto complete S-N3S repairs!",
+    tut_5_1_text: "finish this board\nto complete S-N3S repairs!",
     mm_play: "PLAY",
     op_back: "Back",
     op_erase: "Erase All Data",
     op_options: "Options",
     pr_notStarsTitle: "Not enough stars",
-    pr_notStarsText: "you only have # stars. \nYou need at least stars # \nto unlock this project\n play more levels to earn stars.",
+    pr_notStarsText: "you only have # stars.\nYou need at least stars #\nto unlock this project\nplay more levels to earn stars.",
     pr_notTimeText: "Not Yet.#You must wait # before play this bonus level",
     ws_Locked: "LOCKED",
     ws_NotFree: "NOT FREE",
-    gp_noMoreSkip: "No more Items",
-    gp_noMoreHints: "You get itens buy playing the time \n bonus on the projects screen",
+    gp_noMoreSkip: "No more parts",
+    gp_noMoreHints: "You get itens buy playing the time\nbonus on the projects screen",
     gp_finishPuzzle: "Well done",
     gp_pz_Popup1Title: "Time Attack",
     gp_pz_Popup1Text1: "Solve",
@@ -8253,39 +8290,39 @@ var StringResources = {
 };
 var stringResources_pt = {
     ld: "Carregando",
-    it_text1: "N3-S precisa de \n reparos",
-    it_text2: "sozinho = ruim \n amigos= bom",
+    it_text1: "N3-S precisa de\nreparos",
+    it_text2: "sozinho = ruim\namigos= bom",
     tut_1_1_title: "Forma de cruz",
-    tut_1_1_text: "Vire todos os blocos brancos \n para blocos verdes",
-    tut_1_2_text: "Os blocos sempre são invertidos \nem \"forma de cruz\" quando ativados",
+    tut_1_1_text: "Vire todos os blocos brancos\npara blocos verdes",
+    tut_1_2_text: "Os blocos sempre são invertidos\nem \"forma de cruz\" quando ativados",
     tut_1_2_title: "Ótimo!",
     tut_2_1_title: "Vire para construir",
-    tut_2_1_text: "Para concluir o quadro vire todos \nos blocos brancos para coloridos.",
+    tut_2_1_text: "Para concluir o quadro vire todos\nos blocos brancos para coloridos.",
     tut_2_2_title: "Nível completo!",
     tut_2_2_text: "Ótimo, sem blocos brancos no quadro",
     tut_2_3_title: "Estrela",
     tut_2_3_text: "Você resolveu todos os quadros verdes.",
     tut_3_1_title: "toque para inverter",
-    tut_3_1_text: "A forma de cruz sempre \ninverte a cor do quadradinho \n entre branco e colorido",
+    tut_3_1_text: "A forma de cruz sempre\ninverte a cor do quadradinho\nentre branco e colorido",
     tut_3_2_title: "Parabéns",
-    tut_3_2_text: "Os blocos roxos fucionam da \nmesma forma que os verdes",
+    tut_3_2_text: "Os blocos roxos fucionam da\nmesma forma que os verdes",
     tut_4_1_title: "Dicas",
-    tut_4_1_text: "As lâmpadas são uma dica \nde qual quadradinho tocar",
+    tut_4_1_text: "As lâmpadas são uma dica\nde qual quadradinho tocar",
     tut_4_2_title: "Facil?",
     tut_4_2_text: "As lâmpadas precisam de peças.\nConsiga peças jogando BONUS",
     tut_5_1_title: "Bot S-N3S",
-    tut_5_1_text: "Termine essa tela para \nfinalizar os reparos no S-N3S!",
+    tut_5_1_text: "Termine essa tela para\nfinalizar os reparos no S-N3S!",
     mm_play: "JOGAR",
     op_back: "Voltar",
     op_erase: "apagar todos os dados",
     op_options: "Opções",
-    pr_notStarsTitle: "Você não tem estrelas suficiente",
-    pr_notStarsText: "você só tem # estrelas \n Você precisa de pelo menos estrelas # \n para desbloquear este projeto. \n Jogue mais níveis para ganhar estrelas.",
+    pr_notStarsTitle: "sem estrelas",
+    pr_notStarsText: "Você tem # estrelas e precisa\nde # estrelas para desbloquear.\nJogue mais para ganhar estrelas.",
     pr_notTimeText: "Ainda não. Você deve esperar # antes de jogar este bônus",
     ws_Locked: "BLOQUEADO",
     ws_NotFree: "Não gratúito",
-    gp_noMoreSkip: "Este item acabou",
-    gp_noMoreHints: "Você pode ganhar mais items jogando \n os bonus na tela projetos",
+    gp_noMoreSkip: "Acabaram as peças",
+    gp_noMoreHints: "Você pode ganhar mais items jogando\nos bonus na tela projetos",
     gp_finishPuzzle: "Muito bem !",
     gp_pz_Popup1Title: "Contra o tempo",
     gp_pz_Popup1Text1: "Resolva",
@@ -8312,7 +8349,7 @@ var stringResources_pt = {
     desc_item_hint: "Dica",
     desc_item_skip: "Pular",
     desc_item_solve: "Resolva este quadro",
-    help_restart: "Se perdeu? No menu\n de pausa você, pode\nrecomeçar a tela!",
+    help_restart: "Se perdeu? No menu\nde pausa você, pode\nrecomeçar a tela!",
     help_skip: "Não esquenta, você\npode usar peças para\npular esta tela e\nseguir em frente!",
     help_time: "Não esquenta, você\npode usar peças para\nganhar mais tempo!",
     help_touch: "Não esquenta, você\npode usar peças para\nganhar mais toques!",
@@ -8354,7 +8391,7 @@ var stringResources_pt = {
         errorShop: "A loja não está disponível.",
         errorAds: "Tente de novo",
         rating: "Avaliação",
-        ratingDesc: "Está gostando? \nNos Ajude. Dê sua avaliação",
+        ratingDesc: "Está gostando?\nNos Ajude. Dê sua avaliação",
         like: "Curtir",
         share: "Compartilhar",
         watchVideo: "Veja um Video",

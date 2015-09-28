@@ -408,7 +408,7 @@ module FlipPlus.GamePlay {
             } else {
                 //show text effect
                 this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
-                this.popup.showtext(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints);
+                this.popup.showtextBuy(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints,this);
 
                 return false;
             }
