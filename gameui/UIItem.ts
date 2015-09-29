@@ -1,7 +1,7 @@
 module gameui {
 
     // Class
-    export class UIItem extends createjs.Container {
+    export class UIItem extends PIXI.Container {
 
         //TODO, replace width height by getBounds...
 
@@ -21,23 +21,23 @@ module gameui {
         private oldScaleY;
 
         public centralize() {
-            this.regX = this.width / 2;
-            this.regY = this.height / 2;
+            this.pivot.x = this.width / 2;
+            this.pivot.y = this.height / 2;
             this.centered = true;
         }
 
         public fadeOut(scaleX: number= 0.5, scaleY: number= 0.5) {
             this.resetFade()
 
-            if (!this.scaleX) this.scaleX = 1;
-            if (!this.scaleY) this.scaleY = 1;
+            if (!this.scale.x) this.scale.x = 1;
+            if (!this.scale.y) this.scale.y = 1;
 
-            this.oldScaleX = this.scaleX;
-            this.oldScaleY = this.scaleY;
+            this.oldScaleX = this.scale.x;
+            this.oldScaleY = this.scale.y;
 
             createjs.Tween.get(this).to({
-                scaleX: scaleX,
-                scaleY: scaleY,
+                'scale.x': scaleX, ///Check
+                'scale.y': scaleY, ///Check
                 alpha: 0,
                 x: this.antX,
                 y: this.antY,
@@ -45,11 +45,11 @@ module gameui {
                     this.visible = false;
                     this.x = this.antX;
                     this.y = this.antY;
-                    this.scaleX = this.oldScaleX;
-                    this.scaleY = this.oldScaleY;
+                    this.scale.x = this.oldScaleX;
+                    this.scale.y = this.oldScaleY;
                     this.alpha = 1;
                     this.animating = false;
-                    this.mouseEnabled = true;;
+                    this.interactive = true;;
                 });
         }
 
@@ -57,20 +57,20 @@ module gameui {
             this.animating = true;
             this.antX = this.x;
             this.antY = this.y;
-            this.scaleX = this.oldScaleX;
-            this.scaleY = this.oldScaleY;
-            this.mouseEnabled = false;
+            this.scale.x = this.oldScaleX;
+            this.scale.y = this.oldScaleY;
+            this.interactive = false;
             createjs.Tween.removeTweens(this);
         }
 
         public fadeIn(scaleX: number= 0.5, scaleY: number= 0.5) {
             if (this.visible = true) this.antX = null;
 
-            if (!this.scaleX) this.scaleX = 1;
-            if (!this.scaleY) this.scaleY = 1;
+            if (!this.scale.x) this.scale.x = 1;
+            if (!this.scale.y) this.scale.y = 1;
 
-            this.oldScaleX = this.scaleX;
-            this.oldScaleY = this.scaleY;
+            this.oldScaleX = this.scale.x;
+            this.oldScaleY = this.scale.y;
                         
             this.visible = true;
             this.animating = true;
@@ -80,24 +80,24 @@ module gameui {
                 this.antY = this.y;
             }
 
-            this.scaleX = scaleX,
-            this.scaleY = scaleY,
+            this.scale.x = scaleX,
+            this.scale.y = scaleY,
             this.alpha = 0,
             this.x = this.x;
             this.y = this.y;
 
-            this.mouseEnabled = false;
+            this.interactive = false;
             createjs.Tween.removeTweens(this);
             createjs.Tween.get(this).to({
-                scaleX: this.oldScaleX,
-                scaleY: this.oldScaleY,
+                'scale.x': this.oldScaleX, ///Check
+                'scale.y': this.oldScaleY, ///Check
                 alpha: 1,
                 x: this.antX,
                 y: this.antY,
             }, 400, createjs.Ease.quadOut)
 
                 .call(() => {
-                    this.mouseEnabled = true;
+                    this.interactive = true;
                     this.animating = false;
                 });
         }
@@ -105,19 +105,20 @@ module gameui {
 
         //calcula
         createHitArea(): void {
-            var hit = new createjs.Shape();
-
-            var b = this.getBounds();
-
-            if (b)
-                if (this.hitPadding)
-                    hit.graphics.beginFill("#000").drawRect(b.x - this.hitPadding, b.y - this.hitPadding, b.width + this.hitPadding, b.height + this.hitPadding);
-                else
-                    hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
-            //TODO. se for texto colocar uma sobra. !
-
-            this.hitArea = hit;
-
+         //   
+         //   var hit = new PIXI.Shape();
+         //
+         //   var b = this.getBounds();
+         //
+         //   if (b)
+         //       if (this.hitPadding)
+         //           hit.graphics.beginFill("#000").drawRect(b.x - this.hitPadding, b.y - this.hitPadding, b.width + this.hitPadding, b.height + this.hitPadding);
+         //       else
+         //           hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
+         //   //TODO. se for texto colocar uma sobra. !
+         //
+         //   this.hitArea = hit;
+         //
         }
     }
 }

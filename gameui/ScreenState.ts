@@ -3,13 +3,13 @@
 module gameui {
     export class ScreenState {
 
-        public content: createjs.Container;
-        public overlay: createjs.Container;
-        public header :createjs.Container;
-        public footer: createjs.Container;
-        public background: createjs.Container;
+        public content: PIXI.Container;
+        public overlay: PIXI.Container;
+        public header :PIXI.Container;
+        public footer: PIXI.Container;
+        public background: PIXI.Container;
 
-        public view: createjs.Container;
+        public view: PIXI.Container;
 
         public screenHeight: number;
         public screenWidth: number;
@@ -19,12 +19,12 @@ module gameui {
 		public onback: ()=>void;
 
         constructor() {
-            this.view = new createjs.Container();
-            this.content = new createjs.Container();
-            this.overlay = new createjs.Container();
-            this.header = new createjs.Container();
-            this.footer = new createjs.Container();
-            this.background = new createjs.Container();
+            this.view = new PIXI.Container();
+            this.content = new PIXI.Container();
+            this.overlay = new PIXI.Container();
+            this.header = new PIXI.Container();
+            this.footer = new PIXI.Container();
+            this.background = new PIXI.Container();
 
             this.view.addChild(this.background);
             this.view.addChild(this.content);
@@ -62,21 +62,21 @@ module gameui {
 
 				if (false) {
 					this.background.x = -(width * scale - width) / 2;
-					this.background.scaleX = this.background.scaleY = scale;
+					this.background.scale.x = this.background.scale.y = scale;
 				} else {
 					this.background.x = 0;
-					this.background.scaleY = scale;
+					this.background.scale.y = scale;
 				}
             }
 
 
 
-
-            var mask = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, -(heigth - defaultHeight) / 2, width, heigth))
-            this.background.mask = mask;
-            this.footer.mask = mask;
-            this.header.mask = mask;
-            this.content.mask = mask;
+            ///Check
+         //  var mask = new PIXI.Graphics().beginFill(0x000000).drawRect(0, -(heigth - defaultHeight) / 2, width, heigth)
+         //  this.background.mask = mask;
+         //  this.footer.mask = mask;
+         //  this.header.mask = mask;
+         //  this.content.mask = mask;
         }
     }
 }

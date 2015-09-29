@@ -19,11 +19,11 @@ module gameui {
 
         constructor(soundId?:string) {
             super();
-            this.addEventListener("mousedown", (event: createjs.MouseEvent) => { this.onPress(event); });
-            this.addEventListener("pressup", (event: createjs.MouseEvent) => { this.onPressUp(event); });
+            this.on("mousedown", (event: any) => { this.onPress(event); });
+            this.on("pressup", (event: any) => { this.onPressUp(event); });
 
-            this.addEventListener("mouseover", () => { this.mouse = true; });
-            this.addEventListener("mouseout", () => { this.mouse = false; });
+            this.on("mouseover", () => { this.mouse = true; });
+            this.on("mouseout", () => { this.mouse = false; });
 
             this.soundId = soundId;
 
@@ -32,24 +32,24 @@ module gameui {
 
         public returnStatus(): void {
             if (!this.mouse) {
-                this.scaleX = this.originalScaleX;
-                this.scaleY = this.originalScaleY;
+                this.scale.x = this.originalScaleX;
+                this.scale.y = this.originalScaleY;
             }
         }
 
-        private onPressUp(Event: createjs.MouseEvent) {
+        private onPressUp(Event:any) {
             this.mouse = false;
             this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
             createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
         }
 
-        private onPress(Event: createjs.MouseEvent) {
+        private onPress(Event: any) {
             if (!this.enableAnimation) return
 
             this.mouse = true;
             if (this.originalScaleX == null) {
-                this.originalScaleX = this.scaleX;
-                this.originalScaleY = this.scaleY;
+                this.originalScaleX = this.scale.x;
+                this.originalScaleY = this.scale.y;
             }
             createjs.Tween.get(this).to({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 }, 500, createjs.Ease.elasticOut).call(() => {
                 if (!this.mouse) {
@@ -73,17 +73,17 @@ module gameui {
 
     export class ImageButton extends Button {
 
-        public background: createjs.Bitmap;
+        public background: PIXI.Sprite;
 
-        constructor(image: string, event?: (event?: createjs.MouseEvent) => any, soundId?:string) {
+        constructor(image: string, event?: (event?: any) => any, soundId?:string) {
             super(soundId);
 
-            if (event != null) this.addEventListener("click", event);
+            if (event != null) this.on("mousedown", event);
            
             //adds image into it
             if (image != null) {
 
-                this.background = <createjs.Bitmap>AssetsManager.getBitmap(image);
+                this.background = <PIXI.Sprite>AssetsManager.getBitmap(image);
                 this.addChildAt(this.background, 0);
 
                 //Sets the image into the pivot center.
@@ -102,31 +102,29 @@ module gameui {
         centralizeImage() {
             this.width = this.background.getBounds().width;
             this.height = this.background.getBounds().height;
-            this.background.regX = this.width / 2;
-            this.background.regY = this.height / 2;
+            this.background.pivot.x = this.width / 2;
+            this.background.pivot.y = this.height / 2;
             this.centered = true; 
         }
     }
 
     export class TextButton extends ImageButton {
 
-        public text: createjs.Text;
+        public text: PIXI.Text;
 
-        constructor(text: string = "", font?: string, color?: string, background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string) {
+        constructor(text: string = "", font?: string, color?: string, background?: string, event?: (event?: any) => any, soundId?: string) {
             super(background,event,soundId);
 
             //add text into it.
             text = text.toUpperCase();
 
-            this.text = new createjs.Text(text, font, color);
-            this.text.textBaseline = "middle";
-            this.text.textAlign = "center";
-            
+            this.text = new PIXI.Text(text, { font: font, fill: color, align: "center", textBaseline:"middle" });
+           
             //createHitArea
             if (background == null)
             {
-                this.width = this.text.getMeasuredWidth() *1.5;
-                this.height= this.text.getMeasuredHeight()*1.5;
+                this.width = this.text.getBounds().width * 1.5;
+                this.height = this.text.getBounds().height *1.5;
             }
             
             this.addChild(this.text);
@@ -138,9 +136,9 @@ module gameui {
 
     export class BitmapTextButton extends ImageButton {
 
-        public bitmapText: createjs.BitmapText;
+        public bitmapText: PIXI.extras.BitmapText;
 
-        constructor(text: string, bitmapFontId: string, background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string) {
+        constructor(text: string, bitmapFontId: string, background?: string, event?: (event?: any) => any, soundId?: string) {
             super(background, event, soundId);
 
             //add text into it.
@@ -150,8 +148,8 @@ module gameui {
       
             this.addChild(this.bitmapText);
              
-            this.bitmapText.regX = this.bitmapText.getBounds().width / 2;
-            this.bitmapText.regY = this.bitmapText.lineHeight/2 ;
+            this.bitmapText.pivot.x = this.bitmapText.getBounds().width / 2;
+            this.bitmapText.pivot.y = this.bitmapText.maxLineHeight / 2;
 
             this.createHitArea();
         }
@@ -161,9 +159,9 @@ module gameui {
     export class IconTextButton extends TextButton {
 
         private align: string;
-        public icon: createjs.DisplayObject;
+        public icon: PIXI.DisplayObject;
 
-        constructor(icon: string = "", text = "", font: string = null, color?: string, background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string, align: string = "center") {
+        constructor(icon: string = "", text = "", font: string = null, color?: string, background?: string, event?: (event?: any) => any, soundId?: string, align: string = "center") {
             this.align = align;
               
             super(text, font, color, background, event, soundId);
@@ -172,14 +170,14 @@ module gameui {
             this.icon = AssetsManager.getBitmap(icon);
             this.addChild(this.icon);
 
-            this.text.textAlign = "left";
+            this.text.style.align = "left";
 
             if (this.icon.getBounds())
-                this.icon.regY = this.icon.getBounds().height / 2;
+                this.icon.pivot.y = this.icon.getBounds().height / 2;
             else
                 if (this.icon["image"])
                     this.icon["image"].onload = () => {
-                        this.icon.regY = this.icon.getBounds().height / 2;
+                        this.icon.pivot.y = this.icon.getBounds().height / 2;
                     }
 
             this.updateLabel(text);
@@ -194,7 +192,7 @@ module gameui {
 
             switch (this.align) {
                 case "center":
-                    this.icon.x = -(this.icon.getBounds().width + 10 + this.text.getMeasuredWidth()) / 2;
+                    this.icon.x = -(this.icon.getBounds().width + 10 + this.text.getBounds().width) / 2;
                     this.text.x = this.icon.x + this.icon.getBounds().width + 10;
                     break;
                 case "left":
@@ -212,9 +210,9 @@ module gameui {
     export class IconBitmapTextButton extends BitmapTextButton {
 
         private align: string;
-        public icon: createjs.DisplayObject;
+        public icon: PIXI.DisplayObject;
 
-        constructor(icon: string = "", text = "", font: string = null,  background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string, align: string = "center") {
+        constructor(icon: string = "", text = "", font: string = null,  background?: string, event?: (event?: any) => any, soundId?: string, align: string = "center") {
             this.align = align;
 
             super(text, font, background, event, soundId);
@@ -224,11 +222,11 @@ module gameui {
             this.addChild(this.icon);
             
             if (this.icon.getBounds())
-                this.icon.regY = this.icon.getBounds().height / 2;
+                this.icon.pivot.y = this.icon.getBounds().height / 2;
             else
                 if (this.icon["image"])
                     this.icon["image"].onload = () => {
-                        this.icon.regY = this.icon.getBounds().height / 2;
+                        this.icon.pivot.y = this.icon.getBounds().height / 2;
                     }
 
             this.updateLabel(text);
@@ -248,7 +246,7 @@ module gameui {
                     break;
                 case "left":
                     this.icon.x = -this.width / 2 + 80
-                    this.bitmapText.regX = 0;
+                    this.bitmapText.pivot.x = 0;
                     this.bitmapText.x = -this.width / 2 + 80 + this.icon.getBounds().width + 100;
                     break;
             }
@@ -261,7 +259,7 @@ module gameui {
 
 
     export class IconButton extends IconTextButton {
-        constructor(icon: string = "", background?: string, event?: (event?: createjs.MouseEvent) => any, soundId?: string) {
+        constructor(icon: string = "", background?: string, event?: (event?: any) => any, soundId?: string) {
             super(icon,"", "", "", background, event, soundId);
         }
     }

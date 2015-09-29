@@ -36,7 +36,7 @@ module gameui  {
         }
 
         //place objecrs into a grid format
-        public addObject(object: createjs.DisplayObject) {
+        public addObject(object: PIXI.DisplayObject) {
 
             this.addChild(object);
             object.x = this.getXPos();

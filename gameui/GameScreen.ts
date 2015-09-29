@@ -1,14 +1,18 @@
 declare function getQueryVariable(variable: string);
 declare function setMobileScale(a: number);
 declare var assetscale: number;
+declare function requestAnimationFrame(callback: any): void;
 
 //TODO remove universal variable defaultWidth and DefaultHeigth
 
 module gameui{
+    var PIXIrenderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
+    var PIXIstage: PIXI.Container; 
+    var updateFn;
 
     export class GameScreen {
+
         
-        public stage: createjs.Stage; 
 
         private defaultWidth: number;
         private defaultHeight: number;
@@ -28,42 +32,41 @@ module gameui{
         public currentScreen: ScreenState;
 
         //screen content
-        private screenContainer: createjs.Container;
-
+        private screenContainer: PIXI.Container;
+         
         //-----------------------------------------------------------------------
 
-        constructor(canvasId: string, gameWidth: number, gameHeight?: number, fps:number=60, showFps?: boolean) {
+        constructor(divId: string, gameWidth: number, gameHeight?: number, fps:number=60, showFps?: boolean) {
 
             this.defaultWidth = gameWidth;
             this.defaultHeight = gameHeight;
 
-            //Initializes canvas Context            
-            this.stage = new createjs.Stage(canvasId);
-
-            createjs.Touch.enable(this.stage);
-
-            var x = 0;
-            createjs.Ticker.addEventListener("tick", () => {this.stage.update(); });
+            
+            // create a renderer instance.
+            PIXIstage = new PIXI.Container();
+            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { backgroundColor: 0x66FF99 });
             createjs.Ticker.setFPS(fps);
-             
-            this.screenContainer = new createjs.Container();
-            this.stage.addChild(this.screenContainer);
+            // add the renderer view element to the DOM
+            document.getElementById(divId).appendChild(PIXIrenderer.view);
+            
+            var x = 0;
+ 
+            this.screenContainer = new PIXI.Container();
+            PIXIstage.addChild(this.screenContainer);
 
-            //Framerate meter
-            if (showFps) {
-               var fpsMeter = new createjs.Text("FPS", " 18px Arial ", "#000");
-                fpsMeter.mouseEnabled = false;
-                fpsMeter.x = 0;
-                fpsMeter.y = 0;
-                this.stage.addChild(fpsMeter);
-                createjs.Ticker.addEventListener("tick", () => {
-                    fpsMeter.text = Math.floor(createjs.Ticker.getMeasuredFPS()) + " FPS";
-                });
-            }
-        
             //var windowWidth = window.innerWidth;
             this.resizeGameScreen(window.innerWidth, window.innerHeight);
             window.onresize = () => { this.resizeGameScreen(window.innerWidth, window.innerHeight); };
+
+            updateFn = this.update
+            requestAnimationFrame(this.update);
+        }
+
+        private update() {
+            requestAnimationFrame(updateFn);
+ 
+            // render the stage   
+            PIXIrenderer.render(PIXIstage);
         }
 
         // switch current screen, optionaly with a pre defined transition
@@ -112,22 +115,27 @@ module gameui{
                 //and transition = fade
                 if (transition.type && transition.type != "none") {
 
-                    newScreen.view.mouseEnabled = false;
-                    oldScreen.view.mouseEnabled = false;
+                    newScreen.view.interactive = false;
+                    oldScreen.view.interactive = false;
 
                     //fade between transitions
-                    newScreen.view.set({ alpha: alpha, x: -x, y: -y })
-                    oldScreen.view.set({ 1: alpha, x: 0, y: 0 })
+                    newScreen.view.alpha= alpha;
+                    newScreen.view.x= -x;
+                    newScreen.view.y= -y;
+
+                    oldScreen.view.alpha = 1;
+                    oldScreen.view.x=0;
+                    oldScreen.view.y=0;
 
                     //fade old screen out
                     createjs.Tween.get(oldScreen.view).to({ alpha: 1, x: x, y: y }, transition.time,createjs.Ease.quadInOut);
                     createjs.Tween.get(newScreen.view).to({ alpha: 1, x: 0, y: 0 }, transition.time, createjs.Ease.quadInOut).call(() => {
                        
-                        oldScreen.view.set({ 1: alpha, x: 0, y: 0 })
-                        newScreen.view.set({ 1: alpha, x: 0, y: 0 })
+                        oldScreen.view.set({ alpha: 0, x: 0, y: 0 })
+                        newScreen.view.set({ alpha: 1, x: 0, y: 0 })
 
-                        newScreen.view.mouseEnabled = true;
-                        oldScreen.view.mouseEnabled = true;
+                        newScreen.view.interactive = true;
+                        oldScreen.view.interactive = true;
 
                         this.removeOldScreen(oldScreen)
                         oldScreen = null;
@@ -172,8 +180,9 @@ module gameui{
                 }
             }
 
-            this.stage.canvas.width = deviceWidth;
-            this.stage.canvas.height = deviceHeight;
+            PIXIrenderer.resize(deviceWidth, deviceHeight);
+           // this.PIXIrenderer.width = deviceWidth;
+           // this.PIXIrenderer.height = deviceHeight;
 
             this.updateViewerScale(deviceWidth, deviceHeight, this.defaultWidth, this.defaultHeight);
         }
@@ -200,7 +209,7 @@ module gameui{
             this.footerPosition = defaultHeight + (this.currentHeight - defaultHeight) / 2;
 
             //set the viewer offset to centralize in window
-            this.screenContainer.scaleX = this.screenContainer.scaleY = scale;
+            this.screenContainer.scale.x = this.screenContainer.scale.y = scale;
             this.screenContainer.y = this.viewerOffset = (this.currentHeight - defaultHeight) / 2 * scale;
 
             //updates current screen

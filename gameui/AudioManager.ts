@@ -2,8 +2,7 @@
 
     // Class
     export class AudiosManager {
-
-        private static loader: createjs.LoadQueue;
+         
 
         private static currentMusicName: string;
         private static currentMusic: createjs.SoundInstance
