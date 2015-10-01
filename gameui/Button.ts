@@ -17,13 +17,23 @@ module gameui {
         private originalScaleY: number;
         private mouse = false;
 
-        constructor(soundId?:string) {
+        constructor(event?: (event?: any) => any, soundId?:string) {
             super();
-            this.on("mousedown", (event: any) => { this.onPress(event); });
-            this.on("pressup", (event: any) => { this.onPressUp(event); });
 
-            this.on("mouseover", () => { this.mouse = true; });
-            this.on("mouseout", () => { this.mouse = false; });
+
+            
+
+            this.interactive = true;
+            this.interactiveChildren = true;
+
+            if (event != null) this.on("mousedown", event);
+            this.on("mousedown", (event: any) => { this.onPress(event); })
+            this.on("mousedown", (event: any) => { this.onPressUp(event); })
+            this.on("touchstart", (event: any) => { this.onPress(event); })
+            this.on("touchend", (event: any) => { this.onPressUp(event); })
+
+            //this.on("mouseover", () => { this.mouse = true; });
+            //this.on("mouseout", () => { this.mouse = false; });
 
             this.soundId = soundId;
 
@@ -48,8 +58,8 @@ module gameui {
 
             this.mouse = true;
             if (this.originalScaleX == null) {
-                this.originalScaleX = this.scale.x;
-                this.originalScaleY = this.scale.y;
+                this.originalScaleX = this.scaleX;
+                this.originalScaleY = this.scaleY;
             }
             createjs.Tween.get(this).to({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 }, 500, createjs.Ease.elasticOut).call(() => {
                 if (!this.mouse) {
@@ -76,9 +86,9 @@ module gameui {
         public background: PIXI.Sprite;
 
         constructor(image: string, event?: (event?: any) => any, soundId?:string) {
-            super(soundId);
+            super(event, soundId );
 
-            if (event != null) this.on("mousedown", event);
+           
            
             //adds image into it
             if (image != null) {

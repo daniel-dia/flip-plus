@@ -209,7 +209,7 @@ module gameui{
             this.footerPosition = defaultHeight + (this.currentHeight - defaultHeight) / 2;
 
             //set the viewer offset to centralize in window
-            this.screenContainer.scale.x = this.screenContainer.scale.y = scale;
+            this.screenContainer.scaleX = this.screenContainer.scaleY = scale;
             this.screenContainer.y = this.viewerOffset = (this.currentHeight - defaultHeight) / 2 * scale;
 
             //updates current screen

@@ -65,7 +65,7 @@ module gameui {
 					this.background.scale.x = this.background.scale.y = scale;
 				} else {
 					this.background.x = 0;
-					this.background.scale.y = scale;
+					this.background.scaleY = scale;
 				}
             }
 

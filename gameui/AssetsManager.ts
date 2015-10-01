@@ -7,7 +7,6 @@ module gameui {
 
         private static loader: PIXI.loaders.Loader;
         private static spriteSheets: Array<any>;
-      ///Check  private static bitmapFontSpriteSheetDataArray: Array<PIXI.SpriteSheet>;
         private static assetsManifest: Array<any>;
         private static defaultMouseEnabled: boolean = false;
 
@@ -15,14 +14,10 @@ module gameui {
         public static onComplete: () => void;
 
         //load assets
-        public static loadAssets(
-            manifest: Array<any>,
-            path: string= "", 
-            spriteSheets?: Array<any>){
+        public static loadAssets(manifest: Array<any>,path: string= "", spriteSheets?: Array<any>){
 
             // initialize objects
             this.spriteSheets = spriteSheets ? spriteSheets : new Array();
-          ///Check  this.bitmapFontSpriteSheetDataArray = this.bitmapFontSpriteSheetDataArray ? this.bitmapFontSpriteSheetDataArray: new Array();
             this.assetsManifest = manifest;
 
 
@@ -56,11 +51,13 @@ module gameui {
                 this.loader.add(manifest[m].id, manifest[m].src);
             }
             this.loader.load(); 
+             
         }
         
         // load a font spritesheet
-        public static loadFontSpriteSheet(id:string,spritesheetData: any) {
-            this.bitmapFontSpriteSheetDataArray[id] = new PIXI.SpriteSheet(spritesheetData);
+        public static loadFontSpriteSheet(id: string, fontFile: string) {
+            this.loader.add(id, fontFile)
+            this.loader.load(); 
         }
 
         // cleans all sprites in the bitmap array;
@@ -90,23 +87,25 @@ module gameui {
             var texture = this.getLoadedImage(name);
             if (texture) {
                 var imgobj = new PIXI.Sprite(texture);
+                imgobj.texture.resolution = assetscale;
                 imgobj.interactive = AssetsManager.defaultMouseEnabled; 
                 return imgobj;
             }
 
             //or else try grab by filename
             var imgobj = PIXI.Sprite.fromImage(name);
-            imgobj.interactive= AssetsManager.defaultMouseEnabled;
+            imgobj.interactive = AssetsManager.defaultMouseEnabled;
+            imgobj.texture.resolution = assetscale;
             return imgobj;
 
         }
 
         //get a bitmap Text
-        public static getBitmapText(text:string, bitmapFontId:string):PIXI.SpriteText { 
-            var bitmapText = new PIXI.SpriteText(text, this.bitmapFontSpriteSheetDataArray[bitmapFontId]);
-            bitmapText.lineHeight = 100;
-            bitmapText.letterSpacing = 7;
-            bitmapText.mouseEnabled = AssetsManager.defaultMouseEnabled;
+        public static getBitmapText(text: string, bitmapFontId: string): PIXI.extras.BitmapText { 
+            var bitmapText = new PIXI.extras.BitmapText(text, { font: bitmapFontId });
+            bitmapText.maxLineHeight = 100;
+            ///CHECK bitmapText.letterSpacing = 7;
+            bitmapText.interactiveChildren = AssetsManager.defaultMouseEnabled;
             return bitmapText;
             
         }
@@ -119,15 +118,16 @@ module gameui {
         }
         
         //return a sprite according to the image
-        public static getSprite (name: string, play:boolean=true): PIXI.Sprite {
-            var data = this.spriteSheets[name];
-            for (var i in data.images) if (typeof data.images[i] == "string") data.images[i] = this.getLoadedImage(data.images[i]);
-
-            var spritesheet = new PIXI.SpriteSheet(data);
-
-            var sprite = new PIXI.Sprite(spritesheet);
-            if (play) sprite.play();
-            return sprite;
+        public static getSprite(name: string, play: boolean = true): PIXI.Sprite {
+            return null;
+           // var data = this.spriteSheets[name];
+           // for (var i in data.images) if (typeof data.images[i] == "string") data.images[i] = this.getLoadedImage(data.images[i]);
+           //
+           // var spritesheet = new PIXI.SpriteSheet(data);
+           //
+           // var sprite = new PIXI.Sprite(spritesheet);
+           // if (play) sprite.play();
+           // return sprite;
         }
 
 
