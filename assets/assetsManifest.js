@@ -167,9 +167,6 @@
 		{ src: "Bonus3/number_2.png", id: "number_2" },
 		{ src: "Bonus3/number_3.png", id: "number_3" },
 
-        { id: "projects/bgprojects", src: "projects/bgprojects.jpg" },
-        { id: "projects/projectFooter", src: "projects/projectFooter.png" },
-        { id: "projects/projectHeader", src: "projects/projectHeader.png" },
 
         { id: "projects/Bonus1", src: "projects/Bonus1.png" },
         { id: "projects/Bonus2", src: "projects/Bonus2.png" },
@@ -177,11 +174,17 @@
 
 
         //projects other stuff
-        { id: "projects/bgprojects", src: "projects/bgprojects.jpg" },
+        { id: "projects/bgprojects", src: "projects/bgprojects.jpg" }, 
+        { id: "projects/projectFooter", src: "projects/projectFooter.png" },
+        { id: "projects/projectHeader", src: "projects/projectHeader.png" },
         { id: "projects/bar1", src: "projects/bar1.png" },
         { id: "projects/bar2", src: "projects/bar2.png" },
         { id: "projects/bar3", src: "projects/bar3.png" },
         { id: "projects/bar0", src: "projects/bar0.png" },
+        { id: "projects/bar1a", src: "projects/bar1a.png" },
+        { id: "projects/bar2a", src: "projects/bar2a.png" },
+        { id: "projects/bar3a", src: "projects/bar3a.png" },
+        { id: "projects/bar0a", src: "projects/bar0a.png" },
         { id: "projects/slotl", src: "projects/slotl.png" },
         { id: "projects/slot", src: "projects/slot.png" },
         { id: "projects/star", src: "projects/star.png" },

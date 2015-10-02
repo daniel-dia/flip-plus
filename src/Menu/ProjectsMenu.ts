@@ -1,11 +1,11 @@
 
 module FlipPlus.Menu {
 
-    export class ProjectsMenu extends gameui.ScreenState {
+    export class ProjectsMenu extends gameui.ScreenState { 
 
         private starsIndicator: View.StarsIndicator;
-        private statisticsTextField: createjs.BitmapText;
-        private projectsGrid: createjs.Container;
+        private statisticsTextField: PIXI.extras.BitmapText;
+        private projectsGrid: PIXI.Container;
 
         private projectsItems: View.ProjectItem[] = [];
         private bonusItems: View.BonusItem[] = [];
@@ -28,7 +28,7 @@ module FlipPlus.Menu {
         private createObjects() {
 
             var bg = gameui.AssetsManager.getBitmap("projects/bgprojects");
-            bg.scaleY = bg.scaleX = 2;
+            bg.scale.y = bg.scale.x = 2;
             this.background.addChild(bg);
 
             this.addHeader();
@@ -92,7 +92,7 @@ module FlipPlus.Menu {
             var cols = 3;
 
             //create grid
-            this.projectsGrid = new createjs.Container();
+            this.projectsGrid = new PIXI.Container();
             this.content.addChild(this.projectsGrid);
             this.projectsGrid.x = (defaultWidth - xspacing * cols) / 2 + xspacing / 2;
             this.projectsGrid.y = 600;
@@ -111,8 +111,8 @@ module FlipPlus.Menu {
                 if (i % (cols * rows) == 0) {
                     currentPage = new View.Page();
 
-                    var hit = new createjs.Container;
-                    hit.hitArea = (new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, defaultWidth, defaultHeight)));
+                    var hit = new PIXI.Container;
+                    /// Check hit.hitArea = ((new PIXI.Graphics().beginFill(0xFF0000).drawRect(0, 0, defaultWidth, defaultHeight)));
                     currentPage.addChild(hit);
 
                     this.projectsGrid.addChild(currentPage);
@@ -122,7 +122,7 @@ module FlipPlus.Menu {
                 var projectView = new View.ProjectItem(projects[i]);
                 
                 //add click event to the item
-                projectView.addEventListener("click", (e: MouseEvent) => { this.projectItemClick(e); });
+                projectView.addEventListener("mousedown", (e: PIXI.interaction.InteractionEvent) => { this.projectItemClick(e); });
                 
                 //add item to scene
                 this.projectsItems.push(projectView);
@@ -138,11 +138,11 @@ module FlipPlus.Menu {
         //adds bonuses objects to the view
         private addBonuses() {
             for (var p = 0; p < this.pages.length; p++) {
-                var bonusBt = new View.BonusItem("Bonus" + (p + 1), (e: MouseEvent) => {
+                var bonusBt = new View.BonusItem("Bonus" + (p + 1), (e) => {
                     //cancel click in case of drag
                     if (this.pagesSwipe.cancelClick) return;
 
-                    var bonusId = (<View.BonusItem>e.currentTarget).bonusId;
+                    var bonusId = (<View.BonusItem>e.target).bonusId;
                     var timer = FlipPlusGame.timersData.getTimer(bonusId);
 
                     if (bonusData[bonusId].cost <= FlipPlusGame.projectManager.getStarsCount()) {
@@ -161,13 +161,13 @@ module FlipPlus.Menu {
         }
 
         //Callback to the project item click
-        private projectItemClick(e: MouseEvent) {
+        private projectItemClick(e: PIXI.interaction.InteractionEvent) {
 
             //cancel click in case of drag
             if (this.pagesSwipe.cancelClick) return;
                 
             //get proper project target
-            var t: any = e.currentTarget;
+            var t: any = e.target;
             var pv = <View.ProjectItem> t;
             var p = pv.project;
 
@@ -206,7 +206,7 @@ module FlipPlus.Menu {
         //=====================================================
 
         //create paginations buttons
-        private createPaginationButtons(pagesContainer: createjs.Container) {
+        private createPaginationButtons(pagesContainer: PIXI.Container) {
 
             var bg = gameui.AssetsManager.getBitmap("projects/projectFooter")
             bg.y = -246;
@@ -222,11 +222,11 @@ module FlipPlus.Menu {
             var rb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
             rb.y = -100;
             rb.x = defaultWidth * 0.9;
-            rb.scaleX = -1;
+            rb.scale.x = -1;
             this.footer.addChild(rb);
 
             //create pagination indicator
-            var indicatorContainer: createjs.Container = new createjs.Container();
+            var indicatorContainer: PIXI.Container = new PIXI.Container();
             indicatorContainer.mouseEnabled = false;
             indicatorContainer.x = 500;
             indicatorContainer.y = -130;

@@ -37,9 +37,9 @@ module FlipPlus.Menu.View {
                 this.addObject(challangeThumb);
 
                 //add the click event listener
-                challangeThumb.addEventListener("click", (e: createjs.MouseEvent) => {
+                challangeThumb.addEventListener("mousedown", (e: PIXI.interaction.InteractionEvent) => {
                   
-                    var tg: createjs.DisplayObject = <createjs.DisplayObject>(e.currentTarget);
+                    var tg: PIXI.DisplayObject = <PIXI.DisplayObject>(e.target);
                     var level: Projects.Level = this.challangesMap[tg.name];
 
                     var parameters = {
@@ -49,7 +49,7 @@ module FlipPlus.Menu.View {
                         scaleY: 0.3
                     }
                   
-                    this.dispatchEvent({ type: "levelClick", level: level, parameters: parameters });
+                    this.emit( "levelClick", {level: level, parameters: parameters });
                 });
             }
         }

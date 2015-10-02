@@ -13,7 +13,7 @@ module FlipPlus.Menu.View {
             this.showsPopup(0, 0);
 
             //clean display Object
-            this.removeAllChildren();
+            this.removeChildren();
 
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/popup")
@@ -24,7 +24,7 @@ module FlipPlus.Menu.View {
             // create a text
             var textDO = gameui.AssetsManager.getBitmapText(StringResources.help_restart, "fontWhite");
             this.addChild(textDO);
-            textDO.regX = textDO.getBounds().width / 2;
+            textDO.pivot.x = textDO.getBounds().width / 2;
             textDO.x = defaultWidth / 2;
             
             // add Image
@@ -39,7 +39,7 @@ module FlipPlus.Menu.View {
             textDO.x = 1000;
 
             // Add Buttons
-            var bt = new gameui.TextButton(StringResources.help_restart_bt, defaultFontFamilyNormal, "white", "menu/btoptions", () => {
+            var bt = new gameui.BitmapTextButton(StringResources.help_restart_bt, defaultFontFamilyNormal, "menu/btoptions", () => {
                 this.closePopUp();
             });
             this.addChild(bt);
@@ -52,7 +52,7 @@ module FlipPlus.Menu.View {
             this.showsPopup(0, 0);
 
             //clean display Object
-            this.removeAllChildren();
+            this.removeChildren();
 
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/popup")
@@ -63,7 +63,7 @@ module FlipPlus.Menu.View {
             // create a text
             var textDO = gameui.AssetsManager.getBitmapText(StringResources["help_" + item], "fontWhite");
             this.addChild(textDO);
-            textDO.regX = textDO.getBounds().width / 2;
+            textDO.pivot.x = textDO.getBounds().width / 2;
             
             textDO.y = 550;
             textDO.x = 1100;
@@ -74,7 +74,7 @@ module FlipPlus.Menu.View {
             this.addChild(img)
             img.x = 80
             img.y = 740;
-            img.regY = img.getBounds().height / 2;
+            img.pivot.y = img.getBounds().height / 2;
 
             // Add cancel Buttons
             var cancelButton = new gameui.BitmapTextButton(StringResources.help_cancel_bt, "fontWhite", "menu/btoptions", () => {

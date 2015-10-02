@@ -7,7 +7,7 @@ module FlipPlus.Menu.View {
         public showBotText(text: string, timeout: number= 5000, delay:number=0) {
             super.showsPopup(timeout, delay);
             //clean everything
-            this.removeAllChildren();
+            this.removeChildren();
 
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/popupTutorial")
@@ -25,7 +25,7 @@ module FlipPlus.Menu.View {
             
             //updates text
             textDO.text = text.toUpperCase();
-            textDO.regX = textDO.getBounds().width / 2;
+            textDO.pivot.x = textDO.getBounds().width / 2;
             this.addsClickIndicator();
         }
 

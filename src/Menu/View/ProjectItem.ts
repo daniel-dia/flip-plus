@@ -9,8 +9,8 @@ module FlipPlus.Menu.View {
 
             this.project = project;
 
-            this.regX = 480 / 2;
-            this.regY = 480 / 2;
+            this.pivot.x = 480 / 2;
+            this.pivot.y = 480 / 2;
             
             this.updateProjectInfo()
         }
@@ -22,7 +22,7 @@ module FlipPlus.Menu.View {
             var font = "50px " + defaultFont;
 
             //clean all objects
-            this.removeAllChildren();
+            this.removeChildren();
             
             if (project.UserData.unlocked) {
 
@@ -32,20 +32,20 @@ module FlipPlus.Menu.View {
                 //bars
                 var bar = "projects/bar" + (project.UserData.stars ? project.UserData.stars : 0);
                 this.addChild(gameui.AssetsManager.getBitmap(bar).set({ x: 5, y: 363}));
-                this.addChild(gameui.AssetsManager.getBitmap(bar).set({ x: 229 - 461 -20}));
+                this.addChild(gameui.AssetsManager.getBitmap(bar + "a"));
 
                 
 
                 //robot name text
                 var robotName = gameui.AssetsManager.getBitmapText(project.nickName, "fontBlue");
-                robotName.scaleX = robotName.scaleY = 0.6;
+                robotName.scale.x = robotName.scale.y = 0.6;
                 robotName.x = 14;
                 robotName.y = 0;
                 this.addChild(robotName)
 
                 //percentage text 
                 var percenttext = gameui.AssetsManager.getBitmapText((project.UserData.percent * 100).toString() + "%", "fontBlue");
-                percenttext.scaleX = percenttext.scaleY = 0.6;
+                percenttext.scale.x = percenttext.scale.y = 0.6;
                 percenttext.x = 310;
                 percenttext.y = 364;
                 this.addChild(percenttext)
@@ -63,7 +63,7 @@ module FlipPlus.Menu.View {
                 starsIndicator.updateProjectInfo();
                 starsIndicator.y = 350;
                 starsIndicator.x = 30;
-                starsIndicator.scaleX = starsIndicator.scaleY = 0.7;
+                starsIndicator.scale.x = starsIndicator.scale.y = 0.7;
                 this.addChild(starsIndicator);
 
             } else {
@@ -83,17 +83,15 @@ module FlipPlus.Menu.View {
                 //addsText
                 var tx = gameui.AssetsManager.getBitmapText(project.cost.toString(), "fontBlue");
                 this.addChild(tx);
-                tx.regX = tx.getBounds().width;
+                tx.pivot.x = tx.getBounds().width;
                 tx.x = 220;
                 tx.y = 195; 
 
             }
 
-            //cache object
-            this.cache(0, 0, 480, 480);
-
+         
             //create hitArea
-            this.createHitArea();
+            /// Check this.createHitArea();
         }
 
         //updates based on porject 
@@ -106,7 +104,7 @@ module FlipPlus.Menu.View {
             //update the objects display     
             this.createObjects(this.project);
 
-            this.scaleX = this.scaleY = 1;
+            this.scale.x = this.scale.y = 1;
             createjs.Tween.removeTweens(this);
           
             //if is new (unlocked and not played) do an animation

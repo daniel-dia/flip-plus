@@ -1,13 +1,13 @@
 ﻿module FlipPlus.Menu.View {
 
-    export class RobotPreview extends createjs.Container {
+    export class RobotPreview extends PIXI.Container {
 
         private project: FlipPlus.Projects.Project;
-        private percentMask: createjs.Shape;
+        private percentMask: PIXI.Graphics;
 
-        private fill:createjs.DisplayObject;
-        private stroke: createjs.DisplayObject;
-        private completeBot: createjs.DisplayObject;
+        private fill:PIXI.DisplayObject;
+        private stroke: PIXI.DisplayObject;
+        private completeBot: PIXI.DisplayObject;
 
         //Constructor
         constructor(project: FlipPlus.Projects.Project) {
@@ -25,19 +25,19 @@
                 this.fill = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
                 this.stroke = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
                  
-                this.fill.regX = this.stroke.regX = this.fill.getBounds().width / 2;
-                this.fill.regY = this.stroke.regY = this.fill.getBounds().height;
+                this.fill.pivot.x = this.stroke.pivot.x = this.fill.getBounds().width / 2;
+                this.fill.pivot.y = this.stroke.pivot.y = this.fill.getBounds().height;
 
-                this.fill.regX - 25;
-                this.fill.regY - 25;
+                this.fill.pivot.x - 25;
+                this.fill.pivot.y - 25;
 
                 this.addChild(this.fill);
                 this.addChild(this.stroke); 
             
                 //mask
-                this.percentMask = new createjs.Shape();
-                this.percentMask.graphics.beginFill("#FFF").drawRect(-size / 2, 0, size, -this.fill.getBounds().height).endFill();
-                this.percentMask.scaleY = 0;
+                this.percentMask = new PIXI.Graphics();
+                this.percentMask.beginFill(0xFFFFFF).drawRect(-size / 2, 0, size, -this.fill.getBounds().height).endFill();
+                this.percentMask.scale.y = 0;
                 this.percentMask.y = -25;
                 this.fill.mask = this.percentMask;
         }
@@ -77,17 +77,17 @@
         
         // update bot fill based on user data
         private updateFill() {
-            this.percentMask.scaleY = this.project.UserData.percent;
+            this.percentMask.scale.y = this.project.UserData.percent;
         }
 
         //animate finishing level
-        private animateBotFillTo(color: string= "#ffcc2e") {
+        private animateBotFillTo(color: number= 0xffcc2e) {
 
             var newValue = this.project.UserData.percent;
 
             //boxShape zoom out to the bot
-            var boxShape = new createjs.Shape();
-            boxShape.graphics.beginFill(color).drawRect(-700, -700, 1400, 1400);
+            var boxShape = new PIXI.Graphics();
+            boxShape.beginFill(color).drawRect(-700, -700, 1400, 1400);
             boxShape.y = -300;
             this.addChild(boxShape);
             createjs.Tween.get(boxShape).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(() => { this.removeChild(boxShape); })
@@ -113,12 +113,12 @@
         // show a new glare into the bot
         public castNewEffect() {
 
-            var dark = <createjs.Bitmap>gameui.AssetsManager.getBitmap("dark");
-            dark.regX = 50;
-            dark.regY = 50; 
-            var bgnewbot = <createjs.Bitmap>gameui.AssetsManager.getBitmap("bgnewbot");
-            bgnewbot.regX = bgnewbot.getBounds().width / 2;
-            bgnewbot.regY = bgnewbot.getBounds().height / 2;
+            var dark = <PIXI.Sprite>gameui.AssetsManager.getBitmap("dark");
+            dark.pivot.x = 50;
+            dark.pivot.y = 50; 
+            var bgnewbot = <PIXI.Sprite>gameui.AssetsManager.getBitmap("bgnewbot");
+            bgnewbot.pivot.x = bgnewbot.getBounds().width / 2;
+            bgnewbot.pivot.y = bgnewbot.getBounds().height / 2;
             dark.y = bgnewbot.y = -260
 
             this.addChildAt(bgnewbot, 0);

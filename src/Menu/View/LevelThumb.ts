@@ -5,7 +5,7 @@ module FlipPlus.Menu.View {
         private theme: string;
 
         //Display Objects
-        private badges: createjs.DisplayObject;
+        private badges: PIXI.DisplayObject;
 
         private level: Projects.Level;
 
@@ -29,39 +29,38 @@ module FlipPlus.Menu.View {
         //Create a container with a level thumbnail and evel name
         protected createThumbs(level: FlipPlus.Projects.Level) {
             
-            this.removeAllChildren();
+            this.removeChildren();
 
-            var color1: string;
-            var color2: string;
+            var color1: number = 0xFFFFFF ;
+            var color2: number = 0;
+            var alpha1: number = 0.5;
+            var alpha2: number = 0.3;
             var assetSufix: string;
 
             var assetName = this.defineAssetName(level);
 
-            var thumbContainer: createjs.Container = new createjs.Container();
+            var thumbContainer: PIXI.Container = new PIXI.Container();
             this.addChild(thumbContainer);
             
             //defines thumb state
             //
             if (level.userdata.unlocked && level.userdata.solved || level.userdata.skip) {
                 assetSufix = "1";
-                color1 = "rgba(255,255,255,0.5)";
-                color2 = "rgba(0,0,0,0.3)";
                 this.setSound(null);
             }
 
             // locked
             if (!level.userdata.unlocked || level.userdata.skip || level.userdata.item) {
                 assetSufix = "2";
-                color1 = "rgba(0,0,0,0.5)";
-                color2 = "rgba(0,0,0,0.3)";
+                color1 = 0;
                 this.setSound("buttonOff");
             }
                         
             // next playable
             if (level.userdata.unlocked && !level.userdata.solved && !level.userdata.skip) {
                 assetSufix = "3";
-                color1 = "rgba(255,255,255,0.9)";
-                color2 = "rgba(0,0,0,0.3)";
+                alpha1 = 0.9;
+                
                 this.setSound(null);
 
                 //create bounce effect if is active
@@ -105,34 +104,34 @@ module FlipPlus.Menu.View {
         }
 
         // add items modification
-        protected createLevelModificator(level: Projects.Level):createjs.DisplayObject {
+        protected createLevelModificator(level: Projects.Level):PIXI.DisplayObject {
 
             if (level.userdata.skip) {
                 var sk = gameui.AssetsManager.getBitmap("puzzle/icon_skip");
-                sk.regX = sk.getBounds().width / 2;
-                sk.regY = sk.getBounds().height / 2;
+                sk.pivot.x = sk.getBounds().width / 2;
+                sk.pivot.y = sk.getBounds().height / 2;
                 return sk;
             }
 
             if (level.userdata.item) {
                 var sk = gameui.AssetsManager.getBitmap("puzzle/icon_" + level.userdata.item);
-                sk.regX = sk.getBounds().width / 2;
-                sk.regY = sk.getBounds().height / 2;
+                sk.pivot.x = sk.getBounds().width / 2;
+                sk.pivot.y = sk.getBounds().height / 2;
                 return sk;
             }
                 
         }
 
         //adds thumb background
-        protected createBackgroud(level: Projects.Level,assetName,assetSufix): createjs.DisplayObject {
+        protected createBackgroud(level: Projects.Level,assetName,assetSufix): PIXI.DisplayObject {
 
             var sbg = gameui.AssetsManager.getBitmap("workshop/" + assetName + assetSufix);
-            sbg.regX = sbg.regY = 98;
+            sbg.pivot.x = sbg.pivot.y = 98;
             return sbg;
         }
         
         //adds thumb blocks
-        protected createBlocks(level: Projects.Level, color1: string, color2: string, sizeStart?: number, sizeEnd?: number): createjs.DisplayObject {
+        protected createBlocks(level: Projects.Level, color1: number, color2: number, sizeStart?: number, sizeEnd?: number): PIXI.DisplayObject {
           
             var col0 = sizeStart ? sizeStart : 0;
             var colf = sizeEnd ? sizeEnd :level.width ;
@@ -157,33 +156,33 @@ module FlipPlus.Menu.View {
                 blocks[n - level.width] = !blocks[n - level.width];
                 if (n % level.width != 0) blocks[n - 1] = !blocks[n - 1];
                 if (n % level.width != level.width - 1) blocks[n + 1] = !blocks[n + 1];
-            }
-            var s = new createjs.Shape();
+                }
+            var s = new PIXI.Graphics();
           
             for (var row = row0; row < rowf; row++) {
                 for (var col = col0; col < colf; col++) {
-                    var color: string;
+                    var color: number;
                     if (blocks[row * level.width + col]) color = color1; else color = color2;
-                    s.graphics.beginFill(color).drawRect(spacing * (col - col0), spacing * (row - row0), size, size);
+                    s.beginFill(color).drawRect(spacing * (col - col0), spacing * (row - row0), size, size);
                 }
             }
 
             // scale for fit on square
-            s.scaleX = s.scaleY = Math.min(3 / (colf - col0), 3 / (rowf - row0));
+            s.scale.x = s.scale.y = Math.min(3 / (colf - col0), 3 / (rowf - row0));
 
             // centralize thumg
-            s.regX = spacing*(colf-col0)/ 2;
-            s.regY = spacing*(rowf-row0)/ 2;
+            s.pivot.x = spacing*(colf-col0)/ 2;
+            s.pivot.y = spacing*(rowf-row0)/ 2;
 
             return s;
         }
 
         //Adds Thumb Tag
-        protected createTags(level: Projects.Level, assetName,assetSufix) :createjs.DisplayObject{
+        protected createTags(level: Projects.Level, assetName,assetSufix) :PIXI.DisplayObject{
             //TODO: essas string devem estar em um enum
             if (level.type == "time" || level.type == "flip" || level.type == "moves") {
                 var tag = gameui.AssetsManager.getBitmap("workshop/" + assetName + (level.type=="moves"?"flip":level.type )+ assetSufix);
-                tag.regX = tag.regY = 100;
+                tag.pivot.x = tag.pivot.y = 100;
                 return tag;
             }
         }

@@ -6,10 +6,10 @@ module FlipPlus.Menu.View {
         private project: Projects.Project;
 
         private levelGrid: View.LevelGrid;
-        private statusArea: createjs.Container;
+        private statusArea: PIXI.Container;
         private starsIndicator: View.ProjectStarsIndicator;
         private robotPreview: View.RobotPreview;
-        private levelsMahine: createjs.Container;
+        private levelsMahine: PIXI.Container;
 
 
 		private headerY :number = 0;
@@ -33,7 +33,7 @@ module FlipPlus.Menu.View {
 			}
 
 			this.onHidePage = () => {
-				this.removeAllChildren();
+				this.removeChildren();
 			}
 
         }
@@ -41,8 +41,8 @@ module FlipPlus.Menu.View {
         //--------------------- Initialization ---------------------
 
         private addHitArea(){
-            var hit = new createjs.Container;
-            hit.hitArea = (new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, defaultWidth, defaultHeight)));
+            var hit = new PIXI.Container;
+            /// Check hit.hitArea = ((new PIXI.Graphics().beginFill(0xF00).drawRect(0, 0, defaultWidth, defaultHeight)));
             this.addChild(hit);
         }
 
@@ -71,18 +71,18 @@ module FlipPlus.Menu.View {
 
         //Adds RobotName
         private addStatus(project: Projects.Project) {
-            this.statusArea = new createjs.Container();
-            this.statusArea.regX = this.statusArea.x = defaultWidth / 2;
+            this.statusArea = new PIXI.Container();
+            this.statusArea.pivot.x = this.statusArea.x = defaultWidth / 2;
             var bg = gameui.AssetsManager.getBitmap("partshud");
             bg.y = 0//150;
             bg.x = defaultWidth/ 2;
-            bg.scaleX = 2;
-            bg.regX = bg.getBounds().width/2;
+            bg.scale.x = 2;
+            bg.pivot.x = bg.getBounds().width/2;
             this.statusArea.addChild(bg);
 
-            var l: createjs.BitmapText = gameui.AssetsManager.getBitmapText(project.nickName.toUpperCase(), "fontWhite");
+            var l: PIXI.extras.BitmapText = gameui.AssetsManager.getBitmapText(project.nickName.toUpperCase(), "fontWhite");
             l.y = 20;//250;
-            l.regX = l.getBounds().width / 2;
+            l.pivot.x = l.getBounds().width / 2;
             l.x = defaultWidth / 2;
             this.statusArea.addChild(l);
 
@@ -94,7 +94,7 @@ module FlipPlus.Menu.View {
         //Adds level thumbs to the scene
         private addProjectMachine(project: Projects.Project) {
 
-            var levelMachine = new createjs.Container;
+            var levelMachine = new PIXI.Container;
             this.addChild(levelMachine);
             this.levelsMahine = levelMachine;
 
@@ -115,7 +115,7 @@ module FlipPlus.Menu.View {
                     //Add Level Thumbs
                     this.levelGrid = new Menu.View.LevelGrid(project);
                     this.levelGrid.addEventListener("levelClick", (e:any) => { 
-                        this.dispatchEvent({ type: "levelClick", level: e.level, parameters: e.parameters }); });
+                        this.emit("levelClick", {level: e.level, parameters: e.parameters }); });
                     this.levelGrid.x = 180;
                     this.levelGrid.y = 1538 - 2048;
                     levelMachine.addChild(this.levelGrid);
@@ -123,7 +123,7 @@ module FlipPlus.Menu.View {
                 }
                 else {
                     var text = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontBlue");
-                    text.regX = text.getBounds().width / 2;
+                    text.pivot.x = text.getBounds().width / 2;
                     text.y = 1738 - 2048;
                     text.x = defaultWidth / 2;
                     levelMachine.addChild(text);
@@ -131,7 +131,7 @@ module FlipPlus.Menu.View {
             } else {
                 //TODO mudar o nome disso.
                 var text = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontBlue"); 
-                text.regX = text.getBounds().width / 2;
+                text.pivot.x = text.getBounds().width / 2;
                 text.y = 1738 - 2048;
                 text.x = defaultWidth / 2;
                 levelMachine.addChild(text);
@@ -150,7 +150,7 @@ module FlipPlus.Menu.View {
 		//--Behaviour-----------------------------------------------------------
 
         //open a level
-        private openLevel(event: createjs.Event) {
+        private openLevel(event: PIXI.interaction.InteractionEvent) {
 
             var level: Projects.Level = <Projects.Level>event.target['level'];
             var parameters = event.target['parameters']

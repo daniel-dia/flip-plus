@@ -26,7 +26,7 @@ module FlipPlus.Menu.View {
         public showtext(text: string, timeout: number= 3000,delay:number=0) {
 
             //clean everything
-            this.removeAllChildren();
+            this.removeChildren();
                        
          
             //create a title
@@ -39,7 +39,7 @@ module FlipPlus.Menu.View {
 
             //updates text
             titleDO.text  = text.toUpperCase();
-            titleDO.regX = titleDO.getBounds().width / 2;
+            titleDO.pivot.x = titleDO.getBounds().width / 2;
 
 
             var ty = defaultHeight * 0.9;
@@ -58,7 +58,7 @@ module FlipPlus.Menu.View {
                 .to({ alpha: 0, y: ty - 300 }, 200, createjs.Ease.quadIn)
                 .call(() => {
                     this.visible = false;
-                    this.dispatchEvent("onclose");
+                    this.emit("onclose");
                 });
         }
     }

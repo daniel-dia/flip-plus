@@ -1,7 +1,7 @@
 ﻿module FlipPlus.Menu.View {
 
     // Class
-    export class Page extends createjs.Container {
+    export class Page extends PIXI.Container {
 
 		private pageVisibility: boolean = false;
 		public onShowPage: () => void;

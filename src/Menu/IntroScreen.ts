@@ -1,8 +1,8 @@
 ﻿declare var lib: any;
 
 module FlipPlus.Menu {
-    export class Intro extends createjs.Container {
-        private introMc: createjs.MovieClip;
+    export class Intro extends PIXI.Container {
+        private introMc: PIXI.MovieClip;
         private popup: View.PopupBot;
 
         constructor() {
@@ -15,21 +15,21 @@ module FlipPlus.Menu {
             this.introMc.stop();
 
             this.introMc.addEventListener("d1", () => { ; });
-            this.introMc.addEventListener("readyToPlay", () => { this.dispatchEvent("readyToPlay");});
+            this.introMc.addEventListener("readyToPlay", () => { this.emit("readyToPlay");});
             this.introMc.addEventListener("d2", () => {  });
-            this.introMc.addEventListener("end", () => {  FlipPlusGame.showProjectsMenu(); this.dispatchEvent("end"); });
+            this.introMc.addEventListener("end", () => {  FlipPlusGame.showProjectsMenu(); this.emit("end"); });
             this.popup.addEventListener("onclose", () => { this.introMc.play() });
 
-            this.addChild(this.popup);
+            this.addChild(this.popup); 
           
         }
 
         public playIntroPart1() {
             this.introMc.gotoAndPlay("part1");
             this.popup.visible = false;
-            var m = <createjs.Shape>this.introMc.children[0];
+            var m = <PIXI.Graphics>this.introMc.children[0];
             m.visible = false;
-            (<createjs.DisplayObject>this.introMc["Bot01"]).mask = m;
+            (<PIXI.DisplayObject>this.introMc["Bot01"]).mask = m;
 
         }   
 

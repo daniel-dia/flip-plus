@@ -3,9 +3,9 @@
     // Class
     export class BonusBarrel extends BonusScreen {
 
-        private barrels: Array<createjs.DisplayObject>;
-        private BarrelsItens: Array<createjs.Container>;
-        private contentShadow: Array<createjs.DisplayObject>;
+        private barrels: Array<PIXI.DisplayObject>;
+        private BarrelsItens: Array<PIXI.Container>;
+        private contentShadow: Array<PIXI.DisplayObject>;
 
         private items: Array<string>;
         private remaningInteraction: number;
@@ -20,7 +20,7 @@
             this.addBarrels();
 
             var bg = this.background.getChildByName("background");
-            bg.scaleX = bg.scaleY = 4;
+            bg.scale.x = bg.scale.y = 4;
         }
 
         activate(parameters?: any) {
@@ -50,18 +50,18 @@
             ]
 
             //creates a container
-            var barrelsContainer = new createjs.Container();
+            var barrelsContainer = new PIXI.Container();
 
             //adds 3 barrels
             for (var b = 0; b < barrelsCount; b++) {
 
                 var barrel = new gameui.Button();
-                barrel.addEventListener("click", (event: createjs.MouseEvent) => { this.barrelTap(event) });
+                barrel.on("mousedown", (event: any) => { this.barrelTap(event) });
 
                 //adds Barrel 
                 var spriteBarrel = gameui.AssetsManager.getBitmap("Bonus1/barrel" + b);
                 spriteBarrel.rotation = 10;
-                spriteBarrel.regY = 300;
+                spriteBarrel.pivot.y = 300;
                 spriteBarrel.y = 270;
                 barrel.addChild(spriteBarrel);
 
@@ -70,11 +70,11 @@
                 spriteReflection.y = 200;
                 spriteReflection.x = -15;
                 spriteReflection.skewX = -10;
-                spriteReflection.scaleX= 1.02;
+                spriteReflection.scale.x= 1.02;
                 barrel.addChild(spriteReflection);
 
                 var bn = barrel.getBounds();
-                barrel.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(bn.x,bn.y,bn.width,bn.height));
+                /// Check barrel.hitArea = (new PIXI.Graphics().beginFill(0xFFFFFF).drawRect(bn.x,bn.y,bn.width,bn.height));
                 //var spriteWater = gameui.AssetsManager.getSprite("Bonus1/agua");
                 //barrel.addChild(spriteWater);
                 //spriteWater.gotoAndPlay(Math.random() * 120)
@@ -86,13 +86,13 @@
                 //positionning
                 barrel.set(positions[b]);
 
-                barrel.regX = 180;
-                barrel.regY = 180;
+                barrel.pivot.x = 180;
+                barrel.pivot.y = 180;
 
                 barrel.x+= 180;
                 barrel.y += 180;
 
-                if(Math.random() > 0.5) barrel.scaleX = -1;
+                if(Math.random() > 0.5) barrel.scale.x = -1;
 
                 //animate barrel
                 createjs.Tween.get(barrel, { loop: true })
@@ -113,7 +113,7 @@
                 this.barrels.push(barrel);
                 
                 //instantiate a new container for barrelContent
-                var barrelCcontent = new createjs.Container();
+                var barrelCcontent = new PIXI.Container();
                 barrelCcontent.x = barrel.x - 50;
                 barrelCcontent.y = barrel.y - 150;
                 this.BarrelsItens.push(barrelCcontent);
@@ -121,7 +121,7 @@
 
 
                 //instantiate a new shadow for content
-                var shadow = new createjs.Shape(new createjs.Graphics().beginFill("rgba(0,0,0,0.3)").drawEllipse(0, 0, 150, 50));
+                var shadow = new PIXI.Graphics().beginFill(0xF00).drawEllipse(0, 0, 150, 50);
                 shadow.x = barrelCcontent.x - 30;
                 shadow.y = barrelCcontent.y + 220;
                 this.contentShadow.push(shadow);
@@ -146,12 +146,12 @@
             //show all barrels
             for (var ba in this.barrels) {
                 this.barrels[ba].visible = true;
-                this.barrels[ba].mouseEnabled= true;
+                this.barrels[ba].interactive = true;
             }
 
             //show all contents
             for (var co in this.BarrelsItens)
-                this.BarrelsItens[co].removeAllChildren();
+                this.BarrelsItens[co].removeChildren();
 
             //clean all items
             this.items = this.randomItensInArray(itemsCount, barrelsCount);
@@ -164,10 +164,10 @@
                     var itemDO = gameui.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]);
                     itemDO.name = "item";
                     this.BarrelsItens[b].addChild(itemDO);
-                    itemDO.regX = itemDO.getBounds().width / 2;
-                    itemDO.regY = itemDO.getBounds().height / 2;
-                    this.BarrelsItens[b].x += itemDO.regX;
-                    this.BarrelsItens[b].y += itemDO.regY;
+                    itemDO.pivot.x = itemDO.getBounds().width / 2;
+                    itemDO.pivot.y = itemDO.getBounds().height / 2;
+                    this.BarrelsItens[b].x += itemDO.pivot.x;
+                    this.BarrelsItens[b].y += itemDO.pivot.y;
                 }
                 //or show a can
                 else {
@@ -211,13 +211,13 @@
         }
 
         //when player tap a barrel
-        private barrelTap(event: createjs.MouseEvent) {
+        private barrelTap(event) {
             //identify tapped barrel
-            var barrelId = this.barrels.indexOf(<createjs.DisplayObject>event.currentTarget);
+            var barrelId = this.barrels.indexOf(<PIXI.DisplayObject>event.target);
             var barrelObj = <gameui.Button>this.barrels[barrelId];
 
             //remove barrel mouse interactivity 
-            barrelObj.mouseEnabled = false;
+            barrelObj.interactive = false;
 
             //hide barrel
             createjs.Tween.get(barrelObj).to({ alpha: 0 }, 300);
@@ -252,8 +252,8 @@
         //finalizes bonus game
         endBonus() {
             //locks barrels interactions
-            for (var barrel in this.barrels) 
-                this.barrels[barrel].mouseEnabled = false;
+            for (var barrel in this.barrels)
+                this.barrels[barrel].interactive = false;
  
             //adds objects in barrel
             for (var b = 0; b < this.barrels.length; b++)

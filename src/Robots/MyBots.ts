@@ -3,9 +3,9 @@ declare var libmybots: any;
 module FlipPlus.Robots {
 
     // Controller Class
-    export class MyBots extends createjs.Container {
+    export class MyBots extends PIXI.Container {
 
-        public myBots: createjs.Container;
+        public myBots: PIXI.Container;
         private projectManager: Projects.ProjectManager;
         private popup: Menu.View.PopupBot;
 
@@ -42,12 +42,11 @@ module FlipPlus.Robots {
         //adds a user feedback for click action
         private initializeUserFeedback() {
             FlipPlusGame.gameScreen.stage.update();
-            for (var c = 0; c < this.myBots.getNumChildren(); c++) {
-                var robot = <createjs.MovieClip>this.myBots.getChildAt(c);;
-                robot.addEventListener("click", (e: createjs.MouseEvent) => { this.userfeedback(e); });
-              
-                var hit = new createjs.Shape();
-                hit.graphics.beginFill("#000").drawRect(
+            for (var c = 0; c < this.myBots.children.length; c++) {
+                var robot = <PIXI.MovieClip>this.myBots.getChildAt(c);;
+                robot.addEventListener("mousedown", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
+
+                var hit = new PIXI.Graphics().beginFill(0).drawRect(
                     robot.getBounds().x,
                     robot.getBounds().y,
                     robot.getBounds().width,
@@ -59,21 +58,21 @@ module FlipPlus.Robots {
         }
 
         //User action feedback to user touch
-        private userfeedback(event: createjs.MouseEvent) {
+        private userfeedback(event: PIXI.interaction.InteractionEvent) {
 
-            var robotMc = <createjs.MovieClip>event.currentTarget;
+            var robotMc = <PIXI.MovieClip>event.target;
             var project: Projects.Project = this.projectManager.getProjectByName(robotMc.name);
 
             if (createjs.Tween.hasActiveTweens(robotMc))return;
             //verifies if robot is ready or have parts ready
             if (project && project.UserData.complete || !project) {
 
-                var px = robotMc.scaleX;
-                var py = robotMc.scaleY;
+                var px = robotMc.scale.x;
+                var py = robotMc.scale.y;
                 var ot = robotMc.y;
 
                 robotMc.gotoAndPlay("touch");
-                this.dispatchEvent("robot", robotMc.name);  
+                this.emit("robot", robotMc.name);  
                 gameui.AudiosManager.playSound("Robot Talk_0" + Math.ceil(Math.random() * 7), true);
                 createjs.Tween.get(robotMc) 
                     .to({ scaleX: px * 1.1, scaleY: py *0.9 }, 100)
@@ -103,9 +102,9 @@ module FlipPlus.Robots {
 
         //hide All Robots from Screen
         private hideAllRobots() {
-            for (var c = 0; c < this.myBots.getNumChildren(); c++) {
-                (<createjs.MovieClip>this.myBots.getChildAt(c)).visible = false;
-                (<createjs.MovieClip>this.myBots.getChildAt(c)).stop();
+            for (var c = 0; c < this.myBots.children.length; c++) {
+                (<PIXI.MovieClip>this.myBots.getChildAt(c)).visible = false;
+                (<PIXI.MovieClip>this.myBots.getChildAt(c)).stop();
             }
         }
 
@@ -132,9 +131,9 @@ module FlipPlus.Robots {
             var robotMC = this.myBots[botId];
             if (robotMC != null) {
 
-                var bgnewbot = <createjs.Bitmap>gameui.AssetsManager.getBitmap("bgnewbot");
-                bgnewbot.regX = bgnewbot.getBounds().width / 2;
-                bgnewbot.regY = bgnewbot.getBounds().height / 2;
+                var bgnewbot = <PIXI.Sprite>gameui.AssetsManager.getBitmap("bgnewbot");
+                bgnewbot.pivot.x = bgnewbot.getBounds().width / 2;
+                bgnewbot.pivot.y = bgnewbot.getBounds().height / 2;
                 bgnewbot.x = robotMC.x ;
                 bgnewbot.y = robotMC.y;
                 bgnewbot.visible = true;

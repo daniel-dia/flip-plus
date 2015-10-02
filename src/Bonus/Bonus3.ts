@@ -4,10 +4,10 @@
     export class Bonus3 extends BonusScreen {
    
         //keys object
-        private keys: Array<createjs.MovieClip>
+        private keys: Array<PIXI.MovieClip>
 
         //main clip
-        private mainClip: createjs.MovieClip;
+        private mainClip: PIXI.MovieClip;
 
         //currentChest
         private currentChestId: number;
@@ -16,14 +16,14 @@
         private correctKeyId: number;
 
         //itemsContainer
-        private itemsContainer: createjs.Container;
+        private itemsContainer: PIXI.Container;
 
         //chances
         private chances:number
 
         constructor(itemsArray: Array<string>, sufix: string= "1") {
             super(itemsArray, "Bonus3");
-            this.itemsContainer = new createjs.Container();
+            this.itemsContainer = new PIXI.Container();
             this.content.addChild(this.itemsContainer);
             this.currentChestId = 0;
             this.chances = 2;
@@ -32,7 +32,7 @@
         
         addObjects() {
             super.addObjects();
-            var mc = <createjs.MovieClip>(new lib["Bonus3"]);
+            var mc = <PIXI.MovieClip>(new lib["Bonus3"]);
             this.content.addChild(mc);      
             this.mainClip = mc;
             
@@ -54,9 +54,9 @@
             this.keys.push(this.mainClip["key3"]);
 
             
-            this.keys[0].addEventListener("click", () => { this.pickKey(0) })
-            this.keys[1].addEventListener("click", () => { this.pickKey(1) })
-            this.keys[2].addEventListener("click", () => { this.pickKey(2) })
+            this.keys[0].addEventListener("mousedown", () => { this.pickKey(0) })
+            this.keys[1].addEventListener("mousedown", () => { this.pickKey(1) })
+            this.keys[2].addEventListener("mousedown", () => { this.pickKey(2) })
 
             this.mainClip["indicator"].stop();
         }
@@ -146,7 +146,7 @@
 
         //give items to the user
         private getItems(chestId: number) {
-            this.itemsContainer.removeAllChildren();
+            this.itemsContainer.removeChildren();
             
             //barris mais elevados tem mais items
             var numItems = 2;
@@ -164,11 +164,11 @@
                 var itemObj = this.createItem(items[i])
                 
                 itemObj.set({ x: defaultWidth / 2, y: defaultHeight / 2 - 100, alpha: 0 })
-                itemObj.regX = itemObj.getBounds().width / 2;
-                itemObj.regY = itemObj.getBounds().height / 2;
+                itemObj.pivot.x = itemObj.getBounds().width / 2;
+                itemObj.pivot.y = itemObj.getBounds().height / 2;
                 createjs.Tween.get(itemObj).wait(500 + i * 300)
                     .to({ alpha: 1, x: defaultWidth *0.15 + i * (defaultWidth * 0.7 / items.length), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
-                    .call((itemDo: createjs.DisplayObject) => { this.animateItemToHeader(itemDo, itemDo.name) }, [itemObj])
+                    .call((itemDo: PIXI.DisplayObject) => { this.animateItemToHeader(itemDo, itemDo.name) }, [itemObj])
                 this.itemsContainer.addChild(itemObj);
             }
         }
@@ -180,8 +180,8 @@
             itemDO.name = item;
             //itemDO.x = 368 / 2;
             //itemDO.y = 279 / 2;
-            //itemDO.regX = itemDO.getBounds().width / 2;
-            //itemDO.regY = itemDO.getBounds().height / 2;
+            //itemDO.pivot.x = itemDO.getBounds().width / 2;
+            //itemDO.pivot.y = itemDO.getBounds().height / 2;
             //itemDO.visible = false;
             itemDO.mouseEnabled = false;
             return itemDO;

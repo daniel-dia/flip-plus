@@ -21,9 +21,9 @@ module FlipPlus.Menu.View {
 
             this.mouseEnabled = true;
 
-            this.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("white").drawRect(0, 0, defaultWidth, defaultHeight));
+            /// Check this.hitArea = (new PIXI.Graphics().beginFill(0xFFFFFF).drawRect(0, 0, defaultWidth, defaultHeight));
 
-            this.addEventListener("click", () => { this.closePopUp() });
+            this.addEventListener("mousedown", () => { this.closePopUp() });
 
         }
 
@@ -32,7 +32,7 @@ module FlipPlus.Menu.View {
 
 
             //clean everything
-            this.removeAllChildren();
+            this.removeChildren();
 
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/message")
@@ -42,7 +42,7 @@ module FlipPlus.Menu.View {
 
             //create a text 
             var titleDO = gameui.AssetsManager.getBitmapText(text, "fontTitle");
-            titleDO.regX = titleDO.getBounds().width/2;
+            titleDO.pivot.x = titleDO.getBounds().width/2;
             titleDO.x = defaultWidth / 2;
             titleDO.y = defaultHeight / 2 - 100;; 
             this.addChild(titleDO);
@@ -67,7 +67,7 @@ module FlipPlus.Menu.View {
             gameui.AudiosManager.playSound("Close")
             //hide the popup{
             clearTimeout(this.closeinterval);
-            this.dispatchEvent("onclose");
+            this.emit("onclose");
             this.fadeOut(1,0.5);
         }
     }

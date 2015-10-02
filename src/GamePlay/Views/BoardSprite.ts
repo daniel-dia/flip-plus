@@ -1,5 +1,5 @@
     module FlipPlus.GamePlay.Views {
-    export class BoardSprite extends createjs.Container {
+    export class BoardSprite extends PIXI.Container {
         
         public blocksSprites:BlockSprite[][];
         private boardWidth :number;
@@ -10,7 +10,7 @@
         private callback: (col: number, row: number) => void;
 
         //indicator
-        private tutorialIndiatcor: createjs.Sprite;
+        private tutorialIndiatcor: PIXI.Sprite;
 
         constructor(levelWidth: number, levelHeight: number, levelTheme: string,levelType:string) {
             super();
@@ -25,12 +25,12 @@
             var boardHeight = levelHeight * BlockSprite.defaultBlockSize;
             var boardWidth = levelWidth * BlockSprite.defaultBlockSize;
 
-            this.regX =  boardWidth / 2;
-            this.regY = boardHeight / 2;
+            this.pivot.x =  boardWidth / 2;
+            this.pivot.y = boardHeight / 2;
 
             //load click indicator
             this.tutorialIndiatcor = gameui.AssetsManager.getSprite("touch")
-            this.tutorialIndiatcor.regX = this.tutorialIndiatcor.regY = -55;
+            this.tutorialIndiatcor.pivot.x = this.tutorialIndiatcor.pivot.y = -55;
             this.tutorialIndiatcor.mouseEnabled = false;
             this.addChild(this.tutorialIndiatcor);
             this.tutorialIndiatcor.visible = false;
@@ -63,7 +63,7 @@
                     this.addChild(blockSprite);
 
                     //Add event listener to the boardSprite
-                    blockSprite.addEventListener("click", (event: createjs.MouseEvent) => {
+                    blockSprite.addEventListener("mousedown", (event: PIXI.interaction.InteractionEvent) => {
                         
                         if (this.locked) return;
 
@@ -78,20 +78,20 @@
                         if (b.tutorialHighLighted) {
 
                             this.tutorialRelease();
-                            this.dispatchEvent("ontutorialclick");
+                            this.emit("ontutorialclick");
                         }
 
                     });
 
                     //moouse down
-                    blockSprite.addEventListener("mousedown", (event: createjs.MouseEvent) => {
+                    blockSprite.addEventListener("mousedown", (event: PIXI.interaction.InteractionEvent) => {
                         if (this.locked) return;
                         this.preInvertCross(<BlockSprite>event.target);
                     });
 
                     
                     //mouse up
-                    blockSprite.addEventListener("pressup", (event: createjs.MouseEvent) => {
+                    blockSprite.addEventListener("pressup", (event: PIXI.interaction.InteractionEvent) => {
                         this.preInvertRelease(<BlockSprite>event.target);
                     });
 

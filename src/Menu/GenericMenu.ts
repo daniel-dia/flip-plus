@@ -44,17 +44,17 @@
             backButton.createHitArea();
             this.content.addChild(backButton);
 
-            var t = new gameui.Label(title, defaultFontFamilyHighlight, "white").set({ x: -500, y: -690, textAlign:"left" });
+            var t = new gameui.Label(title, defaultFontFamilyHighlight, 0xFFFFFF).set({ x: -500, y: -690, textAlign:"left" });
             t
             this.content.addChild(t);
 
         }
             
-        private animateIn(menu: createjs.DisplayObject) {
+        private animateIn(menu: PIXI.DisplayObject) {
             createjs.Tween.get(menu).to({ x: this.originX, y: this.originY, scaleY: 0, scaleX: 0, alpha: 0 }).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 1 }, 400, createjs.Ease.quadOut);
         }
 
-        private animateOut(menu: createjs.DisplayObject) {
+        private animateOut(menu: PIXI.DisplayObject) {
             createjs.Tween.get(menu).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 5 }).to({ x: this.originX, y: this.originY, scaleY: 0, scaleX: 0, alpha: 1 }, 200, createjs.Ease.quadIn);
         }
     }

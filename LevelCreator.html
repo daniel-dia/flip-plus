@@ -114,9 +114,9 @@
             var stage = new createjs.Stage(canvasId);
 
             var shape = new FlipPlus.Menu.View.LevelThumb2(level);
-            shape.scaleX = shape.scaleY = 75 / 200;
+            shape.scale.x = shape.scale.y = 75 / 200;
             shape.x = shape.y = 75 / 2;
-            stage.removeAllChildren();
+            stage.removeChildren();
             stage.addChild(shape);
             stage.update()
             shape.updateUserData();

@@ -1,17 +1,17 @@
 module FlipPlus.Menu.View
 {
     //View
-    export class Terminal extends createjs.Container
+    export class Terminal extends PIXI.Container
     {
-        private screenContaier: createjs.Container;
-        private textBox: createjs.BitmapText;
+        private screenContaier: PIXI.Container;
+        private textBox: PIXI.extras.BitmapText;
 
         constructor()
         {
             super();
 
             //set informations container
-            this.screenContaier = new createjs.Container();
+            this.screenContaier = new PIXI.Container();
             this.addChild(this.screenContaier);
 
             //textBox

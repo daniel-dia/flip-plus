@@ -7,7 +7,7 @@
         private lives: number;
 
         private cards: Array<Card>;
-        private cardsContainer: createjs.Container;
+        private cardsContainer: PIXI.Container;
 
         private matchesFound: number;
 
@@ -62,7 +62,7 @@
         private cardClick(card: Card) {
 
             card.open();
-            this.cardsContainer.setChildIndex(card, this.cardsContainer.getNumChildren() - 1);
+            this.cardsContainer.setChildIndex(card, this.cardsContainer.children.length - 1);
 
             //if card is Jocker (Rat)
             if (card.name == null) {
@@ -71,14 +71,14 @@
 
                 //decrase lives number
                 this.lives--;
-                card.mouseEnabled = false;
+                card.interactive = false;
 
                 // play sound
                 gameui.AudiosManager.playSound("wrong");
 
                 if (this.lives == 0) {
                     //if there is no more lives, than end game
-                    this.content.mouseEnabled = false;
+                    this.content.interactive = false;
                     this.message.showtext(StringResources.b2_noMoreChances, 2000, 500);
                     this.message.addEventListener("onclose", () => { this.endBonus(); });
 
@@ -95,9 +95,9 @@
             //verifies if matches all cards
             if (this.matchesFound >= this.pairs) {
                 //ends the game
-                this.content.mouseEnabled = false;
+                this.content.interactive = false;
                 this.message.showtext(StringResources.b2_finish, 2000, 500);
-                this.message.addEventListener("onclose", () => { this.endBonus(); });
+                this.message.on("onclose", () => { this.endBonus(); });
             }
 
 
@@ -121,7 +121,7 @@
             var height = 320;
 
             //create cards container
-            var cardsContainer = new createjs.Container();
+            var cardsContainer = new PIXI.Container();
             cardsContainer.x = 184 + 93 + 45;
             cardsContainer.y = 135 + 400;
             this.cardsContainer = cardsContainer;
@@ -135,7 +135,7 @@
                 this.cards.push(card);
 
                 //add cards event listener
-                card.addEventListener("click", (e: MouseEvent) => { this.cardClick(<Card>e.currentTarget) });
+                card.on("mousedown", (e: MouseEvent) => { this.cardClick(<Card>e.target) });
             }
 
             this.content.addChild(cardsContainer);
@@ -174,7 +174,7 @@
         }
     }
 
-    class Card extends createjs.Container{
+    class Card extends PIXI.Container{
 
         public opened: boolean;
         public item: string;
@@ -196,8 +196,8 @@
             itemDO.name = "item";
             itemDO.x = 368 / 2;
             itemDO.y = 279 / 2;
-            itemDO.regX = itemDO.getBounds().width / 2;
-            itemDO.regY = itemDO.getBounds().height / 2;
+            itemDO.pivot.x = itemDO.getBounds().width / 2;
+            itemDO.pivot.y = itemDO.getBounds().height / 2;
             itemDO.visible = false;
             this.addChild(itemDO);
 
@@ -205,13 +205,13 @@
             var cover = new gameui.ImageButton("Bonus2/bonuscard1");
             cover.x = 368 / 2;
             cover.y = 279 / 2;
-            cover.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(-368 / 2, -279 / 2, 368, 279));
+            /// Check cover.hitArea = (new PIXI.Graphics().beginFill(0xFFFFFF).drawRect(-368 / 2, -279 / 2, 368, 279));
             cover.name = "cover";
             this.addChild(cover);
 
          
-            this.regX = 184;
-            this.regY = 135;
+            this.pivot.x = 184;
+            this.pivot.y = 135;
         }
 
         //open a card animation
@@ -223,7 +223,7 @@
             createjs.Tween.removeTweens(cover);
             
             createjs.Tween.get(cover).to({ rotation: 90, y: 1000, alpha: 0 }, 500, createjs.Ease.sineIn).call(() => { cover.visible = false });
-            this.mouseEnabled = false;
+            this.interactive = false;
             this.opened = true;
         }
 

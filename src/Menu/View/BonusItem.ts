@@ -5,7 +5,7 @@ module FlipPlus.Menu.View {
     export class BonusItem extends gameui.ImageButton {
 
         public bonusId: string;
-        private timerText: createjs.BitmapText;
+        private timerText: PIXI.extras.BitmapText;
 
         private updateInterval: number;
 
@@ -16,8 +16,8 @@ module FlipPlus.Menu.View {
             this.y = 470;
             this.x = 768;
             
-            this.regX = 1458 / 2;
-            this.regY = 410  / 2;
+            this.pivot.x = 1458 / 2;
+            this.pivot.y = 410  / 2;
             
             this.updateProjectInfo()
              
@@ -30,7 +30,7 @@ module FlipPlus.Menu.View {
             var font = "Bold 100px " + defaultFont ;
 
             //clean all objects
-            this.removeAllChildren();
+            this.removeChildren();
 
             //if unlocked
             var stars = FlipPlusGame.projectManager.getStarsCount();
@@ -43,7 +43,7 @@ module FlipPlus.Menu.View {
 
                 //timer text 
                 this.timerText = gameui.AssetsManager.getBitmapText("00:00:00", "fontTitle");
-                this.timerText.regX = this.timerText.getBounds().width / 2;
+                this.timerText.pivot.x = this.timerText.getBounds().width / 2;
                 this.timerText.x = 1000;
                 this.timerText.y = 100;
                 this.addChild(this.timerText)
@@ -70,7 +70,7 @@ module FlipPlus.Menu.View {
                 //TODO da onde vai tirar as estrelas?
                 var tx = gameui.AssetsManager.getBitmapText(bonusData[bonusId].cost.toString(), "fontBlue");
                 this.addChild(tx);
-                tx.regX = tx.getBounds().width;
+                tx.pivot.x = tx.getBounds().width;
                 tx.x = 650;
                 tx.y = 155;
             }
@@ -92,7 +92,7 @@ module FlipPlus.Menu.View {
 
             if (time == 0) {
                 this.timerText.text = StringResources.mm_play;
-                this.timerText.regX = this.timerText.getBounds().width / 2;
+                this.timerText.pivot.x = this.timerText.getBounds().width / 2;
 
                 if (!createjs.Tween.hasActiveTweens(this.timerText)) {
                     this.timerText.set({ scaleX: 1, scaleY: 1 });
@@ -101,8 +101,8 @@ module FlipPlus.Menu.View {
             else {
                 createjs.Tween.removeTweens(this.timerText);
                 this.timerText.text = this.toHHMMSS(time);
-                this.timerText.regX = this.timerText.getBounds().width / 2;
-                this.timerText.scaleX = this.scaleY = 1; 
+                this.timerText.pivot.x = this.timerText.getBounds().width / 2;
+                this.timerText.scale.x = this.scale.y = 1; 
             }
             
             

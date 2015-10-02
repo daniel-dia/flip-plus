@@ -5,10 +5,10 @@
 
         protected itemsArray: Array<string>;
 
-        protected footerContainer: createjs.Container;
+        protected footerContainer: PIXI.Container;
 
-        protected footerTexts: Array<createjs.Text>;
-        protected footerMaxs:  Array<createjs.Bitmap>;
+        protected footerTexts: Array<PIXI.Text>;
+        protected footerMaxs:  Array<PIXI.Sprite>;
         protected partsIndicator: Menu.View.CoinsIndicator;
 
         protected  menu: Menu.View.ScreenMenu;
@@ -59,14 +59,14 @@
             // reorder content
             this.view.addChild(this.content);
             //bring content to front
-            //this.view.setChildIndex(this.content, this.view.getNumChildren() - 1);
+            //this.view.setChildIndex(this.content, this.view.children.length - 1);
         }
 
         //add Scene objects to the view
         protected addScene(bonusId:string) {
             //adds Background
             var background = gameui.AssetsManager.getBitmap(bonusId + "/back");
-            background.scaleX = background.scaleY = 2
+            background.scale.x = background.scale.y = 2
             background.name="background";
             this.background.addChild(background);
             
@@ -81,7 +81,7 @@
             footer.y = - 291;
 
             var titleText = gameui.AssetsManager.getBitmapText(StringResources[bonusId + "_title"].toUpperCase(), "fontWhite");
-            titleText.regX = titleText.getBounds().width / 2;
+            titleText.pivot.x = titleText.getBounds().width / 2;
             titleText.x = defaultWidth / 2;
             titleText.y = - 170;
             //titleText.textBaseline = "middle";
@@ -95,7 +95,7 @@
         //creates a footer
         protected addFooter(itemsArray: Array<string>) {
             
-            this.footerContainer = new createjs.Container();
+            this.footerContainer = new PIXI.Container();
             this.footerContainer.y = - 291;
             this.footerTexts = [];
             this.footerMaxs = [];
@@ -110,8 +110,8 @@
                 itemObj.y = 180;
                 itemObj.x = defaultWidth / itemsArray.length * i + 80;
                 itemObj.name = itemId;
-                itemObj.regX = itemObj.getBounds().width/2;
-                itemObj.regY = itemObj.getBounds().height / 2;
+                itemObj.pivot.x = itemObj.getBounds().width/2;
+                itemObj.pivot.y = itemObj.getBounds().height / 2;
                 this.footerContainer.addChild(itemObj);
 
                 //add "max" text
@@ -142,13 +142,13 @@
         }
 
         //animate a display object to the menu
-         protected animateItemToHeader(itemObj: createjs.DisplayObject, itemId: string = "coin") {
+         protected animateItemToHeader(itemObj: PIXI.DisplayObject, itemId: string = "coin") {
 
             if (itemId == "2coin" || itemId == "3coin") itemId = "coin"
             var footerItem = this.partsIndicator.getChildByName("icon");
             if (footerItem && itemObj.parent) {
 
-                var startPoint = itemObj.localToLocal(itemObj.regX, itemObj.regY, this.content);
+                var startPoint = itemObj.localToLocal(itemObj.pivot.x, itemObj.pivot.y, this.content);
                 var endPoint = this.partsIndicator.localToLocal(footerItem.x, footerItem.y, itemObj.parent);
 
                 // cast effect
@@ -174,7 +174,7 @@
         }
 
         //create a loop animation for a item
-        protected animateItemObjectIdle(itemObj: createjs.DisplayObject) {
+        protected animateItemObjectIdle(itemObj: PIXI.DisplayObject) {
         
             createjs.Tween.get(itemObj, { loop: true }).to({ y: itemObj.y - 20 }, 500, createjs.Ease.quadInOut).to({ y: itemObj.y}, 500, createjs.Ease.quadInOut);
         }

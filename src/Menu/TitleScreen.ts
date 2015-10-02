@@ -3,7 +3,7 @@
 module FlipPlus.Menu {
     export class TitleScreen extends gameui.ScreenState {
 
-        private beach: createjs.DisplayObject;
+        private beach: PIXI.DisplayObject;
 
         constructor() {
             super();
@@ -17,10 +17,10 @@ module FlipPlus.Menu {
 
 
             //creates hitArea
-            this.content.hitArea = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, defaultWidth, defaultHeight));
+            /// Check this.content.hitArea = (new PIXI.Graphics().beginFill(0xFFFFFF).drawRect(0, 0, defaultWidth, defaultHeight));
 
             //add event to go to main menu
-            this.content.addEventListener("click", () => {
+            this.content.addEventListener("mousedown", () => {
                 FlipPlusGame.showMainScreen();
 
             });

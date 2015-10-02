@@ -12,7 +12,8 @@
     <script src="scripts/md5.js"></script>
     <script src="scripts/createjs-2015.05.21.min.js"></script>
     <script src="scripts/movieclip-0.8.1.min.js"></script>
-
+    <script src="scripts/pixi.js"></script>
+    <script src="scripts/PIXIpatch.js"></script> 
     <script src="scripts/timer.js"></script>
 
 
@@ -34,8 +35,6 @@
     <script src="assets/NewBotsLobby.js"></script>
     <script src="assets/LogoScreen.js"></script>
     <script src="assets/Bonus3.js"></script>
-    <script src="assets/fontTitle.js"></script>
-    <script src="assets/font.js"></script>
 
     <!-- code script ===============================================================================-->
     <script src="scripts/script.js"></script>
@@ -43,14 +42,12 @@
     <script>
         window.onload = function () {
             FlipPlus.FlipPlusGame.initializeGame();
+            //FlipPlus.FlipPlusGame.initializeGame();
         };
     </script>
  
 </head>
 <body>
-    <!--cocoonJS screenCanvas
-        http://support.ludei.com/hc/en-us/articles/201810268-ScreenCanvas
-        -->
-    <canvas id="myCanvas" screencanvas="true"></canvas>
+    <div id="gameDiv" ></div>
 </body>
 </html>

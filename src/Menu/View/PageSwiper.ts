@@ -4,13 +4,13 @@ module FlipPlus.Menu.View {
     export class PagesSwiper {
 
         public cancelClick = false;
-        private pagesContainer: createjs.Container;
+        private pagesContainer: PIXI.Container;
         private pages: Page[];
         private currentPageIndex: number = 0;
         private pagewidth: number;
         public onPageChange: (pageId: number) => void;
 
-        constructor(pagesContainer: createjs.Container, pages: Array<Page>, pageWidth: number, minY?: number, maxY?: number) {
+        constructor(pagesContainer: PIXI.Container, pages: Array<Page>, pageWidth: number, minY?: number, maxY?: number) {
 
             this.pagewidth = pageWidth;
             this.pagesContainer = pagesContainer;
@@ -26,7 +26,7 @@ module FlipPlus.Menu.View {
             var moving: boolean = false;
 
             // records position on mouse down
-            pagesContainer.addEventListener("mousedown",(e: createjs.MouseEvent) => {
+            pagesContainer.addEventListener("mousedown",(e: PIXI.interaction.InteractionEvent) => {
 
                 var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY)
                 if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
@@ -37,7 +37,7 @@ module FlipPlus.Menu.View {
             })
 
             //drag the container
-            pagesContainer.addEventListener("pressmove",(e: createjs.MouseEvent) => {
+            pagesContainer.addEventListener("pressmove",(e: PIXI.interaction.InteractionEvent) => {
                 if (moving) {
                     var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
 
@@ -50,7 +50,7 @@ module FlipPlus.Menu.View {
             })
 
             //verifies the relase point to tween to the next page
-            pagesContainer.addEventListener("pressup",(e: createjs.MouseEvent) => {
+            pagesContainer.addEventListener("pressup",(e: PIXI.interaction.InteractionEvent) => {
                 if (moving) {
                     moving = false;
                     var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);

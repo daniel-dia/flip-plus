@@ -18,15 +18,15 @@ module FlipPlus.Menu.View {
 
             if (!disableInput) {
                 //set Hit Area
-                var hit = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, 0, defaultWidth, defaultHeight));
-                this.hitArea = hit;
+                /// Check var hit = (new PIXI.Graphics().beginFill(0xF00).drawRect(0, 0, defaultWidth, defaultHeight));
+                /// Check this.hitArea = hit;
 
                 //hide popup
                 this.visible = false;
 
                 //add callback
          
-                this.addEventListener("click", () => {
+                this.addEventListener("mousedown", () => {
                     this.closePopUp();
                     clearTimeout(this.closeinterval);
                 });
@@ -39,7 +39,7 @@ module FlipPlus.Menu.View {
             this.showsPopup(timeout, delay);
 
             //clean display Object
-            this.removeAllChildren();
+            this.removeChildren();
 
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/popup")
@@ -62,9 +62,9 @@ module FlipPlus.Menu.View {
             //updates title and text values
             if (text) {
                 textDO.text = text;
-                textDO.regX = textDO.getBounds().width / 2;
+                textDO.pivot.x = textDO.getBounds().width / 2;
                 titleDO.text = title.toUpperCase();
-                titleDO.regX = titleDO.getBounds().width/2;
+                titleDO.pivot.x = titleDO.getBounds().width/2;
             }
 
             var b = defaultHeight / 2 - 500;
@@ -81,7 +81,7 @@ module FlipPlus.Menu.View {
             this.showsPopup(timeout, delay);
 
             //clean display Object
-            this.removeAllChildren();
+            this.removeChildren();
 
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/popup")
@@ -104,9 +104,9 @@ module FlipPlus.Menu.View {
             //updates title and text values
             if (text) {
                 textDO.text = text;
-                textDO.regX = textDO.getBounds().width / 2;
+                textDO.pivot.x = textDO.getBounds().width / 2;
                 titleDO.text = title.toUpperCase();
-                titleDO.regX = titleDO.getBounds().width / 2;
+                titleDO.pivot.x = titleDO.getBounds().width / 2;
             }
 
             //add buton to store
@@ -131,7 +131,7 @@ module FlipPlus.Menu.View {
             this.showsPopup(timeout, delay);
 
             //clean display Object
-            this.removeAllChildren();
+            this.removeChildren();
 
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/popup")
@@ -173,14 +173,14 @@ module FlipPlus.Menu.View {
 
             //updates title and text values
             titleDO.text = StringResources.gp_pz_Popup1Title.toUpperCase();
-            titleDO.regX = titleDO.getBounds().width / 2;
+            titleDO.pivot.x = titleDO.getBounds().width / 2;
             textDO.text = StringResources.gp_pz_Popup1Text1;
             textDO1.text = StringResources.gp_pz_Popup1Text2;
             textDO2.text = StringResources.gp_pz_Popup1Text3;
             timeDO.text = time;
             boardsDO.text = boards;
 
-            titleDO.regX = titleDO.getBounds().width / 2;
+            titleDO.pivot.x = titleDO.getBounds().width / 2;
             textDO.   regX  =    textDO.  getBounds().width / 2;
             textDO1.  regX  =    textDO1. getBounds().width / 2;
             textDO2.  regX  =    textDO2. getBounds().width / 2;
@@ -210,7 +210,7 @@ module FlipPlus.Menu.View {
             this.showsPopup(timeout, delay);
 
             //clean display Object
-            this.removeAllChildren();
+            this.removeChildren();
 
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/popup")
@@ -246,10 +246,10 @@ module FlipPlus.Menu.View {
             tapsDO.text = taps;
             
 
-            titleDO.regX = titleDO.getBounds().width / 2;
-            textDO.regX = textDO.getBounds().width / 2;;
-            textDO2.regX = textDO2.getBounds().width / 2;
-            tapsDO.regX = tapsDO.getBounds().width / 2;
+            titleDO.pivot.x = titleDO.getBounds().width / 2;
+            textDO.pivot.x = textDO.getBounds().width / 2;;
+            textDO2.pivot.x = textDO2.getBounds().width / 2;
+            tapsDO.pivot.x = tapsDO.getBounds().width / 2;
 
 
             var b = defaultHeight / 2 - 500;
@@ -280,7 +280,7 @@ module FlipPlus.Menu.View {
             }, timeout + delay);
 
             //dispatch a event for parent objects
-            this.dispatchEvent("onshow");
+            this.emit("onshow");
         }
 
         protected addsClickIndicator() {
@@ -298,7 +298,7 @@ module FlipPlus.Menu.View {
             this.fadeOut(1,0.5);
 
             //dispatch a event for parent objects
-            this.dispatchEvent("onclose");
+            this.emit("onclose");
         }
         
         // desenha os objetos do popup

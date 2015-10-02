@@ -103,6 +103,15 @@ declare module PIXI {
 
     export class DisplayObject extends EventEmitter implements interaction.InteractiveTarget {
 
+        set: (props: any) => DisplayObject
+        public scaleX: number;
+        public scaleY: number;
+        public regX: number;
+        public regY: number;
+        public mouseEnabled: boolean;
+        public addEventListener: (event :string, fn: (event: interaction.InteractionEvent) => void, context?: any)=>EventEmitter;
+        public addEventListenerOnce: (event :string, fn: (event: interaction.InteractionEvent) => void, context?: any) => EventEmitter;
+
         //begin extras.cacheAsBitmap see https://github.com/pixijs/pixi-typescript/commit/1207b7f4752d79a088d6a9a465a3ec799906b1db
         protected _originalRenderWebGL: WebGLRenderer;
         protected _originalRenderCanvas: CanvasRenderer;
@@ -202,6 +211,7 @@ declare module PIXI {
         once(event: 'touchstart', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
         once(event: string, fn: Function, context?: any): EventEmitter;
 
+ 
     }
 
     export class Container extends DisplayObject {

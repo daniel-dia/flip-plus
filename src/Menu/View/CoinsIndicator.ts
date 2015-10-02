@@ -1,9 +1,9 @@
 module FlipPlus.Menu.View {
 
     // View Class
-    export class CoinsIndicator extends createjs.Container{
+    export class CoinsIndicator extends PIXI.Container{
 
-        private coinsTextField: createjs.BitmapText;
+        private coinsTextField: PIXI.extras.BitmapText;
 
         private fx: FlipPlus.Effects;
         
@@ -28,7 +28,7 @@ module FlipPlus.Menu.View {
             for (var c = 0; c <= coins; c++) {
                 var coin = this.addCoinIcon();
                 createjs.Tween.get(coin).wait(interval/3*(c-1)).to({ x: x, y: y }, 500, createjs.Ease.quadInOut).call((c:createjs.Tween)=> {
-                    this.removeChild(<createjs.DisplayObject>c.target);
+                    this.removeChild(<PIXI.DisplayObject>c.target);
 
                     // Play Sound
                     gameui.AudiosManager.playSound("Correct Answer 2",true);
@@ -40,13 +40,13 @@ module FlipPlus.Menu.View {
             }
         }
 
-        private addCoinIcon(): createjs.DisplayObject {
+        private addCoinIcon(): PIXI.DisplayObject {
             var icon = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
-            icon.scaleX = icon.scaleY = 0.9;
-            icon.regX = 119/2;
-            icon.regY = 93 / 2;
-            icon.x = -120 + icon.regX;
-            icon.y = +35 + icon.regY;
+            icon.scale.x = icon.scale.y = 0.9;
+            icon.pivot.x = 119/2;
+            icon.pivot.y = 93 / 2;
+            icon.x = -120 + icon.pivot.x;
+            icon.y = +35 + icon.pivot.y;
             icon.name = "icon";
             this.addChild(icon);
             return icon;
@@ -57,7 +57,7 @@ module FlipPlus.Menu.View {
 
             // add Background
             var bg = gameui.AssetsManager.getBitmap("partshud");
-            bg.regX = 190;
+            bg.pivot.x = 190;
             this.addChild(bg);
 
             var icon = this.addCoinIcon();

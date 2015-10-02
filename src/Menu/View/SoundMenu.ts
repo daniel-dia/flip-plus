@@ -1,10 +1,10 @@
 ﻿module FlipPlus.Menu.View {
-    export class SoundMenu extends createjs.Container {
+    export class SoundMenu extends PIXI.Container {
         
-        private btMusOn: createjs.DisplayObject;
-        private btMusOf: createjs.DisplayObject;
-        private btSndOn: createjs.DisplayObject;
-        private btSndOf: createjs.DisplayObject;
+        private btMusOn: PIXI.DisplayObject;
+        private btMusOf: PIXI.DisplayObject;
+        private btSndOn: PIXI.DisplayObject;
+        private btSndOf: PIXI.DisplayObject;
         
         constructor() {
             super();

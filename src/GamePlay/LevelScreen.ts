@@ -122,7 +122,7 @@ module FlipPlus.GamePlay {
             var bg = gameui.AssetsManager.getBitmap("workshop/bgworkshop");
             this.content.addChild(bg);
             bg.y = -339;
-            bg.scaleY = 1.3310546875;
+            bg.scale.y = 1.3310546875;
             bg.alpha = 0.4;
         }
 
@@ -131,7 +131,7 @@ module FlipPlus.GamePlay {
             //intialize  menu overlay
             this.gameplayMenu = new Views.GamePlayMenu();
             this.gameplayMenu.y = -100;
-            this.gameplayMenu.x = this.gameplayMenu.regX = 1500;
+            this.gameplayMenu.x = this.gameplayMenu.pivot.x = 1500;
             this.footer.addChild(this.gameplayMenu);
 
             //level control
@@ -501,7 +501,7 @@ module FlipPlus.GamePlay {
             this.boardSprite.unlock();
             var med = defaultWidth / 4;
 
-            this.boardSprite.scaleX = 0.5;
+            this.boardSprite.scale.x = 0.5;
             this.boardSprite.alpha = 0;
             this.boardSprite.visible = true;
 
@@ -515,8 +515,8 @@ module FlipPlus.GamePlay {
         protected animatePuzzle(parameters) {
             this.boardSprite.x = parameters.x;
             this.boardSprite.y = parameters.y + 2048;
-            this.boardSprite.scaleX = parameters.scaleX;
-            this.boardSprite.scaleY = parameters.scaleY;
+            this.boardSprite.scale.x = parameters.scale.x;
+            this.boardSprite.scale.y = parameters.scale.y;
             createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: defaultWidth / 2, y: defaultHeight / 2 }, 500, createjs.Ease.quadInOut);
         }
 

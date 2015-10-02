@@ -9,7 +9,7 @@ module FlipPlus.Menu {
         private terminal: View.Terminal;
         private menu: View.ScreenMenu;
 
-        private playBt: createjs.DisplayObject;
+        private playBt: PIXI.DisplayObject;
         
 
         constructor() {
@@ -17,7 +17,7 @@ module FlipPlus.Menu {
 
             var bg = gameui.AssetsManager.getBitmap("mybotsbg");
             bg.y = -339;
-            bg.scaleY = 1.3310546875;
+            bg.scale.y = 1.3310546875;
             this.content.addChild(bg);
 
             this.addMyBots();
@@ -65,7 +65,7 @@ module FlipPlus.Menu {
         private addMyBots() {
             this.myBots = new Robots.MyBots(FlipPlusGame.projectManager);
             this.content.addChild(this.myBots);
-            this.myBots.addEventListener("robot", (e: createjs.Event) => {
+            this.myBots.addEventListener("robot", (e: PIXI.interaction.InteractionEvent) => {
                 this.robotClick(<string>e.target)
             });
         }
@@ -89,7 +89,7 @@ module FlipPlus.Menu {
         }
 
         private addPlayButton() {
-            var playBt =  new gameui.TextButton(StringResources["mm_play"], defaultFontFamilyHighlight, highlightFontColor, "", () => {
+            var playBt = new gameui.BitmapTextButton(StringResources["mm_play"],"fontTitle","", () => {
                 FlipPlus.FlipPlusGame.showProjectsMenu();
             } )
 

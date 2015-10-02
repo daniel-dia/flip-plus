@@ -26,7 +26,8 @@ module FlipPlus.Menu {
             if (window.innerWidth <= 384) assetscale = 0.25; 
             if (levelCreatorMode) { assetscale = 1 }
 
-          
+            assetscale = 1;
+
             var imagePath = "assets/images_" + assetscale + "x/";
             var audioPath = "assets/sound/";
 
@@ -38,9 +39,9 @@ module FlipPlus.Menu {
             }
 
             gameui.AssetsManager.loadAssets(imageManifest, imagePath, spriteSheets);
-            gameui.AssetsManager.loadFontSpriteSheet("fontWhite", createSpriteSheetFromFont(font, imagePath));
-            gameui.AssetsManager.loadFontSpriteSheet("fontBlue", createSpriteSheetFromFont(fontBlue, imagePath));
-            gameui.AssetsManager.loadFontSpriteSheet("fontTitle", createSpriteSheetFromFont(fontTitle, imagePath));
+            gameui.AssetsManager.loadFontSpriteSheet("fontWhite",  "fontWhite.fnt"  );
+            gameui.AssetsManager.loadFontSpriteSheet("fontBlue",   "fontBlue.fnt"  );
+            gameui.AssetsManager.loadFontSpriteSheet("fontTitle",  "fontTitle.fnt"  );
             gameui.Button.setDefaultSoundId("button");
 
 
@@ -61,41 +62,40 @@ module FlipPlus.Menu {
                 if (this.loaded) this.loaded();
             }
         }
-
     }
  
  
 
-    class LoadingBar extends createjs.Container {
+    class LoadingBar extends PIXI.Container {
 
         private barMask;
 
         constructor(imagePath: string) {
             super();
 
-            var text = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, "white");
+            //var text = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, 0xFFFFFF);
             var bg = gameui.AssetsManager.getBitmap(imagePath + "loadingbj.png");
             var bar = gameui.AssetsManager.getBitmap(imagePath + "loadingBar.png");
 
             this.addChild(bg)
-            this.addChild(text)
+            //this.addChild(text)
             this.addChild(bar);
             var w = 795;
             var h = 104;
 
-            text.regX = text.getBounds().width / 2;
-            bar.regX = Math.floor(bg.regX = w / 2 )
-            bar.regY = Math.floor(bg.regY = h/ 2  )
+            //text.pivot.x = text.getBounds().width / 2;
+            bar.pivot.x = Math.floor(bg.pivot.x = w / 2 )
+            bar.pivot.y = Math.floor(bg.pivot.y = h/ 2  )
 
-            text.y = -200;
+            //text.y = -200;
 
-            this.barMask = new createjs.Shape(new createjs.Graphics().beginFill("red").drawRect(0, -h/2, w, h));
+            this.barMask = (new PIXI.Graphics().beginFill(0xF00).drawRect(0, -h/2, w, h));
             this.barMask.x = -w / 2;
             bar.mask = this.barMask;
         }
 
         public update(value: number) {
-            this.barMask.scaleX = value;
+            this.barMask.scale.x = value;
         }
     }
 }

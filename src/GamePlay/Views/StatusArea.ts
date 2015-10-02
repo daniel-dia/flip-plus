@@ -1,19 +1,19 @@
 module FlipPlus.GamePlay.Views {
 
-    export class StatusArea extends createjs.Container{
+    export class StatusArea extends PIXI.Container{
 
-        private text1: createjs.BitmapText; 
-        private text3: createjs.BitmapText;
+        private text1: PIXI.extras.BitmapText; 
+        private text3: PIXI.extras.BitmapText;
 
-        private bg1: createjs.DisplayObject; 
-        private bg3: createjs.DisplayObject;
+        private bg1: PIXI.DisplayObject; 
+        private bg3: PIXI.DisplayObject;
 
-        private iconepuzzle: createjs.DisplayObject;
-        private iconemoves: createjs.DisplayObject;
-        private iconetime: createjs.DisplayObject;
+        private iconepuzzle: PIXI.DisplayObject;
+        private iconemoves: PIXI.DisplayObject;
+        private iconetime: PIXI.DisplayObject;
 
-        private rightIcon: createjs.Container;
-        private rightIconMC: createjs.MovieClip;
+        private rightIcon: PIXI.Container;
+        private rightIconMC: PIXI.MovieClip;
 
         private mode;
 
@@ -27,7 +27,7 @@ module FlipPlus.GamePlay.Views {
 
             //Background
             this.bg1 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle2");
-            this.bg3 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle2"); this.bg3.scaleX = -1;
+            this.bg3 = gameui.AssetsManager.getBitmap("puzzle/painelpuzzle2"); this.bg3.scale.x = -1;
 
             this.bg1.x = defaultWidth * 0.01;
             this.bg3.x = defaultWidth * 0.98;             
@@ -39,8 +39,8 @@ module FlipPlus.GamePlay.Views {
             this.addChild(this.bg3);
 
             //Icons
-            this.rightIcon = new createjs.Container();
-            var rightIconContainer = new createjs.Container();
+            this.rightIcon = new PIXI.Container();
+            var rightIconContainer = new PIXI.Container();
 
             this.iconepuzzle = gameui.AssetsManager.getBitmap("puzzle/iconepuzzle");
             this.iconemoves = gameui.AssetsManager.getBitmap("puzzle/iconemoves");
@@ -48,12 +48,12 @@ module FlipPlus.GamePlay.Views {
          
             this.iconepuzzle.x = defaultWidth * 0.01 + 3;
 
-            rightIconContainer.x = defaultWidth * 0.98; rightIconContainer.scaleX = -1;
+            rightIconContainer.x = defaultWidth * 0.98; rightIconContainer.scale.x = -1;
             this.iconepuzzle.y = 33;
             rightIconContainer.y = 33;
 
-            this.rightIcon.regX = this.rightIcon.x = this.iconemoves.getBounds().width / 2;
-            this.rightIcon.regY = this.rightIcon.y = this.iconemoves.getBounds().height / 2;
+            this.rightIcon.pivot.x = this.rightIcon.x = this.iconemoves.getBounds().width / 2;
+            this.rightIcon.pivot.y = this.rightIcon.y = this.iconemoves.getBounds().height / 2;
 
             this.addChild(this.iconepuzzle);
             this.rightIcon.addChild(this.iconemoves);
@@ -62,8 +62,8 @@ module FlipPlus.GamePlay.Views {
             this.addChild(rightIconContainer);
             
             //Text
-            this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, "white");
-            this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, "white");
+            this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, 0xFFFFFF);
+            this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, 0xFFFFFF);
                         
             this.text1.x = defaultWidth * 0.13; 
              this.text3.x = defaultWidth * 0.79;
@@ -81,7 +81,7 @@ module FlipPlus.GamePlay.Views {
         //creates a movieClip animation for the alert button
         private createAlertAnimation() {
             var instance = this.rightIcon;
-            this.rightIconMC = new createjs.MovieClip(createjs.MovieClip.SYNCHED,0,false);
+            this.rightIconMC = new PIXI.MovieClip(PIXI.MovieClip.SYNCHED,0,false);
             
             this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
                 .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).

@@ -4,7 +4,7 @@ module FlipPlus.Menu {
     export class SlideShow extends gameui.ScreenState {
 
         //images array. contains all loaded images for slideshow
-        private images: Array<createjs.DisplayObject>;
+        private images: Array<PIXI.DisplayObject>;
         private currentSlide: number;
 
         //slide interval
@@ -22,17 +22,17 @@ module FlipPlus.Menu {
             this.loadSlides(slides);
 
             //add hitarea
-            this.content.hitArea = new createjs.Shape(new createjs.Graphics().drawRect(0, 0, defaultWidth, defaultHeight));
+            ///this.content.hitArea = new PIXI.Graphics().drawRect(0, 0, defaultWidth, defaultHeight));
 
             //adds callback forrr touch
-            this.content.addEventListener("click", () => {
+            this.content.addEventListener("mousedown", () => {
                 this.nextSlide();
             });
 
             //adds hitarea
-            var s = new createjs.Shape();
-            s.graphics.beginFill("#FFF").rect(0, 0, defaultWidth, defaultHeight);
-            this.content.hitArea = s;
+            /// check
+            /// var s = new PIXI.Graphics().beginFill(0xFFFFFF).drawRect(0, 0, defaultWidth, defaultHeight);
+            /// this.content.hitArea = s;
         }
 
         //loadSlideShowImages

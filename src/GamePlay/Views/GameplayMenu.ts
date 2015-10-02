@@ -9,7 +9,7 @@ module FlipPlus.GamePlay.Views {
 
         private items: Array<string>;
 
-        private tutorial_highlightSprite: createjs.DisplayObject;
+        private tutorial_highlightSprite: PIXI.DisplayObject;
 
         private currentItem:number;
         private xstart = 320;
@@ -44,7 +44,7 @@ module FlipPlus.GamePlay.Views {
             this.width = 2*defaultWidth;
             this.height = 0;
 
-            var pauseBt = new gameui.ImageButton("puzzle/btpause",  () => {this.dispatchEvent("pause");});
+            var pauseBt = new gameui.ImageButton("puzzle/btpause",  () => {this.emit("pause");});
 
             this.addChild(pauseBt),
             pauseBt.x = 1360; 
@@ -60,7 +60,7 @@ module FlipPlus.GamePlay.Views {
                 var bt = new Views.ItemButton(ItemId[i], (buttonId) => {
                     var parameter;
                     if (this.parameters) parameter = this.parameters[buttonId]
-                    this.dispatchEvent({ type: buttonId, parameters: parameter });
+                    this.emit( buttonId,{ parameters: parameter });
                     this.parameters[buttonId] = null;
 
                 });

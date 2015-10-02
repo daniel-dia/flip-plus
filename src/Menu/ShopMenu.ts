@@ -2,8 +2,8 @@
     export class ShopMenu extends GenericMenu {
 
         private productsListItems: Array<ProductListItem>;
-        private statusText: createjs.BitmapText;
-        private loadingObject: createjs.DisplayObject;
+        private statusText: PIXI.extras.BitmapText;
+        private loadingObject: PIXI.DisplayObject;
         private products: Array<Cocoon.Store.ProductInfo>;
 
         private productInfo = [
@@ -26,7 +26,7 @@
         //#region Interface =====================================================================================
 
         protected initializeScreen() {
-            this.loadingObject = new createjs.Container();
+            this.loadingObject = new PIXI.Container();
             this.statusText = gameui.AssetsManager.getBitmapText("", "fontBlue");
             this.content.addChild(this.loadingObject);
             this.content.addChild(this.statusText);
@@ -48,14 +48,14 @@
         }
 
         // add a single product in the list
-        protected createProduct(product: Cocoon.Store.ProductInfo): createjs.DisplayObject {
+        protected createProduct(product: Cocoon.Store.ProductInfo): PIXI.DisplayObject {
 
             var productListItem = new ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice);
             this.productsListItems[product.productId] = productListItem;
             console.log(JSON.stringify(product))
 
             // add function callback
-            productListItem.addEventListener("click", (event: createjs.Event) => { Cocoon.Store.purchase(product.productId); });
+            productListItem.addEventListener("mousedown", (event: PIXI.interaction.InteractionEvent) => { Cocoon.Store.purchase(product.productId); });
 
             return productListItem;
         }
@@ -63,7 +63,7 @@
         // show a loading message
         private showLoading() {
             this.statusText.text = StringResources.menus.loading;
-            this.statusText.regX = this.statusText.getBounds().width / 2;
+            this.statusText.pivot.x = this.statusText.getBounds().width / 2;
             this.loadingObject.visible = true;
         }
 
@@ -206,8 +206,8 @@
     class ProductListItem extends gameui.Button {
 
         private purchaseButton: gameui.Button;
-        private purchasedIcon: createjs.DisplayObject;
-        private loadingIcon: createjs.DisplayObject;
+        private purchasedIcon: PIXI.DisplayObject;
+        private loadingIcon: PIXI.DisplayObject;
         
         constructor(productId: string, name: string, description: string, localizedPrice: string,image?:string) {
             super();
@@ -222,7 +222,7 @@
             this.addChild(new gameui.Label(name, defaultFontFamilyHighlight, "#333071").set({ x: -100 }));
 
             // adds Value
-            this.addChild(new gameui.Label(localizedPrice, defaultFontFamilyNormal, "white").set({ x: 375, y: -70 }));
+            this.addChild(new gameui.Label(localizedPrice, defaultFontFamilyNormal, 0xFFFFFF).set({ x: 375, y: -70 }));
 
             // adds buy text
             this.addChild(new gameui.Label(StringResources.menus.shop, defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));

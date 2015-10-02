@@ -1,7 +1,7 @@
 ﻿module FlipPlus.Menu.View {
     export class PauseMenu extends gameui.UIItem {
-        private skipPriceText: createjs.BitmapText;
-        private skipPriceIcon: createjs.DisplayObject;
+        private skipPriceText: PIXI.extras.BitmapText;
+        private skipPriceIcon: PIXI.DisplayObject;
 
         constructor() {
             super();
@@ -19,12 +19,12 @@
 
 
             this.addChild(new gameui.IconBitmapTextButton("menu/icleave", StringResources.leave.toUpperCase(), "fontWhite", "menu/btmenu", () => {
-                this.dispatchEvent("leave")
+                this.emit("leave")
             }, undefined, "left").set({ y: p0 + p * s }));
             p++;
 
             var skipBt = new gameui.IconBitmapTextButton("menu/icskip", StringResources.skip.toUpperCase(), "fontWhite", "menu/btmenu", () => {
-                this.dispatchEvent("skip");
+                this.emit("skip");
             }, undefined, "left")
             skipBt.set({ y: p0 + p * s });
             skipBt.bitmapText.y = -40;
@@ -37,13 +37,13 @@
 
 
             this.addChild(new gameui.IconBitmapTextButton("menu/icrestart", StringResources.restart.toUpperCase(), "fontWhite", "menu/btmenu", () => {
-                this.dispatchEvent("restart")
+                this.emit("restart")
             }, undefined, "left").set({ y: p0 + p * s }));
             p++
 
 
             this.addChild(new gameui.IconBitmapTextButton("menu/iccontinue", StringResources.continue.toUpperCase(), "fontWhite", "menu/btmenu", () => {
-                this.dispatchEvent("continue")
+                this.emit("continue")
             }, undefined, "left").set({ y: p0 + p * s }));
             p++
         }

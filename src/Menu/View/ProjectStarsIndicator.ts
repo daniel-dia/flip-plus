@@ -1,8 +1,8 @@
 module FlipPlus.Menu.View {
-    export class ProjectStarsIndicator extends createjs.Container{
+    export class ProjectStarsIndicator extends PIXI.Container{
 
         private projectsThemes: Array<string> = ["green", "purple", "yellow"];
-        private stars: Array<createjs.DisplayObject>;
+        private stars: Array<PIXI.DisplayObject>;
         private project: Projects.Project;
         private fx = new FlipPlus.Effects;
 
@@ -28,7 +28,7 @@ module FlipPlus.Menu.View {
         }
         
         //create a simple star object
-        private createStar(id: number): createjs.DisplayObject {
+        private createStar(id: number): PIXI.DisplayObject {
             var str = "";
             switch (id) {
                 case 0: str = "workshop/stargreen";

@@ -15,10 +15,10 @@ module FlipPlus.Menu {
             var bt = new gameui.ImageButton("menu/specialOffer");
             this.content.addChild(bt);
             // add function callback
-            bt.addEventListener("click", (event: createjs.Event) => { Cocoon.Store.purchase(productList[0].productId); });
+            bt.addEventListener("mousedown", (event: PIXI.interaction.InteractionEvent) => { Cocoon.Store.purchase(productList[0].productId); });
 
             // adds Value
-            bt.addChild(new gameui.Label(productList[0].localizedPrice, defaultFontFamilyNormal, "white").set({ x: -210, y: 255 }));
+            bt.addChild(new gameui.Label(productList[0].localizedPrice, defaultFontFamilyNormal, 0xFFFFFF).set({ x: -210, y: 255 }));
 
             // adds buy text
             bt.addChild(new gameui.Label(StringResources.menus.buy, defaultFontFamilyHighlight, "#86c0f1").set({ x: 165, y: 250 }));

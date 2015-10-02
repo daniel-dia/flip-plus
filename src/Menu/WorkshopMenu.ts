@@ -3,7 +3,7 @@ module FlipPlus.Menu {
     export class WorkshopMenu extends gameui.ScreenState {
 
         private menu: View.ScreenMenu;
-        private projectsContainer: createjs.Container;
+        private projectsContainer: PIXI.Container;
         private projectViews: Array<View.ProjectWorkshopView>;
 
         private popup: View.Popup;
@@ -35,11 +35,11 @@ module FlipPlus.Menu {
             //add Background
             var bg = gameui.AssetsManager.getBitmap("workshop/bgworkshop");
             this.content.addChild(bg);
-            bg.scaleY = 1.3310546875;
+            bg.scale.y = 1.3310546875;
             bg.y = -339;
             
             //create projects container
-            this.projectsContainer = new createjs.Container();
+            this.projectsContainer = new PIXI.Container();
             
             //creates projectViews array
             this.projectViews = new Array();
@@ -116,7 +116,7 @@ module FlipPlus.Menu {
 
         // ----------------------- pagination -------------------------------------------------------
 
-        private createPaginationButtons(pagesContainer: createjs.Container) {
+        private createPaginationButtons(pagesContainer: PIXI.Container) {
             //create leftButton
             var lb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() },"buttonOut");
             lb.y = 1050;
@@ -127,7 +127,7 @@ module FlipPlus.Menu {
             var rb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
             rb.y = 1050;
             rb.x = defaultWidth * 0.9;
-            rb.scaleX = -1;
+            rb.scale.x = -1;
             this.content.addChild(rb);
 
         }           
