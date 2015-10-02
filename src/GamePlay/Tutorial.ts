@@ -36,9 +36,8 @@ module FlipPlus.GamePlay {
                 var title = StringResources[step.title];
 
                 this.popup.showtext(title, text);
-                var listener = this.popup.addEventListener("onclose", () => {
+                var listener = this.popup.once("onclose", () => {
                     this.playNextTurorialStep();
-                    this.popup.removeEventListener("onclose", listener);
                 });
             }
 
@@ -46,11 +45,10 @@ module FlipPlus.GamePlay {
             if (step.item) {
                 this.boardSprite.tutorialLockBlocks();
                 this.gameplayMenu.tutorial_HighlightItem(step.item,step.parameter);
-                var listener2 = this.gameplayMenu.addEventListener(step.item, () => {
+                var listener2 = this.gameplayMenu.once(step.item, () => {
                     this.boardSprite.tutorialRelease();
                     this.gameplayMenu.tutorial_unlockAllButtons();
                     this.playNextTurorialStep();
-                    this.gameplayMenu.removeEventListener(step.item, listener2);
                 });
             }
 
@@ -58,9 +56,8 @@ module FlipPlus.GamePlay {
             if (step.click != undefined) {
                 this.boardSprite.tutorialHighlightBlocks(step.click);
                 this.gameplayMenu.tutorial_lockAllButtons();
-                var listener3 = this.boardSprite.addEventListener("ontutorialclick", () => {
+                var listener3 = this.boardSprite.once("ontutorialclick", () => {
                     this.playNextTurorialStep();
-                    this.boardSprite.removeEventListener("ontutorialclick", listener3);
                     this.gameplayMenu.tutorial_unlockAllButtons();
                 });
             }

@@ -122,7 +122,7 @@ module gameui {
 
         public text: PIXI.Text;
 
-        constructor(text: string = "", font?: string, color?: string, background?: string, event?: (event?: any) => any, soundId?: string) {
+        constructor(text: string = "", font?: string, color?: number, background?: string, event?: (event?: any) => any, soundId?: string) {
             super(background,event,soundId);
 
             //add text into it.
@@ -171,7 +171,7 @@ module gameui {
         private align: string;
         public icon: PIXI.DisplayObject;
 
-        constructor(icon: string = "", text = "", font: string = null, color?: string, background?: string, event?: (event?: any) => any, soundId?: string, align: string = "center") {
+        constructor(icon: string = "", text = "", font: string = null, color?: number, background?: string, event?: (event?: any) => any, soundId?: string, align: string = "center") {
             this.align = align;
               
             super(text, font, color, background, event, soundId);
@@ -270,7 +270,7 @@ module gameui {
 
     export class IconButton extends IconTextButton {
         constructor(icon: string = "", background?: string, event?: (event?: any) => any, soundId?: string) {
-            super(icon,"", "", "", background, event, soundId);
+            super(icon,"", "", 0xFFFFFF, background, event, soundId);
         }
     }
 }

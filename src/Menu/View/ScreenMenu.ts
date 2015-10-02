@@ -10,13 +10,13 @@ module FlipPlus.Menu.View {
         private createObjects(backVisible: boolean= true, starsVisible: boolean= false) {
 
             //adds menu button
-            var menuBt: gameui.ImageButton = new gameui.ImageButton("MenuBt", () => { this.dispatchEvent("menu", menuBt) });
+            var menuBt: gameui.ImageButton = new gameui.ImageButton("MenuBt", () => { this.emit("menu", menuBt) });
             menuBt.y = 90;
             menuBt.x = defaultWidth - 130;
             this.addChild(menuBt);
 
             //add a bacl buttton
-            var backBt: gameui.ImageButton = new gameui.ImageButton("BackBt", () => { this.dispatchEvent("back", menuBt) }, "buttonOut");
+            var backBt: gameui.ImageButton = new gameui.ImageButton("BackBt", () => { this.emit("back", menuBt) }, "buttonOut");
             backBt.y = 90;
             backBt.x = 130;
             backBt.visible = backVisible;

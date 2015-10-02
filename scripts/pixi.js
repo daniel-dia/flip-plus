@@ -12945,7 +12945,7 @@ CanvasGraphics.renderGraphicsMask = function (graphics, context)
         }
         else if (data.type === CONST.SHAPES.RECT)
         {
-            context.rect(shape.x, shape.y, shape.width, shape.height);
+            context.drawRect(shape.x, shape.y, shape.width, shape.height);
             context.closePath();
         }
         else if (data.type === CONST.SHAPES.CIRC)
@@ -25493,7 +25493,7 @@ InteractionManager.prototype.update = function (deltaTime)
  * @param eventData {EventData} the event data object
  * @private
  */
-InteractionManager.prototype.dispatchEvent = function ( displayObject, eventString, eventData )
+InteractionManager.prototype.emit = function ( displayObject, eventString, eventData )
 {
     if(!eventData.stopped)
     {
@@ -25633,7 +25633,7 @@ InteractionManager.prototype.processMouseDown = function ( displayObject, hit )
     if(hit)
     {
         displayObject[ isRightButton ? '_isRightDown' : '_isLeftDown' ] = true;
-        this.dispatchEvent( displayObject, isRightButton ? 'rightdown' : 'mousedown', this.eventData );
+        this.emit( displayObject, isRightButton ? 'rightdown' : 'mousedown', this.eventData );
     }
 };
 
@@ -25673,12 +25673,12 @@ InteractionManager.prototype.processMouseUp = function ( displayObject, hit )
 
     if(hit)
     {
-        this.dispatchEvent( displayObject, isRightButton ? 'rightup' : 'mouseup', this.eventData );
+        this.emit( displayObject, isRightButton ? 'rightup' : 'mouseup', this.eventData );
 
         if( displayObject[ isDown ] )
         {
             displayObject[ isDown ] = false;
-            this.dispatchEvent( displayObject, isRightButton ? 'rightclick' : 'click', this.eventData );
+            this.emit( displayObject, isRightButton ? 'rightclick' : 'click', this.eventData );
         }
     }
     else
@@ -25686,7 +25686,7 @@ InteractionManager.prototype.processMouseUp = function ( displayObject, hit )
         if( displayObject[ isDown ] )
         {
             displayObject[ isDown ] = false;
-            this.dispatchEvent( displayObject, isRightButton ? 'rightupoutside' : 'mouseupoutside', this.eventData );
+            this.emit( displayObject, isRightButton ? 'rightupoutside' : 'mouseupoutside', this.eventData );
         }
     }
 };
@@ -25730,7 +25730,7 @@ InteractionManager.prototype.onMouseMove = function (event)
  */
 InteractionManager.prototype.processMouseMove = function ( displayObject, hit )
 {
-    this.dispatchEvent( displayObject, 'mousemove', this.eventData);
+    this.emit( displayObject, 'mousemove', this.eventData);
     this.processMouseOverOut(displayObject, hit);
 };
 
@@ -25771,7 +25771,7 @@ InteractionManager.prototype.processMouseOverOut = function ( displayObject, hit
         if(!displayObject._over)
         {
             displayObject._over = true;
-            this.dispatchEvent( displayObject, 'mouseover', this.eventData );
+            this.emit( displayObject, 'mouseover', this.eventData );
         }
 
         if (displayObject.buttonMode)
@@ -25784,7 +25784,7 @@ InteractionManager.prototype.processMouseOverOut = function ( displayObject, hit
         if(displayObject._over)
         {
             displayObject._over = false;
-            this.dispatchEvent( displayObject, 'mouseout', this.eventData);
+            this.emit( displayObject, 'mouseout', this.eventData);
         }
     }
 };
@@ -25836,7 +25836,7 @@ InteractionManager.prototype.processTouchStart = function ( displayObject, hit )
     if(hit)
     {
         displayObject._touchDown = true;
-        this.dispatchEvent( displayObject, 'touchstart', this.eventData );
+        this.emit( displayObject, 'touchstart', this.eventData );
     }
 };
 
@@ -25886,12 +25886,12 @@ InteractionManager.prototype.processTouchEnd = function ( displayObject, hit )
 {
     if(hit)
     {
-        this.dispatchEvent( displayObject, 'touchend', this.eventData );
+        this.emit( displayObject, 'touchend', this.eventData );
 
         if( displayObject._touchDown )
         {
             displayObject._touchDown = false;
-            this.dispatchEvent( displayObject, 'tap', this.eventData );
+            this.emit( displayObject, 'tap', this.eventData );
         }
     }
     else
@@ -25899,7 +25899,7 @@ InteractionManager.prototype.processTouchEnd = function ( displayObject, hit )
         if( displayObject._touchDown )
         {
             displayObject._touchDown = false;
-            this.dispatchEvent( displayObject, 'touchendoutside', this.eventData );
+            this.emit( displayObject, 'touchendoutside', this.eventData );
         }
     }
 };
@@ -25947,7 +25947,7 @@ InteractionManager.prototype.onTouchMove = function (event)
 InteractionManager.prototype.processTouchMove = function ( displayObject, hit )
 {
     hit = hit;
-    this.dispatchEvent( displayObject, 'touchmove', this.eventData);
+    this.emit( displayObject, 'touchmove', this.eventData);
 };
 
 /**

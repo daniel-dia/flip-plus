@@ -985,11 +985,11 @@ Cocoon.define("Cocoon.App", function (extension) {
             event[att] = eventData[att];
         }
         event.target = window;
-        window.dispatchEvent(event);
+        window.emit(event);
         var canvases = document.getElementsByTagName("canvas");
         for (var i = 0; i < canvases.length; i++) {
             event.target = canvases[i];
-            canvases[i].dispatchEvent(event);
+            canvases[i].emit(event);
         }
     }
 

@@ -52,7 +52,7 @@ var levelsData =  [
                   "title": "tut_1_1_title"
               },
               {
-                  "click": 12
+                  "mousedown": 12
               },
               {
                   "atEnd": true,
@@ -80,7 +80,7 @@ var levelsData =  [
                   "title": "tut_2_1_title"
               },
               {
-                  "click": 16
+                  "mousedown": 16
               },
               {
                   "atEnd": true,
@@ -124,7 +124,7 @@ var levelsData =  [
                   "title": "tut_3_1_title"
               },
               {
-                  "click": 11
+                  "mousedown": 11
               },
               {
                   "atEnd": true,
@@ -152,7 +152,7 @@ var levelsData =  [
                   "parameter": 14
               },
               {
-                  "click": 14
+                  "mousedown": 14
               },
               {
                   "atEnd": true,

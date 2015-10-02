@@ -1,14 +1,13 @@
 
 
 /// <reference path="typing/createjs/createjs.d.ts" />
+/// <reference path="typing/pixi.js.d.ts" />
  
 /// <reference path="gameui/AssetsManager.ts" />
 /// <reference path="gameui/GameScreen.ts" />
 /// <reference path="gameui/ScreenState.ts" />
 /// <reference path="gameui/UIItem.ts" />
-/// <reference path="gameui/Grid.ts" />
-/// <reference path="gameui/Label.ts" />
-/// <reference path="gameui/MenuContainer.ts" />
+/// <reference path="gameui/Grid.ts" /> 
 /// <reference path="gameui/Transition.ts" />
 /// <reference path="gameui/Button.ts" />
 

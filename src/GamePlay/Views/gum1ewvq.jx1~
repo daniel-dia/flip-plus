@@ -83,7 +83,7 @@ module FlipPlus.GamePlay.Views {
         //create the hitArea
         private createHitArea() {
             var hit = new createjs.Shape();
-            hit.graphics.beginFill("#000").drawRect(0, 0, BlockSprite.defaultBlockSize, BlockSprite.defaultBlockSize );
+            hit.beginFill("#000").drawRect(0, 0, BlockSprite.defaultBlockSize, BlockSprite.defaultBlockSize );
             this.hitArea = hit;
         }
 

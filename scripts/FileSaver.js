@@ -35,10 +35,10 @@ var saveAs = saveAs
 		, click = function(node) {
 			var event = doc.createEvent("MouseEvents");
 			event.initMouseEvent(
-				"click", true, false, view, 0, 0, 0, 0, 0
+				"mousedown", true, false, view, 0, 0, 0, 0, 0
 				, false, false, false, false, 0, null
 			);
-			node.dispatchEvent(event);
+			node.emit(event);
 		}
 		, webkit_req_fs = view.webkitRequestFileSystem
 		, req_fs = view.requestFileSystem || webkit_req_fs || view.mozRequestFileSystem

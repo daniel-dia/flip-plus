@@ -36,7 +36,7 @@ class Analytics {
     }
 
     public logClick(levelId: string, blockX: number, blockY: number) {
-        this.sendEvent("click", "click", 1, levelId, blockX, blockY);
+        this.sendEvent("mousedown", "mousedown", 1, levelId, blockX, blockY);
     }
 
     public logLevelWin(levelId: string, time: number, clicks?: number) {

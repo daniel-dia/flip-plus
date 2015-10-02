@@ -71,10 +71,10 @@ Timer.prototype =
 		this.currentCount++;
 		if(!this.repeatCount || this.currentCount <= this.repeatCount)
 		{
-			this.dispatchEvent(TimerEvent.TIMER);
+			this.emit(TimerEvent.TIMER);
 			if(this.currentCount == this.repeatCount)
 			{
-				this.dispatchEvent(TimerEvent.TIMER_COMPLETE);
+				this.emit(TimerEvent.TIMER_COMPLETE);
 			}
 		}
 		else

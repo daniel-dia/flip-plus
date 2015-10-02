@@ -32,34 +32,34 @@
 
         // timeline functions:
         this.frame_22 = function () {
-            this.dispatchEvent("ready")
+            this.emit("ready")
         }
         this.frame_139 = function () {
-            this.dispatchEvent("WrongEnd");
+            this.emit("WrongEnd");
         }
         this.frame_162 = function () {
-            this.dispatchEvent("OkEnd")
+            this.emit("OkEnd")
         }
         this.frame_281 = function () {
-            this.dispatchEvent("ready")
+            this.emit("ready")
         }
         this.frame_397 = function () {
-            this.dispatchEvent("WrongEnd");
+            this.emit("WrongEnd");
         }
         this.frame_420 = function () {
-            this.dispatchEvent("OkEnd")
+            this.emit("OkEnd")
         }
         this.frame_537 = function () {
-            this.dispatchEvent("ready")
+            this.emit("ready")
         }
         this.frame_655 = function () {
-            this.dispatchEvent("WrongEnd");
+            this.emit("WrongEnd");
         }
         this.frame_679 = function () {
-            this.dispatchEvent("OkEnd")
+            this.emit("OkEnd")
         }
         this.frame_762 = function () {
-            this.dispatchEvent("End");
+            this.emit("End");
             this.stop();
         }
 
@@ -746,7 +746,7 @@
         }
         this.frame_267 = function () {
             this.stop();
-            this.dispatchEvent("done")
+            this.emit("done")
         }
 
         // actions tween:
@@ -772,7 +772,7 @@
         }
         this.frame_241 = function () {
             this.stop();
-            this.dispatchEvent("done")
+            this.emit("done")
         }
 
         // actions tween:
@@ -798,7 +798,7 @@
         }
         this.frame_252 = function () {
             this.stop();
-            this.dispatchEvent("done")
+            this.emit("done")
         }
 
         // actions tween:

@@ -106,15 +106,15 @@ module gameui {
         //calcula
         createHitArea(): void {
          //   
-         //   var hit = new PIXI.Shape();
+         //   var hit = ();
          //
          //   var b = this.getBounds();
          //
          //   if (b)
          //       if (this.hitPadding)
-         //           hit.graphics.beginFill("#000").drawRect(b.x - this.hitPadding, b.y - this.hitPadding, b.width + this.hitPadding, b.height + this.hitPadding);
+         //           hit.beginFill("#000").drawRect(b.x - this.hitPadding, b.y - this.hitPadding, b.width + this.hitPadding, b.height + this.hitPadding);
          //       else
-         //           hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
+         //           hit.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
          //   //TODO. se for texto colocar uma sobra. !
          //
          //   this.hitArea = hit;

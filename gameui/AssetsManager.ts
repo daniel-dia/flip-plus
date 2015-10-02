@@ -113,6 +113,7 @@ module gameui {
         //Get a preloaded Image from assets
         private static getLoadedImage(name: string): PIXI.Texture{
             if (this.loader)
+                if (!this.loader.resources[name]) return null;
                 return this.loader.resources[name].texture;
             return null;
         }
