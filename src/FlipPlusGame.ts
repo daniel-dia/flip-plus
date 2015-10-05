@@ -76,7 +76,7 @@ module FlipPlus {
                 }
                 else
 
-                    this.showBonus("Bonus2");
+                    this.showProjectsMenu();
                     //this.showTitleScreen();
             }
 

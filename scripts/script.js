@@ -780,7 +780,7 @@ var FlipPlus;
                     _this.toLevelCreator();
                 }
                 else
-                    _this.showBonus("Bonus2");
+                    _this.showProjectsMenu();
                 //this.showTitleScreen();
             };
             // give 10 coins to user first time
@@ -7143,6 +7143,7 @@ var FlipPlus;
                     this.pagewidth = pageWidth;
                     this.pagesContainer = pagesContainer;
                     this.pages = pages;
+                    this.pagesContainer.interactive = true;
                     //configure pages
                     for (var i in pages)
                         pages[i].x = this.pagewidth * i;
@@ -7152,7 +7153,7 @@ var FlipPlus;
                     var moving = false;
                     // records position on mouse down
                     pagesContainer.addEventListener("mousedown", function (e) {
-                        var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y);
+                        var pos = pagesContainer.parent.toLocal(e.data.global);
                         if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
                             initialclick = pos.x;
                             xpos = pos.x - pagesContainer.x;
@@ -7160,9 +7161,9 @@ var FlipPlus;
                         }
                     });
                     //drag the container
-                    pagesContainer.addEventListener("pressmove", function (e) {
+                    pagesContainer.on("mousemove", function (e) {
                         if (moving) {
-                            var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y);
+                            var pos = pagesContainer.parent.toLocal(e.data.global);
                             pagesContainer.x = pos.x - xpos;
                             if (Math.abs(pos.x - initialclick) > 50)
                                 _this.cancelClick = true;
@@ -7171,10 +7172,10 @@ var FlipPlus;
                         }
                     });
                     //verifies the relase point to tween to the next page
-                    pagesContainer.addEventListener("pressup", function (e) {
+                    pagesContainer.addEventListener("mouseup", function (e) {
                         if (moving) {
                             moving = false;
-                            var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y);
+                            var pos = pagesContainer.parent.toLocal(e.data.global);
                             //calculate the drag percentage.
                             var p = (pos.x - xpos + _this.pagewidth * _this.currentPageIndex) / _this.pagewidth;
                             //choses if goes to the next or previous page.

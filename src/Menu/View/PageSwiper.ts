@@ -15,6 +15,7 @@ module FlipPlus.Menu.View {
             this.pagewidth = pageWidth;
             this.pagesContainer = pagesContainer;
             this.pages = pages;
+            this.pagesContainer.interactive = true;
 
             //configure pages
             for (var i in pages)
@@ -28,7 +29,7 @@ module FlipPlus.Menu.View {
             // records position on mouse down
             pagesContainer.addEventListener("mousedown",(e: PIXI.interaction.InteractionEvent) => {
 
-                var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y)
+                var pos = pagesContainer.parent.toLocal(e.data.global)
                 if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
                     initialclick = pos.x;
                     xpos = pos.x - pagesContainer.x;
@@ -37,9 +38,9 @@ module FlipPlus.Menu.View {
             })
 
             //drag the container
-            pagesContainer.addEventListener("pressmove",(e: PIXI.interaction.InteractionEvent) => {
+            pagesContainer.on("mousemove",(e: PIXI.interaction.InteractionEvent) => {
                 if (moving) {
-                    var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y);
+                    var pos = pagesContainer.parent.toLocal(e.data.global);
 
                     pagesContainer.x = pos.x - xpos;
                     if (Math.abs(pos.x - initialclick) > 50) this.cancelClick = true;
@@ -50,10 +51,10 @@ module FlipPlus.Menu.View {
             })
 
             //verifies the relase point to tween to the next page
-            pagesContainer.addEventListener("pressup",(e: PIXI.interaction.InteractionEvent) => {
+            pagesContainer.addEventListener("mouseup",(e: PIXI.interaction.InteractionEvent) => {
                 if (moving) {
                     moving = false;
-                    var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y);
+                    var pos = pagesContainer.parent.toLocal(e.data.global);
 
                     //calculate the drag percentage.
                     var p = (pos.x - xpos + this.pagewidth * this.currentPageIndex) / this.pagewidth;
