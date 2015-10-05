@@ -43,7 +43,7 @@ module FlipPlus.Menu.View {
 
                 //timer text 
                 this.timerText = gameui.AssetsManager.getBitmapText("00:00:00", "fontTitle");
-                this.timerText.pivot.x = this.timerText.getBounds().width / 2;
+                this.timerText.pivot.x = this.timerText.getLocalBounds().width / 2;
                 this.timerText.x = 1000;
                 this.timerText.y = 100;
                 this.addChild(this.timerText)
@@ -70,7 +70,7 @@ module FlipPlus.Menu.View {
                 //TODO da onde vai tirar as estrelas?
                 var tx = gameui.AssetsManager.getBitmapText(bonusData[bonusId].cost.toString(), "fontBlue");
                 this.addChild(tx);
-                tx.pivot.x = tx.getBounds().width;
+                tx.pivot.x = tx.getLocalBounds().width;
                 tx.x = 650;
                 tx.y = 155;
             }
@@ -92,7 +92,7 @@ module FlipPlus.Menu.View {
 
             if (time == 0) {
                 this.timerText.text = StringResources.mm_play;
-                this.timerText.pivot.x = this.timerText.getBounds().width / 2;
+                this.timerText.pivot.x = this.timerText.getLocalBounds().width / 2;
 
                 if (!createjs.Tween.hasActiveTweens(this.timerText)) {
                     this.timerText.set({ scaleX: 1, scaleY: 1 });
@@ -101,7 +101,7 @@ module FlipPlus.Menu.View {
             else {
                 createjs.Tween.removeTweens(this.timerText);
                 this.timerText.text = this.toHHMMSS(time);
-                this.timerText.pivot.x = this.timerText.getBounds().width / 2;
+                this.timerText.pivot.x = this.timerText.getLocalBounds().width / 2;
                 this.timerText.scale.x = this.scale.y = 1; 
             }
             

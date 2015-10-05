@@ -60,6 +60,12 @@ module gameui {
             this.loader.load(); 
         }
 
+        public static loadSpriteSheet(id: string, fontFile: string) {
+            this.loader.add(id, fontFile)
+            this.loader.load();
+        }
+
+
         // cleans all sprites in the bitmap array;
         public static cleanAssets() {
             if (images);
@@ -81,7 +87,7 @@ module gameui {
             //if image id is described in spritesheets
             if (this.spriteSheets)
             if (this.spriteSheets[name])
-                return this.getSprite(name, false);
+                return this.getMovieClip(name, false);
 
             //if image is preloaded
             var texture = this.getLoadedImage(name);
@@ -119,21 +125,27 @@ module gameui {
         }
         
         //return a sprite according to the image
-        public static getSprite(name: string, play: boolean = true): PIXI.Sprite {
-            return null;
-           // var data = this.spriteSheets[name];
-           // for (var i in data.images) if (typeof data.images[i] == "string") data.images[i] = this.getLoadedImage(data.images[i]);
-           //
-           // var spritesheet = new PIXI.SpriteSheet(data);
-           //
-           // var sprite = new PIXI.Sprite(spritesheet);
-           // if (play) sprite.play();
-           // return sprite;
+        public static getMovieClip(name: string): PIXI.extras.MovieClip {
+            var textures = [];
+            var n2 = function (n) { return n > 9 ? "" + n : "0" + n; }
+
+            for (var i = 0; i < 999; i++) {
+
+                var id = name + n2(i);
+                if (!PIXI.utils.TextureCache[id]) break;
+                var texture = PIXI.Texture.fromFrame(id);
+                textures.push(texture);
+            }
+
+            var mc = new PIXI.extras.MovieClip(textures);
+
+            mc.play();
+            return mc
+
+            
         }
 
 
-
-      
 
         // #endregion
     }

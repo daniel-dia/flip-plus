@@ -83,7 +83,7 @@ module FlipPlus.Menu.View {
                 //addsText
                 var tx = gameui.AssetsManager.getBitmapText(project.cost.toString(), "fontBlue");
                 this.addChild(tx);
-                tx.pivot.x = tx.getBounds().width;
+                tx.pivot.x = tx.getLocalBounds().width;
                 tx.x = 220;
                 tx.y = 195; 
 

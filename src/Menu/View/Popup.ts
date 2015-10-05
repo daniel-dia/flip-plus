@@ -14,7 +14,7 @@ module FlipPlus.Menu.View {
             this.height = defaultHeight;
             this.x = defaultWidth / 2;
             this.y = defaultHeight / 2;
-            this.centralize();
+            this.pivot = this.position;
 
             if (!disableInput) {
                 //set Hit Area
@@ -62,9 +62,9 @@ module FlipPlus.Menu.View {
             //updates title and text values
             if (text) {
                 textDO.text = text;
-                textDO.pivot.x = textDO.getBounds().width / 2;
+                textDO.pivot.x = textDO.getLocalBounds().width / 2;
                 titleDO.text = title.toUpperCase();
-                titleDO.pivot.x = titleDO.getBounds().width/2;
+                titleDO.pivot.x = titleDO.getLocalBounds().width/2;
             }
 
             var b = defaultHeight / 2 - 500;
@@ -104,9 +104,9 @@ module FlipPlus.Menu.View {
             //updates title and text values
             if (text) {
                 textDO.text = text;
-                textDO.pivot.x = textDO.getBounds().width / 2;
+                textDO.pivot.x = textDO.getLocalBounds().width / 2;
                 titleDO.text = title.toUpperCase();
-                titleDO.pivot.x = titleDO.getBounds().width / 2;
+                titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
             }
 
             //add buton to store
@@ -173,19 +173,19 @@ module FlipPlus.Menu.View {
 
             //updates title and text values
             titleDO.text = StringResources.gp_pz_Popup1Title.toUpperCase();
-            titleDO.pivot.x = titleDO.getBounds().width / 2;
+            titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
             textDO.text = StringResources.gp_pz_Popup1Text1;
             textDO1.text = StringResources.gp_pz_Popup1Text2;
             textDO2.text = StringResources.gp_pz_Popup1Text3;
             timeDO.text = time;
             boardsDO.text = boards;
 
-            titleDO.pivot.x = titleDO.getBounds().width / 2;
-            textDO.   regX  =    textDO.  getBounds().width / 2;
-            textDO1.  regX  =    textDO1. getBounds().width / 2;
-            textDO2.  regX  =    textDO2. getBounds().width / 2;
-            timeDO.   regX  =    timeDO.  getBounds().width / 2;
-            boardsDO. regX  =    boardsDO.getBounds().width / 2;
+            titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
+            textDO.   regX  =    textDO.  getLocalBounds().width / 2;
+            textDO1.  regX  =    textDO1. getLocalBounds().width / 2;
+            textDO2.  regX  =    textDO2. getLocalBounds().width / 2;
+            timeDO.   regX  =    timeDO.  getLocalBounds().width / 2;
+            boardsDO. regX  =    boardsDO.getLocalBounds().width / 2;
 
             var b = defaultHeight / 2 - 500;
 
@@ -246,10 +246,10 @@ module FlipPlus.Menu.View {
             tapsDO.text = taps;
             
 
-            titleDO.pivot.x = titleDO.getBounds().width / 2;
-            textDO.pivot.x = textDO.getBounds().width / 2;;
-            textDO2.pivot.x = textDO2.getBounds().width / 2;
-            tapsDO.pivot.x = tapsDO.getBounds().width / 2;
+            titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
+            textDO.pivot.x = textDO.getLocalBounds().width / 2;;
+            textDO2.pivot.x = textDO2.getLocalBounds().width / 2;
+            tapsDO.pivot.x = tapsDO.getLocalBounds().width / 2;
 
 
             var b = defaultHeight / 2 - 500;
@@ -285,7 +285,7 @@ module FlipPlus.Menu.View {
 
         protected addsClickIndicator() {
             //add click indicator
-            var ind = gameui.AssetsManager.getSprite("touch")
+            var ind = gameui.AssetsManager.getMovieClip("touch")
             this.addChild(ind);
             ind.x = 1350;
             ind.y = 1100;

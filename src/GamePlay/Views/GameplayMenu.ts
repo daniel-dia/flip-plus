@@ -32,7 +32,7 @@ module FlipPlus.GamePlay.Views {
 
         //adds tutorial touch indicator
         private addTutorialIndicator() {
-            this.tutorial_highlightSprite = gameui.AssetsManager.getSprite("touch")
+            this.tutorial_highlightSprite = gameui.AssetsManager.getMovieClip("touch")
             this.tutorial_highlightSprite.visible = false;
             this.tutorial_highlightSprite.mouseEnabled = false;
             this.addChild(this.tutorial_highlightSprite)

@@ -18,10 +18,10 @@ module FlipPlus.Menu {
             bt.addEventListener("mousedown", (event: PIXI.interaction.InteractionEvent) => { Cocoon.Store.purchase(productList[0].productId); });
 
             // adds Value
-            bt.addChild(new gameui.Label(productList[0].localizedPrice, defaultFontFamilyNormal, 0xFFFFFF).set({ x: -210, y: 255 }));
+            bt.addChild(gameui.AssetsManager.getBitmapText(productList[0].localizedPrice,"fontWhite").set({ x: -210, y: 255 }));
 
             // adds buy text
-            bt.addChild(new gameui.Label(StringResources.menus.buy, defaultFontFamilyHighlight, "#86c0f1").set({ x: 165, y: 250 }));
+            bt.addChild(gameui.AssetsManager.getBitmapText(StringResources.menus.buy, "fontBlue").set({ x: 165, y: 250 }));
 
         }
 

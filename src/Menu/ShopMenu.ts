@@ -63,7 +63,7 @@
         // show a loading message
         private showLoading() {
             this.statusText.text = StringResources.menus.loading;
-            this.statusText.pivot.x = this.statusText.getBounds().width / 2;
+            this.statusText.pivot.x = this.statusText.getLocalBounds().width / 2;
             this.loadingObject.visible = true;
         }
 

@@ -59,7 +59,7 @@
             // reorder content
             this.view.addChild(this.content);
             //bring content to front
-            //this.view.setChildIndex(this.content, this.view.children.length - 1);
+            //this.view.setChildIndex(this.content, this.view.children.length - 1); 
         }
 
         //add Scene objects to the view
@@ -70,6 +70,7 @@
             background.name="background";
             this.background.addChild(background);
             
+          
 
             //adds header
             this.header.addChild(gameui.AssetsManager.getBitmap(bonusId + "/header"));
@@ -81,12 +82,14 @@
             footer.y = - 291;
 
             var titleText = gameui.AssetsManager.getBitmapText(StringResources[bonusId + "_title"].toUpperCase(), "fontWhite");
-            titleText.pivot.x = titleText.getBounds().width / 2;
+            titleText.pivot.x = titleText.textWidth / 2;
             titleText.x = defaultWidth / 2;
             titleText.y = - 170;
             //titleText.textBaseline = "middle";
 
             this.footer.addChild(titleText);
+
+        
         }
 
         //adds objects to the view <<interface>>
@@ -143,17 +146,21 @@
 
         //animate a display object to the menu
          protected animateItemToHeader(itemObj: PIXI.DisplayObject, itemId: string = "coin") {
-
+            
             if (itemId == "2coin" || itemId == "3coin") itemId = "coin"
             var footerItem = this.partsIndicator.getChildByName("icon");
             if (footerItem && itemObj.parent) {
 
-                var startPoint = itemObj.localToLocal(itemObj.pivot.x, itemObj.pivot.y, this.content);
-                var endPoint = this.partsIndicator.localToLocal(footerItem.x, footerItem.y, itemObj.parent);
+                var startPoint = itemObj.position;
+                var endPoint = itemObj.parent.toLocal(footerItem.parent.toGlobal(footerItem.position))
 
+                var startGlobal = this.content.toLocal(itemObj.pivot, itemObj);
+                var endGlobal = this.content.toLocal(footerItem.pivot, footerItem);
+                                
                 // cast effect
-                this.fx.castEffect(startPoint.x, startPoint.y-50, "Bolinhas", 3);
-                    
+                this.fx.castEffect(startGlobal.x, startGlobal.y - 50, "Bolinhas", 3);
+            
+                
                 // Animate item
                 createjs.Tween.get(itemObj).
                     to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
@@ -163,8 +170,7 @@
                         this.updatePartsAmmount();
 
                         // cast effect
-                        var fxPoint = this.partsIndicator.localToLocal(footerItem.x, footerItem.y, this.content);
-                        this.fx.castEffect(fxPoint.x, fxPoint.y, "Bolinhas", 2);
+                        this.fx.castEffect(endGlobal.x, endGlobal.y, "Bolinhas", 3);
 
                         //play Sound
                         gameui.AudiosManager.playSound("Correct Answer 2");

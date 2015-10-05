@@ -28,7 +28,7 @@ module FlipPlus.Menu.View {
             // records position on mouse down
             pagesContainer.addEventListener("mousedown",(e: PIXI.interaction.InteractionEvent) => {
 
-                var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY)
+                var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y)
                 if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
                     initialclick = pos.x;
                     xpos = pos.x - pagesContainer.x;
@@ -39,7 +39,7 @@ module FlipPlus.Menu.View {
             //drag the container
             pagesContainer.addEventListener("pressmove",(e: PIXI.interaction.InteractionEvent) => {
                 if (moving) {
-                    var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                    var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y);
 
                     pagesContainer.x = pos.x - xpos;
                     if (Math.abs(pos.x - initialclick) > 50) this.cancelClick = true;
@@ -53,7 +53,7 @@ module FlipPlus.Menu.View {
             pagesContainer.addEventListener("pressup",(e: PIXI.interaction.InteractionEvent) => {
                 if (moving) {
                     moving = false;
-                    var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                    var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y);
 
                     //calculate the drag percentage.
                     var p = (pos.x - xpos + this.pagewidth * this.currentPageIndex) / this.pagewidth;

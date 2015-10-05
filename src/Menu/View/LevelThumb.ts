@@ -108,15 +108,15 @@ module FlipPlus.Menu.View {
 
             if (level.userdata.skip) {
                 var sk = gameui.AssetsManager.getBitmap("puzzle/icon_skip");
-                sk.pivot.x = sk.getBounds().width / 2;
-                sk.pivot.y = sk.getBounds().height / 2;
+                sk.pivot.x = sk.getLocalBounds().width / 2;
+                sk.pivot.y = sk.getLocalBounds().height / 2;
                 return sk;
             }
 
             if (level.userdata.item) {
                 var sk = gameui.AssetsManager.getBitmap("puzzle/icon_" + level.userdata.item);
-                sk.pivot.x = sk.getBounds().width / 2;
-                sk.pivot.y = sk.getBounds().height / 2;
+                sk.pivot.x = sk.getLocalBounds().width / 2;
+                sk.pivot.y = sk.getLocalBounds().height / 2;
                 return sk;
             }
                 

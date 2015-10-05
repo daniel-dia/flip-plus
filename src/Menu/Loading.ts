@@ -38,10 +38,15 @@ module FlipPlus.Menu {
                 //gameui.AssetsManager.loadAssets(audioManifest, audioPath);
             }
 
-            gameui.AssetsManager.loadAssets(imageManifest, imagePath, spriteSheets);
-            gameui.AssetsManager.loadFontSpriteSheet("fontWhite",  "fontWhite.fnt"  );
-            gameui.AssetsManager.loadFontSpriteSheet("fontBlue",   "fontBlue.fnt"  );
-            gameui.AssetsManager.loadFontSpriteSheet("fontTitle",  "fontTitle.fnt"  );
+            gameui.AssetsManager.loadAssets(imageManifest, imagePath);
+            gameui.AssetsManager.loadFontSpriteSheet("fontWhite", "fontWhite.fnt");
+            gameui.AssetsManager.loadFontSpriteSheet("fontBlue", "fontBlue.fnt");
+            gameui.AssetsManager.loadFontSpriteSheet("fontTitle", "fontTitle.fnt");
+
+            gameui.AssetsManager.loadSpriteSheet("agua", "agua.json");
+            gameui.AssetsManager.loadSpriteSheet("bolinhas", "bolinhas.json");
+            gameui.AssetsManager.loadSpriteSheet("touch", "Touch.json");
+
             gameui.Button.setDefaultSoundId("button");
 
 
@@ -83,7 +88,7 @@ module FlipPlus.Menu {
             var w = 795;
             var h = 104;
 
-            //text.pivot.x = text.getBounds().width / 2;
+            //text.pivot.x = text.getLocalBounds().width / 2;
             bar.pivot.x = Math.floor(bg.pivot.x = w / 2 )
             bar.pivot.y = Math.floor(bg.pivot.y = h/ 2  )
 

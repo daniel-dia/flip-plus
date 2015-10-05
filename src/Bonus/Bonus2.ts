@@ -79,10 +79,9 @@
                 if (this.lives == 0) {
                     //if there is no more lives, than end game
                     this.content.interactive = false;
+                    this.content.interactiveChildren = false;
                     this.message.showtext(StringResources.b2_noMoreChances, 2000, 500);
                     this.message.addEventListener("onclose", () => { this.endBonus(); });
-
-
                     // play sound
                     gameui.AudiosManager.playSound("Wrong Answer");
                 }
@@ -96,6 +95,7 @@
             if (this.matchesFound >= this.pairs) {
                 //ends the game
                 this.content.interactive = false;
+                this.content.interactiveChildren = false;
                 this.message.showtext(StringResources.b2_finish, 2000, 500);
                 this.message.on("onclose", () => { this.endBonus(); });
             }
@@ -133,9 +133,14 @@
                 card.y = Math.floor(c / cols) * height;
                 cardsContainer.addChild(card);
                 this.cards.push(card);
-
+                card.interactive = true;
                 //add cards event listener
-                card.on("mousedown", (e: MouseEvent) => { this.cardClick(<Card>e.target) });
+                card.addEventListener("tap", (e: PIXI.interaction.InteractionEvent) => {
+                   this.cardClick(<Card>e.target)
+                });
+                card.addEventListener("click", (e: PIXI.interaction.InteractionEvent) => {
+                    this.cardClick(<Card>e.target)
+                });
             }
 
             this.content.addChild(cardsContainer);
@@ -202,12 +207,12 @@
             this.addChild(itemDO);
 
             //add cover image
-            var cover = new gameui.ImageButton("Bonus2/bonuscard1");
-            cover.x = 368 / 2;
-            cover.y = 279 / 2;
-            /// Check cover.hitArea = (new PIXI.Graphics().beginFill(0xFFFFFF).drawRect(-368 / 2, -279 / 2, 368, 279));
-            cover.name = "cover";
-            this.addChild(cover);
+           var cover = new gameui.ImageButton("Bonus2/bonuscard1");
+           cover.x = 368 / 2;
+           cover.y = 279 / 2;
+           /// Check cover.hitArea = (new PIXI.Graphics().beginFill(0xFFFFFF).drawRect(-368 / 2, -279 / 2, 368, 279));
+           cover.name = "cover";
+           this.addChild(cover);
 
          
             this.pivot.x = 184;
@@ -221,8 +226,8 @@
 
             var cover = this.getChildByName("cover");
             createjs.Tween.removeTweens(cover);
-            
-            createjs.Tween.get(cover).to({ rotation: 90, y: 1000, alpha: 0 }, 500, createjs.Ease.sineIn).call(() => { cover.visible = false });
+
+            createjs.Tween.get(cover).to({ rotation: Math.PI/2, y: 1000, alpha: 0 }, 500, createjs.Ease.sineIn).call(() => { cover.visible = false });
             this.interactive = false;
             this.opened = true;
         }

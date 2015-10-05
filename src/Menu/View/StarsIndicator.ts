@@ -26,7 +26,7 @@ module FlipPlus.Menu.View {
             var si = gameui.AssetsManager.getBitmap("starsicon");
             si.scale.x = si.scale.y = 0.9;
             this.starsTextField = gameui.AssetsManager.getBitmapText("0", "fontBlue");
-            this.starsTextField.pivot.x = this.starsTextField.getBounds().width;
+            this.starsTextField.pivot.x = this.starsTextField.getLocalBounds().width;
             this.starsTextField.x = -140;
 
             this.addChild(si); 

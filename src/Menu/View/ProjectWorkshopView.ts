@@ -77,12 +77,12 @@ module FlipPlus.Menu.View {
             bg.y = 0//150;
             bg.x = defaultWidth/ 2;
             bg.scale.x = 2;
-            bg.pivot.x = bg.getBounds().width/2;
+            bg.pivot.x = bg.getLocalBounds().width/2;
             this.statusArea.addChild(bg);
 
             var l: PIXI.extras.BitmapText = gameui.AssetsManager.getBitmapText(project.nickName.toUpperCase(), "fontWhite");
             l.y = 20;//250;
-            l.pivot.x = l.getBounds().width / 2;
+            l.pivot.x = l.getLocalBounds().width / 2;
             l.x = defaultWidth / 2;
             this.statusArea.addChild(l);
 
@@ -123,7 +123,7 @@ module FlipPlus.Menu.View {
                 }
                 else {
                     var text = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontBlue");
-                    text.pivot.x = text.getBounds().width / 2;
+                    text.pivot.x = text.getLocalBounds().width / 2;
                     text.y = 1738 - 2048;
                     text.x = defaultWidth / 2;
                     levelMachine.addChild(text);
@@ -131,7 +131,7 @@ module FlipPlus.Menu.View {
             } else {
                 //TODO mudar o nome disso.
                 var text = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontBlue"); 
-                text.pivot.x = text.getBounds().width / 2;
+                text.pivot.x = text.getLocalBounds().width / 2;
                 text.y = 1738 - 2048;
                 text.x = defaultWidth / 2;
                 levelMachine.addChild(text);

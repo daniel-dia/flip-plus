@@ -2,7 +2,7 @@
 
 module FlipPlus.Menu {
     export class Intro extends PIXI.Container {
-        private introMc: PIXI.MovieClip;
+        private introMc: PIXI.extras.MovieClip;
         private popup: View.PopupBot;
 
         constructor() {

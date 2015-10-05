@@ -69,7 +69,7 @@ module FlipPlus.Menu {
             //TODO fazer camada intermediaria
             //TODO o options sempre volta pro menu principal. O_o
             
-            this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(); });
+            this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(this); });
             this.menu.addEventListener("back", () => { this.back();});
             this.header.addChild(this.menu);
 

@@ -105,7 +105,6 @@
         //common
         { id: "loadingbj", src: "loadingbj.png" },
         { id: "loadingBar", src: "loadingBar.png" },
-        { id: "touch", src: "touch.png" },
         { id: "max", src: "max.png" },
         { id: "dark", src: "dark.png" },
         { id: "partshud", src: "partshud.png" },
@@ -174,7 +173,7 @@
 
 
         //projects other stuff
-        { id: "projects/bgprojects", src: "projects/bgprojects.jpg" }, 
+        { id: "projects/bgprojects", src: "projects/bgprojects.jpg" },
         { id: "projects/projectFooter", src: "projects/projectFooter.png" },
         { id: "projects/projectHeader", src: "projects/projectHeader.png" },
         { id: "projects/bar1", src: "projects/bar1.png" },
@@ -345,16 +344,13 @@
         { id: "puzzle/tile_yellow_2", src: "puzzle/tile_yellow_2.png" },
         { id: "puzzle/tile_yellow_3", src: "puzzle/tile_yellow_3.png" },
         { id: "puzzle/tile_yellow_4", src: "puzzle/tile_yellow_4.png" },
-         
+
         //popup
         { id: "popups/popup", src: "popups/popup.png" },
         { id: "popups/message", src: "popups/message.png" },
         { id: "popups/popupTutorial", src: "popups/popupbot.png" },
 
-        //Legacy
-        { id: "bolinhas", src: "bolinhas.png" },
-]
-
+];
 var audioManifest = [
 
         //Sound
@@ -388,5 +384,12 @@ var audioManifest = [
         { id: "Robot Talk_04", src: "Robot Talk_04.ogg" },
         { id: "Robot Talk_05", src: "Robot Talk_05.ogg" },
         { id: "Robot Talk_06", src: "Robot Talk_06.ogg" },
-        { id: "Robot Talk_07", src: "Robot Talk_07.ogg" }, 
+        { id: "Robot Talk_07", src: "Robot Talk_07.ogg" },
 ];
+
+var framesCount = {
+    Bolinhas: 21,
+    agua: 32,
+    touch:40,
+
+}

@@ -36,8 +36,8 @@ module gameui {
             this.oldScaleY = this.scale.y;
 
             createjs.Tween.get(this).to({
-                'scale.x': scaleX, ///Check
-                'scale.y': scaleY, ///Check
+                scaleX: scaleX, 
+                scaleY: scaleY, 
                 alpha: 0,
                 x: this.antX,
                 y: this.antY,
@@ -89,8 +89,8 @@ module gameui {
             this.interactive = false;
             createjs.Tween.removeTweens(this);
             createjs.Tween.get(this).to({
-                'scale.x': this.oldScaleX, ///Check
-                'scale.y': this.oldScaleY, ///Check
+                scaleX: this.oldScaleX, 
+                scaleY: this.oldScaleY,   
                 alpha: 1,
                 x: this.antX,
                 y: this.antY,

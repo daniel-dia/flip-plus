@@ -41,26 +41,26 @@ module FlipPlus.Robots {
 
         //adds a user feedback for click action
         private initializeUserFeedback() {
-            FlipPlusGame.gameScreen.stage.update();
+            ///Check FlipPlusGame.gameScreen.stage.update();
             for (var c = 0; c < this.myBots.children.length; c++) {
-                var robot = <PIXI.MovieClip>this.myBots.getChildAt(c);;
+                var robot = <PIXI.extras.MovieClip>this.myBots.getChildAt(c);;
                 robot.addEventListener("mousedown", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
 
                 var hit = new PIXI.Graphics().beginFill(0).drawRect(
-                    robot.getBounds().x,
-                    robot.getBounds().y,
-                    robot.getBounds().width,
-                    robot.getBounds().height
+                    robot.getLocalBounds().x,
+                    robot.getLocalBounds().y,
+                    robot.getLocalBounds().width,
+                    robot.getLocalBounds().height
                     );
                
-                robot.hitArea = hit;
+               // Check  robot.hitArea = hit;
             }
         }
 
         //User action feedback to user touch
         private userfeedback(event: PIXI.interaction.InteractionEvent) {
 
-            var robotMc = <PIXI.MovieClip>event.target;
+            var robotMc = <PIXI.extras.MovieClip>event.target;
             var project: Projects.Project = this.projectManager.getProjectByName(robotMc.name);
 
             if (createjs.Tween.hasActiveTweens(robotMc))return;
@@ -71,7 +71,7 @@ module FlipPlus.Robots {
                 var py = robotMc.scale.y;
                 var ot = robotMc.y;
 
-                robotMc.gotoAndPlay("touch");
+                /// Depreciated robotMc.gotoAndPlay("touch");
                 this.emit("robot", robotMc.name);  
                 gameui.AudiosManager.playSound("Robot Talk_0" + Math.ceil(Math.random() * 7), true);
                 createjs.Tween.get(robotMc) 
@@ -103,8 +103,8 @@ module FlipPlus.Robots {
         //hide All Robots from Screen
         private hideAllRobots() {
             for (var c = 0; c < this.myBots.children.length; c++) {
-                (<PIXI.MovieClip>this.myBots.getChildAt(c)).visible = false;
-                (<PIXI.MovieClip>this.myBots.getChildAt(c)).stop();
+                (<PIXI.extras.MovieClip>this.myBots.getChildAt(c)).visible = false;
+                (<PIXI.extras.MovieClip>this.myBots.getChildAt(c)).stop();
             }
         }
 
@@ -121,8 +121,6 @@ module FlipPlus.Robots {
         //play robot alert animation
         public alertRobot(botId: string) {
             var robotMC = this.myBots[botId];
-            //if (robotMC != null)
-            //    robotMC.gotoAndPlay("alert");
         }
 
         // show a new glare into the bot
@@ -132,8 +130,8 @@ module FlipPlus.Robots {
             if (robotMC != null) {
 
                 var bgnewbot = <PIXI.Sprite>gameui.AssetsManager.getBitmap("bgnewbot");
-                bgnewbot.pivot.x = bgnewbot.getBounds().width / 2;
-                bgnewbot.pivot.y = bgnewbot.getBounds().height / 2;
+                bgnewbot.pivot.x = bgnewbot.getLocalBounds().width / 2;
+                bgnewbot.pivot.y = bgnewbot.getLocalBounds().height / 2;
                 bgnewbot.x = robotMC.x ;
                 bgnewbot.y = robotMC.y;
                 bgnewbot.visible = true;

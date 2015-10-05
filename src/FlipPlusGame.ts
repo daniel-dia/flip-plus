@@ -76,7 +76,7 @@ module FlipPlus {
                 }
                 else
 
-                    this.showProjectsMenu();
+                    this.showBonus("Bonus2");
                     //this.showTitleScreen();
             }
 
@@ -163,7 +163,7 @@ module FlipPlus {
             else
                 this.projectManager.setCurrentProject(project);
 
-            if (project == null) return;
+            //if (project == null) return;
 
             var projects = this.projectManager.getAllProjects()
 

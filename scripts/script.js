@@ -45,6 +45,10 @@ var gameui;
             this.loader.add(id, fontFile);
             this.loader.load();
         };
+        AssetsManager.loadSpriteSheet = function (id, fontFile) {
+            this.loader.add(id, fontFile);
+            this.loader.load();
+        };
         // cleans all sprites in the bitmap array;
         AssetsManager.cleanAssets = function () {
             if (images)
@@ -65,7 +69,7 @@ var gameui;
             //if image id is described in spritesheets
             if (this.spriteSheets)
                 if (this.spriteSheets[name])
-                    return this.getSprite(name, false);
+                    return this.getMovieClip(name, false);
             //if image is preloaded
             var texture = this.getLoadedImage(name);
             if (texture) {
@@ -97,17 +101,19 @@ var gameui;
             return null;
         };
         //return a sprite according to the image
-        AssetsManager.getSprite = function (name, play) {
-            if (play === void 0) { play = true; }
-            return null;
-            // var data = this.spriteSheets[name];
-            // for (var i in data.images) if (typeof data.images[i] == "string") data.images[i] = this.getLoadedImage(data.images[i]);
-            //
-            // var spritesheet = new PIXI.SpriteSheet(data);
-            //
-            // var sprite = new PIXI.Sprite(spritesheet);
-            // if (play) sprite.play();
-            // return sprite;
+        AssetsManager.getMovieClip = function (name) {
+            var textures = [];
+            var n2 = function (n) { return n > 9 ? "" + n : "0" + n; };
+            for (var i = 0; i < 999; i++) {
+                var id = name + n2(i);
+                if (!PIXI.utils.TextureCache[id])
+                    break;
+                var texture = PIXI.Texture.fromFrame(id);
+                textures.push(texture);
+            }
+            var mc = new PIXI.extras.MovieClip(textures);
+            mc.play();
+            return mc;
         };
         AssetsManager.defaultMouseEnabled = false;
         return AssetsManager;
@@ -361,8 +367,8 @@ var gameui;
             this.oldScaleX = this.scale.x;
             this.oldScaleY = this.scale.y;
             createjs.Tween.get(this).to({
-                'scale.x': scaleX,
-                'scale.y': scaleY,
+                scaleX: scaleX,
+                scaleY: scaleY,
                 alpha: 0,
                 x: this.antX,
                 y: this.antY
@@ -413,8 +419,8 @@ var gameui;
             this.interactive = false;
             createjs.Tween.removeTweens(this);
             createjs.Tween.get(this).to({
-                'scale.x': this.oldScaleX,
-                'scale.y': this.oldScaleY,
+                scaleX: this.oldScaleX,
+                scaleY: this.oldScaleY,
                 alpha: 1,
                 x: this.antX,
                 y: this.antY
@@ -528,13 +534,15 @@ var gameui;
             this.interactive = true;
             this.interactiveChildren = true;
             if (event != null)
-                this.on("mousedown", event);
+                this.on("tap", event);
+            if (event != null)
+                this.on("click", event);
             this.on("mousedown", function (event) { _this.onPress(event); });
             this.on("mousedown", function (event) { _this.onPressUp(event); });
             this.on("touchstart", function (event) { _this.onPress(event); });
             this.on("touchend", function (event) { _this.onPressUp(event); });
-            //this.on("mouseover", () => { this.mouse = true; });
-            //this.on("mouseout", () => { this.mouse = false; });
+            this.on("mouseover", function () { _this.mouse = true; });
+            this.on("mouseout", function () { _this.mouse = false; });
             this.soundId = soundId;
         }
         Button.setDefaultSoundId = function (soundId) {
@@ -632,8 +640,8 @@ var gameui;
             text = text.toUpperCase();
             this.bitmapText = gameui.AssetsManager.getBitmapText(text, bitmapFontId);
             this.addChild(this.bitmapText);
-            this.bitmapText.pivot.x = this.bitmapText.getBounds().width / 2;
-            this.bitmapText.pivot.y = this.bitmapText.maxLineHeight / 2;
+            this.bitmapText.pivot.x = this.bitmapText.textWidth / 2;
+            this.bitmapText.pivot.y = this.bitmapText.textHeight / 2;
             this.createHitArea();
         }
         return BitmapTextButton;
@@ -772,7 +780,7 @@ var FlipPlus;
                     _this.toLevelCreator();
                 }
                 else
-                    _this.showProjectsMenu();
+                    _this.showBonus("Bonus2");
                 //this.showTitleScreen();
             };
             // give 10 coins to user first time
@@ -845,8 +853,7 @@ var FlipPlus;
                 project = this.projectManager.getCurrentProject();
             else
                 this.projectManager.setCurrentProject(project);
-            if (project == null)
-                return;
+            //if (project == null) return;
             var projects = this.projectManager.getAllProjects();
             //create a new levels menu, if needed
             if (this.levelsMenu == undefined)
@@ -1443,13 +1450,9 @@ var FlipPlus;
                 var _this = this;
                 //remove all tweens
                 createjs.Tween.removeTweens(this.boardSprite);
-                //cache board
-                var bounds = this.boardSprite.getBounds();
-                ////this.boardSprite.cache(bounds.x, bounds.y, bounds.width, bounds.height);
                 //animate to out
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(function () {
                     _this.boardSprite.visible = false;
-                    _this.boardSprite.uncache();
                 });
                 //switch screen
                 FlipPlus.FlipPlusGame.completeLevel(complete1stTime);
@@ -2950,7 +2953,7 @@ var FlipPlus;
                     this.pivot.x = boardWidth / 2;
                     this.pivot.y = boardHeight / 2;
                     //load click indicator
-                    this.tutorialIndiatcor = gameui.AssetsManager.getSprite("touch");
+                    this.tutorialIndiatcor = gameui.AssetsManager.getMovieClip("touch");
                     this.tutorialIndiatcor.pivot.x = this.tutorialIndiatcor.pivot.y = -55;
                     this.tutorialIndiatcor.mouseEnabled = false;
                     this.addChild(this.tutorialIndiatcor);
@@ -3223,7 +3226,7 @@ var FlipPlus;
                 }
                 //adds tutorial touch indicator
                 GamePlayMenu.prototype.addTutorialIndicator = function () {
-                    this.tutorial_highlightSprite = gameui.AssetsManager.getSprite("touch");
+                    this.tutorial_highlightSprite = gameui.AssetsManager.getMovieClip("touch");
                     this.tutorial_highlightSprite.visible = false;
                     this.tutorial_highlightSprite.mouseEnabled = false;
                     this.addChild(this.tutorial_highlightSprite);
@@ -3335,16 +3338,16 @@ var FlipPlus;
                     rightIconContainer.scale.x = -1;
                     this.iconepuzzle.y = 33;
                     rightIconContainer.y = 33;
-                    this.rightIcon.pivot.x = this.rightIcon.x = this.iconemoves.getBounds().width / 2;
-                    this.rightIcon.pivot.y = this.rightIcon.y = this.iconemoves.getBounds().height / 2;
+                    this.rightIcon.pivot.x = this.rightIcon.x = this.iconemoves.getLocalBounds().width / 2;
+                    this.rightIcon.pivot.y = this.rightIcon.y = this.iconemoves.getLocalBounds().height / 2;
                     this.addChild(this.iconepuzzle);
                     this.rightIcon.addChild(this.iconemoves);
                     this.rightIcon.addChild(this.iconetime);
                     rightIconContainer.addChild(this.rightIcon);
                     this.addChild(rightIconContainer);
                     //Text
-                    this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite"); // defaultFontFamilyNormal, 0xFFFFFF);
-                    this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite"); // defaultFontFamilyNormal, 0xFFFFFF);
+                    this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");
+                    this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");
                     this.text1.x = defaultWidth * 0.13;
                     this.text3.x = defaultWidth * 0.79;
                     //this.text1.textAlign = this.text2.textAlign = this.text3.textAlign = "center";
@@ -3356,7 +3359,7 @@ var FlipPlus;
                 //creates a movieClip animation for the alert button
                 StatusArea.prototype.createAlertAnimation = function () {
                     var instance = this.rightIcon;
-                    this.rightIconMC = new PIXI.MovieClip(PIXI.MovieClip.SYNCHED, 0, false);
+                    this.rightIconMC = new PIXI.extras.MovieClip(PIXI.extras.MovieClip.SYNCHED, 0, false);
                     this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
                         .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).
                         to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 }, 8).
@@ -3442,7 +3445,7 @@ var FlipPlus;
                 // reorder content
                 this.view.addChild(this.content);
                 //bring content to front
-                //this.view.setChildIndex(this.content, this.view.children.length - 1);
+                //this.view.setChildIndex(this.content, this.view.children.length - 1); 
             }
             //add Scene objects to the view
             BonusScreen.prototype.addScene = function (bonusId) {
@@ -3458,7 +3461,7 @@ var FlipPlus;
                 this.footer.addChild(footer);
                 footer.y = -291;
                 var titleText = gameui.AssetsManager.getBitmapText(StringResources[bonusId + "_title"].toUpperCase(), "fontWhite");
-                titleText.pivot.x = titleText.getBounds().width / 2;
+                titleText.pivot.x = titleText.textWidth / 2;
                 titleText.x = defaultWidth / 2;
                 titleText.y = -170;
                 //titleText.textBaseline = "middle";
@@ -3514,10 +3517,12 @@ var FlipPlus;
                     itemId = "coin";
                 var footerItem = this.partsIndicator.getChildByName("icon");
                 if (footerItem && itemObj.parent) {
-                    var startPoint = itemObj.localToLocal(itemObj.pivot.x, itemObj.pivot.y, this.content);
-                    var endPoint = this.partsIndicator.localToLocal(footerItem.x, footerItem.y, itemObj.parent);
+                    var startPoint = itemObj.position;
+                    var endPoint = itemObj.parent.toLocal(footerItem.parent.toGlobal(footerItem.position));
+                    var startGlobal = this.content.toLocal(itemObj.pivot, itemObj);
+                    var endGlobal = this.content.toLocal(footerItem.pivot, footerItem);
                     // cast effect
-                    this.fx.castEffect(startPoint.x, startPoint.y - 50, "Bolinhas", 3);
+                    this.fx.castEffect(startGlobal.x, startGlobal.y - 50, "Bolinhas", 3);
                     // Animate item
                     createjs.Tween.get(itemObj).
                         to({ y: itemObj.y - 80 }, 500, createjs.Ease.quadOut).
@@ -3525,8 +3530,7 @@ var FlipPlus;
                         call(function () {
                         _this.updatePartsAmmount();
                         // cast effect
-                        var fxPoint = _this.partsIndicator.localToLocal(footerItem.x, footerItem.y, _this.content);
-                        _this.fx.castEffect(fxPoint.x, fxPoint.y, "Bolinhas", 2);
+                        _this.fx.castEffect(endGlobal.x, endGlobal.y, "Bolinhas", 3);
                         //play Sound
                         gameui.AudiosManager.playSound("Correct Answer 2");
                     }).to({ alpha: 0 }, 300);
@@ -3714,8 +3718,8 @@ var FlipPlus;
                         var itemDO = gameui.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]);
                         itemDO.name = "item";
                         this.BarrelsItens[b].addChild(itemDO);
-                        itemDO.pivot.x = itemDO.getBounds().width / 2;
-                        itemDO.pivot.y = itemDO.getBounds().height / 2;
+                        itemDO.pivot.x = itemDO.getLocalBounds().width / 2;
+                        itemDO.pivot.y = itemDO.getLocalBounds().height / 2;
                         this.BarrelsItens[b].x += itemDO.pivot.x;
                         this.BarrelsItens[b].y += itemDO.pivot.y;
                     }
@@ -3866,6 +3870,7 @@ var FlipPlus;
                     if (this.lives == 0) {
                         //if there is no more lives, than end game
                         this.content.interactive = false;
+                        this.content.interactiveChildren = false;
                         this.message.showtext(StringResources.b2_noMoreChances, 2000, 500);
                         this.message.addEventListener("onclose", function () { _this.endBonus(); });
                         // play sound
@@ -3879,6 +3884,7 @@ var FlipPlus;
                 if (this.matchesFound >= this.pairs) {
                     //ends the game
                     this.content.interactive = false;
+                    this.content.interactiveChildren = false;
                     this.message.showtext(StringResources.b2_finish, 2000, 500);
                     this.message.on("onclose", function () { _this.endBonus(); });
                 }
@@ -3911,8 +3917,14 @@ var FlipPlus;
                     card.y = Math.floor(c / cols) * height;
                     cardsContainer.addChild(card);
                     this.cards.push(card);
+                    card.interactive = true;
                     //add cards event listener
-                    card.on("mousedown", function (e) { _this.cardClick(e.target); });
+                    card.addEventListener("tap", function (e) {
+                        _this.cardClick(e.target);
+                    });
+                    card.addEventListener("click", function (e) {
+                        _this.cardClick(e.target);
+                    });
                 }
                 this.content.addChild(cardsContainer);
             };
@@ -3980,7 +3992,7 @@ var FlipPlus;
                 this.getChildByName("item").visible = true;
                 var cover = this.getChildByName("cover");
                 createjs.Tween.removeTweens(cover);
-                createjs.Tween.get(cover).to({ rotation: 90, y: 1000, alpha: 0 }, 500, createjs.Ease.sineIn).call(function () { cover.visible = false; });
+                createjs.Tween.get(cover).to({ rotation: Math.PI / 2, y: 1000, alpha: 0 }, 500, createjs.Ease.sineIn).call(function () { cover.visible = false; });
                 this.interactive = false;
                 this.opened = true;
             };
@@ -4118,8 +4130,8 @@ var FlipPlus;
                     FlipPlus.FlipPlusGame.coinsData.increaseAmount(1);
                     var itemObj = this.createItem(items[i]);
                     itemObj.set({ x: defaultWidth / 2, y: defaultHeight / 2 - 100, alpha: 0 });
-                    itemObj.pivot.x = itemObj.getBounds().width / 2;
-                    itemObj.pivot.y = itemObj.getBounds().height / 2;
+                    itemObj.pivot.x = itemObj.getLocalBounds().width / 2;
+                    itemObj.pivot.y = itemObj.getLocalBounds().height / 2;
                     createjs.Tween.get(itemObj).wait(500 + i * 300)
                         .to({ alpha: 1, x: defaultWidth * 0.15 + i * (defaultWidth * 0.7 / items.length), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
                         .call(function (itemDo) { _this.animateItemToHeader(itemDo, itemDo.name); }, [itemObj]);
@@ -4133,8 +4145,8 @@ var FlipPlus;
                 itemDO.name = item;
                 //itemDO.x = 368 / 2;
                 //itemDO.y = 279 / 2;
-                //itemDO.pivot.x = itemDO.getBounds().width / 2;
-                //itemDO.pivot.y = itemDO.getBounds().height / 2;
+                //itemDO.pivot.x = itemDO.getLocalBounds().width / 2;
+                //itemDO.pivot.y = itemDO.getLocalBounds().height / 2;
                 //itemDO.visible = false;
                 itemDO.mouseEnabled = false;
                 return itemDO;
@@ -4212,9 +4224,8 @@ var FlipPlus;
                 backButton.set({ x: 550, y: -690, hitPadding: 100 });
                 backButton.createHitArea();
                 this.content.addChild(backButton);
-                var t = new gameui.Label(title, defaultFontFamilyHighlight, 0xFFFFFF).set({ x: -500, y: -690, textAlign: "left" });
-                t;
-                this.content.addChild(t);
+                //var t = new gameui.Label(title, defaultFontFamilyHighlight, 0xFFFFFF).set({ x: -500, y: -690, textAlign:"left" });
+                //this.content.addChild(t);
             };
             GenericMenu.prototype.animateIn = function (menu) {
                 createjs.Tween.get(menu).to({ x: this.originX, y: this.originY, scaleY: 0, scaleX: 0, alpha: 0 }).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 1 }, 400, createjs.Ease.quadOut);
@@ -4276,7 +4287,7 @@ var FlipPlus;
                 this.menu = new Menu.View.ScreenMenu();
                 //TODO fazer camada intermediaria
                 //TODO o options sempre volta pro menu principal. O_o
-                this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
+                this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(_this); });
                 this.menu.addEventListener("back", function () { _this.back(); });
                 this.header.addChild(this.menu);
             };
@@ -4396,10 +4407,13 @@ var FlipPlus;
                     createjs.Sound.alternateExtensions = ["mp3"];
                     createjs.Sound.registerSounds(audioManifest, audioPath);
                 }
-                gameui.AssetsManager.loadAssets(imageManifest, imagePath, spriteSheets);
+                gameui.AssetsManager.loadAssets(imageManifest, imagePath);
                 gameui.AssetsManager.loadFontSpriteSheet("fontWhite", "fontWhite.fnt");
                 gameui.AssetsManager.loadFontSpriteSheet("fontBlue", "fontBlue.fnt");
                 gameui.AssetsManager.loadFontSpriteSheet("fontTitle", "fontTitle.fnt");
+                gameui.AssetsManager.loadSpriteSheet("agua", "agua.json");
+                gameui.AssetsManager.loadSpriteSheet("bolinhas", "bolinhas.json");
+                gameui.AssetsManager.loadSpriteSheet("touch", "Touch.json");
                 gameui.Button.setDefaultSoundId("button");
                 // adds a loading bar
                 var loadinBar = new LoadingBar(imagePath);
@@ -4431,7 +4445,7 @@ var FlipPlus;
                 this.addChild(bar);
                 var w = 795;
                 var h = 104;
-                //text.pivot.x = text.getBounds().width / 2;
+                //text.pivot.x = text.getLocalBounds().width / 2;
                 bar.pivot.x = Math.floor(bg.pivot.x = w / 2);
                 bar.pivot.y = Math.floor(bg.pivot.y = h / 2);
                 //text.y = -200;
@@ -4671,7 +4685,9 @@ var FlipPlus;
                     }
                     var projectView = new Menu.View.ProjectItem(projects[i]);
                     //add click event to the item
-                    projectView.addEventListener("mousedown", function (e) { _this.projectItemClick(e); });
+                    projectView.addEventListener("mousedown", function (e) {
+                        _this.projectItemClick(e);
+                    });
                     //add item to scene
                     this.projectsItems.push(projectView);
                     currentPage.addChild(projectView);
@@ -5030,14 +5046,14 @@ var FlipPlus;
                 LevelThumb.prototype.createLevelModificator = function (level) {
                     if (level.userdata.skip) {
                         var sk = gameui.AssetsManager.getBitmap("puzzle/icon_skip");
-                        sk.pivot.x = sk.getBounds().width / 2;
-                        sk.pivot.y = sk.getBounds().height / 2;
+                        sk.pivot.x = sk.getLocalBounds().width / 2;
+                        sk.pivot.y = sk.getLocalBounds().height / 2;
                         return sk;
                     }
                     if (level.userdata.item) {
                         var sk = gameui.AssetsManager.getBitmap("puzzle/icon_" + level.userdata.item);
-                        sk.pivot.x = sk.getBounds().width / 2;
-                        sk.pivot.y = sk.getBounds().height / 2;
+                        sk.pivot.x = sk.getLocalBounds().width / 2;
+                        sk.pivot.y = sk.getLocalBounds().height / 2;
                         return sk;
                     }
                 };
@@ -5131,7 +5147,7 @@ var FlipPlus;
                     var si = gameui.AssetsManager.getBitmap("starsicon");
                     si.scale.x = si.scale.y = 0.9;
                     this.starsTextField = gameui.AssetsManager.getBitmapText("0", "fontBlue");
-                    this.starsTextField.pivot.x = this.starsTextField.getBounds().width;
+                    this.starsTextField.pivot.x = this.starsTextField.getLocalBounds().width;
                     this.starsTextField.x = -140;
                     this.addChild(si);
                     this.addChild(this.starsTextField);
@@ -5276,7 +5292,7 @@ var FlipPlus;
                         //addsText
                         var tx = gameui.AssetsManager.getBitmapText(project.cost.toString(), "fontBlue");
                         this.addChild(tx);
-                        tx.pivot.x = tx.getBounds().width;
+                        tx.pivot.x = tx.getLocalBounds().width;
                         tx.x = 220;
                         tx.y = 195;
                     }
@@ -5729,7 +5745,7 @@ var FlipPlus;
                     this.height = defaultHeight;
                     this.x = defaultWidth / 2;
                     this.y = defaultHeight / 2;
-                    this.centralize();
+                    this.pivot = this.position;
                     if (!disableInput) {
                         //set Hit Area
                         /// Check var hit = (new PIXI.Graphics().beginFill(0xF00).drawRect(0, 0, defaultWidth, defaultHeight));
@@ -5767,9 +5783,9 @@ var FlipPlus;
                     //updates title and text values
                     if (text) {
                         textDO.text = text;
-                        textDO.pivot.x = textDO.getBounds().width / 2;
+                        textDO.pivot.x = textDO.getLocalBounds().width / 2;
                         titleDO.text = title.toUpperCase();
-                        titleDO.pivot.x = titleDO.getBounds().width / 2;
+                        titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
                     }
                     var b = defaultHeight / 2 - 500;
                     titleDO.y = 0 + b + 50;
@@ -5799,9 +5815,9 @@ var FlipPlus;
                     //updates title and text values
                     if (text) {
                         textDO.text = text;
-                        textDO.pivot.x = textDO.getBounds().width / 2;
+                        textDO.pivot.x = textDO.getLocalBounds().width / 2;
                         titleDO.text = title.toUpperCase();
-                        titleDO.pivot.x = titleDO.getBounds().width / 2;
+                        titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
                     }
                     //add buton to store
                     this.addChild(new gameui.BitmapTextButton(StringResources.menus.shop, "fontWhite", "menu/btmenu", function () {
@@ -5851,18 +5867,18 @@ var FlipPlus;
                     this.addChild(boardsDO);
                     //updates title and text values
                     titleDO.text = StringResources.gp_pz_Popup1Title.toUpperCase();
-                    titleDO.pivot.x = titleDO.getBounds().width / 2;
+                    titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
                     textDO.text = StringResources.gp_pz_Popup1Text1;
                     textDO1.text = StringResources.gp_pz_Popup1Text2;
                     textDO2.text = StringResources.gp_pz_Popup1Text3;
                     timeDO.text = time;
                     boardsDO.text = boards;
-                    titleDO.pivot.x = titleDO.getBounds().width / 2;
-                    textDO.regX = textDO.getBounds().width / 2;
-                    textDO1.regX = textDO1.getBounds().width / 2;
-                    textDO2.regX = textDO2.getBounds().width / 2;
-                    timeDO.regX = timeDO.getBounds().width / 2;
-                    boardsDO.regX = boardsDO.getBounds().width / 2;
+                    titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
+                    textDO.regX = textDO.getLocalBounds().width / 2;
+                    textDO1.regX = textDO1.getLocalBounds().width / 2;
+                    textDO2.regX = textDO2.getLocalBounds().width / 2;
+                    timeDO.regX = timeDO.getLocalBounds().width / 2;
+                    boardsDO.regX = boardsDO.getLocalBounds().width / 2;
                     var b = defaultHeight / 2 - 500;
                     titleDO.y = 0 + b + 50;
                     textDO.y = 300 + b;
@@ -5909,11 +5925,11 @@ var FlipPlus;
                     textDO.text = StringResources.gp_mv_Popup1Text1;
                     textDO2.text = StringResources.gp_mv_Popup1Text3;
                     tapsDO.text = taps;
-                    titleDO.pivot.x = titleDO.getBounds().width / 2;
-                    textDO.pivot.x = textDO.getBounds().width / 2;
+                    titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
+                    textDO.pivot.x = textDO.getLocalBounds().width / 2;
                     ;
-                    textDO2.pivot.x = textDO2.getBounds().width / 2;
-                    tapsDO.pivot.x = tapsDO.getBounds().width / 2;
+                    textDO2.pivot.x = textDO2.getLocalBounds().width / 2;
+                    tapsDO.pivot.x = tapsDO.getLocalBounds().width / 2;
                     var b = defaultHeight / 2 - 500;
                     titleDO.y = 0 + b + 50;
                     textDO.y = 300 + b;
@@ -5940,7 +5956,7 @@ var FlipPlus;
                 };
                 Popup.prototype.addsClickIndicator = function () {
                     //add click indicator
-                    var ind = gameui.AssetsManager.getSprite("touch");
+                    var ind = gameui.AssetsManager.getMovieClip("touch");
                     this.addChild(ind);
                     ind.x = 1350;
                     ind.y = 1100;
@@ -5996,13 +6012,12 @@ var FlipPlus;
             //adds a user feedback for click action
             MyBots.prototype.initializeUserFeedback = function () {
                 var _this = this;
-                FlipPlus.FlipPlusGame.gameScreen.stage.update();
+                ///Check FlipPlusGame.gameScreen.stage.update();
                 for (var c = 0; c < this.myBots.children.length; c++) {
                     var robot = this.myBots.getChildAt(c);
                     ;
                     robot.addEventListener("mousedown", function (e) { _this.userfeedback(e); });
-                    var hit = new PIXI.Graphics().beginFill(0).drawRect(robot.getBounds().x, robot.getBounds().y, robot.getBounds().width, robot.getBounds().height);
-                    robot.hitArea = hit;
+                    var hit = new PIXI.Graphics().beginFill(0).drawRect(robot.getLocalBounds().x, robot.getLocalBounds().y, robot.getLocalBounds().width, robot.getLocalBounds().height);
                 }
             };
             //User action feedback to user touch
@@ -6016,7 +6031,7 @@ var FlipPlus;
                     var px = robotMc.scale.x;
                     var py = robotMc.scale.y;
                     var ot = robotMc.y;
-                    robotMc.gotoAndPlay("touch");
+                    /// Depreciated robotMc.gotoAndPlay("touch");
                     this.emit("robot", robotMc.name);
                     gameui.AudiosManager.playSound("Robot Talk_0" + Math.ceil(Math.random() * 7), true);
                     createjs.Tween.get(robotMc)
@@ -6057,8 +6072,6 @@ var FlipPlus;
             //play robot alert animation
             MyBots.prototype.alertRobot = function (botId) {
                 var robotMC = this.myBots[botId];
-                //if (robotMC != null)
-                //    robotMC.gotoAndPlay("alert");
             };
             // show a new glare into the bot
             MyBots.prototype.castNewEffect = function (botId) {
@@ -6066,8 +6079,8 @@ var FlipPlus;
                 var robotMC = this.myBots[botId];
                 if (robotMC != null) {
                     var bgnewbot = gameui.AssetsManager.getBitmap("bgnewbot");
-                    bgnewbot.pivot.x = bgnewbot.getBounds().width / 2;
-                    bgnewbot.pivot.y = bgnewbot.getBounds().height / 2;
+                    bgnewbot.pivot.x = bgnewbot.getLocalBounds().width / 2;
+                    bgnewbot.pivot.y = bgnewbot.getLocalBounds().height / 2;
                     bgnewbot.x = robotMC.x;
                     bgnewbot.y = robotMC.y;
                     bgnewbot.visible = true;
@@ -6586,7 +6599,7 @@ var FlipPlus;
             // show a loading message
             ShopMenu.prototype.showLoading = function () {
                 this.statusText.text = StringResources.menus.loading;
-                this.statusText.pivot.x = this.statusText.getBounds().width / 2;
+                this.statusText.pivot.x = this.statusText.getLocalBounds().width / 2;
                 this.loadingObject.visible = true;
             };
             // show a loading message
@@ -6857,9 +6870,9 @@ var FlipPlus;
                 // add function callback
                 bt.addEventListener("mousedown", function (event) { Cocoon.Store.purchase(productList[0].productId); });
                 // adds Value
-                bt.addChild(new gameui.Label(productList[0].localizedPrice, defaultFontFamilyNormal, 0xFFFFFF).set({ x: -210, y: 255 }));
+                bt.addChild(gameui.AssetsManager.getBitmapText(productList[0].localizedPrice, "fontWhite").set({ x: -210, y: 255 }));
                 // adds buy text
-                bt.addChild(new gameui.Label(StringResources.menus.buy, defaultFontFamilyHighlight, "#86c0f1").set({ x: 165, y: 250 }));
+                bt.addChild(gameui.AssetsManager.getBitmapText(StringResources.menus.buy, "fontBlue").set({ x: 165, y: 250 }));
             };
             SpecialOfferMenu.prototype.buildHeader = function (title, previousScreen, color) {
                 _super.prototype.buildHeader.call(this, StringResources.menus.specialOffer, previousScreen, color);
@@ -6938,7 +6951,7 @@ var FlipPlus;
                         this.addChild(s);
                         //timer text 
                         this.timerText = gameui.AssetsManager.getBitmapText("00:00:00", "fontTitle");
-                        this.timerText.pivot.x = this.timerText.getBounds().width / 2;
+                        this.timerText.pivot.x = this.timerText.getLocalBounds().width / 2;
                         this.timerText.x = 1000;
                         this.timerText.y = 100;
                         this.addChild(this.timerText);
@@ -6962,7 +6975,7 @@ var FlipPlus;
                         //TODO da onde vai tirar as estrelas?
                         var tx = gameui.AssetsManager.getBitmapText(bonusData[bonusId].cost.toString(), "fontBlue");
                         this.addChild(tx);
-                        tx.pivot.x = tx.getBounds().width;
+                        tx.pivot.x = tx.getLocalBounds().width;
                         tx.x = 650;
                         tx.y = 155;
                     }
@@ -6978,7 +6991,7 @@ var FlipPlus;
                     var time = FlipPlus.FlipPlusGame.timersData.getTimer(this.bonusId);
                     if (time == 0) {
                         this.timerText.text = StringResources.mm_play;
-                        this.timerText.pivot.x = this.timerText.getBounds().width / 2;
+                        this.timerText.pivot.x = this.timerText.getLocalBounds().width / 2;
                         if (!createjs.Tween.hasActiveTweens(this.timerText)) {
                             this.timerText.set({ scaleX: 1, scaleY: 1 });
                         }
@@ -6986,7 +6999,7 @@ var FlipPlus;
                     else {
                         createjs.Tween.removeTweens(this.timerText);
                         this.timerText.text = this.toHHMMSS(time);
-                        this.timerText.pivot.x = this.timerText.getBounds().width / 2;
+                        this.timerText.pivot.x = this.timerText.getLocalBounds().width / 2;
                         this.timerText.scale.x = this.scale.y = 1;
                     }
                 };
@@ -7030,7 +7043,7 @@ var FlipPlus;
                     this.height = defaultHeight;
                     this.x = defaultWidth / 2;
                     this.y = defaultHeight / 2;
-                    this.centralize();
+                    this.pivot = this.position;
                     //hide popup
                     this.visible = false;
                     this.mouseEnabled = true;
@@ -7050,8 +7063,8 @@ var FlipPlus;
                     bg.y = defaultHeight / 2 - 500;
                     this.addChild(bg);
                     //create a text 
-                    var titleDO = gameui.AssetsManager.getBitmapText(text, "fontTitle");
-                    titleDO.pivot.x = titleDO.getBounds().width / 2;
+                    var titleDO = gameui.AssetsManager.getBitmapText(text.toUpperCase(), "fontTitle");
+                    titleDO.pivot.x = titleDO.textWidth / 2;
                     titleDO.x = defaultWidth / 2;
                     titleDO.y = defaultHeight / 2 - 100;
                     ;
@@ -7139,7 +7152,7 @@ var FlipPlus;
                     var moving = false;
                     // records position on mouse down
                     pagesContainer.addEventListener("mousedown", function (e) {
-                        var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                        var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y);
                         if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
                             initialclick = pos.x;
                             xpos = pos.x - pagesContainer.x;
@@ -7149,7 +7162,7 @@ var FlipPlus;
                     //drag the container
                     pagesContainer.addEventListener("pressmove", function (e) {
                         if (moving) {
-                            var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                            var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y);
                             pagesContainer.x = pos.x - xpos;
                             if (Math.abs(pos.x - initialclick) > 50)
                                 _this.cancelClick = true;
@@ -7161,7 +7174,7 @@ var FlipPlus;
                     pagesContainer.addEventListener("pressup", function (e) {
                         if (moving) {
                             moving = false;
-                            var pos = pagesContainer.parent.globalToLocal(e.rawX, e.rawY);
+                            var pos = pagesContainer.parent.globalToLocal(e.data.global.x, e.data.global.y);
                             //calculate the drag percentage.
                             var p = (pos.x - xpos + _this.pagewidth * _this.currentPageIndex) / _this.pagewidth;
                             //choses if goes to the next or previous page.
@@ -7262,8 +7275,10 @@ var FlipPlus;
                     skipBt.set({ y: p0 + p * s });
                     skipBt.bitmapText.y = -40;
                     this.addChild(skipBt);
-                    this.skipPriceText = gameui.AssetsManager.getBitmapText("", "fontWhite").set({ x: skipBt.bitmapText.x });
-                    this.skipPriceIcon = gameui.AssetsManager.getBitmap("puzzle/icon_coin").set({ x: skipBt.bitmapText.x + 100, y: 20, scaleX: 0.8, scaleY: 0.8 });
+                    this.skipPriceText = gameui.AssetsManager.getBitmapText("", "fontWhite");
+                    this.skipPriceText.set({ x: skipBt.bitmapText.x });
+                    this.skipPriceIcon = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
+                    this.skipPriceIcon.set({ x: skipBt.bitmapText.x + 100, y: 20, scaleX: 0.8, scaleY: 0.8 });
                     skipBt.addChild(this.skipPriceIcon);
                     skipBt.addChild(this.skipPriceText);
                     p++;
@@ -7278,7 +7293,7 @@ var FlipPlus;
                 }
                 PauseMenu.prototype.updateSkipPrice = function (price) {
                     this.skipPriceText.text = price.toString();
-                    this.skipPriceIcon.x = this.skipPriceText.x + this.skipPriceText.getBounds().width + 30;
+                    this.skipPriceIcon.x = this.skipPriceText.x + this.skipPriceText.getLocalBounds().width + 30;
                 };
                 return PauseMenu;
             })(gameui.UIItem);
@@ -7318,12 +7333,12 @@ var FlipPlus;
                     textDO.y = defaultHeight * 0.2;
                     //updates text
                     textDO.text = text.toUpperCase();
-                    textDO.pivot.x = textDO.getBounds().width / 2;
+                    textDO.pivot.x = textDO.getLocalBounds().width / 2;
                     this.addsClickIndicator();
                 };
                 PopupBot.prototype.addsClickIndicator = function () {
                     //add click indicator
-                    var ind = gameui.AssetsManager.getSprite("touch");
+                    var ind = gameui.AssetsManager.getMovieClip("touch");
                     this.addChild(ind);
                     ind.x = 1250;
                     ind.y = 900;
@@ -7360,7 +7375,7 @@ var FlipPlus;
                     // create a text
                     var textDO = gameui.AssetsManager.getBitmapText(StringResources.help_restart, "fontWhite");
                     this.addChild(textDO);
-                    textDO.pivot.x = textDO.getBounds().width / 2;
+                    textDO.pivot.x = textDO.getLocalBounds().width / 2;
                     textDO.x = defaultWidth / 2;
                     // add Image
                     var img = gameui.AssetsManager.getBitmap("menu/imrestart");
@@ -7391,7 +7406,7 @@ var FlipPlus;
                     // create a text
                     var textDO = gameui.AssetsManager.getBitmapText(StringResources["help_" + item], "fontWhite");
                     this.addChild(textDO);
-                    textDO.pivot.x = textDO.getBounds().width / 2;
+                    textDO.pivot.x = textDO.getLocalBounds().width / 2;
                     textDO.y = 550;
                     textDO.x = 1100;
                     // add Image
@@ -7399,7 +7414,7 @@ var FlipPlus;
                     this.addChild(img);
                     img.x = 80;
                     img.y = 740;
-                    img.pivot.y = img.getBounds().height / 2;
+                    img.pivot.y = img.getLocalBounds().height / 2;
                     // Add cancel Buttons
                     var cancelButton = new gameui.BitmapTextButton(StringResources.help_cancel_bt, "fontWhite", "menu/btoptions", function () {
                         _this.closePopUp();
@@ -7488,11 +7503,11 @@ var FlipPlus;
                     bg.y = 0; //150;
                     bg.x = defaultWidth / 2;
                     bg.scale.x = 2;
-                    bg.pivot.x = bg.getBounds().width / 2;
+                    bg.pivot.x = bg.getLocalBounds().width / 2;
                     this.statusArea.addChild(bg);
                     var l = gameui.AssetsManager.getBitmapText(project.nickName.toUpperCase(), "fontWhite");
                     l.y = 20; //250;
-                    l.pivot.x = l.getBounds().width / 2;
+                    l.pivot.x = l.getLocalBounds().width / 2;
                     l.x = defaultWidth / 2;
                     this.statusArea.addChild(l);
                     this.addChild(this.statusArea);
@@ -7526,7 +7541,7 @@ var FlipPlus;
                         }
                         else {
                             var text = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontBlue");
-                            text.pivot.x = text.getBounds().width / 2;
+                            text.pivot.x = text.getLocalBounds().width / 2;
                             text.y = 1738 - 2048;
                             text.x = defaultWidth / 2;
                             levelMachine.addChild(text);
@@ -7535,7 +7550,7 @@ var FlipPlus;
                     else {
                         //TODO mudar o nome disso.
                         var text = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontBlue");
-                        text.pivot.x = text.getBounds().width / 2;
+                        text.pivot.x = text.getLocalBounds().width / 2;
                         text.y = 1738 - 2048;
                         text.x = defaultWidth / 2;
                         levelMachine.addChild(text);
@@ -7605,15 +7620,15 @@ var FlipPlus;
                     var size = 1000;
                     this.fill = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
                     this.stroke = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
-                    this.fill.pivot.x = this.stroke.pivot.x = this.fill.getBounds().width / 2;
-                    this.fill.pivot.y = this.stroke.pivot.y = this.fill.getBounds().height;
+                    this.fill.pivot.x = this.stroke.pivot.x = this.fill.getLocalBounds().width / 2;
+                    this.fill.pivot.y = this.stroke.pivot.y = this.fill.getLocalBounds().height;
                     this.fill.pivot.x - 25;
                     this.fill.pivot.y - 25;
                     this.addChild(this.fill);
                     this.addChild(this.stroke);
                     //mask
                     this.percentMask = new PIXI.Graphics();
-                    this.percentMask.beginFill(0xFFFFFF).drawRect(-size / 2, 0, size, -this.fill.getBounds().height).endFill();
+                    this.percentMask.beginFill(0xFFFFFF).drawRect(-size / 2, 0, size, -this.fill.getLocalBounds().height).endFill();
                     this.percentMask.scale.y = 0;
                     this.percentMask.y = -25;
                     this.fill.mask = this.percentMask;
@@ -7682,8 +7697,8 @@ var FlipPlus;
                     dark.pivot.x = 50;
                     dark.pivot.y = 50;
                     var bgnewbot = gameui.AssetsManager.getBitmap("bgnewbot");
-                    bgnewbot.pivot.x = bgnewbot.getBounds().width / 2;
-                    bgnewbot.pivot.y = bgnewbot.getBounds().height / 2;
+                    bgnewbot.pivot.x = bgnewbot.getLocalBounds().width / 2;
+                    bgnewbot.pivot.y = bgnewbot.getLocalBounds().height / 2;
                     dark.y = bgnewbot.y = -260;
                     this.addChildAt(bgnewbot, 0);
                     this.addChildAt(dark, 0);
@@ -7791,7 +7806,7 @@ var FlipPlus;
                     titleDO.y = defaultHeight / 2;
                     //updates text
                     titleDO.text = text.toUpperCase();
-                    titleDO.pivot.x = titleDO.getBounds().width / 2;
+                    titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
                     var ty = defaultHeight * 0.9;
                     this.set({
                         alpha: 0,
@@ -8104,17 +8119,18 @@ var FlipPlus;
         Effects.prototype.castEffect = function (x, y, effect, scale) {
             var _this = this;
             if (scale === void 0) { scale = 1; }
-            var fx = gameui.AssetsManager.getSprite(effect);
+            var fx = gameui.AssetsManager.getMovieClip(effect);
             this.addChild(fx);
             fx.mouseEnabled = false;
+            fx.loop = false;
             fx.play();
             fx.x = x;
             fx.y = y;
             fx.scale.y = fx.scale.x = scale;
-            fx.addEventListener("animationend", function (e) {
+            fx.onComplete = function () {
                 fx.stop();
                 _this.removeChild(fx);
-            });
+            };
         };
         return Effects;
     })(PIXI.Container);

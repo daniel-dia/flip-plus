@@ -26,14 +26,17 @@ module gameui {
             this.interactive = true;
             this.interactiveChildren = true;
 
-            if (event != null) this.on("mousedown", event);
+            if (event != null) this.on("tap", event);
+           
+            if (event != null) this.on("click", event);
+            
             this.on("mousedown", (event: any) => { this.onPress(event); })
             this.on("mousedown", (event: any) => { this.onPressUp(event); })
             this.on("touchstart", (event: any) => { this.onPress(event); })
             this.on("touchend", (event: any) => { this.onPressUp(event); })
 
-            //this.on("mouseover", () => { this.mouse = true; });
-            //this.on("mouseout", () => { this.mouse = false; });
+            this.on("mouseover", () => { this.mouse = true; });
+            this.on("mouseout", () => { this.mouse = false; });
 
             this.soundId = soundId;
 
@@ -46,8 +49,9 @@ module gameui {
                 this.scale.y = this.originalScaleY;
             }
         }
+ 
 
-        private onPressUp(Event:any) {
+        private onPressUp(Event: any) {
             this.mouse = false;
             this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
             createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
@@ -155,11 +159,9 @@ module gameui {
             text = text.toUpperCase();
 
             this.bitmapText = AssetsManager.getBitmapText(text, bitmapFontId);
-      
             this.addChild(this.bitmapText);
-             
-            this.bitmapText.pivot.x = this.bitmapText.getBounds().width / 2;
-            this.bitmapText.pivot.y = this.bitmapText.maxLineHeight / 2;
+            this.bitmapText.pivot.x = this.bitmapText.textWidth / 2;
+            this.bitmapText.pivot.y = this.bitmapText.textHeight / 2;
 
             this.createHitArea();
         }

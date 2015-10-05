@@ -29,7 +29,7 @@
             this.pivot.y = boardHeight / 2;
 
             //load click indicator
-            this.tutorialIndiatcor = gameui.AssetsManager.getSprite("touch")
+            this.tutorialIndiatcor = gameui.AssetsManager.getMovieClip("touch")
             this.tutorialIndiatcor.pivot.x = this.tutorialIndiatcor.pivot.y = -55;
             this.tutorialIndiatcor.mouseEnabled = false;
             this.addChild(this.tutorialIndiatcor);

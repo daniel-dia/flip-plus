@@ -24,7 +24,7 @@ module FlipPlus.Menu.View {
             // create a text
             var textDO = gameui.AssetsManager.getBitmapText(StringResources.help_restart, "fontWhite");
             this.addChild(textDO);
-            textDO.pivot.x = textDO.getBounds().width / 2;
+            textDO.pivot.x = textDO.getLocalBounds().width / 2;
             textDO.x = defaultWidth / 2;
             
             // add Image
@@ -63,7 +63,7 @@ module FlipPlus.Menu.View {
             // create a text
             var textDO = gameui.AssetsManager.getBitmapText(StringResources["help_" + item], "fontWhite");
             this.addChild(textDO);
-            textDO.pivot.x = textDO.getBounds().width / 2;
+            textDO.pivot.x = textDO.getLocalBounds().width / 2;
             
             textDO.y = 550;
             textDO.x = 1100;
@@ -74,7 +74,7 @@ module FlipPlus.Menu.View {
             this.addChild(img)
             img.x = 80
             img.y = 740;
-            img.pivot.y = img.getBounds().height / 2;
+            img.pivot.y = img.getLocalBounds().height / 2;
 
             // Add cancel Buttons
             var cancelButton = new gameui.BitmapTextButton(StringResources.help_cancel_bt, "fontWhite", "menu/btoptions", () => {

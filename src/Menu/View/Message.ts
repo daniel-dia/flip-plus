@@ -14,7 +14,9 @@ module FlipPlus.Menu.View {
             this.height = defaultHeight;
             this.x = defaultWidth / 2;
             this.y = defaultHeight / 2;
-            this.centralize();
+
+            this.pivot = this.position;
+            
             
             //hide popup
             this.visible = false;
@@ -41,8 +43,8 @@ module FlipPlus.Menu.View {
             this.addChild(bg);
 
             //create a text 
-            var titleDO = gameui.AssetsManager.getBitmapText(text, "fontTitle");
-            titleDO.pivot.x = titleDO.getBounds().width/2;
+            var titleDO = gameui.AssetsManager.getBitmapText(text.toUpperCase(), "fontTitle");
+            titleDO.pivot.x = titleDO.textWidth/2;
             titleDO.x = defaultWidth / 2;
             titleDO.y = defaultHeight / 2 - 100;; 
             this.addChild(titleDO);

@@ -39,7 +39,7 @@ module FlipPlus.Menu.View {
 
             //updates text
             titleDO.text  = text.toUpperCase();
-            titleDO.pivot.x = titleDO.getBounds().width / 2;
+            titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
 
 
             var ty = defaultHeight * 0.9;

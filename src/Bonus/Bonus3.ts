@@ -4,10 +4,10 @@
     export class Bonus3 extends BonusScreen {
    
         //keys object
-        private keys: Array<PIXI.MovieClip>
+        private keys: Array<PIXI.extras.MovieClip>
 
         //main clip
-        private mainClip: PIXI.MovieClip;
+        private mainClip: PIXI.extras.MovieClip;
 
         //currentChest
         private currentChestId: number;
@@ -32,7 +32,7 @@
         
         addObjects() {
             super.addObjects();
-            var mc = <PIXI.MovieClip>(new lib["Bonus3"]);
+            var mc = <PIXI.extras.MovieClip>(new lib["Bonus3"]);
             this.content.addChild(mc);      
             this.mainClip = mc;
             
@@ -164,8 +164,8 @@
                 var itemObj = this.createItem(items[i])
                 
                 itemObj.set({ x: defaultWidth / 2, y: defaultHeight / 2 - 100, alpha: 0 })
-                itemObj.pivot.x = itemObj.getBounds().width / 2;
-                itemObj.pivot.y = itemObj.getBounds().height / 2;
+                itemObj.pivot.x = itemObj.getLocalBounds().width / 2;
+                itemObj.pivot.y = itemObj.getLocalBounds().height / 2;
                 createjs.Tween.get(itemObj).wait(500 + i * 300)
                     .to({ alpha: 1, x: defaultWidth *0.15 + i * (defaultWidth * 0.7 / items.length), y: defaultHeight / 2 - 600 }, 500, createjs.Ease.quadInOut)
                     .call((itemDo: PIXI.DisplayObject) => { this.animateItemToHeader(itemDo, itemDo.name) }, [itemObj])
@@ -180,8 +180,8 @@
             itemDO.name = item;
             //itemDO.x = 368 / 2;
             //itemDO.y = 279 / 2;
-            //itemDO.pivot.x = itemDO.getBounds().width / 2;
-            //itemDO.pivot.y = itemDO.getBounds().height / 2;
+            //itemDO.pivot.x = itemDO.getLocalBounds().width / 2;
+            //itemDO.pivot.y = itemDO.getLocalBounds().height / 2;
             //itemDO.visible = false;
             itemDO.mouseEnabled = false;
             return itemDO;

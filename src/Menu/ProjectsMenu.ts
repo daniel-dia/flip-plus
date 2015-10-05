@@ -122,7 +122,9 @@ module FlipPlus.Menu {
                 var projectView = new View.ProjectItem(projects[i]);
                 
                 //add click event to the item
-                projectView.addEventListener("mousedown", (e: PIXI.interaction.InteractionEvent) => { this.projectItemClick(e); });
+                projectView.addEventListener("mousedown", (e: PIXI.interaction.InteractionEvent) => {
+                    this.projectItemClick(e);
+                });
                 
                 //add item to scene
                 this.projectsItems.push(projectView);

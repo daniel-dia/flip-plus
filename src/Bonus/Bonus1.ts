@@ -164,8 +164,8 @@
                     var itemDO = gameui.AssetsManager.getBitmap("puzzle/icon_" + this.items[b]);
                     itemDO.name = "item";
                     this.BarrelsItens[b].addChild(itemDO);
-                    itemDO.pivot.x = itemDO.getBounds().width / 2;
-                    itemDO.pivot.y = itemDO.getBounds().height / 2;
+                    itemDO.pivot.x = itemDO.getLocalBounds().width / 2;
+                    itemDO.pivot.y = itemDO.getLocalBounds().height / 2;
                     this.BarrelsItens[b].x += itemDO.pivot.x;
                     this.BarrelsItens[b].y += itemDO.pivot.y;
                 }

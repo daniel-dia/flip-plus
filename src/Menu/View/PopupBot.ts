@@ -25,13 +25,13 @@ module FlipPlus.Menu.View {
             
             //updates text
             textDO.text = text.toUpperCase();
-            textDO.pivot.x = textDO.getBounds().width / 2;
+            textDO.pivot.x = textDO.getLocalBounds().width / 2;
             this.addsClickIndicator();
         }
 
         addsClickIndicator() {
             //add click indicator
-            var ind = gameui.AssetsManager.getSprite("touch")
+            var ind = gameui.AssetsManager.getMovieClip("touch")
             this.addChild(ind);
             ind.x = 1250;
             ind.y = 900;

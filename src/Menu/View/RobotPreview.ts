@@ -25,8 +25,8 @@
                 this.fill = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
                 this.stroke = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
                  
-                this.fill.pivot.x = this.stroke.pivot.x = this.fill.getBounds().width / 2;
-                this.fill.pivot.y = this.stroke.pivot.y = this.fill.getBounds().height;
+                this.fill.pivot.x = this.stroke.pivot.x = this.fill.getLocalBounds().width / 2;
+                this.fill.pivot.y = this.stroke.pivot.y = this.fill.getLocalBounds().height;
 
                 this.fill.pivot.x - 25;
                 this.fill.pivot.y - 25;
@@ -36,7 +36,7 @@
             
                 //mask
                 this.percentMask = new PIXI.Graphics();
-                this.percentMask.beginFill(0xFFFFFF).drawRect(-size / 2, 0, size, -this.fill.getBounds().height).endFill();
+                this.percentMask.beginFill(0xFFFFFF).drawRect(-size / 2, 0, size, -this.fill.getLocalBounds().height).endFill();
                 this.percentMask.scale.y = 0;
                 this.percentMask.y = -25;
                 this.fill.mask = this.percentMask;
@@ -117,8 +117,8 @@
             dark.pivot.x = 50;
             dark.pivot.y = 50; 
             var bgnewbot = <PIXI.Sprite>gameui.AssetsManager.getBitmap("bgnewbot");
-            bgnewbot.pivot.x = bgnewbot.getBounds().width / 2;
-            bgnewbot.pivot.y = bgnewbot.getBounds().height / 2;
+            bgnewbot.pivot.x = bgnewbot.getLocalBounds().width / 2;
+            bgnewbot.pivot.y = bgnewbot.getLocalBounds().height / 2;
             dark.y = bgnewbot.y = -260
 
             this.addChildAt(bgnewbot, 0);

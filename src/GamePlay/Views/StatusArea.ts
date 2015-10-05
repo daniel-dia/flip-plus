@@ -13,7 +13,7 @@ module FlipPlus.GamePlay.Views {
         private iconetime: PIXI.DisplayObject;
 
         private rightIcon: PIXI.Container;
-        private rightIconMC: PIXI.MovieClip;
+        private rightIconMC: PIXI.extras.MovieClip;
 
         private mode;
 
@@ -52,8 +52,8 @@ module FlipPlus.GamePlay.Views {
             this.iconepuzzle.y = 33;
             rightIconContainer.y = 33;
 
-            this.rightIcon.pivot.x = this.rightIcon.x = this.iconemoves.getBounds().width / 2;
-            this.rightIcon.pivot.y = this.rightIcon.y = this.iconemoves.getBounds().height / 2;
+            this.rightIcon.pivot.x = this.rightIcon.x = this.iconemoves.getLocalBounds().width / 2;
+            this.rightIcon.pivot.y = this.rightIcon.y = this.iconemoves.getLocalBounds().height / 2;
 
             this.addChild(this.iconepuzzle);
             this.rightIcon.addChild(this.iconemoves);
@@ -62,8 +62,8 @@ module FlipPlus.GamePlay.Views {
             this.addChild(rightIconContainer);
             
             //Text
-            this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, 0xFFFFFF);
-            this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, 0xFFFFFF);
+            this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");
+            this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");      
                         
             this.text1.x = defaultWidth * 0.13; 
              this.text3.x = defaultWidth * 0.79;
@@ -81,7 +81,7 @@ module FlipPlus.GamePlay.Views {
         //creates a movieClip animation for the alert button
         private createAlertAnimation() {
             var instance = this.rightIcon;
-            this.rightIconMC = new PIXI.MovieClip(PIXI.MovieClip.SYNCHED,0,false);
+            this.rightIconMC = new PIXI.extras.MovieClip(PIXI.extras.MovieClip.SYNCHED,0,false);
             
             this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
                 .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).
