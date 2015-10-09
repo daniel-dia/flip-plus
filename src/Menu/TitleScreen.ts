@@ -3,35 +3,30 @@
 module FlipPlus.Menu {
     export class TitleScreen extends gameui.ScreenState {
 
-        private beach: PIXI.DisplayObject;
+       private beach: PIXI.DisplayObject;
 
         constructor() {
             super();
 
             var logo = new lib.LogoScreen();
-
-            //loads image
             this.content.addChild(logo);
 
             this.beach = logo["instance"]["instance_14"];
 
 
-            //creates hitArea
-            /// Check this.content.hitArea = (new PIXI.Graphics().beginFill(0xFFFFFF).drawRect(0, 0, defaultWidth, defaultHeight));
-
-            //add event to go to main menu
-            this.content.addEventListener("mousedown", () => {
+            this.content.interactive = true 
+            this.content.on("mousedown", () => {
+               
                 FlipPlusGame.showMainScreen();
-
-            });
-
-            this.content.addEventListener("mousedown", () => {
                 gameui.AudiosManager.playSound("button");
+
             });
+ 
         }
 
         public redim(headerY: number, footerY: number, width: number, height:number) {
             super.redim(headerY, footerY, width, height);
+            if(this.beach)
             this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
         }
         activate(parameters: any) {

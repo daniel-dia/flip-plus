@@ -41,9 +41,9 @@ module FlipPlus.Menu.View {
         //--------------------- Initialization ---------------------
 
         private addHitArea(){
-            var hit = new PIXI.Container;
+            ///var hit = new PIXI.Container;
             /// Check hit.hitArea = ((new PIXI.Graphics().beginFill(0xF00).drawRect(0, 0, defaultWidth, defaultHeight)));
-            this.addChild(hit);
+            //this.addChild(hit);
         }
 
         private addObjects(project: Projects.Project) {

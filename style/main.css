@@ -26,8 +26,10 @@ html, body {
 }
 
 canvas {
-	margin: 0;
-	background-color:black;
+    margin: 0;
+    background-color: black;
+    -ms-touch-action: none;
+    touch-action: none;
 }
  
 /*@-webkit-viewport{width:768px}

@@ -42,6 +42,7 @@ module FlipPlus.Robots {
         //adds a user feedback for click action
         private initializeUserFeedback() {
             ///Check FlipPlusGame.gameScreen.stage.update();
+
             for (var c = 0; c < this.myBots.children.length; c++) {
                 var robot = <PIXI.extras.MovieClip>this.myBots.getChildAt(c);;
                 robot.addEventListener("mousedown", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
@@ -88,7 +89,7 @@ module FlipPlus.Robots {
 
         //Updates Robot lobby idle behaviour
         public update() {
-
+             
             //get Robots
             var projects = this.projectManager.getFinihedProjects();
 

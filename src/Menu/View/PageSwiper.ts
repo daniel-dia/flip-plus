@@ -27,7 +27,7 @@ module FlipPlus.Menu.View {
             var moving: boolean = false;
 
             // records position on mouse down
-            pagesContainer.addEventListener("mousedown",(e: PIXI.interaction.InteractionEvent) => {
+            pagesContainer.addEventListener("touchstart",(e: PIXI.interaction.InteractionEvent) => {
 
                 var pos = pagesContainer.parent.toLocal(e.data.global)
                 if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
@@ -38,7 +38,7 @@ module FlipPlus.Menu.View {
             })
 
             //drag the container
-            pagesContainer.on("mousemove",(e: PIXI.interaction.InteractionEvent) => {
+            pagesContainer.on("touchmove",(e: PIXI.interaction.InteractionEvent) => {
                 if (moving) {
                     var pos = pagesContainer.parent.toLocal(e.data.global);
 
@@ -51,7 +51,7 @@ module FlipPlus.Menu.View {
             })
 
             //verifies the relase point to tween to the next page
-            pagesContainer.addEventListener("mouseup",(e: PIXI.interaction.InteractionEvent) => {
+            pagesContainer.addEventListener("touchend",(e: PIXI.interaction.InteractionEvent) => {
                 if (moving) {
                     moving = false;
                     var pos = pagesContainer.parent.toLocal(e.data.global);

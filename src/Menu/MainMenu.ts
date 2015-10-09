@@ -34,11 +34,10 @@ module FlipPlus.Menu {
         public activate() {
             super.activate();
 
-            //play BgSound
+            // play BgSound
             gameui.AudiosManager.playMusic("Music Dot Robot");
-
-
-            //Verifies if it is the first time playing
+            
+            // Verifies if it is the first time playing
             if (!FlipPlusGame.storyData.getStoryPlayed("intro")) { 
                 this.myBots.playIntroPartA();
                 console.log("i1")
@@ -89,10 +88,10 @@ module FlipPlus.Menu {
         }
 
         private addPlayButton() {
-            var playBt = new gameui.BitmapTextButton(StringResources["mm_play"],"fontTitle","", () => {
+            var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle","btplay_press", () => {
                 FlipPlus.FlipPlusGame.showProjectsMenu();
             } )
-
+            playBt.interactive = true;
             this.content.addChild(playBt);
             playBt.x = 800;
             playBt.y = 1139;

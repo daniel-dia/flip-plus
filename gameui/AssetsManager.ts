@@ -36,7 +36,6 @@ module gameui {
                 //this.loader.addEventListener("filestart", (evt: any) => { console.log("loading " + evt.item.src) })
                 this.loader.on("error ", (evt: any) => { console.log("error " + evt.item.src) })
                 this.loader.on("fileerror ", (evt: any) => { console.log("ferror " + evt.item.src) })
-                this.loader.once("complete", (evt: any) => { if (this.onComplete) this.onComplete(); })
                 this.loader.on("progress", (evt: any) => { if (this.onProgress) this.onProgress(evt.progress) })
                 this.loader.on("fileload", (evt: any): boolean => {
                     if (evt.item.type == "image")
@@ -44,7 +43,11 @@ module gameui {
                     return true;
                 });
  
-            }
+                this.loader.once("complete", (loader, resources) => {
+                    for (var r in resources) images[r] = resources[r].texture;
+                    if (this.onComplete) this.onComplete();
+                    })
+                }
 
             //loads entire manifest 
             for (var m in manifest) {
@@ -84,12 +87,7 @@ module gameui {
         //gets a image from assets
         public static getBitmap(name: string): PIXI.DisplayObject {
 
-            //if image id is described in spritesheets
-            if (this.spriteSheets)
-            if (this.spriteSheets[name])
-                return this.getMovieClip(name, false);
-
-            //if image is preloaded
+          //if image is preloaded
             var texture = this.getLoadedImage(name);
             if (texture) {
                 var imgobj = new PIXI.Sprite(texture);

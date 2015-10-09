@@ -219,13 +219,13 @@
             this.addChild(gameui.AssetsManager.getBitmap(image).set({ x: -400, regY: 150, regX: 150 }));
 
             // adds text
-            this.addChild(new gameui.Label(name, defaultFontFamilyHighlight, "#333071").set({ x: -100 }));
+            this.addChild(gameui.AssetsManager.getBitmapText(name, "fontWhite").set({ x: -100 }));
 
             // adds Value
-            this.addChild(new gameui.Label(localizedPrice, defaultFontFamilyNormal, 0xFFFFFF).set({ x: 375, y: -70 }));
+            this.addChild(gameui.AssetsManager.getBitmapText(localizedPrice, "fontBlue").set({ x: 375, y: -70 }));
 
             // adds buy text
-            this.addChild(new gameui.Label(StringResources.menus.shop, defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));
+            this.addChild(gameui.AssetsManager.getBitmapText(StringResources.menus.shop, "fontBlue").set({ x: 375, y: 40 }));
 
             this.createHitArea();
 

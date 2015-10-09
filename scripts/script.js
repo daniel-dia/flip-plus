@@ -24,14 +24,18 @@ var gameui;
                 //this.loader.addEventListener("filestart", (evt: any) => { console.log("loading " + evt.item.src) })
                 this.loader.on("error ", function (evt) { console.log("error " + evt.item.src); });
                 this.loader.on("fileerror ", function (evt) { console.log("ferror " + evt.item.src); });
-                this.loader.once("complete", function (evt) { if (_this.onComplete)
-                    _this.onComplete(); });
                 this.loader.on("progress", function (evt) { if (_this.onProgress)
                     _this.onProgress(evt.progress); });
                 this.loader.on("fileload", function (evt) {
                     if (evt.item.type == "image")
                         images[evt.item.id] = evt.result;
                     return true;
+                });
+                this.loader.once("complete", function (loader, resources) {
+                    for (var r in resources)
+                        images[r] = resources[r].texture;
+                    if (_this.onComplete)
+                        _this.onComplete();
                 });
             }
             //loads entire manifest 
@@ -66,10 +70,6 @@ var gameui;
         };
         //gets a image from assets
         AssetsManager.getBitmap = function (name) {
-            //if image id is described in spritesheets
-            if (this.spriteSheets)
-                if (this.spriteSheets[name])
-                    return this.getMovieClip(name, false);
             //if image is preloaded
             var texture = this.getLoadedImage(name);
             if (texture) {
@@ -135,7 +135,7 @@ var gameui;
             this.defaultHeight = gameHeight;
             // create a renderer instance.
             PIXIstage = new PIXI.Container();
-            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { backgroundColor: 0x66FF99 });
+            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { backgroundColor: 0 });
             createjs.Ticker.setFPS(fps);
             // add the renderer view element to the DOM
             document.getElementById(divId).appendChild(PIXIrenderer.view);
@@ -780,8 +780,8 @@ var FlipPlus;
                     _this.toLevelCreator();
                 }
                 else
-                    _this.showProjectsMenu();
-                //this.showTitleScreen();
+                    //this.showProjectsMenu();
+                    _this.showTitleScreen();
             };
             // give 10 coins to user first time
             if (!this.storyData.getStoryPlayed("coins")) {
@@ -4449,12 +4449,15 @@ var FlipPlus;
                 bar.pivot.x = Math.floor(bg.pivot.x = w / 2);
                 bar.pivot.y = Math.floor(bg.pivot.y = h / 2);
                 //text.y = -200;
-                this.barMask = (new PIXI.Graphics().beginFill(0xF00).drawRect(0, -h / 2, w, h));
+                this.barMask = new PIXI.Graphics().beginFill(0xFF0000, 1).drawRect(0, -h / 2, w, h).endFill();
+                ;
                 this.barMask.x = -w / 2;
                 bar.mask = this.barMask;
+                this.addChild(this.barMask);
+                this.update(0);
             }
             LoadingBar.prototype.update = function (value) {
-                this.barMask.scale.x = value;
+                this.barMask.scale.x = value / 100;
             };
             return LoadingBar;
         })(PIXI.Container);
@@ -4481,9 +4484,9 @@ var FlipPlus;
             }
             MainMenu.prototype.activate = function () {
                 _super.prototype.activate.call(this);
-                //play BgSound
+                // play BgSound
                 gameui.AudiosManager.playMusic("Music Dot Robot");
-                //Verifies if it is the first time playing
+                // Verifies if it is the first time playing
                 if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro")) {
                     this.myBots.playIntroPartA();
                     console.log("i1");
@@ -4528,9 +4531,10 @@ var FlipPlus;
                 this.content.addChild(this.terminal);
             };
             MainMenu.prototype.addPlayButton = function () {
-                var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "", function () {
+                var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", function () {
                     FlipPlus.FlipPlusGame.showProjectsMenu();
                 });
+                playBt.interactive = true;
                 this.content.addChild(playBt);
                 playBt.x = 800;
                 playBt.y = 1139;
@@ -4924,7 +4928,7 @@ var FlipPlus;
                         //create a thumb
                         var challangeThumb = new View.LevelThumb(level);
                         this.thumbs.push(challangeThumb);
-                        challangeThumb.rotation = Math.random() * 3 - 1.5; //Little angle random.
+                        challangeThumb.rotation = (Math.random() * 3 - 1.5) * Math.PI / 180; //Little angle random.
                         challangeThumb.set({ alpha: 0, scaleX: 1.3, scaleY: 1.3 }); //animate
                         createjs.Tween.get(challangeThumb).wait(50 + i * 50).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadIn);
                         //Add object on grid
@@ -6011,8 +6015,8 @@ var FlipPlus;
             };
             //adds a user feedback for click action
             MyBots.prototype.initializeUserFeedback = function () {
-                var _this = this;
                 ///Check FlipPlusGame.gameScreen.stage.update();
+                var _this = this;
                 for (var c = 0; c < this.myBots.children.length; c++) {
                     var robot = this.myBots.getChildAt(c);
                     ;
@@ -6720,11 +6724,11 @@ var FlipPlus;
                 // adds icon
                 this.addChild(gameui.AssetsManager.getBitmap(image).set({ x: -400, regY: 150, regX: 150 }));
                 // adds text
-                this.addChild(new gameui.Label(name, defaultFontFamilyHighlight, "#333071").set({ x: -100 }));
+                this.addChild(gameui.AssetsManager.getBitmapText(name, "fontWhite").set({ x: -100 }));
                 // adds Value
-                this.addChild(new gameui.Label(localizedPrice, defaultFontFamilyNormal, 0xFFFFFF).set({ x: 375, y: -70 }));
+                this.addChild(gameui.AssetsManager.getBitmapText(localizedPrice, "fontBlue").set({ x: 375, y: -70 }));
                 // adds buy text
-                this.addChild(new gameui.Label(StringResources.menus.shop, defaultFontFamilyHighlight, "#86c0f1").set({ x: 375, y: 40 }));
+                this.addChild(gameui.AssetsManager.getBitmapText(StringResources.menus.shop, "fontBlue").set({ x: 375, y: 40 }));
                 this.createHitArea();
             }
             ProductListItem.prototype.setPurchasing = function () {
@@ -6891,22 +6895,18 @@ var FlipPlus;
             function TitleScreen() {
                 _super.call(this);
                 var logo = new lib.LogoScreen();
-                //loads image
                 this.content.addChild(logo);
                 this.beach = logo["instance"]["instance_14"];
-                //creates hitArea
-                /// Check this.content.hitArea = (new PIXI.Graphics().beginFill(0xFFFFFF).drawRect(0, 0, defaultWidth, defaultHeight));
-                //add event to go to main menu
-                this.content.addEventListener("mousedown", function () {
+                this.content.interactive = true;
+                this.content.on("mousedown", function () {
                     FlipPlus.FlipPlusGame.showMainScreen();
-                });
-                this.content.addEventListener("mousedown", function () {
                     gameui.AudiosManager.playSound("button");
                 });
             }
             TitleScreen.prototype.redim = function (headerY, footerY, width, height) {
                 _super.prototype.redim.call(this, headerY, footerY, width, height);
-                this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
+                if (this.beach)
+                    this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
             };
             TitleScreen.prototype.activate = function (parameters) {
                 _super.prototype.activate.call(this, parameters);
@@ -7152,7 +7152,7 @@ var FlipPlus;
                     var initialclick;
                     var moving = false;
                     // records position on mouse down
-                    pagesContainer.addEventListener("mousedown", function (e) {
+                    pagesContainer.addEventListener("touchstart", function (e) {
                         var pos = pagesContainer.parent.toLocal(e.data.global);
                         if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
                             initialclick = pos.x;
@@ -7161,7 +7161,7 @@ var FlipPlus;
                         }
                     });
                     //drag the container
-                    pagesContainer.on("mousemove", function (e) {
+                    pagesContainer.on("touchmove", function (e) {
                         if (moving) {
                             var pos = pagesContainer.parent.toLocal(e.data.global);
                             pagesContainer.x = pos.x - xpos;
@@ -7172,7 +7172,7 @@ var FlipPlus;
                         }
                     });
                     //verifies the relase point to tween to the next page
-                    pagesContainer.addEventListener("mouseup", function (e) {
+                    pagesContainer.addEventListener("touchend", function (e) {
                         if (moving) {
                             moving = false;
                             var pos = pagesContainer.parent.toLocal(e.data.global);
@@ -7476,9 +7476,9 @@ var FlipPlus;
                 }
                 //--------------------- Initialization ---------------------
                 ProjectWorkshopView.prototype.addHitArea = function () {
-                    var hit = new PIXI.Container;
+                    ///var hit = new PIXI.Container;
                     /// Check hit.hitArea = ((new PIXI.Graphics().beginFill(0xF00).drawRect(0, 0, defaultWidth, defaultHeight)));
-                    this.addChild(hit);
+                    //this.addChild(hit);
                 };
                 ProjectWorkshopView.prototype.addObjects = function (project) {
                     //add Project levels
@@ -7643,9 +7643,6 @@ var FlipPlus;
                     this.removeChild(this.stroke);
                     // if final completed bot does not exist, add it
                     if (!this.completeBot) {
-                        this.completeBot = new libmybots[this.project.name]();
-                        this.addChild(this.completeBot);
-                        this.completeBot.y -= 260;
                     }
                 };
                 //update percentage

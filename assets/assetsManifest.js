@@ -1,10 +1,13 @@
 ﻿var imageManifest = [
 
+        { src: "btplay_idle.png", id: "btplay_idle" },
+        { src: "btplay_press.png", id: "btplay_press" },
+
         { src: "botparts/bgnewbot.png", id: "bgnewbot" },
         { src: "mybotsbg.jpg", id: "mybotsbg" },
         { src: "botparts/arm1.png", id: "arm1" },
-		{ src: "botparts/arm2.png", id: "arm2" },
-		{ src: "botparts/B00Mbody.png", id: "B00Mbody" },
+        { src: "botparts/arm2.png", id: "arm2" },
+        { src: "botparts/B00Mbody.png", id: "B00Mbody" },
 		{ src: "botparts/B00Mleg.png", id: "B00Mleg" },
 		{ src: "botparts/BGSTbody1.png", id: "BGSTbody1" },
 		{ src: "botparts/BGSTbody2.png", id: "BGSTbody2" },
@@ -112,19 +115,19 @@
         { id: "starsicon", src: "staricon.png" },
 
         //title 
-        { src: "logo/bandeira1.png", id: "bandeira1" },
-        { src: "logo/bandeira2.png", id: "bandeira2" },
-        { src: "logo/bandeira3.png", id: "bandeira3" },
-        { src: "logo/Cenario.jpg", id: "Cenario" },
-        { src: "logo/coqueiro02.png", id: "coqueiro02" },
-        { src: "logo/coqueiro1.png", id: "coqueiro1" },
-        { src: "logo/coqueiro2.png", id: "coqueiro2" },
         { src: "logo/logo.png", id: "logo" },
-        { src: "logo/matoareia.png", id: "matoareia" },
         { src: "logo/onda01.png", id: "onda01" },
         { src: "logo/onda02.png", id: "onda02" },
         { src: "logo/onda04.png", id: "onda04" },
+        { src: "logo/Cenario.jpg", id: "Cenario" },
         { src: "logo/vagalume.png", id: "vagalume" },
+        { src: "logo/bandeira1.png", id: "bandeira1" },
+        { src: "logo/bandeira2.png", id: "bandeira2" },
+        { src: "logo/bandeira3.png", id: "bandeira3" },
+        { src: "logo/matoareia.png", id: "matoareia" },
+        { src: "logo/coqueiro1.png", id: "coqueiro1" },
+        { src: "logo/coqueiro2.png", id: "coqueiro2" },
+        { src: "logo/coqueiro02.png", id: "coqueiro02" },
 
         //Bonus1
         { src: "Bonus1/back.png", id: "Bonus1/back" },
@@ -390,6 +393,6 @@ var audioManifest = [
 var framesCount = {
     Bolinhas: 21,
     agua: 32,
-    touch:40,
+    touch: 40,
 
 }

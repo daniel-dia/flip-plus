@@ -44,7 +44,7 @@ module gameui{
             
             // create a renderer instance.
             PIXIstage = new PIXI.Container();
-            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { backgroundColor: 0x66FF99 });
+            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { backgroundColor: 0 });
             createjs.Ticker.setFPS(fps);
             // add the renderer view element to the DOM
             document.getElementById(divId).appendChild(PIXIrenderer.view);

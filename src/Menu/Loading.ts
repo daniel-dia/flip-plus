@@ -90,17 +90,21 @@ module FlipPlus.Menu {
 
             //text.pivot.x = text.getLocalBounds().width / 2;
             bar.pivot.x = Math.floor(bg.pivot.x = w / 2 )
-            bar.pivot.y = Math.floor(bg.pivot.y = h/ 2  )
-
+            bar.pivot.y = Math.floor(bg.pivot.y = h / 2)
+            
             //text.y = -200;
 
-            this.barMask = (new PIXI.Graphics().beginFill(0xF00).drawRect(0, -h/2, w, h));
-            this.barMask.x = -w / 2;
+            this.barMask = new PIXI.Graphics().beginFill(0xFF0000, 1).drawRect(0, -h / 2, w, h).endFill();;
+            
+            this.barMask.x =  -w / 2;
             bar.mask = this.barMask;
+            this.addChild(this.barMask);
+            this.update(0);
         }
 
         public update(value: number) {
-            this.barMask.scale.x = value;
+            this.barMask.scale.x = value/100; 
+             
         }
     }
 }

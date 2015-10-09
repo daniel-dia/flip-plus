@@ -1911,6 +1911,7 @@
     <Content Include="assets\images_1x\workshop\workshop2.json" />
     <Content Include="assets\images_1x\workshop\workshop2.png" />
     <Content Include="assets\Intro.js" />
+    <None Include="assets\LogoScreen2js" />
     <Content Include="assets\LogoScreen.js" />
     <Content Include="assets\NewBotsLobby.js" />
     <Content Include="assets\resize.bat" />
@@ -2013,8 +2014,10 @@
     <Content Include="scripts\jquery-1.11.1.min.js" />
     <Content Include="scripts\md5.js" />
     <Content Include="scripts\movieclip-0.8.1.min.js" />
-    <Content Include="scripts\PIXIpatch.js" />
+    <Content Include="scripts\MovieClipCjs.js" />
     <Content Include="scripts\pixi.js" />
+    <Content Include="scripts\PIXIpatch.js" />
+    <Content Include="scripts\pixi_original.js" />
     <Content Include="scripts\pixi.min.js" />
     <Content Include="scripts\plataform.js" />
     <Content Include="scripts\setMobileScale.js" />

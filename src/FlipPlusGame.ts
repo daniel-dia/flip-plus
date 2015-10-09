@@ -76,8 +76,8 @@ module FlipPlus {
                 }
                 else
 
-                    this.showProjectsMenu();
-                    //this.showTitleScreen();
+                    //this.showProjectsMenu();
+                    this.showTitleScreen();
             }
 
             // give 10 coins to user first time
