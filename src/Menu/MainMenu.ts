@@ -33,7 +33,7 @@ module FlipPlus.Menu {
 
         public activate() {
             super.activate();
-
+            
             // play BgSound
             gameui.AudiosManager.playMusic("Music Dot Robot");
             

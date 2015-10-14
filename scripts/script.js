@@ -6049,7 +6049,7 @@ var FlipPlus;
             //-----------------------------------------------------------
             //Updates Robot lobby idle behaviour
             MyBots.prototype.update = function () {
-                //get Robots
+                //get Robots 
                 var projects = this.projectManager.getFinihedProjects();
                 //set all robots to start position
                 this.hideAllRobots();

@@ -89,10 +89,10 @@ module FlipPlus.Robots {
 
         //Updates Robot lobby idle behaviour
         public update() {
-             
-            //get Robots
+         
+            //get Robots 
             var projects = this.projectManager.getFinihedProjects();
-
+            
             //set all robots to start position
             this.hideAllRobots();
 

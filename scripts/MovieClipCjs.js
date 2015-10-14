@@ -210,14 +210,14 @@ this.createjs = this.createjs||{};
 		tl.setPosition(pos, mode);
 
 		this._prevPosition = tl._prevPosition;
-		
-		
+				
 		if (this._prevPos == tl._prevPos) { return; }
-		
-		
+				
 		this.currentFrame = this._prevPos = tl._prevPos;
 
-		for (var n in this._managed) { this._managed[n] = 1; }
+		for (var n in this._managed) {
+		    this._managed[n] = 1;
+		}
 
 		var tweens = tl._tweens;
 		for (var i=0, l=tweens.length; i<l; i++) {
@@ -229,21 +229,21 @@ this.createjs = this.createjs||{};
 
 			if (target instanceof PIXI.DisplayObject) {
 				// motion tween.
-				
 				this._addManagedChild(target, offset);
 			} else {
 				// state tween.
-				
 				this._setState(target.state, offset);
 			}
 		}
 
 		var kids = this.children;
 		for (i=kids.length-1; i>=0; i--) {
-			var id = kids[i].id;
-			if (this._managed[id] == 1) {
+		    var id = kids[i].id;
+		    if (kids[i].id)
+                console.log(kids[i].id)
+		    if (this._managed[id] == 1) {
 				this.removeChildAt(i);
-				delete(this._managed[id]);
+				delete (this._managed[id]);
 			}
 		}
 	};
@@ -260,7 +260,12 @@ this.createjs = this.createjs||{};
 	};
 
 	p._addManagedChild = function(child, offset) {
-		if (child._off) { return; }
+	    if (child._off) {
+	        return;
+	    }
+	    if (!child.id)
+	        child.id = createjs.UID.get();
+
 		this.addChildAt(child,0);
 
 		if (child instanceof MovieClip) {
@@ -288,6 +293,9 @@ this.createjs = this.createjs||{};
 		core.Sprite.prototype.destroy.call(this);
 	};
 
+    // UID
+ 
+
 	createjs.MovieClip = createjs.promote(MovieClip, "Container");
 
 
@@ -313,7 +321,6 @@ this.createjs = this.createjs||{};
 	MovieClipPlugin.step = function() {
 		// unused.
 	};
-
 	/**
 	 * @method tween
 	 * @param {Tween} tween
@@ -330,5 +337,7 @@ this.createjs = this.createjs||{};
 		if (!(tween.target instanceof MovieClip)) { return value; }
 		return (ratio == 1 ? endValues[prop] : startValues[prop]);
 	};
+
+   
 
 }());
