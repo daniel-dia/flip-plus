@@ -52,9 +52,9 @@
                         
             // if final completed bot does not exist, add it
             if (!this.completeBot) {
-                //this.completeBot = new libmybots[this.project.name]();
-                //this.addChild(this.completeBot);
-                //this.completeBot.y -= 260;
+                this.completeBot = new libmybots[this.project.name]();
+                this.addChild(this.completeBot);
+                this.completeBot.y -= 260;
             }
         }
 

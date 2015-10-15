@@ -76,7 +76,7 @@ module FlipPlus.Menu.View {
                     //animate
                     if (anim && starsInfo[i]) {
                         an = i;
-                        this.stars[i].set({ scaleX: 4, scaleY: 4, rotation: -45,alpha:0 });
+                        this.stars[i].set({ scaleX: 4, scaleY: 4, rotation_d: -45,alpha:0 });
                         createjs.Tween.get(this.stars[i]).wait(300).to({ scaleX: 1, scaleY: 1, rotation: 0, alpha: 1 }, 1500, createjs.Ease.bounceOut)
                         
                         // play sound and cast an effect
