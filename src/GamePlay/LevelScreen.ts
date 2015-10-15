@@ -512,8 +512,8 @@ module FlipPlus.GamePlay {
         protected animatePuzzle(parameters) {
             this.boardSprite.x = parameters.x;
             this.boardSprite.y = parameters.y + 2048;
-            this.boardSprite.scale.x = parameters.scale.x;
-            this.boardSprite.scale.y = parameters.scale.y;
+            this.boardSprite.scale.x = parameters.scaleX;
+            this.boardSprite.scale.y = parameters.scaleY;
             createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: defaultWidth / 2, y: defaultHeight / 2 }, 500, createjs.Ease.quadInOut);
         }
 

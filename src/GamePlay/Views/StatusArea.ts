@@ -13,7 +13,7 @@ module FlipPlus.GamePlay.Views {
         private iconetime: PIXI.DisplayObject;
 
         private rightIcon: PIXI.Container;
-        private rightIconMC: PIXI.extras.MovieClip;
+        private rightIconMC: createjs.MovieClip;
 
         private mode;
 
@@ -81,7 +81,7 @@ module FlipPlus.GamePlay.Views {
         //creates a movieClip animation for the alert button
         private createAlertAnimation() {
             var instance = this.rightIcon;
-            this.rightIconMC = new PIXI.extras.MovieClip(PIXI.extras.MovieClip.SYNCHED,0,false);
+            this.rightIconMC = new createjs.MovieClip(createjs.MovieClip.SYNCHED,0,false);
             
             this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
                 .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).

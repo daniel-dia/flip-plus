@@ -1629,8 +1629,8 @@ var FlipPlus;
             LevelScreen.prototype.animatePuzzle = function (parameters) {
                 this.boardSprite.x = parameters.x;
                 this.boardSprite.y = parameters.y + 2048;
-                this.boardSprite.scale.x = parameters.scale.x;
-                this.boardSprite.scale.y = parameters.scale.y;
+                this.boardSprite.scale.x = parameters.scaleX;
+                this.boardSprite.scale.y = parameters.scaleY;
                 createjs.Tween.get(this.boardSprite).to({ scaleX: 1, scaleY: 1, x: defaultWidth / 2, y: defaultHeight / 2 }, 500, createjs.Ease.quadInOut);
             };
             // #endregion
@@ -3359,7 +3359,7 @@ var FlipPlus;
                 //creates a movieClip animation for the alert button
                 StatusArea.prototype.createAlertAnimation = function () {
                     var instance = this.rightIcon;
-                    this.rightIconMC = new PIXI.extras.MovieClip(PIXI.extras.MovieClip.SYNCHED, 0, false);
+                    this.rightIconMC = new createjs.MovieClip(createjs.MovieClip.SYNCHED, 0, false);
                     this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
                         .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).
                         to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 }, 8).
