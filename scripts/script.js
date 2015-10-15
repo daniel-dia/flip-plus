@@ -2892,14 +2892,16 @@ var FlipPlus;
                 // =================== Animation ==========================================================
                 BlockSprite.prototype.animatePreInvert = function () {
                     createjs.Tween.removeTweens(this.highlight);
+                    createjs.Tween.removeTweens(this.container);
                     this.highlight.visible = true;
                     this.highlight.alpha = 0;
-                    createjs.Tween.get(this.highlight).to({ alpha: 1 }, 700, createjs.Ease.backOut);
-                    createjs.Tween.get(this.container).to({ scaleX: 0.90, scaleY: 0.90 }, 200, createjs.Ease.backOut);
+                    createjs.Tween.get(this.highlight).to({ alpha: 1 }, 200, createjs.Ease.quadOut);
+                    createjs.Tween.get(this.container).to({ scaleX: 0.90, scaleY: 0.90 }, 200, createjs.Ease.quadOut);
                 };
                 BlockSprite.prototype.animatePreInvertRelease = function () {
                     var _this = this;
-                    createjs.Tween.removeTweens(this);
+                    createjs.Tween.removeTweens(this.highlight);
+                    createjs.Tween.removeTweens(this.container);
                     this.container.scale.x = 0.8,
                         this.container.scale.y = 0.8;
                     createjs.Tween.removeTweens(this.highlight);
@@ -2908,6 +2910,7 @@ var FlipPlus;
                 };
                 BlockSprite.prototype.applyBounceEffect = function (delay) {
                     var _this = this;
+                    createjs.Tween.removeTweens(this.container);
                     createjs.Tween.get(this.container).wait(delay).to({ scaleX: 1.1, scaleY: 1.1 }, 60, createjs.Ease.linear).call(function () {
                         createjs.Tween.get(_this.container).to({ scaleX: 0.9, scaleY: 0.9 }, 60, createjs.Ease.linear).call(function () {
                             createjs.Tween.get(_this.container).to({ scaleX: 1, scaleY: 1 }, 60, createjs.Ease.linear);
@@ -2968,7 +2971,6 @@ var FlipPlus;
                 BoardSprite.prototype.addBlocks = function (width, height, theme, levelType) {
                     var _this = this;
                     this.blocksSprites = [];
-                    //todo:  Talvez esse trecho não seja de responsabilidade do ThemeLoader
                     for (var col = 0; col < width; col++) {
                         this.blocksSprites[col] = [];
                         for (var row = 0; row < height; row++) {
@@ -2977,8 +2979,9 @@ var FlipPlus;
                             this.blocksSprites[col][row] = blockSprite;
                             //Add it to the board sprite
                             this.addChild(blockSprite);
+                            blockSprite.interactive = true;
                             //Add event listener to the boardSprite
-                            blockSprite.addEventListener("mousedown", function (event) {
+                            blockSprite.addEventListener("click", function (event) {
                                 if (_this.locked)
                                     return;
                                 var b = event.target;
@@ -2996,10 +2999,20 @@ var FlipPlus;
                             blockSprite.addEventListener("mousedown", function (event) {
                                 if (_this.locked)
                                     return;
+                                blockSprite.mouse = true;
                                 _this.preInvertCross(event.target);
                             });
                             //mouse up
-                            blockSprite.addEventListener("pressup", function (event) {
+                            blockSprite.addEventListener("mouseup", function (event) {
+                                if (!blockSprite.mouse)
+                                    return;
+                                blockSprite.mouse = false;
+                                _this.preInvertRelease(event.target);
+                            });
+                            blockSprite.addEventListener("mouseout", function (event) {
+                                if (!blockSprite.mouse)
+                                    return;
+                                blockSprite.mouse = false;
                                 _this.preInvertRelease(event.target);
                             });
                         }

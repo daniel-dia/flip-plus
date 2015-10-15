@@ -41,6 +41,8 @@ module FlipPlus.GamePlay.Views {
         //highlight
         private highlight: PIXI.DisplayObject;
 
+        public mouse: boolean;
+
         //Constructor
         constructor(col: number, row: number, theme: string, levelType: string) {
             super();
@@ -286,15 +288,18 @@ module FlipPlus.GamePlay.Views {
 
         public animatePreInvert() {
             createjs.Tween.removeTweens(this.highlight);
+            createjs.Tween.removeTweens(this.container);
+
             this.highlight.visible = true;
             this.highlight.alpha = 0;
-            createjs.Tween.get(this.highlight).to({ alpha:1}, 700, createjs.Ease.backOut);
-            createjs.Tween.get(this.container).to({ scaleX: 0.90, scaleY: 0.90 }, 200, createjs.Ease.backOut);
+            createjs.Tween.get(this.highlight).to({ alpha: 1 }, 200, createjs.Ease.quadOut);
+            createjs.Tween.get(this.container).to({ scaleX: 0.90, scaleY: 0.90 }, 200, createjs.Ease.quadOut);
         }
 
         public animatePreInvertRelease() {
             
-            createjs.Tween.removeTweens(this);
+            createjs.Tween.removeTweens(this.highlight);
+            createjs.Tween.removeTweens(this.container);
             this.container.scale.x = 0.8,
             this.container.scale.y = 0.8;
             createjs.Tween.removeTweens(this.highlight);
@@ -303,7 +308,9 @@ module FlipPlus.GamePlay.Views {
         
         }
 
-        public applyBounceEffect(delay:number) {
+        public applyBounceEffect(delay: number) {
+
+            createjs.Tween.removeTweens(this.container);
             createjs.Tween.get(this.container).wait(delay).to({ scaleX: 1.1, scaleY: 1.1 }, 60, createjs.Ease.linear).call(() => {
                 createjs.Tween.get(this.container).to({ scaleX: 0.9, scaleY: 0.9 }, 60, createjs.Ease.linear).call(() => {
                     createjs.Tween.get(this.container).to({ scaleX: 1, scaleY: 1 }, 60, createjs.Ease.linear)

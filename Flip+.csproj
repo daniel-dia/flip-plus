@@ -2120,7 +2120,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />
-    <Content Include="src\GamePlay\Views\gum1ewvq.jx1~" />
     <Content Include="assets\images\agua.json" />
     <Content Include="assets\images\bolinhas.json" />
     <Content Include="assets\images\Bonus1\barrelReflect.psd" />

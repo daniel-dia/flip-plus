@@ -49,7 +49,7 @@
 
             this.blocksSprites = [];
 
-            //todo:  Talvez esse trecho não seja de responsabilidade do ThemeLoader
+          
             for (var col = 0; col < width; col++) {
                 this.blocksSprites[col] = [];
                 for (var row = 0; row < height; row++) {
@@ -62,8 +62,10 @@
                     //Add it to the board sprite
                     this.addChild(blockSprite);
 
+                    blockSprite.interactive = true;
                     //Add event listener to the boardSprite
-                    blockSprite.addEventListener("mousedown", (event: PIXI.interaction.InteractionEvent) => {
+
+                    blockSprite.addEventListener("click", (event: PIXI.interaction.InteractionEvent) => {
                         
                         if (this.locked) return;
 
@@ -86,16 +88,23 @@
                     //moouse down
                     blockSprite.addEventListener("mousedown", (event: PIXI.interaction.InteractionEvent) => {
                         if (this.locked) return;
+                        blockSprite.mouse = true;
                         this.preInvertCross(<BlockSprite>event.target);
                     });
 
                     
                     //mouse up
-                    blockSprite.addEventListener("pressup", (event: PIXI.interaction.InteractionEvent) => {
+                    blockSprite.addEventListener("mouseup", (event: PIXI.interaction.InteractionEvent) => {
+                        if (!blockSprite.mouse) return;
+                        blockSprite.mouse = false;
                         this.preInvertRelease(<BlockSprite>event.target);
                     });
 
-
+                    blockSprite.addEventListener("mouseout", (event: PIXI.interaction.InteractionEvent) => {
+                        if (!blockSprite.mouse) return;
+                        blockSprite.mouse = false;
+                        this.preInvertRelease(<BlockSprite>event.target);
+                    });
                 }
             }
         }
