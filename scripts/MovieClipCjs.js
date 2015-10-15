@@ -93,16 +93,6 @@ this.createjs = this.createjs||{};
 	} catch (e) {}
 
 
-// public methods:
-	
-	p.aaarenderWebGL = function (renderer){
-		
-		container_renderer(renderer);
-		
-		return true;
-		
-	}
-
 // inserting
 
 	p.initialize = MovieClip; // TODO: Deprecated. This is for backwards support of FlashCC
@@ -239,8 +229,6 @@ this.createjs = this.createjs||{};
 		var kids = this.children;
 		for (i=kids.length-1; i>=0; i--) {
 		    var id = kids[i].id;
-		    if (kids[i].id)
-                console.log(kids[i].id)
 		    if (this._managed[id] == 1) {
 				this.removeChildAt(i);
 				delete (this._managed[id]);

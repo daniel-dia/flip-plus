@@ -1,6 +1,6 @@
 ﻿{"frames": {
 
-"barril1 instance 10000":
+"agua00":
 {
 	"frame": {"x":0,"y":0,"w":396,"h":85},
 	"rotated": false,
@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":22,"y":0,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10001":
+"agua01":
 {
 	"frame": {"x":0,"y":0,"w":396,"h":85},
 	"rotated": false,
@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":22,"y":0,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10002":
+"agua02":
 {
 	"frame": {"x":0,"y":0,"w":396,"h":85},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":22,"y":0,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10003":
+"agua03":
 {
 	"frame": {"x":0,"y":0,"w":396,"h":85},
 	"rotated": false,
@@ -32,7 +32,7 @@
 	"spriteSourceSize": {"x":22,"y":0,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10004":
+"agua04":
 {
 	"frame": {"x":0,"y":0,"w":396,"h":85},
 	"rotated": false,
@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":22,"y":0,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10005":
+"agua05":
 {
 	"frame": {"x":0,"y":0,"w":396,"h":85},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":22,"y":0,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10006":
+"agua06":
 {
 	"frame": {"x":0,"y":0,"w":396,"h":85},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":22,"y":0,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10007":
+"agua07":
 {
 	"frame": {"x":0,"y":0,"w":396,"h":85},
 	"rotated": false,
@@ -64,7 +64,7 @@
 	"spriteSourceSize": {"x":22,"y":0,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10008":
+"agua08":
 {
 	"frame": {"x":0,"y":0,"w":396,"h":85},
 	"rotated": false,
@@ -72,7 +72,7 @@
 	"spriteSourceSize": {"x":22,"y":0,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10009":
+"agua09":
 {
 	"frame": {"x":0,"y":0,"w":396,"h":85},
 	"rotated": false,
@@ -80,7 +80,7 @@
 	"spriteSourceSize": {"x":22,"y":0,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10010":
+"agua10":
 {
 	"frame": {"x":0,"y":85,"w":436,"h":94},
 	"rotated": false,
@@ -88,7 +88,7 @@
 	"spriteSourceSize": {"x":0,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10011":
+"agua11":
 {
 	"frame": {"x":0,"y":85,"w":436,"h":94},
 	"rotated": false,
@@ -96,7 +96,7 @@
 	"spriteSourceSize": {"x":0,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10012":
+"agua12":
 {
 	"frame": {"x":0,"y":85,"w":436,"h":94},
 	"rotated": false,
@@ -104,7 +104,7 @@
 	"spriteSourceSize": {"x":0,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10013":
+"agua13":
 {
 	"frame": {"x":0,"y":85,"w":436,"h":94},
 	"rotated": false,
@@ -112,7 +112,7 @@
 	"spriteSourceSize": {"x":0,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10014":
+"agua14":
 {
 	"frame": {"x":0,"y":85,"w":436,"h":94},
 	"rotated": false,
@@ -120,7 +120,7 @@
 	"spriteSourceSize": {"x":0,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10015":
+"agua15":
 {
 	"frame": {"x":0,"y":85,"w":436,"h":94},
 	"rotated": false,
@@ -128,7 +128,7 @@
 	"spriteSourceSize": {"x":0,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10016":
+"agua16":
 {
 	"frame": {"x":0,"y":179,"w":379,"h":93},
 	"rotated": false,
@@ -136,7 +136,7 @@
 	"spriteSourceSize": {"x":44,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10017":
+"agua17":
 {
 	"frame": {"x":0,"y":179,"w":379,"h":93},
 	"rotated": false,
@@ -144,7 +144,7 @@
 	"spriteSourceSize": {"x":44,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10018":
+"agua18":
 {
 	"frame": {"x":0,"y":179,"w":379,"h":93},
 	"rotated": false,
@@ -152,7 +152,7 @@
 	"spriteSourceSize": {"x":44,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10019":
+"agua19":
 {
 	"frame": {"x":0,"y":179,"w":379,"h":93},
 	"rotated": false,
@@ -160,7 +160,7 @@
 	"spriteSourceSize": {"x":44,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10020":
+"agua20":
 {
 	"frame": {"x":0,"y":179,"w":379,"h":93},
 	"rotated": false,
@@ -168,7 +168,7 @@
 	"spriteSourceSize": {"x":44,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10021":
+"agua21":
 {
 	"frame": {"x":0,"y":179,"w":379,"h":93},
 	"rotated": false,
@@ -176,7 +176,7 @@
 	"spriteSourceSize": {"x":44,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10022":
+"agua22":
 {
 	"frame": {"x":0,"y":179,"w":379,"h":93},
 	"rotated": false,
@@ -184,7 +184,7 @@
 	"spriteSourceSize": {"x":44,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10023":
+"agua23":
 {
 	"frame": {"x":0,"y":179,"w":379,"h":93},
 	"rotated": false,
@@ -192,7 +192,7 @@
 	"spriteSourceSize": {"x":44,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10024":
+"agua24":
 {
 	"frame": {"x":0,"y":179,"w":379,"h":93},
 	"rotated": false,
@@ -200,7 +200,7 @@
 	"spriteSourceSize": {"x":44,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10025":
+"agua25":
 {
 	"frame": {"x":0,"y":179,"w":379,"h":93},
 	"rotated": false,
@@ -208,7 +208,7 @@
 	"spriteSourceSize": {"x":44,"y":1,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10026":
+"agua26":
 {
 	"frame": {"x":0,"y":272,"w":399,"h":89},
 	"rotated": false,
@@ -216,7 +216,7 @@
 	"spriteSourceSize": {"x":32,"y":11,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10027":
+"agua27":
 {
 	"frame": {"x":0,"y":272,"w":399,"h":89},
 	"rotated": false,
@@ -224,7 +224,7 @@
 	"spriteSourceSize": {"x":32,"y":11,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10028":
+"agua28":
 {
 	"frame": {"x":0,"y":272,"w":399,"h":89},
 	"rotated": false,
@@ -232,7 +232,7 @@
 	"spriteSourceSize": {"x":32,"y":11,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10029":
+"agua29":
 {
 	"frame": {"x":0,"y":272,"w":399,"h":89},
 	"rotated": false,
@@ -240,7 +240,7 @@
 	"spriteSourceSize": {"x":32,"y":11,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10030":
+"agua30":
 {
 	"frame": {"x":0,"y":272,"w":399,"h":89},
 	"rotated": false,
@@ -248,7 +248,7 @@
 	"spriteSourceSize": {"x":32,"y":11,"w":436,"h":100},
 	"sourceSize": {"w":436,"h":100}
 },
-"barril1 instance 10031":
+"agua31":
 {
 	"frame": {"x":0,"y":272,"w":399,"h":89},
 	"rotated": false,

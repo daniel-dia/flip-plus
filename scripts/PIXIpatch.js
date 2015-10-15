@@ -91,19 +91,19 @@ PIXI.DisplayObject.prototype.setTransform = function (x, y, scaleX, scaleY, rota
     //this.skewX = skewX || 0;
     //this.skewY = skewY || 0;
 }
-PIXI.Container.prototype.cont_add = PIXI.Container.prototype.addChild;
+PIXI.Container.prototype.Container_addChild = PIXI.Container.prototype.addChild;
 PIXI.Container.prototype.addChild = function(child) {
   	if (child == null) { return child; }
   	var l = arguments.length; 
   	
   	if (l > 1) {
   	    for (var i = 0; i < l; i++) {
-  	        if(arguments[i])this.cont_add(arguments[i]);
+  	        if (arguments[i]) this.Container_addChild(arguments[i]);
   	    }
   			return arguments[l-1];
   	}
 
-  	return this.cont_add(child)
+  	return this.Container_addChild(child)
   };
 
 

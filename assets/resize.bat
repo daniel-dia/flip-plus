@@ -2,9 +2,9 @@
 SET PATH=%PATH%;C:\Users\artsj_000\Documents\Trabalhos\Games\Tools\pngquant
 
 setlocal enabledelayedexpansion
-call:copyAndResize images images_1x 100%%%% 
-call:copyAndResize images images_0.5x 50%%%% 
-call:copyAndResize images images_0.25x 25%%%% 
+call:copyAndResize images images@1x 100%%%% 
+call:copyAndResize images images@0.5x 50%%%% 
+call:copyAndResize images images@0.25x 25%%%% 
 echo DONE
 PAUSE
 

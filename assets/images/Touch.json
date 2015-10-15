@@ -1,6 +1,6 @@
 ﻿{"frames": {
 
-"touch instance 10000":
+"touch00":
 {
 	"frame": {"x":0,"y":0,"w":70,"h":70},
 	"rotated": false,
@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":91,"y":91,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10001":
+"touch01":
 {
 	"frame": {"x":0,"y":0,"w":70,"h":70},
 	"rotated": false,
@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":91,"y":91,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10002":
+"touch02":
 {
 	"frame": {"x":0,"y":0,"w":70,"h":70},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":91,"y":91,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10003":
+"touch03":
 {
 	"frame": {"x":0,"y":0,"w":70,"h":70},
 	"rotated": false,
@@ -32,7 +32,7 @@
 	"spriteSourceSize": {"x":91,"y":91,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10004":
+"touch04":
 {
 	"frame": {"x":70,"y":0,"w":163,"h":163},
 	"rotated": false,
@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":45,"y":45,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10005":
+"touch05":
 {
 	"frame": {"x":70,"y":0,"w":163,"h":163},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":45,"y":45,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10006":
+"touch06":
 {
 	"frame": {"x":70,"y":0,"w":163,"h":163},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":45,"y":45,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10007":
+"touch07":
 {
 	"frame": {"x":70,"y":0,"w":163,"h":163},
 	"rotated": false,
@@ -64,7 +64,7 @@
 	"spriteSourceSize": {"x":45,"y":45,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10008":
+"touch08":
 {
 	"frame": {"x":233,"y":0,"w":197,"h":197},
 	"rotated": false,
@@ -72,7 +72,7 @@
 	"spriteSourceSize": {"x":28,"y":28,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10009":
+"touch09":
 {
 	"frame": {"x":233,"y":0,"w":197,"h":197},
 	"rotated": false,
@@ -80,7 +80,7 @@
 	"spriteSourceSize": {"x":28,"y":28,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10010":
+"touch10":
 {
 	"frame": {"x":233,"y":0,"w":197,"h":197},
 	"rotated": false,
@@ -88,7 +88,7 @@
 	"spriteSourceSize": {"x":28,"y":28,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10011":
+"touch11":
 {
 	"frame": {"x":233,"y":0,"w":197,"h":197},
 	"rotated": false,
@@ -96,7 +96,7 @@
 	"spriteSourceSize": {"x":28,"y":28,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10012":
+"touch12":
 {
 	"frame": {"x":0,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -104,7 +104,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10013":
+"touch13":
 {
 	"frame": {"x":0,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -112,7 +112,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10014":
+"touch14":
 {
 	"frame": {"x":0,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -120,7 +120,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10015":
+"touch15":
 {
 	"frame": {"x":0,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -128,7 +128,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10016":
+"touch16":
 {
 	"frame": {"x":252,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -136,7 +136,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10017":
+"touch17":
 {
 	"frame": {"x":252,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -144,7 +144,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10018":
+"touch18":
 {
 	"frame": {"x":252,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -152,7 +152,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10019":
+"touch19":
 {
 	"frame": {"x":252,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -160,7 +160,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10020":
+"touch20":
 {
 	"frame": {"x":252,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -168,7 +168,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10021":
+"touch21":
 {
 	"frame": {"x":252,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -176,7 +176,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10022":
+"touch22":
 {
 	"frame": {"x":252,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -184,7 +184,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10023":
+"touch23":
 {
 	"frame": {"x":252,"y":197,"w":252,"h":252},
 	"rotated": false,
@@ -192,7 +192,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10024":
+"touch24":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -200,7 +200,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10025":
+"touch25":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -208,7 +208,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10026":
+"touch26":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -216,7 +216,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10027":
+"touch27":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -224,7 +224,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10028":
+"touch28":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -232,7 +232,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10029":
+"touch29":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -240,7 +240,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10030":
+"touch30":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -248,7 +248,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10031":
+"touch31":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -256,7 +256,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10032":
+"touch32":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -264,7 +264,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10033":
+"touch33":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -272,7 +272,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10034":
+"touch34":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -280,7 +280,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10035":
+"touch35":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -288,7 +288,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10036":
+"touch36":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -296,7 +296,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10037":
+"touch37":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -304,7 +304,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10038":
+"touch38":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,
@@ -312,7 +312,7 @@
 	"spriteSourceSize": {"x":116,"y":116,"w":252,"h":252},
 	"sourceSize": {"w":252,"h":252}
 },
-"touch instance 10039":
+"touch39":
 {
 	"frame": {"x":0,"y":449,"w":20,"h":20},
 	"rotated": false,

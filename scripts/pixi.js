@@ -26370,8 +26370,8 @@ module.exports = function ()
                         trim = new core.Rectangle(
                             frames[i].spriteSourceSize.x / resolution,
                             frames[i].spriteSourceSize.y / resolution,
-                            frames[i].sourceSize.w / resolution,
-                            frames[i].sourceSize.h / resolution
+                            frames[i].sourceSize.w       / resolution,
+                            frames[i].sourceSize.h       / resolution
                          );
                     }
 

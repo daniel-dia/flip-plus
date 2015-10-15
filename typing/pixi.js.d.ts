@@ -49,7 +49,7 @@ declare class PIXI {
         LINEAR: number;
         NEAREST: number;
     };
-    static RETINA_PREFIX: string;
+    static RETINA_PREFIX: RegExp;
     static RESOLUTION: number;
     static FILTER_RESOLUTION: number;
     static DEFAULT_RENDER_OPTIONS: {

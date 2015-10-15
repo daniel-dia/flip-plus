@@ -4391,6 +4391,7 @@ var FlipPlus;
             function Loading() {
                 var _this = this;
                 _super.call(this);
+                PIXI.RETINA_PREFIX = /@(.+)x.+((png)|(jpg)|(xml)|(fnt))$/;
                 assetscale = 1;
                 if (window.innerWidth <= 1070)
                     assetscale = 0.5;
@@ -4399,8 +4400,8 @@ var FlipPlus;
                 if (levelCreatorMode) {
                     assetscale = 1;
                 }
-                assetscale = 1;
-                var imagePath = "assets/images_" + assetscale + "x/";
+                assetscale = 0.25;
+                var imagePath = "assets/images@" + assetscale + "x/";
                 var audioPath = "assets/sound/";
                 //load audio
                 if (!levelCreatorMode && typeof WPAudioManager == 'undefined') {
@@ -4414,6 +4415,7 @@ var FlipPlus;
                 gameui.AssetsManager.loadSpriteSheet("agua", "agua.json");
                 gameui.AssetsManager.loadSpriteSheet("bolinhas", "bolinhas.json");
                 gameui.AssetsManager.loadSpriteSheet("touch", "Touch.json");
+                //
                 gameui.Button.setDefaultSoundId("button");
                 // adds a loading bar
                 var loadinBar = new LoadingBar(imagePath);
