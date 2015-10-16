@@ -7647,6 +7647,7 @@ var FlipPlus;
                     this.percentMask.beginFill(0xFFFFFF).drawRect(-size / 2, 0, size, -this.fill.getLocalBounds().height).endFill();
                     this.percentMask.scale.y = 0;
                     this.percentMask.y = -25;
+                    this.addChild(this.percentMask);
                     this.fill.mask = this.percentMask;
                 };
                 // shows up the completed bot
