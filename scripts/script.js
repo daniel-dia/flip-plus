@@ -530,46 +530,47 @@ var gameui;
             var _this = this;
             _super.call(this);
             this.enableAnimation = true;
-            this.mouse = false;
+            this.pressed = false;
+            this.event = event;
             this.interactive = true;
             this.interactiveChildren = true;
-            if (event != null)
-                this.on("tap", event);
-            if (event != null)
-                this.on("click", event);
+            this.on("click", event);
+            this.on("tap", event);
             this.on("mousedown", function (event) { _this.onPress(event); });
-            this.on("mousedown", function (event) { _this.onPressUp(event); });
             this.on("touchstart", function (event) { _this.onPress(event); });
-            this.on("touchend", function (event) { _this.onPressUp(event); });
-            this.on("mouseover", function () { _this.mouse = true; });
-            this.on("mouseout", function () { _this.mouse = false; });
+            this.on("touchend", function (event) { _this.onOut(event); });
+            this.on("mouseup", function (event) { _this.onOut(event); });
+            this.on("mouseupoutside", function (event) { _this.onOut(event); });
+            this.on("touchendoutside", function (event) { _this.onOut(event); });
             this.soundId = soundId;
         }
         Button.setDefaultSoundId = function (soundId) {
             this.DefaultSoundId = soundId;
         };
         Button.prototype.returnStatus = function () {
-            if (!this.mouse) {
+            if (!this.pressed) {
                 this.scale.x = this.originalScaleX;
                 this.scale.y = this.originalScaleY;
             }
         };
-        Button.prototype.onPressUp = function (Event) {
-            this.mouse = false;
-            this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
-            createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
+        Button.prototype.onOut = function (Event) {
+            if (this.pressed) {
+                this.pressed = false;
+                this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
+                createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
+            }
         };
         Button.prototype.onPress = function (Event) {
             var _this = this;
+            this.pressed = true;
             if (!this.enableAnimation)
                 return;
-            this.mouse = true;
             if (this.originalScaleX == null) {
                 this.originalScaleX = this.scaleX;
                 this.originalScaleY = this.scaleY;
             }
             createjs.Tween.get(this).to({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 }, 500, createjs.Ease.elasticOut).call(function () {
-                if (!_this.mouse) {
+                if (!_this.pressed) {
                     createjs.Tween.get(_this).to({ scaleX: _this.originalScaleX, scaleY: _this.originalScaleY }, 300, createjs.Ease.backOut);
                 }
             });
@@ -2981,42 +2982,44 @@ var FlipPlus;
                             this.addChild(blockSprite);
                             blockSprite.interactive = true;
                             //Add event listener to the boardSprite
-                            blockSprite.addEventListener("click", function (event) {
-                                if (_this.locked)
-                                    return;
-                                var b = event.target;
-                                _this.callback(b.col, b.row);
-                                // play a Radom Sounds
-                                var randomsound = Math.ceil(Math.random() * 4);
-                                gameui.AudiosManager.playSound("Mecanical Click" + randomsound, true);
-                                //tutorialrelease
-                                if (b.tutorialHighLighted) {
-                                    _this.tutorialRelease();
-                                    _this.emit("ontutorialclick");
-                                }
-                            });
-                            //moouse down
-                            blockSprite.addEventListener("mousedown", function (event) {
-                                if (_this.locked)
-                                    return;
-                                blockSprite.mouse = true;
-                                _this.preInvertCross(event.target);
-                            });
-                            //mouse up
-                            blockSprite.addEventListener("mouseup", function (event) {
-                                if (!blockSprite.mouse)
-                                    return;
-                                blockSprite.mouse = false;
-                                _this.preInvertRelease(event.target);
-                            });
-                            blockSprite.addEventListener("mouseout", function (event) {
-                                if (!blockSprite.mouse)
-                                    return;
-                                blockSprite.mouse = false;
-                                _this.preInvertRelease(event.target);
-                            });
+                            blockSprite.on("mousedown", function (event) { _this.presdown(event); });
+                            blockSprite.on("touchstart", function (event) { _this.presdown(event); });
+                            blockSprite.on("touchend", function (event) { _this.tap(event); });
+                            blockSprite.on("mouseup", function (event) { _this.tap(event); });
+                            blockSprite.on("mouseupoutside", function (event) { _this.pressRelease(event); });
+                            blockSprite.on("touchendoutside", function (event) { _this.pressRelease(event); });
                         }
                     }
+                };
+                BoardSprite.prototype.presdown = function (event) {
+                    if (this.locked)
+                        return;
+                    event.target.pressed = true;
+                    this.preInvertCross(event.target);
+                };
+                BoardSprite.prototype.tap = function (event) {
+                    if (!event.target.pressed)
+                        return;
+                    if (this.locked)
+                        return;
+                    event.target.pressed = false;
+                    this.preInvertRelease(event.target);
+                    var b = event.target;
+                    this.callback(b.col, b.row);
+                    // play a Radom Sounds
+                    var randomsound = Math.ceil(Math.random() * 4);
+                    gameui.AudiosManager.playSound("Mecanical Click" + randomsound, true);
+                    //tutorialrelease
+                    if (b.tutorialHighLighted) {
+                        this.tutorialRelease();
+                        this.emit("ontutorialclick");
+                    }
+                };
+                BoardSprite.prototype.pressRelease = function (event) {
+                    if (!event.target.pressed)
+                        return;
+                    event.target.pressed = false;
+                    this.preInvertRelease(event.target);
                 };
                 //updates sprites in the board
                 BoardSprite.prototype.updateSprites = function (blocks) {

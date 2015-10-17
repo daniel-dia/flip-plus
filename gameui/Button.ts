@@ -1,7 +1,7 @@
 module gameui {
 
     // Class
-    export class Button extends UIItem  {
+    export class Button extends UIItem {
 
         public static DefaultSoundId: string;
         public static setDefaultSoundId(soundId: string) {
@@ -15,71 +15,73 @@ module gameui {
         public enableAnimation = true;
         private originalScaleX: number;
         private originalScaleY: number;
-        private mouse = false;
+        private pressed = false;
+        private event: (event?: any) => any;
 
-        constructor(event?: (event?: any) => any, soundId?:string) {
+        constructor(event?: (event?: any) => any, soundId?: string) {
             super();
-
-
-            
+            this.event = event;
 
             this.interactive = true;
-            this.interactiveChildren = true;
+            this.interactiveChildren = true; 
 
-            if (event != null) this.on("tap", event);
-           
-            if (event != null) this.on("click", event);
+            this.on("click", event);
+            this.on("tap", event);
             
             this.on("mousedown", (event: any) => { this.onPress(event); })
-            this.on("mousedown", (event: any) => { this.onPressUp(event); })
             this.on("touchstart", (event: any) => { this.onPress(event); })
-            this.on("touchend", (event: any) => { this.onPressUp(event); })
 
-            this.on("mouseover", () => { this.mouse = true; });
-            this.on("mouseout", () => { this.mouse = false; });
-
+            this.on("touchend", (event: any) => { this.onOut(event); })
+            this.on("mouseup", (event: any) => { this.onOut(event); })
+            this.on("mouseupoutside", (event: any) => { this.onOut(event); });
+            this.on("touchendoutside", (event: any) => { this.onOut(event); });
+            
             this.soundId = soundId;
 
- 
-        }                                      
+
+        }
 
         public returnStatus(): void {
-            if (!this.mouse) {
+            if (!this.pressed) {
                 this.scale.x = this.originalScaleX;
                 this.scale.y = this.originalScaleY;
             }
         }
+
  
 
-        private onPressUp(Event: any) {
-            this.mouse = false;
-            this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
-            createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
+        private onOut(Event: any) {
+            if (this.pressed) {
+                this.pressed = false;
+                this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
+                createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
+            }
         }
 
         private onPress(Event: any) {
+            this.pressed = true;
+
             if (!this.enableAnimation) return
 
-            this.mouse = true;
             if (this.originalScaleX == null) {
                 this.originalScaleX = this.scaleX;
                 this.originalScaleY = this.scaleY;
             }
             createjs.Tween.get(this).to({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 }, 500, createjs.Ease.elasticOut).call(() => {
-                if (!this.mouse) {
+                if (!this.pressed) {
                     createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 300, createjs.Ease.backOut);
                 }
             });
 
-            if (!this.soundId) 
+            if (!this.soundId)
                 this.soundId = Button.DefaultSoundId;
 
-            if (this.soundId)  
-                 AudiosManager.playSound(this.soundId);
-            
+            if (this.soundId)
+                AudiosManager.playSound(this.soundId);
+
         }
 
-        public setSound(soundId:string) {
+        public setSound(soundId: string) {
             this.soundId = soundId;
         }
 
@@ -89,8 +91,8 @@ module gameui {
 
         public background: PIXI.Sprite;
 
-        constructor(image: string, event?: (event?: any) => any, soundId?:string) {
-            super(event, soundId );
+        constructor(image: string, event?: (event?: any) => any, soundId?: string) {
+            super(event, soundId);
 
            
            
@@ -106,10 +108,10 @@ module gameui {
                 }
                 else
                     if (this.background["image"])
-                    this.background["image"].onload = () => {this.centralizeImage() }
+                        this.background["image"].onload = () => { this.centralizeImage() }
             }
 
-            
+
             this.createHitArea();
         }
 
@@ -118,7 +120,7 @@ module gameui {
             this.height = this.background.getBounds().height;
             this.background.pivot.x = this.width / 2;
             this.background.pivot.y = this.height / 2;
-            this.centered = true; 
+            this.centered = true;
         }
     }
 
@@ -127,20 +129,19 @@ module gameui {
         public text: PIXI.Text;
 
         constructor(text: string = "", font?: string, color?: number, background?: string, event?: (event?: any) => any, soundId?: string) {
-            super(background,event,soundId);
+            super(background, event, soundId);
 
             //add text into it.
             text = text.toUpperCase();
 
-            this.text = new PIXI.Text(text, { font: font, fill: color, align: "center", textBaseline:"middle" });
+            this.text = new PIXI.Text(text, { font: font, fill: color, align: "center", textBaseline: "middle" });
            
             //createHitArea
-            if (background == null)
-            {
+            if (background == null) {
                 this.width = this.text.getBounds().width * 1.5;
-                this.height = this.text.getBounds().height *1.5;
+                this.height = this.text.getBounds().height * 1.5;
             }
-            
+
             this.addChild(this.text);
             this.createHitArea();
 
@@ -175,7 +176,7 @@ module gameui {
 
         constructor(icon: string = "", text = "", font: string = null, color?: number, background?: string, event?: (event?: any) => any, soundId?: string, align: string = "center") {
             this.align = align;
-              
+
             super(text, font, color, background, event, soundId);
 
             //loads icon Image
@@ -198,7 +199,7 @@ module gameui {
         }
 
         public updateLabel(value: string) {
-            
+
             this.text.text = value;
             if (!this.icon.getBounds()) return;
 
@@ -224,7 +225,7 @@ module gameui {
         private align: string;
         public icon: PIXI.DisplayObject;
 
-        constructor(icon: string = "", text = "", font: string = null,  background?: string, event?: (event?: any) => any, soundId?: string, align: string = "center") {
+        constructor(icon: string = "", text = "", font: string = null, background?: string, event?: (event?: any) => any, soundId?: string, align: string = "center") {
             this.align = align;
 
             super(text, font, background, event, soundId);
@@ -232,7 +233,7 @@ module gameui {
             //loads icon Image
             this.icon = AssetsManager.getBitmap(icon);
             this.addChild(this.icon);
-            
+
             if (this.icon.getBounds())
                 this.icon.pivot.y = this.icon.getBounds().height / 2;
             else
@@ -242,7 +243,6 @@ module gameui {
                     }
 
             this.updateLabel(text);
-
             this.createHitArea();
         }
 
@@ -272,7 +272,7 @@ module gameui {
 
     export class IconButton extends IconTextButton {
         constructor(icon: string = "", background?: string, event?: (event?: any) => any, soundId?: string) {
-            super(icon,"", "", 0xFFFFFF, background, event, soundId);
+            super(icon, "", "", 0xFFFFFF, background, event, soundId);
         }
     }
 }

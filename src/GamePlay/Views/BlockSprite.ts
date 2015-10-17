@@ -41,7 +41,7 @@ module FlipPlus.GamePlay.Views {
         //highlight
         private highlight: PIXI.DisplayObject;
 
-        public mouse: boolean;
+        public pressed: boolean;
 
         //Constructor
         constructor(col: number, row: number, theme: string, levelType: string) {

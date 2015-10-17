@@ -48,8 +48,7 @@
         private addBlocks(width: number, height: number, theme: string, levelType: string) {
 
             this.blocksSprites = [];
-
-          
+                      
             for (var col = 0; col < width; col++) {
                 this.blocksSprites[col] = [];
                 for (var row = 0; row < height; row++) {
@@ -63,50 +62,56 @@
                     this.addChild(blockSprite);
 
                     blockSprite.interactive = true;
+                
                     //Add event listener to the boardSprite
 
-                    blockSprite.addEventListener("click", (event: PIXI.interaction.InteractionEvent) => {
-                        
-                        if (this.locked) return;
+                     
 
-                        var b: BlockSprite = <BlockSprite>event.target;
-                        this.callback(b.col, b.row);
+                    blockSprite.on("mousedown", (event: any) => { this.presdown(event); })
+                    blockSprite.on("touchstart", (event: any) => { this.presdown(event); })
 
-                        // play a Radom Sounds
-                        var randomsound = Math.ceil(Math.random() * 4) 
-                        gameui.AudiosManager.playSound("Mecanical Click" + randomsound,true); 
+                    blockSprite.on("touchend", (event: any) => { this.tap(event); })
+                    blockSprite.on("mouseup", (event: any) => { this.tap(event); })
 
-                        //tutorialrelease
-                        if (b.tutorialHighLighted) {
+                    blockSprite.on("mouseupoutside", (event: any) => {  this.pressRelease(event); });
+                    blockSprite.on("touchendoutside", (event: any) => { this.pressRelease(event); });
 
-                            this.tutorialRelease();
-                            this.emit("ontutorialclick");
-                        }
-
-                    });
-
-                    //moouse down
-                    blockSprite.addEventListener("mousedown", (event: PIXI.interaction.InteractionEvent) => {
-                        if (this.locked) return;
-                        blockSprite.mouse = true;
-                        this.preInvertCross(<BlockSprite>event.target);
-                    });
-
-                    
-                    //mouse up
-                    blockSprite.addEventListener("mouseup", (event: PIXI.interaction.InteractionEvent) => {
-                        if (!blockSprite.mouse) return;
-                        blockSprite.mouse = false;
-                        this.preInvertRelease(<BlockSprite>event.target);
-                    });
-
-                    blockSprite.addEventListener("mouseout", (event: PIXI.interaction.InteractionEvent) => {
-                        if (!blockSprite.mouse) return;
-                        blockSprite.mouse = false;
-                        this.preInvertRelease(<BlockSprite>event.target);
-                    });
                 }
             }
+        }
+
+        private presdown(event: PIXI.interaction.InteractionEvent)  {
+            if (this.locked) return;
+            event.target.pressed = true;
+            this.preInvertCross(<BlockSprite>event.target);
+        }
+
+        private tap(event: PIXI.interaction.InteractionEvent) {
+            if (!event.target.pressed) return;
+            if (this.locked) return;
+
+            event.target.pressed = false;
+            this.preInvertRelease(<BlockSprite>event.target);
+            
+            var b: BlockSprite = <BlockSprite>event.target;
+            this.callback(b.col, b.row);
+
+            // play a Radom Sounds
+            var randomsound = Math.ceil(Math.random() * 4)
+            gameui.AudiosManager.playSound("Mecanical Click" + randomsound, true); 
+
+            //tutorialrelease
+            if (b.tutorialHighLighted) {
+
+                this.tutorialRelease();
+                this.emit("ontutorialclick");
+            }    
+        }
+
+        private pressRelease(event: PIXI.interaction.InteractionEvent)  {
+            if (!event.target.pressed) return;
+            event.target.pressed = false;
+            this.preInvertRelease(<BlockSprite>event.target);
         }
 
         //updates sprites in the board
@@ -153,8 +158,7 @@
             this.tutorialIndiatcor.y = block.y;
             
         }
-
-
+        
         public tutorialRelease() {
             var blocksCount = this.boardWidth * this.boardHeight;
 
