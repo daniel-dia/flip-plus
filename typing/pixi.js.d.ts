@@ -1491,7 +1491,7 @@ declare module PIXI {
             protected getTouchData(touchEvent: InteractionData): InteractionData;
             protected returnTouchData(touchData: InteractionData): void;
 
-            constructor(renderer: CanvasRenderer | WebGLRenderer, options?: { autoPreventDefault?: boolean; interactionFrequence?: number; });
+            constructor(renderer: CanvasRenderer | WebGLRenderer, options?: { autoPreventDefault?: boolean; interactionFrequency?: number; });
 
             renderer: CanvasRenderer | WebGLRenderer;
             autoPreventDefault: boolean;

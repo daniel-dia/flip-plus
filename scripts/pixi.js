@@ -25708,8 +25708,13 @@ InteractionManager.prototype.processMouseUp = function ( displayObject, hit )
  * @param event {Event} The DOM event of the mouse moving
  * @private
  */
+start = 0;
 InteractionManager.prototype.onMouseMove = function (event)
 {
+    var delta = Date.now() - start;
+    if (delta < 20) return;
+    start = Date.now();
+
     this.mouse.originalEvent = event;
     this.eventData.data = this.mouse;
     this.eventData.stopped = false;
@@ -25921,8 +25926,13 @@ InteractionManager.prototype.processTouchEnd = function ( displayObject, hit, id
  * @param event {Event} The DOM event of a touch moving across the renderer view
  * @private
  */
+
+    
 InteractionManager.prototype.onTouchMove = function (event)
 {
+
+
+
     if (this.autoPreventDefault)
     {
         event.preventDefault();

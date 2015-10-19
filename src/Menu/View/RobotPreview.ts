@@ -12,7 +12,6 @@
         //Constructor
         constructor(project: FlipPlus.Projects.Project) {
             super();
-
             this.project = project;
             this.createPercentualFill(project);
             this.update();
@@ -21,10 +20,11 @@
         //create graphics
         private createPercentualFill(project: FlipPlus.Projects.Project){
           
-                var size: number = 1000;
-                this.fill = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"));
-                this.stroke = this.addChild(gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke"));
-                 
+                var size: number = 300;
+                this.fill = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill");
+                this.stroke = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke");
+                this.fill.interactive = false;
+
                 this.fill.pivot.x = this.stroke.pivot.x = this.fill.getLocalBounds().width / 2;
                 this.fill.pivot.y = this.stroke.pivot.y = this.fill.getLocalBounds().height;
 
@@ -41,6 +41,7 @@
                 this.percentMask.y = -25;
                 this.addChild(this.percentMask);
                 this.fill.mask = this.percentMask;
+                
         }
 
         // shows up the completed bot
@@ -64,21 +65,18 @@
             try {
                 //já acabou de terminar um level
                 if (animate) this.animateBotFillTo();
-
                 if (!animate)
                     if (this.project.UserData.complete)
                         this.createCompletedBot()
                     else
                         this.updateFill();
-                    
-                    
-
             } catch (e) { };
         }
         
         // update bot fill based on user data
         private updateFill() {
             this.percentMask.scale.y = this.project.UserData.percent;
+
         }
 
         //animate finishing level
@@ -92,10 +90,8 @@
             boxShape.y = -300;
             this.addChild(boxShape);
             createjs.Tween.get(boxShape).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(() => { this.removeChild(boxShape); })
-
-           
-
             createjs.Tween.get(this.percentMask).wait(900).to({ scaleY: newValue }, 700, createjs.Ease.quadInOut).wait(500).call(() => {
+                
                 if (this.project.UserData.complete) {
                     this.createCompletedBot(); 
                     createjs.Tween.get(this.fill).wait(300).to({ alpha: 0 }, 600).call(() => { this.fill.visible = false })
@@ -108,8 +104,6 @@
                 }
             });
         }
-
-
 
         // show a new glare into the bot
         public castNewEffect() {

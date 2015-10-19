@@ -76,8 +76,8 @@ module FlipPlus {
                 }
                 else
 
-                    //this.showProjectsMenu();
-                    this.showTitleScreen();
+                    this.showProjectLevelsMenu(levelsData[0]);
+                    //this.showTitleScreen();
             }
 
             // give 10 coins to user first time
@@ -92,16 +92,16 @@ module FlipPlus {
                 return this.gameScreen.sendBackButtonEvent()
             })
 
-            //  var ps = this.projectManager.getAllProjects();
-            //  for (var p in ps) {
-            //      ps[p].UserData.unlocked = true;
-            //      ps[p].UserData.stars=0;
-            //      for (var l in ps[p].levels) {
-            //          ps[p].levels[l].userdata.solved = false;
-            //          ps[p].levels[l].userdata.unlocked = true;
-            // 
-            //      }
-            //  }
+              var ps = this.projectManager.getAllProjects();
+              for (var p in ps) {
+                  ps[p].UserData.unlocked = true;
+                  ps[p].UserData.stars=0;
+                  for (var l in ps[p].levels) {
+                      ps[p].levels[l].userdata.solved = false;
+                      ps[p].levels[l].userdata.unlocked = true;
+             
+                  }
+              }
         }
 
         public static initializeAds() {
@@ -291,3 +291,8 @@ module FlipPlus {
         }
     }
 }
+
+
+window.onload = function () {
+    FlipPlus.FlipPlusGame.initializeGame();
+};

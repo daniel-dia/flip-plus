@@ -15,12 +15,14 @@ module FlipPlus.Menu {
 
 
             this.content.interactive = true 
-            this.content.on("mousedown", () => {
-               
+
+            var tap = () => {
                 FlipPlusGame.showMainScreen();
                 gameui.AudiosManager.playSound("button");
+            };
 
-            });
+            this.content.on("tap", tap );
+            this.content.on("click", tap);
  
         }
 

@@ -10,8 +10,8 @@ module FlipPlus.Menu.View {
         private level: Projects.Level;
 
         // Constructor
-        constructor(level: FlipPlus.Projects.Level) {
-            super();
+        constructor(level: FlipPlus.Projects.Level, event?: (event?: any) => any) {
+            super(event);
             this.level = level;
             this.name = level.name;
             this.theme = level.theme;
@@ -43,7 +43,6 @@ module FlipPlus.Menu.View {
             this.addChild(thumbContainer);
             
             //defines thumb state
-            //
             if (level.userdata.unlocked && level.userdata.solved || level.userdata.skip) {
                 assetSufix = "1";
                 this.setSound(null);
@@ -82,7 +81,7 @@ module FlipPlus.Menu.View {
             thumbContainer.addChild(this.createBackgroud(level, assetName, assetSufix));
 
             //Adds Thumb Blocks
-            thumbContainer.addChild(this.createBlocks(level,color1,color2,1,4));
+            thumbContainer.addChild(this.createBlocks(level,color1,color2,alpha1,alpha2,1,4));
 
             //Adds thumb tags
             thumbContainer.addChild(this.createTags(level,assetName,assetSufix));
@@ -91,7 +90,7 @@ module FlipPlus.Menu.View {
             thumbContainer.addChild(this.createLevelModificator(level));
 
             //cache thumb
-            //thumbContainer.cache(-99, -102, 198, 204);
+            thumbContainer.cacheAsBitmap = true;
         }
 
         //defines accentColor based on level type.
@@ -131,8 +130,8 @@ module FlipPlus.Menu.View {
         }
         
         //adds thumb blocks
-        protected createBlocks(level: Projects.Level, color1: number, color2: number, sizeStart?: number, sizeEnd?: number): PIXI.DisplayObject {
-          
+        protected createBlocks(level: Projects.Level, color1: number, color2: number, alpha1: number, alpha2: number, sizeStart?: number, sizeEnd?: number): PIXI.DisplayObject {
+           
             var col0 = sizeStart ? sizeStart : 0;
             var colf = sizeEnd ? sizeEnd :level.width ;
             var row0 = sizeStart ? sizeStart : 0;
@@ -162,8 +161,16 @@ module FlipPlus.Menu.View {
             for (var row = row0; row < rowf; row++) {
                 for (var col = col0; col < colf; col++) {
                     var color: number;
-                    if (blocks[row * level.width + col]) color = color1; else color = color2;
-                    s.beginFill(color).drawRect(spacing * (col - col0), spacing * (row - row0), size, size);
+                    var alpha: number;
+                    if (blocks[row * level.width + col]) {
+                        color = color1;
+                        alpha = alpha1;
+                    }
+                    else {
+                        color = color2;
+                        alpha = alpha2;
+                    }
+                    s.beginFill(color,alpha).drawRect(spacing * (col - col0), spacing * (row - row0), size, size);
                 }
             }
 

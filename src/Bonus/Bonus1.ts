@@ -69,7 +69,7 @@
                 var spriteReflection = gameui.AssetsManager.getBitmap("Bonus1/barrelReflect");
                 spriteReflection.y = 200;
                 spriteReflection.x = -15;
-                spriteReflection.skewX = -10;
+                spriteReflection["skewX"] = -10;
                 spriteReflection.scale.x= 1.02;
                 barrel.addChild(spriteReflection);
 

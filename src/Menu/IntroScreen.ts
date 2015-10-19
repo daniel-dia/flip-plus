@@ -2,7 +2,7 @@
 
 module FlipPlus.Menu {
     export class Intro extends PIXI.Container {
-        private introMc: PIXI.extras.MovieClip;
+        private introMc: createjs.MovieClip;
         private popup: View.PopupBot;
 
         constructor() {
@@ -11,7 +11,9 @@ module FlipPlus.Menu {
             this.popup = new Menu.View.PopupBot();
 
             this.introMc = new lib.Intro();
-            this.addChild(this.introMc);
+            var temp: any = this.introMc;
+            this.addChild(<PIXI.DisplayObject>temp);  
+
             this.introMc.stop();
 
             this.introMc.addEventListener("d1", () => { ; });
@@ -27,10 +29,6 @@ module FlipPlus.Menu {
         public playIntroPart1() {
             this.introMc.gotoAndPlay("part1");
             this.popup.visible = false;
-            var m = <PIXI.Graphics>this.introMc.children[0];
-            m.visible = false;
-            (<PIXI.DisplayObject>this.introMc["Bot01"]).mask = m;
-
         }   
 
         public playIntroPart2() {

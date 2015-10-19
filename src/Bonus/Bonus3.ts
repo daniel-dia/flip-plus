@@ -4,10 +4,10 @@
     export class Bonus3 extends BonusScreen {
    
         //keys object
-        private keys: Array<PIXI.extras.MovieClip>
+        private keys: Array<createjs.MovieClip>
 
         //main clip
-        private mainClip: PIXI.extras.MovieClip;
+        private mainClip: createjs.MovieClip;
 
         //currentChest
         private currentChestId: number;
@@ -32,8 +32,9 @@
         
         addObjects() {
             super.addObjects();
-            var mc = <PIXI.extras.MovieClip>(new lib["Bonus3"]);
-            this.content.addChild(mc);      
+            var mc = <createjs.MovieClip>(new lib["Bonus3"]);
+            var temp: any = mc;
+            this.content.addChild(<PIXI.DisplayObject>temp);      
             this.mainClip = mc;
             
 

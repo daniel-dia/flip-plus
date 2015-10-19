@@ -26,7 +26,12 @@ module FlipPlus.Menu.View {
 
                 //add callback
          
-                this.addEventListener("mousedown", () => {
+                this.addEventListener("click", () => {
+                    this.closePopUp();
+                    clearTimeout(this.closeinterval);
+                });
+
+                this.addEventListener("tap", () => {
                     this.closePopUp();
                     clearTimeout(this.closeinterval);
                 });

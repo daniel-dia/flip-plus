@@ -15,8 +15,10 @@ module gameui {
         public enableAnimation = true;
         private originalScaleX: number;
         private originalScaleY: number;
-        private pressed = false;
         private event: (event?: any) => any;
+
+        private pressed = false;
+        
 
         constructor(event?: (event?: any) => any, soundId?: string) {
             super();
@@ -25,8 +27,8 @@ module gameui {
             this.interactive = true;
             this.interactiveChildren = true; 
 
-            this.on("click", event);
-            this.on("tap", event);
+            this.on("click",    this.event);
+            this.on("tap",      this.event);
             
             this.on("mousedown", (event: any) => { this.onPress(event); })
             this.on("touchstart", (event: any) => { this.onPress(event); })

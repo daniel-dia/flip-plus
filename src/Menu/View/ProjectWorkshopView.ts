@@ -22,8 +22,7 @@ module FlipPlus.Menu.View {
             this.name = project.name;
 			
             this.onShowPage = () => {
-				//add hitArea
-				this.addHitArea();
+ 
 				//add levels information
 				this.addObjects(project);
 				//activate layer
@@ -39,12 +38,7 @@ module FlipPlus.Menu.View {
         }
 
         //--------------------- Initialization ---------------------
-
-        private addHitArea(){
-            ///var hit = new PIXI.Container;
-            /// Check hit.hitArea = ((new PIXI.Graphics().beginFill(0xF00).drawRect(0, 0, defaultWidth, defaultHeight)));
-            //this.addChild(hit);
-        }
+ 
 
         private addObjects(project: Projects.Project) {
           
@@ -60,9 +54,7 @@ module FlipPlus.Menu.View {
 
         //create projetview control
         private addRobotPreview(project: Projects.Project) {
-
             this.robotPreview = new View.RobotPreview(project);
-            
             this.robotPreview.x = defaultWidth / 2;
             this.robotPreview.y = 1100;
             this.robotPreview.update();
@@ -87,14 +79,13 @@ module FlipPlus.Menu.View {
             this.statusArea.addChild(l);
 
             this.addChild(this.statusArea);
-
-            this.statusArea.mouseEnabled = false;
         }
 
         //Adds level thumbs to the scene
         private addProjectMachine(project: Projects.Project) {
 
             var levelMachine = new PIXI.Container;
+            
             this.addChild(levelMachine);
             this.levelsMahine = levelMachine;
 

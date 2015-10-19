@@ -2020,13 +2020,13 @@
     <Content Include="scripts\pixi_original.js" />
     <Content Include="scripts\pixi.min.js" />
     <Content Include="scripts\plataform.js" />
+    <Content Include="scripts\script.js" />
     <Content Include="scripts\setMobileScale.js" />
     <Content Include="scripts\sortable.js" />
     <Content Include="scripts\timer.js" />
     <Content Include="style\main.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <TypeScriptCompile Include="src - test\test.ts" />
     <TypeScriptCompile Include="src\Anslytics.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus1.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus2.ts" />
@@ -2198,6 +2198,11 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <DefineConstants>DEBUG</DefineConstants>
     <TypeScriptOutFile>scripts/script.js</TypeScriptOutFile>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptOutDir />
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES3</TypeScriptTarget>

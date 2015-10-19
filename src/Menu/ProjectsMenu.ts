@@ -111,25 +111,21 @@ module FlipPlus.Menu {
                 if (i % (cols * rows) == 0) {
                     currentPage = new View.Page();
 
-                    var hit = new PIXI.Container;
-                    /// Check hit.hitArea = ((new PIXI.Graphics().beginFill(0xFF0000).drawRect(0, 0, defaultWidth, defaultHeight)));
-                    currentPage.addChild(hit);
-
                     this.projectsGrid.addChild(currentPage);
                     this.pages.push(currentPage);
                 }
 
-                var projectView = new View.ProjectItem(projects[i]);
                 
-                //add click event to the item
-                projectView.addEventListener("mousedown", (e: PIXI.interaction.InteractionEvent) => {
+                var projectView = new View.ProjectItem(projects[i], (e: PIXI.interaction.InteractionEvent) => {
                     this.projectItemClick(e);
                 });
+ 
                 
                 //add item to scene
                 this.projectsItems.push(projectView);
                 currentPage.addChild(projectView);
                 
+
                 //set item position
                 projectView.x = xspacing * (i % cols) + 260;
                 projectView.y = yspacing * Math.floor((i % (cols * rows)) / cols);

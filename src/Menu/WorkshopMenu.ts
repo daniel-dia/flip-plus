@@ -118,13 +118,17 @@ module FlipPlus.Menu {
 
         private createPaginationButtons(pagesContainer: PIXI.Container) {
             //create leftButton
-            var lb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() },"buttonOut");
+            var lb: gameui.Button = new gameui.ImageButton("projects/btpage", () => {
+                this.pagesSwipe.gotoPreviousPage()
+            }, "buttonOut");
             lb.y = 1050;
             lb.x = defaultWidth * 0.1;
             this.content.addChild(lb);
 
             //create right button
-            var rb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
+            var rb: gameui.Button = new gameui.ImageButton("projects/btpage", () => {
+                this.pagesSwipe.gotoNextPage()
+            });
             rb.y = 1050;
             rb.x = defaultWidth * 0.9;
             rb.scale.x = -1;

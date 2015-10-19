@@ -4,8 +4,8 @@ module FlipPlus.Menu.View {
 
         public project: Projects.Project;
 
-        constructor(project: Projects.Project) {
-            super();
+        constructor(project: Projects.Project, event?: (event?: any) => any) {
+            super(event);
 
             this.project = project;
 
@@ -33,9 +33,7 @@ module FlipPlus.Menu.View {
                 var bar = "projects/bar" + (project.UserData.stars ? project.UserData.stars : 0);
                 this.addChild(gameui.AssetsManager.getBitmap(bar).set({ x: 5, y: 363}));
                 this.addChild(gameui.AssetsManager.getBitmap(bar + "a"));
-
                 
-
                 //robot name text
                 var robotName = gameui.AssetsManager.getBitmapText(project.nickName, "fontBlue");
                 robotName.scale.x = robotName.scale.y = 0.6;
@@ -88,10 +86,6 @@ module FlipPlus.Menu.View {
                 tx.y = 195; 
 
             }
-
-         
-            //create hitArea
-            /// Check this.createHitArea();
         }
 
         //updates based on porject 
@@ -110,15 +104,15 @@ module FlipPlus.Menu.View {
             //if is new (unlocked and not played) do an animation
             if (this.project.UserData.percent == 0 && this.project.UserData.unlocked) {
                 this.set({ scaleX: 1, scaleY: 1 })
-                createjs.Tween.get(this)
-                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
-                    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
-                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
-                    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
-                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
-                    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
-                    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
-                    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
+                //createjs.Tween.get(this)
+                //    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                //    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
+                //    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                //    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
+                //    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                //    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
+                //    .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
+                //    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.sineInOut)
             }
         }
     }

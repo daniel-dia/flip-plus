@@ -16,6 +16,7 @@ module FlipPlus.Menu.View {
             this.pagesContainer = pagesContainer;
             this.pages = pages;
             this.pagesContainer.interactive = true;
+            this.pagesContainer.hitArea = null;
 
             //configure pages
             for (var i in pages)
@@ -26,8 +27,9 @@ module FlipPlus.Menu.View {
             var initialclick;
             var moving: boolean = false;
 
-            // records position on mouse down
-            pagesContainer.addEventListener("touchstart",(e: PIXI.interaction.InteractionEvent) => {
+            var start = 0;
+            
+            var pointerStart = (e: PIXI.interaction.InteractionEvent) => {
 
                 var pos = pagesContainer.parent.toLocal(e.data.global)
                 if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
@@ -35,10 +37,12 @@ module FlipPlus.Menu.View {
                     xpos = pos.x - pagesContainer.x;
                     moving = true;
                 }
-            })
+            };
+            var pointerMove = (e: PIXI.interaction.InteractionEvent) => {
+                var delta = Date.now() - start;
+                if (delta < 15) return;
+                start = Date.now();
 
-            //drag the container
-            pagesContainer.on("touchmove",(e: PIXI.interaction.InteractionEvent) => {
                 if (moving) {
                     var pos = pagesContainer.parent.toLocal(e.data.global);
 
@@ -46,12 +50,10 @@ module FlipPlus.Menu.View {
                     if (Math.abs(pos.x - initialclick) > 50) this.cancelClick = true;
 					
                     //hide all pages
-					this.showOlnyPage(this.currentPageIndex, 1);
-				}
-            })
-
-            //verifies the relase point to tween to the next page
-            pagesContainer.addEventListener("touchend",(e: PIXI.interaction.InteractionEvent) => {
+                    this.showOlnyPage(this.currentPageIndex, 1);
+                }
+            };
+            var pointerEnd = (e: PIXI.interaction.InteractionEvent) => {
                 if (moving) {
                     moving = false;
                     var pos = pagesContainer.parent.toLocal(e.data.global);
@@ -70,7 +72,23 @@ module FlipPlus.Menu.View {
                     //release click for user
                     setTimeout(() => { this.cancelClick = false }, 100);
                 }
-            })
+            };
+
+            var a = this.pagesContainer;
+
+            // records position on mouse down
+            a.on("mousedown", pointerStart);
+            a.on("touchstart", pointerStart);
+
+            //drag the container
+            a.on("mousemove", pointerMove);
+            a.on("touchmove", pointerMove);
+
+            //verifies the relase point to tween to the next page
+            a.on("mouseup", pointerEnd);
+            a.on("mouseupoutside", pointerEnd);
+            a.on("touchend", pointerEnd);
+            a.on("touchendoutside", pointerEnd);
         }
 
         //----------------------pages-----------------------------------------------//

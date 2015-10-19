@@ -26,19 +26,9 @@ module FlipPlus.Menu.View {
                 //save it on the map, (for click feedback)
                 this.challangesMap[level.name] = level;
                 
-                //create a thumb
-                var challangeThumb: LevelThumb = new LevelThumb(level);
-                this.thumbs.push(challangeThumb);
-                challangeThumb.rotation = (Math.random() * 3 - 1.5) * Math.PI/180; //Little angle random.
-                challangeThumb.set({ alpha: 0, scaleX: 1.3, scaleY: 1.3 });//animate
-                createjs.Tween.get(challangeThumb).wait(50+i*50).to({ alpha: 1,scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadIn);
-                
-                //Add object on grid
-                this.addObject(challangeThumb);
-
                 //add the click event listener
-                challangeThumb.addEventListener("mousedown", (e: PIXI.interaction.InteractionEvent) => {
-                  
+                var event = (e: PIXI.interaction.InteractionEvent) => {
+
                     var tg: PIXI.DisplayObject = <PIXI.DisplayObject>(e.target);
                     var level: Projects.Level = this.challangesMap[tg.name];
 
@@ -48,9 +38,21 @@ module FlipPlus.Menu.View {
                         scaleX: 0.3,
                         scaleY: 0.3
                     }
-                  
-                    this.emit( "levelClick", {level: level, parameters: parameters });
-                });
+
+                    this.emit("levelClick", { level: level, parameters: parameters });
+                };
+
+                //create a thumb
+                var challangeThumb: LevelThumb = new LevelThumb(level,event);
+                this.thumbs.push(challangeThumb);
+                challangeThumb.rotation = (Math.random() * 3 - 1.5) * Math.PI/180; //Little angle random.
+                challangeThumb.set({ alpha: 0, scaleX: 1.3, scaleY: 1.3 });//animate
+                createjs.Tween.get(challangeThumb).wait(50+i*50).to({ alpha: 1,scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadIn);
+                
+                //Add object on grid
+                this.addObject(challangeThumb);
+
+                
             }
         }
 

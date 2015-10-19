@@ -36,7 +36,7 @@ module gameui{
          
         //-----------------------------------------------------------------------
 
-        constructor(divId: string, gameWidth: number, gameHeight?: number, fps:number=60, showFps?: boolean) {
+        constructor(divId: string, gameWidth: number, gameHeight?: number, fps: number = 60, showFps?: boolean) {
 
             this.defaultWidth = gameWidth;
             this.defaultHeight = gameHeight;
@@ -44,8 +44,12 @@ module gameui{
             
             // create a renderer instance.
             PIXIstage = new PIXI.Container();
-            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { backgroundColor: 0 });
+            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { backgroundColor: 0 }); 
+            var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer, { interactionFrequency: 1000 });
+
             createjs.Ticker.setFPS(fps);
+
+            
             // add the renderer view element to the DOM
             document.getElementById(divId).appendChild(PIXIrenderer.view);
             
@@ -59,14 +63,22 @@ module gameui{
             window.onresize = () => { this.resizeGameScreen(window.innerWidth, window.innerHeight); };
 
             updateFn = this.update
-            requestAnimationFrame(this.update);
+            //requestAnimationFrame(this.update);
+
+            setInterval(() => {
+                PIXIrenderer.render(PIXIstage);
+            }, 33);
         }
 
+
+
         private update() {
-            requestAnimationFrame(updateFn);
- 
+            
             // render the stage   
+            // RENDER MUST BE BEFORE REQUEST
             PIXIrenderer.render(PIXIstage);
+
+            requestAnimationFrame(updateFn);
         }
 
         // switch current screen, optionaly with a pre defined transition
