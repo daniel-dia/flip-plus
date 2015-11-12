@@ -135,7 +135,7 @@ var gameui;
             this.defaultHeight = gameHeight;
             // create a renderer instance.
             PIXIstage = new PIXI.Container();
-            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { backgroundColor: 0 });
+            PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { backgroundColor: 0 });
             var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer, { interactionFrequency: 1000 });
             createjs.Ticker.setFPS(fps);
             // add the renderer view element to the DOM
@@ -147,10 +147,7 @@ var gameui;
             this.resizeGameScreen(window.innerWidth, window.innerHeight);
             window.onresize = function () { _this.resizeGameScreen(window.innerWidth, window.innerHeight); };
             updateFn = this.update;
-            //requestAnimationFrame(this.update);
-            setInterval(function () {
-                PIXIrenderer.render(PIXIstage);
-            }, 33);
+            requestAnimationFrame(this.update);
         }
         GameScreen.prototype.update = function () {
             // render the stage   
@@ -786,8 +783,8 @@ var FlipPlus;
                     _this.toLevelCreator();
                 }
                 else
-                    _this.showProjectLevelsMenu(levelsData[0]);
-                //this.showTitleScreen();
+                    //this.showProjectLevelsMenu(levelsData[0]);
+                    _this.showTitleScreen();
             };
             // give 10 coins to user first time
             if (!this.storyData.getStoryPlayed("coins")) {

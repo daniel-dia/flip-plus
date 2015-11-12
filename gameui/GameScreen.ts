@@ -44,7 +44,7 @@ module gameui{
             
             // create a renderer instance.
             PIXIstage = new PIXI.Container();
-            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { backgroundColor: 0 }); 
+            PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { backgroundColor: 0 }); 
             var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer, { interactionFrequency: 1000 });
 
             createjs.Ticker.setFPS(fps);
@@ -63,11 +63,9 @@ module gameui{
             window.onresize = () => { this.resizeGameScreen(window.innerWidth, window.innerHeight); };
 
             updateFn = this.update
-            //requestAnimationFrame(this.update);
+            requestAnimationFrame(this.update);
 
-            setInterval(() => {
-                PIXIrenderer.render(PIXIstage);
-            }, 33);
+          
         }
 
 
