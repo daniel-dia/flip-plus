@@ -4962,8 +4962,9 @@ var FlipPlus;
                         var challangeThumb = new View.LevelThumb(level, event);
                         this.thumbs.push(challangeThumb);
                         challangeThumb.rotation = (Math.random() * 3 - 1.5) * Math.PI / 180; //Little angle random.
-                        challangeThumb.set({ alpha: 0, scaleX: 1.3, scaleY: 1.3 }); //animate
-                        createjs.Tween.get(challangeThumb).wait(50 + i * 50).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadIn);
+                        ////desactivate animation
+                        //challangeThumb.set({ alpha: 0, scaleX: 1.3, scaleY: 1.3 });//animate
+                        //createjs.Tween.get(challangeThumb).wait(50+i*50).to({ alpha: 1,scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadIn);
                         //Add object on grid
                         this.addObject(challangeThumb);
                     }
@@ -7640,7 +7641,14 @@ var FlipPlus;
                     this.project = project;
                     this.createPercentualFill(project);
                     this.update();
+                    this.createHitArea();
                 }
+                RobotPreview.prototype.createHitArea = function () {
+                    var graphics = new PIXI.Graphics();
+                    graphics.beginFill(0xFFFFFF, 0);
+                    graphics.drawRect(-768, -900, 1536, 1400);
+                    this.addChild(graphics);
+                };
                 //create graphics
                 RobotPreview.prototype.createPercentualFill = function (project) {
                     var size = 300;

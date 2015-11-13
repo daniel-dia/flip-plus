@@ -15,6 +15,14 @@
             this.project = project;
             this.createPercentualFill(project);
             this.update();
+            this.createHitArea();
+        }
+
+        private createHitArea() {
+            var graphics = new PIXI.Graphics();
+            graphics.beginFill(0xFFFFFF, 0); 
+            graphics.drawRect(-768, -900, 1536, 1400);
+            this.addChild(graphics); 
         }
 
         //create graphics

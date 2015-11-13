@@ -2200,7 +2200,7 @@
     <TypeScriptOutFile>scripts/script.js</TypeScriptOutFile>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptOutDir />
-    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptNoEmitOnError>False</TypeScriptNoEmitOnError>
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
   </PropertyGroup>
