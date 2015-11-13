@@ -1,15 +1,15 @@
 module FlipPlus.Menu.View {
 
     // View Class
-    export class CoinsIndicator extends PIXI.Container{
+    export class CoinsIndicator extends gameui.Button{
 
         private coinsTextField: PIXI.extras.BitmapText;
 
         private fx: FlipPlus.Effects;
         
         // Constructor
-        constructor() {
-            super();
+        constructor(event?: () => any) {
+            super(event);
             this.buildView();
 
             //Add Effects

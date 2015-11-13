@@ -1300,9 +1300,9 @@ var FlipPlus;
                 this.content.addChild(this.textEffext);
                 //adds popup
                 this.popup = new FlipPlus.Menu.View.Popup();
-                this.content.addChild(this.popup);
+                this.overlay.addChild(this.popup);
                 this.popupHelper = new FlipPlus.Menu.View.PopupHelper();
-                this.content.addChild(this.popupHelper);
+                this.overlay.addChild(this.popupHelper);
                 this.popup.addEventListener("onshow", function () {
                     _this.gameplayMenu.fadeOut();
                     _this.boardSprite.mouseEnabled = false;
@@ -1326,7 +1326,7 @@ var FlipPlus;
                 this.content.addChild(bg);
                 bg.y = -339;
                 bg.scale.y = 1.3310546875;
-                bg.alpha = 0.4;
+                bg.tint = 0x646464;
             };
             LevelScreen.prototype.initializeOverlays = function () {
                 var _this = this;
@@ -1341,9 +1341,11 @@ var FlipPlus;
                 this.gameplayMenu.addEventListener("restart", function () { _this.restart(); });
                 this.gameplayMenu.addEventListener("back", function () { _this.exit(); });
                 // parts Indicator
-                this.partsIndicator = new FlipPlus.Menu.View.CoinsIndicator();
-                this.header.addChild(this.partsIndicator);
-                this.partsIndicator.x = defaultWidth / 2;
+                this.coinsIndicator = new FlipPlus.Menu.View.CoinsIndicator(function () {
+                    FlipPlus.FlipPlusGame.showShopMenu(_this);
+                });
+                this.header.addChild(this.coinsIndicator);
+                this.coinsIndicator.x = defaultWidth / 2;
                 //upper staus area
                 if (FlipPlus.FlipPlusGame.projectManager.getCurrentProject() != undefined) {
                     var levels = FlipPlus.FlipPlusGame.projectManager.getCurrentProject().levels;
@@ -1499,13 +1501,13 @@ var FlipPlus;
                 //analytics
                 FlipPlus.FlipPlusGame.analytics.logUsedItem(item, this.levelData.name);
                 // define item value based on how many times it was used on the level
-                var value = this.getItemPrice(item);
+                var price = this.getItemPrice(item);
                 // if item is skip and the level was already skipped, then does not waste parts.
                 if (item == Items.SKIP && (this.levelData.userdata.skip || this.levelData.userdata.solved))
-                    value = 0;
+                    price = 0;
                 //if user is able to use this item
                 var coinsAmount = FlipPlus.FlipPlusGame.coinsData.getAmount();
-                if (free || coinsAmount >= value) {
+                if (free || coinsAmount >= price) {
                     if (!free) {
                         // saves item used information
                         if (!this.itemTimes[item])
@@ -1515,17 +1517,17 @@ var FlipPlus;
                         if (item != Items.HINT)
                             this.usedItem = item;
                         // updates player coins
-                        FlipPlus.FlipPlusGame.coinsData.decreaseAmount(value);
+                        FlipPlus.FlipPlusGame.coinsData.decreaseAmount(price);
                         // animate coins
                         var btx = this.gameplayMenu.getButtonPosition(item);
                         if (btx)
-                            this.partsIndicator.createCoinEffect(btx - 768, this.footer.y - this.header.y - 100, value);
+                            this.coinsIndicator.createCoinEffect(btx - 768, this.footer.y - this.header.y - 100, price);
                         else
-                            this.partsIndicator.createCoinEffect(0, 1024 - this.header.y, value);
+                            this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price);
                         //show text effect
                         this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
                         //updates Items buttons labels Quantity on footer
-                        this.partsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
+                        this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
                     }
                     this.gameplayMenu.updateItemsPrice(this.listItemPrices());
                     // use the item
@@ -1650,7 +1652,7 @@ var FlipPlus;
                 // analytics
                 this.startedTime = Date.now();
                 // updates Items buttons labels Quantity on footer
-                this.partsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
+                this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
                 this.gameplayMenu.updateItemsPrice(this.listItemPrices());
                 // update hints already used
                 if (this.levelData.userdata.hints)
@@ -5200,8 +5202,8 @@ var FlipPlus;
             var CoinsIndicator = (function (_super) {
                 __extends(CoinsIndicator, _super);
                 // Constructor
-                function CoinsIndicator() {
-                    _super.call(this);
+                function CoinsIndicator(event) {
+                    _super.call(this, event);
                     this.buildView();
                     //Add Effects
                     this.fx = new FlipPlus.Effects();
@@ -5250,7 +5252,7 @@ var FlipPlus;
                     this.addChild(this.coinsTextField);
                 };
                 return CoinsIndicator;
-            })(PIXI.Container);
+            })(gameui.Button);
             View.CoinsIndicator = CoinsIndicator;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
@@ -5758,17 +5760,14 @@ var FlipPlus;
                     var _this = this;
                     if (disableInput === void 0) { disableInput = false; }
                     _super.call(this);
-                    this.drawObject();
                     //centralize the popup on screen
                     this.width = defaultWidth;
                     this.height = defaultHeight;
                     this.x = defaultWidth / 2;
                     this.y = defaultHeight / 2;
                     this.pivot = this.position;
+                    this.visible = false;
                     if (!disableInput) {
-                        //set Hit Area
-                        /// Check var hit = (new PIXI.Graphics().beginFill(0xF00).drawRect(0, 0, defaultWidth, defaultHeight));
-                        /// Check this.hitArea = hit;
                         //hide popup
                         this.visible = false;
                         //add callback
@@ -5786,9 +5785,9 @@ var FlipPlus;
                 Popup.prototype.showtext = function (title, text, timeout, delay) {
                     if (timeout === void 0) { timeout = 7000; }
                     if (delay === void 0) { delay = 0; }
-                    this.showsPopup(timeout, delay);
                     //clean display Object
                     this.removeChildren();
+                    this.showsPopup(timeout, delay);
                     //draw background
                     var bg = gameui.AssetsManager.getBitmap("popups/popup");
                     bg.x = 0;
@@ -5815,24 +5814,26 @@ var FlipPlus;
                     textDO.y = b + 300;
                     this.addsClickIndicator();
                 };
+                // shows a poput with a purchase button
                 Popup.prototype.showtextBuy = function (title, text, previousScreen, timeout, delay) {
                     if (timeout === void 0) { timeout = 7000; }
                     if (delay === void 0) { delay = 0; }
-                    this.showsPopup(timeout, delay);
                     //clean display Object
                     this.removeChildren();
+                    this.showsPopup(timeout, delay);
                     //draw background
                     var bg = gameui.AssetsManager.getBitmap("popups/popup");
                     bg.x = 0;
                     bg.y = 100;
                     this.addChild(bg);
-                    //create a title 
+                    //create a title    
                     var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
                     this.addChild(titleDO);
                     titleDO.x = defaultWidth / 2;
-                    titleDO.y = defaultHeight / 2;
+                    titleDO.y = -400;
                     //create a text
                     var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
+                    textDO.y = -200;
                     textDO.x = defaultWidth / 2;
                     this.addChild(textDO);
                     //updates title and text values
@@ -5846,18 +5847,18 @@ var FlipPlus;
                     this.addChild(new gameui.BitmapTextButton(StringResources.menus.shop, "fontWhite", "menu/btmenu", function () {
                         FlipPlus.FlipPlusGame.showShopMenu(previousScreen);
                     })).set({ x: defaultWidth / 2, y: defaultHeight / 2 });
-                    var b = defaultHeight / 2 - 500;
-                    titleDO.y = 0 + b + 50;
-                    textDO.y = b + 300;
+                    var b = defaultHeight / 2 - 600;
+                    titleDO.y = b;
+                    textDO.y = b + 200;
                     this.addsClickIndicator();
                 };
                 // show a popup for timeAttack
                 Popup.prototype.showTimeAttack = function (time, boards, timeout, delay) {
                     if (timeout === void 0) { timeout = 7000; }
                     if (delay === void 0) { delay = 0; }
-                    this.showsPopup(timeout, delay);
                     //clean display Object
                     this.removeChildren();
+                    this.showsPopup(timeout, delay);
                     //draw background
                     var bg = gameui.AssetsManager.getBitmap("popups/popup");
                     bg.x = 0;
@@ -5918,9 +5919,9 @@ var FlipPlus;
                 Popup.prototype.showTaps = function (taps, timeout, delay) {
                     if (timeout === void 0) { timeout = 7000; }
                     if (delay === void 0) { delay = 0; }
-                    this.showsPopup(timeout, delay);
                     //clean display Object
                     this.removeChildren();
+                    this.showsPopup(timeout, delay);
                     //draw background
                     var bg = gameui.AssetsManager.getBitmap("popups/popup");
                     bg.x = 0;
@@ -5963,6 +5964,9 @@ var FlipPlus;
                 // other stuff
                 Popup.prototype.showsPopup = function (timeout, delay) {
                     var _this = this;
+                    //set Hit Area
+                    var hit = new PIXI.Graphics().beginFill(0xFF0000, 0).drawRect(0, 0, defaultWidth, defaultHeight);
+                    this.addChild(hit);
                     //shows the popus
                     this.closeinterval = setTimeout(function () {
                         gameui.AudiosManager.playSound("Open");
@@ -5977,13 +5981,6 @@ var FlipPlus;
                     //dispatch a event for parent objects
                     this.emit("onshow");
                 };
-                Popup.prototype.addsClickIndicator = function () {
-                    //add click indicator
-                    var ind = gameui.AssetsManager.getMovieClip("touch");
-                    this.addChild(ind);
-                    ind.x = 1350;
-                    ind.y = 1100;
-                };
                 // method for close popup 
                 Popup.prototype.closePopUp = function () {
                     //hide the popup{
@@ -5991,8 +5988,12 @@ var FlipPlus;
                     //dispatch a event for parent objects
                     this.emit("onclose");
                 };
-                // desenha os objetos do popup
-                Popup.prototype.drawObject = function () {
+                Popup.prototype.addsClickIndicator = function () {
+                    //add click indicator
+                    var ind = gameui.AssetsManager.getMovieClip("touch");
+                    this.addChild(ind);
+                    ind.x = 1350;
+                    ind.y = 1100;
                 };
                 return Popup;
             })(gameui.UIItem);

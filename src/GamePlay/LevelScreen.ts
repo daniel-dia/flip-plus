@@ -11,7 +11,7 @@ module FlipPlus.GamePlay {
         
         // Overlays
         protected gameplayMenu: Views.GamePlayMenu;
-        protected partsIndicator: Menu.View.CoinsIndicator;
+        protected coinsIndicator: Menu.View.CoinsIndicator;
         protected statusArea: Views.StatusArea;
         protected popup: Menu.View.Popup;
         protected popupHelper: Menu.View.PopupHelper;
@@ -92,16 +92,15 @@ module FlipPlus.GamePlay {
 
             //adds popup
             this.popup = new Menu.View.Popup();
-            this.content.addChild(this.popup)
+            this.overlay.addChild(this.popup)
 
             this.popupHelper = new Menu.View.PopupHelper();
-            this.content.addChild(this.popupHelper)
+            this.overlay.addChild(this.popupHelper)
 
             this.popup.addEventListener("onshow", () => {
                 this.gameplayMenu.fadeOut();
                 this.boardSprite.mouseEnabled = false;
             });
-
             this.popup.addEventListener("onclose", () => {
                 this.gameplayMenu.fadeIn();
                 this.boardSprite.mouseEnabled = true;
@@ -123,7 +122,7 @@ module FlipPlus.GamePlay {
             this.content.addChild(bg);
             bg.y = -339;
             bg.scale.y = 1.3310546875;
-            bg.alpha = 0.4;
+            bg.tint = 0x646464;
         }
 
         private initializeOverlays() {
@@ -141,10 +140,13 @@ module FlipPlus.GamePlay {
             this.gameplayMenu.addEventListener("back", () => {this.exit();});
 
             // parts Indicator
-            this.partsIndicator= new Menu.View.CoinsIndicator();
-            this.header.addChild(this.partsIndicator);
-            this.partsIndicator.x = defaultWidth / 2;
-            
+            this.coinsIndicator = new Menu.View.CoinsIndicator(() => {
+                FlipPlusGame.showShopMenu(this);
+            });
+
+            this.header.addChild(this.coinsIndicator);
+            this.coinsIndicator.x = defaultWidth / 2;
+
             //upper staus area
             if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
                 var levels: Projects.Level[] = FlipPlusGame.projectManager.getCurrentProject().levels;
@@ -348,21 +350,21 @@ module FlipPlus.GamePlay {
         }
 
         // use an item
-        protected useItem(item: string,parameters?:any, free?: boolean): boolean {
+        protected useItem(item: string, parameters?:any, free?: boolean): boolean {
 
             //analytics
             FlipPlusGame.analytics.logUsedItem(item, this.levelData.name);
 
             // define item value based on how many times it was used on the level
-            var value = this.getItemPrice(item);
+            var price = this.getItemPrice(item);
 
             // if item is skip and the level was already skipped, then does not waste parts.
             if (item == Items.SKIP && (this.levelData.userdata.skip || this.levelData.userdata.solved))
-                value = 0;
+                price = 0;
 
             //if user is able to use this item
             var coinsAmount = FlipPlusGame.coinsData.getAmount()
-            if (free || coinsAmount >= value) {
+            if (free || coinsAmount >= price) {
 
                 if (!free) {
                     // saves item used information
@@ -373,20 +375,20 @@ module FlipPlus.GamePlay {
                     if (item != Items.HINT) this.usedItem = item;
 
                     // updates player coins
-                    FlipPlusGame.coinsData.decreaseAmount(value);
+                    FlipPlusGame.coinsData.decreaseAmount(price);
 
                     // animate coins
                     var btx = this.gameplayMenu.getButtonPosition(item);
                     if(btx) 
-                        this.partsIndicator.createCoinEffect(btx - 768, this.footer.y - this.header.y - 100, value);
+                        this.coinsIndicator.createCoinEffect(btx - 768, this.footer.y - this.header.y - 100, price);
                     else
-                        this.partsIndicator.createCoinEffect(0, 1024 - this.header.y, value);
+                        this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price);
 
                     //show text effect
                     this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
 
                     //updates Items buttons labels Quantity on footer
-                    this.partsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
+                    this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
                 }
 
                 this.gameplayMenu.updateItemsPrice(this.listItemPrices());
@@ -534,7 +536,7 @@ module FlipPlus.GamePlay {
             this.startedTime = Date.now();
 
             // updates Items buttons labels Quantity on footer
-            this.partsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
+            this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
             this.gameplayMenu.updateItemsPrice(this.listItemPrices());
 
 

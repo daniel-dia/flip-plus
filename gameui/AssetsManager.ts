@@ -85,7 +85,7 @@ module gameui {
         }
 
         //gets a image from assets
-        public static getBitmap(name: string): PIXI.DisplayObject {
+        public static getBitmap(name: string): PIXI.Sprite {
 
           //if image is preloaded
             var texture = this.getLoadedImage(name);

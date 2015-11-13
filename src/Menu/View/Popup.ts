@@ -1,13 +1,12 @@
 module FlipPlus.Menu.View {
 
     // View Class
-    export class Popup extends gameui.UIItem{
+    export class Popup extends gameui.UIItem {
 
         private closeinterval;
         // class contructor
-        constructor(disableInput: boolean=false) {
-            super();
-            this.drawObject();
+        constructor(disableInput: boolean = false) {
+            super(); 
             
             //centralize the popup on screen
             this.width = defaultWidth;
@@ -15,11 +14,11 @@ module FlipPlus.Menu.View {
             this.x = defaultWidth / 2;
             this.y = defaultHeight / 2;
             this.pivot = this.position;
+            this.visible = false;
 
+           
             if (!disableInput) {
-                //set Hit Area
-                /// Check var hit = (new PIXI.Graphics().beginFill(0xF00).drawRect(0, 0, defaultWidth, defaultHeight));
-                /// Check this.hitArea = hit;
+               
 
                 //hide popup
                 this.visible = false;
@@ -39,55 +38,13 @@ module FlipPlus.Menu.View {
         }
 
         // public method to invoke the popup
-        public showtext(title:string, text?: string, timeout: number= 7000,delay:number=0) {
-
-            this.showsPopup(timeout, delay);
+        public showtext(title: string, text?: string, timeout: number = 7000, delay: number = 0) {
 
             //clean display Object
             this.removeChildren();
 
-            //draw background
-            var bg = gameui.AssetsManager.getBitmap("popups/popup")
-            bg.x = 0;
-            bg.y = 100;
-            this.addChild(bg);
-
-            //create a title 
-            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
-            this.addChild(titleDO);            
-            titleDO.x = defaultWidth / 2;
-            titleDO.y = defaultHeight / 2;
-
-            //create a text
-            var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
-            textDO.x = defaultWidth / 2;
-            this.addChild(textDO);
-
-
-            //updates title and text values
-            if (text) {
-                textDO.text = text;
-                textDO.pivot.x = textDO.getLocalBounds().width / 2;
-                titleDO.text = title.toUpperCase();
-                titleDO.pivot.x = titleDO.getLocalBounds().width/2;
-            }
-
-            var b = defaultHeight / 2 - 500;
-
-            titleDO.y = 0 + b + 50
-            textDO.y = b + 300;
-
-            this.addsClickIndicator();
-       }
-
-
-        public showtextBuy(title: string, text: string, previousScreen: gameui.ScreenState, timeout: number = 7000, delay: number = 0) {
-
             this.showsPopup(timeout, delay);
-
-            //clean display Object
-            this.removeChildren();
-
+            
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/popup")
             bg.x = 0;
@@ -114,13 +71,6 @@ module FlipPlus.Menu.View {
                 titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
             }
 
-            //add buton to store
-            this.addChild(
-                new gameui.BitmapTextButton(StringResources.menus.shop, "fontWhite", "menu/btmenu", () => {
-                    FlipPlusGame.showShopMenu(previousScreen);
-                })
-            ).set({ x: defaultWidth / 2, y: defaultHeight /2})
-
             var b = defaultHeight / 2 - 500;
 
             titleDO.y = 0 + b + 50
@@ -128,15 +78,67 @@ module FlipPlus.Menu.View {
 
             this.addsClickIndicator();
         }
+        
+        // shows a poput with a purchase button
+        public showtextBuy(title: string, text: string, previousScreen: gameui.ScreenState, timeout: number = 7000, delay: number = 0) {
 
-
-        // show a popup for timeAttack
-        public showTimeAttack(time: string, boards:string, timeout: number= 7000, delay: number= 0) {
-
-            this.showsPopup(timeout, delay);
 
             //clean display Object
             this.removeChildren();
+
+            this.showsPopup(timeout, delay);
+            
+            //draw background
+            var bg = gameui.AssetsManager.getBitmap("popups/popup")
+            bg.x = 0;
+            bg.y = 100;
+            this.addChild(bg);
+
+            //create a title    
+            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
+            this.addChild(titleDO);
+            titleDO.x = defaultWidth / 2;
+            titleDO.y = - 400;
+
+            //create a text
+            var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
+            textDO.y = - 200;
+            textDO.x = defaultWidth / 2;
+            this.addChild(textDO);
+
+
+            //updates title and text values
+            if (text) {
+                textDO.text = text;
+                textDO.pivot.x = textDO.getLocalBounds().width / 2;
+                titleDO.text = title.toUpperCase();
+                titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
+            }
+
+            //add buton to store
+            this.addChild(
+                new gameui.BitmapTextButton(StringResources.menus.shop, "fontWhite", "menu/btmenu", () => {
+                    FlipPlusGame.showShopMenu(previousScreen);
+                })
+            ).set({ x: defaultWidth / 2, y: defaultHeight / 2 })
+
+            var b = defaultHeight / 2 - 600;
+
+            titleDO.y = b
+            textDO.y = b + 200;
+
+            this.addsClickIndicator();
+        }
+        
+        // show a popup for timeAttack
+        public showTimeAttack(time: string, boards: string, timeout: number = 7000, delay: number = 0) {
+
+
+            //clean display Object
+            this.removeChildren();
+
+
+            this.showsPopup(timeout, delay);
 
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/popup")
@@ -186,11 +188,11 @@ module FlipPlus.Menu.View {
             boardsDO.text = boards;
 
             titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
-            textDO.   regX  =    textDO.  getLocalBounds().width / 2;
-            textDO1.  regX  =    textDO1. getLocalBounds().width / 2;
-            textDO2.  regX  =    textDO2. getLocalBounds().width / 2;
-            timeDO.   regX  =    timeDO.  getLocalBounds().width / 2;
-            boardsDO. regX  =    boardsDO.getLocalBounds().width / 2;
+            textDO.regX = textDO.getLocalBounds().width / 2;
+            textDO1.regX = textDO1.getLocalBounds().width / 2;
+            textDO2.regX = textDO2.getLocalBounds().width / 2;
+            timeDO.regX = timeDO.getLocalBounds().width / 2;
+            boardsDO.regX = boardsDO.getLocalBounds().width / 2;
 
             var b = defaultHeight / 2 - 500;
 
@@ -198,8 +200,8 @@ module FlipPlus.Menu.View {
             textDO.y = 300 + b;
             textDO1.y = 450 + b;
             textDO2.y = 600 + b;
-            timeDO.y = 450+b;
-            boardsDO.y = 450+b;
+            timeDO.y = 450 + b;
+            boardsDO.y = 450 + b;
 
             timeDO.x = 500;
 
@@ -211,11 +213,13 @@ module FlipPlus.Menu.View {
         }
         
         // shows a popup for taps level
-        public showTaps(taps: string, timeout: number= 7000, delay: number= 0) {
-            this.showsPopup(timeout, delay);
+        public showTaps(taps: string, timeout: number = 7000, delay: number = 0) {
+
 
             //clean display Object
             this.removeChildren();
+
+            this.showsPopup(timeout, delay);
 
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/popup")
@@ -224,7 +228,7 @@ module FlipPlus.Menu.View {
             this.addChild(bg);
 
             //create a titleShadow
-            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle"); 
+            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
             titleDO.x = defaultWidth / 2;
             titleDO.y = defaultHeight / 2;
             this.addChild(titleDO);
@@ -249,7 +253,7 @@ module FlipPlus.Menu.View {
             textDO.text = StringResources.gp_mv_Popup1Text1;
             textDO2.text = StringResources.gp_mv_Popup1Text3;
             tapsDO.text = taps;
-            
+
 
             titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
             textDO.pivot.x = textDO.getLocalBounds().width / 2;;
@@ -268,24 +272,38 @@ module FlipPlus.Menu.View {
         }
          
         // other stuff
-        protected showsPopup(timeout:number, delay:number) {
+        protected showsPopup(timeout: number, delay: number) {
+            //set Hit Area
+            var hit = new PIXI.Graphics().beginFill(0xFF0000,0).drawRect(0, 0, defaultWidth, defaultHeight);
+            this.addChild(hit);
+       
 
             //shows the popus
             this.closeinterval = setTimeout(() => {
 
                 gameui.AudiosManager.playSound("Open")
+                this.fadeIn(1, 0.5);
 
-                this.fadeIn(1,0.5);
             }, delay);;
 
             //create a interval for closing the popopu
-            if (timeout >0)
-            this.closeinterval = setTimeout(() => {
-                this.closePopUp();
-            }, timeout + delay);
+            if (timeout > 0)
+                this.closeinterval = setTimeout(() => {
+                    this.closePopUp();
+                }, timeout + delay);
 
             //dispatch a event for parent objects
             this.emit("onshow");
+        }
+
+        // method for close popup 
+        protected closePopUp() {
+
+            //hide the popup{
+            this.fadeOut(1, 0.5);
+
+            //dispatch a event for parent objects
+            this.emit("onclose");
         }
 
         protected addsClickIndicator() {
@@ -296,21 +314,5 @@ module FlipPlus.Menu.View {
             ind.y = 1100;
         }
 
-        // method for close popup 
-        protected closePopUp() {
-
-            //hide the popup{
-            this.fadeOut(1,0.5);
-
-            //dispatch a event for parent objects
-            this.emit("onclose");
-        }
-        
-        // desenha os objetos do popup
-        protected drawObject() {
-            
-
-
-        }
     }
 }
