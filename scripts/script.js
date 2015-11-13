@@ -7643,6 +7643,7 @@ var FlipPlus;
                     this.update();
                     this.createHitArea();
                 }
+                // creates hit area
                 RobotPreview.prototype.createHitArea = function () {
                     var graphics = new PIXI.Graphics();
                     graphics.beginFill(0xFFFFFF, 0);
