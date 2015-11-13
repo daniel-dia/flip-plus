@@ -18,6 +18,7 @@
             this.createHitArea();
         }
 
+        // creates hit area
         private createHitArea() {
             var graphics = new PIXI.Graphics();
             graphics.beginFill(0xFFFFFF, 0); 
