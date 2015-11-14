@@ -5,15 +5,12 @@ declare function requestAnimationFrame(callback: any): void;
 
 //TODO remove universal variable defaultWidth and DefaultHeigth
 
-module gameui{
+module gameui {
     var PIXIrenderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
-    var PIXIstage: PIXI.Container; 
+    var PIXIstage: PIXI.Container;
     var updateFn;
 
     export class GameScreen {
-
-        
-
         private defaultWidth: number;
         private defaultHeight: number;
 
@@ -25,8 +22,8 @@ module gameui{
         public footerPosition: number;
         public viewerOffset: number;
 
-        public currentWidth:number;
-        public currentHeight:number;
+        public currentWidth: number;
+        public currentHeight: number;
 
         //Screen state
         public currentScreen: ScreenState;
@@ -44,7 +41,7 @@ module gameui{
             
             // create a renderer instance.
             PIXIstage = new PIXI.Container();
-            PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { backgroundColor: 0 }); 
+            PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { backgroundColor: 0 });
             var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer, { interactionFrequency: 1000 });
 
             createjs.Ticker.setFPS(fps);
@@ -52,9 +49,9 @@ module gameui{
             
             // add the renderer view element to the DOM
             document.getElementById(divId).appendChild(PIXIrenderer.view);
-            
+
             var x = 0;
- 
+
             this.screenContainer = new PIXI.Container();
             PIXIstage.addChild(this.screenContainer);
 
@@ -64,18 +61,13 @@ module gameui{
 
             updateFn = this.update
             requestAnimationFrame(this.update);
-
-          
         }
-
-
 
         private update() {
             
             // render the stage   
             // RENDER MUST BE BEFORE REQUEST
             PIXIrenderer.render(PIXIstage);
-
             requestAnimationFrame(updateFn);
         }
 
@@ -97,7 +89,7 @@ module gameui{
 
                 switch (transition.type) {
                     case "fade":
-                        alpha= 0;
+                        alpha = 0;
                         break;
 
                     case "top":
@@ -129,18 +121,18 @@ module gameui{
                     oldScreen.view.interactive = false;
 
                     //fade between transitions
-                    newScreen.view.alpha= alpha;
-                    newScreen.view.x= -x;
-                    newScreen.view.y= -y;
+                    newScreen.view.alpha = alpha;
+                    newScreen.view.x = -x;
+                    newScreen.view.y = -y;
 
                     oldScreen.view.alpha = 1;
-                    oldScreen.view.x=0;
-                    oldScreen.view.y=0;
+                    oldScreen.view.x = 0;
+                    oldScreen.view.y = 0;
 
                     //fade old screen out
-                    createjs.Tween.get(oldScreen.view).to({ alpha: 1, x: x, y: y }, transition.time,createjs.Ease.quadInOut);
+                    createjs.Tween.get(oldScreen.view).to({ alpha: 1, x: x, y: y }, transition.time, createjs.Ease.quadInOut);
                     createjs.Tween.get(newScreen.view).to({ alpha: 1, x: 0, y: 0 }, transition.time, createjs.Ease.quadInOut).call(() => {
-                       
+
                         oldScreen.view.set({ alpha: 0, x: 0, y: 0 })
                         newScreen.view.set({ alpha: 1, x: 0, y: 0 })
 
@@ -172,11 +164,11 @@ module gameui{
             this.currentScreen = newScreen;
 
             //updates current screen
-            this.currentScreen.redim(this.headerPosition, this.footerPosition, this.currentWidth,this.currentHeight);
+            this.currentScreen.redim(this.headerPosition, this.footerPosition, this.currentWidth, this.currentHeight);
         }
 
         // resize GameScreen to a diferent scale
-        public resizeGameScreen(deviceWidth: number, deviceHeight: number, updateCSS: boolean= true) {
+        public resizeGameScreen(deviceWidth: number, deviceHeight: number, updateCSS: boolean = true) {
 
             
             //keep aspect ratio 
@@ -191,20 +183,20 @@ module gameui{
             }
 
             PIXIrenderer.resize(deviceWidth, deviceHeight);
-           // this.PIXIrenderer.width = deviceWidth;
-           // this.PIXIrenderer.height = deviceHeight;
+            // this.PIXIrenderer.width = deviceWidth;
+            // this.PIXIrenderer.height = deviceHeight;
 
             this.updateViewerScale(deviceWidth, deviceHeight, this.defaultWidth, this.defaultHeight);
         }
 		
-		// send hw back button event
-		public sendBackButtonEvent(): boolean {
-			if (this.currentScreen && this.currentScreen.onback) {
-				this.currentScreen.onback();
-				return false;
-			}
-			else return true
-		}
+        // send hw back button event
+        public sendBackButtonEvent(): boolean {
+            if (this.currentScreen && this.currentScreen.onback) {
+                this.currentScreen.onback();
+                return false;
+            }
+            else return true
+        }
 
         // updates screen viewer scale
         private updateViewerScale(realWidth: number, realHeight: number, defaultWidth: number, defaultHeight: number) {
@@ -223,7 +215,7 @@ module gameui{
             this.screenContainer.y = this.viewerOffset = (this.currentHeight - defaultHeight) / 2 * scale;
 
             //updates current screen
-            if (this.currentScreen) this.currentScreen.redim(this.headerPosition, this.footerPosition, this.currentWidth,this.currentHeight);
+            if (this.currentScreen) this.currentScreen.redim(this.headerPosition, this.footerPosition, this.currentWidth, this.currentHeight);
         }
 
         // deletes old screen
