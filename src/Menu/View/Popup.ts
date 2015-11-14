@@ -277,7 +277,6 @@ module FlipPlus.Menu.View {
             var hit = new PIXI.Graphics().beginFill(0xFF0000,0).drawRect(0, 0, defaultWidth, defaultHeight);
             this.addChild(hit);
        
-
             //shows the popus
             this.closeinterval = setTimeout(() => {
 
