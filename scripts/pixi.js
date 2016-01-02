@@ -25544,6 +25544,8 @@ InteractionManager.prototype.mapPositionToPoint = function ( point, x, y )
  * @param  {boolean} hitTest this indicates if the objects inside should be hit test against the point
  * @return {boolean} returns true if the displayObject hit the point
  */
+
+
 InteractionManager.prototype.processInteractive = function (point, displayObject, func, hitTest, interactive, identifier )
 {
     if(!displayObject.visible)
@@ -25709,11 +25711,16 @@ InteractionManager.prototype.processMouseUp = function ( displayObject, hit )
  * @private
  */
 start = 0;
+var mouseMoveFinished = true;
 InteractionManager.prototype.onMouseMove = function (event)
 {
+
     var delta = Date.now() - start;
-    if (delta < 20) return;
+    if (delta < 15) return;
     start = Date.now();
+
+    if (!mouseMoveFinished) return;
+    mouseMoveFinished = false;
 
     this.mouse.originalEvent = event;
     this.eventData.data = this.mouse;
@@ -25733,6 +25740,7 @@ InteractionManager.prototype.onMouseMove = function (event)
         this.interactionDOMElement.style.cursor = this.cursor;
     }
 
+    mouseMoveFinished = true;
     //TODO BUG for parents ineractive object (border order issue)
 };
 
@@ -25927,11 +25935,16 @@ InteractionManager.prototype.processTouchEnd = function ( displayObject, hit, id
  * @private
  */
 
-    
+var touchfinished = true;
 InteractionManager.prototype.onTouchMove = function (event)
 {
+   // if (!touchfinished) return;
+   // touchfinished = false;
+     var delta = Date.now() - start;
+     if (delta < 33) return;
+     start = Date.now();
 
-
+   
 
     if (this.autoPreventDefault)
     {
@@ -25956,6 +25969,8 @@ InteractionManager.prototype.onTouchMove = function (event)
 
         this.returnTouchData( touchData );
     }
+
+    touchfinished = true;
 };
 
 /**

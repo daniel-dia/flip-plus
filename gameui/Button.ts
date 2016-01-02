@@ -25,7 +25,6 @@ module gameui {
             this.event = event;
 
             this.interactive = true;
-            this.interactiveChildren = true; 
 
             this.on("click",    this.event);
             this.on("tap",      this.event);

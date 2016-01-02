@@ -1417,34 +1417,20 @@
     <Content Include="data\Bonus.js" />
     <Content Include="data\Items.js" />
     <Content Include="data\Levels.js" />
-    <Content Include="LevelCreator.html" />
-    <Content Include="levelCreatorold.htm" />
     <Content Include="index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="scripts\angular.min.js" />
-    <Content Include="scripts\BitmapScalePath.js" />
     <Content Include="scripts\cocoon.js" />
     <Content Include="scripts\CocoonJStouchPathc.js" />
     <Content Include="scripts\createjs-2015.05.21.min.js" />
-    <Content Include="scripts\file.js" />
-    <Content Include="scripts\FileSaver.js" />
-    <Content Include="scripts\fontConverter.js" />
-    <Content Include="scripts\getQueryVariable.js" />
-    <Content Include="scripts\hitAreaBounds.js" />
-    <Content Include="scripts\ImageHitAreaPatch.js" />
-    <Content Include="scripts\jquery-1.11.1.min.js" />
     <Content Include="scripts\md5.js" />
-    <Content Include="scripts\movieclip-0.8.1.min.js" />
     <Content Include="scripts\MovieClipCjs.js" />
     <Content Include="scripts\pixi.js" />
     <Content Include="scripts\PIXIpatch.js" />
     <Content Include="scripts\pixi_original.js" />
-    <Content Include="scripts\pixi.min.js" />
     <Content Include="scripts\plataform.js" />
     <Content Include="scripts\script.js" />
     <Content Include="scripts\setMobileScale.js" />
-    <Content Include="scripts\sortable.js" />
     <Content Include="scripts\timer.js" />
     <Content Include="style\main.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1487,7 +1473,6 @@
     <TypeScriptCompile Include="src\Menu\View\CoinsIndicator.ts" />
     <TypeScriptCompile Include="src\Menu\View\LevelGrid.ts" />
     <TypeScriptCompile Include="src\Menu\View\LevelThumb.ts" />
-    <TypeScriptCompile Include="src\Menu\View\LevelThumbNovo.ts" />
     <TypeScriptCompile Include="src\Menu\View\Message.ts" />
     <TypeScriptCompile Include="src\Menu\View\Page.ts" />
     <TypeScriptCompile Include="src\Menu\View\PageSwiper.ts" />

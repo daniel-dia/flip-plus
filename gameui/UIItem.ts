@@ -105,20 +105,18 @@ module gameui {
 
         //calcula
         createHitArea(): void {
-         //   
-         //   var hit = ();
-         //
-         //   var b = this.getBounds();
-         //
-         //   if (b)
-         //       if (this.hitPadding)
-         //           hit.beginFill("#000").drawRect(b.x - this.hitPadding, b.y - this.hitPadding, b.width + this.hitPadding, b.height + this.hitPadding);
-         //       else
-         //           hit.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
-         //   //TODO. se for texto colocar uma sobra. !
-         //
-         //   this.hitArea = hit;
-         //
+            
+            var b = this.getBounds();
+         
+           //if (b)
+           //    if (this.hitPadding)
+           //        hit.beginFill("#000").drawRect(b.x - this.hitPadding, b.y - this.hitPadding, b.width + this.hitPadding, b.height + this.hitPadding);
+           //    else
+           //         hit.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
+            //TODO. se for texto colocar uma sobra. !
+
+            this.hitArea = new PIXI.Rectangle(- b.width/2, -b.height/2, b.width, b.height);
+         
         }
     }
 }

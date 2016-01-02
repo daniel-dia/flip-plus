@@ -20,10 +20,8 @@
 
         // creates hit area
         private createHitArea() {
-            var graphics = new PIXI.Graphics();
-            graphics.beginFill(0xFFFFFF, 0); 
-            graphics.drawRect(-768, -900, 1536, 1400);
-            this.addChild(graphics); 
+            this.hitArea = new PIXI.Rectangle(-768, -900, 1536, 1400);
+   
         }
 
         //create graphics
@@ -32,7 +30,7 @@
                 var size: number = 300;
                 this.fill = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill");
                 this.stroke = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke");
-                this.fill.interactive = false;
+                 
 
                 this.fill.pivot.x = this.stroke.pivot.x = this.fill.getLocalBounds().width / 2;
                 this.fill.pivot.y = this.stroke.pivot.y = this.fill.getLocalBounds().height;

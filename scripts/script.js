@@ -126,6 +126,9 @@ var gameui;
     var PIXIrenderer;
     var PIXIstage;
     var updateFn;
+    var minfps = 100;
+    var last = 0;
+    var doing = false;
     var GameScreen = (function () {
         //-----------------------------------------------------------------------
         function GameScreen(divId, gameWidth, gameHeight, fps, showFps) {
@@ -136,7 +139,7 @@ var gameui;
             // create a renderer instance.
             PIXIstage = new PIXI.Container();
             PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { backgroundColor: 0 });
-            var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer, { interactionFrequency: 1000 });
+            var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer);
             createjs.Ticker.setFPS(fps);
             // add the renderer view element to the DOM
             document.getElementById(divId).appendChild(PIXIrenderer.view);
@@ -150,9 +153,18 @@ var gameui;
             requestAnimationFrame(this.update);
         }
         GameScreen.prototype.update = function () {
-            // render the stage   
-            // RENDER MUST BE BEFORE REQUEST
-            PIXIrenderer.render(PIXIstage);
+            var time = Date.now();
+            if (doing)
+                alert("strange");
+            if (!doing) {
+                //if (time - last > minfps) {
+                doing = true;
+                last = time;
+                // render the stage   
+                // RENDER MUST BE BEFORE REQUEST
+                PIXIrenderer.render(PIXIstage);
+                doing = false;
+            }
             requestAnimationFrame(updateFn);
         };
         // switch current screen, optionaly with a pre defined transition
@@ -434,20 +446,14 @@ var gameui;
         };
         //calcula
         UIItem.prototype.createHitArea = function () {
-            //   
-            //   var hit = ();
-            //
-            //   var b = this.getBounds();
-            //
-            //   if (b)
-            //       if (this.hitPadding)
-            //           hit.beginFill("#000").drawRect(b.x - this.hitPadding, b.y - this.hitPadding, b.width + this.hitPadding, b.height + this.hitPadding);
-            //       else
-            //           hit.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
-            //   //TODO. se for texto colocar uma sobra. !
-            //
-            //   this.hitArea = hit;
-            //
+            var b = this.getBounds();
+            //if (b)
+            //    if (this.hitPadding)
+            //        hit.beginFill("#000").drawRect(b.x - this.hitPadding, b.y - this.hitPadding, b.width + this.hitPadding, b.height + this.hitPadding);
+            //    else
+            //         hit.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
+            //TODO. se for texto colocar uma sobra. !
+            this.hitArea = new PIXI.Rectangle(-b.width / 2, -b.height / 2, b.width, b.height);
         };
         return UIItem;
     })(PIXI.Container);
@@ -535,7 +541,6 @@ var gameui;
             this.pressed = false;
             this.event = event;
             this.interactive = true;
-            this.interactiveChildren = true;
             this.on("click", this.event);
             this.on("tap", this.event);
             this.on("mousedown", function (event) { _this.onPress(event); });
@@ -797,14 +802,18 @@ var FlipPlus;
                 return _this.gameScreen.sendBackButtonEvent();
             });
             var ps = this.projectManager.getAllProjects();
-            for (var p in ps) {
-                ps[p].UserData.unlocked = true;
-                ps[p].UserData.stars = 0;
-                for (var l in ps[p].levels) {
-                    ps[p].levels[l].userdata.solved = false;
-                    ps[p].levels[l].userdata.unlocked = true;
-                }
-            }
+            ps[0].UserData.unlocked = true;
+            ps[1].UserData.unlocked = true;
+            ps[2].UserData.unlocked = true;
+            // for (var p in ps) {
+            //     ps[p].UserData.unlocked = true;
+            //     ps[p].UserData.stars=0;
+            //     for (var l in ps[p].levels) {
+            //         ps[p].levels[l].userdata.solved = false;
+            //         ps[p].levels[l].userdata.unlocked = true;
+            //
+            //     }
+            // }
         };
         FlipPlusGame.initializeAds = function () {
             var _this = this;
@@ -4374,9 +4383,6 @@ var FlipPlus;
             };
             WorkshopMenu.prototype.activate = function (parameters) {
                 _super.prototype.activate.call(this);
-                this.footer.mouseEnabled = true;
-                this.content.mouseEnabled = true;
-                this.header.mouseEnabled = true;
                 // play music
                 //gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
                 this.factorySound = gameui.AudiosManager.playSound("Factory Ambience", true, 0, 0, 0, 0.4);
@@ -5004,10 +5010,13 @@ var FlipPlus;
                 LevelThumb.prototype.updateUserData = function () {
                     //create a new thumb
                     this.createThumbs(this.level);
-                    this.createHitArea();
+                    this.cacheAsBitmap = true;
+                    var size = 200;
+                    this.hitArea = new PIXI.Rectangle(-size / 2, size / 2, size, size);
                 };
                 //Create a container with a level thumbnail and evel name
                 LevelThumb.prototype.createThumbs = function (level) {
+                    return;
                     this.removeChildren();
                     var color1 = 0xFFFFFF;
                     var color2 = 0;
@@ -5055,8 +5064,6 @@ var FlipPlus;
                     thumbContainer.addChild(this.createTags(level, assetName, assetSufix));
                     //Adds level modificator
                     thumbContainer.addChild(this.createLevelModificator(level));
-                    //cache thumb
-                    thumbContainer.cacheAsBitmap = true;
                 };
                 //defines accentColor based on level type.
                 LevelThumb.prototype.defineAssetName = function (level) {
@@ -7172,28 +7179,29 @@ var FlipPlus;
                     var xpos;
                     var initialclick;
                     var moving = false;
-                    var start = 0;
+                    var finishedMove = true;
                     var pointerStart = function (e) {
                         var pos = pagesContainer.parent.toLocal(e.data.global);
                         if ((!minY && !maxY) || (pos.y > minY && pos.y < maxY)) {
                             initialclick = pos.x;
                             xpos = pos.x - pagesContainer.x;
                             moving = true;
+                            //hide all pages
+                            _this.showOlnyPage(_this.currentPageIndex, 1);
                         }
                     };
                     var pointerMove = function (e) {
-                        var delta = Date.now() - start;
-                        if (delta < 15)
+                        //intervalo de tempo
+                        if (!finishedMove)
                             return;
-                        start = Date.now();
+                        finishedMove = false;
                         if (moving) {
                             var pos = pagesContainer.parent.toLocal(e.data.global);
                             pagesContainer.x = pos.x - xpos;
                             if (Math.abs(pos.x - initialclick) > 50)
                                 _this.cancelClick = true;
-                            //hide all pages
-                            _this.showOlnyPage(_this.currentPageIndex, 1);
                         }
+                        finishedMove = true;
                     };
                     var pointerEnd = function (e) {
                         if (moving) {
@@ -7212,18 +7220,17 @@ var FlipPlus;
                             setTimeout(function () { _this.cancelClick = false; }, 100);
                         }
                     };
-                    var a = this.pagesContainer;
                     // records position on mouse down
-                    a.on("mousedown", pointerStart);
-                    a.on("touchstart", pointerStart);
+                    this.pagesContainer.on("mousedown", pointerStart);
+                    this.pagesContainer.on("touchstart", pointerStart);
                     //drag the container
-                    a.on("mousemove", pointerMove);
-                    a.on("touchmove", pointerMove);
+                    this.pagesContainer.on("mousemove", pointerMove);
+                    this.pagesContainer.on("touchmove", pointerMove);
                     //verifies the relase point to tween to the next page
-                    a.on("mouseup", pointerEnd);
-                    a.on("mouseupoutside", pointerEnd);
-                    a.on("touchend", pointerEnd);
-                    a.on("touchendoutside", pointerEnd);
+                    this.pagesContainer.on("mouseup", pointerEnd);
+                    this.pagesContainer.on("mouseupoutside", pointerEnd);
+                    this.pagesContainer.on("touchend", pointerEnd);
+                    this.pagesContainer.on("touchendoutside", pointerEnd);
                 }
                 //----------------------pages-----------------------------------------------//
                 PagesSwiper.prototype.gotoPage = function (pageId, tween) {
@@ -7646,17 +7653,13 @@ var FlipPlus;
                 }
                 // creates hit area
                 RobotPreview.prototype.createHitArea = function () {
-                    var graphics = new PIXI.Graphics();
-                    graphics.beginFill(0xFFFFFF, 0);
-                    graphics.drawRect(-768, -900, 1536, 1400);
-                    this.addChild(graphics);
+                    this.hitArea = new PIXI.Rectangle(-768, -900, 1536, 1400);
                 };
                 //create graphics
                 RobotPreview.prototype.createPercentualFill = function (project) {
                     var size = 300;
                     this.fill = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill");
                     this.stroke = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke");
-                    this.fill.interactive = false;
                     this.fill.pivot.x = this.stroke.pivot.x = this.fill.getLocalBounds().width / 2;
                     this.fill.pivot.y = this.stroke.pivot.y = this.fill.getLocalBounds().height;
                     this.fill.pivot.x - 25;

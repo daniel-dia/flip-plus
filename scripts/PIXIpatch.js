@@ -20,8 +20,7 @@
             return this.interactive
         },
         set: function (v) {
-            this.interactive =v;
-            this.interactiveChildren=v;
+            this.interactive =v; 
         }
     },
     regX: {

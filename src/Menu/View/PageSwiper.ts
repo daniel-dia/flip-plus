@@ -26,9 +26,9 @@ module FlipPlus.Menu.View {
             var xpos;
             var initialclick;
             var moving: boolean = false;
+                        
+            var finishedMove = true;
 
-            var start = 0;
-            
             var pointerStart = (e: PIXI.interaction.InteractionEvent) => {
 
                 var pos = pagesContainer.parent.toLocal(e.data.global)
@@ -36,23 +36,26 @@ module FlipPlus.Menu.View {
                     initialclick = pos.x;
                     xpos = pos.x - pagesContainer.x;
                     moving = true;
-                }
-            };
-            var pointerMove = (e: PIXI.interaction.InteractionEvent) => {
-                var delta = Date.now() - start;
-                if (delta < 15) return;
-                start = Date.now();
-
-                if (moving) {
-                    var pos = pagesContainer.parent.toLocal(e.data.global);
-
-                    pagesContainer.x = pos.x - xpos;
-                    if (Math.abs(pos.x - initialclick) > 50) this.cancelClick = true;
-					
+                    
                     //hide all pages
                     this.showOlnyPage(this.currentPageIndex, 1);
                 }
             };
+
+            var pointerMove = (e: PIXI.interaction.InteractionEvent) => {
+
+                //intervalo de tempo
+                if (!finishedMove) return; finishedMove = false;
+
+                if (moving) {
+                    var pos = pagesContainer.parent.toLocal(e.data.global);
+                    pagesContainer.x = pos.x - xpos;
+                    if (Math.abs(pos.x - initialclick) > 50) this.cancelClick = true;
+                }
+
+                finishedMove = true;
+            };
+
             var pointerEnd = (e: PIXI.interaction.InteractionEvent) => {
                 if (moving) {
                     moving = false;
@@ -74,21 +77,19 @@ module FlipPlus.Menu.View {
                 }
             };
 
-            var a = this.pagesContainer;
-
             // records position on mouse down
-            a.on("mousedown", pointerStart);
-            a.on("touchstart", pointerStart);
+            this.pagesContainer.on("mousedown", pointerStart);
+            this.pagesContainer.on("touchstart", pointerStart);
 
             //drag the container
-            a.on("mousemove", pointerMove);
-            a.on("touchmove", pointerMove);
+            this.pagesContainer.on("mousemove", pointerMove);
+            this.pagesContainer.on("touchmove", pointerMove);
 
             //verifies the relase point to tween to the next page
-            a.on("mouseup", pointerEnd);
-            a.on("mouseupoutside", pointerEnd);
-            a.on("touchend", pointerEnd);
-            a.on("touchendoutside", pointerEnd);
+            this.pagesContainer.on("mouseup", pointerEnd);
+            this.pagesContainer.on("mouseupoutside", pointerEnd);
+            this.pagesContainer.on("touchend", pointerEnd);
+            this.pagesContainer.on("touchendoutside", pointerEnd);
         }
 
         //----------------------pages-----------------------------------------------//

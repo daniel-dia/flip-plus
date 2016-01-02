@@ -155,10 +155,7 @@ module FlipPlus.Menu {
 
             super.activate();
 
-            this.footer.mouseEnabled =  true;
-            this.content.mouseEnabled = true;
-            this.header.mouseEnabled =  true;
-
+       
             // play music
             //gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
             this.factorySound = gameui.AudiosManager.playSound("Factory Ambience",true,0,0,0,0.4);

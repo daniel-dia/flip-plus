@@ -9,6 +9,9 @@ module gameui {
     var PIXIrenderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
     var PIXIstage: PIXI.Container;
     var updateFn;
+    var minfps = 100;
+    var last = 0;
+    var doing = false;
 
     export class GameScreen {
         private defaultWidth: number;
@@ -38,15 +41,13 @@ module gameui {
             this.defaultWidth = gameWidth;
             this.defaultHeight = gameHeight;
 
-            
             // create a renderer instance.
             PIXIstage = new PIXI.Container();
             PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { backgroundColor: 0 });
-            var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer, { interactionFrequency: 1000 });
+            var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer);
 
             createjs.Ticker.setFPS(fps);
-
-            
+                       
             // add the renderer view element to the DOM
             document.getElementById(divId).appendChild(PIXIrenderer.view);
 
@@ -63,11 +64,21 @@ module gameui {
             requestAnimationFrame(this.update);
         }
 
+
         private update() {
-            
-            // render the stage   
-            // RENDER MUST BE BEFORE REQUEST
-            PIXIrenderer.render(PIXIstage);
+            var time = Date.now();
+
+            if (doing) alert("strange");
+            if (!doing) {
+                //if (time - last > minfps) {
+                    doing = true;
+                    last = time;
+                    // render the stage   
+                    // RENDER MUST BE BEFORE REQUEST
+                    PIXIrenderer.render(PIXIstage);
+                    doing = false;
+                //}
+            }
             requestAnimationFrame(updateFn);
         }
 
