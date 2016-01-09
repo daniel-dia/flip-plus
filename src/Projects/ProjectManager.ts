@@ -4,9 +4,6 @@ module FlipPlus.Projects {
     // Model
     export class ProjectManager {
 
-        //Max simultaneous working/avaliable projects
-        private maxAvaliableProjects: number = 6;
-
         //Entire Projects Data
         private projects: Project[];
 
