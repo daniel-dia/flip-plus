@@ -792,7 +792,6 @@ var FlipPlus;
                     _this.toLevelCreator();
                 }
                 else
-                    //this.showProjectLevelsMenu(levelsData[0]);
                     _this.showMainScreen();
             };
             // give 10 coins to user first time
@@ -1290,7 +1289,7 @@ var FlipPlus;
                 // Store level data;
                 this.levelData = leveldata;
                 // initializate level Model
-                this.levelLogic = new GamePlay.Model.Level(leveldata);
+                this.levelLogic = new GamePlay.Logic.Level(leveldata);
                 // creates all screen objects
                 this.createScene(leveldata);
                 // incremente played times
@@ -2408,8 +2407,8 @@ var FlipPlus;
 (function (FlipPlus) {
     var GamePlay;
     (function (GamePlay) {
-        var Model;
-        (function (Model) {
+        var Logic;
+        (function (Logic) {
             var Block = (function () {
                 function Block(col, row) {
                     this.col = col;
@@ -2429,16 +2428,16 @@ var FlipPlus;
                 };
                 return Block;
             })();
-            Model.Block = Block;
-        })(Model = GamePlay.Model || (GamePlay.Model = {}));
+            Logic.Block = Block;
+        })(Logic = GamePlay.Logic || (GamePlay.Logic = {}));
     })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
     var GamePlay;
     (function (GamePlay) {
-        var Model;
-        (function (Model) {
+        var Logic;
+        (function (Logic) {
             var Board = (function () {
                 function Board(width, height) {
                     //prizes intervals
@@ -2450,7 +2449,7 @@ var FlipPlus;
                     for (var col = 0; col < width; col++) {
                         this.blocks[col] = [];
                         for (var row = 0; row < height; row++) {
-                            var b = new Model.Block(col, row);
+                            var b = new Logic.Block(col, row);
                             this.blocks[col][row] = b;
                         }
                     }
@@ -2646,8 +2645,8 @@ var FlipPlus;
                 };
                 return Board;
             })();
-            Model.Board = Board;
-        })(Model = GamePlay.Model || (GamePlay.Model = {}));
+            Logic.Board = Board;
+        })(Logic = GamePlay.Logic || (GamePlay.Logic = {}));
     })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
 })(FlipPlus || (FlipPlus = {}));
 /// <reference path="Board.ts" />
@@ -2655,8 +2654,8 @@ var FlipPlus;
 (function (FlipPlus) {
     var GamePlay;
     (function (GamePlay) {
-        var Model;
-        (function (Model) {
+        var Logic;
+        (function (Logic) {
             //Model
             var Level = (function () {
                 //Initialization methodos ============================================================================================================
@@ -2667,7 +2666,7 @@ var FlipPlus;
                     this.timeSpent = 0;
                     this.points = 0;
                     //creates a board
-                    this.board = new Model.Board(leveldata.width, leveldata.height);
+                    this.board = new Logic.Board(leveldata.width, leveldata.height);
                 }
                 //Model methods =======================================================================================================================
                 Level.prototype.getBlocks = function () {
@@ -2700,8 +2699,8 @@ var FlipPlus;
                 Level.endPoint = 1000;
                 return Level;
             })();
-            Model.Level = Level;
-        })(Model = GamePlay.Model || (GamePlay.Model = {}));
+            Logic.Level = Level;
+        })(Logic = GamePlay.Logic || (GamePlay.Logic = {}));
     })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
@@ -6209,9 +6208,9 @@ var FlipPlus;
 /// <reference path="src/GamePlay/leveltaps.ts" />
 /// <reference path="src/GamePlay/leveltimeattack.ts" />
 /// <reference path="src/GamePlay/Tutorial.ts" />
-/// <reference path="src/GamePlay/Model/Block.ts" />
-/// <reference path="src/GamePlay/Model/Board.ts" />
-/// <reference path="src/GamePlay/Model/Level.ts" />
+/// <reference path="src/GamePlay/Logic/Block.ts" />
+/// <reference path="src/GamePlay/Logic/Board.ts" />
+/// <reference path="src/GamePlay/Logic/Level.ts" />
 /// <reference path="src/GamePlay/Views/BlockSprite.ts" />
 /// <reference path="src/GamePlay/Views/BoardSprite.ts" /> 
 /// <reference path="src/GamePlay/Views/GameplayMenu.ts" />

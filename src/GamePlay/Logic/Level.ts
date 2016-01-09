@@ -1,12 +1,12 @@
 /// <reference path="Board.ts" />
 
 
-module FlipPlus.GamePlay.Model {
+module FlipPlus.GamePlay.Logic {
 
     //Model
     export class Level {
 
-        public board: Model.Board;
+        public board: Logic.Board;
 
         //Definitions
         private static movePoint = -5;
@@ -28,7 +28,7 @@ module FlipPlus.GamePlay.Model {
         constructor(leveldata:Levels.Level) {
             
             //creates a board
-            this.board = new Model.Board(leveldata.width, leveldata.height);
+            this.board = new Logic.Board(leveldata.width, leveldata.height);
         }
 
         //Model methods =======================================================================================================================

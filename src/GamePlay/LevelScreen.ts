@@ -19,7 +19,7 @@ module FlipPlus.GamePlay {
         protected textEffext: Menu.View.TextEffect;
         protected pauseMenu: Menu.View.PauseMenu;
         // Level
-        protected levelLogic: Model.Level;
+        protected levelLogic: Logic.Level;
         protected levelData: Levels.Level;
 
         public itemsFunctions: any;
@@ -48,7 +48,7 @@ module FlipPlus.GamePlay {
             this.levelData = leveldata;
 
             // initializate level Model
-            this.levelLogic = new Model.Level(leveldata);
+            this.levelLogic = new Logic.Level(leveldata);
 
             // creates all screen objects
             this.createScene(leveldata);

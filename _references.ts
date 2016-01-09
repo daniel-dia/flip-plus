@@ -29,9 +29,9 @@
 /// <reference path="src/GamePlay/leveltimeattack.ts" />
 /// <reference path="src/GamePlay/Tutorial.ts" />
 
-/// <reference path="src/GamePlay/Model/Block.ts" />
-/// <reference path="src/GamePlay/Model/Board.ts" />
-/// <reference path="src/GamePlay/Model/Level.ts" />
+/// <reference path="src/GamePlay/Logic/Block.ts" />
+/// <reference path="src/GamePlay/Logic/Board.ts" />
+/// <reference path="src/GamePlay/Logic/Level.ts" />
 /// <reference path="src/GamePlay/Views/BlockSprite.ts" />
 /// <reference path="src/GamePlay/Views/BoardSprite.ts" /> 
 /// <reference path="src/GamePlay/Views/GameplayMenu.ts" />

@@ -1,4 +1,4 @@
-module FlipPlus.GamePlay.Model {
+module FlipPlus.GamePlay.Logic {
     export class Block {
 
         //intrinsic data

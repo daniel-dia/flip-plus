@@ -1,4 +1,4 @@
-module FlipPlus.GamePlay.Model {
+module FlipPlus.GamePlay.Logic {
     export class Board {
 
         //board dimension
@@ -28,7 +28,7 @@ module FlipPlus.GamePlay.Model {
             for (var col = 0; col < width; col++) {
                 this.blocks[col] = [];
                 for (var row = 0; row < height; row++) {
-                    var b = new Model.Block(col, row); 
+                    var b = new Logic.Block(col, row); 
                     this.blocks[col][row] = b;
                 }
             }
@@ -58,7 +58,7 @@ module FlipPlus.GamePlay.Model {
 
             for (var col = 0; col < this.width; col++)
                 for (var row = 0; row < this.height; row++) {
-                    var b: Model.Block = this.blocks[col][row];
+                    var b: Logic.Block = this.blocks[col][row];
                     if (b.inverted) result.push(row * this.width + col);
                 }
             return result;

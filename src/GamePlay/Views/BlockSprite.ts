@@ -30,7 +30,7 @@ module FlipPlus.GamePlay.Views {
         private hintEnalble = false;
 
         //block model
-        private block: Model.Block;
+        private block: Logic.Block;
 
         //draw mode
         private levelType: string;
@@ -101,7 +101,7 @@ module FlipPlus.GamePlay.Views {
         }
 
         //update the blockSprite based on the block information
-        public updateSprite( block?: Model.Block) {
+        public updateSprite( block?: Logic.Block) {
 
             if(block) this.block = block;
 
