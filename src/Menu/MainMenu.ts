@@ -89,7 +89,8 @@ module FlipPlus.Menu {
 
         private addPlayButton() {
             var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle","btplay_press", () => {
-                FlipPlus.FlipPlusGame.showProjectsMenu();
+                //FlipPlus.FlipPlusGame.showProjectLevelsMenu();
+                FlipPlus.FlipPlusGame.showActionLevelsMenu();
             } )
             playBt.interactive = true;
             this.content.addChild(playBt);

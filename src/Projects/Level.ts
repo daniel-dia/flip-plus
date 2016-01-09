@@ -6,7 +6,7 @@ module FlipPlus.Projects {
         public type: string;
 
         //this will be the id for this level. the id must be unique. it will be referenced by the user saved data
-        public name; string;
+        public name: string;
 
         //the theme that will be ussed for this level.
         public theme: string;
@@ -20,6 +20,8 @@ module FlipPlus.Projects {
         //By instance. in a 5x5 board, the upper-left block is "1", the bottom-right will be "25"
         public blocksData: number[];
 
+        // ================= modificators =========================================
+
         //the numberId of the drawBlocks.
         public drawData: number[];
 
@@ -29,11 +31,6 @@ module FlipPlus.Projects {
         //the number id for the hidden block
         public hiddenBlocks: Array<number>
         
-        //prize is activated when there is less than N inverted blocks.
-        //by instancce. prizes={1,3,6). this level will have 3 prizes. Each of them will be earned when 
-        //the player left 6 3 and 1 inverted block on the puzze
-        public prizes: number[];
-
         // ================ specific for each type ===============================
 
         public moves: number;
@@ -50,6 +47,10 @@ module FlipPlus.Projects {
 
         public randomMaxMoves: number;
 
+        // ================ Action   =============================================
+
+        public actionPuzzles: Array<ActionPuzzle>;
+
         // ================ Tutorial =============================================
 
         public tutorial: Array<tutorialStep>;
@@ -57,12 +58,17 @@ module FlipPlus.Projects {
 
         // ================ User data ============================================
 
-        public userdata: LevelUserData;
+        public userdata: LevelUserData; 
+    }
 
-        // ================ reference ============================================
-        // reference to the level project
-        //public project: Project;
+    export interface ActionPuzzle {
+        width: number;
+        height: number;
+        color?: string;
 
+        invertedBlocks?: Array<number>;
+        randomMinMoves?: number;
+        randomMaxMoves?: number;
     }
 
     export interface tutorialStep {
@@ -81,6 +87,6 @@ module FlipPlus.Projects {
         public unlocked: boolean;
         public item: string;
         public playedTimes: number;
-        public hints: Array<number>;
+        public hints: Array<number>; 
     }
 }

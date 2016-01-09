@@ -26,11 +26,13 @@ module FlipPlus {
 
         //Managers
         public static projectManager: Projects.ProjectManager;
+        public static actionLevelsManager: Projects.ActionLevelsManager;
 
         // Screens
         private static titleScreen: gameui.ScreenState;
         private static projectsMenu: gameui.ScreenState;
         private static levelsMenu: gameui.ScreenState;
+        private static actionlevelsMenu: gameui.ScreenState;
         private static levelScreeen: gameui.ScreenState;
 
         public static mainScreen: Menu.MainMenu;
@@ -65,6 +67,7 @@ module FlipPlus {
            
             //managers
             this.projectManager = new Projects.ProjectManager(levelsData, this.projectData);
+            this.actionLevelsManager = new Projects.ActionLevelsManager(levelsData);
 
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
@@ -177,6 +180,15 @@ module FlipPlus {
 
             //switch screens
             this.gameScreen.switchScreen(this.levelsMenu, parameters);
+        }
+
+        public static showActionLevelsMenu() {
+            //create a new levels menu, if needed
+            if (this.actionlevelsMenu == undefined)
+                this.actionlevelsMenu = new Menu.ActionlevelsMenu();
+
+            //switch screens
+            this.gameScreen.switchScreen(this.actionlevelsMenu);
         }
 
         public static showBonus(bonusId: string) {

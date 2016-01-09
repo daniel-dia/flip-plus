@@ -1414,6 +1414,7 @@
     <Content Include="assets\sound\Wrong Awnser.ogg" />
     <Content Include="assets\sound\wrong.mp3" />
     <Content Include="assets\sound\wrong.ogg" />
+    <Content Include="data\ActionLevels.js" />
     <Content Include="data\Bonus.js" />
     <Content Include="data\Items.js" />
     <Content Include="data\Levels.js" />
@@ -1435,6 +1436,8 @@
     <Content Include="style\main.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="src\Menu\ActionLevelsMenu.ts" />
+    <TypeScriptCompile Include="src\Projects\ActionLevelsManager.ts" />
     <TypeScriptCompile Include="src\Anslytics.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus1.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus2.ts" />
@@ -1448,6 +1451,7 @@
     <TypeScriptCompile Include="src\GamePlay\LevelPuzzle.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelScreen.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelTaps.ts" />
+    <TypeScriptCompile Include="src\GamePlay\ActionLevel.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelTimeAttack.ts" />
     <TypeScriptCompile Include="src\GamePlay\Model\Block.ts" />
     <TypeScriptCompile Include="src\GamePlay\Model\Board.ts" />

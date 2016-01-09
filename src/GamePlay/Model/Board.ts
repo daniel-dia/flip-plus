@@ -108,7 +108,7 @@ module FlipPlus.GamePlay.Model {
 
         }
 
-        public setInvertedBlocks(invertedBlocks:number[],prizesCount :number =2){
+        public setInvertedBlocks(invertedBlocks:Array<number>,prizesCount :number =2){
             var i: number = 0;
 
             for (var col = 0; col < this.width; col++)

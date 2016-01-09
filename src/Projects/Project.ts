@@ -34,5 +34,6 @@ module FlipPlus.Projects {
         public complete: boolean;
         public stars: number;
         public percent: number;
+        public maxScore: number; // just for action level
     }
 }

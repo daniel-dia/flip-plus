@@ -780,6 +780,7 @@ var FlipPlus;
             this.analytics.logGameStart();
             //managers
             this.projectManager = new FlipPlus.Projects.ProjectManager(levelsData, this.projectData);
+            this.actionLevelsManager = new FlipPlus.Projects.ActionLevelsManager(levelsData);
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
             this.gameScreen.switchScreen(this.loadingScreen);
@@ -871,6 +872,13 @@ var FlipPlus;
                 this.levelsMenu = new FlipPlus.Menu.WorkshopMenu();
             //switch screens
             this.gameScreen.switchScreen(this.levelsMenu, parameters);
+        };
+        FlipPlusGame.showActionLevelsMenu = function () {
+            //create a new levels menu, if needed
+            if (this.actionlevelsMenu == undefined)
+                this.actionlevelsMenu = new FlipPlus.Menu.ActionlevelsMenu();
+            //switch screens
+            this.gameScreen.switchScreen(this.actionlevelsMenu);
         };
         FlipPlusGame.showBonus = function (bonusId) {
             var bonusScreen;
@@ -4566,7 +4574,8 @@ var FlipPlus;
             };
             MainMenu.prototype.addPlayButton = function () {
                 var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", function () {
-                    FlipPlus.FlipPlusGame.showProjectsMenu();
+                    //FlipPlus.FlipPlusGame.showProjectLevelsMenu();
+                    FlipPlus.FlipPlusGame.showActionLevelsMenu();
                 });
                 playBt.interactive = true;
                 this.content.addChild(playBt);
@@ -5536,8 +5545,6 @@ var FlipPlus;
         var ProjectManager = (function () {
             // ------------------------------- initialization ----------------------------------------//
             function ProjectManager(data, userData) {
-                //Max simultaneous working/avaliable projects
-                this.maxAvaliableProjects = 6;
                 this.userData = userData;
                 this.loadProjects(data);
             }
@@ -6392,6 +6399,133 @@ var FlipPlus;
 (function (FlipPlus) {
     var GamePlay;
     (function (GamePlay) {
+        var ActionLevel = (function (_super) {
+            __extends(ActionLevel, _super);
+            function ActionLevel(levelData) {
+                var _this = this;
+                _super.call(this, levelData);
+                this.currentPuzzle = 1;
+                this.puzzlesToSolve = 0;
+                this.gameplayMenu.addItemsButtons([Items.SOLVE, Items.HINT]);
+                this.gameplayMenu.addEventListener(Items.SKIP, function () { _this.useItem(Items.SKIP); });
+                this.gameplayMenu.addEventListener(Items.TIME, function () { _this.useItem(Items.TIME); });
+                this.gameplayMenu.addEventListener(Items.SOLVE, function () { _this.useItem(Items.SOLVE); });
+                this.gameplayMenu.addEventListener(Items.HINT, function () { _this.useItem(Items.HINT); });
+                this.puzzlesToSolve = levelData.puzzles.length;
+                this.currentTime = levelData.time;
+                //this.randomBoard(levelData.randomMinMoves,levelData.randomMaxMoves); 
+                this.statusArea.setMode(Items.TIME);
+                this.statusArea.setText3(levelData.time.toString());
+                this.createsTimer();
+            }
+            ActionLevel.prototype.createsTimer = function () {
+                var _this = this;
+                //Creates Timer
+                this.timer = new Timer(1000);
+                this.timer.addEventListener(TimerEvent.TIMER, function (e) {
+                    _this.currentTime--;
+                    _this.statusArea.setText3(_this.currentTime.toString());
+                    if (_this.currentTime <= 0) {
+                        // suggest more time
+                        _this.timer.stop();
+                        _this.boardSprite.mouseEnabled = false;
+                        _this.popupHelper.showItemMessage(Items.TIME, _this.getItemPrice(Items.TIME), function () {
+                            _this.useItem(Items.TIME);
+                            _this.boardSprite.mouseEnabled = true;
+                            _this.timer.start();
+                        }, function () {
+                            gameui.AudiosManager.playSound("Power Down");
+                            _this.statusArea.setText3(StringResources.gp_pz_statusEnd);
+                            _this.message.showtext(StringResources.gp_pz_timeUP);
+                            _this.loose();
+                        });
+                    }
+                    if (_this.currentTime == 4) {
+                        // play sound
+                        gameui.AudiosManager.playSound("Ticking Clock");
+                    }
+                });
+            };
+            ActionLevel.prototype.desactivate = function () {
+                this.timer.stop();
+            };
+            //Overriding methods.
+            ActionLevel.prototype.win = function (col, row) {
+                var _this = this;
+                if (this.currentPuzzle >= this.puzzlesToSolve) {
+                    this.timer.stop();
+                    _super.prototype.win.call(this, col, row);
+                }
+                else {
+                    //animate board and switch
+                    var defaultX = this.boardSprite.x;
+                    createjs.Tween.removeTweens(this.boardSprite);
+                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(function () {
+                        _this.currentPuzzle++;
+                        _this.boardSprite.clearHint();
+                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
+                        _this.boardSprite.x = defaultX + defaultWidth;
+                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
+                    });
+                }
+            };
+            ActionLevel.prototype.pauseGame = function () {
+                _super.prototype.pauseGame.call(this);
+                this.timer.stop();
+            };
+            ActionLevel.prototype.unPauseGame = function () {
+                _super.prototype.unPauseGame.call(this);
+                this.timer.start();
+            };
+            ActionLevel.prototype.randomBoard = function (minMoves, maxMoves) {
+                if (minMoves === void 0) { minMoves = 2; }
+                if (maxMoves === void 0) { maxMoves = 5; }
+                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
+                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
+                var inverted = [];
+                for (var m = 0; m < moves; m++) {
+                    var index = Math.floor(Math.random() * (lenght));
+                    while (inverted[index] == true)
+                        index = (index + 1) % lenght;
+                    inverted[index] = true;
+                }
+                for (var i = 0; i < lenght; i++) {
+                    if (inverted[i] == true)
+                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
+                }
+                this.levelLogic.board.initializePrizes(2);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+            };
+            ActionLevel.prototype.blocksBoard = function (invertedBlocks) {
+                this.levelLogic.board.setInvertedBlocks(invertedBlocks);
+            };
+            ActionLevel.prototype.useItemTime = function () {
+                this.currentTime += 10;
+            };
+            ActionLevel.prototype.activate = function (parameters) {
+                var _this = this;
+                _super.prototype.activate.call(this);
+                this.boardSprite.visible = false;
+                //shows popup
+                this.popup.showTimeAttack(this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString());
+                this.popup.addEventListener("onclose", function () {
+                    _this.boardSprite.visible = true;
+                    //shows puzzle
+                    if (parameters)
+                        _this.animatePuzzle(parameters);
+                    _this.timer.start();
+                });
+            };
+            return ActionLevel;
+        })(GamePlay.LevelScreen);
+        GamePlay.ActionLevel = ActionLevel;
+    })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var GamePlay;
+    (function (GamePlay) {
         var Views;
         (function (Views) {
             var ItemButton = (function (_super) {
@@ -6543,6 +6677,20 @@ var FlipPlus;
         return GameServices;
     })();
     FlipPlus.GameServices = GameServices;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var ActionlevelsMenu = (function (_super) {
+            __extends(ActionlevelsMenu, _super);
+            function ActionlevelsMenu() {
+                _super.apply(this, arguments);
+            }
+            return ActionlevelsMenu;
+        })(Menu.WorkshopMenu);
+        Menu.ActionlevelsMenu = ActionlevelsMenu;
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
@@ -7869,6 +8017,44 @@ var FlipPlus;
             View.TextEffect = TextEffect;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Projects;
+    (function (Projects) {
+        // Controls projects and Levels.
+        // Model
+        var ActionLevelsManager = (function () {
+            // #region initialization ----------------------------------------//
+            function ActionLevelsManager(levelsData, userData) {
+                this.userData = this.userData = userData;
+                this.loadProjects(levelsData);
+            }
+            ActionLevelsManager.prototype.loadProjects = function (data) {
+                this.actionLevelsData = data;
+                // get a user data for each level/project
+                this.userData.addUserData(this.actionLevelsData);
+            };
+            // #endregion
+            // #region manager Levels 
+            ActionLevelsManager.prototype.getAllActionLevels = function () {
+                return this.actionLevelsData;
+            };
+            ActionLevelsManager.prototype.getActionLevel = function (index) {
+                return this.actionLevelsData[index];
+            };
+            ActionLevelsManager.prototype.getCurrentActionLevel = function () {
+                return this.currentLevel;
+            };
+            ActionLevelsManager.prototype.unlockActionLevel = function (index) {
+            };
+            ActionLevelsManager.prototype.getActionLevelStars = function (index) {
+                return 0;
+            };
+            return ActionLevelsManager;
+        })();
+        Projects.ActionLevelsManager = ActionLevelsManager;
+    })(Projects = FlipPlus.Projects || (FlipPlus.Projects = {}));
 })(FlipPlus || (FlipPlus = {}));
 var StringResources = {
     ld: "Loading",
