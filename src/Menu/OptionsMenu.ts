@@ -29,7 +29,7 @@ module FlipPlus.Menu {
             
             //add Other Buttons
             this.content.addChild(new gameui.BitmapTextButton(StringResources.op_erase, "fontBlue", "", () => {
-                FlipPlusGame.projectData.clearAllData();
+                FlipPlusGame.levelsUserData.clearAllData();
                 window.location.reload();
             }).set({ y : p0 + p * s }));
         }

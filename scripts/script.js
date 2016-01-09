@@ -765,22 +765,22 @@ var FlipPlus;
             Cocoon.Utils.setNPOTEnabled(true);
             this.gameScreen = new gameui.GameScreen("gameDiv", defaultWidth, defaultHeight, 60);
             // userData
-            this.projectData = new FlipPlus.UserData.ProjectsData();
-            this.settings = new FlipPlus.UserData.Settings();
+            this.levelsUserData = new FlipPlus.UserData.Levels();
+            this.settingsUserData = new FlipPlus.UserData.Settings();
             this.coinsData = new FlipPlus.UserData.Coins();
             this.storyData = new FlipPlus.UserData.Story();
             this.timersData = new FlipPlus.UserData.Timers();
             // load options
-            gameui.AudiosManager.setSoundVolume(this.settings.getSoundfx());
-            gameui.AudiosManager.setMusicVolume(this.settings.getMusic());
+            gameui.AudiosManager.setSoundVolume(this.settingsUserData.getSoundfx());
+            gameui.AudiosManager.setMusicVolume(this.settingsUserData.getMusic());
             // game service
             this.gameServices = new FlipPlus.GameServices();
             // analytics
             this.analytics = new Analytics();
             this.analytics.logGameStart();
             //managers
-            this.projectManager = new FlipPlus.Levels.ProjectManager(levelsData, this.projectData);
-            this.actionLevelsManager = new FlipPlus.Levels.ActionLevelsManager(levelsData);
+            this.projectManager = new FlipPlus.Levels.ProjectManager(levelsData, this.levelsUserData);
+            this.actionLevelsManager = new FlipPlus.Levels.ActionLevelsManager(ActionLevelsData, this.levelsUserData);
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
             this.gameScreen.switchScreen(this.loadingScreen);
@@ -1187,31 +1187,31 @@ var FlipPlus;
 (function (FlipPlus) {
     var UserData;
     (function (UserData) {
-        var ProjectsData = (function () {
+        var Levels = (function () {
             // ----------------------- Game Data ----------------------------------------------------------
-            function ProjectsData() {
+            function Levels() {
                 this.projectKey = "Flipp_userData";
                 this.loadFromStorage();
             }
             //Adds user data to a project
-            ProjectsData.prototype.addUserData = function (projects) {
-                for (var p = 0; p < projects.length; p++) {
-                    var project = projects[p];
+            Levels.prototype.addUserData = function (botLevelSet) {
+                for (var p = 0; p < botLevelSet.length; p++) {
+                    var project = botLevelSet[p];
                     var pd = this.getProjectData(project.name);
                     project.UserData = pd;
-                    for (var l = 0; l < projects[p].levels.length; l++) {
-                        var level = projects[p].levels[l];
+                    for (var l = 0; l < botLevelSet[p].levels.length; l++) {
+                        var level = botLevelSet[p].levels[l];
                         var ld = this.getLevelData(level.name);
                         level.userdata = ld;
                     }
                 }
             };
             //gets user data from storage and store it to a level data
-            ProjectsData.prototype.getLevelData = function (LevelId) {
+            Levels.prototype.getLevelData = function (LevelId) {
                 var key = LevelId;
-                var value = this.projectsUserData[key];
+                var value = this.levelsSavedData[key];
                 if (value == null) {
-                    var ud = new FlipPlus.Levels.LevelUserData();
+                    var ud = new Levels.LevelUserData();
                     ud.solved = false;
                     ud.skip = false;
                     ud.unlocked = false;
@@ -1220,11 +1220,11 @@ var FlipPlus;
                 return value;
             };
             //gets user data from storage and store it to a project data
-            ProjectsData.prototype.getProjectData = function (projectId) {
-                var key = projectId;
-                var value = this.projectsUserData[key];
+            Levels.prototype.getProjectData = function (botId) {
+                var key = botId;
+                var value = this.levelsSavedData[key];
                 if (value == null) {
-                    var ud = new FlipPlus.Levels.ProjectUserData();
+                    var ud = new Levels.ProjectUserData();
                     ud.unlocked = false;
                     ud.percent = 0;
                     ud.complete = false;
@@ -1234,38 +1234,38 @@ var FlipPlus;
                     return value;
             };
             //updates storage with curret level user data 
-            ProjectsData.prototype.saveLevelData = function (level) {
+            Levels.prototype.saveLevelData = function (level) {
                 var key = level.name;
-                this.projectsUserData[key] = level.userdata;
+                this.levelsSavedData[key] = level.userdata;
                 this.saveToStorage();
             };
             //updates storage with curret project user data 
-            ProjectsData.prototype.saveProjectData = function (project) {
-                var key = project.name;
-                this.projectsUserData[key] = project.UserData;
+            Levels.prototype.saveProjectData = function (botLevelSet) {
+                var key = botLevelSet.name;
+                this.levelsSavedData[key] = botLevelSet.UserData;
                 this.saveToStorage();
             };
-            ProjectsData.prototype.saveToStorage = function () {
-                if (this.projectsUserData) {
-                    var str = JSON.stringify(this.projectsUserData);
+            Levels.prototype.saveToStorage = function () {
+                if (this.levelsSavedData) {
+                    var str = JSON.stringify(this.levelsSavedData);
                     localStorage.setItem(this.projectKey, str);
                 }
             };
-            ProjectsData.prototype.loadFromStorage = function () {
+            Levels.prototype.loadFromStorage = function () {
                 var data = localStorage.getItem(this.projectKey);
                 if (data)
-                    this.projectsUserData = JSON.parse(data);
+                    this.levelsSavedData = JSON.parse(data);
                 else
-                    this.projectsUserData = {};
+                    this.levelsSavedData = {};
             };
             //-------------------------------------------------------------------------------------------
             //clear all storage data
-            ProjectsData.prototype.clearAllData = function () {
+            Levels.prototype.clearAllData = function () {
                 localStorage.clear();
             };
-            return ProjectsData;
+            return Levels;
         })();
-        UserData.ProjectsData = ProjectsData;
+        UserData.Levels = Levels;
     })(UserData = FlipPlus.UserData || (FlipPlus.UserData = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
@@ -1608,7 +1608,7 @@ var FlipPlus;
                     this.levelData.userdata.hints = this.levelData.userdata.hints || [];
                     this.levelData.userdata.hints.push(blockId);
                     // saves 
-                    FlipPlus.FlipPlusGame.projectData.saveLevelData(this.levelData);
+                    FlipPlus.FlipPlusGame.levelsUserData.saveLevelData(this.levelData);
                 }
                 // enablehint for the selected block;
                 this.boardSprite.getBlockById(blockId).enableHint();
@@ -4631,7 +4631,7 @@ var FlipPlus;
                 p++;
                 //add Other Buttons
                 this.content.addChild(new gameui.BitmapTextButton(StringResources.op_erase, "fontBlue", "", function () {
-                    FlipPlus.FlipPlusGame.projectData.clearAllData();
+                    FlipPlus.FlipPlusGame.levelsUserData.clearAllData();
                     window.location.reload();
                 }).set({ y: p0 + p * s }));
             }
@@ -7924,22 +7924,22 @@ var FlipPlus;
                     this.btMusOn = new gameui.IconButton("menu/icmusic", "menu/btmusicon", function () {
                         gameui.AudiosManager.setMusicVolume(0);
                         _this.updateVolumeButtons();
-                        FlipPlus.FlipPlusGame.settings.setMusic(0);
+                        FlipPlus.FlipPlusGame.settingsUserData.setMusic(0);
                     }).set({ x: -243.5 });
                     this.btMusOf = new gameui.IconButton("menu/icmusic", "menu/btmusicoff", function () {
                         gameui.AudiosManager.setMusicVolume(1);
                         _this.updateVolumeButtons();
-                        FlipPlus.FlipPlusGame.settings.setMusic(1);
+                        FlipPlus.FlipPlusGame.settingsUserData.setMusic(1);
                     }).set({ x: -243.5 });
                     this.btSndOn = new gameui.IconButton("menu/icsound", "menu/btmusicon", function () {
                         gameui.AudiosManager.setSoundVolume(0);
                         _this.updateVolumeButtons();
-                        FlipPlus.FlipPlusGame.settings.setSoundfX(0);
+                        FlipPlus.FlipPlusGame.settingsUserData.setSoundfX(0);
                     }).set({ x: 243.5 });
                     this.btSndOf = new gameui.IconButton("menu/icsound", "menu/btmusicoff", function () {
                         gameui.AudiosManager.setSoundVolume(1);
                         _this.updateVolumeButtons();
-                        FlipPlus.FlipPlusGame.settings.setSoundfX(1);
+                        FlipPlus.FlipPlusGame.settingsUserData.setSoundfX(1);
                     }).set({ x: 243.5 });
                     this.addChild(this.btMusOn);
                     this.addChild(this.btMusOf);

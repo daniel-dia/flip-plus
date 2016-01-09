@@ -1,4 +1,5 @@
-declare var levelsData; 
+declare var levelsData;
+declare var ActionLevelsData: Array<FlipPlus.Levels.BotLevelsSet>
 
 declare function getAssetsManifest(assetscale:number):Array<any>;
 //declare var spriteSheets;
@@ -9,22 +10,24 @@ module FlipPlus {
     // Controller
     export class FlipPlusGame  {
 
-        //game screen
+        // game screen
         public static gameScreen: gameui.GameScreen;
 
-        //userData
-        public static projectData: UserData.ProjectsData;
-        public static settings: UserData.Settings;
+        // userData
+        public static levelsUserData: UserData.Levels;
+        public static settingsUserData: UserData.Settings;
         public static timersData: UserData.Timers;
         public static coinsData: UserData.Coins;
         public static storyData: UserData.Story;
+
+        // Social
         public static gameServices: GameServices;
         public static FBSocialService: any;
 
-        //analytics
+        // analytics
         public static analytics: Analytics;
 
-        //Managers
+        // Managers
         public static projectManager: Levels.ProjectManager;
         public static actionLevelsManager: Levels.ActionLevelsManager;
 
@@ -48,15 +51,15 @@ module FlipPlus {
             this.gameScreen = new gameui.GameScreen("gameDiv", defaultWidth, defaultHeight,60);
 
             // userData
-            this.projectData = new UserData.ProjectsData();
-            this.settings = new UserData.Settings();
+            this.levelsUserData = new UserData.Levels();
+            this.settingsUserData = new UserData.Settings();
             this.coinsData = new UserData.Coins();
             this.storyData = new UserData.Story();
             this.timersData = new UserData.Timers();
 
             // load options
-            gameui.AudiosManager.setSoundVolume(this.settings.getSoundfx());
-            gameui.AudiosManager.setMusicVolume(this.settings.getMusic());
+            gameui.AudiosManager.setSoundVolume(this.settingsUserData.getSoundfx());
+            gameui.AudiosManager.setMusicVolume(this.settingsUserData.getMusic());
 
             // game service
             this.gameServices = new GameServices();
@@ -66,8 +69,8 @@ module FlipPlus {
             this.analytics.logGameStart();
            
             //managers
-            this.projectManager = new Levels.ProjectManager(levelsData, this.projectData);
-            this.actionLevelsManager = new Levels.ActionLevelsManager(levelsData);
+            this.projectManager = new Levels.ProjectManager(levelsData, this.levelsUserData);
+            this.actionLevelsManager = new Levels.ActionLevelsManager(ActionLevelsData, this.levelsUserData);
 
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();

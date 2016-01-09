@@ -1,10 +1,10 @@
 // Module
 module FlipPlus.UserData {
 
-    export class ProjectsData {
+    export class Levels {
 
         private projectKey = "Flipp_userData"
-        private projectsUserData: Object;
+        private levelsSavedData: Object;
 
         // ----------------------- Game Data ----------------------------------------------------------
 
@@ -13,17 +13,17 @@ module FlipPlus.UserData {
         }
 
         //Adds user data to a project
-        public addUserData(projects: Array<Levels.BotLevelsSet>) {
+        public addUserData(botLevelSet: Array<Levels.BotLevelsSet>) {
 
-            for (var p = 0; p < projects.length; p++) {
+            for (var p = 0; p < botLevelSet.length; p++) {
 
-                var project = projects[p];
+                var project = botLevelSet[p];
                 var pd = this.getProjectData(project.name);
 
                 project.UserData = pd;
                 
-                for (var l = 0; l < projects[p].levels.length; l++) { 
-                    var level = projects[p].levels[l];
+                for (var l = 0; l < botLevelSet[p].levels.length; l++) { 
+                    var level = botLevelSet[p].levels[l];
                     var ld = this.getLevelData(level.name);
                     level.userdata = ld;
                 }
@@ -34,7 +34,7 @@ module FlipPlus.UserData {
         private getLevelData(LevelId: string): Levels.LevelUserData {
 
             var key: string = LevelId;
-            var value: Levels.LevelUserData = this.projectsUserData[key];
+            var value: Levels.LevelUserData = this.levelsSavedData[key];
 
             if (value == null) {
                 var ud = new Levels.LevelUserData();
@@ -47,10 +47,10 @@ module FlipPlus.UserData {
         }     
 
         //gets user data from storage and store it to a project data
-        private getProjectData(projectId: string): Levels.ProjectUserData {
+        private getProjectData(botId: string): Levels.ProjectUserData {
 
-            var key: string = projectId;
-            var value: Levels.ProjectUserData = this.projectsUserData[key];
+            var key: string = botId;
+            var value: Levels.ProjectUserData = this.levelsSavedData[key];
 
             if (value == null) {
                 var ud = new Levels.ProjectUserData();
@@ -66,20 +66,20 @@ module FlipPlus.UserData {
         //updates storage with curret level user data 
         public saveLevelData(level: Levels.Level) {
             var key: string = level.name;
-            this.projectsUserData[key] = level.userdata;
+            this.levelsSavedData[key] = level.userdata;
             this.saveToStorage();
         }
 
         //updates storage with curret project user data 
-        public saveProjectData(project: Levels.BotLevelsSet): void{
-            var key: string = project.name;
-            this.projectsUserData[key] = project.UserData;
+        public saveProjectData(botLevelSet: Levels.BotLevelsSet): void{
+            var key: string = botLevelSet.name;
+            this.levelsSavedData[key] = botLevelSet.UserData;
             this.saveToStorage();
         }
 
         private saveToStorage() {
-            if (this.projectsUserData) {
-                var str = JSON.stringify(this.projectsUserData);
+            if (this.levelsSavedData) {
+                var str = JSON.stringify(this.levelsSavedData);
                 localStorage.setItem(this.projectKey, str);
             }
         }
@@ -88,9 +88,9 @@ module FlipPlus.UserData {
             var data = localStorage.getItem(this.projectKey);
 
             if (data)
-                this.projectsUserData = JSON.parse(data);
+                this.levelsSavedData = JSON.parse(data);
             else
-                this.projectsUserData = {};
+                this.levelsSavedData = {};
             
         }
 

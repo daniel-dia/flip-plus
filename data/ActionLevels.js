@@ -5,7 +5,7 @@ var ActionLevelsData = [
 
     {
         "nickName": "S-N3S",
-        "name": "Bot01",
+        "name": "ActionBot01",
         "levels": [{
             type: "action",
             time: 10,
@@ -18,7 +18,7 @@ var ActionLevelsData = [
     },
   {
       "nickName": "R-MS",
-      "name": "Bot02",
+      "name": "ActionBot02",
       "levels": [{
           type: "action",
           time: 10,
@@ -31,7 +31,7 @@ var ActionLevelsData = [
   },
   {
       "nickName": "P1K-4",
-      "name": "Bot03",
+      "name": "ActionBot03",
       "levels": [{
           type: "action",
           time: 10,

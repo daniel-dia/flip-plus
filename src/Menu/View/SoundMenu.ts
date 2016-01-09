@@ -13,25 +13,25 @@
             this.btMusOn = new gameui.IconButton("menu/icmusic", "menu/btmusicon", () => {
                 gameui.AudiosManager.setMusicVolume(0);
                 this.updateVolumeButtons()
-                FlipPlus.FlipPlusGame.settings.setMusic(0)
+                FlipPlus.FlipPlusGame.settingsUserData.setMusic(0)
             }).set({ x: -243.5 })
 
             this.btMusOf = new gameui.IconButton("menu/icmusic", "menu/btmusicoff", () => {
                 gameui.AudiosManager.setMusicVolume(1);
                 this.updateVolumeButtons()
-                FlipPlus.FlipPlusGame.settings.setMusic(1)
+                FlipPlus.FlipPlusGame.settingsUserData.setMusic(1)
             }).set({ x: -243.5 })
 
             this.btSndOn = new gameui.IconButton("menu/icsound", "menu/btmusicon", () => {
                 gameui.AudiosManager.setSoundVolume(0);
                 this.updateVolumeButtons()
-                FlipPlus.FlipPlusGame.settings.setSoundfX(0)
+                FlipPlus.FlipPlusGame.settingsUserData.setSoundfX(0)
             }).set({ x: 243.5 })
 
             this.btSndOf = new gameui.IconButton("menu/icsound", "menu/btmusicoff", () => {
                 gameui.AudiosManager.setSoundVolume(1);
                 this.updateVolumeButtons()
-                FlipPlus.FlipPlusGame.settings.setSoundfX(1)
+                FlipPlus.FlipPlusGame.settingsUserData.setSoundfX(1)
             }).set({ x: 243.5 })
 
             this.addChild(this.btMusOn);

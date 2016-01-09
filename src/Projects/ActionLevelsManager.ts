@@ -13,11 +13,11 @@ module FlipPlus.Levels {
         private currentLevel: FlipPlus.Levels.Level;
         
         // user data    
-        private userData: UserData.ProjectsData;
+        private userData: UserData.Levels;
         
         // #region initialization ----------------------------------------//
         
-        constructor(levelsData: Array<BotLevelsSet>, userData: UserData.ProjectsData) {
+        constructor(levelsData: Array<BotLevelsSet>, userData: UserData.Levels) {
             this.userData = this.userData = userData;
             this.loadProjects(levelsData);
         }
