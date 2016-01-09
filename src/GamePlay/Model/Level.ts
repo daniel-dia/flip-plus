@@ -21,11 +21,11 @@ module FlipPlus.GamePlay.Model {
         public points: number = 0;
 
         //reference
-        private level: Projects.Level;
+        private level: Levels.Level;
 
         //Initialization methodos ============================================================================================================
         
-        constructor(leveldata:Projects.Level) {
+        constructor(leveldata:Levels.Level) {
             
             //creates a board
             this.board = new Model.Board(leveldata.width, leveldata.height);

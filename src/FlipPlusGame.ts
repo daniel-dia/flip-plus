@@ -25,8 +25,8 @@ module FlipPlus {
         public static analytics: Analytics;
 
         //Managers
-        public static projectManager: Projects.ProjectManager;
-        public static actionLevelsManager: Projects.ActionLevelsManager;
+        public static projectManager: Levels.ProjectManager;
+        public static actionLevelsManager: Levels.ActionLevelsManager;
 
         // Screens
         private static titleScreen: gameui.ScreenState;
@@ -66,8 +66,8 @@ module FlipPlus {
             this.analytics.logGameStart();
            
             //managers
-            this.projectManager = new Projects.ProjectManager(levelsData, this.projectData);
-            this.actionLevelsManager = new Projects.ActionLevelsManager(levelsData);
+            this.projectManager = new Levels.ProjectManager(levelsData, this.projectData);
+            this.actionLevelsManager = new Levels.ActionLevelsManager(levelsData);
 
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
@@ -143,9 +143,9 @@ module FlipPlus {
 
         // ----------------------------- Game Methods ---------------------------------------------//
         
-        public static toLevelCreator(level?:Projects.Level,callback?) {
+        public static toLevelCreator(level?:Levels.Level,callback?) {
             if (!level) {
-                level = new Projects.Level();
+                level = new Levels.Level();
                 level.width = 0;
                 level.height = 0;
             }
@@ -162,7 +162,7 @@ module FlipPlus {
             this.gameScreen.switchScreen(this.projectsMenu);
         }
         
-        public static showProjectLevelsMenu(project?: Projects.Project, parameters?: any) {
+        public static showProjectLevelsMenu(project?: Levels.BotLevelsSet, parameters?: any) {
 
             //verifies the current projet
             if (project == null)
@@ -215,13 +215,13 @@ module FlipPlus {
             this.gameScreen.switchScreen(bonusScreen);
         }
 
-        public static showLevel(level: Projects.Level, parameters?: any) {
+        public static showLevel(level: Levels.Level, parameters?: any) {
             this.projectManager.setCurrentLevel(level);
             this.levelScreeen = this.createLevel(level);
             this.gameScreen.switchScreen(this.levelScreeen, parameters);
         }
 
-        private static createLevel(level: Projects.Level): GamePlay.LevelScreen {
+        private static createLevel(level: Levels.Level): GamePlay.LevelScreen {
 
             switch (level.type) {
                 case "puzzle": case "draw":
@@ -251,7 +251,7 @@ module FlipPlus {
         }
 
         public static showNextLevel() {
-            var nextLevel: Projects.Level = this.projectManager.getNextLevel();
+            var nextLevel: Levels.Level = this.projectManager.getNextLevel();
 
             //show level or end level
             if (nextLevel != null)

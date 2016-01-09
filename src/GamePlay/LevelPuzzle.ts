@@ -4,7 +4,7 @@ module FlipPlus.GamePlay {
         // help
         private helped: boolean;
 
-        constructor(levelData: Projects.Level) {
+        constructor(levelData: Levels.Level) {
             super(levelData);
 
             if (levelData.customItems)

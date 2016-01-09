@@ -7,10 +7,10 @@ module FlipPlus.Menu.View {
         //Display Objects
         private badges: PIXI.DisplayObject;
 
-        private level: Projects.Level;
+        private level: Levels.Level;
 
         // Constructor
-        constructor(level: FlipPlus.Projects.Level, event?: (event?: any) => any) {
+        constructor(level: FlipPlus.Levels.Level, event?: (event?: any) => any) {
             super(event);
             this.level = level;
             this.name = level.name;
@@ -30,7 +30,7 @@ module FlipPlus.Menu.View {
         } 
 
         //Create a container with a level thumbnail and evel name
-        protected createThumbs(level: FlipPlus.Projects.Level) {
+        protected createThumbs(level: FlipPlus.Levels.Level) {
             return; 
             this.removeChildren();
 
@@ -94,7 +94,7 @@ module FlipPlus.Menu.View {
         }
 
         //defines accentColor based on level type.
-        protected defineAssetName(level: Projects.Level) :string{
+        protected defineAssetName(level: Levels.Level) :string{
             var assetname = "faseamarela";
             if (level.theme == "green") assetname = "faseverde";
             if (level.theme == "purple") assetname = "faseroxa";
@@ -103,7 +103,7 @@ module FlipPlus.Menu.View {
         }
 
         // add items modification
-        protected createLevelModificator(level: Projects.Level):PIXI.DisplayObject {
+        protected createLevelModificator(level: Levels.Level):PIXI.DisplayObject {
 
             if (level.userdata.skip) {
                 var sk = gameui.AssetsManager.getBitmap("puzzle/icon_skip");
@@ -122,7 +122,7 @@ module FlipPlus.Menu.View {
         }
 
         //adds thumb background
-        protected createBackgroud(level: Projects.Level,assetName,assetSufix): PIXI.DisplayObject {
+        protected createBackgroud(level: Levels.Level,assetName,assetSufix): PIXI.DisplayObject {
 
             var sbg = gameui.AssetsManager.getBitmap("workshop/" + assetName + assetSufix);
             sbg.pivot.x = sbg.pivot.y = 98;
@@ -130,7 +130,7 @@ module FlipPlus.Menu.View {
         }
         
         //adds thumb blocks
-        protected createBlocks(level: Projects.Level, color1: number, color2: number, alpha1: number, alpha2: number, sizeStart?: number, sizeEnd?: number): PIXI.DisplayObject {
+        protected createBlocks(level: Levels.Level, color1: number, color2: number, alpha1: number, alpha2: number, sizeStart?: number, sizeEnd?: number): PIXI.DisplayObject {
            
             var col0 = sizeStart ? sizeStart : 0;
             var colf = sizeEnd ? sizeEnd :level.width ;
@@ -185,7 +185,7 @@ module FlipPlus.Menu.View {
         }
 
         //Adds Thumb Tag
-        protected createTags(level: Projects.Level, assetName,assetSufix) :PIXI.DisplayObject{
+        protected createTags(level: Levels.Level, assetName,assetSufix) :PIXI.DisplayObject{
             //TODO: essas string devem estar em um enum
             if (level.type == "time" || level.type == "flip" || level.type == "moves") {
                 var tag = gameui.AssetsManager.getBitmap("workshop/" + assetName + (level.type=="moves"?"flip":level.type )+ assetSufix);

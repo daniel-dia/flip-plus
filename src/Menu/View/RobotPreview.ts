@@ -2,7 +2,7 @@
 
     export class RobotPreview extends PIXI.Container {
 
-        private project: FlipPlus.Projects.Project;
+        private project: FlipPlus.Levels.BotLevelsSet;
         private percentMask: PIXI.Graphics;
 
         private fill:PIXI.DisplayObject;
@@ -10,7 +10,7 @@
         private completeBot: PIXI.DisplayObject;
 
         //Constructor
-        constructor(project: FlipPlus.Projects.Project) {
+        constructor(project: FlipPlus.Levels.BotLevelsSet) {
             super();
             this.project = project;
             this.createPercentualFill(project);
@@ -25,7 +25,7 @@
         }
 
         //create graphics
-        private createPercentualFill(project: FlipPlus.Projects.Project){
+        private createPercentualFill(project: FlipPlus.Levels.BotLevelsSet){
           
                 var size: number = 300;
                 this.fill = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill");

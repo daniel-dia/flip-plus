@@ -3,10 +3,10 @@ module FlipPlus.Menu.View {
 
         private projectsThemes: Array<string> = ["green", "purple", "yellow"];
         private stars: Array<PIXI.DisplayObject>;
-        private project: Projects.Project;
+        private project: Levels.BotLevelsSet;
         private fx = new FlipPlus.Effects;
 
-        constructor(project: Projects.Project) {
+        constructor(project: Levels.BotLevelsSet) {
             super();
             this.project = project;
             this.createObjects();

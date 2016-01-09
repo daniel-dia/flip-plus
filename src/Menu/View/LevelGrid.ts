@@ -3,11 +3,11 @@ module FlipPlus.Menu.View {
     export class LevelGrid extends gameui.Grid {
 
         private challangesMap = new Object();
-        private currentChapter: Projects.Project;
+        private currentChapter: Levels.BotLevelsSet;
         private thumbs: LevelThumb[];
 
         //Constructor
-        constructor(chapter: FlipPlus.Projects.Project) {
+        constructor(chapter: FlipPlus.Levels.BotLevelsSet) {
             super(5,2,1190,476);
             this.thumbs = [];
             this.currentChapter = chapter;
@@ -15,13 +15,13 @@ module FlipPlus.Menu.View {
         }
 
         //create a chapter menu, containing a lot o challanges
-        private createChapterSet(chapter: FlipPlus.Projects.Project):void {
+        private createChapterSet(chapter: FlipPlus.Levels.BotLevelsSet):void {
 
             //creates a icon tiles
             for (var i = 0; i < chapter.levels.length; i++) {
 
                 //get current chapter
-                var level: Projects.Level = chapter.levels[i];
+                var level: Levels.Level = chapter.levels[i];
 
                 //save it on the map, (for click feedback)
                 this.challangesMap[level.name] = level;
@@ -30,7 +30,7 @@ module FlipPlus.Menu.View {
                 var event = (e: PIXI.interaction.InteractionEvent) => {
 
                     var tg: PIXI.DisplayObject = <PIXI.DisplayObject>(e.target);
-                    var level: Projects.Level = this.challangesMap[tg.name];
+                    var level: Levels.Level = this.challangesMap[tg.name];
 
                     var parameters = {
                         x: tg.x + tg.parent.x,
@@ -62,8 +62,8 @@ module FlipPlus.Menu.View {
             //get User data from storage
             for (var i = 0; i < this.thumbs.length; i++) {
                 
-                var level:Projects.Level = this.challangesMap[this.thumbs[i].name];
-                var chapter: Projects.Project = this.currentChapter;
+                var level:Levels.Level = this.challangesMap[this.thumbs[i].name];
+                var chapter: Levels.BotLevelsSet = this.currentChapter;
                  
                 this.thumbs[i].updateUserData();
             }

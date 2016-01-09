@@ -1,4 +1,4 @@
-module FlipPlus.Projects {
+module FlipPlus.Levels {
 
     export class Level {
 

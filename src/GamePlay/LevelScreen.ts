@@ -20,7 +20,7 @@ module FlipPlus.GamePlay {
         protected pauseMenu: Menu.View.PauseMenu;
         // Level
         protected levelLogic: Model.Level;
-        protected levelData: Projects.Level;
+        protected levelData: Levels.Level;
 
         public itemsFunctions: any;
 
@@ -36,7 +36,7 @@ module FlipPlus.GamePlay {
 
         // #region Initialization methodos ==================================================================================================
 
-        constructor(leveldata: Projects.Level) {
+        constructor(leveldata: Levels.Level) {
 
             super();
 
@@ -71,7 +71,7 @@ module FlipPlus.GamePlay {
 
         // #region Create Scene =============================================================================================================
 
-        private createScene(leveldata: Projects.Level) {
+        private createScene(leveldata: Levels.Level) {
 
             //creates a Background
             this.addBackground();
@@ -149,7 +149,7 @@ module FlipPlus.GamePlay {
 
             //upper staus area
             if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
-                var levels: Projects.Level[] = FlipPlusGame.projectManager.getCurrentProject().levels;
+                var levels: Levels.Level[] = FlipPlusGame.projectManager.getCurrentProject().levels;
                 this.statusArea = new Views.StatusArea();
                 this.statusArea.y += 80; 
                 this.statusArea.setText1("");

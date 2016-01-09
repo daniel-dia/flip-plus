@@ -1,27 +1,27 @@
-module FlipPlus.Projects {
+module FlipPlus.Levels {
 
     // Controls projects and Levels.
     // Model
     export class ProjectManager {
 
         //Entire Projects Data
-        private projects: Project[];
+        private projects: BotLevelsSet[];
 
         //current project/level wich user is playing (this shouldnt be here)
-        private currentProject: Project;
+        private currentProject: BotLevelsSet;
         private currentLevel: Level;
 
         private userData: UserData.ProjectsData;
 
         // ------------------------------- initialization ----------------------------------------//
 
-        constructor(data: Array<Project>, userData: UserData.ProjectsData) {
+        constructor(data: Array<BotLevelsSet>, userData: UserData.ProjectsData) {
             this.userData = userData;
             this.loadProjects(data);
             
         }
 
-        private loadProjects(data: Array<Project>) {
+        private loadProjects(data: Array<BotLevelsSet>) {
         
             for (var p in data) { delete data[p].UserData }
             for (var p in data) { for (var l in data[p].levels) { delete data[p].levels[l].userdata } }
@@ -75,7 +75,7 @@ module FlipPlus.Projects {
                 level.userdata.skip = true;
 
                 //updates next level
-                var nextLevel: Projects.Level = this.getNextLevel();
+                var nextLevel: Levels.Level = this.getNextLevel();
                 if (nextLevel != null)
                     this.unlockLevel(nextLevel);
                     
@@ -97,7 +97,7 @@ module FlipPlus.Projects {
             level.userdata.unlocked = true;
 
             //updates next level
-            var nextLevel: Projects.Level = this.getNextLevel();
+            var nextLevel: Levels.Level = this.getNextLevel();
             if (nextLevel != null)
                 this.unlockLevel(nextLevel);
 
@@ -134,18 +134,18 @@ module FlipPlus.Projects {
         // ------------------------------- manager Projects ----------------------------------------
 
         //get current Project
-        public getCurrentProject(): Project { return this.currentProject; }
+        public getCurrentProject(): BotLevelsSet { return this.currentProject; }
 
         //set current project
-        public setCurrentProject(project: Project) { this.currentProject = project; }
+        public setCurrentProject(project: BotLevelsSet) { this.currentProject = project; }
 
         //Get all Projects
-        public getAllProjects(): Project[] {
+        public getAllProjects(): BotLevelsSet[] {
             return this.projects;
         }
 
         //get a single project by name
-        public getProjectByName(name: string): Project {
+        public getProjectByName(name: string): BotLevelsSet {
             for (var p in this.projects)
                 if (this.projects[p].name == name) return this.projects[p];
 
@@ -153,9 +153,9 @@ module FlipPlus.Projects {
         }
 
         //get all finished Projects
-        public getFinihedProjects(): Project[] {
+        public getFinihedProjects(): BotLevelsSet[] {
             //return array with avaliable projects
-            var finishedProjects: Project[] = [];
+            var finishedProjects: BotLevelsSet[] = [];
 
             //verifies all projects and add the non complete to array, till reach max number
             for (var i: number = 0; i < this.projects.length; i++)
@@ -166,9 +166,9 @@ module FlipPlus.Projects {
         }
 
         //get all unlockedProjects
-        public getUnlockedProjects(): Project[] {
+        public getUnlockedProjects(): BotLevelsSet[] {
             //return array with avaliable projects
-            var unlockedProjects: Project[] = [];
+            var unlockedProjects: BotLevelsSet[] = [];
 
             //verifies all projects and add the non complete to array, till reach max number
             for (var i: number = 0; i < this.projects.length; i++)
@@ -190,7 +190,7 @@ module FlipPlus.Projects {
         }
 
        //unlock a project based on user parts ballance
-        public unlockProject(project: Project) {
+        public unlockProject(project: BotLevelsSet) {
 
            // //verifies if money was propery taken
             if (this.getStarsCount() >= project.cost) {
@@ -216,7 +216,7 @@ module FlipPlus.Projects {
         }
 
         //Finish a project.
-        public completeProject(project: Project): void {
+        public completeProject(project: BotLevelsSet): void {
 
             //TODO colocar isso em outro lugar
             //set played the intro when a project is complete
@@ -236,7 +236,7 @@ module FlipPlus.Projects {
         }
 
         //Updates user data project status
-        private updateProjectUserData(project: Project) {
+        private updateProjectUserData(project: BotLevelsSet) {
 
             var solvedLevels = 0;
 

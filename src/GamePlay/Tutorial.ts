@@ -3,12 +3,12 @@ module FlipPlus.GamePlay {
 
         private currentTutorialStep: number = 0;
 
-        private tutorialSteps: Array<Projects.tutorialStep>;
-        private tutorialStepsEnd: Array<Projects.tutorialStep>;
+        private tutorialSteps: Array<Levels.tutorialStep>;
+        private tutorialStepsEnd: Array<Levels.tutorialStep>;
 
         private endTutorial:() =>any;
 
-        constructor(levelData: Projects.Level) {
+        constructor(levelData: Levels.Level) {
             super(levelData);
 
             this.tutorialSteps = [];
@@ -27,7 +27,7 @@ module FlipPlus.GamePlay {
         }
 
         //create tutorial steps and callbacks
-        private executeTutorialActions(step: Projects.tutorialStep) {
+        private executeTutorialActions(step: Levels.tutorialStep) {
 
             //create for text step
             if (step.text) {

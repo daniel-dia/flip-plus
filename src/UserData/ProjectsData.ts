@@ -13,7 +13,7 @@ module FlipPlus.UserData {
         }
 
         //Adds user data to a project
-        public addUserData(projects: Array<Projects.Project>) {
+        public addUserData(projects: Array<Levels.BotLevelsSet>) {
 
             for (var p = 0; p < projects.length; p++) {
 
@@ -31,13 +31,13 @@ module FlipPlus.UserData {
         }
  
         //gets user data from storage and store it to a level data
-        private getLevelData(LevelId: string): Projects.LevelUserData {
+        private getLevelData(LevelId: string): Levels.LevelUserData {
 
             var key: string = LevelId;
-            var value: Projects.LevelUserData = this.projectsUserData[key];
+            var value: Levels.LevelUserData = this.projectsUserData[key];
 
             if (value == null) {
-                var ud = new Projects.LevelUserData();
+                var ud = new Levels.LevelUserData();
                 ud.solved = false;
                 ud.skip = false;
                 ud.unlocked = false;
@@ -47,13 +47,13 @@ module FlipPlus.UserData {
         }     
 
         //gets user data from storage and store it to a project data
-        private getProjectData(projectId: string): Projects.ProjectUserData {
+        private getProjectData(projectId: string): Levels.ProjectUserData {
 
             var key: string = projectId;
-            var value: Projects.ProjectUserData = this.projectsUserData[key];
+            var value: Levels.ProjectUserData = this.projectsUserData[key];
 
             if (value == null) {
-                var ud = new Projects.ProjectUserData();
+                var ud = new Levels.ProjectUserData();
                 ud.unlocked = false;
                 ud.percent = 0;
                 ud.complete = false;
@@ -64,14 +64,14 @@ module FlipPlus.UserData {
         }
         
         //updates storage with curret level user data 
-        public saveLevelData(level: Projects.Level) {
+        public saveLevelData(level: Levels.Level) {
             var key: string = level.name;
             this.projectsUserData[key] = level.userdata;
             this.saveToStorage();
         }
 
         //updates storage with curret project user data 
-        public saveProjectData(project: Projects.Project): void{
+        public saveProjectData(project: Levels.BotLevelsSet): void{
             var key: string = project.name;
             this.projectsUserData[key] = project.UserData;
             this.saveToStorage();

@@ -779,8 +779,8 @@ var FlipPlus;
             this.analytics = new Analytics();
             this.analytics.logGameStart();
             //managers
-            this.projectManager = new FlipPlus.Projects.ProjectManager(levelsData, this.projectData);
-            this.actionLevelsManager = new FlipPlus.Projects.ActionLevelsManager(levelsData);
+            this.projectManager = new FlipPlus.Levels.ProjectManager(levelsData, this.projectData);
+            this.actionLevelsManager = new FlipPlus.Levels.ActionLevelsManager(levelsData);
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
             this.gameScreen.switchScreen(this.loadingScreen);
@@ -847,7 +847,7 @@ var FlipPlus;
         // ----------------------------- Game Methods ---------------------------------------------//
         FlipPlusGame.toLevelCreator = function (level, callback) {
             if (!level) {
-                level = new FlipPlus.Projects.Level();
+                level = new FlipPlus.Levels.Level();
                 level.width = 0;
                 level.height = 0;
             }
@@ -1211,7 +1211,7 @@ var FlipPlus;
                 var key = LevelId;
                 var value = this.projectsUserData[key];
                 if (value == null) {
-                    var ud = new FlipPlus.Projects.LevelUserData();
+                    var ud = new FlipPlus.Levels.LevelUserData();
                     ud.solved = false;
                     ud.skip = false;
                     ud.unlocked = false;
@@ -1224,7 +1224,7 @@ var FlipPlus;
                 var key = projectId;
                 var value = this.projectsUserData[key];
                 if (value == null) {
-                    var ud = new FlipPlus.Projects.ProjectUserData();
+                    var ud = new FlipPlus.Levels.ProjectUserData();
                     ud.unlocked = false;
                     ud.percent = 0;
                     ud.complete = false;
@@ -1801,7 +1801,7 @@ var FlipPlus;
                     window.onresize = function () { };
                     FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen(420, 600, false);
                     if (levelData == null) {
-                        levelData = new FlipPlus.Projects.Level();
+                        levelData = new FlipPlus.Levels.Level();
                         levelData.width = 5;
                         levelData.height = 5;
                         levelData.blocksData = [];
@@ -1936,7 +1936,7 @@ var FlipPlus;
                 return selected;
             };
             LevelCreator.prototype.getLevelDataFromForm = function () {
-                var levelData = new FlipPlus.Projects.Level();
+                var levelData = new FlipPlus.Levels.Level();
                 //levelData.name= (<HTMLInputElement> this.editWindow.document.getElementById("c_name")).value;
                 levelData.width = parseInt(this.editWindow.document.getElementById("c_width").value);
                 levelData.height = parseInt(this.editWindow.document.getElementById("c_height").value);
@@ -5500,46 +5500,46 @@ var FlipPlus;
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
-    var Projects;
-    (function (Projects) {
+    var Levels;
+    (function (Levels) {
         var Level = (function () {
             function Level() {
             }
             return Level;
         })();
-        Projects.Level = Level;
+        Levels.Level = Level;
         var LevelUserData = (function () {
             function LevelUserData() {
             }
             return LevelUserData;
         })();
-        Projects.LevelUserData = LevelUserData;
-    })(Projects = FlipPlus.Projects || (FlipPlus.Projects = {}));
+        Levels.LevelUserData = LevelUserData;
+    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
-    var Projects;
-    (function (Projects) {
+    var Levels;
+    (function (Levels) {
         // Class
         // Data Object - Model
-        var Project = (function () {
-            function Project() {
+        var BotLevelsSet = (function () {
+            function BotLevelsSet() {
             }
-            return Project;
+            return BotLevelsSet;
         })();
-        Projects.Project = Project;
+        Levels.BotLevelsSet = BotLevelsSet;
         var ProjectUserData = (function () {
             function ProjectUserData() {
             }
             return ProjectUserData;
         })();
-        Projects.ProjectUserData = ProjectUserData;
-    })(Projects = FlipPlus.Projects || (FlipPlus.Projects = {}));
+        Levels.ProjectUserData = ProjectUserData;
+    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
-    var Projects;
-    (function (Projects) {
+    var Levels;
+    (function (Levels) {
         // Controls projects and Levels.
         // Model
         var ProjectManager = (function () {
@@ -5757,8 +5757,8 @@ var FlipPlus;
             };
             return ProjectManager;
         })();
-        Projects.ProjectManager = ProjectManager;
-    })(Projects = FlipPlus.Projects || (FlipPlus.Projects = {}));
+        Levels.ProjectManager = ProjectManager;
+    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
@@ -8020,8 +8020,8 @@ var FlipPlus;
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
-    var Projects;
-    (function (Projects) {
+    var Levels;
+    (function (Levels) {
         // Controls projects and Levels.
         // Model
         var ActionLevelsManager = (function () {
@@ -8053,8 +8053,8 @@ var FlipPlus;
             };
             return ActionLevelsManager;
         })();
-        Projects.ActionLevelsManager = ActionLevelsManager;
-    })(Projects = FlipPlus.Projects || (FlipPlus.Projects = {}));
+        Levels.ActionLevelsManager = ActionLevelsManager;
+    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
 })(FlipPlus || (FlipPlus = {}));
 var StringResources = {
     ld: "Loading",

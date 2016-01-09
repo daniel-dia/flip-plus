@@ -7,7 +7,7 @@
 
         private lastTouchTime;
 
-        constructor(levelData: Projects.Level) {
+        constructor(levelData: Levels.Level) {
             super(levelData);
             
             if (this.levelData.puzzlesToSolve > 1) 

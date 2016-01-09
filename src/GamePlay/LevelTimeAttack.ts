@@ -10,7 +10,7 @@ module FlipPlus.GamePlay {
         private currentTime;
         private timer;
 
-        constructor(levelData: Projects.Level) {
+        constructor(levelData: Levels.Level) {
             super(levelData);
 
             this.gameplayMenu.addItemsButtons([Items.SOLVE, Items.HINT]);

@@ -15,7 +15,7 @@ module FlipPlus.GamePlay {
         private editWindow: Window;
         private static key = "customProjects";
 
-        constructor(levelData: Projects.Level, editorWindow: Window, postback?: boolean) {
+        constructor(levelData: Levels.Level, editorWindow: Window, postback?: boolean) {
 
 
             //backups levels
@@ -28,7 +28,7 @@ module FlipPlus.GamePlay {
                 window.onresize = () => { };
                 FlipPlusGame.gameScreen.resizeGameScreen(420, 600, false);
                 if (levelData == null) {
-                    levelData = new Projects.Level();
+                    levelData = new Levels.Level();
                     levelData.width = 5;
                     levelData.height = 5;
                     levelData.blocksData = [];
@@ -169,7 +169,7 @@ module FlipPlus.GamePlay {
 
             (<HTMLSelectElement>this.editWindow.document.getElementById("c_select_level")).options.length = 0;
 
-            var project: Projects.Project = s[projectIndex];
+            var project: Levels.BotLevelsSet = s[projectIndex];
             for (var l in project.levels) {
                 var option = this.editWindow.document.createElement("option");
                 option.text = "Bot" + (projectIndex + 1) + " Level " + (parseInt(l) + 1) + "  " + project.levels[l].type;
@@ -188,8 +188,8 @@ module FlipPlus.GamePlay {
             return selected;
         }
 
-        private getLevelDataFromForm(): Projects.Level {
-            var levelData = new Projects.Level();
+        private getLevelDataFromForm(): Levels.Level {
+            var levelData = new Levels.Level();
 
             //levelData.name= (<HTMLInputElement> this.editWindow.document.getElementById("c_name")).value;
 
@@ -216,7 +216,7 @@ module FlipPlus.GamePlay {
             return levelData;
         }
 
-        private setFormFromLevelData(levelData: Projects.Level) {
+        private setFormFromLevelData(levelData: Levels.Level) {
 
             //if (levelData.name) (<HTMLInputElement> this.editWindow.document.getElementById("c_name")).value = levelData.name;
             if (levelData.width) (<HTMLInputElement> this.editWindow.document.getElementById("c_width")).value = levelData.width.toString();

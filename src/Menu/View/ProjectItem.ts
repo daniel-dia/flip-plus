@@ -2,9 +2,9 @@ module FlipPlus.Menu.View {
 
     export class ProjectItem extends gameui.Button {
 
-        public project: Projects.Project;
+        public project: Levels.BotLevelsSet;
 
-        constructor(project: Projects.Project, event?: (event?: any) => any) {
+        constructor(project: Levels.BotLevelsSet, event?: (event?: any) => any) {
             super(event);
 
             this.project = project;
@@ -16,7 +16,7 @@ module FlipPlus.Menu.View {
         }
 
         //createObjects
-        private createObjects(project:Projects.Project) {
+        private createObjects(project:Levels.BotLevelsSet) {
 
             var color = "#00427b"
             var font = "50px " + defaultFont;

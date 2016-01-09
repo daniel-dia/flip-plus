@@ -97,12 +97,12 @@ module FlipPlus.Menu {
             }   
         }
 
-        private openLevel(level: Projects.Level, parameters) {
+        private openLevel(level: Levels.Level, parameters) {
 
             //cancel click in case of drag
             if (this.pagesSwipe.cancelClick) return;
 
-            var level: Projects.Level = level;
+            var level: Levels.Level = level;
             var parameters = parameters;
 
             if (level != null)

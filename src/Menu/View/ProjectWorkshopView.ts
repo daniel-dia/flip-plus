@@ -3,7 +3,7 @@ module FlipPlus.Menu.View {
     // Class
     export class ProjectWorkshopView extends Page {
 
-        private project: Projects.Project;
+        private project: Levels.BotLevelsSet;
 
         private levelGrid: View.LevelGrid;
         private statusArea: PIXI.Container;
@@ -16,7 +16,7 @@ module FlipPlus.Menu.View {
 		private footerY: number = 0;
 
         // Constructor
-        constructor(project: Projects.Project) {
+        constructor(project: Levels.BotLevelsSet) {
             super();
             this.project = project;
             this.name = project.name;
@@ -40,7 +40,7 @@ module FlipPlus.Menu.View {
         //--------------------- Initialization ---------------------
  
 
-        private addObjects(project: Projects.Project) {
+        private addObjects(project: Levels.BotLevelsSet) {
           
             //add Project levels
             this.addProjectMachine(project);
@@ -53,7 +53,7 @@ module FlipPlus.Menu.View {
         }
 
         //create projetview control
-        private addRobotPreview(project: Projects.Project) {
+        private addRobotPreview(project: Levels.BotLevelsSet) {
             this.robotPreview = new View.RobotPreview(project);
             this.robotPreview.x = defaultWidth / 2;
             this.robotPreview.y = 1100;
@@ -62,7 +62,7 @@ module FlipPlus.Menu.View {
         }
 
         //Adds RobotName
-        private addStatus(project: Projects.Project) {
+        private addStatus(project: Levels.BotLevelsSet) {
             this.statusArea = new PIXI.Container();
             this.statusArea.pivot.x = this.statusArea.x = defaultWidth / 2;
             var bg = gameui.AssetsManager.getBitmap("partshud");
@@ -82,7 +82,7 @@ module FlipPlus.Menu.View {
         }
 
         //Adds level thumbs to the scene
-        private addProjectMachine(project: Projects.Project) {
+        private addProjectMachine(project: Levels.BotLevelsSet) {
 
             var levelMachine = new PIXI.Container;
             
@@ -143,7 +143,7 @@ module FlipPlus.Menu.View {
         //open a level
         private openLevel(event: PIXI.interaction.InteractionEvent) {
 
-            var level: Projects.Level = <Projects.Level>event.target['level'];
+            var level: Levels.Level = <Levels.Level>event.target['level'];
             var parameters = event.target['parameters']
 
             if (level != null)

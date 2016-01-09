@@ -16,7 +16,7 @@ module FlipPlus.GamePlay {
         private editWindow: Window;
         private static key = "customProjects";
 
-        constructor(levelData: Projects.Level, callback:any) {
+        constructor(levelData: Levels.Level, callback:any) {
 
             FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen(420, 600, false);
             FlipPlus.FlipPlusGame.gameScreen.resizeGameScreen = function () { };

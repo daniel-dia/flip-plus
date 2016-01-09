@@ -6,12 +6,12 @@ module FlipPlus.Robots {
     export class MyBots extends PIXI.Container {
 
         public myBots: PIXI.Container;
-        private projectManager: Projects.ProjectManager;
+        private projectManager: Levels.ProjectManager;
         private popup: Menu.View.PopupBot;
 
         //----------------------initialization ---------------------------
 
-        constructor(projectManager:Projects.ProjectManager) {
+        constructor(projectManager:Levels.ProjectManager) {
 
             super();
             this.projectManager = projectManager;
@@ -62,7 +62,7 @@ module FlipPlus.Robots {
         private userfeedback(event: PIXI.interaction.InteractionEvent) {
 
             var robotMc = <PIXI.extras.MovieClip>event.target;
-            var project: Projects.Project = this.projectManager.getProjectByName(robotMc.name);
+            var project: Levels.BotLevelsSet = this.projectManager.getProjectByName(robotMc.name);
 
             if (createjs.Tween.hasActiveTweens(robotMc))return;
             //verifies if robot is ready or have parts ready

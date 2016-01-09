@@ -1,8 +1,8 @@
-module FlipPlus.Projects {
+module FlipPlus.Levels {
 
     // Class
     // Data Object - Model
-    export class Project{
+    export class BotLevelsSet{
 
         //this will be the id for this chapter. the id must be unique. it will be referenced by the user saved data
         public name: string;
