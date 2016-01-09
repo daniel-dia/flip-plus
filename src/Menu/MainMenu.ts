@@ -98,6 +98,20 @@ module FlipPlus.Menu {
             playBt.y = 1139;
 
             this.playBt = playBt;
+
+
+            var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
+                //FlipPlus.FlipPlusGame.showProjectsMenu(); 
+                FlipPlus.FlipPlusGame.showActionLevelsMenu();
+            })
+            playBt.interactive = true;
+            this.content.addChild(playBt);
+            playBt.x = 800;
+            playBt.y = 1339;
+
+            this.playBt = playBt;
+
+
         }
 
         public back() {

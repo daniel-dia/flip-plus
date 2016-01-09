@@ -31,7 +31,7 @@ module FlipPlus.Menu.View {
 
         //Create a container with a level thumbnail and evel name
         protected createThumbs(level: FlipPlus.Levels.Level) {
-            return; 
+            
             this.removeChildren();
 
             var color1: number = 0xFFFFFF ;

@@ -5,29 +5,29 @@ module FlipPlus.Levels {
     export class ProjectManager {
 
         //Entire Projects Data
-        private projects: BotLevelsSet[];
+        protected levelsData: BotLevelsSet[];
 
         //current project/level wich user is playing (this shouldnt be here)
-        private currentProject: BotLevelsSet;
-        private currentLevel: Level;
+        protected currentProject: BotLevelsSet;
+        protected currentLevel: Level;
 
-        private userData: UserData.LevelsUserDataManager;
+        protected levelsUserDataManager: UserData.LevelsUserDataManager;
 
         // ------------------------------- initialization ----------------------------------------//
 
         constructor(data: Array<BotLevelsSet>, userData: UserData.LevelsUserDataManager) {
-            this.userData = userData;
+            this.levelsUserDataManager = userData;
             this.loadProjects(data);
             
         }
 
-        private loadProjects(data: Array<BotLevelsSet>) {
+        protected loadProjects(data: Array<BotLevelsSet>) {
         
             for (var p in data) { delete data[p].UserData }
             for (var p in data) { for (var l in data[p].levels) { delete data[p].levels[l].userdata } }
             for (var p in data) { for (var l in data[p].levels) { data[p].levels[l].name = p+"/"+l} }
                 
-            this.projects = data;
+            this.levelsData = data;
 
             //append the project name in each level.
             //for (var p in this.projects)
@@ -37,7 +37,7 @@ module FlipPlus.Levels {
             //    }
 
             //create a user data for each level/project
-            this.userData.addUserData(this.projects);
+            this.levelsUserDataManager.addUserData(this.levelsData);
         }
 
         // ------------------------------- manager Levels ----------------------------------------
@@ -50,9 +50,9 @@ module FlipPlus.Levels {
         //set current level
         public setCurrentLevel(level: Level) {
             this.currentLevel = level;
-            for (var p in this.projects) {
-                if (this.projects[p].levels.indexOf(level) >= 0) {
-                    this.setCurrentProject(this.projects[p]);
+            for (var p in this.levelsData) {
+                if (this.levelsData[p].levels.indexOf(level) >= 0) {
+                    this.setCurrentProject(this.levelsData[p]);
                     break;
                 }
             }
@@ -83,8 +83,8 @@ module FlipPlus.Levels {
                 this.updateProjectUserData(this.getCurrentProject());
 
                 //save user data
-                this.userData.saveLevelData(level);
-                this.userData.saveProjectData(this.getCurrentProject());
+                this.levelsUserDataManager.saveLevelData(level);
+                this.levelsUserDataManager.saveProjectData(this.getCurrentProject());
             }
         }
 
@@ -105,8 +105,8 @@ module FlipPlus.Levels {
             this.updateProjectUserData(this.getCurrentProject());
 
             //save user data
-            this.userData.saveLevelData(level);
-            this.userData.saveProjectData(this.getCurrentProject());
+            this.levelsUserDataManager.saveLevelData(level);
+            this.levelsUserDataManager.saveProjectData(this.getCurrentProject());
         }
 
         //get next level inside a project
@@ -141,39 +141,43 @@ module FlipPlus.Levels {
 
         //Get all Projects
         public getAllProjects(): BotLevelsSet[] {
-            return this.projects;
+            return this.levelsData;
         }
 
         //get a single project by name
         public getProjectByName(name: string): BotLevelsSet {
-            for (var p in this.projects)
-                if (this.projects[p].name == name) return this.projects[p];
+            for (var p in this.levelsData)
+                if (this.levelsData[p].name == name) return this.levelsData[p];
 
             return null;
         }
 
         //get all finished Projects
         public getFinihedProjects(): BotLevelsSet[] {
+            this.updateProjectsUserData();
+
             //return array with avaliable projects
             var finishedProjects: BotLevelsSet[] = [];
 
             //verifies all projects and add the non complete to array, till reach max number
-            for (var i: number = 0; i < this.projects.length; i++)
-                if (this.projects[i].UserData.complete)
-                    finishedProjects.push(this.projects[i]);
+            for (var i: number = 0; i < this.levelsData.length; i++)
+                if (this.levelsData[i].UserData.complete)
+                    finishedProjects.push(this.levelsData[i]);
 
             return finishedProjects;
         }
 
         //get all unlockedProjects
         public getUnlockedProjects(): BotLevelsSet[] {
+
+            this.updateProjectsUserData();
             //return array with avaliable projects
             var unlockedProjects: BotLevelsSet[] = [];
 
             //verifies all projects and add the non complete to array, till reach max number
-            for (var i: number = 0; i < this.projects.length; i++)
-                if (this.projects[i].UserData.unlocked)
-                    unlockedProjects.push(this.projects[i]);
+            for (var i: number = 0; i < this.levelsData.length; i++)
+                if (this.levelsData[i].UserData.unlocked)
+                    unlockedProjects.push(this.levelsData[i]);
 
             return unlockedProjects;
         }
@@ -182,9 +186,9 @@ module FlipPlus.Levels {
         public getStarsCount(): number {
             var stars = 0;
 
-            for (var p in this.projects)
-                if(this.projects[p].UserData.stars)
-                    stars += this.projects[p].UserData.stars;
+            for (var p in this.levelsData)
+                if(this.levelsData[p].UserData.stars)
+                    stars += this.levelsData[p].UserData.stars;
 
             return stars;
         }
@@ -201,8 +205,8 @@ module FlipPlus.Levels {
                 project.levels[0].userdata.unlocked = true;
 
                 //save user data
-                this.userData.saveProjectData(project);
-                this.userData.saveLevelData(project.levels[0]);
+                this.levelsUserDataManager.saveProjectData(project);
+                this.levelsUserDataManager.saveLevelData(project.levels[0]);
 
            }
         }
@@ -212,7 +216,7 @@ module FlipPlus.Levels {
 
             //unlock level user data
             level.userdata.unlocked = true;
-            this.userData.saveLevelData(level);
+            this.levelsUserDataManager.saveLevelData(level);
         }
 
         //Finish a project.
@@ -225,18 +229,18 @@ module FlipPlus.Levels {
             if (project.UserData.complete == true) return;
 
             project.UserData.complete = true;
-            this.userData.saveProjectData(project);
+            this.levelsUserDataManager.saveProjectData(project);
 
         }
 
         //Updates user data project status
-        private updateProjectsUserData() {
-            for (var i = 0; i < this.projects.length; i++)
-                this.updateProjectUserData(this.projects[i]);
+        public updateProjectsUserData() {
+            for (var i = 0; i < this.levelsData.length; i++)
+                this.updateProjectUserData(this.levelsData[i]);
         }
 
         //Updates user data project status
-        private updateProjectUserData(project: BotLevelsSet) {
+        protected updateProjectUserData(project: BotLevelsSet) {
 
             var solvedLevels = 0;
 

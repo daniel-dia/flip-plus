@@ -16,10 +16,16 @@ module FlipPlus.Menu {
         //just to know when a user finished a project
         private projectPreviousState: Object = {};
 
+
+        // projects manager
+        private levelsManager: Levels.ProjectManager;
+
         // Constructor
-        constructor() {
+        constructor(levelsManager: Levels.ProjectManager) {
 
             super();
+
+            this.levelsManager = levelsManager;
 
             this.addObjects();
             this.pagesSwipe = new View.PagesSwiper(this.projectsContainer, this.projectViews, defaultWidth, 200, 1500);
@@ -80,13 +86,14 @@ module FlipPlus.Menu {
         protected addProjects(projects) {
 
             //add every project
+          
             for (var p = this.projectViews.length; p < projects.length;p++) {
                 var projectView = new View.ProjectWorkshopView(projects[p]);
                 this.projectViews.push(projectView);
                 projectView.activate();
                 projectView.x = defaultWidth * p; 
-                projectView.addEventListener("levelClick", (e:any) => { this.openLevel(e.level,e.parameters) });
-
+                projectView.addEventListener("levelClick", (e: any) => { this.openLevel(e.level, e.parameters) });
+               
                 this.projectsContainer.addChild(projectView);
             }   
         }
@@ -142,6 +149,7 @@ module FlipPlus.Menu {
         public desactivate(parameters?: any) {
             super.desactivate(parameters);
             this.factorySound.stop();
+            
             delete this.factorySound;
         }
 
@@ -149,19 +157,18 @@ module FlipPlus.Menu {
 
             super.activate();
 
-       
             // play music
             //gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
             this.factorySound = gameui.AudiosManager.playSound("Factory Ambience",true,0,0,0,0.4);
             
             //update enabled Projects
-            this.addProjects(FlipPlusGame.projectManager.getUnlockedProjects());
+            this.addProjects(this.levelsManager.getUnlockedProjects());
 
             //update all projects views
             for (var pv in this.projectViews) {
-                var project = FlipPlusGame.projectManager.getProjectByName(this.projectViews[pv].name);
+                var project = this.levelsManager.getProjectByName(this.projectViews[pv].name);
 
-                if (project == FlipPlusGame.projectManager.getCurrentProject()) {
+                if (project == this.levelsManager.getCurrentProject()) {
                     
                     //activate current project
                     this.projectViews[pv].activate(parameters);

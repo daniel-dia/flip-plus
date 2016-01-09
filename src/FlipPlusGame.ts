@@ -69,7 +69,7 @@ module FlipPlus {
             this.analytics.logGameStart();
            
             //managers
-            this.projectManager = new Levels.ProjectManager(levelsData, this.levelsUserDataManager);
+            this.projectManager      = new Levels.ProjectManager(levelsData, this.levelsUserDataManager);
             this.actionLevelsManager = new Levels.ActionLevelsManager(ActionLevelsData, this.levelsUserDataManager);
 
             //go to First Screen
@@ -179,7 +179,7 @@ module FlipPlus {
 
             //create a new levels menu, if needed
             if (this.levelsMenu == undefined)
-                this.levelsMenu = new Menu.WorkshopMenu();
+                this.levelsMenu = new Menu.WorkshopMenu(this.projectManager);
 
             //switch screens
             this.gameScreen.switchScreen(this.levelsMenu, parameters);
@@ -188,7 +188,7 @@ module FlipPlus {
         public static showActionLevelsMenu() {
             //create a new levels menu, if needed
             if (this.actionlevelsMenu == undefined)
-                this.actionlevelsMenu = new Menu.ActionlevelsMenu();
+                this.actionlevelsMenu = new Menu.ActionlevelsMenu(this.actionLevelsManager);
 
             //switch screens
             this.gameScreen.switchScreen(this.actionlevelsMenu);

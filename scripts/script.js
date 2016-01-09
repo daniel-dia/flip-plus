@@ -869,14 +869,14 @@ var FlipPlus;
             var projects = this.projectManager.getAllProjects();
             //create a new levels menu, if needed
             if (this.levelsMenu == undefined)
-                this.levelsMenu = new FlipPlus.Menu.WorkshopMenu();
+                this.levelsMenu = new FlipPlus.Menu.WorkshopMenu(this.projectManager);
             //switch screens
             this.gameScreen.switchScreen(this.levelsMenu, parameters);
         };
         FlipPlusGame.showActionLevelsMenu = function () {
             //create a new levels menu, if needed
             if (this.actionlevelsMenu == undefined)
-                this.actionlevelsMenu = new FlipPlus.Menu.ActionlevelsMenu();
+                this.actionlevelsMenu = new FlipPlus.Menu.ActionlevelsMenu(this.actionLevelsManager);
             //switch screens
             this.gameScreen.switchScreen(this.actionlevelsMenu);
         };
@@ -4285,7 +4285,7 @@ var FlipPlus;
         var WorkshopMenu = (function (_super) {
             __extends(WorkshopMenu, _super);
             // Constructor
-            function WorkshopMenu() {
+            function WorkshopMenu(levelsManager) {
                 var _this = this;
                 _super.call(this);
                 //just to know when a user finished a project
@@ -4293,6 +4293,7 @@ var FlipPlus;
                 //inertia fx
                 this.offset = 0;
                 this.lastx = 0;
+                this.levelsManager = levelsManager;
                 this.addObjects();
                 this.pagesSwipe = new Menu.View.PagesSwiper(this.projectsContainer, this.projectViews, defaultWidth, 200, 1500);
                 this.createPaginationButtons(this.projectsContainer);
@@ -4331,8 +4332,8 @@ var FlipPlus;
             };
             //adds all projects in swipe view
             WorkshopMenu.prototype.addProjects = function (projects) {
-                var _this = this;
                 //add every project
+                var _this = this;
                 for (var p = this.projectViews.length; p < projects.length; p++) {
                     var projectView = new Menu.View.ProjectWorkshopView(projects[p]);
                     this.projectViews.push(projectView);
@@ -4391,11 +4392,11 @@ var FlipPlus;
                 //gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
                 this.factorySound = gameui.AudiosManager.playSound("Factory Ambience", true, 0, 0, 0, 0.4);
                 //update enabled Projects
-                this.addProjects(FlipPlus.FlipPlusGame.projectManager.getUnlockedProjects());
+                this.addProjects(this.levelsManager.getUnlockedProjects());
                 //update all projects views
                 for (var pv in this.projectViews) {
-                    var project = FlipPlus.FlipPlusGame.projectManager.getProjectByName(this.projectViews[pv].name);
-                    if (project == FlipPlus.FlipPlusGame.projectManager.getCurrentProject()) {
+                    var project = this.levelsManager.getProjectByName(this.projectViews[pv].name);
+                    if (project == this.levelsManager.getCurrentProject()) {
                         //activate current project
                         this.projectViews[pv].activate(parameters);
                         //goto current project
@@ -4577,6 +4578,15 @@ var FlipPlus;
                 this.content.addChild(playBt);
                 playBt.x = 800;
                 playBt.y = 1139;
+                this.playBt = playBt;
+                var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", function () {
+                    //FlipPlus.FlipPlusGame.showProjectsMenu(); 
+                    FlipPlus.FlipPlusGame.showActionLevelsMenu();
+                });
+                playBt.interactive = true;
+                this.content.addChild(playBt);
+                playBt.x = 800;
+                playBt.y = 1339;
                 this.playBt = playBt;
             };
             MainMenu.prototype.back = function () {
@@ -5021,7 +5031,6 @@ var FlipPlus;
                 };
                 //Create a container with a level thumbnail and evel name
                 LevelThumb.prototype.createThumbs = function (level) {
-                    return;
                     this.removeChildren();
                     var color1 = 0xFFFFFF;
                     var color2 = 0;
@@ -5541,7 +5550,7 @@ var FlipPlus;
         var ProjectManager = (function () {
             // ------------------------------- initialization ----------------------------------------//
             function ProjectManager(data, userData) {
-                this.userData = userData;
+                this.levelsUserDataManager = userData;
                 this.loadProjects(data);
             }
             ProjectManager.prototype.loadProjects = function (data) {
@@ -5558,7 +5567,7 @@ var FlipPlus;
                         data[p].levels[l].name = p + "/" + l;
                     }
                 }
-                this.projects = data;
+                this.levelsData = data;
                 //append the project name in each level.
                 //for (var p in this.projects)
                 //    for (var l in this.projects[p].levels) {
@@ -5566,7 +5575,7 @@ var FlipPlus;
                 //        ///this.projects[p].levels[l].project = this.projects[p];
                 //    }
                 //create a user data for each level/project
-                this.userData.addUserData(this.projects);
+                this.levelsUserDataManager.addUserData(this.levelsData);
             };
             // ------------------------------- manager Levels ----------------------------------------
             //get current Level 
@@ -5576,9 +5585,9 @@ var FlipPlus;
             //set current level
             ProjectManager.prototype.setCurrentLevel = function (level) {
                 this.currentLevel = level;
-                for (var p in this.projects) {
-                    if (this.projects[p].levels.indexOf(level) >= 0) {
-                        this.setCurrentProject(this.projects[p]);
+                for (var p in this.levelsData) {
+                    if (this.levelsData[p].levels.indexOf(level) >= 0) {
+                        this.setCurrentProject(this.levelsData[p]);
                         break;
                     }
                 }
@@ -5602,8 +5611,8 @@ var FlipPlus;
                     //updates project info
                     this.updateProjectUserData(this.getCurrentProject());
                     //save user data
-                    this.userData.saveLevelData(level);
-                    this.userData.saveProjectData(this.getCurrentProject());
+                    this.levelsUserDataManager.saveLevelData(level);
+                    this.levelsUserDataManager.saveProjectData(this.getCurrentProject());
                 }
             };
             //Finish a project.
@@ -5619,8 +5628,8 @@ var FlipPlus;
                 //updates project info
                 this.updateProjectUserData(this.getCurrentProject());
                 //save user data
-                this.userData.saveLevelData(level);
-                this.userData.saveProjectData(this.getCurrentProject());
+                this.levelsUserDataManager.saveLevelData(level);
+                this.levelsUserDataManager.saveProjectData(this.getCurrentProject());
             };
             //get next level inside a project
             ProjectManager.prototype.getNextLevel = function () {
@@ -5647,41 +5656,43 @@ var FlipPlus;
             ProjectManager.prototype.setCurrentProject = function (project) { this.currentProject = project; };
             //Get all Projects
             ProjectManager.prototype.getAllProjects = function () {
-                return this.projects;
+                return this.levelsData;
             };
             //get a single project by name
             ProjectManager.prototype.getProjectByName = function (name) {
-                for (var p in this.projects)
-                    if (this.projects[p].name == name)
-                        return this.projects[p];
+                for (var p in this.levelsData)
+                    if (this.levelsData[p].name == name)
+                        return this.levelsData[p];
                 return null;
             };
             //get all finished Projects
             ProjectManager.prototype.getFinihedProjects = function () {
+                this.updateProjectsUserData();
                 //return array with avaliable projects
                 var finishedProjects = [];
                 //verifies all projects and add the non complete to array, till reach max number
-                for (var i = 0; i < this.projects.length; i++)
-                    if (this.projects[i].UserData.complete)
-                        finishedProjects.push(this.projects[i]);
+                for (var i = 0; i < this.levelsData.length; i++)
+                    if (this.levelsData[i].UserData.complete)
+                        finishedProjects.push(this.levelsData[i]);
                 return finishedProjects;
             };
             //get all unlockedProjects
             ProjectManager.prototype.getUnlockedProjects = function () {
+                this.updateProjectsUserData();
                 //return array with avaliable projects
                 var unlockedProjects = [];
                 //verifies all projects and add the non complete to array, till reach max number
-                for (var i = 0; i < this.projects.length; i++)
-                    if (this.projects[i].UserData.unlocked)
-                        unlockedProjects.push(this.projects[i]);
+                for (var i = 0; i < this.levelsData.length; i++)
+                    if (this.levelsData[i].UserData.unlocked)
+                        unlockedProjects.push(this.levelsData[i]);
                 return unlockedProjects;
             };
             //getProjectStars
             ProjectManager.prototype.getStarsCount = function () {
                 var stars = 0;
-                for (var p in this.projects)
-                    if (this.projects[p].UserData.stars)
-                        stars += this.projects[p].UserData.stars;
+                for (var p in this.levelsData)
+                    if (this.levelsData[p].UserData.stars)
+                        stars += this.levelsData[p].UserData.stars;
                 return stars;
             };
             //unlock a project based on user parts ballance
@@ -5693,15 +5704,15 @@ var FlipPlus;
                     //unlocks first level of project
                     project.levels[0].userdata.unlocked = true;
                     //save user data
-                    this.userData.saveProjectData(project);
-                    this.userData.saveLevelData(project.levels[0]);
+                    this.levelsUserDataManager.saveProjectData(project);
+                    this.levelsUserDataManager.saveLevelData(project.levels[0]);
                 }
             };
             //unlock a level inside a project
             ProjectManager.prototype.unlockLevel = function (level) {
                 //unlock level user data
                 level.userdata.unlocked = true;
-                this.userData.saveLevelData(level);
+                this.levelsUserDataManager.saveLevelData(level);
             };
             //Finish a project.
             ProjectManager.prototype.completeProject = function (project) {
@@ -5711,12 +5722,12 @@ var FlipPlus;
                 if (project.UserData.complete == true)
                     return;
                 project.UserData.complete = true;
-                this.userData.saveProjectData(project);
+                this.levelsUserDataManager.saveProjectData(project);
             };
             //Updates user data project status
             ProjectManager.prototype.updateProjectsUserData = function () {
-                for (var i = 0; i < this.projects.length; i++)
-                    this.updateProjectUserData(this.projects[i]);
+                for (var i = 0; i < this.levelsData.length; i++)
+                    this.updateProjectUserData(this.levelsData[i]);
             };
             //Updates user data project status
             ProjectManager.prototype.updateProjectUserData = function (project) {
@@ -6246,61 +6257,6 @@ var gameui;
     })();
     gameui.AudiosManager = AudiosManager;
 })(gameui || (gameui = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var ActionlevelsMenu = (function (_super) {
-            __extends(ActionlevelsMenu, _super);
-            function ActionlevelsMenu() {
-                _super.apply(this, arguments);
-            }
-            ActionlevelsMenu.prototype.back = function () {
-                FlipPlus.FlipPlusGame.showMainScreen();
-            };
-            return ActionlevelsMenu;
-        })(Menu.WorkshopMenu);
-        Menu.ActionlevelsMenu = ActionlevelsMenu;
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Levels;
-    (function (Levels) {
-        // Controls projects and Levels.
-        // Model
-        var ActionLevelsManager = (function () {
-            // #region initialization ----------------------------------------//
-            function ActionLevelsManager(levelsData, levelsUserDataManager) {
-                this.levelsUserDataManager = this.levelsUserDataManager = levelsUserDataManager;
-                this.loadProjects(levelsData);
-            }
-            ActionLevelsManager.prototype.loadProjects = function (data) {
-                this.actionLevelsData = data;
-                // get a user data for each level/project
-                this.levelsUserDataManager.addUserData(this.actionLevelsData);
-            };
-            // #endregion
-            // #region manager Levels 
-            ActionLevelsManager.prototype.getAllActionLevels = function () {
-                return this.actionLevelsData;
-            };
-            ActionLevelsManager.prototype.getActionLevel = function (index) {
-                return this.actionLevelsData[index];
-            };
-            ActionLevelsManager.prototype.getCurrentActionLevel = function () {
-                return this.currentLevel;
-            };
-            ActionLevelsManager.prototype.unlockActionLevel = function (index) {
-            };
-            ActionLevelsManager.prototype.getActionLevelStars = function (index) {
-                return 0;
-            };
-            return ActionLevelsManager;
-        })();
-        Levels.ActionLevelsManager = ActionLevelsManager;
-    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
-})(FlipPlus || (FlipPlus = {}));
 var Analytics = (function () {
     function Analytics() {
     }
@@ -6615,6 +6571,23 @@ var FlipPlus;
         return GameServices;
     })();
     FlipPlus.GameServices = GameServices;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var ActionlevelsMenu = (function (_super) {
+            __extends(ActionlevelsMenu, _super);
+            function ActionlevelsMenu() {
+                _super.apply(this, arguments);
+            }
+            ActionlevelsMenu.prototype.back = function () {
+                FlipPlus.FlipPlusGame.showMainScreen();
+            };
+            return ActionlevelsMenu;
+        })(Menu.WorkshopMenu);
+        Menu.ActionlevelsMenu = ActionlevelsMenu;
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
@@ -7941,6 +7914,70 @@ var FlipPlus;
             View.TextEffect = TextEffect;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Levels;
+    (function (Levels) {
+        // Controls projects and Levels.
+        // Model
+        var ActionLevelsManager = (function (_super) {
+            __extends(ActionLevelsManager, _super);
+            function ActionLevelsManager() {
+                _super.apply(this, arguments);
+            }
+            // #region initialization ----------------------------------------//
+            ActionLevelsManager.prototype.loadProjects = function (data) {
+                for (var p in data) {
+                    delete data[p].UserData;
+                }
+                for (var p in data) {
+                    for (var l in data[p].levels) {
+                        delete data[p].levels[l].userdata;
+                    }
+                }
+                this.levelsData = data;
+                // get a user data for each level/project
+                this.levelsUserDataManager.addUserData(this.levelsData);
+            };
+            // #endregion
+            //Updates user data project status
+            ActionLevelsManager.prototype.updateProjectUserData = function (project) {
+                var solvedLevels = 0;
+                //count solved levels
+                for (var l = 0; l < project.levels.length; l++)
+                    if (project.levels[l].userdata.solved ||
+                        project.levels[l].userdata.skip ||
+                        project.levels[l].userdata.item)
+                        solvedLevels++;
+                //calculate percentage
+                project.UserData.percent = solvedLevels / project.levels.length;
+                //calculate Stars
+                var stars = 0;
+                var temp = new Object;
+                for (var l = 0; l < project.levels.length; l++) {
+                    var level = project.levels[l];
+                    if (temp[level.theme] == null)
+                        temp[level.theme] = true;
+                    if (!level.userdata.solved || level.userdata.item)
+                        temp[level.theme] = false;
+                }
+                for (var i in temp) {
+                    if (temp[i])
+                        stars++;
+                }
+                //updates project stars count
+                project.UserData.stars = stars;
+                //verifies if level can be ulocked
+                this.unlockProject(project);
+                //complete Project
+                if (solvedLevels == project.levels.length)
+                    this.completeProject(project);
+            };
+            return ActionLevelsManager;
+        })(Levels.ProjectManager);
+        Levels.ActionLevelsManager = ActionLevelsManager;
+    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
 })(FlipPlus || (FlipPlus = {}));
 var StringResources = {
     ld: "Loading",
