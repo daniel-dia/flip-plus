@@ -25,7 +25,7 @@ module FlipPlus.Menu.View {
             this.createThumbs(this.level);
             this.cacheAsBitmap = true;
             var size = 200;
-            this.hitArea = new PIXI.Rectangle(-size / 2, size / 2, size, size);
+            this.createHitArea();
 
         } 
 

@@ -446,14 +446,14 @@ var gameui;
         };
         //calcula
         UIItem.prototype.createHitArea = function () {
-            var b = this.getBounds();
+            var b = this.getLocalBounds();
             //if (b)
             //    if (this.hitPadding)
             //        hit.beginFill("#000").drawRect(b.x - this.hitPadding, b.y - this.hitPadding, b.width + this.hitPadding, b.height + this.hitPadding);
             //    else
             //         hit.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
             //TODO. se for texto colocar uma sobra. !
-            this.hitArea = new PIXI.Rectangle(-b.width / 2, -b.height / 2, b.width, b.height);
+            this.hitArea = new PIXI.Rectangle(b.x, b.y, b.width, b.height);
         };
         return UIItem;
     })(PIXI.Container);
@@ -5027,7 +5027,7 @@ var FlipPlus;
                     this.createThumbs(this.level);
                     this.cacheAsBitmap = true;
                     var size = 200;
-                    this.hitArea = new PIXI.Rectangle(-size / 2, size / 2, size, size);
+                    this.createHitArea();
                 };
                 //Create a container with a level thumbnail and evel name
                 LevelThumb.prototype.createThumbs = function (level) {
