@@ -13,7 +13,7 @@ module FlipPlus.UserData {
         }
 
         //Adds user data to a project
-        public addUserData(projects: Projects.Project[]) {
+        public addUserData(projects: Array<Projects.Project>) {
 
             for (var p = 0; p < projects.length; p++) {
 
@@ -29,7 +29,7 @@ module FlipPlus.UserData {
                 }
             }
         }
-
+ 
         //gets user data from storage and store it to a level data
         private getLevelData(LevelId: string): Projects.LevelUserData {
 
