@@ -1502,8 +1502,8 @@
     <TypeScriptCompile Include="src\StringResources.ts" />
     <TypeScriptCompile Include="src\UserData\Coins.ts" />
     <TypeScriptCompile Include="src\UserData\Items.ts" />
-    <TypeScriptCompile Include="src\UserData\ProjectsData.ts" />
-    <TypeScriptCompile Include="src\UserData\Settings.ts" />
+    <TypeScriptCompile Include="src\UserData\LevelsUserDataManager.ts" />
+    <TypeScriptCompile Include="src\UserData\SettingsUserDataManager.ts" />
     <TypeScriptCompile Include="src\UserData\Story.ts" />
     <TypeScriptCompile Include="src\UserData\Timers.ts" />
     <TypeScriptCompile Include="src\Utils\Effects.ts" />

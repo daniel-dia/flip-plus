@@ -11,11 +11,11 @@ module FlipPlus.Levels {
         private currentProject: BotLevelsSet;
         private currentLevel: Level;
 
-        private userData: UserData.Levels;
+        private userData: UserData.LevelsUserDataManager;
 
         // ------------------------------- initialization ----------------------------------------//
 
-        constructor(data: Array<BotLevelsSet>, userData: UserData.Levels) {
+        constructor(data: Array<BotLevelsSet>, userData: UserData.LevelsUserDataManager) {
             this.userData = userData;
             this.loadProjects(data);
             

@@ -1,7 +1,7 @@
 // Module
 module FlipPlus.UserData {
 
-    export class Levels {
+    export class LevelsUserDataManager {
 
         private projectKey = "Flipp_userData"
         private levelsSavedData: Object;
@@ -37,7 +37,7 @@ module FlipPlus.UserData {
             var value: Levels.LevelUserData = this.levelsSavedData[key];
 
             if (value == null) {
-                var ud = new Levels.LevelUserData();
+                var ud = new FlipPlus.Levels.LevelUserData();
                 ud.solved = false;
                 ud.skip = false;
                 ud.unlocked = false;
@@ -53,7 +53,7 @@ module FlipPlus.UserData {
             var value: Levels.ProjectUserData = this.levelsSavedData[key];
 
             if (value == null) {
-                var ud = new Levels.ProjectUserData();
+                var ud = new FlipPlus.Levels.ProjectUserData();
                 ud.unlocked = false;
                 ud.percent = 0;
                 ud.complete = false;

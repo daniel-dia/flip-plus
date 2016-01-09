@@ -1,6 +1,4 @@
-﻿declare var ActionLevelsData: Array<FlipPlus.Levels.Level>
-
-module FlipPlus.Levels {
+﻿module FlipPlus.Levels {
 
     // Controls projects and Levels.
     // Model
@@ -13,12 +11,12 @@ module FlipPlus.Levels {
         private currentLevel: FlipPlus.Levels.Level;
         
         // user data    
-        private userData: UserData.Levels;
+        private levelsUserDataManager: UserData.LevelsUserDataManager;
         
         // #region initialization ----------------------------------------//
         
-        constructor(levelsData: Array<BotLevelsSet>, userData: UserData.Levels) {
-            this.userData = this.userData = userData;
+        constructor(levelsData: Array<BotLevelsSet>, levelsUserDataManager: UserData.LevelsUserDataManager) {
+            this.levelsUserDataManager = this.levelsUserDataManager = levelsUserDataManager;
             this.loadProjects(levelsData);
         }
         
@@ -26,7 +24,7 @@ module FlipPlus.Levels {
              this.actionLevelsData = data;
  
             // get a user data for each level/project
-            this.userData.addUserData(this.actionLevelsData);
+            this.levelsUserDataManager.addUserData(this.actionLevelsData);
         }
         
         // #endregion

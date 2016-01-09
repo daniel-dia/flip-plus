@@ -455,7 +455,7 @@ module FlipPlus.GamePlay {
                 this.levelData.userdata.hints.push(blockId);
                 
                 // saves 
-                FlipPlusGame.levelsUserData.saveLevelData(this.levelData);
+                FlipPlusGame.levelsUserDataManager.saveLevelData(this.levelData);
             }
 
             // enablehint for the selected block;

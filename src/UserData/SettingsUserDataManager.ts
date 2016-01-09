@@ -1,7 +1,7 @@
 module FlipPlus.UserData {
 
     // Class
-    export class Settings {
+    export class SettingsUserDataManager {
 
         private soundFX: number = 1;
         private music: number = 1;

@@ -14,8 +14,8 @@ module FlipPlus {
         public static gameScreen: gameui.GameScreen;
 
         // userData
-        public static levelsUserData: UserData.Levels;
-        public static settingsUserData: UserData.Settings;
+        public static levelsUserDataManager: UserData.LevelsUserDataManager;
+        public static settingsUserData: UserData.SettingsUserDataManager;
         public static timersData: UserData.Timers;
         public static coinsData: UserData.Coins;
         public static storyData: UserData.Story;
@@ -51,8 +51,8 @@ module FlipPlus {
             this.gameScreen = new gameui.GameScreen("gameDiv", defaultWidth, defaultHeight,60);
 
             // userData
-            this.levelsUserData = new UserData.Levels();
-            this.settingsUserData = new UserData.Settings();
+            this.levelsUserDataManager = new UserData.LevelsUserDataManager();
+            this.settingsUserData = new UserData.SettingsUserDataManager();
             this.coinsData = new UserData.Coins();
             this.storyData = new UserData.Story();
             this.timersData = new UserData.Timers();
@@ -69,8 +69,8 @@ module FlipPlus {
             this.analytics.logGameStart();
            
             //managers
-            this.projectManager = new Levels.ProjectManager(levelsData, this.levelsUserData);
-            this.actionLevelsManager = new Levels.ActionLevelsManager(ActionLevelsData, this.levelsUserData);
+            this.projectManager = new Levels.ProjectManager(levelsData, this.levelsUserDataManager);
+            this.actionLevelsManager = new Levels.ActionLevelsManager(ActionLevelsData, this.levelsUserDataManager);
 
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
