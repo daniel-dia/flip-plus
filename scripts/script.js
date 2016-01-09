@@ -1046,37 +1046,6 @@ var FlipPlus;
 (function (FlipPlus) {
     var UserData;
     (function (UserData) {
-        // Class
-        var SettingsUserDataManager = (function () {
-            function SettingsUserDataManager() {
-                this.soundFX = 1;
-                this.music = 1;
-                this.soundFX = parseInt(localStorage.getItem("sfx"));
-                this.music = parseInt(localStorage.getItem("mus"));
-                if (isNaN(this.soundFX))
-                    this.soundFX = 1;
-                if (isNaN(this.music))
-                    this.music = 1;
-            }
-            SettingsUserDataManager.prototype.getMusic = function () { return this.music; };
-            SettingsUserDataManager.prototype.getSoundfx = function () { return this.soundFX; };
-            SettingsUserDataManager.prototype.setSoundfX = function (value) {
-                localStorage.setItem("sfx", value.toString());
-                this.soundFX = value;
-            };
-            SettingsUserDataManager.prototype.setMusic = function (value) {
-                localStorage.setItem("mus", value.toString());
-                this.music = value;
-            };
-            return SettingsUserDataManager;
-        })();
-        UserData.SettingsUserDataManager = SettingsUserDataManager;
-    })(UserData = FlipPlus.UserData || (FlipPlus.UserData = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var UserData;
-    (function (UserData) {
         var Story = (function () {
             function Story() {
                 this.storyPrefix = "history_";
@@ -1180,6 +1149,123 @@ var FlipPlus;
             return Timers;
         })();
         UserData.Timers = Timers;
+    })(UserData = FlipPlus.UserData || (FlipPlus.UserData = {}));
+})(FlipPlus || (FlipPlus = {}));
+// Module
+var FlipPlus;
+(function (FlipPlus) {
+    var UserData;
+    (function (UserData) {
+        var LevelsUserDataManager = (function () {
+            // ----------------------- Game Data ----------------------------------------------------------
+            function LevelsUserDataManager() {
+                this.projectKey = "Flipp_userData";
+                this.loadFromStorage();
+            }
+            //Adds user data to a project
+            LevelsUserDataManager.prototype.addUserData = function (botLevelSet) {
+                for (var p = 0; p < botLevelSet.length; p++) {
+                    var project = botLevelSet[p];
+                    var pd = this.getProjectData(project.name);
+                    project.UserData = pd;
+                    for (var l = 0; l < botLevelSet[p].levels.length; l++) {
+                        var level = botLevelSet[p].levels[l];
+                        var ld = this.getLevelData(level.name);
+                        level.userdata = ld;
+                    }
+                }
+            };
+            //gets user data from storage and store it to a level data
+            LevelsUserDataManager.prototype.getLevelData = function (LevelId) {
+                var key = LevelId;
+                var value = this.levelsSavedData[key];
+                if (value == null) {
+                    var ud = new FlipPlus.Levels.LevelUserData();
+                    ud.solved = false;
+                    ud.skip = false;
+                    ud.unlocked = false;
+                    return ud;
+                }
+                return value;
+            };
+            //gets user data from storage and store it to a project data
+            LevelsUserDataManager.prototype.getProjectData = function (botId) {
+                var key = botId;
+                var value = this.levelsSavedData[key];
+                if (value == null) {
+                    var ud = new FlipPlus.Levels.ProjectUserData();
+                    ud.unlocked = false;
+                    ud.percent = 0;
+                    ud.complete = false;
+                    return ud;
+                }
+                else
+                    return value;
+            };
+            //updates storage with curret level user data 
+            LevelsUserDataManager.prototype.saveLevelData = function (level) {
+                var key = level.name;
+                this.levelsSavedData[key] = level.userdata;
+                this.saveToStorage();
+            };
+            //updates storage with curret project user data 
+            LevelsUserDataManager.prototype.saveProjectData = function (botLevelSet) {
+                var key = botLevelSet.name;
+                this.levelsSavedData[key] = botLevelSet.UserData;
+                this.saveToStorage();
+            };
+            LevelsUserDataManager.prototype.saveToStorage = function () {
+                if (this.levelsSavedData) {
+                    var str = JSON.stringify(this.levelsSavedData);
+                    localStorage.setItem(this.projectKey, str);
+                }
+            };
+            LevelsUserDataManager.prototype.loadFromStorage = function () {
+                var data = localStorage.getItem(this.projectKey);
+                if (data)
+                    this.levelsSavedData = JSON.parse(data);
+                else
+                    this.levelsSavedData = {};
+            };
+            //-------------------------------------------------------------------------------------------
+            //clear all storage data
+            LevelsUserDataManager.prototype.clearAllData = function () {
+                localStorage.clear();
+            };
+            return LevelsUserDataManager;
+        })();
+        UserData.LevelsUserDataManager = LevelsUserDataManager;
+    })(UserData = FlipPlus.UserData || (FlipPlus.UserData = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var UserData;
+    (function (UserData) {
+        // Class
+        var SettingsUserDataManager = (function () {
+            function SettingsUserDataManager() {
+                this.soundFX = 1;
+                this.music = 1;
+                this.soundFX = parseInt(localStorage.getItem("sfx"));
+                this.music = parseInt(localStorage.getItem("mus"));
+                if (isNaN(this.soundFX))
+                    this.soundFX = 1;
+                if (isNaN(this.music))
+                    this.music = 1;
+            }
+            SettingsUserDataManager.prototype.getMusic = function () { return this.music; };
+            SettingsUserDataManager.prototype.getSoundfx = function () { return this.soundFX; };
+            SettingsUserDataManager.prototype.setSoundfX = function (value) {
+                localStorage.setItem("sfx", value.toString());
+                this.soundFX = value;
+            };
+            SettingsUserDataManager.prototype.setMusic = function (value) {
+                localStorage.setItem("mus", value.toString());
+                this.music = value;
+            };
+            return SettingsUserDataManager;
+        })();
+        UserData.SettingsUserDataManager = SettingsUserDataManager;
     })(UserData = FlipPlus.UserData || (FlipPlus.UserData = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
@@ -4225,8 +4311,6 @@ var FlipPlus;
                 this.projectViews = new Array();
                 //add to view
                 this.content.addChild(this.projectsContainer);
-                //adds Projects
-                this.addProjects();
                 //add menu
                 this.addMenu();
                 //adds popup and messages
@@ -4246,10 +4330,8 @@ var FlipPlus;
                 this.header.addChild(this.menu);
             };
             //adds all projects in swipe view
-            WorkshopMenu.prototype.addProjects = function () {
+            WorkshopMenu.prototype.addProjects = function (projects) {
                 var _this = this;
-                //pega projetos
-                var projects = FlipPlus.FlipPlusGame.projectManager.getUnlockedProjects();
                 //add every project
                 for (var p = this.projectViews.length; p < projects.length; p++) {
                     var projectView = new Menu.View.ProjectWorkshopView(projects[p]);
@@ -4309,7 +4391,7 @@ var FlipPlus;
                 //gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
                 this.factorySound = gameui.AudiosManager.playSound("Factory Ambience", true, 0, 0, 0, 0.4);
                 //update enabled Projects
-                this.addProjects();
+                this.addProjects(FlipPlus.FlipPlusGame.projectManager.getUnlockedProjects());
                 //update all projects views
                 for (var pv in this.projectViews) {
                     var project = FlipPlus.FlipPlusGame.projectManager.getProjectByName(this.projectViews[pv].name);
@@ -4488,8 +4570,8 @@ var FlipPlus;
             };
             MainMenu.prototype.addPlayButton = function () {
                 var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", function () {
-                    //FlipPlus.FlipPlusGame.showProjectLevelsMenu();
-                    FlipPlus.FlipPlusGame.showActionLevelsMenu();
+                    FlipPlus.FlipPlusGame.showProjectsMenu();
+                    //FlipPlus.FlipPlusGame.showActionLevelsMenu();
                 });
                 playBt.interactive = true;
                 this.content.addChild(playBt);
@@ -6074,11 +6156,11 @@ var FlipPlus;
 /// <reference path="gameui/Button.ts" />
 /*scripts*/
 /// <reference path="src/FlipPlusGame.ts" />
-/// <reference path="src/UserData/Items.ts" />
-/// <reference path="src/UserData/Settings.ts" />
+/// <reference path="src/UserData/Items.ts" /> 
 /// <reference path="src/UserData/Story.ts" />
-/// <reference path="src/UserData/Timers.ts" />
-/// <reference path="src/UserData/ProjectsData.ts" />
+/// <reference path="src/UserData/Timers.ts" /> 
+/// <reference path="src/userdata/levelsuserdatamanager.ts" />
+/// <reference path="src/userdata/settingsuserdatamanager.ts" />
 /// <reference path="src/GamePlay/LevelScreen.ts" /> 
 /// <reference path="src/GamePlay/levelpuzzle.ts" />
 /// <reference path="src/GamePlay/levelcreator.ts" />
@@ -6164,6 +6246,61 @@ var gameui;
     })();
     gameui.AudiosManager = AudiosManager;
 })(gameui || (gameui = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var ActionlevelsMenu = (function (_super) {
+            __extends(ActionlevelsMenu, _super);
+            function ActionlevelsMenu() {
+                _super.apply(this, arguments);
+            }
+            ActionlevelsMenu.prototype.back = function () {
+                FlipPlus.FlipPlusGame.showMainScreen();
+            };
+            return ActionlevelsMenu;
+        })(Menu.WorkshopMenu);
+        Menu.ActionlevelsMenu = ActionlevelsMenu;
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Levels;
+    (function (Levels) {
+        // Controls projects and Levels.
+        // Model
+        var ActionLevelsManager = (function () {
+            // #region initialization ----------------------------------------//
+            function ActionLevelsManager(levelsData, levelsUserDataManager) {
+                this.levelsUserDataManager = this.levelsUserDataManager = levelsUserDataManager;
+                this.loadProjects(levelsData);
+            }
+            ActionLevelsManager.prototype.loadProjects = function (data) {
+                this.actionLevelsData = data;
+                // get a user data for each level/project
+                this.levelsUserDataManager.addUserData(this.actionLevelsData);
+            };
+            // #endregion
+            // #region manager Levels 
+            ActionLevelsManager.prototype.getAllActionLevels = function () {
+                return this.actionLevelsData;
+            };
+            ActionLevelsManager.prototype.getActionLevel = function (index) {
+                return this.actionLevelsData[index];
+            };
+            ActionLevelsManager.prototype.getCurrentActionLevel = function () {
+                return this.currentLevel;
+            };
+            ActionLevelsManager.prototype.unlockActionLevel = function (index) {
+            };
+            ActionLevelsManager.prototype.getActionLevelStars = function (index) {
+                return 0;
+            };
+            return ActionLevelsManager;
+        })();
+        Levels.ActionLevelsManager = ActionLevelsManager;
+    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
+})(FlipPlus || (FlipPlus = {}));
 var Analytics = (function () {
     function Analytics() {
     }
@@ -6315,122 +6452,9 @@ var FlipPlus;
     (function (GamePlay) {
         var ActionLevel = (function (_super) {
             __extends(ActionLevel, _super);
-            function ActionLevel(levelData) {
-                var _this = this;
-                _super.call(this, levelData);
-                this.currentPuzzle = 1;
-                this.puzzlesToSolve = 0;
-                this.gameplayMenu.addItemsButtons([Items.SOLVE, Items.HINT]);
-                this.gameplayMenu.addEventListener(Items.SKIP, function () { _this.useItem(Items.SKIP); });
-                this.gameplayMenu.addEventListener(Items.TIME, function () { _this.useItem(Items.TIME); });
-                this.gameplayMenu.addEventListener(Items.SOLVE, function () { _this.useItem(Items.SOLVE); });
-                this.gameplayMenu.addEventListener(Items.HINT, function () { _this.useItem(Items.HINT); });
-                this.puzzlesToSolve = levelData.puzzles.length;
-                this.currentTime = levelData.time;
-                //this.randomBoard(levelData.randomMinMoves,levelData.randomMaxMoves); 
-                this.statusArea.setMode(Items.TIME);
-                this.statusArea.setText3(levelData.time.toString());
-                this.createsTimer();
+            function ActionLevel() {
+                _super.apply(this, arguments);
             }
-            ActionLevel.prototype.createsTimer = function () {
-                var _this = this;
-                //Creates Timer
-                this.timer = new Timer(1000);
-                this.timer.addEventListener(TimerEvent.TIMER, function (e) {
-                    _this.currentTime--;
-                    _this.statusArea.setText3(_this.currentTime.toString());
-                    if (_this.currentTime <= 0) {
-                        // suggest more time
-                        _this.timer.stop();
-                        _this.boardSprite.mouseEnabled = false;
-                        _this.popupHelper.showItemMessage(Items.TIME, _this.getItemPrice(Items.TIME), function () {
-                            _this.useItem(Items.TIME);
-                            _this.boardSprite.mouseEnabled = true;
-                            _this.timer.start();
-                        }, function () {
-                            gameui.AudiosManager.playSound("Power Down");
-                            _this.statusArea.setText3(StringResources.gp_pz_statusEnd);
-                            _this.message.showtext(StringResources.gp_pz_timeUP);
-                            _this.loose();
-                        });
-                    }
-                    if (_this.currentTime == 4) {
-                        // play sound
-                        gameui.AudiosManager.playSound("Ticking Clock");
-                    }
-                });
-            };
-            ActionLevel.prototype.desactivate = function () {
-                this.timer.stop();
-            };
-            //Overriding methods.
-            ActionLevel.prototype.win = function (col, row) {
-                var _this = this;
-                if (this.currentPuzzle >= this.puzzlesToSolve) {
-                    this.timer.stop();
-                    _super.prototype.win.call(this, col, row);
-                }
-                else {
-                    //animate board and switch
-                    var defaultX = this.boardSprite.x;
-                    createjs.Tween.removeTweens(this.boardSprite);
-                    createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(function () {
-                        _this.currentPuzzle++;
-                        _this.boardSprite.clearHint();
-                        _this.randomBoard(_this.levelData.randomMinMoves, _this.levelData.randomMaxMoves);
-                        _this.boardSprite.x = defaultX + defaultWidth;
-                        createjs.Tween.get(_this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut);
-                    });
-                }
-            };
-            ActionLevel.prototype.pauseGame = function () {
-                _super.prototype.pauseGame.call(this);
-                this.timer.stop();
-            };
-            ActionLevel.prototype.unPauseGame = function () {
-                _super.prototype.unPauseGame.call(this);
-                this.timer.start();
-            };
-            ActionLevel.prototype.randomBoard = function (minMoves, maxMoves) {
-                if (minMoves === void 0) { minMoves = 2; }
-                if (maxMoves === void 0) { maxMoves = 5; }
-                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
-                var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-                var lenght = this.levelLogic.board.width * this.levelLogic.board.height;
-                var inverted = [];
-                for (var m = 0; m < moves; m++) {
-                    var index = Math.floor(Math.random() * (lenght));
-                    while (inverted[index] == true)
-                        index = (index + 1) % lenght;
-                    inverted[index] = true;
-                }
-                for (var i = 0; i < lenght; i++) {
-                    if (inverted[i] == true)
-                        this.levelLogic.board.invertCross(i % this.levelLogic.board.width, Math.floor(i / this.levelLogic.board.width));
-                }
-                this.levelLogic.board.initializePrizes(2);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-            };
-            ActionLevel.prototype.blocksBoard = function (invertedBlocks) {
-                this.levelLogic.board.setInvertedBlocks(invertedBlocks);
-            };
-            ActionLevel.prototype.useItemTime = function () {
-                this.currentTime += 10;
-            };
-            ActionLevel.prototype.activate = function (parameters) {
-                var _this = this;
-                _super.prototype.activate.call(this);
-                this.boardSprite.visible = false;
-                //shows popup
-                this.popup.showTimeAttack(this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString());
-                this.popup.addEventListener("onclose", function () {
-                    _this.boardSprite.visible = true;
-                    //shows puzzle
-                    if (parameters)
-                        _this.animatePuzzle(parameters);
-                    _this.timer.start();
-                });
-            };
             return ActionLevel;
         })(GamePlay.LevelScreen);
         GamePlay.ActionLevel = ActionLevel;
@@ -6591,20 +6615,6 @@ var FlipPlus;
         return GameServices;
     })();
     FlipPlus.GameServices = GameServices;
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var ActionlevelsMenu = (function (_super) {
-            __extends(ActionlevelsMenu, _super);
-            function ActionlevelsMenu() {
-                _super.apply(this, arguments);
-            }
-            return ActionlevelsMenu;
-        })(Menu.WorkshopMenu);
-        Menu.ActionlevelsMenu = ActionlevelsMenu;
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
@@ -7932,44 +7942,6 @@ var FlipPlus;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Levels;
-    (function (Levels) {
-        // Controls projects and Levels.
-        // Model
-        var ActionLevelsManager = (function () {
-            // #region initialization ----------------------------------------//
-            function ActionLevelsManager(levelsData, levelsUserDataManager) {
-                this.levelsUserDataManager = this.levelsUserDataManager = levelsUserDataManager;
-                this.loadProjects(levelsData);
-            }
-            ActionLevelsManager.prototype.loadProjects = function (data) {
-                this.actionLevelsData = data;
-                // get a user data for each level/project
-                this.levelsUserDataManager.addUserData(this.actionLevelsData);
-            };
-            // #endregion
-            // #region manager Levels 
-            ActionLevelsManager.prototype.getAllActionLevels = function () {
-                return this.actionLevelsData;
-            };
-            ActionLevelsManager.prototype.getActionLevel = function (index) {
-                return this.actionLevelsData[index];
-            };
-            ActionLevelsManager.prototype.getCurrentActionLevel = function () {
-                return this.currentLevel;
-            };
-            ActionLevelsManager.prototype.unlockActionLevel = function (index) {
-            };
-            ActionLevelsManager.prototype.getActionLevelStars = function (index) {
-                return 0;
-            };
-            return ActionLevelsManager;
-        })();
-        Levels.ActionLevelsManager = ActionLevelsManager;
-    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
-})(FlipPlus || (FlipPlus = {}));
 var StringResources = {
     ld: "Loading",
     it_text1: "N3-S needs\nrepair",
@@ -8246,92 +8218,6 @@ var FlipPlus;
             return Coins;
         })();
         UserData.Coins = Coins;
-    })(UserData = FlipPlus.UserData || (FlipPlus.UserData = {}));
-})(FlipPlus || (FlipPlus = {}));
-// Module
-var FlipPlus;
-(function (FlipPlus) {
-    var UserData;
-    (function (UserData) {
-        var LevelsUserDataManager = (function () {
-            // ----------------------- Game Data ----------------------------------------------------------
-            function LevelsUserDataManager() {
-                this.projectKey = "Flipp_userData";
-                this.loadFromStorage();
-            }
-            //Adds user data to a project
-            LevelsUserDataManager.prototype.addUserData = function (botLevelSet) {
-                for (var p = 0; p < botLevelSet.length; p++) {
-                    var project = botLevelSet[p];
-                    var pd = this.getProjectData(project.name);
-                    project.UserData = pd;
-                    for (var l = 0; l < botLevelSet[p].levels.length; l++) {
-                        var level = botLevelSet[p].levels[l];
-                        var ld = this.getLevelData(level.name);
-                        level.userdata = ld;
-                    }
-                }
-            };
-            //gets user data from storage and store it to a level data
-            LevelsUserDataManager.prototype.getLevelData = function (LevelId) {
-                var key = LevelId;
-                var value = this.levelsSavedData[key];
-                if (value == null) {
-                    var ud = new FlipPlus.Levels.LevelUserData();
-                    ud.solved = false;
-                    ud.skip = false;
-                    ud.unlocked = false;
-                    return ud;
-                }
-                return value;
-            };
-            //gets user data from storage and store it to a project data
-            LevelsUserDataManager.prototype.getProjectData = function (botId) {
-                var key = botId;
-                var value = this.levelsSavedData[key];
-                if (value == null) {
-                    var ud = new FlipPlus.Levels.ProjectUserData();
-                    ud.unlocked = false;
-                    ud.percent = 0;
-                    ud.complete = false;
-                    return ud;
-                }
-                else
-                    return value;
-            };
-            //updates storage with curret level user data 
-            LevelsUserDataManager.prototype.saveLevelData = function (level) {
-                var key = level.name;
-                this.levelsSavedData[key] = level.userdata;
-                this.saveToStorage();
-            };
-            //updates storage with curret project user data 
-            LevelsUserDataManager.prototype.saveProjectData = function (botLevelSet) {
-                var key = botLevelSet.name;
-                this.levelsSavedData[key] = botLevelSet.UserData;
-                this.saveToStorage();
-            };
-            LevelsUserDataManager.prototype.saveToStorage = function () {
-                if (this.levelsSavedData) {
-                    var str = JSON.stringify(this.levelsSavedData);
-                    localStorage.setItem(this.projectKey, str);
-                }
-            };
-            LevelsUserDataManager.prototype.loadFromStorage = function () {
-                var data = localStorage.getItem(this.projectKey);
-                if (data)
-                    this.levelsSavedData = JSON.parse(data);
-                else
-                    this.levelsSavedData = {};
-            };
-            //-------------------------------------------------------------------------------------------
-            //clear all storage data
-            LevelsUserDataManager.prototype.clearAllData = function () {
-                localStorage.clear();
-            };
-            return LevelsUserDataManager;
-        })();
-        UserData.LevelsUserDataManager = LevelsUserDataManager;
     })(UserData = FlipPlus.UserData || (FlipPlus.UserData = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;

@@ -15,11 +15,11 @@
 /*scripts*/
 /// <reference path="src/FlipPlusGame.ts" />
 
-/// <reference path="src/UserData/Items.ts" />
-/// <reference path="src/UserData/Settings.ts" />
+/// <reference path="src/UserData/Items.ts" /> 
 /// <reference path="src/UserData/Story.ts" />
-/// <reference path="src/UserData/Timers.ts" />
-/// <reference path="src/UserData/ProjectsData.ts" />
+/// <reference path="src/UserData/Timers.ts" /> 
+/// <reference path="src/userdata/levelsuserdatamanager.ts" />
+/// <reference path="src/userdata/settingsuserdatamanager.ts" />
 
 /// <reference path="src/GamePlay/LevelScreen.ts" /> 
 /// <reference path="src/GamePlay/levelpuzzle.ts" />

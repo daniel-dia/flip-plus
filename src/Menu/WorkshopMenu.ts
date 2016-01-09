@@ -46,10 +46,7 @@ module FlipPlus.Menu {
 
             //add to view
             this.content.addChild(this.projectsContainer);
-             
-            //adds Projects
-            this.addProjects();
-
+  
             //add menu
             this.addMenu();
             
@@ -80,10 +77,7 @@ module FlipPlus.Menu {
         private lastx = 0;
 
         //adds all projects in swipe view
-        private addProjects() {
-            
-			//pega projetos
-            var projects = FlipPlusGame.projectManager.getUnlockedProjects();
+        protected addProjects(projects) {
 
             //add every project
             for (var p = this.projectViews.length; p < projects.length;p++) {
@@ -161,7 +155,7 @@ module FlipPlus.Menu {
             this.factorySound = gameui.AudiosManager.playSound("Factory Ambience",true,0,0,0,0.4);
             
             //update enabled Projects
-            this.addProjects();
+            this.addProjects(FlipPlusGame.projectManager.getUnlockedProjects());
 
             //update all projects views
             for (var pv in this.projectViews) {
