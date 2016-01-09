@@ -3,16 +3,12 @@
 module FlipPlus.Menu {
     export class TitleScreen extends gameui.ScreenState {
 
-       private beach: PIXI.DisplayObject;
+      
 
         constructor() {
             super();
 
-            var logo = new lib.LogoScreen();
-            this.content.addChild(logo);
-
-            this.beach = logo["instance"]["instance_14"];
-
+            this.addBeach();
 
             this.content.interactive = true 
 
@@ -24,6 +20,14 @@ module FlipPlus.Menu {
             this.content.on("tap", tap );
             this.content.on("click", tap);
  
+       }
+
+        private beach: PIXI.DisplayObject;
+
+        private addBeach() {
+            var logo = new lib.LogoScreen();
+            this.content.addChild(logo);
+            this.beach = logo["instance"]["instance_14"];
         }
 
         public redim(headerY: number, footerY: number, width: number, height:number) {

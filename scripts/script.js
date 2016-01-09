@@ -13,7 +13,7 @@ var gameui;
             this.spriteSheets = spriteSheets ? spriteSheets : new Array();
             this.assetsManifest = manifest;
             if (!images)
-                images = new Array();
+                images = images ? images : new Array();
             if (!this.loader) {
                 //creates a preload queue
                 this.loader = new PIXI.loaders.Loader(path);
@@ -31,7 +31,7 @@ var gameui;
                         images[evt.item.id] = evt.result;
                     return true;
                 });
-                this.loader.once("complete", function (loader, resources) {
+                this.loader.on("complete", function (loader, resources) {
                     for (var r in resources)
                         images[r] = resources[r].texture;
                     if (_this.onComplete)
@@ -43,6 +43,9 @@ var gameui;
                 this.loader.add(manifest[m].id, manifest[m].src);
             }
             this.loader.load();
+        };
+        AssetsManager.reset = function () {
+            this.loader.reset();
         };
         // load a font spritesheet
         AssetsManager.loadFontSpriteSheet = function (id, fontFile) {
@@ -790,7 +793,7 @@ var FlipPlus;
                 }
                 else
                     //this.showProjectLevelsMenu(levelsData[0]);
-                    _this.showTitleScreen();
+                    _this.showMainScreen();
             };
             // give 10 coins to user first time
             if (!this.storyData.getStoryPlayed("coins")) {
@@ -918,6 +921,8 @@ var FlipPlus;
                 case "tutorial":
                     return new FlipPlus.GamePlay.Tutorial(level);
                 case "time":
+                    return new FlipPlus.GamePlay.LevelTimeAtack(level);
+                case "action":
                     return new FlipPlus.GamePlay.LevelTimeAtack(level);
             }
             return null;
@@ -4427,7 +4432,6 @@ var FlipPlus;
         var Loading = (function (_super) {
             __extends(Loading, _super);
             function Loading() {
-                var _this = this;
                 _super.call(this);
                 PIXI.RETINA_PREFIX = /@(.+)x.+((png)|(jpg)|(xml)|(fnt))$/;
                 assetscale = 1;
@@ -4438,13 +4442,39 @@ var FlipPlus;
                 if (levelCreatorMode) {
                     assetscale = 1;
                 }
+                this.preLoad();
+            }
+            Loading.prototype.preLoad = function () {
+                var _this = this;
+                var imagePath = "assets/images@" + assetscale + "x/";
+                //creates load complete action
+                gameui.AssetsManager.onComplete = function () {
+                    _this.addBeach();
+                    gameui.AssetsManager.reset();
+                    _this.load();
+                };
+                gameui.AssetsManager.loadAssets(logoManifest, imagePath);
+                //this.load();
+            };
+            Loading.prototype.load = function () {
+                var _this = this;
                 var imagePath = "assets/images@" + assetscale + "x/";
                 var audioPath = "assets/sound/";
+                //creates load complete action
+                gameui.AssetsManager.onComplete = function () {
+                    if (_this.loaded)
+                        _this.loaded();
+                };
+                //add update % functtion
+                gameui.AssetsManager.onProgress = function (progress) {
+                    loadinBar.update(progress);
+                };
                 //load audio
                 if (!levelCreatorMode && typeof WPAudioManager == 'undefined') {
                     createjs.Sound.alternateExtensions = ["mp3"];
                     createjs.Sound.registerSounds(audioManifest, audioPath);
                 }
+                //gameui.AssetsManager.loadAssets(logoManifest, imagePath);
                 gameui.AssetsManager.loadAssets(imageManifest, imagePath);
                 gameui.AssetsManager.loadFontSpriteSheet("fontWhite", "fontWhite.fnt");
                 gameui.AssetsManager.loadFontSpriteSheet("fontBlue", "fontBlue.fnt");
@@ -4452,23 +4482,23 @@ var FlipPlus;
                 gameui.AssetsManager.loadSpriteSheet("agua", "agua.json");
                 gameui.AssetsManager.loadSpriteSheet("bolinhas", "bolinhas.json");
                 gameui.AssetsManager.loadSpriteSheet("touch", "Touch.json");
-                //
                 gameui.Button.setDefaultSoundId("button");
                 // adds a loading bar
                 var loadinBar = new LoadingBar(imagePath);
                 this.content.addChild(loadinBar);
                 loadinBar.x = defaultWidth / 2;
                 loadinBar.y = defaultHeight / 2;
-                //add update % functtion
-                gameui.AssetsManager.onProgress = function (progress) {
-                    loadinBar.update(progress);
-                };
-                //creates load complete action
-                gameui.AssetsManager.onComplete = function () {
-                    if (_this.loaded)
-                        _this.loaded();
-                };
-            }
+            };
+            Loading.prototype.addBeach = function () {
+                var logo = new lib.LogoScreen();
+                this.content.addChild(logo);
+                this.beach = logo["instance"]["instance_14"];
+            };
+            Loading.prototype.redim = function (headerY, footerY, width, height) {
+                _super.prototype.redim.call(this, headerY, footerY, width, height);
+                if (this.beach)
+                    this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
+            };
             return Loading;
         })(gameui.ScreenState);
         Menu.Loading = Loading;
@@ -6964,9 +6994,7 @@ var FlipPlus;
             __extends(TitleScreen, _super);
             function TitleScreen() {
                 _super.call(this);
-                var logo = new lib.LogoScreen();
-                this.content.addChild(logo);
-                this.beach = logo["instance"]["instance_14"];
+                this.addBeach();
                 this.content.interactive = true;
                 var tap = function () {
                     FlipPlus.FlipPlusGame.showMainScreen();
@@ -6975,6 +7003,11 @@ var FlipPlus;
                 this.content.on("tap", tap);
                 this.content.on("click", tap);
             }
+            TitleScreen.prototype.addBeach = function () {
+                var logo = new lib.LogoScreen();
+                this.content.addChild(logo);
+                this.beach = logo["instance"]["instance_14"];
+            };
             TitleScreen.prototype.redim = function (headerY, footerY, width, height) {
                 _super.prototype.redim.call(this, headerY, footerY, width, height);
                 if (this.beach)

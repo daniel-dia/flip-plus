@@ -21,7 +21,7 @@ module gameui {
             this.assetsManifest = manifest;
 
 
-            if (!images) images = new Array();
+            if (!images) images = images ? images : new Array();
 		
             if (!this.loader) {
                 //creates a preload queue
@@ -43,8 +43,9 @@ module gameui {
                     return true;
                 });
  
-                this.loader.once("complete", (loader, resources) => {
+                this.loader.on("complete", (loader, resources) => {
                     for (var r in resources) images[r] = resources[r].texture;
+
                     if (this.onComplete) this.onComplete();
                     })
                 }
@@ -53,8 +54,12 @@ module gameui {
             for (var m in manifest) {
                 this.loader.add(manifest[m].id, manifest[m].src);
             }
-            this.loader.load(); 
-             
+            this.loader.load();
+            
+        }
+
+        public static reset() {
+            this.loader.reset();
         }
         
         // load a font spritesheet

@@ -1,5 +1,6 @@
 declare var spriteSheets: any;
 declare var imageManifest;
+declare var logoManifest;
 declare var audioManifest;
 declare var WPAudioManager;
 
@@ -24,17 +25,52 @@ module FlipPlus.Menu {
             if (window.innerWidth <= 1070) assetscale = 0.5;
             if (window.innerWidth <= 384) assetscale = 0.25; 
             if (levelCreatorMode) { assetscale = 1 }
+
+            this.preLoad();
+            
+        }
+
+
+        private preLoad() {
+
+            var imagePath = "assets/images@" + assetscale + "x/";
+            
+            //creates load complete action
+             gameui.AssetsManager.onComplete = () => {
+                 this.addBeach();
+                 gameui.AssetsManager.reset();
+                 this.load();
+
+             }
+            
              
+             gameui.AssetsManager.loadAssets(logoManifest, imagePath);
+
+            //this.load();
+
+        }
+
+        private load() {
             var imagePath = "assets/images@" + assetscale + "x/";
             var audioPath = "assets/sound/";
 
+            //creates load complete action
+            gameui.AssetsManager.onComplete = () => {
+                if (this.loaded) this.loaded();
+            }
+        
+            //add update % functtion
+            gameui.AssetsManager.onProgress = (progress: number) => {
+                loadinBar.update(progress)
+            };
+            
             //load audio
             if (!levelCreatorMode && typeof WPAudioManager == 'undefined') {
                 createjs.Sound.alternateExtensions = ["mp3"];
                 createjs.Sound.registerSounds(audioManifest, audioPath);
                 //gameui.AssetsManager.loadAssets(audioManifest, audioPath);
             }
-
+            //gameui.AssetsManager.loadAssets(logoManifest, imagePath);
             gameui.AssetsManager.loadAssets(imageManifest, imagePath);
             gameui.AssetsManager.loadFontSpriteSheet("fontWhite", "fontWhite.fnt");
             gameui.AssetsManager.loadFontSpriteSheet("fontBlue", "fontBlue.fnt");
@@ -43,7 +79,7 @@ module FlipPlus.Menu {
             gameui.AssetsManager.loadSpriteSheet("agua", "agua.json");
             gameui.AssetsManager.loadSpriteSheet("bolinhas", "bolinhas.json");
             gameui.AssetsManager.loadSpriteSheet("touch", "Touch.json");
-            //
+            
             gameui.Button.setDefaultSoundId("button");
 
 
@@ -53,17 +89,26 @@ module FlipPlus.Menu {
             loadinBar.x = defaultWidth / 2;
             loadinBar.y = defaultHeight / 2;
 
-          
-            //add update % functtion
-            gameui.AssetsManager.onProgress= (progress: number)=> {
-                loadinBar.update(progress)
-            };
 
-            //creates load complete action
-            gameui.AssetsManager.onComplete = () => {
-                if (this.loaded) this.loaded();
-            }
         }
+
+
+        private beach: PIXI.DisplayObject;
+        private addBeach() {
+            var logo = new lib.LogoScreen();
+            this.content.addChild(logo);
+
+            this.beach = logo["instance"]["instance_14"];
+            
+        }
+
+        public redim(headerY: number, footerY: number, width: number, height: number) {
+            super.redim(headerY, footerY, width, height);
+            if (this.beach)
+                this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
+        }
+
+
     }
  
  
@@ -76,7 +121,7 @@ module FlipPlus.Menu {
             super();
 
             //var text = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");// defaultFontFamilyNormal, 0xFFFFFF);
-            var bg = gameui.AssetsManager.getBitmap(imagePath + "loadingbj.png");
+            var bg =  gameui.AssetsManager.getBitmap(imagePath + "loadingbj.png");
             var bar = gameui.AssetsManager.getBitmap(imagePath + "loadingBar.png");
 
             this.addChild(bg)

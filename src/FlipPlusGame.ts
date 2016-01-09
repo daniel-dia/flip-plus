@@ -81,9 +81,7 @@ module FlipPlus {
                     this.toLevelCreator()
                 }
                 else
-
-                    //this.showProjectLevelsMenu(levelsData[0]);
-                    this.showTitleScreen();
+                    this.showMainScreen();
             }
 
             // give 10 coins to user first time
@@ -234,6 +232,8 @@ module FlipPlus {
                 case "tutorial":
                     return new GamePlay.Tutorial(level);
                 case "time":
+                    return new GamePlay.LevelTimeAtack(level);
+                case "action":
                     return new GamePlay.LevelTimeAtack(level);
             }
 
