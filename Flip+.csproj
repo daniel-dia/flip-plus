@@ -1451,7 +1451,7 @@
     <TypeScriptCompile Include="src\GamePlay\LevelPuzzle.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelScreen.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelTaps.ts" />
-    <TypeScriptCompile Include="src\GamePlay\ActionLevel.ts" />
+    <TypeScriptCompile Include="src\GamePlay\LevelAction.ts" />
     <TypeScriptCompile Include="src\GamePlay\LevelTimeAttack.ts" />
     <TypeScriptCompile Include="src\GamePlay\Logic\Block.ts" />
     <TypeScriptCompile Include="src\GamePlay\Logic\Board.ts" />

@@ -920,9 +920,9 @@ var FlipPlus;
                 case "tutorial":
                     return new FlipPlus.GamePlay.Tutorial(level);
                 case "time":
-                    return new FlipPlus.GamePlay.LevelTimeAtack(level);
+                    return new FlipPlus.GamePlay.LevelTimeAttack(level);
                 case "action":
-                    return new FlipPlus.GamePlay.LevelTimeAtack(level);
+                    return new FlipPlus.GamePlay.LevelTimeAttack(level);
             }
             return null;
         };
@@ -2194,9 +2194,9 @@ var FlipPlus;
 (function (FlipPlus) {
     var GamePlay;
     (function (GamePlay) {
-        var LevelTimeAtack = (function (_super) {
-            __extends(LevelTimeAtack, _super);
-            function LevelTimeAtack(levelData) {
+        var LevelTimeAttack = (function (_super) {
+            __extends(LevelTimeAttack, _super);
+            function LevelTimeAttack(levelData) {
                 var _this = this;
                 _super.call(this, levelData);
                 this.currentPuzzle = 1;
@@ -2213,7 +2213,7 @@ var FlipPlus;
                 this.statusArea.setText3(levelData.time.toString());
                 this.createsTimer();
             }
-            LevelTimeAtack.prototype.createsTimer = function () {
+            LevelTimeAttack.prototype.createsTimer = function () {
                 var _this = this;
                 //Creates Timer
                 this.timer = new Timer(1000);
@@ -2241,11 +2241,11 @@ var FlipPlus;
                     }
                 });
             };
-            LevelTimeAtack.prototype.desactivate = function () {
+            LevelTimeAttack.prototype.desactivate = function () {
                 this.timer.stop();
             };
             //Overriding methods.
-            LevelTimeAtack.prototype.win = function (col, row) {
+            LevelTimeAttack.prototype.win = function (col, row) {
                 var _this = this;
                 if (this.currentPuzzle >= this.puzzlesToSolve) {
                     this.timer.stop();
@@ -2264,15 +2264,15 @@ var FlipPlus;
                     });
                 }
             };
-            LevelTimeAtack.prototype.pauseGame = function () {
+            LevelTimeAttack.prototype.pauseGame = function () {
                 _super.prototype.pauseGame.call(this);
                 this.timer.stop();
             };
-            LevelTimeAtack.prototype.unPauseGame = function () {
+            LevelTimeAttack.prototype.unPauseGame = function () {
                 _super.prototype.unPauseGame.call(this);
                 this.timer.start();
             };
-            LevelTimeAtack.prototype.randomBoard = function (minMoves, maxMoves) {
+            LevelTimeAttack.prototype.randomBoard = function (minMoves, maxMoves) {
                 if (minMoves === void 0) { minMoves = 2; }
                 if (maxMoves === void 0) { maxMoves = 5; }
                 this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
@@ -2292,10 +2292,10 @@ var FlipPlus;
                 this.levelLogic.board.initializePrizes(2);
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             };
-            LevelTimeAtack.prototype.useItemTime = function () {
+            LevelTimeAttack.prototype.useItemTime = function () {
                 this.currentTime += 10;
             };
-            LevelTimeAtack.prototype.activate = function (parameters) {
+            LevelTimeAttack.prototype.activate = function (parameters) {
                 var _this = this;
                 _super.prototype.activate.call(this);
                 this.boardSprite.visible = false;
@@ -2309,9 +2309,9 @@ var FlipPlus;
                     _this.timer.start();
                 });
             };
-            return LevelTimeAtack;
+            return LevelTimeAttack;
         })(GamePlay.LevelScreen);
-        GamePlay.LevelTimeAtack = LevelTimeAtack;
+        GamePlay.LevelTimeAttack = LevelTimeAttack;
     })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
@@ -6435,14 +6435,14 @@ var FlipPlus;
 (function (FlipPlus) {
     var GamePlay;
     (function (GamePlay) {
-        var ActionLevel = (function (_super) {
-            __extends(ActionLevel, _super);
-            function ActionLevel() {
+        var LevelAction = (function (_super) {
+            __extends(LevelAction, _super);
+            function LevelAction() {
                 _super.apply(this, arguments);
             }
-            return ActionLevel;
-        })(GamePlay.LevelScreen);
-        GamePlay.ActionLevel = ActionLevel;
+            return LevelAction;
+        })(GamePlay.LevelTimeAttack);
+        GamePlay.LevelAction = LevelAction;
     })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;

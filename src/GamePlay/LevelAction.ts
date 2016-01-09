@@ -3,7 +3,7 @@ declare var TimerEvent;
 
 module FlipPlus.GamePlay { 
 
-    export class ActionLevel extends LevelScreen {
+    export class LevelAction extends LevelTimeAttack {
          
        
     }

@@ -3,7 +3,7 @@ declare var TimerEvent;
 
 module FlipPlus.GamePlay { 
 
-    export class LevelTimeAtack extends LevelScreen {
+    export class LevelTimeAttack extends LevelScreen {
          
         private currentPuzzle: number = 1;
         private puzzlesToSolve: number = 0;
