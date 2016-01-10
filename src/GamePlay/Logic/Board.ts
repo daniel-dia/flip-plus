@@ -16,8 +16,7 @@ module FlipPlus.GamePlay.Logic {
 
         //prizes intervals
         public prizes = [];
-        
-     
+             
         constructor(width: number, height: number) {
 
             this.width =  width;
@@ -174,6 +173,25 @@ module FlipPlus.GamePlay.Logic {
                 }
         }
         
+        public createRandomBoard(minMoves: number = 2, maxMoves: number = 5) {
+           
+            var moves: number = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
+            var lenght: number = this.width * this.height;
+            var inverted: boolean[] = [];
+
+            for (var m = 0; m < moves; m++) {
+                var index = Math.floor(Math.random() * (lenght));
+                while (inverted[index] == true) index = (index + 1) % lenght;
+                inverted[index] = true;
+            }
+
+            for (var i = 0; i < lenght; i++) 
+                if (inverted[i] == true)
+                    this.invertCross(i % this.width, Math.floor(i / this.width));
+            
+            this.initializePrizes(2);
+        }
+
         //Distribuite Prizes Along Board
         public initializePrizes(prizesNumber: number, minMoves: number = 0) {
 
@@ -246,9 +264,7 @@ module FlipPlus.GamePlay.Logic {
             return toInvert;
         }
 
-
-
-        ///Invert a cross into the board
+        // Invert a draw cross into the board
         public invertDraw(col, row,cross:boolean=true) {
 
             //invert block state

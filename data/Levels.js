@@ -34,6 +34,19 @@ var levelsData =  [
       "name": "Bot01",
       "cost": 0,
       "levels": [
+             {
+                 "name": "2/6",
+                 "width": 5,
+                 "height": 5,
+                 "type": "time",
+                 "theme": "purple",
+                 "moves": null,
+                 "time": 20,
+                 "puzzlesToSolve": 3,
+                 "randomMaxMoves": 4,
+                 "randomMinMoves": 3,
+                 "blocksData": []
+             },
         {
             "name": "0/0",
             "width": 5,

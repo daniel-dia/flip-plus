@@ -34,8 +34,6 @@
             this.tutorialIndiatcor.mouseEnabled = false;
             this.addChild(this.tutorialIndiatcor);
             this.tutorialIndiatcor.visible = false;
-
-
         }
 
         //initializes the effectss sprites

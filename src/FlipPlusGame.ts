@@ -234,7 +234,7 @@ module FlipPlus {
                 case "time":
                     return new GamePlay.LevelTimeAttack(level);
                 case "action":
-                    return new GamePlay.LevelTimeAttack(level);
+                    return new GamePlay.LevelAction(level);
             }
 
             return null;

@@ -56,9 +56,9 @@ module FlipPlus.GamePlay {
             // incremente played times
             if (!this.levelData.userdata.playedTimes)
                 this.levelData.userdata.playedTimes = 0;
-
             this.levelData.userdata.playedTimes++;
 
+            // menu back option
             this.onback = () => {
                 if (this.paused)
                     this.unPauseGame();
@@ -77,7 +77,7 @@ module FlipPlus.GamePlay {
             this.addBackground();
 
             //initialize board sprites
-            this.initializeBoardSprites(leveldata.width, leveldata.height, leveldata.theme, this.levelLogic.getBlocks(), leveldata.type);
+            this.createBoardSprite(leveldata.width, leveldata.height, leveldata.theme, this.levelLogic.getBlocks(), leveldata.type);
 
             //initialize overlay
             this.initializeOverlays();
@@ -169,22 +169,23 @@ module FlipPlus.GamePlay {
             this.content.addChild(this.pauseMenu);
         }
 
-        private initializeBoardSprites(width: number, height: number, theme: string, blocks: any, type: string) {
+        protected createBoardSprite(width: number, height: number, theme: string, blocks: any, type: string) {
 
-            //AddBoard
+            // remove if there is alread a board
+            if (this.boardSprite)
+                this.content.removeChild(this.boardSprite);
+
+            // create and add board
             this.boardSprite = new Views.BoardSprite(width, height, theme, type);
             this.content.addChild(this.boardSprite);
 
+            // position board
             this.boardSprite.x = defaultWidth / 2;
             this.boardSprite.y = defaultHeight / 2;
 
             this.boardSprite.addInputCallback((col: number, row: number) => { this.userInput(col, row); })
-            //TODO create a custom event
-
         }
-
-
-
+        
         // #endregion
 
         // #region user input ===============================================================================================================
@@ -318,6 +319,8 @@ module FlipPlus.GamePlay {
             setTimeout(() => { FlipPlusGame.looseLevel(); }, 3000);;
 
         }
+
+
         // #endregion
 
         // #region  Items ====================================================================================================================

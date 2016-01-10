@@ -5,33 +5,18 @@ module FlipPlus.GamePlay {
 
     export class LevelTimeAttack extends LevelScreen {
          
-        private currentPuzzle: number = 1;
-        private puzzlesToSolve: number = 0;
-        private currentTime;
-        private timer;
+        protected currentPuzzle: number = 1;
+        protected puzzlesToSolve: number = 0;
+        protected currentTime;
+        protected timer;
 
         constructor(levelData: Levels.Level) {
             super(levelData);
+            this.createMenu();
+            this.startGame(levelData);
+         }
 
-            this.gameplayMenu.addItemsButtons([Items.SOLVE, Items.HINT]);
-            this.gameplayMenu.addEventListener(Items.SKIP, () => { this.useItem(Items.SKIP); });
-            this.gameplayMenu.addEventListener(Items.TIME, () => { this.useItem(Items.TIME); });
-            this.gameplayMenu.addEventListener(Items.SOLVE, () => { this.useItem(Items.SOLVE); });
-            this.gameplayMenu.addEventListener(Items.HINT, () => { this.useItem(Items.HINT); })
-                                                
-            this.puzzlesToSolve = levelData.puzzlesToSolve;
-            this.currentTime = levelData.time;
-
-            this.randomBoard(levelData.randomMinMoves,levelData.randomMaxMoves); 
-
-            this.statusArea.setMode(Items.TIME);
-            this.statusArea.setText3(levelData.time.toString());
-
-            this.createsTimer();
-
-        }
-
-        public createsTimer() {
+        private createsTimer() {
             //Creates Timer
             this.timer = new Timer(1000);
 
@@ -65,32 +50,64 @@ module FlipPlus.GamePlay {
             });
         }
 
+        private createMenu() {
+            this.gameplayMenu.addItemsButtons([Items.SOLVE, Items.HINT]);
+            this.gameplayMenu.addEventListener(Items.SKIP, () => { this.useItem(Items.SKIP); });
+            this.gameplayMenu.addEventListener(Items.TIME, () => { this.useItem(Items.TIME); });
+            this.gameplayMenu.addEventListener(Items.SOLVE, () => { this.useItem(Items.SOLVE); });
+            this.gameplayMenu.addEventListener(Items.HINT, () => { this.useItem(Items.HINT); })
+        }
+        
+        protected showNextPuzzle() {
+            //animate board and switch
+            var defaultX = this.boardSprite.x;
+            createjs.Tween.removeTweens(this.boardSprite);
+            createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(() => {
+
+                // remove the current board
+                
+                // updates logic
+                this.currentPuzzle++;
+                this.createNewPuzzle(this.currentPuzzle);
+
+                // creates a new board
+
+                this.boardSprite.x = defaultX + defaultWidth;
+                createjs.Tween.get(this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut)
+            })
+        }
+
+        protected createNewPuzzle(currentPuzzle:number) {
+            this.boardSprite.clearHint();
+            this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
+        }
+        
+        private startGame(levelData: Levels.Level) {
+            this.puzzlesToSolve = levelData.puzzlesToSolve;
+            this.currentTime = levelData.time;
+            this.currentPuzzle = 1;
+
+            this.createNewPuzzle(this.currentPuzzle);
+
+            this.statusArea.setMode(Items.TIME);
+            this.statusArea.setText3(levelData.time.toString());
+
+            this.createsTimer();
+        }
+
         public desactivate() {
             this.timer.stop();
         }
 
         //Overriding methods.
-        public win(col: number, row: number) {
+        protected win(col: number, row: number) {
 
             if (this.currentPuzzle >= this.puzzlesToSolve) {
                 this.timer.stop();
                 super.win(col, row);
             }
             else {
-
-                //animate board and switch
-                var defaultX = this.boardSprite.x;
-                createjs.Tween.removeTweens(this.boardSprite);
-                createjs.Tween.get(this.boardSprite).to({ x: defaultX-defaultWidth }, 250, createjs.Ease.quadIn).call(() => {
-
-                    this.currentPuzzle++;
-                    this.boardSprite.clearHint();
-                    this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves); 
-                    
-                    this.boardSprite.x = defaultX + defaultWidth;
-                    createjs.Tween.get(this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut)
-                })
-
+                this.showNextPuzzle();
             }
         }
      
@@ -104,30 +121,14 @@ module FlipPlus.GamePlay {
             this.timer.start();
         }
         
-        private randomBoard(minMoves: number = 2, maxMoves: number = 5) {
+        protected randomBoard(minMoves: number = 2, maxMoves: number = 5) {
 
             this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
 
-            var moves :number = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-            var lenght: number = this.levelLogic.board.width * this.levelLogic.board.height;
-            var inverted: boolean[] = [];
+            this.levelLogic.board.createRandomBoard(minMoves, maxMoves);
 
-            for (var m = 0; m < moves; m++) {
-                var index = Math.floor(Math.random() * (lenght));
-                while (inverted[index] == true) index = (index+1) % lenght;
-                inverted[index] = true;
-            }
-
-            for (var i = 0; i < lenght; i++) {
-                if (inverted[i] == true)
-                    this.levelLogic.board.invertCross(
-                        i % this.levelLogic.board.width,
-                        Math.floor(i / this.levelLogic.board.width)
-                        );
-            }
-
-            this.levelLogic.board.initializePrizes(2);
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+
         }
 
         protected useItemTime() {
