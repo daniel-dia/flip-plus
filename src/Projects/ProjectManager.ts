@@ -2,7 +2,7 @@ module FlipPlus.Levels {
 
     // Controls projects and Levels.
     // Model
-    export class ProjectManager {
+    export class LevelsManager {
 
         //Entire Projects Data
         protected levelsData: BotLevelsSet[];

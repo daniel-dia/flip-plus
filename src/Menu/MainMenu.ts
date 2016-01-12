@@ -62,7 +62,7 @@ module FlipPlus.Menu {
         }
       
         private addMyBots() {
-            this.myBots = new Robots.MyBots(FlipPlusGame.projectManager);
+            this.myBots = new Robots.MyBots(FlipPlusGame.levelsManager);
             this.content.addChild(this.myBots);
             this.myBots.addEventListener("robot", (e: PIXI.interaction.InteractionEvent) => {
                 this.robotClick(<string>e.target)

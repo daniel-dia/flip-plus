@@ -1436,7 +1436,7 @@
     <Content Include="style\main.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <TypeScriptCompile Include="src\Menu\ActionLevelsMenu.ts" />
+    <TypeScriptCompile Include="src\Menu\WorkshopMenuAction.ts" />
     <TypeScriptCompile Include="src\Projects\ActionLevelsManager.ts" />
     <TypeScriptCompile Include="src\Anslytics.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus1.ts" />

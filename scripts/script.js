@@ -782,8 +782,11 @@ var FlipPlus;
             this.analytics = new Analytics();
             this.analytics.logGameStart();
             //managers
-            this.projectManager = new FlipPlus.Levels.ProjectManager(levelsData, this.levelsUserDataManager);
+            this.BotsLevelManager = new FlipPlus.Levels.LevelsManager(levelsData, this.levelsUserDataManager);
             this.actionLevelsManager = new FlipPlus.Levels.ActionLevelsManager(ActionLevelsData, this.levelsUserDataManager);
+            this.levelsManager = this.BotsLevelManager;
+            // gameMode
+            this.gameMode = GameMode.PROJECTS;
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
             this.gameScreen.switchScreen(this.loadingScreen);
@@ -804,7 +807,7 @@ var FlipPlus;
             Cocoon.App.exitCallback(function () {
                 return _this.gameScreen.sendBackButtonEvent();
             });
-            var ps = this.projectManager.getAllProjects();
+            var ps = this.levelsManager.getAllProjects();
             ps[0].UserData.unlocked = true;
             ps[1].UserData.unlocked = true;
             ps[2].UserData.unlocked = true;
@@ -862,23 +865,29 @@ var FlipPlus;
             this.gameScreen.switchScreen(this.projectsMenu);
         };
         FlipPlusGame.showProjectLevelsMenu = function (project, parameters) {
+            // set wich leve manager to use
+            this.gameMode = GameMode.PROJECTS;
+            this.levelsManager = this.BotsLevelManager;
             //verifies the current projet
             if (project == null)
-                project = this.projectManager.getCurrentProject();
+                project = this.levelsManager.getCurrentProject();
             else
-                this.projectManager.setCurrentProject(project);
+                this.levelsManager.setCurrentProject(project);
             //if (project == null) return;
-            var projects = this.projectManager.getAllProjects();
+            var projects = this.levelsManager.getAllProjects();
             //create a new levels menu, if needed
             if (this.levelsMenu == undefined)
-                this.levelsMenu = new FlipPlus.Menu.WorkshopMenu(this.projectManager);
+                this.levelsMenu = new FlipPlus.Menu.WorkshopMenu(this.levelsManager);
             //switch screens
             this.gameScreen.switchScreen(this.levelsMenu, parameters);
         };
         FlipPlusGame.showActionLevelsMenu = function () {
+            // set wich leve manager to use
+            this.gameMode = GameMode.ACTION;
+            this.levelsManager = this.actionLevelsManager;
             //create a new levels menu, if needed
             if (this.actionlevelsMenu == undefined)
-                this.actionlevelsMenu = new FlipPlus.Menu.ActionlevelsMenu(this.actionLevelsManager);
+                this.actionlevelsMenu = new FlipPlus.Menu.WorkshopMenuAction(this.levelsManager);
             //switch screens
             this.gameScreen.switchScreen(this.actionlevelsMenu);
         };
@@ -904,7 +913,7 @@ var FlipPlus;
             this.gameScreen.switchScreen(bonusScreen);
         };
         FlipPlusGame.showLevel = function (level, parameters) {
-            this.projectManager.setCurrentLevel(level);
+            this.levelsManager.setCurrentLevel(level);
             this.levelScreeen = this.createLevel(level);
             this.gameScreen.switchScreen(this.levelScreeen, parameters);
         };
@@ -928,16 +937,25 @@ var FlipPlus;
         };
         FlipPlusGame.completeLevel = function (complete) {
             if (complete === void 0) { complete = false; }
-            this.showProjectLevelsMenu(null, { complete: complete });
+            if (this.gameMode == GameMode.PROJECTS)
+                this.showProjectLevelsMenu(null, { complete: complete });
+            else
+                this.showActionLevelsMenu();
         };
         FlipPlusGame.looseLevel = function () {
-            this.showProjectLevelsMenu(null, { loose: true });
+            if (this.gameMode == GameMode.PROJECTS)
+                this.showProjectLevelsMenu(null, { loose: true });
+            else
+                this.showActionLevelsMenu();
         };
         FlipPlusGame.exitLevel = function () {
-            this.showProjectLevelsMenu();
+            if (this.gameMode == GameMode.PROJECTS)
+                this.showProjectLevelsMenu();
+            else
+                this.showActionLevelsMenu();
         };
         FlipPlusGame.showNextLevel = function () {
-            var nextLevel = this.projectManager.getNextLevel();
+            var nextLevel = this.levelsManager.getNextLevel();
             //show level or end level
             if (nextLevel != null)
                 this.showLevel(nextLevel);
@@ -946,9 +964,10 @@ var FlipPlus;
         };
         FlipPlusGame.skipLevel = function (complete) {
             if (complete === void 0) { complete = false; }
-            var currentLevel = this.projectManager.getCurrentLevel();
-            this.projectManager.skipLevel(currentLevel);
-            this.showProjectLevelsMenu(null, { complete: complete });
+            var currentLevel = this.levelsManager.getCurrentLevel();
+            this.levelsManager.skipLevel(currentLevel);
+            this.completeLevel(complete);
+            ///this.showProjectLevelsMenu(null, { complete: complete });
         };
         FlipPlusGame.showMainScreen = function () {
             if (this.mainScreen == null)
@@ -967,7 +986,7 @@ var FlipPlus;
             this.gameScreen.switchScreen(new FlipPlus.Menu.SpecialOfferMenu(previousScreen));
         };
         FlipPlusGame.replayLevel = function () {
-            var currentLevel = this.projectManager.getCurrentLevel();
+            var currentLevel = this.levelsManager.getCurrentLevel();
             this.showLevel(currentLevel);
         };
         FlipPlusGame.endGame = function () {
@@ -982,6 +1001,11 @@ var FlipPlus;
         return FlipPlusGame;
     })();
     FlipPlus.FlipPlusGame = FlipPlusGame;
+    var GameMode;
+    (function (GameMode) {
+        GameMode[GameMode["PROJECTS"] = 0] = "PROJECTS";
+        GameMode[GameMode["ACTION"] = 1] = "ACTION";
+    })(GameMode || (GameMode = {}));
 })(FlipPlus || (FlipPlus = {}));
 window.onload = function () {
     FlipPlus.FlipPlusGame.initializeGame();
@@ -1456,12 +1480,13 @@ var FlipPlus;
                 var complete1stTime = false;
                 if (!this.levelData.userdata.solved)
                     complete1stTime = true;
-                //set model to complete level.
-                var projectCompleted = FlipPlus.FlipPlusGame.projectManager.getCurrentProject().UserData.complete;
-                FlipPlus.FlipPlusGame.projectManager.completeLevel(this.levelData);
+                var currentProject = FlipPlus.FlipPlusGame.levelsManager.getCurrentProject();
+                var projectCompleted = currentProject.UserData.complete;
+                //set user data to complete level.
+                FlipPlus.FlipPlusGame.levelsManager.completeLevel(this.levelData);
                 // send achievement if project was completed
-                if (!projectCompleted && FlipPlus.FlipPlusGame.projectManager.getCurrentProject().UserData.complete)
-                    FlipPlus.FlipPlusGame.gameServices.submitAchievent("ACH_" + FlipPlus.FlipPlusGame.projectManager.getCurrentProject().name);
+                if (!projectCompleted && currentProject.UserData.complete)
+                    FlipPlus.FlipPlusGame.gameServices.submitAchievent("ACH_" + currentProject.name);
                 //change screen and animate.
                 if (messageText)
                     this.textEffext.showtext(StringResources.gp_finishPuzzle, 2000, 1200);
@@ -4601,7 +4626,7 @@ var FlipPlus;
             };
             MainMenu.prototype.addMyBots = function () {
                 var _this = this;
-                this.myBots = new FlipPlus.Robots.MyBots(FlipPlus.FlipPlusGame.projectManager);
+                this.myBots = new FlipPlus.Robots.MyBots(FlipPlus.FlipPlusGame.levelsManager);
                 this.content.addChild(this.myBots);
                 this.myBots.addEventListener("robot", function (e) {
                     _this.robotClick(e.target);
@@ -4757,8 +4782,8 @@ var FlipPlus;
             };
             //update statistics 
             ProjectsMenu.prototype.updateStatistcs = function () {
-                var done = FlipPlus.FlipPlusGame.projectManager.getFinihedProjects().length;
-                var total = FlipPlus.FlipPlusGame.projectManager.getAllProjects().length;
+                var done = FlipPlus.FlipPlusGame.levelsManager.getFinihedProjects().length;
+                var total = FlipPlus.FlipPlusGame.levelsManager.getAllProjects().length;
                 this.statisticsTextField.text = done + "/" + total + " BOTS";
             };
             //adds projects objects to the view
@@ -4778,7 +4803,7 @@ var FlipPlus;
                 this.pages = [];
                 var currentPage;
                 // Create projectItens
-                var projects = FlipPlus.FlipPlusGame.projectManager.getAllProjects();
+                var projects = FlipPlus.FlipPlusGame.levelsManager.getAllProjects();
                 //creates all itens
                 for (var i = 0; i < projects.length; i++) {
                     //create current page
@@ -4808,14 +4833,14 @@ var FlipPlus;
                             return;
                         var bonusId = e.target.bonusId;
                         var timer = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
-                        if (bonusData[bonusId].cost <= FlipPlus.FlipPlusGame.projectManager.getStarsCount()) {
+                        if (bonusData[bonusId].cost <= FlipPlus.FlipPlusGame.levelsManager.getStarsCount()) {
                             if (timer == 0)
                                 FlipPlus.FlipPlusGame.showBonus(bonusId);
                             else
                                 _this.showtimeWarning(timer.toString());
                         }
                         else {
-                            _this.showStarWarning(FlipPlus.FlipPlusGame.projectManager.getStarsCount(), bonusData[bonusId].cost);
+                            _this.showStarWarning(FlipPlus.FlipPlusGame.levelsManager.getStarsCount(), bonusData[bonusId].cost);
                         }
                     });
                     this.pages[p].addChild(bonusBt);
@@ -4834,7 +4859,7 @@ var FlipPlus;
                 if (p.UserData.unlocked)
                     FlipPlus.FlipPlusGame.showProjectLevelsMenu(p, { rebuild: true });
                 else {
-                    var stars = FlipPlus.FlipPlusGame.projectManager.getStarsCount();
+                    var stars = FlipPlus.FlipPlusGame.levelsManager.getStarsCount();
                     if (stars < p.cost)
                         this.showStarWarning(stars, p.cost);
                 }
@@ -4908,7 +4933,7 @@ var FlipPlus;
                 this.updateProjects();
                 this.updateStatistcs();
                 this.updateBonuses();
-                this.starsIndicator.updateStarsAmount(FlipPlus.FlipPlusGame.projectManager.getStarsCount());
+                this.starsIndicator.updateStarsAmount(FlipPlus.FlipPlusGame.levelsManager.getStarsCount());
             };
             //back button
             ProjectsMenu.prototype.back = function () {
@@ -5408,7 +5433,7 @@ var FlipPlus;
                 ProjectItem.prototype.updateProjectInfo = function () {
                     //verifica se o projeto pode ser destravado
                     //TODO. nao devia acessar metodo global aqui
-                    FlipPlus.FlipPlusGame.projectManager.unlockProject(this.project);
+                    FlipPlus.FlipPlusGame.levelsManager.unlockProject(this.project);
                     //update the objects display     
                     this.createObjects(this.project);
                     this.scale.x = this.scale.y = 1;
@@ -5601,13 +5626,13 @@ var FlipPlus;
     (function (Levels) {
         // Controls projects and Levels.
         // Model
-        var ProjectManager = (function () {
+        var LevelsManager = (function () {
             // ------------------------------- initialization ----------------------------------------//
-            function ProjectManager(data, userData) {
+            function LevelsManager(data, userData) {
                 this.levelsUserDataManager = userData;
                 this.loadProjects(data);
             }
-            ProjectManager.prototype.loadProjects = function (data) {
+            LevelsManager.prototype.loadProjects = function (data) {
                 for (var p in data) {
                     delete data[p].UserData;
                 }
@@ -5633,11 +5658,11 @@ var FlipPlus;
             };
             // ------------------------------- manager Levels ----------------------------------------
             //get current Level 
-            ProjectManager.prototype.getCurrentLevel = function () {
+            LevelsManager.prototype.getCurrentLevel = function () {
                 return this.currentLevel;
             };
             //set current level
-            ProjectManager.prototype.setCurrentLevel = function (level) {
+            LevelsManager.prototype.setCurrentLevel = function (level) {
                 this.currentLevel = level;
                 for (var p in this.levelsData) {
                     if (this.levelsData[p].levels.indexOf(level) >= 0) {
@@ -5647,11 +5672,11 @@ var FlipPlus;
                 }
             };
             //undo a level
-            ProjectManager.prototype.undoLevel = function (level) {
+            LevelsManager.prototype.undoLevel = function (level) {
                 level.userdata.solved = false;
             };
             //skip a project
-            ProjectManager.prototype.skipLevel = function (level) {
+            LevelsManager.prototype.skipLevel = function (level) {
                 if (level == null)
                     return;
                 //TODO: Verifies if skip is possible
@@ -5670,7 +5695,7 @@ var FlipPlus;
                 }
             };
             //Finish a project.
-            ProjectManager.prototype.completeLevel = function (level) {
+            LevelsManager.prototype.completeLevel = function (level) {
                 //updates level;
                 level.userdata.solved = true;
                 level.userdata.skip = false;
@@ -5686,7 +5711,7 @@ var FlipPlus;
                 this.levelsUserDataManager.saveProjectData(this.getCurrentProject());
             };
             //get next level inside a project
-            ProjectManager.prototype.getNextLevel = function () {
+            LevelsManager.prototype.getNextLevel = function () {
                 //get current project and level
                 var project = this.getCurrentProject();
                 var level = this.getCurrentLevel();
@@ -5705,22 +5730,22 @@ var FlipPlus;
             };
             // ------------------------------- manager Projects ----------------------------------------
             //get current Project
-            ProjectManager.prototype.getCurrentProject = function () { return this.currentProject; };
+            LevelsManager.prototype.getCurrentProject = function () { return this.currentProject; };
             //set current project
-            ProjectManager.prototype.setCurrentProject = function (project) { this.currentProject = project; };
+            LevelsManager.prototype.setCurrentProject = function (project) { this.currentProject = project; };
             //Get all Projects
-            ProjectManager.prototype.getAllProjects = function () {
+            LevelsManager.prototype.getAllProjects = function () {
                 return this.levelsData;
             };
             //get a single project by name
-            ProjectManager.prototype.getProjectByName = function (name) {
+            LevelsManager.prototype.getProjectByName = function (name) {
                 for (var p in this.levelsData)
                     if (this.levelsData[p].name == name)
                         return this.levelsData[p];
                 return null;
             };
             //get all finished Projects
-            ProjectManager.prototype.getFinihedProjects = function () {
+            LevelsManager.prototype.getFinihedProjects = function () {
                 this.updateProjectsUserData();
                 //return array with avaliable projects
                 var finishedProjects = [];
@@ -5731,7 +5756,7 @@ var FlipPlus;
                 return finishedProjects;
             };
             //get all unlockedProjects
-            ProjectManager.prototype.getUnlockedProjects = function () {
+            LevelsManager.prototype.getUnlockedProjects = function () {
                 this.updateProjectsUserData();
                 //return array with avaliable projects
                 var unlockedProjects = [];
@@ -5742,7 +5767,7 @@ var FlipPlus;
                 return unlockedProjects;
             };
             //getProjectStars
-            ProjectManager.prototype.getStarsCount = function () {
+            LevelsManager.prototype.getStarsCount = function () {
                 var stars = 0;
                 for (var p in this.levelsData)
                     if (this.levelsData[p].UserData.stars)
@@ -5750,7 +5775,7 @@ var FlipPlus;
                 return stars;
             };
             //unlock a project based on user parts ballance
-            ProjectManager.prototype.unlockProject = function (project) {
+            LevelsManager.prototype.unlockProject = function (project) {
                 // //verifies if money was propery taken
                 if (this.getStarsCount() >= project.cost) {
                     //unlock project user data
@@ -5763,13 +5788,13 @@ var FlipPlus;
                 }
             };
             //unlock a level inside a project
-            ProjectManager.prototype.unlockLevel = function (level) {
+            LevelsManager.prototype.unlockLevel = function (level) {
                 //unlock level user data
                 level.userdata.unlocked = true;
                 this.levelsUserDataManager.saveLevelData(level);
             };
             //Finish a project.
-            ProjectManager.prototype.completeProject = function (project) {
+            LevelsManager.prototype.completeProject = function (project) {
                 //TODO colocar isso em outro lugar
                 //set played the intro when a project is complete
                 FlipPlus.FlipPlusGame.storyData.setStoryPlayed("intro");
@@ -5779,12 +5804,12 @@ var FlipPlus;
                 this.levelsUserDataManager.saveProjectData(project);
             };
             //Updates user data project status
-            ProjectManager.prototype.updateProjectsUserData = function () {
+            LevelsManager.prototype.updateProjectsUserData = function () {
                 for (var i = 0; i < this.levelsData.length; i++)
                     this.updateProjectUserData(this.levelsData[i]);
             };
             //Updates user data project status
-            ProjectManager.prototype.updateProjectUserData = function (project) {
+            LevelsManager.prototype.updateProjectUserData = function (project) {
                 var solvedLevels = 0;
                 //count solved levels
                 for (var l = 0; l < project.levels.length; l++)
@@ -5816,9 +5841,9 @@ var FlipPlus;
                 if (solvedLevels == project.levels.length)
                     this.completeProject(project);
             };
-            return ProjectManager;
+            return LevelsManager;
         })();
-        Levels.ProjectManager = ProjectManager;
+        Levels.LevelsManager = LevelsManager;
     })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
@@ -6646,23 +6671,6 @@ var FlipPlus;
 (function (FlipPlus) {
     var Menu;
     (function (Menu) {
-        var ActionlevelsMenu = (function (_super) {
-            __extends(ActionlevelsMenu, _super);
-            function ActionlevelsMenu() {
-                _super.apply(this, arguments);
-            }
-            ActionlevelsMenu.prototype.back = function () {
-                FlipPlus.FlipPlusGame.showMainScreen();
-            };
-            return ActionlevelsMenu;
-        })(Menu.WorkshopMenu);
-        Menu.ActionlevelsMenu = ActionlevelsMenu;
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
         var Intro = (function (_super) {
             __extends(Intro, _super);
             function Intro() {
@@ -7088,7 +7096,7 @@ var FlipPlus;
                     //clean all objects
                     this.removeChildren();
                     //if unlocked
-                    var stars = FlipPlus.FlipPlusGame.projectManager.getStarsCount();
+                    var stars = FlipPlus.FlipPlusGame.levelsManager.getStarsCount();
                     if (stars >= bonusData[bonusId].cost) {
                         //background
                         var bg = "projects/" + bonusId;
@@ -7990,6 +7998,23 @@ var FlipPlus;
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var WorkshopMenuAction = (function (_super) {
+            __extends(WorkshopMenuAction, _super);
+            function WorkshopMenuAction() {
+                _super.apply(this, arguments);
+            }
+            WorkshopMenuAction.prototype.back = function () {
+                FlipPlus.FlipPlusGame.showMainScreen();
+            };
+            return WorkshopMenuAction;
+        })(Menu.WorkshopMenu);
+        Menu.WorkshopMenuAction = WorkshopMenuAction;
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
     var Levels;
     (function (Levels) {
         // Controls projects and Levels.
@@ -8048,7 +8073,7 @@ var FlipPlus;
                     this.completeProject(project);
             };
             return ActionLevelsManager;
-        })(Levels.ProjectManager);
+        })(Levels.LevelsManager);
         Levels.ActionLevelsManager = ActionLevelsManager;
     })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
 })(FlipPlus || (FlipPlus = {}));

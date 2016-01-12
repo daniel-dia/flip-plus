@@ -1,10 +1,10 @@
 module FlipPlus.Menu {
 
-    export class ActionlevelsMenu extends WorkshopMenu {
-
+    export class WorkshopMenuAction extends WorkshopMenu{
+        
         public back() {
             FlipPlus.FlipPlusGame.showMainScreen();
         }
-
-    } 
+ 
+    }
 }

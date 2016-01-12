@@ -18,10 +18,10 @@ module FlipPlus.Menu {
 
 
         // projects manager
-        private levelsManager: Levels.ProjectManager;
+        private levelsManager: Levels.LevelsManager;
 
         // Constructor
-        constructor(levelsManager: Levels.ProjectManager) {
+        constructor(levelsManager: Levels.LevelsManager) {
 
             super();
 

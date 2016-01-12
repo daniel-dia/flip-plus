@@ -93,7 +93,7 @@ module FlipPlus.Menu.View {
 
             //verifica se o projeto pode ser destravado
             //TODO. nao devia acessar metodo global aqui
-            FlipPlusGame.projectManager.unlockProject(this.project);
+            FlipPlusGame.levelsManager.unlockProject(this.project);
                
             //update the objects display     
             this.createObjects(this.project);

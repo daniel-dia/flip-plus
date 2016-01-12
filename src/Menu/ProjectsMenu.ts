@@ -77,8 +77,8 @@ module FlipPlus.Menu {
 
         //update statistics 
         private updateStatistcs() {
-            var done = FlipPlusGame.projectManager.getFinihedProjects().length;
-            var total = FlipPlusGame.projectManager.getAllProjects().length;
+            var done = FlipPlusGame.levelsManager.getFinihedProjects().length;
+            var total = FlipPlusGame.levelsManager.getAllProjects().length;
             this.statisticsTextField.text = done + "/" + total + " BOTS";
         }
 
@@ -102,7 +102,7 @@ module FlipPlus.Menu {
             var currentPage: View.Page;
             
             // Create projectItens
-            var projects = FlipPlusGame.projectManager.getAllProjects();
+            var projects = FlipPlusGame.levelsManager.getAllProjects();
             
             //creates all itens
             for (var i = 0; i < projects.length; i++) {
@@ -143,12 +143,12 @@ module FlipPlus.Menu {
                     var bonusId = (<View.BonusItem>e.target).bonusId;
                     var timer = FlipPlusGame.timersData.getTimer(bonusId);
 
-                    if (bonusData[bonusId].cost <= FlipPlusGame.projectManager.getStarsCount()) {
+                    if (bonusData[bonusId].cost <= FlipPlusGame.levelsManager.getStarsCount()) {
                         if (timer == 0) FlipPlusGame.showBonus(bonusId);
                         else this.showtimeWarning(timer.toString());
                     }
                     else {
-                        this.showStarWarning(FlipPlusGame.projectManager.getStarsCount(), bonusData[bonusId].cost);
+                        this.showStarWarning(FlipPlusGame.levelsManager.getStarsCount(), bonusData[bonusId].cost);
                     }
                 });
 
@@ -173,7 +173,7 @@ module FlipPlus.Menu {
                 FlipPlusGame.showProjectLevelsMenu(p, { rebuild: true });
 
             else {
-                var stars = FlipPlusGame.projectManager.getStarsCount();
+                var stars = FlipPlusGame.levelsManager.getStarsCount();
                 if (stars < p.cost)
                     this.showStarWarning(stars, p.cost);
             }
@@ -267,7 +267,7 @@ module FlipPlus.Menu {
             this.updateStatistcs();
             this.updateBonuses();
 
-            this.starsIndicator.updateStarsAmount(FlipPlusGame.projectManager.getStarsCount());
+            this.starsIndicator.updateStarsAmount(FlipPlusGame.levelsManager.getStarsCount());
         }
 
         //back button

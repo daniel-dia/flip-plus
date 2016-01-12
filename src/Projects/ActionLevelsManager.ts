@@ -2,7 +2,7 @@
 
     // Controls projects and Levels.
     // Model
-    export class ActionLevelsManager extends ProjectManager {
+    export class ActionLevelsManager extends LevelsManager {
  
      
         // #region initialization ----------------------------------------//

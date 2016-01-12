@@ -33,7 +33,7 @@ module FlipPlus.Menu.View {
             this.removeChildren();
 
             //if unlocked
-            var stars = FlipPlusGame.projectManager.getStarsCount();
+            var stars = FlipPlusGame.levelsManager.getStarsCount();
             if ( stars >= bonusData[bonusId].cost) {
 
                 //background

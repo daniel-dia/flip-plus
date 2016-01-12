@@ -6,12 +6,12 @@ module FlipPlus.Robots {
     export class MyBots extends PIXI.Container {
 
         public myBots: PIXI.Container;
-        private projectManager: Levels.ProjectManager;
+        private projectManager: Levels.LevelsManager;
         private popup: Menu.View.PopupBot;
 
         //----------------------initialization ---------------------------
 
-        constructor(projectManager:Levels.ProjectManager) {
+        constructor(projectManager:Levels.LevelsManager) {
 
             super();
             this.projectManager = projectManager;
