@@ -18,6 +18,7 @@ module FlipPlus.GamePlay {
         protected message: Menu.View.Message;
         protected textEffext: Menu.View.TextEffect;
         protected pauseMenu: Menu.View.PauseMenu;
+
         // Level
         protected levelLogic: Logic.Level;
         protected levelData: Levels.Level;
@@ -28,6 +29,7 @@ module FlipPlus.GamePlay {
         protected usedItem: string;
         private itemTimes: Array<number>;
         private paused: boolean;
+
         // statistics
         private startedTime: number;
         private clicks: number;
@@ -77,7 +79,7 @@ module FlipPlus.GamePlay {
             this.addBackground();
 
             //initialize board sprites
-            this.createBoardSprite(leveldata.width, leveldata.height, leveldata.theme, this.levelLogic.getBlocks(), leveldata.type);
+            this.createBoardSprite(leveldata.width, leveldata.height, leveldata.theme);
 
             //initialize overlay
             this.initializeOverlays();
@@ -148,14 +150,11 @@ module FlipPlus.GamePlay {
             this.coinsIndicator.x = defaultWidth / 2;
 
             //upper staus area
-            if (FlipPlusGame.projectManager.getCurrentProject() != undefined) {
-                var levels: Levels.Level[] = FlipPlusGame.projectManager.getCurrentProject().levels;
-                this.statusArea = new Views.StatusArea();
-                this.statusArea.y += 80; 
-                this.statusArea.setText1("");
-                this.statusArea.setText3("");
-                this.header.addChild(this.statusArea);
-            }
+            this.statusArea = new Views.StatusArea();
+            this.statusArea.y += 80; 
+            this.statusArea.setText1("");
+            this.statusArea.setText3("");
+            this.header.addChild(this.statusArea);
 
             //pause menu
             this.pauseMenu = new Menu.View.PauseMenu();
@@ -169,14 +168,14 @@ module FlipPlus.GamePlay {
             this.content.addChild(this.pauseMenu);
         }
 
-        protected createBoardSprite(width: number, height: number, theme: string, blocks: any, type: string) {
+        protected createBoardSprite(width: number, height: number, theme: string) {
 
             // remove if there is alread a board
             if (this.boardSprite)
                 this.content.removeChild(this.boardSprite);
 
             // create and add board
-            this.boardSprite = new Views.BoardSprite(width, height, theme, type);
+            this.boardSprite = new Views.BoardSprite(width, height, theme);
             this.content.addChild(this.boardSprite);
 
             // position board

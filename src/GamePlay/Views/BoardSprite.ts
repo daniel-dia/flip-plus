@@ -12,7 +12,7 @@
         //indicator
         private tutorialIndiatcor: PIXI.Sprite;
 
-        constructor(levelWidth: number, levelHeight: number, levelTheme: string,levelType:string) {
+        constructor(levelWidth: number, levelHeight: number, levelTheme: string,levelType?:string) {
             super();
 
             this.addBlocks(levelWidth, levelHeight, levelTheme, levelType);

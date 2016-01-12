@@ -173,26 +173,30 @@ module FlipPlus.GamePlay.Logic {
                 }
         }
         
-        public createRandomBoard(minMoves: number = 2, maxMoves: number = 5) {
-           
+        // create a random inverts in the board
+        public setRandomBoard(minMoves: number = 2, maxMoves: number = 5, width?: number, height?: number) {
+
+            if (width) this.width = width;
+            if (height) this.height = height;
+
             var moves: number = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-            var lenght: number = this.width * this.height;
+            var boardLength: number = this.width * this.height;
             var inverted: boolean[] = [];
 
             for (var m = 0; m < moves; m++) {
-                var index = Math.floor(Math.random() * (lenght));
-                while (inverted[index] == true) index = (index + 1) % lenght;
+                var index = Math.floor(Math.random() * (boardLength));
+                while (inverted[index] == true) index = (index + 1) % boardLength;
                 inverted[index] = true;
             }
 
-            for (var i = 0; i < lenght; i++) 
+            for (var i = 0; i < boardLength; i++) 
                 if (inverted[i] == true)
                     this.invertCross(i % this.width, Math.floor(i / this.width));
             
             this.initializePrizes(2);
         }
 
-        //Distribuite Prizes Along Board
+        // Distribuite Prizes Along Board
         public initializePrizes(prizesNumber: number, minMoves: number = 0) {
 
             if (0 == minMoves)
@@ -210,7 +214,7 @@ module FlipPlus.GamePlay.Logic {
             }
         }
 
-        ///Invert a cross into the board
+        // Invert a cross into the board
         public invertCross(col, row) {
             
             //invert flag
@@ -240,7 +244,7 @@ module FlipPlus.GamePlay.Logic {
                 }
         }
 
-        //inverts all mirroered blocks
+        // inverts all mirroered blocks
         private mirrorBlock(block: Block): boolean {
 
             //if block is mirrored, invert all related

@@ -1311,7 +1311,7 @@ var FlipPlus;
                 //creates a Background
                 this.addBackground();
                 //initialize board sprites
-                this.createBoardSprite(leveldata.width, leveldata.height, leveldata.theme, this.levelLogic.getBlocks(), leveldata.type);
+                this.createBoardSprite(leveldata.width, leveldata.height, leveldata.theme);
                 //initialize overlay
                 this.initializeOverlays();
                 //adds message
@@ -1369,14 +1369,11 @@ var FlipPlus;
                 this.header.addChild(this.coinsIndicator);
                 this.coinsIndicator.x = defaultWidth / 2;
                 //upper staus area
-                if (FlipPlus.FlipPlusGame.projectManager.getCurrentProject() != undefined) {
-                    var levels = FlipPlus.FlipPlusGame.projectManager.getCurrentProject().levels;
-                    this.statusArea = new GamePlay.Views.StatusArea();
-                    this.statusArea.y += 80;
-                    this.statusArea.setText1("");
-                    this.statusArea.setText3("");
-                    this.header.addChild(this.statusArea);
-                }
+                this.statusArea = new GamePlay.Views.StatusArea();
+                this.statusArea.y += 80;
+                this.statusArea.setText1("");
+                this.statusArea.setText3("");
+                this.header.addChild(this.statusArea);
                 //pause menu
                 this.pauseMenu = new FlipPlus.Menu.View.PauseMenu();
                 this.pauseMenu.x = defaultWidth / 2;
@@ -1387,13 +1384,13 @@ var FlipPlus;
                 this.pauseMenu.addEventListener("leave", function () { _this.exit(); });
                 this.content.addChild(this.pauseMenu);
             };
-            LevelScreen.prototype.createBoardSprite = function (width, height, theme, blocks, type) {
+            LevelScreen.prototype.createBoardSprite = function (width, height, theme) {
                 var _this = this;
                 // remove if there is alread a board
                 if (this.boardSprite)
                     this.content.removeChild(this.boardSprite);
                 // create and add board
-                this.boardSprite = new GamePlay.Views.BoardSprite(width, height, theme, type);
+                this.boardSprite = new GamePlay.Views.BoardSprite(width, height, theme);
                 this.content.addChild(this.boardSprite);
                 // position board
                 this.boardSprite.x = defaultWidth / 2;
@@ -2249,6 +2246,8 @@ var FlipPlus;
                 var defaultX = this.boardSprite.x;
                 createjs.Tween.removeTweens(this.boardSprite);
                 createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(function () {
+                    // update overlay
+                    _this.statusArea.setText1(_this.currentPuzzle.toString() + "/" + _this.puzzlesToSolve.toString());
                     // remove the current board
                     // updates logic
                     _this.currentPuzzle++;
@@ -2260,7 +2259,11 @@ var FlipPlus;
             };
             LevelTimeAttack.prototype.createNewPuzzle = function (currentPuzzle) {
                 this.boardSprite.clearHint();
-                this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
+                // calculate new inverts
+                this.levelLogic.board.setRandomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
+                // create new board sprite
+                this.createBoardSprite(this.levelData.width, this.levelData.height, this.levelData.theme);
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             };
             LevelTimeAttack.prototype.startGame = function (levelData) {
                 this.puzzlesToSolve = levelData.puzzlesToSolve;
@@ -2291,13 +2294,6 @@ var FlipPlus;
             LevelTimeAttack.prototype.unPauseGame = function () {
                 _super.prototype.unPauseGame.call(this);
                 this.timer.start();
-            };
-            LevelTimeAttack.prototype.randomBoard = function (minMoves, maxMoves) {
-                if (minMoves === void 0) { minMoves = 2; }
-                if (maxMoves === void 0) { maxMoves = 5; }
-                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
-                this.levelLogic.board.createRandomBoard(minMoves, maxMoves);
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             };
             LevelTimeAttack.prototype.useItemTime = function () {
                 this.currentTime += 10;
@@ -2577,24 +2573,29 @@ var FlipPlus;
                             block.hidden = true;
                         }
                 };
-                Board.prototype.createRandomBoard = function (minMoves, maxMoves) {
+                // create a random inverts in the board
+                Board.prototype.setRandomBoard = function (minMoves, maxMoves, width, height) {
                     if (minMoves === void 0) { minMoves = 2; }
                     if (maxMoves === void 0) { maxMoves = 5; }
+                    if (width)
+                        this.width = width;
+                    if (height)
+                        this.height = height;
                     var moves = Math.floor(Math.random() * (maxMoves - minMoves)) + minMoves;
-                    var lenght = this.width * this.height;
+                    var boardLength = this.width * this.height;
                     var inverted = [];
                     for (var m = 0; m < moves; m++) {
-                        var index = Math.floor(Math.random() * (lenght));
+                        var index = Math.floor(Math.random() * (boardLength));
                         while (inverted[index] == true)
-                            index = (index + 1) % lenght;
+                            index = (index + 1) % boardLength;
                         inverted[index] = true;
                     }
-                    for (var i = 0; i < lenght; i++)
+                    for (var i = 0; i < boardLength; i++)
                         if (inverted[i] == true)
                             this.invertCross(i % this.width, Math.floor(i / this.width));
                     this.initializePrizes(2);
                 };
-                //Distribuite Prizes Along Board
+                // Distribuite Prizes Along Board
                 Board.prototype.initializePrizes = function (prizesNumber, minMoves) {
                     if (minMoves === void 0) { minMoves = 0; }
                     if (0 == minMoves)
@@ -2609,7 +2610,7 @@ var FlipPlus;
                         this.prizes.push(val);
                     }
                 };
-                ///Invert a cross into the board
+                // Invert a cross into the board
                 Board.prototype.invertCross = function (col, row) {
                     //invert flag
                     this.blocks[col][row].toggleInverted();
@@ -2630,7 +2631,7 @@ var FlipPlus;
                             return;
                         }
                 };
-                //inverts all mirroered blocks
+                // inverts all mirroered blocks
                 Board.prototype.mirrorBlock = function (block) {
                     //if block is mirrored, invert all related
                     return block.mirror;
@@ -6461,17 +6462,24 @@ var FlipPlus;
     (function (GamePlay) {
         var LevelAction = (function (_super) {
             __extends(LevelAction, _super);
-            function LevelAction() {
-                _super.apply(this, arguments);
+            function LevelAction(levelData) {
+                levelData.puzzlesToSolve = levelData.actionPuzzles.length;
+                _super.call(this, levelData);
             }
             LevelAction.prototype.createNewPuzzle = function (currentPuzzle) {
-                this.createBoardSprite();
                 this.boardSprite.clearHint();
-                var puzzle = this.levelData.actionPuzzles[currentPuzzle];
+                // get current puzzle
+                var puzzle = this.levelData.actionPuzzles[currentPuzzle - 1];
+                // recreates the level logic
+                this.levelLogic.board = new GamePlay.Logic.Board(puzzle.width, puzzle.height);
+                // set puzzle blocks new puzzle
                 if (puzzle.invertedBlocks)
                     this.levelLogic.board.setInvertedBlocks(puzzle.invertedBlocks);
                 else
-                    this.randomBoard(puzzle.randomMinMoves, puzzle.randomMaxMoves);
+                    this.levelLogic.board.setRandomBoard(puzzle.randomMinMoves, puzzle.randomMaxMoves);
+                // create new board sprite view
+                this.createBoardSprite(puzzle.width, puzzle.height, puzzle.color || "green");
+                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
             };
             return LevelAction;
         })(GamePlay.LevelTimeAttack);

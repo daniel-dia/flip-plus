@@ -44,7 +44,7 @@ module FlipPlus.GamePlay.Views {
         public pressed: boolean;
 
         //Constructor
-        constructor(col: number, row: number, theme: string, levelType: string) {
+        constructor(col: number, row: number, theme: string, levelType?: string) {
             super();
             
             this.levelType = levelType;

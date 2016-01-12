@@ -64,6 +64,9 @@ module FlipPlus.GamePlay {
             createjs.Tween.removeTweens(this.boardSprite);
             createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(() => {
 
+                // update overlay
+                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+
                 // remove the current board
                 
                 // updates logic
@@ -72,6 +75,8 @@ module FlipPlus.GamePlay {
 
                 // creates a new board
 
+
+
                 this.boardSprite.x = defaultX + defaultWidth;
                 createjs.Tween.get(this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut)
             })
@@ -79,7 +84,14 @@ module FlipPlus.GamePlay {
 
         protected createNewPuzzle(currentPuzzle:number) {
             this.boardSprite.clearHint();
-            this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
+
+            // calculate new inverts
+            this.levelLogic.board.setRandomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves)
+
+            // create new board sprite
+            this.createBoardSprite(this.levelData.width, this.levelData.height, this.levelData.theme);
+            this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+
         }
         
         private startGame(levelData: Levels.Level) {
@@ -120,17 +132,7 @@ module FlipPlus.GamePlay {
             super.unPauseGame();
             this.timer.start();
         }
-        
-        protected randomBoard(minMoves: number = 2, maxMoves: number = 5) {
-
-            this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
-
-            this.levelLogic.board.createRandomBoard(minMoves, maxMoves);
-
-            this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-
-        }
-
+ 
         protected useItemTime() {
             this.currentTime += 10;
         }
@@ -153,3 +155,4 @@ module FlipPlus.GamePlay {
         }
     }
 }
+
