@@ -33,15 +33,14 @@ module FlipPlus {
         public static actionLevelsManager:  Levels.LevelsManager;
 
         // Screens
-        private static titleScreen: gameui.ScreenState;
-        private static projectsMenu: gameui.ScreenState;
-        private static levelsMenu: gameui.ScreenState;
-        private static actionlevelsMenu: gameui.ScreenState;
-        private static levelScreeen: gameui.ScreenState;
+        private static titleScreen:         gameui.ScreenState; 
+        private static levelsMenu:          gameui.ScreenState;
+        private static actionlevelsMenu:    gameui.ScreenState;
+        private static levelScreeen:        gameui.ScreenState;
 
-        public static mainScreen: Menu.MainMenu;
-        public static optionsMenu: gameui.ScreenState;
-        public static loadingScreen: Menu.Loading;
+        public static mainScreen:           Menu.MainMenu;
+        public static optionsMenu:          gameui.ScreenState;
+        public static loadingScreen:        Menu.Loading;
 
         // current game mode
         private static gameMode: GameMode;
@@ -161,16 +160,7 @@ module FlipPlus {
             
             this.gameScreen.switchScreen(new GamePlay.LevelCreator2(level, callback), null, { type: "none",time:0 });
         }
-
-        public static showProjectsMenu() {
-            this.levelScreeen = null;
-
-            if (this.projectsMenu == null)
-                this.projectsMenu = new Menu.ProjectsMenu();
-
-            this.gameScreen.switchScreen(this.projectsMenu);
-        }
-        
+               
         public static showProjectLevelsMenu(project?: Levels.BotLevelsSet, parameters?: any) {
 
             // set wich leve manager to use

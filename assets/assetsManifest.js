@@ -18,7 +18,7 @@
 
 var imageManifest = [
         
-            { src: "logo/logo.png", id: "logo" },
+        { src: "logo/logo.png", id: "logo" },
         { src: "logo/onda01.png", id: "onda01" },
         { src: "logo/onda02.png", id: "onda02" },
         { src: "logo/onda04.png", id: "onda04" },
@@ -117,6 +117,7 @@ var imageManifest = [
         // menus
         { id: "MenuBt", src: "MenuBt.png" },
         { id: "BackBt", src: "BackBt.png" },
+        { id: "btpage", src: "btpage.png" },
 
         { id: "menu/btmenu", src: "menu/btmenu.png" },
         { id: "menu/btmusicoff", src: "menu/btmusicoff.png" },
@@ -187,71 +188,6 @@ var imageManifest = [
 		{ src: "Bonus3/number_1.png", id: "number_1" },
 		{ src: "Bonus3/number_2.png", id: "number_2" },
 		{ src: "Bonus3/number_3.png", id: "number_3" },
-
-
-        { id: "projects/Bonus1", src: "projects/Bonus1.png" },
-        { id: "projects/Bonus2", src: "projects/Bonus2.png" },
-        { id: "projects/Bonus3", src: "projects/Bonus3.png" },
-
-
-        //projects other stuff
-        { id: "projects/bgprojects", src: "projects/bgprojects.jpg" },
-        { id: "projects/projectFooter", src: "projects/projectFooter.png" },
-        { id: "projects/projectHeader", src: "projects/projectHeader.png" },
-        { id: "projects/bar1", src: "projects/bar1.png" },
-        { id: "projects/bar2", src: "projects/bar2.png" },
-        { id: "projects/bar3", src: "projects/bar3.png" },
-        { id: "projects/bar0", src: "projects/bar0.png" },
-        { id: "projects/bar1a", src: "projects/bar1a.png" },
-        { id: "projects/bar2a", src: "projects/bar2a.png" },
-        { id: "projects/bar3a", src: "projects/bar3a.png" },
-        { id: "projects/bar0a", src: "projects/bar0a.png" },
-        { id: "projects/slotl", src: "projects/slotl.png" },
-        { id: "projects/slot", src: "projects/slot.png" },
-        { id: "projects/star", src: "projects/star.png" },
-        { id: "projects/pageon", src: "projects/pageon.png" },
-        { id: "projects/pageoff", src: "projects/pageoff.png" },
-        { id: "projects/bigslot1", src: "projects/bigslot1.png" },
-        { id: "projects/btpage", src: "projects/btpage.png" },
-
-        //projects bots
-        { id: "projects/Bot01", src: "projects/bots/Bot01.png" },
-        { id: "projects/Bot02", src: "projects/bots/Bot02.png" },
-        { id: "projects/Bot03", src: "projects/bots/Bot03.png" },
-        { id: "projects/Bot04", src: "projects/bots/Bot04.png" },
-        { id: "projects/Bot05", src: "projects/bots/Bot05.png" },
-        { id: "projects/Bot06", src: "projects/bots/Bot06.png" },
-        { id: "projects/Bot07", src: "projects/bots/Bot07.png" },
-        { id: "projects/Bot08", src: "projects/bots/Bot08.png" },
-        { id: "projects/Bot09", src: "projects/bots/Bot09.png" },
-        { id: "projects/Bot10", src: "projects/bots/Bot10.png" },
-        { id: "projects/Bot11", src: "projects/bots/Bot11.png" },
-        { id: "projects/Bot12", src: "projects/bots/Bot12.png" },
-        { id: "projects/Bot13", src: "projects/bots/Bot13.png" },
-        { id: "projects/Bot14", src: "projects/bots/Bot14.png" },
-        { id: "projects/Bot15", src: "projects/bots/Bot15.png" },
-        { id: "projects/Bot16", src: "projects/bots/Bot16.png" },
-        { id: "projects/Bot17", src: "projects/bots/Bot17.png" },
-        { id: "projects/Bot18", src: "projects/bots/Bot18.png" },
-        { id: "projects/Bot01_shadow", src: "projects/bots/Bot01_shadow.png" },
-        { id: "projects/Bot02_shadow", src: "projects/bots/Bot02_shadow.png" },
-        { id: "projects/Bot03_shadow", src: "projects/bots/Bot03_shadow.png" },
-        { id: "projects/Bot04_shadow", src: "projects/bots/Bot04_shadow.png" },
-        { id: "projects/Bot05_shadow", src: "projects/bots/Bot05_shadow.png" },
-        { id: "projects/Bot06_shadow", src: "projects/bots/Bot06_shadow.png" },
-        { id: "projects/Bot07_shadow", src: "projects/bots/Bot07_shadow.png" },
-        { id: "projects/Bot08_shadow", src: "projects/bots/Bot08_shadow.png" },
-        { id: "projects/Bot09_shadow", src: "projects/bots/Bot09_shadow.png" },
-        { id: "projects/Bot10_shadow", src: "projects/bots/Bot10_shadow.png" },
-        { id: "projects/Bot11_shadow", src: "projects/bots/Bot11_shadow.png" },
-        { id: "projects/Bot12_shadow", src: "projects/bots/Bot12_shadow.png" },
-        { id: "projects/Bot13_shadow", src: "projects/bots/Bot13_shadow.png" },
-        { id: "projects/Bot14_shadow", src: "projects/bots/Bot14_shadow.png" },
-        { id: "projects/Bot15_shadow", src: "projects/bots/Bot15_shadow.png" },
-        { id: "projects/Bot16_shadow", src: "projects/bots/Bot16_shadow.png" },
-        { id: "projects/Bot17_shadow", src: "projects/bots/Bot17_shadow.png" },
-        { id: "projects/Bot18_shadow", src: "projects/bots/Bot18_shadow.png" },
-
 
         //workshop bots
         { src: "workshop/bots/Bot01_fill.png", id: "workshop/Bot01_fill" },

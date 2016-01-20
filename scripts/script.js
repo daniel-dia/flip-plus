@@ -858,12 +858,6 @@ var FlipPlus;
             }
             this.gameScreen.switchScreen(new FlipPlus.GamePlay.LevelCreator2(level, callback), null, { type: "none", time: 0 });
         };
-        FlipPlusGame.showProjectsMenu = function () {
-            this.levelScreeen = null;
-            if (this.projectsMenu == null)
-                this.projectsMenu = new FlipPlus.Menu.ProjectsMenu();
-            this.gameScreen.switchScreen(this.projectsMenu);
-        };
         FlipPlusGame.showProjectLevelsMenu = function (project, parameters) {
             // set wich leve manager to use
             this.gameMode = GameMode.PROJECTS;
@@ -4408,20 +4402,20 @@ var FlipPlus;
                         FlipPlus.FlipPlusGame.showLevel(level, parameters);
             };
             WorkshopMenu.prototype.back = function () {
-                FlipPlus.FlipPlusGame.showProjectsMenu();
+                FlipPlus.FlipPlusGame.showMainScreen();
             };
             // ----------------------- pagination -------------------------------------------------------
             WorkshopMenu.prototype.createPaginationButtons = function (pagesContainer) {
                 var _this = this;
                 //create leftButton
-                var lb = new gameui.ImageButton("projects/btpage", function () {
+                var lb = new gameui.ImageButton("btpage", function () {
                     _this.pagesSwipe.gotoPreviousPage();
                 }, "buttonOut");
                 lb.y = 1050;
                 lb.x = defaultWidth * 0.1;
                 this.content.addChild(lb);
                 //create right button
-                var rb = new gameui.ImageButton("projects/btpage", function () {
+                var rb = new gameui.ImageButton("btpage", function () {
                     _this.pagesSwipe.gotoNextPage();
                 });
                 rb.y = 1050;
@@ -4466,6 +4460,7 @@ var FlipPlus;
                     //store last state
                     this.projectPreviousState[project.name] = project.UserData.complete;
                 }
+                this.pagesSwipe.gotoPage(1);
             };
             return WorkshopMenu;
         })(gameui.ScreenState);
@@ -4650,8 +4645,7 @@ var FlipPlus;
             };
             MainMenu.prototype.addPlayButton = function () {
                 var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", function () {
-                    FlipPlus.FlipPlusGame.showProjectsMenu();
-                    //FlipPlus.FlipPlusGame.showActionLevelsMenu();
+                    FlipPlus.FlipPlusGame.showProjectLevelsMenu();
                 });
                 playBt.interactive = true;
                 this.content.addChild(playBt);
@@ -4725,225 +4719,284 @@ var FlipPlus;
         Menu.OptionsMenu = OptionsMenu;
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var ProjectsMenu = (function (_super) {
-            __extends(ProjectsMenu, _super);
-            //==================================== initialization ==============================================
-            // Constructor
-            function ProjectsMenu() {
-                var _this = this;
-                _super.call(this);
-                this.projectsItems = [];
-                this.bonusItems = [];
-                this.createObjects();
-                this.onback = function () { _this.back(); };
+/*
+module FlipPlus.Menu {
+
+    export class ProjectsMenu extends gameui.ScreenState {
+
+        private starsIndicator: View.StarsIndicator;
+        private statisticsTextField: PIXI.extras.BitmapText;
+        private projectsGrid: PIXI.Container;
+
+        private projectsItems: View.ProjectItem[] = [];
+        private bonusItems: View.BonusItem[] = [];
+
+        private menu: View.ScreenMenu;
+        private popup: View.Popup;
+
+        private pagesSwipe: View.PagesSwiper;
+        private pages: Array<View.Page>;
+
+        //==================================== initialization ==============================================
+        // Constructor
+        constructor() {
+            super();
+            this.createObjects();
+            this.onback = () => { this.back(); };
+        }
+        
+        //populate View
+        private createObjects() {
+
+            var bg = gameui.AssetsManager.getBitmap("projects/bgprojects");
+            bg.scale.y = bg.scale.x = 2;
+            this.background.addChild(bg);
+
+            this.addHeader();
+            this.addProjects();
+            this.addBonuses();
+            
+            this.pagesSwipe = new View.PagesSwiper(this.projectsGrid, this.pages, defaultWidth);
+            this.createPaginationButtons(this.projectsGrid);
+            
+            this.createPopup();
+        }
+
+        //creates a popup
+        private createPopup() {
+            this.popup = new View.Popup();
+            this.content.addChild(this.popup);
+        }
+
+        //Adds defaultMenu to screen
+        private addHeader() {
+            
+            //create background
+            this.header.addChild(gameui.AssetsManager.getBitmap("projects/projectHeader"));
+
+
+            this.menu = new View.ScreenMenu(true, true);
+            //TODO fazer camada intermediaria
+            //TODO o options sempre volta pro menu principal. O_o
+            this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(this) });
+            this.menu.addEventListener("back", () => { this.back() });
+            this.header.addChild(this.menu);
+
+            //create starsIndicator
+            this.starsIndicator = new Menu.View.StarsIndicator();
+            this.header.addChild(this.starsIndicator);
+            this.starsIndicator.x = defaultWidth;
+            this.starsIndicator.y = 220;
+
+            //create bots statistics
+            this.statisticsTextField = gameui.AssetsManager.getBitmapText("0", "fontBlue");
+            this.header.addChild(this.statisticsTextField);
+            this.statisticsTextField.y = 220;
+            this.statisticsTextField.x = 80;
+
+        }
+
+        //update statistics
+        private updateStatistcs() {
+            var done = FlipPlusGame.levelsManager.getFinihedProjects().length;
+            var total = FlipPlusGame.levelsManager.getAllProjects().length;
+            this.statisticsTextField.text = done + "/" + total + " BOTS";
+        }
+
+        //adds projects objects to the view
+        private addProjects() {
+
+            //grid properties
+            var xspacing = 500;
+            var yspacing = 960;
+            var rows = 2;
+            var cols = 3;
+
+            //create grid
+            this.projectsGrid = new PIXI.Container();
+            this.content.addChild(this.projectsGrid);
+            this.projectsGrid.x = (defaultWidth - xspacing * cols) / 2 + xspacing / 2;
+            this.projectsGrid.y = 600;
+
+            // create Pages
+            this.pages = [];
+            var currentPage: View.Page;
+            
+            // Create projectItens
+            var projects = FlipPlusGame.levelsManager.getAllProjects();
+            
+            //creates all itens
+            for (var i = 0; i < projects.length; i++) {
+
+                //create current page
+                if (i % (cols * rows) == 0) {
+                    currentPage = new View.Page();
+
+                    this.projectsGrid.addChild(currentPage);
+                    this.pages.push(currentPage);
+                }
+
+                
+                var projectView = new View.ProjectItem(projects[i], (e: PIXI.interaction.InteractionEvent) => {
+                    this.projectItemClick(e);
+                });
+ 
+                
+                //add item to scene
+                this.projectsItems.push(projectView);
+                currentPage.addChild(projectView);
+                
+
+                //set item position
+                projectView.x = xspacing * (i % cols) + 260;
+                projectView.y = yspacing * Math.floor((i % (cols * rows)) / cols);
+
             }
-            //populate View
-            ProjectsMenu.prototype.createObjects = function () {
-                var bg = gameui.AssetsManager.getBitmap("projects/bgprojects");
-                bg.scale.y = bg.scale.x = 2;
-                this.background.addChild(bg);
-                this.addHeader();
-                this.addProjects();
-                this.addBonuses();
-                this.pagesSwipe = new Menu.View.PagesSwiper(this.projectsGrid, this.pages, defaultWidth);
-                this.createPaginationButtons(this.projectsGrid);
-                this.createPopup();
-            };
-            //creates a popup
-            ProjectsMenu.prototype.createPopup = function () {
-                this.popup = new Menu.View.Popup();
-                this.content.addChild(this.popup);
-            };
-            //Adds defaultMenu to screen
-            ProjectsMenu.prototype.addHeader = function () {
-                var _this = this;
-                //create background
-                this.header.addChild(gameui.AssetsManager.getBitmap("projects/projectHeader"));
-                this.menu = new Menu.View.ScreenMenu(true, true);
-                //TODO fazer camada intermediaria
-                //TODO o options sempre volta pro menu principal. O_o
-                this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(_this); });
-                this.menu.addEventListener("back", function () { _this.back(); });
-                this.header.addChild(this.menu);
-                //create starsIndicator
-                this.starsIndicator = new Menu.View.StarsIndicator();
-                this.header.addChild(this.starsIndicator);
-                this.starsIndicator.x = defaultWidth;
-                this.starsIndicator.y = 220;
-                //create bots statistics
-                this.statisticsTextField = gameui.AssetsManager.getBitmapText("0", "fontBlue");
-                this.header.addChild(this.statisticsTextField);
-                this.statisticsTextField.y = 220;
-                this.statisticsTextField.x = 80;
-            };
-            //update statistics 
-            ProjectsMenu.prototype.updateStatistcs = function () {
-                var done = FlipPlus.FlipPlusGame.levelsManager.getFinihedProjects().length;
-                var total = FlipPlus.FlipPlusGame.levelsManager.getAllProjects().length;
-                this.statisticsTextField.text = done + "/" + total + " BOTS";
-            };
-            //adds projects objects to the view
-            ProjectsMenu.prototype.addProjects = function () {
-                var _this = this;
-                //grid properties
-                var xspacing = 500;
-                var yspacing = 960;
-                var rows = 2;
-                var cols = 3;
-                //create grid
-                this.projectsGrid = new PIXI.Container();
-                this.content.addChild(this.projectsGrid);
-                this.projectsGrid.x = (defaultWidth - xspacing * cols) / 2 + xspacing / 2;
-                this.projectsGrid.y = 600;
-                // create Pages
-                this.pages = [];
-                var currentPage;
-                // Create projectItens
-                var projects = FlipPlus.FlipPlusGame.levelsManager.getAllProjects();
-                //creates all itens
-                for (var i = 0; i < projects.length; i++) {
-                    //create current page
-                    if (i % (cols * rows) == 0) {
-                        currentPage = new Menu.View.Page();
-                        this.projectsGrid.addChild(currentPage);
-                        this.pages.push(currentPage);
+        }
+
+        //adds bonuses objects to the view
+        private addBonuses() {
+            for (var p = 0; p < this.pages.length; p++) {
+                var bonusBt = new View.BonusItem("Bonus" + (p + 1), (e) => {
+                    //cancel click in case of drag
+                    if (this.pagesSwipe.cancelClick) return;
+
+                    var bonusId = (<View.BonusItem>e.target).bonusId;
+                    var timer = FlipPlusGame.timersData.getTimer(bonusId);
+
+                    if (bonusData[bonusId].cost <= FlipPlusGame.levelsManager.getStarsCount()) {
+                        if (timer == 0) FlipPlusGame.showBonus(bonusId);
+                        else this.showtimeWarning(timer.toString());
                     }
-                    var projectView = new Menu.View.ProjectItem(projects[i], function (e) {
-                        _this.projectItemClick(e);
-                    });
-                    //add item to scene
-                    this.projectsItems.push(projectView);
-                    currentPage.addChild(projectView);
-                    //set item position
-                    projectView.x = xspacing * (i % cols) + 260;
-                    projectView.y = yspacing * Math.floor((i % (cols * rows)) / cols);
-                }
-            };
-            //adds bonuses objects to the view
-            ProjectsMenu.prototype.addBonuses = function () {
-                var _this = this;
-                for (var p = 0; p < this.pages.length; p++) {
-                    var bonusBt = new Menu.View.BonusItem("Bonus" + (p + 1), function (e) {
-                        //cancel click in case of drag
-                        if (_this.pagesSwipe.cancelClick)
-                            return;
-                        var bonusId = e.target.bonusId;
-                        var timer = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
-                        if (bonusData[bonusId].cost <= FlipPlus.FlipPlusGame.levelsManager.getStarsCount()) {
-                            if (timer == 0)
-                                FlipPlus.FlipPlusGame.showBonus(bonusId);
-                            else
-                                _this.showtimeWarning(timer.toString());
-                        }
-                        else {
-                            _this.showStarWarning(FlipPlus.FlipPlusGame.levelsManager.getStarsCount(), bonusData[bonusId].cost);
-                        }
-                    });
-                    this.pages[p].addChild(bonusBt);
-                    this.bonusItems.push(bonusBt);
-                }
-            };
-            //Callback to the project item click
-            ProjectsMenu.prototype.projectItemClick = function (e) {
-                //cancel click in case of drag
-                if (this.pagesSwipe.cancelClick)
-                    return;
-                //get proper project target
-                var t = e.target;
-                var pv = t;
-                var p = pv.project;
-                if (p.UserData.unlocked)
-                    FlipPlus.FlipPlusGame.showProjectLevelsMenu(p, { rebuild: true });
-                else {
-                    var stars = FlipPlus.FlipPlusGame.levelsManager.getStarsCount();
-                    if (stars < p.cost)
-                        this.showStarWarning(stars, p.cost);
-                }
-            };
-            //Show warning for no using stars
-            ProjectsMenu.prototype.showStarWarning = function (stars, cost) {
-                this.popup.showtext(StringResources.pr_notStarsTitle, StringResources.pr_notStarsText.split("#")[0] + stars.toString() + StringResources.pr_notStarsText.split("#")[1] + cost.toString() + StringResources.pr_notStarsText.split("#")[2], 10000);
-            };
-            //show there is no time for it
-            ProjectsMenu.prototype.showtimeWarning = function (time) {
-                this.popup.showtext(StringResources.pr_notTimeText.split("#")[0], StringResources.pr_notTimeText.split("#")[1] + time + StringResources.pr_notTimeText.split("#")[2], 10000);
-            };
-            //update all projects preview in the menu page
-            ProjectsMenu.prototype.updateProjects = function () {
-                for (var i = 0; i < this.projectsItems.length; i++)
-                    this.projectsItems[i].updateProjectInfo();
-            };
-            //update all projects preview in the menu page
-            ProjectsMenu.prototype.updateBonuses = function () {
+                    else {
+                        this.showStarWarning(FlipPlusGame.levelsManager.getStarsCount(), bonusData[bonusId].cost);
+                    }
+                });
+
+                this.pages[p].addChild(bonusBt);
+                this.bonusItems.push(bonusBt);
+
+            }
+        }
+
+        //Callback to the project item click
+        private projectItemClick(e: PIXI.interaction.InteractionEvent) {
+
+            //cancel click in case of drag
+            if (this.pagesSwipe.cancelClick) return;
+                
+            //get proper project target
+            var t: any = e.target;
+            var pv = <View.ProjectItem> t;
+            var p = pv.project;
+
+            if (p.UserData.unlocked)
+                FlipPlusGame.showProjectLevelsMenu(p, { rebuild: true });
+
+            else {
+                var stars = FlipPlusGame.levelsManager.getStarsCount();
+                if (stars < p.cost)
+                    this.showStarWarning(stars, p.cost);
+            }
+        }
+
+        //Show warning for no using stars
+        private showStarWarning(stars: number, cost: number) {
+            this.popup.showtext(StringResources.pr_notStarsTitle, StringResources.pr_notStarsText.split("#")[0] + stars.toString() + StringResources.pr_notStarsText.split("#")[1] + cost.toString() + StringResources.pr_notStarsText.split("#")[2], 10000);
+        }
+
+        //show there is no time for it
+        private showtimeWarning(time: string) {
+            this.popup.showtext(StringResources.pr_notTimeText.split("#")[0], StringResources.pr_notTimeText.split("#")[1] + time + StringResources.pr_notTimeText.split("#")[2], 10000);
+        }
+
+        //update all projects preview in the menu page
+        private updateProjects() {
+            for (var i = 0; i < this.projectsItems.length; i++)
+                this.projectsItems[i].updateProjectInfo();
+        }
+
+        //update all projects preview in the menu page
+        private updateBonuses() {
+            for (var i = 0; i < 3; i++)
+                this.bonusItems[i].updateProjectInfo();
+        }
+
+        //=====================================================
+
+        //create paginations buttons
+        private createPaginationButtons(pagesContainer: PIXI.Container) {
+
+            var bg = gameui.AssetsManager.getBitmap("projects/projectFooter")
+            bg.y = -246;
+            this.footer.addChild(bg);
+
+            //create leftButton
+            var lb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() }, "buttonOut");
+            lb.y = -100;
+            lb.x = defaultWidth * 0.1;
+            this.footer.addChild(lb);
+
+            //create right button
+            var rb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
+            rb.y = -100;
+            rb.x = defaultWidth * 0.9;
+            rb.scale.x = -1;
+            this.footer.addChild(rb);
+
+            //create pagination indicator
+            var indicatorContainer: PIXI.Container = new PIXI.Container();
+            indicatorContainer.mouseEnabled = false;
+            indicatorContainer.x = 500;
+            indicatorContainer.y = -130;
+            for (var i = 0; i < 3; i++) {
+
+                var off = gameui.AssetsManager.getBitmap("projects/pageoff")
+                off.x = i * 200;
+                indicatorContainer.addChild(off);
+
+                var on = gameui.AssetsManager.getBitmap("projects/pageon")
+                on.x = off.x;
+                on.visible = false;
+                on.name = i.toString();
+                indicatorContainer.addChild(on);
+            }
+
+            this.pagesSwipe.onPageChange = (pageId) => {
                 for (var i = 0; i < 3; i++)
-                    this.bonusItems[i].updateProjectInfo();
-            };
-            //=====================================================
-            //create paginations buttons
-            ProjectsMenu.prototype.createPaginationButtons = function (pagesContainer) {
-                var _this = this;
-                var bg = gameui.AssetsManager.getBitmap("projects/projectFooter");
-                bg.y = -246;
-                this.footer.addChild(bg);
-                //create leftButton
-                var lb = new gameui.ImageButton("projects/btpage", function () { _this.pagesSwipe.gotoPreviousPage(); }, "buttonOut");
-                lb.y = -100;
-                lb.x = defaultWidth * 0.1;
-                this.footer.addChild(lb);
-                //create right button
-                var rb = new gameui.ImageButton("projects/btpage", function () { _this.pagesSwipe.gotoNextPage(); });
-                rb.y = -100;
-                rb.x = defaultWidth * 0.9;
-                rb.scale.x = -1;
-                this.footer.addChild(rb);
-                //create pagination indicator
-                var indicatorContainer = new PIXI.Container();
-                indicatorContainer.mouseEnabled = false;
-                indicatorContainer.x = 500;
-                indicatorContainer.y = -130;
-                for (var i = 0; i < 3; i++) {
-                    var off = gameui.AssetsManager.getBitmap("projects/pageoff");
-                    off.x = i * 200;
-                    indicatorContainer.addChild(off);
-                    var on = gameui.AssetsManager.getBitmap("projects/pageon");
-                    on.x = off.x;
-                    on.visible = false;
-                    on.name = i.toString();
-                    indicatorContainer.addChild(on);
-                }
-                this.pagesSwipe.onPageChange = function (pageId) {
-                    for (var i = 0; i < 3; i++)
-                        indicatorContainer.getChildByName(i.toString()).visible = false;
-                    indicatorContainer.getChildByName(pageId.toString()).visible = true;
-                };
-                this.footer.addChild(indicatorContainer);
-                //goto defaul page
-                this.pagesSwipe.gotoPage(0);
-            };
-            //=====================================================
-            //executes when activate the screen
-            ProjectsMenu.prototype.activate = function () {
-                _super.prototype.activate.call(this);
-                // play music
-                gameui.AudiosManager.playMusic("Music Dot Robot");
-                this.updateProjects();
-                this.updateStatistcs();
-                this.updateBonuses();
-                this.starsIndicator.updateStarsAmount(FlipPlus.FlipPlusGame.levelsManager.getStarsCount());
-            };
-            //back button
-            ProjectsMenu.prototype.back = function () {
-                FlipPlus.FlipPlusGame.showMainScreen();
-            };
-            return ProjectsMenu;
-        })(gameui.ScreenState);
-        Menu.ProjectsMenu = ProjectsMenu;
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
+                    indicatorContainer.getChildByName(i.toString()).visible = false;
+                indicatorContainer.getChildByName(pageId.toString()).visible = true;
+            }
+
+            this.footer.addChild(indicatorContainer);
+
+            //goto defaul page
+            this.pagesSwipe.gotoPage(0);
+        }
+
+        //=====================================================
+
+        //executes when activate the screen
+        public activate() {
+            super.activate();
+            
+            // play music
+            gameui.AudiosManager.playMusic("Music Dot Robot");
+
+
+            this.updateProjects();
+            this.updateStatistcs();
+            this.updateBonuses();
+
+            this.starsIndicator.updateStarsAmount(FlipPlusGame.levelsManager.getStarsCount());
+        }
+
+        //back button
+        public back() {
+            FlipPlus.FlipPlusGame.showMainScreen();
+        }
+    }
+}*/ 
 var FlipPlus;
 (function (FlipPlus) {
     var Menu;

@@ -15,15 +15,14 @@ module FlipPlus.Menu {
 
         //just to know when a user finished a project
         private projectPreviousState: Object = {};
-
-
+        
         // projects manager
         private levelsManager: Levels.LevelsManager;
 
         // Constructor
         constructor(levelsManager: Levels.LevelsManager) {
 
-            super();
+            super(); 
 
             this.levelsManager = levelsManager;
 
@@ -112,14 +111,14 @@ module FlipPlus.Menu {
         }
 
         public back() {
-            FlipPlus.FlipPlusGame.showProjectsMenu();
+            FlipPlus.FlipPlusGame.showMainScreen();
         }
 
         // ----------------------- pagination -------------------------------------------------------
 
         private createPaginationButtons(pagesContainer: PIXI.Container) {
             //create leftButton
-            var lb: gameui.Button = new gameui.ImageButton("projects/btpage", () => {
+            var lb: gameui.Button = new gameui.ImageButton("btpage", () => {
                 this.pagesSwipe.gotoPreviousPage()
             }, "buttonOut");
             lb.y = 1050;
@@ -127,7 +126,7 @@ module FlipPlus.Menu {
             this.content.addChild(lb);
 
             //create right button
-            var rb: gameui.Button = new gameui.ImageButton("projects/btpage", () => {
+            var rb: gameui.Button = new gameui.ImageButton("btpage", () => {
                 this.pagesSwipe.gotoNextPage()
             });
             rb.y = 1050;
@@ -188,7 +187,9 @@ module FlipPlus.Menu {
                 
                 //store last state
                 this.projectPreviousState[project.name] = project.UserData.complete;
-            }            
+            }           
+            
+            this.pagesSwipe.gotoPage(1); 
         }
     }
 }

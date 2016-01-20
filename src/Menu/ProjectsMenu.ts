@@ -1,4 +1,4 @@
-
+/*
 module FlipPlus.Menu {
 
     export class ProjectsMenu extends gameui.ScreenState { 
@@ -275,4 +275,4 @@ module FlipPlus.Menu {
             FlipPlus.FlipPlusGame.showMainScreen();
         }
     }
-}
+}*/
