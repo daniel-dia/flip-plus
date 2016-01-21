@@ -71,12 +71,17 @@
         public update(animate: boolean= false) {
             try {
                 //já acabou de terminar um level
-                if (animate) this.animateBotFillTo();
-                if (!animate)
+                if (animate) {
+                    this.animateBox();
+                    this.animateBotFillTo();
+                }
+
+                if (!animate) {
                     if (this.project.UserData.complete)
                         this.createCompletedBot()
                     else
                         this.updateFill();
+                }
             } catch (e) { };
         }
         
@@ -86,17 +91,10 @@
 
         }
 
-        //animate finishing level
+        // Animate finishing leve Fill bot with a masked yellow fill
         private animateBotFillTo(color: number= 0xffcc2e) {
 
             var newValue = this.project.UserData.percent;
-
-            //boxShape zoom out to the bot
-            var boxShape = new PIXI.Graphics();
-            boxShape.beginFill(color).drawRect(-700, -700, 1400, 1400);
-            boxShape.y = -300;
-            this.addChild(boxShape);
-            createjs.Tween.get(boxShape).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(() => { this.removeChild(boxShape); })
             createjs.Tween.get(this.percentMask).wait(900).to({ scaleY: newValue }, 700, createjs.Ease.quadInOut).wait(500).call(() => {
                 
                 if (this.project.UserData.complete) {
@@ -110,6 +108,16 @@
                     this.castNewEffect();
                 }
             });
+        }
+        
+        // animate a box going inside the bot
+        private animateBox() {
+            //boxShape zoom out to the bot
+            var boxShape = new PIXI.Graphics();
+            boxShape.beginFill(0xffcc2e).drawRect(-700, -700, 1400, 1400);
+            boxShape.y = -300;
+            this.addChild(boxShape);
+            createjs.Tween.get(boxShape).to({ scaleX: 0, scaleY: 0 }, 500, createjs.Ease.quadIn).call(() => { this.removeChild(boxShape); })
         }
 
         // show a new glare into the bot

@@ -10,11 +10,9 @@ module FlipPlus.Menu {
         private message: View.Message;
 
         private pagesSwipe: View.PagesSwiper;
+        private paginationButtons: PIXI.Container;
 
         private factorySound: createjs.SoundInstance;
-
-        //just to know when a user finished a project
-        private projectPreviousState: Object = {};
         
         // projects manager
         private levelsManager: Levels.LevelsManager;
@@ -97,6 +95,20 @@ module FlipPlus.Menu {
             }   
         }
 
+        public disableInteraction() {
+            this.view.interactiveChildren = false;
+            this.view.interactive = false;
+            this.menu.visible = false;
+            this.paginationButtons.visible = false
+        }
+
+        public enableInteraction() {
+            this.view.interactiveChildren = true;
+            this.view.interactive = true;
+            this.menu.visible = true;
+            this.paginationButtons.visible = true
+        }
+
         private openLevel(level: Levels.Level, parameters) {
 
             //cancel click in case of drag
@@ -117,13 +129,16 @@ module FlipPlus.Menu {
         // ----------------------- pagination -------------------------------------------------------
 
         private createPaginationButtons(pagesContainer: PIXI.Container) {
+
+            this.paginationButtons = new PIXI.Container();
+
             //create leftButton
             var lb: gameui.Button = new gameui.ImageButton("btpage", () => {
                 this.pagesSwipe.gotoPreviousPage()
             }, "buttonOut");
             lb.y = 1050;
             lb.x = defaultWidth * 0.1;
-            this.content.addChild(lb);
+            this.paginationButtons.addChild(lb);
 
             //create right button
             var rb: gameui.Button = new gameui.ImageButton("btpage", () => {
@@ -132,7 +147,9 @@ module FlipPlus.Menu {
             rb.y = 1050;
             rb.x = defaultWidth * 0.9;
             rb.scale.x = -1;
-            this.content.addChild(rb);
+            this.paginationButtons.addChild(rb);
+
+            this.content.addChild(this.paginationButtons);
 
         }           
  
@@ -147,9 +164,10 @@ module FlipPlus.Menu {
 
         public desactivate(parameters?: any) {
             super.desactivate(parameters);
-            this.factorySound.stop();
-            
-            delete this.factorySound;
+            if (this.factorySound){
+                this.factorySound.stop();
+                delete this.factorySound;
+            }
         }
 
         public activate(parameters?: any) {
@@ -173,20 +191,8 @@ module FlipPlus.Menu {
                     this.projectViews[pv].activate(parameters);
 
                     //goto current project
-                    this.pagesSwipe.gotoPage(parseInt( pv), false);
-
-                    //if complete changes to myBotScreen
-                    if (project.UserData.complete && this.projectPreviousState[project.name]==false) {
-
-                        setTimeout(() => {
-                            FlipPlusGame.showMainScreen();
-                        }, 6000);
-                        var proj = project;
-                    }
+                    this.pagesSwipe.gotoPage(parseInt(pv), false);
                 }
-                
-                //store last state
-                this.projectPreviousState[project.name] = project.UserData.complete;
             }           
             
             this.pagesSwipe.gotoPage(1); 

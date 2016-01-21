@@ -9,7 +9,7 @@ module FlipPlus.Menu.View {
         private statusArea: PIXI.Container;
         private starsIndicator: View.ProjectStarsIndicator;
         private robotPreview: View.RobotPreview;
-        private levelsMahine: PIXI.Container;
+        private levelsMachine: PIXI.Container;
 
 
 		private headerY :number = 0;
@@ -39,7 +39,6 @@ module FlipPlus.Menu.View {
 
         //--------------------- Initialization ---------------------
  
-
         private addObjects(project: Levels.BotLevelsSet) {
           
             //add Project levels
@@ -87,14 +86,14 @@ module FlipPlus.Menu.View {
             var levelMachine = new PIXI.Container;
             
             this.addChild(levelMachine);
-            this.levelsMahine = levelMachine;
+            this.levelsMachine = levelMachine;
 
-            //add MachineBg
+            // add Machine background
             var baseFases = gameui.AssetsManager.getBitmap("workshop/basefases")
             baseFases.y = - 741;
             levelMachine.addChild(baseFases);
-
-            //Add Stars
+             
+            // Add Stars
             this.starsIndicator = new View.ProjectStarsIndicator(project);
             this.starsIndicator.x = 1115;
             this.starsIndicator.y = 1334 - 2048;
@@ -103,7 +102,7 @@ module FlipPlus.Menu.View {
             if ((!FlipPlusGame.isFree() && project.free) || FlipPlusGame.isFree()) {
 
                 if (project.UserData.unlocked) {
-                    //Add Level Thumbs
+                    // Add Level Thumbs
                     this.levelGrid = new Menu.View.LevelGrid(project);
                     this.levelGrid.addEventListener("levelClick", (e:any) => { 
                         this.emit("levelClick", {level: e.level, parameters: e.parameters }); });
@@ -155,7 +154,7 @@ module FlipPlus.Menu.View {
 			this.headerY = headerY;
 			this.footerY = footerY;
 
-			if (this.levelsMahine) this.levelsMahine.y = footerY;
+			if (this.levelsMachine) this.levelsMachine.y = footerY;
             if (this.statusArea) this.statusArea.y = headerY;
         }
 
@@ -163,17 +162,18 @@ module FlipPlus.Menu.View {
 
             var complete = false;
             var direction = -1;
+            var freeze = 0;
 
             if (parameters) {
                 if (parameters.complete)  complete  = parameters.complete;
                 if (parameters.direction) direction = parameters.direction;
+                if (parameters.freeze) freeze = parameters.freeze;
             }
             
-            if (this.levelGrid) this.levelGrid.updateUserData();
-
+            if (this.levelGrid)      this.levelGrid.updateUserData();
             if (this.starsIndicator) this.starsIndicator.updateProjectInfo();
-			if (this.robotPreview) this.robotPreview.update(complete);
-            //this.animateIn(complete, direction);
+			if (this.robotPreview)   this.robotPreview.update(complete);
+            
         }
     }
 }

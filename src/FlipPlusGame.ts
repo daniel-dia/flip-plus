@@ -33,8 +33,8 @@ module FlipPlus {
         public static actionLevelsManager:  Levels.LevelsManager;
 
         // Screens
-        private static titleScreen:         gameui.ScreenState; 
-        private static levelsMenu:          gameui.ScreenState;
+        private static titleScreen: gameui.ScreenState;
+        private static workshopMenu: Menu.WorkshopMenu;
         private static actionlevelsMenu:    gameui.ScreenState;
         private static levelScreeen:        gameui.ScreenState;
 
@@ -173,16 +173,21 @@ module FlipPlus {
             else
                 this.levelsManager.setCurrentProject(project);
 
-            //if (project == null) return;
-
             var projects = this.levelsManager.getAllProjects()
 
             //create a new levels menu, if needed
-            if (this.levelsMenu == undefined)
-                this.levelsMenu = new Menu.WorkshopMenu(this.levelsManager);
+            if (this.workshopMenu == undefined)
+                this.workshopMenu = new Menu.WorkshopMenu(this.levelsManager);
+
+            // freeze if is needed
+            if (parameters && parameters.freeze)
+                this.workshopMenu.disableInteraction();
+            else 
+                this.workshopMenu.enableInteraction();
+            
 
             //switch screens
-            this.gameScreen.switchScreen(this.levelsMenu, parameters);
+            this.gameScreen.switchScreen(this.workshopMenu, parameters);
         }
 
         public static showActionLevelsMenu() {
@@ -250,10 +255,27 @@ module FlipPlus {
 
         public static completeLevel(complete: boolean = false) {
 
-            if (this.gameMode == GameMode.PROJECTS)
-                this.showProjectLevelsMenu(null, { complete: complete });
+            if (this.gameMode == GameMode.PROJECTS) {
+
+                this.showProjectLevelsMenu(null, { complete: complete, freeze: true });
+                
+                //if complete changes to myBotScreen
+                if (this.levelsManager.getCurrentProject().UserData.complete) {
+
+                    setTimeout(() => {
+                        FlipPlusGame.showMainScreen();
+                    }, 6000);
+
+                } else {
+
+                    setTimeout(() => {
+                        this.showNextLevel();
+                    }, 1500);
+                }
+
+            }
             else
-                this.showActionLevelsMenu();           
+                this.showActionLevelsMenu(); 
         }
 
         public static looseLevel() {
@@ -321,6 +343,7 @@ module FlipPlus {
         public static showOptions(previousScreen?: gameui.ScreenState){
             this.gameScreen.switchScreen(new Menu.OptionsMenu(previousScreen));
         }
+
         // ---------------------------- license --------------------------------------------------//
 
         public static isFree():boolean {

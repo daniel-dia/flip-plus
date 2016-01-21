@@ -24,8 +24,8 @@ module FlipPlus.Menu.View {
             //create a new thumb
             this.createThumbs(this.level);
             this.cacheAsBitmap = true;
-            var size = 200;
-            this.createHitArea();
+
+            if (!this.hitArea) this.createHitArea();
 
         } 
 

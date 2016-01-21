@@ -43,16 +43,16 @@ module FlipPlus.Menu.View {
                 };
 
                 //create a thumb
-                var challangeThumb: LevelThumb = new LevelThumb(level,event);
-                this.thumbs.push(challangeThumb);
-                challangeThumb.rotation = (Math.random() * 3 - 1.5) * Math.PI / 180; //Little angle random.
+                var levelThumb: LevelThumb = new LevelThumb(level,event);
+                this.thumbs.push(levelThumb);
+                levelThumb.rotation = (Math.random() * 3 - 1.5) * Math.PI / 180; //Little angle random.
 
                 ////desactivate animation
                 //challangeThumb.set({ alpha: 0, scaleX: 1.3, scaleY: 1.3 });//animate
                 //createjs.Tween.get(challangeThumb).wait(50+i*50).to({ alpha: 1,scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadIn);
                 
                 //Add object on grid
-                this.addObject(challangeThumb);
+                this.addObject(levelThumb);
 
                 
             }

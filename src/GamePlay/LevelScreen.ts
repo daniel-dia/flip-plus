@@ -264,10 +264,9 @@ module FlipPlus.GamePlay {
                 this.levelData.userdata.item = null;
 
             //verifies if is the first time cimpletting the level
-            var complete1stTime = false;
-            if (!this.levelData.userdata.solved) complete1stTime = true;
+            var complete = true;
+            //if (!this.levelData.userdata.solved) complete = true;
 
-            
             var currentProject = FlipPlusGame.levelsManager.getCurrentProject();
             var projectCompleted = currentProject.UserData.complete;
 
@@ -292,7 +291,9 @@ module FlipPlus.GamePlay {
             }, 200);
 
             //animates board to fade out;
-            setTimeout(() => { this.winSwitchScreen(complete1stTime) }, 1800);
+            setTimeout(() => {
+                this.winSwitchScreen(complete)
+            }, 1000);
         }
 
         protected winSwitchScreen(complete1stTime: boolean) {
