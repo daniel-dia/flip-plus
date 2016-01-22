@@ -253,11 +253,11 @@ module FlipPlus {
             return null;
         }
 
-        public static completeLevel(complete: boolean = false) {
+        public static completeLevel(complete: boolean = false, firstTime: boolean=false) {
 
             if (this.gameMode == GameMode.PROJECTS) {
 
-                this.showProjectLevelsMenu(null, { complete: complete, freeze: true });
+                this.showProjectLevelsMenu(null, { complete: complete, freeze: true, firstTime: firstTime });
                 
                 //if complete changes to myBotScreen
                 if (this.levelsManager.getCurrentProject().UserData.complete) {

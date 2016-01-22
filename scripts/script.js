@@ -933,11 +933,12 @@ var FlipPlus;
             }
             return null;
         };
-        FlipPlusGame.completeLevel = function (complete) {
+        FlipPlusGame.completeLevel = function (complete, firstTime) {
             var _this = this;
             if (complete === void 0) { complete = false; }
+            if (firstTime === void 0) { firstTime = false; }
             if (this.gameMode == GameMode.PROJECTS) {
-                this.showProjectLevelsMenu(null, { complete: complete, freeze: true });
+                this.showProjectLevelsMenu(null, { complete: complete, freeze: true, firstTime: firstTime });
                 //if complete changes to myBotScreen
                 if (this.levelsManager.getCurrentProject().UserData.complete) {
                     setTimeout(function () {
@@ -1489,7 +1490,9 @@ var FlipPlus;
                     this.levelData.userdata.item = null;
                 //verifies if is the first time cimpletting the level
                 var complete = true;
-                //if (!this.levelData.userdata.solved) complete = true;
+                var first = false;
+                if (!this.levelData.userdata.solved)
+                    first = true;
                 var currentProject = FlipPlus.FlipPlusGame.levelsManager.getCurrentProject();
                 var projectCompleted = currentProject.UserData.complete;
                 //set user data to complete level.
@@ -1509,10 +1512,10 @@ var FlipPlus;
                 }, 200);
                 //animates board to fade out;
                 setTimeout(function () {
-                    _this.winSwitchScreen(complete);
+                    _this.winSwitchScreen(complete, first);
                 }, 1000);
             };
-            LevelScreen.prototype.winSwitchScreen = function (complete1stTime) {
+            LevelScreen.prototype.winSwitchScreen = function (complete, first) {
                 var _this = this;
                 //remove all tweens
                 createjs.Tween.removeTweens(this.boardSprite);
@@ -1521,7 +1524,7 @@ var FlipPlus;
                     _this.boardSprite.visible = false;
                 });
                 //switch screen
-                FlipPlus.FlipPlusGame.completeLevel(complete1stTime);
+                FlipPlus.FlipPlusGame.completeLevel(complete, first);
             };
             LevelScreen.prototype.loose = function () {
                 FlipPlus.FlipPlusGame.analytics.logLevelLoose(this.levelData.name, Date.now() - this.startedTime, this.clicks);
@@ -3679,7 +3682,7 @@ var FlipPlus;
                 this.updatePartsAmmount();
             };
             BonusScreen.prototype.back = function () {
-                FlipPlus.FlipPlusGame.showProjectsMenu();
+                FlipPlus.FlipPlusGame.showMainScreen();
             };
             //finalizes bonus game
             BonusScreen.prototype.endBonus = function () {
@@ -4473,17 +4476,19 @@ var FlipPlus;
                 this.factorySound = gameui.AudiosManager.playSound("Factory Ambience", true, 0, 0, 0, 0.4);
                 //update enabled Projects
                 this.addProjects(this.levelsManager.getUnlockedProjects());
-                //update all projects views
-                for (var pv in this.projectViews) {
-                    var project = this.levelsManager.getProjectByName(this.projectViews[pv].name);
-                    if (project == this.levelsManager.getCurrentProject()) {
-                        //activate current project
-                        this.projectViews[pv].activate(parameters);
-                        //goto current project
-                        this.pagesSwipe.gotoPage(parseInt(pv), false);
+                var page = FlipPlus.FlipPlusGame.levelsManager.getHighestProject();
+                var current = this.levelsManager.getCurrentProject();
+                if (current) {
+                    for (var i in this.projectViews) {
+                        var project = this.levelsManager.getProjectByName(this.projectViews[i].name);
+                        if (project == current)
+                            page = i;
                     }
                 }
-                this.pagesSwipe.gotoPage(1);
+                //activate current project
+                this.projectViews[page].activate(parameters);
+                //goto current project
+                this.pagesSwipe.gotoPage(page, false);
             };
             return WorkshopMenu;
         })(gameui.ScreenState);
@@ -5831,6 +5836,16 @@ var FlipPlus;
                         finishedProjects.push(this.levelsData[i]);
                 return finishedProjects;
             };
+            //get highest active project
+            LevelsManager.prototype.getHighestProject = function () {
+                this.updateProjectsUserData();
+                var highest = 0;
+                //verifies all projects and add the non complete to array, till reach max number
+                for (var i = 0; i < this.levelsData.length; i++)
+                    if (this.levelsData[i].UserData.complete)
+                        highest = i;
+                return highest;
+            };
             //get all unlockedProjects
             LevelsManager.prototype.getUnlockedProjects = function () {
                 this.updateProjectsUserData();
@@ -6760,7 +6775,7 @@ var FlipPlus;
                 this.introMc.addEventListener("d1", function () { ; });
                 this.introMc.addEventListener("readyToPlay", function () { _this.emit("readyToPlay"); });
                 this.introMc.addEventListener("d2", function () { });
-                this.introMc.addEventListener("end", function () { FlipPlus.FlipPlusGame.showProjectsMenu(); _this.emit("end"); });
+                this.introMc.addEventListener("end", function () { FlipPlus.FlipPlusGame.showProjectLevelsMenu(); _this.emit("end"); });
                 this.popup.addEventListener("onclose", function () { _this.introMc.play(); });
                 this.addChild(this.popup);
             }
@@ -7339,7 +7354,7 @@ var FlipPlus;
                 }
                 Page.prototype.showPage = function () {
                     if (this.pageVisibility == false) {
-                        this.pageVisibility = this.visible = true;
+                        //this.pageVisibility = this.visible = true;
                         if (this.onShowPage)
                             this.onShowPage();
                     }
@@ -7701,6 +7716,7 @@ var FlipPlus;
                 function ProjectWorkshopView(project) {
                     var _this = this;
                     _super.call(this);
+                    this.objectsAdded = false;
                     this.headerY = 0;
                     this.footerY = 0;
                     this.project = project;
@@ -7718,6 +7734,9 @@ var FlipPlus;
                 }
                 //--------------------- Initialization ---------------------
                 ProjectWorkshopView.prototype.addObjects = function (project) {
+                    if (this.objectsAdded)
+                        return;
+                    this.objectsAdded = true;
                     //add Project levels
                     this.addProjectMachine(project);
                     //add project Name

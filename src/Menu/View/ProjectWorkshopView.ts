@@ -11,36 +11,40 @@ module FlipPlus.Menu.View {
         private robotPreview: View.RobotPreview;
         private levelsMachine: PIXI.Container;
 
-
-		private headerY :number = 0;
-		private footerY: number = 0;
+        private objectsAdded: boolean = false;
+        private headerY: number = 0;
+        private footerY: number = 0;
 
         // Constructor
         constructor(project: Levels.BotLevelsSet) {
             super();
             this.project = project;
             this.name = project.name;
-			
+
             this.onShowPage = () => {
- 
-				//add levels information
-				this.addObjects(project);
-				//activate layer
-				this.activate();
+                
+                //add levels information
+                this.addObjects(project);
 
-				this.redim(this.headerY, this.footerY);
-			}
+                //activate layer
+                this.activate();
 
-			this.onHidePage = () => {
-				this.removeChildren();
-			}
+                this.redim(this.headerY, this.footerY);
+            }
 
+            this.onHidePage = () => {
+                this.removeChildren();
+            }
         }
 
         //--------------------- Initialization ---------------------
  
         private addObjects(project: Levels.BotLevelsSet) {
-          
+
+            if (this.objectsAdded) return;
+
+            this.objectsAdded = true;
+
             //add Project levels
             this.addProjectMachine(project);
 
@@ -66,9 +70,9 @@ module FlipPlus.Menu.View {
             this.statusArea.pivot.x = this.statusArea.x = defaultWidth / 2;
             var bg = gameui.AssetsManager.getBitmap("partshud");
             bg.y = 0//150;
-            bg.x = defaultWidth/ 2;
+            bg.x = defaultWidth / 2;
             bg.scale.x = 2;
-            bg.pivot.x = bg.getLocalBounds().width/2;
+            bg.pivot.x = bg.getLocalBounds().width / 2;
             this.statusArea.addChild(bg);
 
             var l: PIXI.extras.BitmapText = gameui.AssetsManager.getBitmapText(project.nickName.toUpperCase(), "fontWhite");
@@ -84,7 +88,7 @@ module FlipPlus.Menu.View {
         private addProjectMachine(project: Levels.BotLevelsSet) {
 
             var levelMachine = new PIXI.Container;
-            
+
             this.addChild(levelMachine);
             this.levelsMachine = levelMachine;
 
@@ -104,8 +108,9 @@ module FlipPlus.Menu.View {
                 if (project.UserData.unlocked) {
                     // Add Level Thumbs
                     this.levelGrid = new Menu.View.LevelGrid(project);
-                    this.levelGrid.addEventListener("levelClick", (e:any) => { 
-                        this.emit("levelClick", {level: e.level, parameters: e.parameters }); });
+                    this.levelGrid.addEventListener("levelClick", (e: any) => {
+                        this.emit("levelClick", { level: e.level, parameters: e.parameters });
+                    });
                     this.levelGrid.x = 180;
                     this.levelGrid.y = 1538 - 2048;
                     levelMachine.addChild(this.levelGrid);
@@ -120,24 +125,24 @@ module FlipPlus.Menu.View {
                 }
             } else {
                 //TODO mudar o nome disso.
-                var text = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontBlue"); 
+                var text = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontBlue");
                 text.pivot.x = text.getLocalBounds().width / 2;
                 text.y = 1738 - 2048;
                 text.x = defaultWidth / 2;
                 levelMachine.addChild(text);
             }
 
-         
+
 
         }
 
         //-Animation------------------------------------------------------------
 
         public setRelativePos(pos: number) {
-            this.robotPreview.x = this.statusArea.x= -pos *0.35 + defaultWidth/2;
+            this.robotPreview.x = this.statusArea.x = -pos * 0.35 + defaultWidth / 2;
         }
 
-		//--Behaviour-----------------------------------------------------------
+        //--Behaviour-----------------------------------------------------------
 
         //open a level
         private openLevel(event: PIXI.interaction.InteractionEvent) {
@@ -151,10 +156,10 @@ module FlipPlus.Menu.View {
         }
 
         public redim(headerY: number, footerY: number) {
-			this.headerY = headerY;
-			this.footerY = footerY;
+            this.headerY = headerY;
+            this.footerY = footerY;
 
-			if (this.levelsMachine) this.levelsMachine.y = footerY;
+            if (this.levelsMachine) this.levelsMachine.y = footerY;
             if (this.statusArea) this.statusArea.y = headerY;
         }
 
@@ -165,15 +170,15 @@ module FlipPlus.Menu.View {
             var freeze = 0;
 
             if (parameters) {
-                if (parameters.complete)  complete  = parameters.complete;
+                if (parameters.complete) complete = parameters.complete;
                 if (parameters.direction) direction = parameters.direction;
                 if (parameters.freeze) freeze = parameters.freeze;
             }
-            
-            if (this.levelGrid)      this.levelGrid.updateUserData();
+
+            if (this.levelGrid) this.levelGrid.updateUserData();
             if (this.starsIndicator) this.starsIndicator.updateProjectInfo();
-			if (this.robotPreview)   this.robotPreview.update(complete);
-            
+            if (this.robotPreview) this.robotPreview.update(complete);
+
         }
     }
 }

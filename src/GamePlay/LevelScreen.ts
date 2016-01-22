@@ -265,7 +265,8 @@ module FlipPlus.GamePlay {
 
             //verifies if is the first time cimpletting the level
             var complete = true;
-            //if (!this.levelData.userdata.solved) complete = true;
+            var first = false;
+            if (!this.levelData.userdata.solved) first = true;
 
             var currentProject = FlipPlusGame.levelsManager.getCurrentProject();
             var projectCompleted = currentProject.UserData.complete;
@@ -292,11 +293,11 @@ module FlipPlus.GamePlay {
 
             //animates board to fade out;
             setTimeout(() => {
-                this.winSwitchScreen(complete)
+                this.winSwitchScreen(complete,first)
             }, 1000);
         }
 
-        protected winSwitchScreen(complete1stTime: boolean) {
+        protected winSwitchScreen(complete: boolean, first: boolean) {
 
             //remove all tweens
             createjs.Tween.removeTweens(this.boardSprite);
@@ -307,7 +308,7 @@ module FlipPlus.GamePlay {
             })
 
             //switch screen
-            FlipPlusGame.completeLevel(complete1stTime);
+            FlipPlusGame.completeLevel(complete,first);
         }
 
         protected loose() {

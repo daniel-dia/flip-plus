@@ -181,21 +181,23 @@ module FlipPlus.Menu {
             //update enabled Projects
             this.addProjects(this.levelsManager.getUnlockedProjects());
 
-            //update all projects views
-            for (var pv in this.projectViews) {
-                var project = this.levelsManager.getProjectByName(this.projectViews[pv].name);
+            var page = FlipPlusGame.levelsManager.getHighestProject();
+            var current = this.levelsManager.getCurrentProject();
 
-                if (project == this.levelsManager.getCurrentProject()) {
-                    
-                    //activate current project
-                    this.projectViews[pv].activate(parameters);
-
-                    //goto current project
-                    this.pagesSwipe.gotoPage(parseInt(pv), false);
+            if (current) {
+                for (var i in this.projectViews) {
+                    var project = this.levelsManager.getProjectByName(this.projectViews[i].name);
+                    if (project == current) page = i;
                 }
-            }           
-            
-            this.pagesSwipe.gotoPage(1); 
+            }
+          
+            //activate current project
+            this.projectViews[page].activate(parameters);
+
+            //goto current project
+            this.pagesSwipe.gotoPage(page, false);
+               
+             
         }
     }
 }

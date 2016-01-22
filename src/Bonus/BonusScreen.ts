@@ -227,7 +227,7 @@
         }        
         
         back() {
-            FlipPlus.FlipPlusGame.showProjectsMenu();
+            FlipPlus.FlipPlusGame.showMainScreen();
         }
 
         //finalizes bonus game

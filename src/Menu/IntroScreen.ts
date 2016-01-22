@@ -18,8 +18,8 @@ module FlipPlus.Menu {
 
             this.introMc.addEventListener("d1", () => { ; });
             this.introMc.addEventListener("readyToPlay", () => { this.emit("readyToPlay");});
-            this.introMc.addEventListener("d2", () => {  });
-            this.introMc.addEventListener("end", () => {  FlipPlusGame.showProjectsMenu(); this.emit("end"); });
+            this.introMc.addEventListener("d2", () => { });
+            this.introMc.addEventListener("end", () => { FlipPlusGame.showProjectLevelsMenu(); this.emit("end"); });
             this.popup.addEventListener("onclose", () => { this.introMc.play() });
 
             this.addChild(this.popup); 

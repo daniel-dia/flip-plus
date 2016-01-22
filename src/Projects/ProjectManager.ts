@@ -167,6 +167,19 @@ module FlipPlus.Levels {
             return finishedProjects;
         }
 
+        //get highest active project
+        public getHighestProject(): number {
+            this.updateProjectsUserData();
+            var highest = 0;
+
+            //verifies all projects and add the non complete to array, till reach max number
+            for (var i: number = 0; i < this.levelsData.length; i++) 
+                if (this.levelsData[i].UserData.complete) 
+                    highest = i;
+
+            return highest;
+        }
+
         //get all unlockedProjects
         public getUnlockedProjects(): BotLevelsSet[] {
 
