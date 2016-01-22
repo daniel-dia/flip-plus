@@ -27,7 +27,7 @@
         //create graphics
         private createPercentualFill(project: FlipPlus.Levels.BotLevelsSet){
           
-                var size: number = 300;
+                var size: number = 1000;
                 this.fill = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill");
                 this.stroke = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke");
                  

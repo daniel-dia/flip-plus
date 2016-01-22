@@ -7883,7 +7883,7 @@ var FlipPlus;
                 };
                 //create graphics
                 RobotPreview.prototype.createPercentualFill = function (project) {
-                    var size = 300;
+                    var size = 1000;
                     this.fill = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill");
                     this.stroke = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke");
                     this.fill.pivot.x = this.stroke.pivot.x = this.fill.getLocalBounds().width / 2;
