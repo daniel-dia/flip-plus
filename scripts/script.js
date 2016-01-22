@@ -5145,9 +5145,9 @@ var FlipPlus;
                         var levelThumb = new View.LevelThumb(level, event);
                         this.thumbs.push(levelThumb);
                         levelThumb.rotation = (Math.random() * 3 - 1.5) * Math.PI / 180; //Little angle random.
-                        ////desactivate animation
-                        //challangeThumb.set({ alpha: 0, scaleX: 1.3, scaleY: 1.3 });//animate
-                        //createjs.Tween.get(challangeThumb).wait(50+i*50).to({ alpha: 1,scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadIn);
+                        // animation
+                        levelThumb.set({ alpha: 0, scaleX: 1.3, scaleY: 1.3 }); //animate
+                        createjs.Tween.get(levelThumb).wait(50 + i * 50).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadIn);
                         //Add object on grid
                         this.addObject(levelThumb);
                     }
@@ -5181,15 +5181,16 @@ var FlipPlus;
                     this.name = level.name;
                     this.theme = level.theme;
                 }
-                //updates thumbnail with user data information
+                // Updates thumbnail with user data information
                 LevelThumb.prototype.updateUserData = function () {
                     //create a new thumb
+                    this.cacheAsBitmap = false;
                     this.createThumbs(this.level);
                     this.cacheAsBitmap = true;
                     if (!this.hitArea)
                         this.createHitArea();
                 };
-                //Create a container with a level thumbnail and evel name
+                // Create a container with a level thumbnail and evel name
                 LevelThumb.prototype.createThumbs = function (level) {
                     this.removeChildren();
                     var color1 = 0xFFFFFF;
@@ -5218,7 +5219,7 @@ var FlipPlus;
                         this.setSound(null);
                         //create bounce effect if is active
                         thumbContainer.set({ scaleX: 1, scaleY: 1 });
-                        createjs.Tween.get(thumbContainer)
+                        createjs.Tween.get(this)
                             .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
                             .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
                             .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
@@ -5239,7 +5240,7 @@ var FlipPlus;
                     //Adds level modificator
                     thumbContainer.addChild(this.createLevelModificator(level));
                 };
-                //defines accentColor based on level type.
+                // Defines accentColor based on level type.
                 LevelThumb.prototype.defineAssetName = function (level) {
                     var assetname = "faseamarela";
                     if (level.theme == "green")
@@ -5250,7 +5251,7 @@ var FlipPlus;
                         assetname = "faseamarela";
                     return assetname;
                 };
-                // add items modification
+                // Adds items modification
                 LevelThumb.prototype.createLevelModificator = function (level) {
                     if (level.userdata.skip) {
                         var sk = gameui.AssetsManager.getBitmap("puzzle/icon_skip");
@@ -5265,13 +5266,13 @@ var FlipPlus;
                         return sk;
                     }
                 };
-                //adds thumb background
+                // Adds thumb background
                 LevelThumb.prototype.createBackgroud = function (level, assetName, assetSufix) {
                     var sbg = gameui.AssetsManager.getBitmap("workshop/" + assetName + assetSufix);
                     sbg.pivot.x = sbg.pivot.y = 98;
                     return sbg;
                 };
-                //adds thumb blocks
+                // Adds thumb blocks
                 LevelThumb.prototype.createBlocks = function (level, color1, color2, alpha1, alpha2, sizeStart, sizeEnd) {
                     var col0 = sizeStart ? sizeStart : 0;
                     var colf = sizeEnd ? sizeEnd : level.width;
@@ -5319,7 +5320,7 @@ var FlipPlus;
                     s.pivot.y = spacing * (rowf - row0) / 2;
                     return s;
                 };
-                //Adds Thumb Tag
+                // Adds Thumb Tag
                 LevelThumb.prototype.createTags = function (level, assetName, assetSufix) {
                     //TODO: essas string devem estar em um enum
                     if (level.type == "time" || level.type == "flip" || level.type == "moves") {
@@ -5839,11 +5840,13 @@ var FlipPlus;
             //get highest active project
             LevelsManager.prototype.getHighestProject = function () {
                 this.updateProjectsUserData();
-                var highest = 0;
+                var highest = 1;
                 //verifies all projects and add the non complete to array, till reach max number
-                for (var i = 0; i < this.levelsData.length; i++)
-                    if (this.levelsData[i].UserData.complete)
-                        highest = i;
+                for (var i = 0; i < this.levelsData.length; i++) {
+                    highest = i;
+                    if (!this.levelsData[i].UserData.complete)
+                        break;
+                }
                 return highest;
             };
             //get all unlockedProjects

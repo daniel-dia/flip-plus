@@ -170,12 +170,13 @@ module FlipPlus.Levels {
         //get highest active project
         public getHighestProject(): number {
             this.updateProjectsUserData();
-            var highest = 0;
+            var highest = 1;
 
             //verifies all projects and add the non complete to array, till reach max number
-            for (var i: number = 0; i < this.levelsData.length; i++) 
-                if (this.levelsData[i].UserData.complete) 
-                    highest = i;
+            for (var i: number = 0; i < this.levelsData.length; i++) {
+                highest = i;
+                if (!this.levelsData[i].UserData.complete) break;
+            }
 
             return highest;
         }

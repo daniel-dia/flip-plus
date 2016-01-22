@@ -4,9 +4,10 @@ module FlipPlus.Menu.View {
 
         private theme: string;
 
-        //Display Objects
+        // Display Objects
         private badges: PIXI.DisplayObject;
 
+        // Current level
         private level: Levels.Level;
 
         // Constructor
@@ -18,10 +19,11 @@ module FlipPlus.Menu.View {
             
         }
         
-        //updates thumbnail with user data information
+        // Updates thumbnail with user data information
         public updateUserData() {
 
             //create a new thumb
+            this.cacheAsBitmap = false;
             this.createThumbs(this.level);
             this.cacheAsBitmap = true;
 
@@ -29,7 +31,7 @@ module FlipPlus.Menu.View {
 
         } 
 
-        //Create a container with a level thumbnail and evel name
+        // Create a container with a level thumbnail and evel name
         protected createThumbs(level: FlipPlus.Levels.Level) {
             
             this.removeChildren();
@@ -67,7 +69,7 @@ module FlipPlus.Menu.View {
 
                 //create bounce effect if is active
                 thumbContainer.set({ scaleX: 1, scaleY: 1 })
-                createjs.Tween.get(thumbContainer)
+                createjs.Tween.get(this)
                     .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
                     .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
                     .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
@@ -93,7 +95,7 @@ module FlipPlus.Menu.View {
             thumbContainer.addChild(this.createLevelModificator(level));
         }
 
-        //defines accentColor based on level type.
+        // Defines accentColor based on level type.
         protected defineAssetName(level: Levels.Level) :string{
             var assetname = "faseamarela";
             if (level.theme == "green") assetname = "faseverde";
@@ -102,7 +104,7 @@ module FlipPlus.Menu.View {
             return assetname;
         }
 
-        // add items modification
+        // Adds items modification
         protected createLevelModificator(level: Levels.Level):PIXI.DisplayObject {
 
             if (level.userdata.skip) {
@@ -121,7 +123,7 @@ module FlipPlus.Menu.View {
                 
         }
 
-        //adds thumb background
+        // Adds thumb background
         protected createBackgroud(level: Levels.Level,assetName,assetSufix): PIXI.DisplayObject {
 
             var sbg = gameui.AssetsManager.getBitmap("workshop/" + assetName + assetSufix);
@@ -129,7 +131,7 @@ module FlipPlus.Menu.View {
             return sbg;
         }
         
-        //adds thumb blocks
+        // Adds thumb blocks
         protected createBlocks(level: Levels.Level, color1: number, color2: number, alpha1: number, alpha2: number, sizeStart?: number, sizeEnd?: number): PIXI.DisplayObject {
            
             var col0 = sizeStart ? sizeStart : 0;
@@ -184,7 +186,7 @@ module FlipPlus.Menu.View {
             return s;
         }
 
-        //Adds Thumb Tag
+        // Adds Thumb Tag
         protected createTags(level: Levels.Level, assetName,assetSufix) :PIXI.DisplayObject{
             //TODO: essas string devem estar em um enum
             if (level.type == "time" || level.type == "flip" || level.type == "moves") {

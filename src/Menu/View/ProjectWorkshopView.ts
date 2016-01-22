@@ -175,9 +175,9 @@ module FlipPlus.Menu.View {
                 if (parameters.freeze) freeze = parameters.freeze;
             }
 
-            if (this.levelGrid) this.levelGrid.updateUserData();
+            if (this.levelGrid)      this.levelGrid.updateUserData();
             if (this.starsIndicator) this.starsIndicator.updateProjectInfo();
-            if (this.robotPreview) this.robotPreview.update(complete);
+            if (this.robotPreview)  this.robotPreview.update(complete);
 
         }
     }
