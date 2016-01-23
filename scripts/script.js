@@ -807,8 +807,7 @@ var FlipPlus;
             Cocoon.App.exitCallback(function () {
                 return _this.gameScreen.sendBackButtonEvent();
             });
-            var ps = this.levelsManager.getAllProjects();
-            ps[0].UserData.unlocked = true;
+            // var ps = this.levelsManager.getAllProjects();
             // ps[1].UserData.unlocked = true;
             // ps[2].UserData.unlocked = true;
             // for (var p in ps) {
@@ -5713,6 +5712,7 @@ var FlipPlus;
             function LevelsManager(data, userData) {
                 this.levelsUserDataManager = userData;
                 this.loadProjects(data);
+                this.unlockProject(this.getAllProjects()[0]);
             }
             LevelsManager.prototype.loadProjects = function (data) {
                 for (var p in data) {
@@ -5870,16 +5870,23 @@ var FlipPlus;
             };
             //unlock a project based on user parts ballance
             LevelsManager.prototype.unlockProject = function (project) {
-                // //verifies if money was propery taken
-                if (this.getStarsCount() >= project.cost) {
-                    //unlock project user data
-                    project.UserData.unlocked = true;
-                    //unlocks first level of project
-                    project.levels[0].userdata.unlocked = true;
-                    //save user data
-                    this.levelsUserDataManager.saveProjectData(project);
-                    this.levelsUserDataManager.saveLevelData(project.levels[0]);
-                }
+                //unlock project user data
+                project.UserData.unlocked = true;
+                //unlocks first level of project
+                this.unlockLevel(project.levels[0]);
+                //save user data
+                this.levelsUserDataManager.saveProjectData(project);
+                this.levelsUserDataManager.saveLevelData(project.levels[0]);
+            };
+            LevelsManager.prototype.unlockNextProject = function (project) {
+                var nextProject = this.getNextProject(project);
+                this.unlockProject(nextProject);
+            };
+            LevelsManager.prototype.getNextProject = function (project) {
+                var projects = this.getAllProjects();
+                for (var p = 0; p < projects.length - 1; p++)
+                    if (projects[p] == project)
+                        return projects[p + 1];
             };
             //unlock a level inside a project
             LevelsManager.prototype.unlockLevel = function (level) {
@@ -5896,6 +5903,8 @@ var FlipPlus;
                     return;
                 project.UserData.complete = true;
                 this.levelsUserDataManager.saveProjectData(project);
+                // unlock next project (No more stars count)
+                this.unlockNextProject(project);
             };
             //Updates user data project status
             LevelsManager.prototype.updateProjectsUserData = function () {
@@ -5929,8 +5938,6 @@ var FlipPlus;
                 }
                 //updates project stars count
                 project.UserData.stars = stars;
-                //verifies if level can be ulocked
-                this.unlockProject(project);
                 //complete Project
                 if (solvedLevels == project.levels.length)
                     this.completeProject(project);

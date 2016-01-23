@@ -103,11 +103,9 @@ module FlipPlus {
                 return this.gameScreen.sendBackButtonEvent()
             })
 
-            var ps = this.levelsManager.getAllProjects();
-
-            ps[0].UserData.unlocked = true;
-           // ps[1].UserData.unlocked = true;
-           // ps[2].UserData.unlocked = true;
+            // var ps = this.levelsManager.getAllProjects();
+            // ps[1].UserData.unlocked = true;
+            // ps[2].UserData.unlocked = true;
             // for (var p in ps) {
             //     ps[p].UserData.unlocked = true;
             //     ps[p].UserData.stars=0;

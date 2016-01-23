@@ -18,7 +18,8 @@ module FlipPlus.Levels {
         constructor(data: Array<BotLevelsSet>, userData: UserData.LevelsUserDataManager) {
             this.levelsUserDataManager = userData;
             this.loadProjects(data);
-            
+
+            this.unlockProject(this.getAllProjects()[0]);
         }
 
         protected loadProjects(data: Array<BotLevelsSet>) {
@@ -210,19 +211,28 @@ module FlipPlus.Levels {
        //unlock a project based on user parts ballance
         public unlockProject(project: BotLevelsSet) {
 
-           // //verifies if money was propery taken
-            if (this.getStarsCount() >= project.cost) {
+            //unlock project user data
+            project.UserData.unlocked = true;
 
-                //unlock project user data
-                project.UserData.unlocked = true;
-                //unlocks first level of project
-                project.levels[0].userdata.unlocked = true;
+            //unlocks first level of project
+            this.unlockLevel(project.levels[0]);
 
-                //save user data
-                this.levelsUserDataManager.saveProjectData(project);
-                this.levelsUserDataManager.saveLevelData(project.levels[0]);
+            //save user data
+            this.levelsUserDataManager.saveProjectData(project);
+            this.levelsUserDataManager.saveLevelData(project.levels[0]);
+        }
 
-           }
+        public unlockNextProject(project: BotLevelsSet) {
+            var nextProject = this.getNextProject(project);
+            this.unlockProject(nextProject);
+        }
+
+        private getNextProject(project: BotLevelsSet) {
+            var projects = this.getAllProjects();
+
+            for (var p = 0; p < projects.length - 1; p++)
+                if (projects[p] == project)
+                    return projects[p + 1];
         }
 
         //unlock a level inside a project
@@ -245,6 +255,8 @@ module FlipPlus.Levels {
             project.UserData.complete = true;
             this.levelsUserDataManager.saveProjectData(project);
 
+            // unlock next project (No more stars count)
+            this.unlockNextProject(project);
         }
 
         //Updates user data project status
@@ -285,10 +297,7 @@ module FlipPlus.Levels {
 
             //updates project stars count
             project.UserData.stars = stars;
-
-            //verifies if level can be ulocked
-            this.unlockProject(project);
-            
+ 
             //complete Project
             if (solvedLevels == project.levels.length)
                 this.completeProject(project);
