@@ -23,11 +23,11 @@ module FlipPlus.Menu.View {
 
             this.onShowPage = () => {
                 
-                //add levels information
+                ////add levels information
                 this.addObjects(project);
-
-                //activate layer
-                this.activate();
+                
+                ////activate layer
+                //this.activate();
 
                 this.redim(this.headerY, this.footerY);
             }
@@ -177,8 +177,7 @@ module FlipPlus.Menu.View {
 
             if (this.levelGrid)      this.levelGrid.updateUserData();
             if (this.starsIndicator) this.starsIndicator.updateProjectInfo();
-            if (this.robotPreview)  this.robotPreview.update(complete);
-
+            if (this.robotPreview)   this.robotPreview.update(complete);
         }
     }
 }

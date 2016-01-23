@@ -28,205 +28,193 @@ Bot unlocked
   
  */
 
-var levelsData =  [
+var levelsData = [
   {
       "nickName": "S-N3S",
       "name": "Bot01",
       "cost": 0,
       "levels": [
-             {
-                 "name": "2/6",
-                 "width": 5,
-                 "height": 5,
-                 "type": "time",
-                 "theme": "purple",
-                 "moves": null,
-                 "time": 20,
-                 "puzzlesToSolve": 3,
-                 "randomMaxMoves": 4,
-                 "randomMinMoves": 3,
-                 "blocksData": []
-             },
-        {
-            "name": "0/0",
-            "width": 5,
-            "height": 5,
-            "type": "tutorial",
-            "theme": "green",
-            "moves": null,
-            "time": null,
-            "puzzlesToSolve": null,
-            "blocksData": [
-              12
-            ],
-            "tutorial": [
-              {
-                  "text": "tut_1_1_text",
-                  "title": "tut_1_1_title"
-              },
-              {
-                  "mousedown": 12
-              },
-              {
-                  "atEnd": true,
-                  "text": "tut_1_2_text",
-                  "title": "tut_1_2_title"
-              }
-            ]
-        },
-        {
-            "name": "0/1",
-            "width": 5,
-            "height": 5,
-            "type": "tutorial",
-            "theme": "green",
-            "moves": null,
-            "time": null,
-            "puzzlesToSolve": null,
-            "blocksData": [
-              16,
-              8
-            ],
-            "tutorial": [
-              {
-                  "text": "tut_2_1_text",
-                  "title": "tut_2_1_title"
-              },
-              {
-                  "mousedown": 16
-              },
-              {
-                  "atEnd": true,
-                  "text": "tut_2_2_text",
-                  "title": "tut_2_2_title"
-              }
-            ]
-        },
-        {
-            "width": 5,
-            "height": 5,
-            "theme": "green",
-            "type": "puzzle",
-            "blocksData": [
-              10,
-              14
-            ]
-        },
-        {
-            "width": 5,
-            "height": 5,
-            "theme": "green",
-            "type": "puzzle",
-            "blocksData": [
-              0,
-              24
-            ]
-        },
-        {
-            "width": 5,
-            "height": 5,
-            "theme": "purple",
-            "type": "tutorial",
-            "blocksData": [
-              11,
-              13
-            ],
-            "tutorial": [
-              {
-                  "text": "tut_3_1_text",
-                  "title": "tut_3_1_title"
-              },
-              {
-                  "mousedown": 11
-              },
-              {
-                  "atEnd": true,
-                  "text": "tut_3_2_text",
-                  "title": "tut_3_2_title"
-              }
-            ]
-        },
-        {
-            "width": 6,
-            "height": 6,
-            "theme": "purple",
-            "type": "tutorial",
-            "blocksData": [
-              14,
-              21
-            ],
-            "tutorial": [
-              {
-                  "text": "tut_4_1_text",
-                  "title": "tut_4_1_title"
-              },
-              {
-                  "item": "hint",
-                  "parameter": 14
-              },
-              {
-                  "mousedown": 14
-              },
-              {
-                  "atEnd": true,
-                  "text": "tut_4_2_text",
-                  "title": "tut_4_2_title"
-              }
-            ]
-        },
-        {
-            "width": 7,
-            "height": 3,
-            "theme": "purple",
-            "type": "puzzle",
-            "blocksData": [
-              7,
-              10,
-              13
-            ]
-        },
-        {
-            "width": 5,
-            "height": 5,
-            "theme": "yellow",
-            "type": "puzzle",
-            "blocksData": [
-              20,
-              7,
-              24
-            ]
-        },
-        {
-            "width": 5,
-            "height": 5,
-            "theme": "yellow",
-            "type": "puzzle",
-            "blocksData": [
-              6,
-              16,
-              14
-            ]
-        },
-        {
-            "name": "0/2",
-            "width": 5,
-            "height": 5,
-            "type": "tutorial",
-            "theme": "yellow",
-            "blocksData": [
-              0,
-              20,
-              12,
-              4,
-              24
-            ],
-            "tutorial": [
-              {
-                  "text": "tut_5_1_text",
-                  "title": "tut_5_1_title"
-              }
-            ]
-        }
+          
+         {
+             "name": "0/0",
+             "width": 5,
+             "height": 5,
+             "type": "tutorial",
+             "theme": "green",
+             "moves": null,
+             "time": null,
+             "puzzlesToSolve": null,
+             "blocksData": [
+               12
+             ],
+             "tutorial": [
+               {
+                   "text": "tut_1_1_text",
+                   "title": "tut_1_1_title"
+               },
+               {
+                   "mousedown": 12
+               },
+               {
+                   "atEnd": true,
+                   "text": "tut_1_2_text",
+                   "title": "tut_1_2_title"
+               }
+             ]
+         },
+         {
+             "name": "0/1",
+             "width": 5,
+             "height": 5,
+             "type": "tutorial",
+             "theme": "green",
+             "moves": null,
+             "time": null,
+             "puzzlesToSolve": null,
+             "blocksData": [
+               16,
+               8
+             ],
+             "tutorial": [
+               {
+                   "text": "tut_2_1_text",
+                   "title": "tut_2_1_title"
+               },
+               {
+                   "mousedown": 16
+               },
+               {
+                   "atEnd": true,
+                   "text": "tut_2_2_text",
+                   "title": "tut_2_2_title"
+               }
+             ]
+         },
+       /*  {
+             "width": 5,
+             "height": 5,
+             "theme": "green",
+             "type": "puzzle",
+             "blocksData": [
+               10,
+               14
+             ]
+         },
+         {
+             "width": 5,
+             "height": 5,
+             "theme": "green",
+             "type": "puzzle",
+             "blocksData": [
+               0,
+               24
+             ]
+         },
+         {
+             "width": 5,
+             "height": 5,
+             "theme": "purple",
+             "type": "tutorial",
+             "blocksData": [
+               11,
+               13
+             ],
+             "tutorial": [
+               {
+                   "text": "tut_3_1_text",
+                   "title": "tut_3_1_title"
+               },
+               {
+                   "mousedown": 11
+               },
+               {
+                   "atEnd": true,
+                   "text": "tut_3_2_text",
+                   "title": "tut_3_2_title"
+               }
+             ]
+         },
+         {
+             "width": 6,
+             "height": 6,
+             "theme": "purple",
+             "type": "tutorial",
+             "blocksData": [
+               14,
+               21
+             ],
+             "tutorial": [
+               {
+                   "text": "tut_4_1_text",
+                   "title": "tut_4_1_title"
+               },
+               {
+                   "item": "hint",
+                   "parameter": 14
+               },
+               {
+                   "mousedown": 14
+               },
+               {
+                   "atEnd": true,
+                   "text": "tut_4_2_text",
+                   "title": "tut_4_2_title"
+               }
+             ]
+         },
+         {
+             "width": 7,
+             "height": 3,
+             "theme": "purple",
+             "type": "puzzle",
+             "blocksData": [
+               7,
+               10,
+               13
+             ]
+         },
+         {
+             "width": 5,
+             "height": 5,
+             "theme": "yellow",
+             "type": "puzzle",
+             "blocksData": [
+               20,
+               7,
+               24
+             ]
+         },
+         {
+             "width": 5,
+             "height": 5,
+             "theme": "yellow",
+             "type": "puzzle",
+             "blocksData": [
+               6,
+               16,
+               14
+             ]
+         },
+         {
+             "name": "0/2",
+             "width": 5,
+             "height": 5,
+             "type": "tutorial",
+             "theme": "yellow",
+             "blocksData": [
+               0,
+               20,
+               12,
+               4,
+               24
+             ],
+             "tutorial": [
+               {
+                   "text": "tut_5_1_text",
+                   "title": "tut_5_1_title"
+               }
+             ]
+         } */
       ]
   },
   {
@@ -3388,4 +3376,4 @@ var levelsData =  [
         }
       ]
   }
-    ]
+]

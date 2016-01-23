@@ -809,8 +809,8 @@ var FlipPlus;
             });
             var ps = this.levelsManager.getAllProjects();
             ps[0].UserData.unlocked = true;
-            ps[1].UserData.unlocked = true;
-            ps[2].UserData.unlocked = true;
+            // ps[1].UserData.unlocked = true;
+            // ps[2].UserData.unlocked = true;
             // for (var p in ps) {
             //     ps[p].UserData.unlocked = true;
             //     ps[p].UserData.stars=0;
@@ -4404,7 +4404,6 @@ var FlipPlus;
                 for (var p = this.projectViews.length; p < projects.length; p++) {
                     var projectView = new Menu.View.ProjectWorkshopView(projects[p]);
                     this.projectViews.push(projectView);
-                    projectView.activate();
                     projectView.x = defaultWidth * p;
                     projectView.addEventListener("levelClick", function (e) { _this.openLevel(e.level, e.parameters); });
                     this.projectsContainer.addChild(projectView);
@@ -4485,10 +4484,11 @@ var FlipPlus;
                             page = i;
                     }
                 }
-                //activate current project
-                this.projectViews[page].activate(parameters);
+                page = Math.min(this.projectViews.length - 1, page);
                 //goto current project
                 this.pagesSwipe.gotoPage(page, false);
+                //activate current project
+                this.projectViews[page].activate(parameters);
             };
             return WorkshopMenu;
         })(gameui.ScreenState);
@@ -7725,10 +7725,10 @@ var FlipPlus;
                     this.project = project;
                     this.name = project.name;
                     this.onShowPage = function () {
-                        //add levels information
+                        ////add levels information
                         _this.addObjects(project);
-                        //activate layer
-                        _this.activate();
+                        ////activate layer
+                        //this.activate();
                         _this.redim(_this.headerY, _this.footerY);
                     };
                     this.onHidePage = function () {
@@ -7923,7 +7923,7 @@ var FlipPlus;
                             this.animateBox();
                             this.animateBotFillTo();
                         }
-                        if (!animate) {
+                        else {
                             if (this.project.UserData.complete)
                                 this.createCompletedBot();
                             else
@@ -7945,6 +7945,7 @@ var FlipPlus;
                     createjs.Tween.get(this.percentMask).wait(900).to({ scaleY: newValue }, 700, createjs.Ease.quadInOut).wait(500).call(function () {
                         if (_this.project.UserData.complete) {
                             _this.createCompletedBot();
+                            _this.completeBot.alpha = 0;
                             createjs.Tween.get(_this.fill).wait(300).to({ alpha: 0 }, 600).call(function () { _this.fill.visible = false; });
                             createjs.Tween.get(_this.stroke).wait(300).to({ alpha: 0 }, 600).call(function () { _this.stroke.visible = false; });
                             createjs.Tween.get(_this.completeBot).to({ alpha: 0, scaleX: 0.6, scaleY: 0.6 }).wait(300).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 600, createjs.Ease.quadOut);

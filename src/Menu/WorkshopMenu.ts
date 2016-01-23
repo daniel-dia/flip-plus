@@ -87,7 +87,7 @@ module FlipPlus.Menu {
             for (var p = this.projectViews.length; p < projects.length;p++) {
                 var projectView = new View.ProjectWorkshopView(projects[p]);
                 this.projectViews.push(projectView);
-                projectView.activate();
+                
                 projectView.x = defaultWidth * p; 
                 projectView.addEventListener("levelClick", (e: any) => { this.openLevel(e.level, e.parameters) });
                
@@ -190,12 +190,16 @@ module FlipPlus.Menu {
                     if (project == current) page = i;
                 }
             }
-          
-            //activate current project
-            this.projectViews[page].activate(parameters);
+
+            page = Math.min(this.projectViews.length - 1, page);
 
             //goto current project
             this.pagesSwipe.gotoPage(page, false);
+
+            //activate current project
+            this.projectViews[page].activate(parameters);
+
+            
                
              
         }
