@@ -194,7 +194,7 @@ module FlipPlus.Menu {
             page = Math.min(this.projectViews.length - 1, page);
 
             //goto current project
-            this.pagesSwipe.gotoPage(page, false);
+            this.pagesSwipe.gotoPage(page);
 
             //activate current project
             this.projectViews[page].activate(parameters);

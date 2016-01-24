@@ -104,7 +104,7 @@ module FlipPlus.Levels {
 
             //updates project info
             this.updateProjectUserData(this.getCurrentProject());
-
+           
             //save user data
             this.levelsUserDataManager.saveLevelData(level);
             this.levelsUserDataManager.saveProjectData(this.getCurrentProject());
@@ -247,7 +247,7 @@ module FlipPlus.Levels {
         public completeProject(project: BotLevelsSet): void {
 
             //TODO colocar isso em outro lugar
-            //set played the intro when a project is complete
+            // set played the intro when a project is complete
             FlipPlusGame.storyData.setStoryPlayed("intro");
 
             if (project.UserData.complete == true) return;
@@ -256,7 +256,12 @@ module FlipPlus.Levels {
             this.levelsUserDataManager.saveProjectData(project);
 
             // unlock next project (No more stars count)
-            this.unlockNextProject(project);
+            var nextProject = this.getNextProject(project);
+            this.unlockProject(nextProject);
+
+            FlipPlusGame.levelsUserDataManager.saveProjectData(project);
+            FlipPlusGame.levelsUserDataManager.saveProjectData(nextProject);
+
         }
 
         //Updates user data project status

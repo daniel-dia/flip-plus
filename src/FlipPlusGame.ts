@@ -233,7 +233,7 @@ module FlipPlus {
             this.gameScreen.switchScreen(this.levelScreeen, parameters);
         }
 
-        private static createLevel(level: Levels.Level): GamePlay.LevelScreen {
+        public static createLevel(level: Levels.Level): GamePlay.LevelScreen {
 
             switch (level.type) {
                 case "puzzle": case "draw":
@@ -262,6 +262,7 @@ module FlipPlus {
 
                     setTimeout(() => {
                         FlipPlusGame.showMainScreen();
+                        FlipPlusGame.levelsManager.setCurrentProject(null);
                     }, 6000);
 
                 } else {
