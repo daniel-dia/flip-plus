@@ -255,8 +255,10 @@ module FlipPlus {
 
             if (this.gameMode == GameMode.PROJECTS) {
 
+                // shows workshop with the proper parameters
                 this.showProjectLevelsMenu(null, { complete: complete, freeze: firstTime, firstTime: firstTime });
-                                
+                             
+                // if first time, do an animation and goes to the next level, or show the completed bot   
                 if (firstTime) {
                     //if complete changes to myBotScreen
                     if (this.levelsManager.getCurrentProject().UserData.complete && firstTime) {
