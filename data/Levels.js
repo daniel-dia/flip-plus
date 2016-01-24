@@ -90,7 +90,7 @@ var levelsData = [
                }
              ]
          },
-       /*  {
+        {
              "width": 5,
              "height": 5,
              "theme": "green",
@@ -214,7 +214,7 @@ var levelsData = [
                    "title": "tut_5_1_title"
                }
              ]
-         } */
+         } 
       ]
   },
   {

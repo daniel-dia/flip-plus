@@ -937,18 +937,20 @@ var FlipPlus;
             if (complete === void 0) { complete = false; }
             if (firstTime === void 0) { firstTime = false; }
             if (this.gameMode == GameMode.PROJECTS) {
-                this.showProjectLevelsMenu(null, { complete: complete, freeze: true, firstTime: firstTime });
-                //if complete changes to myBotScreen
-                if (this.levelsManager.getCurrentProject().UserData.complete) {
-                    setTimeout(function () {
-                        FlipPlusGame.showMainScreen();
-                        FlipPlusGame.levelsManager.setCurrentProject(null);
-                    }, 6000);
-                }
-                else {
-                    setTimeout(function () {
-                        _this.showNextLevel();
-                    }, 1500);
+                this.showProjectLevelsMenu(null, { complete: complete, freeze: firstTime, firstTime: firstTime });
+                if (firstTime) {
+                    //if complete changes to myBotScreen
+                    if (this.levelsManager.getCurrentProject().UserData.complete && firstTime) {
+                        setTimeout(function () {
+                            FlipPlusGame.showMainScreen();
+                            FlipPlusGame.levelsManager.setCurrentProject(null);
+                        }, 6000);
+                    }
+                    else {
+                        setTimeout(function () {
+                            _this.showNextLevel();
+                        }, 1500);
+                    }
                 }
             }
             else
@@ -4680,15 +4682,15 @@ var FlipPlus;
                 playBt.x = 800;
                 playBt.y = 1139;
                 this.playBt = playBt;
-                var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", function () {
-                    //FlipPlus.FlipPlusGame.showProjectsMenu(); 
-                    FlipPlus.FlipPlusGame.showActionLevelsMenu();
-                });
-                playBt.interactive = true;
-                this.content.addChild(playBt);
-                playBt.x = 800;
-                playBt.y = 1339;
-                this.playBt = playBt;
+                //  var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
+                //      //FlipPlus.FlipPlusGame.showProjectsMenu(); 
+                //      FlipPlus.FlipPlusGame.showActionLevelsMenu();
+                //  })
+                //  playBt.interactive = true;
+                //  this.content.addChild(playBt);
+                //  playBt.x = 800;
+                //  playBt.y = 1339;
+                //  this.playBt = playBt;
             };
             MainMenu.prototype.back = function () {
                 FlipPlus.FlipPlusGame.showTitleScreen();
@@ -7820,7 +7822,8 @@ var FlipPlus;
                         ////add levels information
                         _this.addObjects(project);
                         ////activate layer
-                        //this.activate();
+                        if (_this.levelGrid)
+                            _this.levelGrid.updateUserData();
                         _this.redim(_this.headerY, _this.footerY);
                     };
                     this.onHidePage = function () {
@@ -7932,6 +7935,7 @@ var FlipPlus;
                     var complete = false;
                     var direction = -1;
                     var freeze = 0;
+                    var firstTime = false;
                     if (parameters) {
                         if (parameters.complete)
                             complete = parameters.complete;
@@ -7939,13 +7943,15 @@ var FlipPlus;
                             direction = parameters.direction;
                         if (parameters.freeze)
                             freeze = parameters.freeze;
+                        if (parameters.firstTime)
+                            firstTime = parameters.firstTime;
                     }
                     if (this.levelGrid)
                         this.levelGrid.updateUserData();
                     if (this.starsIndicator)
                         this.starsIndicator.updateProjectInfo();
                     if (this.robotPreview)
-                        this.robotPreview.update(complete);
+                        this.robotPreview.update(complete, firstTime);
                 };
                 return ProjectWorkshopView;
             })(View.Page);
@@ -8006,16 +8012,16 @@ var FlipPlus;
                         this.completeBot.y -= 260;
                     }
                 };
-                //update percentage
-                RobotPreview.prototype.update = function (animate) {
+                //update bot preview show
+                RobotPreview.prototype.update = function (animate, firstTime) {
                     if (animate === void 0) { animate = false; }
+                    if (firstTime === void 0) { firstTime = false; }
                     try {
-                        //já acabou de terminar um level
-                        if (animate) {
+                        if (animate)
                             this.animateBox();
+                        if (firstTime)
                             this.animateBotFillTo();
-                        }
-                        else {
+                        if (!firstTime || !animate) {
                             if (this.project.UserData.complete)
                                 this.createCompletedBot();
                             else

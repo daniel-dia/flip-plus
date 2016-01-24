@@ -27,8 +27,8 @@ module FlipPlus.Menu.View {
                 this.addObjects(project);
                 
                 ////activate layer
-                //this.activate();
-
+                if (this.levelGrid) this.levelGrid.updateUserData();
+                 
                 this.redim(this.headerY, this.footerY);
             }
 
@@ -168,16 +168,18 @@ module FlipPlus.Menu.View {
             var complete = false;
             var direction = -1;
             var freeze = 0;
+            var firstTime = false;
 
             if (parameters) {
                 if (parameters.complete) complete = parameters.complete;
                 if (parameters.direction) direction = parameters.direction;
                 if (parameters.freeze) freeze = parameters.freeze;
+                if (parameters.firstTime) firstTime = parameters.firstTime;
             }
 
             if (this.levelGrid)      this.levelGrid.updateUserData();
             if (this.starsIndicator) this.starsIndicator.updateProjectInfo();
-            if (this.robotPreview)   this.robotPreview.update(complete);
+            if (this.robotPreview)   this.robotPreview.update(complete,firstTime);
         }
     }
 }

@@ -67,21 +67,21 @@
             }
         }
 
-        //update percentage
-        public update(animate: boolean= false) {
+        //update bot preview show
+        public update(animate: boolean = false, firstTime = false) {
+            
             try {
-                //já acabou de terminar um level
-                if (animate) {
-                    this.animateBox();
-                    this.animateBotFillTo();
-                }
-
-               else {
+                if (animate) this.animateBox();
+                
+                if (firstTime) this.animateBotFillTo();
+                
+                if (!firstTime || !animate) {
                     if (this.project.UserData.complete)
                         this.createCompletedBot()
                     else
                         this.updateFill();
                 }
+
             } catch (e) { };
         }
         

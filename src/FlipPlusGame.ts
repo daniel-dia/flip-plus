@@ -255,21 +255,23 @@ module FlipPlus {
 
             if (this.gameMode == GameMode.PROJECTS) {
 
-                this.showProjectLevelsMenu(null, { complete: complete, freeze: true, firstTime: firstTime });
-                
-                //if complete changes to myBotScreen
-                if (this.levelsManager.getCurrentProject().UserData.complete) {
+                this.showProjectLevelsMenu(null, { complete: complete, freeze: firstTime, firstTime: firstTime });
+                                
+                if (firstTime) {
+                    //if complete changes to myBotScreen
+                    if (this.levelsManager.getCurrentProject().UserData.complete && firstTime) {
 
-                    setTimeout(() => {
-                        FlipPlusGame.showMainScreen();
-                        FlipPlusGame.levelsManager.setCurrentProject(null);
-                    }, 6000);
+                        setTimeout(() => {
+                            FlipPlusGame.showMainScreen();
+                            FlipPlusGame.levelsManager.setCurrentProject(null);
+                        }, 6000);
 
-                } else {
+                    } else {
 
-                    setTimeout(() => {
-                        this.showNextLevel();
-                    }, 1500);
+                        setTimeout(() => {
+                            this.showNextLevel();
+                        }, 1500);
+                    }
                 }
 
             }
