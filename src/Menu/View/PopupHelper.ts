@@ -39,7 +39,7 @@ module FlipPlus.Menu.View {
             textDO.x = 1000;
 
             // Add Buttons
-            var bt = new gameui.BitmapTextButton(StringResources.help_restart_bt, defaultFontFamilyNormal, "menu/btoptions", () => {
+            var bt = new gameui.BitmapTextButton(StringResources.help_restart_bt, "fontWhite", "menu/btoptions", () => {
                 this.closePopUp();
             });
             this.addChild(bt);

@@ -125,13 +125,16 @@ module gameui {
 
                 }
 
+                newScreen.view.interactive = false;
+                oldScreen.view.interactive = false;
+                newScreen.view.interactiveChildren = false;
+                oldScreen.view.interactiveChildren = false;
+
+
                 //and transition = fade
                 if (transition.type && transition.type != "none") {
 
-                    newScreen.view.interactive = false;
-                    oldScreen.view.interactive = false;
-
-                    //fade between transitions
+                     //fade between transitions
                     newScreen.view.alpha = alpha;
                     newScreen.view.x = -x;
                     newScreen.view.y = -y;
@@ -149,6 +152,8 @@ module gameui {
 
                         newScreen.view.interactive = true;
                         oldScreen.view.interactive = true;
+                        newScreen.view.interactiveChildren = true;
+                        oldScreen.view.interactiveChildren = true;
 
                         this.removeOldScreen(oldScreen)
                         oldScreen = null;

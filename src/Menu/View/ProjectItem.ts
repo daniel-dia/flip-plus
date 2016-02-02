@@ -17,10 +17,7 @@ module FlipPlus.Menu.View {
 
         //createObjects
         private createObjects(project:Levels.BotLevelsSet) {
-
-            var color = "#00427b"
-            var font = "50px " + defaultFont;
-
+    
             //clean all objects
             this.removeChildren();
             

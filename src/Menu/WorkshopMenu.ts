@@ -97,13 +97,21 @@ module FlipPlus.Menu {
 
         public disableInteraction() {
             this.view.interactiveChildren = false;
+            this.content.interactiveChildren  = false;
+            this.header.interactiveChildren  = false;
+            this.footer.interactiveChildren = false;
+            this.overlay.interactiveChildren = false;
             this.view.interactive = false;
             this.menu.visible = false;
             this.paginationButtons.visible = false
         }
 
         public enableInteraction() {
-            this.view.interactiveChildren = true;
+            this.view.interactiveChildren = true; 
+            this.content.interactiveChildren = true;
+            this.header.interactiveChildren = true;
+            this.footer.interactiveChildren = true;
+            this.overlay.interactiveChildren = true;
             this.view.interactive = true;
             this.menu.visible = true;
             this.paginationButtons.visible = true
@@ -175,7 +183,6 @@ module FlipPlus.Menu {
             super.activate();
 
             // play music
-            //gameui.AudiosManager.playMusic("Music Dot Robot",0.5);
             this.factorySound = gameui.AudiosManager.playSound("Factory Ambience",true,0,0,0,0.4);
             
             //update enabled Projects

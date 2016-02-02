@@ -27,8 +27,7 @@ module FlipPlus.Menu.View {
         private createObjects(bonusId:string) {
 
             var color = "#cfe3ec"
-            var font = "Bold 100px " + defaultFont ;
-
+      
             //clean all objects
             this.removeChildren();
 

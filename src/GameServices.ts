@@ -14,10 +14,10 @@
 
 
             if (os == "ios") {
-                //initializes game services
-                this.socialService = Cocoon.Social.GameCenter.getSocialInterface();
-                // set achievement Map
-                this.socialService.setAchievementsMap(constantsiOS)
+               // //initializes game services
+               // this.socialService = Cocoon.Social.GameCenter.getSocialInterface();
+               // // set achievement Map
+               // this.socialService.setAchievementsMap(constantsiOS)
 
             }
 
