@@ -206,9 +206,6 @@ module FlipPlus.Menu {
             //activate current project
             this.projectViews[page].activate(parameters);
 
-            
-               
-             
         }
     }
 }

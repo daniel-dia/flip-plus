@@ -94,7 +94,9 @@ module FlipPlus.GamePlay.Views {
 
             //highlight the item
             this.tutorial_highlightSprite.visible = true;
+            this.addChild(this.tutorial_highlightSprite);
             this.tutorial_highlightSprite.x = this.buttons[itemId].x;
+            this.tutorial_highlightSprite.y = this.buttons[itemId].y-160;
            
             //define parameter for feedback
             this.parameters[itemId] = parameter;
