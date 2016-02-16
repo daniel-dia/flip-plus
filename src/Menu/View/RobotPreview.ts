@@ -95,13 +95,14 @@
         private animateBotFillTo(color: number= 0xffcc2e) {
 
             var newValue = this.project.UserData.percent;
+            gameui.AudiosManager.playSound("bot up", true, 700);
             createjs.Tween.get(this.percentMask).wait(900).to({ scaleY: newValue }, 700, createjs.Ease.quadInOut).wait(500).call(() => {
                 
                 if (this.project.UserData.complete) {
                     
                     this.createCompletedBot(); 
                     this.completeBot.alpha = 0;
-
+                    
                     createjs.Tween.get(this.fill).wait(300).to({ alpha: 0 }, 600).call(() => { this.fill.visible = false })
                     createjs.Tween.get(this.stroke).wait(300).to({ alpha: 0 }, 600).call(() => { this.stroke.visible = false })
                     createjs.Tween.get(this.completeBot).to({ alpha: 0, scaleX: 0.6, scaleY: 0.6 }).wait(300).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 600, createjs.Ease.quadOut)

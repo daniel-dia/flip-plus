@@ -34,8 +34,7 @@ module FlipPlus.GamePlay.Views {
         private addTutorialIndicator() {
             this.tutorial_highlightSprite = gameui.AssetsManager.getMovieClip("touch")
             this.tutorial_highlightSprite.visible = false;
-            this.tutorial_highlightSprite.mouseEnabled = false;
-            this.addChild(this.tutorial_highlightSprite)
+        
         }
 
         //creates all menu butons
@@ -95,6 +94,10 @@ module FlipPlus.GamePlay.Views {
             //highlight the item
             this.tutorial_highlightSprite.visible = true;
             this.addChild(this.tutorial_highlightSprite);
+            this.tutorial_highlightSprite.mouseEnabled = false;
+            this.tutorial_highlightSprite.hitArea = new PIXI.Rectangle(0,0,1,1);
+
+
             this.tutorial_highlightSprite.x = this.buttons[itemId].x;
             this.tutorial_highlightSprite.y = this.buttons[itemId].y-160;
            
@@ -109,7 +112,7 @@ module FlipPlus.GamePlay.Views {
                 this.buttons[b].mouseEnabled = false;
         }
 
-        //lock all other buttons
+        //lock all other buttons 
         public tutorial_unlockAllButtons() {
             this.tutorial_highlightSprite.visible = false;
             for (var b in this.buttons)

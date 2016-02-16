@@ -323,6 +323,7 @@ var audioManifest = [
         { id: "final", src: "final.ogg" },
         { id: "Power Down", src: "Power Down.ogg" },
         { id: "Power Up", src: "Power Up.ogg" },
+        { id: "bot up", src: "bot up.ogg" },
         { id: "Robot Talk", src: "Robot Talk.ogg" },
         { id: "Task Complete", src: "Task Complete.ogg" },
         { id: "Ticking Clock", src: "Ticking Clock.ogg" },

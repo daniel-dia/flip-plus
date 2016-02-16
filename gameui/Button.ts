@@ -8,10 +8,8 @@ module gameui {
             this.DefaultSoundId = soundId;
         }
 
-
         private soundId: string;
-
-
+        
         public enableAnimation = true;
         private originalScaleX: number;
         private originalScaleY: number;
@@ -29,8 +27,8 @@ module gameui {
             this.on("click",    this.event);
             this.on("tap",      this.event);
             
-            this.on("mousedown", (event: any) => { this.onPress(event); })
-            this.on("touchstart", (event: any) => { this.onPress(event); })
+            this.on("mousedown",  (event: any) => { this.onPress(event); console.log(event);})
+            this.on("touchstart", (event: any) => { this.onPress(event); console.log(event);})
 
             this.on("touchend", (event: any) => { this.onOut(event); })
             this.on("mouseup", (event: any) => { this.onOut(event); })
@@ -48,9 +46,7 @@ module gameui {
                 this.scale.y = this.originalScaleY;
             }
         }
-
- 
-
+        
         private onOut(Event: any) {
             if (this.pressed) {
                 this.pressed = false;
@@ -60,8 +56,10 @@ module gameui {
         }
 
         private onPress(Event: any) {
+            if (this.pressed) return;
             this.pressed = true;
 
+            
             if (!this.enableAnimation) return
 
             if (this.originalScaleX == null) {
@@ -74,12 +72,10 @@ module gameui {
                 }
             });
 
-            if (!this.soundId)
-                this.soundId = Button.DefaultSoundId;
+            if (!this.soundId) this.soundId = Button.DefaultSoundId;
 
-            if (this.soundId)
-                AudiosManager.playSound(this.soundId);
-
+            if (this.soundId) AudiosManager.playSound(this.soundId);
+            console.log("pressed");
         }
 
         public setSound(soundId: string) {
