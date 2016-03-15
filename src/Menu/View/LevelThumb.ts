@@ -10,6 +10,8 @@ module FlipPlus.Menu.View {
         // Current level
         private level: Levels.Level;
 
+        private thumbContainer: PIXI.Container;
+
         // Constructor
         constructor(level: FlipPlus.Levels.Level, event?: (event?: any) => any) {
             super(event);
@@ -23,9 +25,9 @@ module FlipPlus.Menu.View {
         public updateUserData() {
 
             //create a new thumb
-            this.cacheAsBitmap = false;
+            if (this.thumbContainer)this.thumbContainer.cacheAsBitmap = false;
             this.createThumbs(this.level);
-            this.cacheAsBitmap = true;
+            this.thumbContainer.cacheAsBitmap = true;
 
             if (!this.hitArea) this.createHitArea();
 
@@ -45,6 +47,7 @@ module FlipPlus.Menu.View {
             var assetName = this.defineAssetName(level);
 
             var thumbContainer: PIXI.Container = new PIXI.Container();
+            this.thumbContainer = thumbContainer;
             this.addChild(thumbContainer);
             
             //defines thumb state
@@ -60,7 +63,7 @@ module FlipPlus.Menu.View {
                 this.setSound("buttonOff");
             }
                         
-            // next playable
+            // next playable 
             if (level.userdata.unlocked && !level.userdata.solved && !level.userdata.skip) {
                 assetSufix = "3";
                 alpha1 = 0.9;
@@ -69,7 +72,8 @@ module FlipPlus.Menu.View {
 
                 //create bounce effect if is active
                 thumbContainer.set({ scaleX: 1, scaleY: 1 })
-                createjs.Tween.get(this)
+                createjs.Tween.removeTweens(thumbContainer);
+                createjs.Tween.get(thumbContainer)
                     .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)
                     .to({ scaleX: 1.00, scaleY: 1.00 }, 500, createjs.Ease.sineInOut)
                     .to({ scaleX: 1.14, scaleY: 1.14 }, 500, createjs.Ease.sineInOut)

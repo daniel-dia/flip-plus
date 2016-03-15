@@ -92,7 +92,7 @@ module gameui {
                 scaleX: this.oldScaleX, 
                 scaleY: this.oldScaleY,   
                 alpha: 1,
-                x: this.antX,
+                x: this.antX, 
                 y: this.antY,
             }, 400, createjs.Ease.quadOut)
 
