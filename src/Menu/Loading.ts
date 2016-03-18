@@ -75,6 +75,7 @@ module FlipPlus.Menu {
             gameui.AssetsManager.loadFontSpriteSheet("fontWhite", "fontWhite.fnt");
             gameui.AssetsManager.loadFontSpriteSheet("fontBlue", "fontBlue.fnt");
             gameui.AssetsManager.loadFontSpriteSheet("fontTitle", "fontTitle.fnt");
+            gameui.AssetsManager.loadFontSpriteSheet("fontStrong", "fontStrong.fnt");
 
             gameui.AssetsManager.loadSpriteSheet("agua", "agua.json");
             gameui.AssetsManager.loadSpriteSheet("bolinhas", "bolinhas.json");

@@ -6,21 +6,27 @@
         private loadingObject: PIXI.DisplayObject;
         private products: Array<Cocoon.Store.ProductInfo>;
 
-        private productInfo = [
-            { name: "50", price: "U$ 0,99", img: "partsicon" },
-            { name: "200", price: "U$ 1,99", img: "partsicon" },
-            { name: "500", price: "U$ 3,99", img: "partsicon" },
-            { name: "1000", price: "U$ 4,99", img: "partsicon" },
-        ]
+        private productInfo: Array<Cocoon.Store.ProductInfo> = [
+            { productId: "50",   description: "50",   productAlias: "50",   title: "50",   localizedPrice: "U$ 0,99" },
+            { productId: "200",  description: "200",  productAlias: "200",  title: "200",  localizedPrice: "U$ 1,99" },
+            { productId: "500",  description: "500",  productAlias: "500",  title: "500",  localizedPrice: "U$ 3,99" },
+            { productId: "1000", description: "1000", productAlias: "1000", title: "1000", localizedPrice: "U$ 4,99" },
+
+            //{ productId: "p100",  description: "100",  productAlias: "100", title: "100", localizedPrice: "U$ 1,99" },
+        ];
 
         protected productIdList = ["50", "200", "500", "1000"];
 
         constructor(previousScreen: gameui.ScreenState) {
+
             super(StringResources.menus.shop, previousScreen, "menu/titleRed");
 
             this.initializeScreen();
 
             this.initializeStore();
+
+            this.fillProducts(this.productInfo);
+
         }
 
         //#region Interface =====================================================================================
@@ -41,8 +47,8 @@
 
             for (var p in productList) {
                 var productListItem = this.createProduct(productList[p]);
-                productListItem.y = p * 380 + 380;
-                productListItem.x = 70;
+                productListItem.y = p * 320 - 380;
+                productListItem.x = 0;
                 this.content.addChild(productListItem);
             }
         }
@@ -50,7 +56,7 @@
         // add a single product in the list
         protected createProduct(product: Cocoon.Store.ProductInfo): PIXI.DisplayObject {
 
-            var productListItem = new ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice);
+            var productListItem = new ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice, "store/" + product.productId);
             this.productsListItems[product.productId] = productListItem;
             console.log(JSON.stringify(product))
 
@@ -106,9 +112,8 @@
         }
 
         //#endregion 
-
-
-        //#region market =====================================================================================
+        
+        //#region Store =====================================================================================
 
         // initialize product listing
         private initializeStore() {
@@ -216,16 +221,30 @@
             this.addChild(gameui.AssetsManager.getBitmap("menu/storeItem").set({ regX: 1204 / 2, regY: 277 / 2 }));
 
             // adds icon
-            this.addChild(gameui.AssetsManager.getBitmap(image).set({ x: -400, regY: 150, regX: 150 }));
+            if (image) {
+                var i = gameui.AssetsManager.getBitmap(image);
+                i.set({ x: -400, regY: 150, regX: 150 });
+                i.regX = i.width / 2;
+                i.regY = i.height/ 2;
+                this.addChild(i);
+            }
 
             // adds text
-            this.addChild(gameui.AssetsManager.getBitmapText(name, "fontWhite").set({ x: -100 }));
+            this.addChild(gameui.AssetsManager.getBitmapText(name, "fontStrong", 0x333071,1.1).set({ x: -160 , y:-70}));
 
-            // adds Value
-            this.addChild(gameui.AssetsManager.getBitmapText(localizedPrice, "fontBlue").set({ x: 375, y: -70 }));
+            // adds price
+            var t: PIXI.extras.BitmapText = gameui.AssetsManager.getBitmapText(localizedPrice, "fontStrong", 0xffffff, 1);
+            t.set({ x: 370, y: -90 })
+            this.addChild(t);
+            t.regX = t.textWidth / 2;
+             
 
             // adds buy text
-            this.addChild(gameui.AssetsManager.getBitmapText(StringResources.menus.shop, "fontBlue").set({ x: 375, y: 40 }));
+            var t: PIXI.extras.BitmapText = gameui.AssetsManager.getBitmapText(StringResources.menus.buy , "fontWhite", 0x86c0f1);
+            t.set({ x: 370, y: 20 });
+            this.addChild(t);
+            t.regX = t.textWidth / 2;
+            
 
             this.createHitArea();
 

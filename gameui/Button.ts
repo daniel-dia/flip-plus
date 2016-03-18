@@ -27,8 +27,8 @@ module gameui {
             this.on("click",    this.event);
             this.on("tap",      this.event);
             
-            this.on("mousedown",  (event: any) => { this.onPress(event); console.log(event);})
-            this.on("touchstart", (event: any) => { this.onPress(event); console.log(event);})
+            this.on("mousedown",  (event: any) => { this.onPress(event);})
+            this.on("touchstart", (event: any) => { this.onPress(event);})
 
             this.on("touchend", (event: any) => { this.onOut(event); })
             this.on("mouseup", (event: any) => { this.onOut(event); })
@@ -74,8 +74,7 @@ module gameui {
 
             if (!this.soundId) this.soundId = Button.DefaultSoundId;
 
-            if (this.soundId) AudiosManager.playSound(this.soundId);
-            console.log("pressed");
+            if (this.soundId) AudiosManager.playSound(this.soundId); 
         }
 
         public setSound(soundId: string) {

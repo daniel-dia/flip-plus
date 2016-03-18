@@ -110,8 +110,10 @@ module gameui {
         }
 
         //get a bitmap Text
-        public static getBitmapText(text: string, bitmapFontId: string): PIXI.extras.BitmapText { 
+        public static getBitmapText(text: string, bitmapFontId: string, color:number= 0xffffff, size:number=1): PIXI.extras.BitmapText { 
             var bitmapText = new PIXI.extras.BitmapText(text, { font: bitmapFontId });
+            bitmapText.tint = color;
+            bitmapText.scaleX = bitmapText.scaleY = size;
             bitmapText.maxLineHeight = 100;
             ///CHECK bitmapText.letterSpacing = 7;
             bitmapText.interactiveChildren = AssetsManager.defaultMouseEnabled;

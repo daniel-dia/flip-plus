@@ -24,15 +24,15 @@
             managed: boolean;
         }
 
-        export class ProductInfo {
+        export interface ProductInfo {
             productId: string;// The id of the product.
-            productAlias: string;// The alias of the product.
-            productType: ProductType;// The product type.
-            title: string;// The title of the product.
-            description: string;// The description of the product.
-            price: string;// The price of the product.
-            localizedPrice: string; // The localized price of the product.
-            downloadURL: string; // The URL of the asset to be downloaded for this purchase.
+            productAlias?: string;// The alias of the product.
+            productType?: ProductType;// The product type.
+            title?: string;// The title of the product.
+            description?: string;// The description of the product.
+            price?: string;// The price of the product.
+            localizedPrice?: string; // The localized price of the product.
+            downloadURL?: string; // The URL of the asset to be downloaded for this purchase.
         }
 
         export class PurchaseInfo {

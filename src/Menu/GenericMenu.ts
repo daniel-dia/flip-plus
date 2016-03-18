@@ -44,9 +44,8 @@
             backButton.createHitArea();
             this.content.addChild(backButton);
 
-            //var t = new gameui.Label(title, defaultFontFamilyHighlight, 0xFFFFFF).set({ x: -500, y: -690, textAlign:"left" });
-            
-            //this.content.addChild(t);
+            var t = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong").set({ x: -540, y: -750, textAlign: "left" });
+            this.content.addChild(t);
 
         }
             

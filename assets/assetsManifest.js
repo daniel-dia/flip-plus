@@ -303,6 +303,14 @@ var imageManifest = [
         { id: "puzzle/tile_yellow_3", src: "puzzle/tile_yellow_3.png" },
         { id: "puzzle/tile_yellow_4", src: "puzzle/tile_yellow_4.png" },
 
+        // store
+
+        { src: "store/50.png", id: "store/50" },
+        { src: "store/200.png", id: "store/200" },
+        { src: "store/500.png", id: "store/500" },
+        { src: "store/1000.png", id: "store/1000" },
+
+
         //popup
         { id: "popups/popup", src: "popups/popup.png" },
         { id: "popups/message", src: "popups/message.png" },

@@ -88,8 +88,12 @@ var gameui;
             return imgobj;
         };
         //get a bitmap Text
-        AssetsManager.getBitmapText = function (text, bitmapFontId) {
+        AssetsManager.getBitmapText = function (text, bitmapFontId, color, size) {
+            if (color === void 0) { color = 0xffffff; }
+            if (size === void 0) { size = 1; }
             var bitmapText = new PIXI.extras.BitmapText(text, { font: bitmapFontId });
+            bitmapText.tint = color;
+            bitmapText.scaleX = bitmapText.scaleY = size;
             bitmapText.maxLineHeight = 100;
             ///CHECK bitmapText.letterSpacing = 7;
             bitmapText.interactiveChildren = AssetsManager.defaultMouseEnabled;
@@ -550,8 +554,8 @@ var gameui;
             this.interactive = true;
             this.on("click", this.event);
             this.on("tap", this.event);
-            this.on("mousedown", function (event) { _this.onPress(event); console.log(event); });
-            this.on("touchstart", function (event) { _this.onPress(event); console.log(event); });
+            this.on("mousedown", function (event) { _this.onPress(event); });
+            this.on("touchstart", function (event) { _this.onPress(event); });
             this.on("touchend", function (event) { _this.onOut(event); });
             this.on("mouseup", function (event) { _this.onOut(event); });
             this.on("mouseupoutside", function (event) { _this.onOut(event); });
@@ -594,7 +598,6 @@ var gameui;
                 this.soundId = Button.DefaultSoundId;
             if (this.soundId)
                 gameui.AudiosManager.playSound(this.soundId);
-            console.log("pressed");
         };
         Button.prototype.setSound = function (soundId) {
             this.soundId = soundId;
@@ -4346,8 +4349,8 @@ var FlipPlus;
                 backButton.set({ x: 550, y: -690, hitPadding: 100 });
                 backButton.createHitArea();
                 this.content.addChild(backButton);
-                //var t = new gameui.Label(title, defaultFontFamilyHighlight, 0xFFFFFF).set({ x: -500, y: -690, textAlign:"left" });
-                //this.content.addChild(t);
+                var t = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong").set({ x: -540, y: -750, textAlign: "left" });
+                this.content.addChild(t);
             };
             GenericMenu.prototype.animateIn = function (menu) {
                 createjs.Tween.get(menu).to({ x: this.originX, y: this.originY, scaleY: 0, scaleX: 0, alpha: 0 }).to({ x: defaultWidth / 2, y: defaultHeight / 2, scaleY: 1, scaleX: 1, alpha: 1 }, 400, createjs.Ease.quadOut);
@@ -4571,6 +4574,7 @@ var FlipPlus;
                 gameui.AssetsManager.loadFontSpriteSheet("fontWhite", "fontWhite.fnt");
                 gameui.AssetsManager.loadFontSpriteSheet("fontBlue", "fontBlue.fnt");
                 gameui.AssetsManager.loadFontSpriteSheet("fontTitle", "fontTitle.fnt");
+                gameui.AssetsManager.loadFontSpriteSheet("fontStrong", "fontStrong.fnt");
                 gameui.AssetsManager.loadSpriteSheet("agua", "agua.json");
                 gameui.AssetsManager.loadSpriteSheet("bolinhas", "bolinhas.json");
                 gameui.AssetsManager.loadSpriteSheet("touch", "Touch.json");
@@ -6462,6 +6466,87 @@ var gameui;
     })();
     gameui.AudiosManager = AudiosManager;
 })(gameui || (gameui = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var WorkshopMenuAction = (function (_super) {
+            __extends(WorkshopMenuAction, _super);
+            function WorkshopMenuAction() {
+                _super.apply(this, arguments);
+            }
+            WorkshopMenuAction.prototype.back = function () {
+                FlipPlus.FlipPlusGame.showMainScreen();
+            };
+            return WorkshopMenuAction;
+        })(Menu.WorkshopMenu);
+        Menu.WorkshopMenuAction = WorkshopMenuAction;
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Levels;
+    (function (Levels) {
+        // Controls projects and Levels.
+        // Model
+        var ActionLevelsManager = (function (_super) {
+            __extends(ActionLevelsManager, _super);
+            function ActionLevelsManager() {
+                _super.apply(this, arguments);
+            }
+            // #region initialization ----------------------------------------//
+            ActionLevelsManager.prototype.loadProjects = function (data) {
+                for (var p in data) {
+                    delete data[p].UserData;
+                }
+                for (var p in data) {
+                    for (var l in data[p].levels) {
+                        delete data[p].levels[l].userdata;
+                    }
+                }
+                this.levelsData = data;
+                // get a user data for each level/project
+                this.levelsUserDataManager.addUserData(this.levelsData);
+            };
+            // #endregion
+            //Updates user data project status
+            ActionLevelsManager.prototype.updateProjectUserData = function (project) {
+                var solvedLevels = 0;
+                //count solved levels
+                for (var l = 0; l < project.levels.length; l++)
+                    if (project.levels[l].userdata.solved ||
+                        project.levels[l].userdata.skip ||
+                        project.levels[l].userdata.item)
+                        solvedLevels++;
+                //calculate percentage
+                project.UserData.percent = solvedLevels / project.levels.length;
+                //calculate Stars
+                var stars = 0;
+                var temp = new Object;
+                for (var l = 0; l < project.levels.length; l++) {
+                    var level = project.levels[l];
+                    if (temp[level.theme] == null)
+                        temp[level.theme] = true;
+                    if (!level.userdata.solved || level.userdata.item)
+                        temp[level.theme] = false;
+                }
+                for (var i in temp) {
+                    if (temp[i])
+                        stars++;
+                }
+                //updates project stars count
+                project.UserData.stars = stars;
+                //verifies if level can be ulocked
+                this.unlockProject(project);
+                //complete Project
+                if (solvedLevels == project.levels.length)
+                    this.completeProject(project);
+            };
+            return ActionLevelsManager;
+        })(Levels.LevelsManager);
+        Levels.ActionLevelsManager = ActionLevelsManager;
+    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
+})(FlipPlus || (FlipPlus = {}));
 var Analytics = (function () {
     function Analytics() {
     }
@@ -6827,14 +6912,15 @@ var FlipPlus;
             function ShopMenu(previousScreen) {
                 _super.call(this, StringResources.menus.shop, previousScreen, "menu/titleRed");
                 this.productInfo = [
-                    { name: "50", price: "U$ 0,99", img: "partsicon" },
-                    { name: "200", price: "U$ 1,99", img: "partsicon" },
-                    { name: "500", price: "U$ 3,99", img: "partsicon" },
-                    { name: "1000", price: "U$ 4,99", img: "partsicon" },
+                    { productId: "50", description: "50", productAlias: "50", title: "50", localizedPrice: "U$ 0,99" },
+                    { productId: "200", description: "200", productAlias: "200", title: "200", localizedPrice: "U$ 1,99" },
+                    { productId: "500", description: "500", productAlias: "500", title: "500", localizedPrice: "U$ 3,99" },
+                    { productId: "1000", description: "1000", productAlias: "1000", title: "1000", localizedPrice: "U$ 4,99" },
                 ];
                 this.productIdList = ["50", "200", "500", "1000"];
                 this.initializeScreen();
                 this.initializeStore();
+                this.fillProducts(this.productInfo);
             }
             //#region Interface =====================================================================================
             ShopMenu.prototype.initializeScreen = function () {
@@ -6851,14 +6937,14 @@ var FlipPlus;
                 this.showLoaded();
                 for (var p in productList) {
                     var productListItem = this.createProduct(productList[p]);
-                    productListItem.y = p * 380 + 380;
-                    productListItem.x = 70;
+                    productListItem.y = p * 320 - 380;
+                    productListItem.x = 0;
                     this.content.addChild(productListItem);
                 }
             };
             // add a single product in the list
             ShopMenu.prototype.createProduct = function (product) {
-                var productListItem = new ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice);
+                var productListItem = new ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice, "store/" + product.productId);
                 this.productsListItems[product.productId] = productListItem;
                 console.log(JSON.stringify(product));
                 // add function callback
@@ -6905,7 +6991,7 @@ var FlipPlus;
                 // TODO
             };
             //#endregion 
-            //#region market =====================================================================================
+            //#region Store =====================================================================================
             // initialize product listing
             ShopMenu.prototype.initializeStore = function () {
                 var _this = this;
@@ -6987,13 +7073,25 @@ var FlipPlus;
                 // adds BG
                 this.addChild(gameui.AssetsManager.getBitmap("menu/storeItem").set({ regX: 1204 / 2, regY: 277 / 2 }));
                 // adds icon
-                this.addChild(gameui.AssetsManager.getBitmap(image).set({ x: -400, regY: 150, regX: 150 }));
+                if (image) {
+                    var i = gameui.AssetsManager.getBitmap(image);
+                    i.set({ x: -400, regY: 150, regX: 150 });
+                    i.regX = i.width / 2;
+                    i.regY = i.height / 2;
+                    this.addChild(i);
+                }
                 // adds text
-                this.addChild(gameui.AssetsManager.getBitmapText(name, "fontWhite").set({ x: -100 }));
-                // adds Value
-                this.addChild(gameui.AssetsManager.getBitmapText(localizedPrice, "fontBlue").set({ x: 375, y: -70 }));
+                this.addChild(gameui.AssetsManager.getBitmapText(name, "fontStrong", 0x333071, 1.1).set({ x: -160, y: -70 }));
+                // adds price
+                var t = gameui.AssetsManager.getBitmapText(localizedPrice, "fontStrong", 0xffffff, 1);
+                t.set({ x: 370, y: -90 });
+                this.addChild(t);
+                t.regX = t.textWidth / 2;
                 // adds buy text
-                this.addChild(gameui.AssetsManager.getBitmapText(StringResources.menus.shop, "fontBlue").set({ x: 375, y: 40 }));
+                var t = gameui.AssetsManager.getBitmapText(StringResources.menus.buy, "fontWhite", 0x86c0f1);
+                t.set({ x: 370, y: 20 });
+                this.addChild(t);
+                t.regX = t.textWidth / 2;
                 this.createHitArea();
             }
             ProductListItem.prototype.setPurchasing = function () {
@@ -8130,87 +8228,6 @@ var FlipPlus;
             View.TextEffect = TextEffect;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var WorkshopMenuAction = (function (_super) {
-            __extends(WorkshopMenuAction, _super);
-            function WorkshopMenuAction() {
-                _super.apply(this, arguments);
-            }
-            WorkshopMenuAction.prototype.back = function () {
-                FlipPlus.FlipPlusGame.showMainScreen();
-            };
-            return WorkshopMenuAction;
-        })(Menu.WorkshopMenu);
-        Menu.WorkshopMenuAction = WorkshopMenuAction;
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Levels;
-    (function (Levels) {
-        // Controls projects and Levels.
-        // Model
-        var ActionLevelsManager = (function (_super) {
-            __extends(ActionLevelsManager, _super);
-            function ActionLevelsManager() {
-                _super.apply(this, arguments);
-            }
-            // #region initialization ----------------------------------------//
-            ActionLevelsManager.prototype.loadProjects = function (data) {
-                for (var p in data) {
-                    delete data[p].UserData;
-                }
-                for (var p in data) {
-                    for (var l in data[p].levels) {
-                        delete data[p].levels[l].userdata;
-                    }
-                }
-                this.levelsData = data;
-                // get a user data for each level/project
-                this.levelsUserDataManager.addUserData(this.levelsData);
-            };
-            // #endregion
-            //Updates user data project status
-            ActionLevelsManager.prototype.updateProjectUserData = function (project) {
-                var solvedLevels = 0;
-                //count solved levels
-                for (var l = 0; l < project.levels.length; l++)
-                    if (project.levels[l].userdata.solved ||
-                        project.levels[l].userdata.skip ||
-                        project.levels[l].userdata.item)
-                        solvedLevels++;
-                //calculate percentage
-                project.UserData.percent = solvedLevels / project.levels.length;
-                //calculate Stars
-                var stars = 0;
-                var temp = new Object;
-                for (var l = 0; l < project.levels.length; l++) {
-                    var level = project.levels[l];
-                    if (temp[level.theme] == null)
-                        temp[level.theme] = true;
-                    if (!level.userdata.solved || level.userdata.item)
-                        temp[level.theme] = false;
-                }
-                for (var i in temp) {
-                    if (temp[i])
-                        stars++;
-                }
-                //updates project stars count
-                project.UserData.stars = stars;
-                //verifies if level can be ulocked
-                this.unlockProject(project);
-                //complete Project
-                if (solvedLevels == project.levels.length)
-                    this.completeProject(project);
-            };
-            return ActionLevelsManager;
-        })(Levels.LevelsManager);
-        Levels.ActionLevelsManager = ActionLevelsManager;
-    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
 })(FlipPlus || (FlipPlus = {}));
 var StringResources = {
     ld: "Loading",
