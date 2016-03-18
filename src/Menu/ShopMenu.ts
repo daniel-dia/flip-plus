@@ -56,12 +56,16 @@
         // add a single product in the list
         protected createProduct(product: Cocoon.Store.ProductInfo): PIXI.DisplayObject {
 
-            var productListItem = new ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice, "store/" + product.productId);
-            this.productsListItems[product.productId] = productListItem;
-            console.log(JSON.stringify(product))
+            var productListItem = new View.ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice, "store/" + product.productId);
 
+            this.productsListItems[product.productId] = productListItem;
+          
             // add function callback
-            productListItem.addEventListener("mousedown", (event: PIXI.interaction.InteractionEvent) => { Cocoon.Store.purchase(product.productId); });
+            productListItem.addEventListener("pressed",
+                () => {
+                    Cocoon.Store.purchase(product.productId);
+                    productListItem.setNotAvaliable();
+                });
 
             return productListItem;
         }
@@ -102,7 +106,7 @@
         }
 
         // reurn a object corresponding to productId
-        private getProductListItem(productId): ProductListItem {
+        private getProductListItem(productId): View.ProductListItem {
             return this.productsListItems[productId];
         }
 
@@ -208,89 +212,4 @@
 
     }
 
-    class ProductListItem extends gameui.Button {
-
-        private purchaseButton: gameui.Button;
-        private purchasedIcon: PIXI.DisplayObject;
-        private loadingIcon: PIXI.DisplayObject;
-        
-        constructor(productId: string, name: string, description: string, localizedPrice: string,image?:string) {
-            super();
-
-            // adds BG
-            this.addChild(gameui.AssetsManager.getBitmap("menu/storeItem").set({ regX: 1204 / 2, regY: 277 / 2 }));
-
-            // adds icon
-            if (image) {
-                var i = gameui.AssetsManager.getBitmap(image);
-                i.set({ x: -400, regY: 150, regX: 150 });
-                i.regX = i.width / 2;
-                i.regY = i.height/ 2;
-                this.addChild(i);
-            }
-
-            // adds text
-            this.addChild(gameui.AssetsManager.getBitmapText(name, "fontStrong", 0x333071,1.1).set({ x: -160 , y:-70}));
-
-            // adds price
-            var t: PIXI.extras.BitmapText = gameui.AssetsManager.getBitmapText(localizedPrice, "fontStrong", 0xffffff, 1);
-            t.set({ x: 370, y: -90 })
-            this.addChild(t);
-            t.regX = t.textWidth / 2;
-             
-
-            // adds buy text
-            var t: PIXI.extras.BitmapText = gameui.AssetsManager.getBitmapText(StringResources.menus.buy , "fontWhite", 0x86c0f1);
-            t.set({ x: 370, y: 20 });
-            this.addChild(t);
-            t.regX = t.textWidth / 2;
-            
-
-            this.createHitArea();
-
-            
-        }
-        
-        public setPurchasing() {
-            this.disable()
-            this.loadingIcon.visible = true;
-        }
-
-        public loading() {
-            this.disable();
-            this.loadingIcon.visible = true;
-        }
-
-        public setNotAvaliable() {
-            this.purchaseButton.fadeOut();
-            this.purchasedIcon.visible = false;
-            this.loadingIcon.visible = false;
-        }
-
-        public setAvaliable() { }
-
-        public setPurchased(timeOut: boolean = false) {
-            this.purchaseButton.fadeOut();
-            this.purchasedIcon.visible = true;
-            this.loadingIcon.visible = false;
-            gameui.AudiosManager.playSound("Interface Sound-11");
-            if (timeOut) setTimeout(() => { this.setNormal(); }, 1000);
-        }
-
-        public setNormal() {
-            this.purchaseButton.fadeIn();
-            this.purchasedIcon.visible = false;
-            this.loadingIcon.visible = false;
-        }
-
-        public enable() {
-            this.purchaseButton.fadeIn();
-            this.loadingIcon.visible = false;
-        }
-
-        public disable() {
-            this.purchasedIcon.visible = false;
-            this.purchaseButton.fadeOut();
-        }
-    }
 }

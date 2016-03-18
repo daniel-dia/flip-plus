@@ -136,6 +136,7 @@ var imageManifest = [
         { id: "menu/titlePurple", src: "menu/titlePurple.png" },
         { id: "menu/titleRed", src: "menu/titleRed.png" },
         { id: "menu/storeItem", src: "menu/storeItem.png" },
+        { id: "menu/purchaseButton", src: "menu/purchaseButton.png" },
         { id: "menu/specialOffer", src: "menu/specialOffer.png" },
         { id: "menu/x", src: "menu/x.png" },
 
