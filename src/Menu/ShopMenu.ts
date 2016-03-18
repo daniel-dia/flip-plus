@@ -25,7 +25,7 @@
 
             this.initializeStore();
 
-            this.fillProducts(this.productInfo);
+            //this.fillProducts(this.productInfo);
 
             this.coinsIndicator.interactive = false;
         }
@@ -34,10 +34,11 @@
 
         protected initializeScreen() {
             this.loadingObject = new PIXI.Container();
-            this.statusText = gameui.AssetsManager.getBitmapText("", "fontBlue");
+            this.statusText = gameui.AssetsManager.getBitmapText(StringResources.menus.errorShop, "fontBlue");
             this.content.addChild(this.loadingObject);
             this.content.addChild(this.statusText);
             this.statusText.y = -400;
+            this.statusText.regX = this.statusText.textWidth / 2;
         }
 
         // add all products in the list
@@ -66,16 +67,13 @@
                 () => {
                     Cocoon.Store.purchase(product.productId);
                     productListItem.setNotAvaliable();
-
-
                     
-                    //TESTE
-                    var productId = product.productId;
-                    this.animateItem(productId);
-                    this.updateUI();
-                    this.unlockUI();
-                    this.getProductListItem(productId).setPurchased();
-
+                    ////TEST
+                    //var productId = product.productId;
+                    //this.animateItem(productId);
+                    //this.updateUI();
+                    //this.unlockUI();
+                    //this.getProductListItem(productId).setPurchased();
 
                 });
 
@@ -127,10 +125,9 @@
             var price = 5;
             var bt: View.ProductListItem = this.productsListItems[productId];
             
-            if (bt)
-                this.coinsIndicator.createCoinEffect(bt.x - 458, bt.y + 1125 - this.header.y - 100, price,true);
-            else
-                this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price, true);
+            if (bt) this.coinsIndicator.createCoinEffect(bt.x - 458, bt.y + 1125 - this.header.y - 100, price,true);
+            else    this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price, true);
+
          }
 
         //#endregion 
@@ -139,7 +136,7 @@
 
         // initialize product listing
         private initializeStore() {
-            //  if (!Cocoon.Store.nativeAvailable) return;
+            if (!Cocoon.Store.nativeAvailable) return;
             this.showError();
 
             // on loaded products
@@ -182,6 +179,7 @@
                 error: (productId, error) => {
                     this.getProductListItem(productId).setNormal();
                     this.unlockUI();
+
                 }
             }, { once: true });
         
@@ -192,7 +190,6 @@
             Cocoon.Store.loadProducts(this.productIdList);
         }
         
-
         // verify product avaliability
         private updateProductsAvaliability() {
 
@@ -223,6 +220,8 @@
                     FlipPlusGame.storyData.setStoryPlayed("halfTime");
                     break;
             }
+
+            this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
 
             return true;
         }

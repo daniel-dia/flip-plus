@@ -4343,6 +4343,7 @@ var FlipPlus;
                 });
                 this.header.addChild(this.coinsIndicator);
                 this.coinsIndicator.x = defaultWidth / 2;
+                this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
             };
             GenericMenu.prototype.back = function (previousScreen) {
                 FlipPlus.FlipPlusGame.gameScreen.switchScreen(previousScreen);
@@ -4669,6 +4670,7 @@ var FlipPlus;
                 });
                 this.header.addChild(this.coinsIndicator);
                 this.coinsIndicator.x = defaultWidth / 2;
+                this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
             };
             MainMenu.prototype.activate = function () {
                 _super.prototype.activate.call(this);
@@ -6876,16 +6878,17 @@ var FlipPlus;
                 this.productIdList = ["50", "200", "500", "1000"];
                 this.initializeScreen();
                 this.initializeStore();
-                this.fillProducts(this.productInfo);
+                //this.fillProducts(this.productInfo);
                 this.coinsIndicator.interactive = false;
             }
             //#region Interface =====================================================================================
             ShopMenu.prototype.initializeScreen = function () {
                 this.loadingObject = new PIXI.Container();
-                this.statusText = gameui.AssetsManager.getBitmapText("", "fontBlue");
+                this.statusText = gameui.AssetsManager.getBitmapText(StringResources.menus.errorShop, "fontBlue");
                 this.content.addChild(this.loadingObject);
                 this.content.addChild(this.statusText);
                 this.statusText.y = -400;
+                this.statusText.regX = this.statusText.textWidth / 2;
             };
             // add all products in the list
             ShopMenu.prototype.fillProducts = function (productList) {
@@ -6901,19 +6904,18 @@ var FlipPlus;
             };
             // add a single product in the list
             ShopMenu.prototype.createProduct = function (product) {
-                var _this = this;
                 var productListItem = new Menu.View.ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice, "store/" + product.productId);
                 this.productsListItems[product.productId] = productListItem;
                 // add function callback
                 productListItem.addEventListener("pressed", function () {
                     Cocoon.Store.purchase(product.productId);
                     productListItem.setNotAvaliable();
-                    //TESTE
-                    var productId = product.productId;
-                    _this.animateItem(productId);
-                    _this.updateUI();
-                    _this.unlockUI();
-                    _this.getProductListItem(productId).setPurchased();
+                    ////TEST
+                    //var productId = product.productId;
+                    //this.animateItem(productId);
+                    //this.updateUI();
+                    //this.unlockUI();
+                    //this.getProductListItem(productId).setPurchased();
                 });
                 return productListItem;
             };
@@ -6966,7 +6968,8 @@ var FlipPlus;
             // initialize product listing
             ShopMenu.prototype.initializeStore = function () {
                 var _this = this;
-                //  if (!Cocoon.Store.nativeAvailable) return;
+                if (!Cocoon.Store.nativeAvailable)
+                    return;
                 this.showError();
                 // on loaded products
                 Cocoon.Store.on("load", {
@@ -7032,6 +7035,7 @@ var FlipPlus;
                         FlipPlus.FlipPlusGame.storyData.setStoryPlayed("halfTime");
                         break;
                 }
+                this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
                 return true;
             };
             return ShopMenu;

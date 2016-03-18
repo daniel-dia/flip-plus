@@ -41,6 +41,7 @@ module FlipPlus.Menu {
 
             this.header.addChild(this.coinsIndicator);
             this.coinsIndicator.x = defaultWidth / 2;
+            this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
         }
 
         public activate() {
