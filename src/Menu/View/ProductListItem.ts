@@ -46,12 +46,12 @@
 
         public setPurchasing() {
             this.disable()
-            this.loadingIcon.visible = true;
+            ///this.loadingIcon.visible = true;
         }
 
         public loading() {
             this.disable();
-            this.loadingIcon.visible = true;
+            //this.loadingIcon.visible = true;
         }
 
         public setNotAvaliable() {
@@ -64,16 +64,16 @@
 
         public setPurchased(timeOut: boolean = false) {
             this.purchaseButton.fadeOut();
-            this.purchasedIcon.visible = true;
-            this.loadingIcon.visible = false;
+            //this.purchasedIcon.visible = true;
+            //this.loadingIcon.visible = false;
             gameui.AudiosManager.playSound("Interface Sound-11");
             if (timeOut) setTimeout(() => { this.setNormal(); }, 1000);
         }
 
         public setNormal() {
             this.purchaseButton.fadeIn();
-            this.purchasedIcon.visible = false;
-            this.loadingIcon.visible = false;
+            //this.purchasedIcon.visible = false;
+            //this.loadingIcon.visible = false;
         }
 
         public enable() {
@@ -82,7 +82,7 @@
         }
 
         public disable() {
-            this.purchasedIcon.visible = false;
+            //this.purchasedIcon.visible = false;
             this.purchaseButton.fadeOut();
         }
     }

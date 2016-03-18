@@ -385,11 +385,7 @@ module FlipPlus.GamePlay {
                     FlipPlusGame.coinsData.decreaseAmount(price);
 
                     // animate coins
-                    var btx = this.gameplayMenu.getButtonPosition(item);
-                    if(btx) 
-                        this.coinsIndicator.createCoinEffect(btx - 768, this.footer.y - this.header.y - 100, price);
-                    else
-                        this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price);
+                    this.animateCoins(item, price);
 
                     //show text effect
                     this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
@@ -418,6 +414,14 @@ module FlipPlus.GamePlay {
 
                 return false;
             }
+        }
+
+        protected animateCoins(item:string, price:number) {
+            var btx = this.gameplayMenu.getButtonPosition(item);
+            if (btx)
+                this.coinsIndicator.createCoinEffect(btx - 768, this.footer.y - this.header.y - 100, price);
+            else
+                this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price);
         }
 
         //skips the level

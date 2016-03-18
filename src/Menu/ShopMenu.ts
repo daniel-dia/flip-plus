@@ -1,7 +1,7 @@
 ﻿module FlipPlus.Menu {
     export class ShopMenu extends GenericMenu {
 
-        private productsListItems: Array<ProductListItem>;
+        private productsListItems: Array<View.ProductListItem>;
         private statusText: PIXI.extras.BitmapText;
         private loadingObject: PIXI.DisplayObject;
         private products: Array<Cocoon.Store.ProductInfo>;
@@ -28,8 +28,6 @@
             this.fillProducts(this.productInfo);
 
             this.coinsIndicator.interactive = false;
-
-
         }
 
         //#region Interface =====================================================================================
@@ -45,7 +43,7 @@
         // add all products in the list
         protected fillProducts(productList: Array<Cocoon.Store.ProductInfo>) {
             var dic = {};
-            this.productsListItems = <Array<ProductListItem>>dic;
+            this.productsListItems = <Array<View.ProductListItem>>dic;
             this.showLoaded();
 
             for (var p in productList) {
@@ -68,6 +66,17 @@
                 () => {
                     Cocoon.Store.purchase(product.productId);
                     productListItem.setNotAvaliable();
+
+
+                    
+                    //TESTE
+                    var productId = product.productId;
+                    this.animateItem(productId);
+                    this.updateUI();
+                    this.unlockUI();
+                    this.getProductListItem(productId).setPurchased();
+
+
                 });
 
             return productListItem;
@@ -114,9 +123,15 @@
         }
 
         // animate footer item
-        private animateItem(productId: string) {
-           // TODO
-        }
+        private animateItem(productId: string) { 
+            var price = 5;
+            var bt: View.ProductListItem = this.productsListItems[productId];
+            
+            if (bt)
+                this.coinsIndicator.createCoinEffect(bt.x - 458, bt.y + 1125 - this.header.y - 100, price,true);
+            else
+                this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price, true);
+         }
 
         //#endregion 
         
@@ -146,18 +161,6 @@
                 started: (productId) => {
                     this.getProductListItem(productId).setPurchasing();
                     this.lockUI();
-
-                    //TESTE
-                    //this.updateUI();
-                    //this.unlockUI();
-                    //this.animateItem(productId);
-                    //
-                    //if (this.products[productId].productType == Cocoon.Store.ProductType.CONSUMABLE) {
-                    //    this.getProductListItem(productId).setPurchased(true);
-                    //    
-                    //}
-                    //
-                    //this.getProductListItem(productId).setPurchased();
 
                 },
                 success: (purchaseInfo) => {

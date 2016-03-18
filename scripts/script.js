@@ -1595,11 +1595,7 @@ var FlipPlus;
                         // updates player coins
                         FlipPlus.FlipPlusGame.coinsData.decreaseAmount(price);
                         // animate coins
-                        var btx = this.gameplayMenu.getButtonPosition(item);
-                        if (btx)
-                            this.coinsIndicator.createCoinEffect(btx - 768, this.footer.y - this.header.y - 100, price);
-                        else
-                            this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price);
+                        this.animateCoins(item, price);
                         //show text effect
                         this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
                         //updates Items buttons labels Quantity on footer
@@ -1632,6 +1628,13 @@ var FlipPlus;
                     this.popup.showtextBuy(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints, this);
                     return false;
                 }
+            };
+            LevelScreen.prototype.animateCoins = function (item, price) {
+                var btx = this.gameplayMenu.getButtonPosition(item);
+                if (btx)
+                    this.coinsIndicator.createCoinEffect(btx - 768, this.footer.y - this.header.y - 100, price);
+                else
+                    this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price);
             };
             //skips the level
             LevelScreen.prototype.useItemSkip = function () {
@@ -5443,18 +5446,32 @@ var FlipPlus;
                     if (tween === void 0) { tween = true; }
                     this.coinsTextField.text = newQuantity.toString();
                 };
-                CoinsIndicator.prototype.createCoinEffect = function (x, y, coins) {
+                CoinsIndicator.prototype.createCoinEffect = function (x, y, coins, inverse) {
                     var _this = this;
+                    if (inverse === void 0) { inverse = false; }
                     var interval = 1000 / coins;
                     for (var c = 0; c <= coins; c++) {
                         var coin = this.addCoinIcon();
-                        createjs.Tween.get(coin).wait(interval / 3 * (c - 1)).to({ x: x, y: y }, 500, createjs.Ease.quadInOut).call(function (c) {
+                        var dest = { x: x, y: y };
+                        var orign = { x: coin.x, y: coin.y };
+                        // adds random position on the destination if is inverse
+                        if (inverse)
+                            dest = { x: dest.x + Math.random() * 150 - 75, y: dest.y + Math.random() * 150 - 75 };
+                        // call for the animation end
+                        var call = function (c) {
                             _this.removeChild(c.target);
                             // Play Sound
                             gameui.AudiosManager.playSound("Correct Answer 2", true);
                             // cast effect
-                            _this.fx.castEffect(x, y, "Bolinhas", 2);
-                        });
+                            if (inverse)
+                                _this.fx.castEffect(orign.x, orign.y, "Bolinhas", 2);
+                            else
+                                _this.fx.castEffect(dest.x, dest.y, "Bolinhas", 2);
+                        };
+                        if (inverse)
+                            createjs.Tween.get(coin).wait(interval / 3 * (c - 1)).to(dest).to(orign, 500, createjs.Ease.quadInOut).call(call);
+                        else
+                            createjs.Tween.get(coin).wait(interval / 3 * (c - 1)).to(orign).to(dest, 500, createjs.Ease.quadInOut).call(call);
                     }
                 };
                 CoinsIndicator.prototype.addCoinIcon = function () {
@@ -6884,12 +6901,19 @@ var FlipPlus;
             };
             // add a single product in the list
             ShopMenu.prototype.createProduct = function (product) {
+                var _this = this;
                 var productListItem = new Menu.View.ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice, "store/" + product.productId);
                 this.productsListItems[product.productId] = productListItem;
                 // add function callback
                 productListItem.addEventListener("pressed", function () {
                     Cocoon.Store.purchase(product.productId);
                     productListItem.setNotAvaliable();
+                    //TESTE
+                    var productId = product.productId;
+                    _this.animateItem(productId);
+                    _this.updateUI();
+                    _this.unlockUI();
+                    _this.getProductListItem(productId).setPurchased();
                 });
                 return productListItem;
             };
@@ -6930,7 +6954,12 @@ var FlipPlus;
             };
             // animate footer item
             ShopMenu.prototype.animateItem = function (productId) {
-                // TODO
+                var price = 5;
+                var bt = this.productsListItems[productId];
+                if (bt)
+                    this.coinsIndicator.createCoinEffect(bt.x - 458, bt.y + 1125 - this.header.y - 100, price, true);
+                else
+                    this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price, true);
             };
             //#endregion 
             //#region Store =====================================================================================
@@ -6957,17 +6986,6 @@ var FlipPlus;
                     started: function (productId) {
                         _this.getProductListItem(productId).setPurchasing();
                         _this.lockUI();
-                        //TESTE
-                        //this.updateUI();
-                        //this.unlockUI();
-                        //this.animateItem(productId);
-                        //
-                        //if (this.products[productId].productType == Cocoon.Store.ProductType.CONSUMABLE) {
-                        //    this.getProductListItem(productId).setPurchased(true);
-                        //    
-                        //}
-                        //
-                        //this.getProductListItem(productId).setPurchased();
                     },
                     success: function (purchaseInfo) {
                         _this.fullFillPurchase(purchaseInfo.productId);
@@ -7753,11 +7771,11 @@ var FlipPlus;
                 }
                 ProductListItem.prototype.setPurchasing = function () {
                     this.disable();
-                    this.loadingIcon.visible = true;
+                    ///this.loadingIcon.visible = true;
                 };
                 ProductListItem.prototype.loading = function () {
                     this.disable();
-                    this.loadingIcon.visible = true;
+                    //this.loadingIcon.visible = true;
                 };
                 ProductListItem.prototype.setNotAvaliable = function () {
                     this.purchaseButton.fadeOut();
@@ -7769,23 +7787,23 @@ var FlipPlus;
                     var _this = this;
                     if (timeOut === void 0) { timeOut = false; }
                     this.purchaseButton.fadeOut();
-                    this.purchasedIcon.visible = true;
-                    this.loadingIcon.visible = false;
+                    //this.purchasedIcon.visible = true;
+                    //this.loadingIcon.visible = false;
                     gameui.AudiosManager.playSound("Interface Sound-11");
                     if (timeOut)
                         setTimeout(function () { _this.setNormal(); }, 1000);
                 };
                 ProductListItem.prototype.setNormal = function () {
                     this.purchaseButton.fadeIn();
-                    this.purchasedIcon.visible = false;
-                    this.loadingIcon.visible = false;
+                    //this.purchasedIcon.visible = false;
+                    //this.loadingIcon.visible = false;
                 };
                 ProductListItem.prototype.enable = function () {
                     this.purchaseButton.fadeIn();
                     this.loadingIcon.visible = false;
                 };
                 ProductListItem.prototype.disable = function () {
-                    this.purchasedIcon.visible = false;
+                    //this.purchasedIcon.visible = false;
                     this.purchaseButton.fadeOut();
                 };
                 return ProductListItem;

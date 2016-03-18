@@ -22,21 +22,33 @@ module FlipPlus.Menu.View {
             this.coinsTextField.text = newQuantity.toString();
         }
 
-        public createCoinEffect(x: number, y: number, coins: number) {
+        public createCoinEffect(x: number, y: number, coins: number, inverse: boolean=false) {
 
             var interval = 1000 / coins;
             for (var c = 0; c <= coins; c++) {
                 var coin = this.addCoinIcon();
-                createjs.Tween.get(coin).wait(interval/3*(c-1)).to({ x: x, y: y }, 500, createjs.Ease.quadInOut).call((c:createjs.Tween)=> {
+
+                var dest  = { x: x, y: y };
+                var orign = { x: coin.x, y: coin.y }
+
+                // adds random position on the destination if is inverse
+                if (inverse) dest = { x: dest.x + Math.random() * 150 - 75, y : dest.y + Math.random()*150 - 75 };
+                
+                // call for the animation end
+                var call =  (c: createjs.Tween) => {
                     this.removeChild(<PIXI.DisplayObject>c.target);
 
                     // Play Sound
-                    gameui.AudiosManager.playSound("Correct Answer 2",true);
+                    gameui.AudiosManager.playSound("Correct Answer 2", true);
 
                     // cast effect
-                    this.fx.castEffect(x, y, "Bolinhas", 2);
+                    if (inverse) this.fx.castEffect(orign.x, orign.y, "Bolinhas", 2);
+                    else this.fx.castEffect(dest.x, dest.y, "Bolinhas", 2);
+                    
+                }
 
-                });
+                if (inverse) createjs.Tween.get(coin).wait(interval / 3 * (c - 1)).to(dest).to(orign, 500, createjs.Ease.quadInOut).call(call);
+                else         createjs.Tween.get(coin).wait(interval / 3 * (c - 1)).to(orign).to(dest, 500, createjs.Ease.quadInOut).call(call);
             }
         }
 
