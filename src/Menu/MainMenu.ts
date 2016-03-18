@@ -11,6 +11,7 @@ module FlipPlus.Menu {
 
         private playBt: PIXI.DisplayObject;
         
+        protected coinsIndicator: Menu.View.CoinsIndicator;
 
         constructor() {
             super()
@@ -29,6 +30,17 @@ module FlipPlus.Menu {
             this.addPlayButton();
 
             this.onback = () => {this.back();};
+            this.addCoinsIndicator();
+        }
+
+        private addCoinsIndicator() {
+            // parts Indicator
+            this.coinsIndicator = new Menu.View.CoinsIndicator(() => {
+                FlipPlusGame.showShopMenu(this);
+            });
+
+            this.header.addChild(this.coinsIndicator);
+            this.coinsIndicator.x = defaultWidth / 2;
         }
 
         public activate() {

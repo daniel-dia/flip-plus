@@ -42,9 +42,6 @@
             t.regX = t.textWidth / 2;
 
             this.addChild(this.purchaseButton);
-            //this.createHitArea();
-
-
         }
 
         public setPurchasing() {
@@ -59,8 +56,8 @@
 
         public setNotAvaliable() {
             this.purchaseButton.fadeOut();
-            this.purchasedIcon.visible = false;
-            this.loadingIcon.visible = false;
+            //this.purchasedIcon.visible = false;
+            //this.loadingIcon.visible = false;
         }
 
         public setAvaliable() { }

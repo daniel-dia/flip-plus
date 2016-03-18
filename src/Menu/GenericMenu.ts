@@ -2,7 +2,8 @@
     export class GenericMenu extends gameui.ScreenState {
 
         protected originX:number;
-        protected originY:number;
+        protected originY: number;
+        protected coinsIndicator: Menu.View.CoinsIndicator;
 
         constructor(title: string, previousScreen: gameui.ScreenState, color?: string) {
             super();
@@ -20,8 +21,19 @@
             this.onback = () => {
                 this.back(previousScreen);
             };
+            
+            this.addCoinsIndicator();
         }
 
+        private addCoinsIndicator() {
+            // parts Indicator
+            this.coinsIndicator = new Menu.View.CoinsIndicator(() => {
+                FlipPlusGame.showShopMenu(this);
+            });
+
+            this.header.addChild(this.coinsIndicator);
+            this.coinsIndicator.x = defaultWidth / 2;
+        }
 
         private back(previousScreen) {
             FlipPlusGame.gameScreen.switchScreen(previousScreen);

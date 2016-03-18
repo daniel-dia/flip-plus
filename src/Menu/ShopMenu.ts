@@ -27,6 +27,9 @@
 
             this.fillProducts(this.productInfo);
 
+            this.coinsIndicator.interactive = false;
+
+
         }
 
         //#region Interface =====================================================================================
@@ -143,6 +146,19 @@
                 started: (productId) => {
                     this.getProductListItem(productId).setPurchasing();
                     this.lockUI();
+
+                    //TESTE
+                    //this.updateUI();
+                    //this.unlockUI();
+                    //this.animateItem(productId);
+                    //
+                    //if (this.products[productId].productType == Cocoon.Store.ProductType.CONSUMABLE) {
+                    //    this.getProductListItem(productId).setPurchased(true);
+                    //    
+                    //}
+                    //
+                    //this.getProductListItem(productId).setPurchased();
+
                 },
                 success: (purchaseInfo) => {
 

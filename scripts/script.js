@@ -4330,7 +4330,17 @@ var FlipPlus;
                 this.onback = function () {
                     _this.back(previousScreen);
                 };
+                this.addCoinsIndicator();
             }
+            GenericMenu.prototype.addCoinsIndicator = function () {
+                var _this = this;
+                // parts Indicator
+                this.coinsIndicator = new Menu.View.CoinsIndicator(function () {
+                    FlipPlus.FlipPlusGame.showShopMenu(_this);
+                });
+                this.header.addChild(this.coinsIndicator);
+                this.coinsIndicator.x = defaultWidth / 2;
+            };
             GenericMenu.prototype.back = function (previousScreen) {
                 FlipPlus.FlipPlusGame.gameScreen.switchScreen(previousScreen);
                 this.animateOut(this.content);
@@ -4646,7 +4656,17 @@ var FlipPlus;
                 this.addTerminal();
                 this.addPlayButton();
                 this.onback = function () { _this.back(); };
+                this.addCoinsIndicator();
             }
+            MainMenu.prototype.addCoinsIndicator = function () {
+                var _this = this;
+                // parts Indicator
+                this.coinsIndicator = new Menu.View.CoinsIndicator(function () {
+                    FlipPlus.FlipPlusGame.showShopMenu(_this);
+                });
+                this.header.addChild(this.coinsIndicator);
+                this.coinsIndicator.x = defaultWidth / 2;
+            };
             MainMenu.prototype.activate = function () {
                 _super.prototype.activate.call(this);
                 // play BgSound
@@ -6840,6 +6860,7 @@ var FlipPlus;
                 this.initializeScreen();
                 this.initializeStore();
                 this.fillProducts(this.productInfo);
+                this.coinsIndicator.interactive = false;
             }
             //#region Interface =====================================================================================
             ShopMenu.prototype.initializeScreen = function () {
@@ -6936,6 +6957,17 @@ var FlipPlus;
                     started: function (productId) {
                         _this.getProductListItem(productId).setPurchasing();
                         _this.lockUI();
+                        //TESTE
+                        //this.updateUI();
+                        //this.unlockUI();
+                        //this.animateItem(productId);
+                        //
+                        //if (this.products[productId].productType == Cocoon.Store.ProductType.CONSUMABLE) {
+                        //    this.getProductListItem(productId).setPurchased(true);
+                        //    
+                        //}
+                        //
+                        //this.getProductListItem(productId).setPurchased();
                     },
                     success: function (purchaseInfo) {
                         _this.fullFillPurchase(purchaseInfo.productId);
@@ -7718,7 +7750,6 @@ var FlipPlus;
                     this.purchaseButton.addChild(t);
                     t.regX = t.textWidth / 2;
                     this.addChild(this.purchaseButton);
-                    //this.createHitArea();
                 }
                 ProductListItem.prototype.setPurchasing = function () {
                     this.disable();
@@ -7730,8 +7761,8 @@ var FlipPlus;
                 };
                 ProductListItem.prototype.setNotAvaliable = function () {
                     this.purchaseButton.fadeOut();
-                    this.purchasedIcon.visible = false;
-                    this.loadingIcon.visible = false;
+                    //this.purchasedIcon.visible = false;
+                    //this.loadingIcon.visible = false;
                 };
                 ProductListItem.prototype.setAvaliable = function () { };
                 ProductListItem.prototype.setPurchased = function (timeOut) {
