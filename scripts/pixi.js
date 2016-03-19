@@ -25859,7 +25859,6 @@ InteractionManager.prototype.processTouchStart = function (displayObject, hit, i
     if(hit)
     {
         displayObject._touchDown = identifier;
-        console.log(identifier)
         this.dispatchEvent( displayObject, 'touchstart', this.eventData );
     }
 };
@@ -25911,7 +25910,7 @@ InteractionManager.prototype.processTouchEnd = function ( displayObject, hit, id
     if(hit)
     {
         this.dispatchEvent( displayObject, 'touchend', this.eventData );
-        console.log(identifier + " " + displayObject._touchDown)
+        //console.log(identifier + " " + displayObject._touchDown)
         if (displayObject._touchDown == identifier)
         {
             displayObject._touchDown = false;

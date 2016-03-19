@@ -45,16 +45,13 @@ module FlipPlus.Robots {
 
             for (var c = 0; c < this.myBots.children.length; c++) {
                 var robot = <PIXI.extras.MovieClip>this.myBots.getChildAt(c);;
-                robot.addEventListener("mousedown", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
+                robot.addEventListener("click", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
+                robot.addEventListener("touch", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
 
-                var hit = new PIXI.Graphics().beginFill(0).drawRect(
-                    robot.getLocalBounds().x,
-                    robot.getLocalBounds().y,
-                    robot.getLocalBounds().width,
-                    robot.getLocalBounds().height
-                    );
-               
-               // Check  robot.hitArea = hit;
+                var hit = robot.getLocalBounds();
+                robot.interactive = true;
+
+                //robot.hitArea = hit;
             }
         }
 

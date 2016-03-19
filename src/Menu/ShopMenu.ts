@@ -7,15 +7,15 @@
         private products: Array<Cocoon.Store.ProductInfo>;
 
         private productInfo: Array<Cocoon.Store.ProductInfo> = [
-            { productId: "50",   description: "50",   productAlias: "50",   title: "50",   localizedPrice: "U$ 0,99" },
-            { productId: "200",  description: "200",  productAlias: "200",  title: "200",  localizedPrice: "U$ 1,99" },
-            { productId: "500",  description: "500",  productAlias: "500",  title: "500",  localizedPrice: "U$ 3,99" },
-            { productId: "1000", description: "1000", productAlias: "1000", title: "1000", localizedPrice: "U$ 4,99" },
+            { productId: "50parts",   description: "50",   productAlias: "50",   title: "50",   localizedPrice: "U$ 0,99" },
+            { productId: "200parts",  description: "200",  productAlias: "200",  title: "200",  localizedPrice: "U$ 1,99" },
+            { productId: "500parts",  description: "500",  productAlias: "500",  title: "500",  localizedPrice: "U$ 3,99" },
+            { productId: "1000parts", description: "1000", productAlias: "1000", title: "1000", localizedPrice: "U$ 4,99" },
 
             //{ productId: "p100",  description: "100",  productAlias: "100", title: "100", localizedPrice: "U$ 1,99" },
         ];
 
-        protected productIdList = ["50", "200", "500", "1000"];
+        protected productIdList = ["50parts", "200parts", "500parts", "1000parts"];
 
         constructor(previousScreen: gameui.ScreenState) {
 
@@ -24,8 +24,6 @@
             this.initializeScreen();
 
             this.initializeStore();
-
-            //this.fillProducts(this.productInfo);
 
             this.coinsIndicator.interactive = false;
         }
@@ -42,13 +40,13 @@
         }
 
         // add all products in the list
-        protected fillProducts(productList: Array<Cocoon.Store.ProductInfo>) {
+        protected fillProducts(productList: Array<Cocoon.Store.ProductInfo>, inappsService) {
             var dic = {};
             this.productsListItems = <Array<View.ProductListItem>>dic;
             this.showLoaded();
 
             for (var p in productList) {
-                var productListItem = this.createProduct(productList[p]);
+                var productListItem = this.createProduct(productList[p], inappsService);
                 productListItem.y = p * 320 - 380;
                 productListItem.x = 0;
                 this.content.addChild(productListItem);
@@ -56,7 +54,7 @@
         }
 
         // add a single product in the list
-        protected createProduct(product: Cocoon.Store.ProductInfo): PIXI.DisplayObject {
+        protected createProduct(product: Cocoon.Store.ProductInfo, inappsService:any): PIXI.DisplayObject {
 
             var productListItem = new View.ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice, "store/" + product.productId);
 
@@ -65,16 +63,8 @@
             // add function callback
             productListItem.addEventListener("pressed",
                 () => {
-                    Cocoon.Store.purchase(product.productId);
+                    inappsService.purchase(product.productId, 1);
                     productListItem.setNotAvaliable();
-                    
-                    ////TEST
-                    //var productId = product.productId;
-                    //this.animateItem(productId);
-                    //this.updateUI();
-                    //this.unlockUI();
-                    //this.getProductListItem(productId).setPurchased();
-
                 });
 
             return productListItem;
@@ -136,59 +126,50 @@
 
         // initialize product listing
         private initializeStore() {
-            if (!Cocoon.Store.nativeAvailable) return;
-            this.showError();
 
-            // on loaded products
-            Cocoon.Store.on("load", {
-                started: () => {
-                    this.showLoading();
-                },
-                success: (products: Array<Cocoon.Store.ProductInfo>) => {
-                    this.products = products;
-                    this.fillProducts(products);
-                },
-                error: (errorMessage) => {
-                    this.showError();
+            var inappsService = Cocoon.InApp;
+
+            // Service initialization
+            inappsService.initialize({autofinish: true},
+                (error) => {
+                    console.log("initialized Store" + error)
+
+                    inappsService.fetchProducts(this.productIdList,  (products, error) => {
+                        console.log("fetchProducts" + error)
+    
+                        this.products = products;
+                        this.fillProducts(products, inappsService);
+                    });
+
+
                 }
-            }, { once: true })
+            );
 
-            // on purchasing products
-            Cocoon.Store.on("purchase", {
-                started: (productId) => {
+            inappsService.on("purchase", {
+                start: (productId) => {
                     this.getProductListItem(productId).setPurchasing();
                     this.lockUI();
-
                 },
-                success: (purchaseInfo) => {
-
+                error: (productId, error) =>{
+                    this.getProductListItem(productId).setNormal();
+                    this.unlockUI();
+                },
+                complete: (purchaseInfo) =>{
                     this.fullFillPurchase(purchaseInfo.productId);
                     this.updateUI();
                     this.unlockUI();
                     this.animateItem(purchaseInfo.productId);
 
-                    if (this.products[purchaseInfo.productId].productType == Cocoon.Store.ProductType.CONSUMABLE) {
-                        this.getProductListItem(purchaseInfo.productId).setPurchased(true);
-                        Cocoon.Store.consume(purchaseInfo.transactionId, purchaseInfo.productId);
-                    }
-
+                    this.getProductListItem(purchaseInfo.productId).setPurchased(true);
                     this.getProductListItem(purchaseInfo.productId).setPurchased();
-
-                    Cocoon.Store.finish(purchaseInfo.transactionId)
-                },
-                error: (productId, error) => {
-                    this.getProductListItem(productId).setNormal();
-                    this.unlockUI();
-
                 }
-            }, { once: true });
-        
-            // initialize store
-            Cocoon.Store.initialize({ sandbox: true, managed: true });
+            });
 
-            // load products
-            Cocoon.Store.loadProducts(this.productIdList);
+
+
+
         }
+ 
         
         // verify product avaliability
         private updateProductsAvaliability() {
@@ -199,23 +180,23 @@
         private fullFillPurchase(productId: string): boolean {
 
             switch (productId) {
-                case "50":
+                case "50parts":
                     FlipPlusGame.coinsData.increaseAmount(50);
                     break;
 
-                case "200":
+                case "200parts":
                     FlipPlusGame.coinsData.increaseAmount(200);
                     break;
 
-                case "500":
+                case "500parts":
                     FlipPlusGame.coinsData.increaseAmount(500);
                     break;
 
-                case "1000":
+                case "1000parts":
                     FlipPlusGame.coinsData.increaseAmount(1000);
                     break;
 
-                case "100":
+                case "100parts":
                     FlipPlusGame.coinsData.increaseAmount(100);
                     FlipPlusGame.storyData.setStoryPlayed("halfTime");
                     break;

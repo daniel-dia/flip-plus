@@ -4655,10 +4655,10 @@ var FlipPlus;
                 bg.y = -339;
                 bg.scale.y = 1.3310546875;
                 this.content.addChild(bg);
+                this.addPlayButton();
                 this.addMyBots();
                 this.addMenu();
                 this.addTerminal();
-                this.addPlayButton();
                 this.onback = function () { _this.back(); };
                 this.addCoinsIndicator();
             }
@@ -4679,17 +4679,14 @@ var FlipPlus;
                 // Verifies if it is the first time playing
                 if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro")) {
                     this.myBots.playIntroPartA();
-                    console.log("i1");
                 }
                 else if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro2")) {
                     FlipPlus.FlipPlusGame.storyData.setStoryPlayed("intro2");
                     this.myBots.playIntroPartB();
-                    console.log("i2");
                 }
                 else {
                     //updates robots lobby
                     this.myBots.update();
-                    console.log("ub");
                 }
             };
             MainMenu.prototype.desactivate = function (parameters) {
@@ -6309,8 +6306,10 @@ var FlipPlus;
                 for (var c = 0; c < this.myBots.children.length; c++) {
                     var robot = this.myBots.getChildAt(c);
                     ;
-                    robot.addEventListener("mousedown", function (e) { _this.userfeedback(e); });
-                    var hit = new PIXI.Graphics().beginFill(0).drawRect(robot.getLocalBounds().x, robot.getLocalBounds().y, robot.getLocalBounds().width, robot.getLocalBounds().height);
+                    robot.addEventListener("click", function (e) { _this.userfeedback(e); });
+                    robot.addEventListener("touch", function (e) { _this.userfeedback(e); });
+                    var hit = robot.getLocalBounds();
+                    robot.interactive = true;
                 }
             };
             //User action feedback to user touch
@@ -6870,15 +6869,14 @@ var FlipPlus;
             function ShopMenu(previousScreen) {
                 _super.call(this, StringResources.menus.shop, previousScreen, "menu/titleRed");
                 this.productInfo = [
-                    { productId: "50", description: "50", productAlias: "50", title: "50", localizedPrice: "U$ 0,99" },
-                    { productId: "200", description: "200", productAlias: "200", title: "200", localizedPrice: "U$ 1,99" },
-                    { productId: "500", description: "500", productAlias: "500", title: "500", localizedPrice: "U$ 3,99" },
-                    { productId: "1000", description: "1000", productAlias: "1000", title: "1000", localizedPrice: "U$ 4,99" },
+                    { productId: "50parts", description: "50", productAlias: "50", title: "50", localizedPrice: "U$ 0,99" },
+                    { productId: "200parts", description: "200", productAlias: "200", title: "200", localizedPrice: "U$ 1,99" },
+                    { productId: "500parts", description: "500", productAlias: "500", title: "500", localizedPrice: "U$ 3,99" },
+                    { productId: "1000parts", description: "1000", productAlias: "1000", title: "1000", localizedPrice: "U$ 4,99" },
                 ];
-                this.productIdList = ["50", "200", "500", "1000"];
+                this.productIdList = ["50parts", "200parts", "500parts", "1000parts"];
                 this.initializeScreen();
                 this.initializeStore();
-                //this.fillProducts(this.productInfo);
                 this.coinsIndicator.interactive = false;
             }
             //#region Interface =====================================================================================
@@ -6891,31 +6889,25 @@ var FlipPlus;
                 this.statusText.regX = this.statusText.textWidth / 2;
             };
             // add all products in the list
-            ShopMenu.prototype.fillProducts = function (productList) {
+            ShopMenu.prototype.fillProducts = function (productList, inappsService) {
                 var dic = {};
                 this.productsListItems = dic;
                 this.showLoaded();
                 for (var p in productList) {
-                    var productListItem = this.createProduct(productList[p]);
+                    var productListItem = this.createProduct(productList[p], inappsService);
                     productListItem.y = p * 320 - 380;
                     productListItem.x = 0;
                     this.content.addChild(productListItem);
                 }
             };
             // add a single product in the list
-            ShopMenu.prototype.createProduct = function (product) {
+            ShopMenu.prototype.createProduct = function (product, inappsService) {
                 var productListItem = new Menu.View.ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice, "store/" + product.productId);
                 this.productsListItems[product.productId] = productListItem;
                 // add function callback
                 productListItem.addEventListener("pressed", function () {
-                    Cocoon.Store.purchase(product.productId);
+                    inappsService.purchase(product.productId, 1);
                     productListItem.setNotAvaliable();
-                    ////TEST
-                    //var productId = product.productId;
-                    //this.animateItem(productId);
-                    //this.updateUI();
-                    //this.unlockUI();
-                    //this.getProductListItem(productId).setPurchased();
                 });
                 return productListItem;
             };
@@ -6968,49 +6960,34 @@ var FlipPlus;
             // initialize product listing
             ShopMenu.prototype.initializeStore = function () {
                 var _this = this;
-                if (!Cocoon.Store.nativeAvailable)
-                    return;
-                this.showError();
-                // on loaded products
-                Cocoon.Store.on("load", {
-                    started: function () {
-                        _this.showLoading();
-                    },
-                    success: function (products) {
+                var inappsService = Cocoon.InApp;
+                // Service initialization
+                inappsService.initialize({ autofinish: true }, function (error) {
+                    console.log("initialized Store" + error);
+                    inappsService.fetchProducts(_this.productIdList, function (products, error) {
+                        console.log("fetchProducts" + error);
                         _this.products = products;
-                        _this.fillProducts(products);
-                    },
-                    error: function (errorMessage) {
-                        _this.showError();
-                    }
-                }, { once: true });
-                // on purchasing products
-                Cocoon.Store.on("purchase", {
-                    started: function (productId) {
+                        _this.fillProducts(products, inappsService);
+                    });
+                });
+                inappsService.on("purchase", {
+                    start: function (productId) {
                         _this.getProductListItem(productId).setPurchasing();
                         _this.lockUI();
-                    },
-                    success: function (purchaseInfo) {
-                        _this.fullFillPurchase(purchaseInfo.productId);
-                        _this.updateUI();
-                        _this.unlockUI();
-                        _this.animateItem(purchaseInfo.productId);
-                        if (_this.products[purchaseInfo.productId].productType == Cocoon.Store.ProductType.CONSUMABLE) {
-                            _this.getProductListItem(purchaseInfo.productId).setPurchased(true);
-                            Cocoon.Store.consume(purchaseInfo.transactionId, purchaseInfo.productId);
-                        }
-                        _this.getProductListItem(purchaseInfo.productId).setPurchased();
-                        Cocoon.Store.finish(purchaseInfo.transactionId);
                     },
                     error: function (productId, error) {
                         _this.getProductListItem(productId).setNormal();
                         _this.unlockUI();
+                    },
+                    complete: function (purchaseInfo) {
+                        _this.fullFillPurchase(purchaseInfo.productId);
+                        _this.updateUI();
+                        _this.unlockUI();
+                        _this.animateItem(purchaseInfo.productId);
+                        _this.getProductListItem(purchaseInfo.productId).setPurchased(true);
+                        _this.getProductListItem(purchaseInfo.productId).setPurchased();
                     }
-                }, { once: true });
-                // initialize store
-                Cocoon.Store.initialize({ sandbox: true, managed: true });
-                // load products
-                Cocoon.Store.loadProducts(this.productIdList);
+                });
             };
             // verify product avaliability
             ShopMenu.prototype.updateProductsAvaliability = function () {
@@ -7018,19 +6995,19 @@ var FlipPlus;
             // show that product is consumed
             ShopMenu.prototype.fullFillPurchase = function (productId) {
                 switch (productId) {
-                    case "50":
+                    case "50parts":
                         FlipPlus.FlipPlusGame.coinsData.increaseAmount(50);
                         break;
-                    case "200":
+                    case "200parts":
                         FlipPlus.FlipPlusGame.coinsData.increaseAmount(200);
                         break;
-                    case "500":
+                    case "500parts":
                         FlipPlus.FlipPlusGame.coinsData.increaseAmount(500);
                         break;
-                    case "1000":
+                    case "1000parts":
                         FlipPlus.FlipPlusGame.coinsData.increaseAmount(1000);
                         break;
-                    case "100":
+                    case "100parts":
                         FlipPlus.FlipPlusGame.coinsData.increaseAmount(100);
                         FlipPlus.FlipPlusGame.storyData.setStoryPlayed("halfTime");
                         break;
@@ -7762,7 +7739,7 @@ var FlipPlus;
                     this.purchaseButton = new gameui.ImageButton("menu/purchaseButton", function () { _this.emit("pressed"); });
                     this.purchaseButton.x = 370;
                     // adds price
-                    var t = gameui.AssetsManager.getBitmapText(localizedPrice, "fontStrong", 0xffffff, 1);
+                    var t = gameui.AssetsManager.getBitmapText(localizedPrice, "fontStrong", 0xffffff, 0.8);
                     t.y = -90;
                     this.purchaseButton.addChild(t);
                     t.regX = t.textWidth / 2;
@@ -8572,7 +8549,7 @@ var FlipPlus;
                     return;
                 this.setAmount(iq - value);
             };
-            Coins.max = 20;
+            Coins.max = 200000;
             return Coins;
         })();
         UserData.Coins = Coins;

@@ -21,13 +21,15 @@ module FlipPlus.Menu {
             bg.scale.y = 1.3310546875;
             this.content.addChild(bg);
 
+            this.addPlayButton();
+
             this.addMyBots();
              
             this.addMenu();
 
             this.addTerminal();
 
-            this.addPlayButton();
+          
 
             this.onback = () => {this.back();};
             this.addCoinsIndicator();
@@ -53,19 +55,16 @@ module FlipPlus.Menu {
             // Verifies if it is the first time playing
             if (!FlipPlusGame.storyData.getStoryPlayed("intro")) { 
                 this.myBots.playIntroPartA();
-                console.log("i1")
             
             }
             else if (!FlipPlusGame.storyData.getStoryPlayed("intro2")) {
                 FlipPlusGame.storyData.setStoryPlayed("intro2")
                 this.myBots.playIntroPartB();
-                console.log("i2")
             }
             else {
 
                 //updates robots lobby
                 this.myBots.update();
-                console.log("ub")
             }
         }
 

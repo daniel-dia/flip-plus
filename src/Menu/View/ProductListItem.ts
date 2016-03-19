@@ -29,7 +29,7 @@
             this.purchaseButton.x = 370;
 
             // adds price
-            var t: PIXI.extras.BitmapText = gameui.AssetsManager.getBitmapText(localizedPrice, "fontStrong", 0xffffff, 1);
+            var t: PIXI.extras.BitmapText = gameui.AssetsManager.getBitmapText(localizedPrice, "fontStrong", 0xffffff, 0.8);
             t.y = -90;
             this.purchaseButton.addChild(t);
             t.regX = t.textWidth / 2;

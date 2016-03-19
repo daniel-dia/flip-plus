@@ -306,10 +306,10 @@ var imageManifest = [
 
         // store
 
-        { src: "store/50.png", id: "store/50" },
-        { src: "store/200.png", id: "store/200" },
-        { src: "store/500.png", id: "store/500" },
-        { src: "store/1000.png", id: "store/1000" },
+        { src: "store/50parts.png", id: "store/50parts" },
+        { src: "store/200parts.png", id: "store/200parts" },
+        { src: "store/500parts.png", id: "store/500parts" },
+        { src: "store/1000parts.png", id: "store/1000parts" },
 
 
         //popup

@@ -3,7 +3,7 @@
     // Class
     export class Coins {
 
-        public static max = 20;
+        public static max = 200000;
         
         // coins amount
         private ammount: number;
