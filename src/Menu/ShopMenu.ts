@@ -127,6 +127,8 @@
         // initialize product listing
         private initializeStore() {
 
+            this.showLoading();
+
             var inappsService = Cocoon.InApp;
 
             // Service initialization
@@ -164,10 +166,6 @@
                     this.getProductListItem(purchaseInfo.productId).setPurchased();
                 }
             });
-
-
-
-
         }
  
         

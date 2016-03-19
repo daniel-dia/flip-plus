@@ -66,10 +66,18 @@ module FlipPlus.Menu {
                 //updates robots lobby
                 this.myBots.update();
             }
+
+            // updates terminal
+            this.terminal.activate();
+
+            // updates parts counter
+            this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
+
         }
 
         public desactivate(parameters?: any) {
             super.desactivate(parameters);
+            this.terminal.desactivate();
             this.myBots.clear();
         }
       

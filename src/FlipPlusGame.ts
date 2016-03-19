@@ -204,6 +204,11 @@ module FlipPlus {
         }
 
         public static showBonus(bonusId: string) {
+
+            var timer = FlipPlusGame.timersData.getTimer(bonusId);
+
+            if (timer != 0) return;
+ 
             var bonusScreen: Bonus.BonusScreen;
             switch (bonusId) {
                 case "Bonus1":

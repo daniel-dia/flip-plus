@@ -899,6 +899,9 @@ var FlipPlus;
             this.gameScreen.switchScreen(this.actionlevelsMenu);
         };
         FlipPlusGame.showBonus = function (bonusId) {
+            var timer = FlipPlusGame.timersData.getTimer(bonusId);
+            if (timer != 0)
+                return;
             var bonusScreen;
             switch (bonusId) {
                 case "Bonus1":
@@ -1134,7 +1137,6 @@ var FlipPlus;
             }
             //Get if timers is ready
             Timers.prototype.getTimer = function (name) {
-                return 0;
                 if (this.timers[name] == null)
                     return 0;
                 var remaning = this.timers[name] - this.getLastTime();
@@ -4688,9 +4690,14 @@ var FlipPlus;
                     //updates robots lobby
                     this.myBots.update();
                 }
+                // updates terminal
+                this.terminal.activate();
+                // updates parts counter
+                this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
             };
             MainMenu.prototype.desactivate = function (parameters) {
                 _super.prototype.desactivate.call(this, parameters);
+                this.terminal.desactivate();
                 this.myBots.clear();
             };
             MainMenu.prototype.addMyBots = function () {
@@ -5081,7 +5088,11 @@ var FlipPlus;
             var Terminal = (function (_super) {
                 __extends(Terminal, _super);
                 function Terminal() {
+                    var _this = this;
                     _super.call(this);
+                    this.intervalTimeout = 4000;
+                    this.saleChance = 0.05;
+                    this.bonuses = ["Bonus1", "Bonus2", "Bonus3"];
                     //set informations container
                     this.screenContaier = new PIXI.Container();
                     this.addChild(this.screenContaier);
@@ -5091,22 +5102,94 @@ var FlipPlus;
                     //set its own position
                     this.x = 361;
                     this.y = 451;
+                    this.once("touch", function () { _this.emit("terminalAction"); });
+                    this.once("click", function () { _this.emit("terminalAction"); });
+                    this.activate();
+                    this.interactive = true;
+                    this.hitArea = new PIXI.Rectangle(0, 0, 976, 527);
                 }
-                //Set Text on Screen
-                //and animate it
-                Terminal.prototype.setText = function (text) {
-                    //this.animateTransition(() =>
-                    //{
-                    this.textBox.text = text;
-                    //});
+                // Activate, Or show bonus, or show a sale.
+                Terminal.prototype.activate = function () {
+                    if (Math.random() < this.saleChance)
+                        this.showSale();
+                    else
+                        this.showBonusStatus();
                 };
-                Terminal.prototype.animateTransition = function (action) {
-                    //createjs.Tween.get(this.screenContaier).to({ alpha: 0, x: -100 }, 200, createjs.Ease.quadIn).call(() =>
-                    //{
-                    //    action();
-                    //    this.screenContaier.set({ alpha: 0, x: 100 });
-                    //    createjs.Tween.get(this.screenContaier).to({ y: 0, alpha: 1 }, 200, createjs.Ease.quadOut)
-                    //});
+                // Stops all processing in the terminal
+                Terminal.prototype.desactivate = function () {
+                    // clear current interval
+                    if (this.secondsInteval)
+                        clearInterval(this.secondsInteval);
+                    if (this.rotationInterval)
+                        clearInterval(this.rotationInterval);
+                };
+                // show bonus rotation or bonus ready
+                Terminal.prototype.showBonusStatus = function () {
+                    var bonusready;
+                    // verifies in all bonuses if there is one ready.
+                    for (var b in this.bonuses) {
+                        var bonusId = this.bonuses[b];
+                        var timer = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
+                        //if there is a bonus ready, shows it
+                        if (timer <= 0)
+                            bonusready = bonusId;
+                    }
+                    if (bonusready)
+                        this.showBonusReady(bonusready);
+                    else
+                        this.startBonusRotation();
+                };
+                // start showing all bonus status in a rotation
+                Terminal.prototype.startBonusRotation = function () {
+                    var _this = this;
+                    // clear current interval
+                    if (this.rotationInterval)
+                        clearInterval(this.rotationInterval);
+                    // set a new rotation interval
+                    this.showBonusTimer(this.bonuses[0]);
+                    var currentBonus = 1;
+                    this.rotationInterval = setInterval(function () {
+                        // show a bonus current timer info in loop.
+                        _this.showBonusTimer(_this.bonuses[currentBonus]);
+                        currentBonus++;
+                        if (currentBonus >= _this.bonuses.length)
+                            currentBonus = 0;
+                    }, this.intervalTimeout);
+                };
+                // show a single bonus timeout info.
+                Terminal.prototype.showBonusTimer = function (bonusId) {
+                    var _this = this;
+                    if (this.secondsInteval)
+                        clearInterval(this.secondsInteval);
+                    this.secondsInteval = setInterval(function () {
+                        var timeout = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
+                        _this.textBox.text = bonusId + " " + _this.toHHMMSS(timeout);
+                    }, 1000);
+                    // Todo make it better
+                };
+                // show a bonus screen ready to play
+                Terminal.prototype.showBonusReady = function (bonusId) {
+                    this.textBox.text = bonusId + " ready \n tap to play";
+                    this.once("touch", function () { FlipPlus.FlipPlusGame.showBonus(bonusId); });
+                    this.once("click", function () { FlipPlus.FlipPlusGame.showBonus(bonusId); });
+                };
+                Terminal.prototype.showSale = function () {
+                };
+                Terminal.prototype.toHHMMSS = function (sec_num) {
+                    var hours = Math.floor(sec_num / 3600);
+                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+                    if (hours < 10) {
+                        hours = 0 + hours;
+                    }
+                    if (minutes < 10) {
+                        minutes = 0 + minutes;
+                    }
+                    if (seconds < 10) {
+                        seconds = 0 + seconds;
+                    }
+                    var time = hours + ':' + minutes + ':' + seconds;
+                    return time;
                 };
                 return Terminal;
             })(PIXI.Container);
@@ -6960,6 +7043,7 @@ var FlipPlus;
             // initialize product listing
             ShopMenu.prototype.initializeStore = function () {
                 var _this = this;
+                this.showLoading();
                 var inappsService = Cocoon.InApp;
                 // Service initialization
                 inappsService.initialize({ autofinish: true }, function (error) {
