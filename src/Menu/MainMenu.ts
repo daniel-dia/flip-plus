@@ -21,13 +21,15 @@ module FlipPlus.Menu {
             bg.scale.y = 1.3310546875;
             this.content.addChild(bg);
 
+
+            this.addTerminal();
+
             this.addPlayButton();
 
             this.addMyBots();
              
             this.addMenu();
 
-            this.addTerminal();
 
           
 
@@ -119,15 +121,14 @@ module FlipPlus.Menu {
             this.playBt = playBt;
 
 
-            //  var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
-            //      //FlipPlus.FlipPlusGame.showProjectsMenu(); 
-            //      FlipPlus.FlipPlusGame.showActionLevelsMenu();
-            //  })
-            //  playBt.interactive = true;
-            //  this.content.addChild(playBt);
-            //  playBt.x = 800;
-            //  playBt.y = 1339;
-            //  this.playBt = playBt;
+            var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
+                FlipPlus.FlipPlusGame.showBonus("Bonus1");
+              })
+              playBt.interactive = true;
+              this.content.addChild(playBt);
+              playBt.x = 800;
+              playBt.y = 739;
+              this.playBt = playBt;
 
         }
 

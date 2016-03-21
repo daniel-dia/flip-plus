@@ -142,8 +142,6 @@
                         this.products = products;
                         this.fillProducts(products, inappsService);
                     });
-
-
                 }
             );
 

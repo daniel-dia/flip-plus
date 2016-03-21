@@ -207,7 +207,7 @@ module FlipPlus {
 
             var timer = FlipPlusGame.timersData.getTimer(bonusId);
 
-            if (timer != 0) return;
+            //  if (timer != 0) return;
  
             var bonusScreen: Bonus.BonusScreen;
             switch (bonusId) {
