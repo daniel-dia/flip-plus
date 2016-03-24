@@ -4148,6 +4148,7 @@ var FlipPlus;
                 this.content.addChild(this.itemsContainer);
                 this.currentChestId = 0;
                 this.chances = 2;
+                this.updateChances();
                 this.nextChest();
             }
             Bonus3.prototype.addObjects = function () {
@@ -4170,16 +4171,26 @@ var FlipPlus;
                 this.keys.push(this.mainClip["key1"]);
                 this.keys.push(this.mainClip["key2"]);
                 this.keys.push(this.mainClip["key3"]);
-                this.keys[0].addEventListener("mousedown", function () { _this.pickKey(0); });
-                this.keys[1].addEventListener("mousedown", function () { _this.pickKey(1); });
-                this.keys[2].addEventListener("mousedown", function () { _this.pickKey(2); });
-                this.mainClip["indicator"].stop();
+                // set keys interactives
+                this.keys[0]["interactive"] = true;
+                this.keys[1]["interactive"] = true;
+                this.keys[2]["interactive"] = true;
+                this.keys[0].addEventListener("click", function () { _this.pickKey(0); });
+                this.keys[1].addEventListener("click", function () { _this.pickKey(1); });
+                this.keys[2].addEventListener("click", function () { _this.pickKey(2); });
+                this.keys[0].addEventListener("touch", function () { _this.pickKey(0); });
+                this.keys[1].addEventListener("touch", function () { _this.pickKey(1); });
+                this.keys[2].addEventListener("touch", function () { _this.pickKey(2); });
+                setTimeout(function () {
+                    _this.mainClip["indicator"].gotoAndStop(0);
+                    _this.mainClip["indicator"].paused = true;
+                }, 100);
             };
             //========================= Game behaviour =======================
             Bonus3.prototype.nextChest = function () {
                 var _this = this;
                 // locks mouse
-                this.content.mouseEnabled = false;
+                this.content.interactiveChildren = false;
                 if (this.currentChestId < 3) {
                     for (var i in this.keys)
                         createjs.Tween.get(this.keys[i]).to({ alpha: 0 }, 500).call(function (c) {
@@ -4187,7 +4198,7 @@ var FlipPlus;
                             _this.keys[c].alpha = 1;
                             _this.keys[c].gotoAndPlay("start");
                             //unlocks mouse
-                            _this.content.mouseEnabled = true;
+                            _this.content.interactiveChildren = true;
                         }, [i]);
                     //define the correct key for this chest
                     this.correctKeyId = Math.floor(Math.random() * 3);
@@ -4196,12 +4207,12 @@ var FlipPlus;
             };
             Bonus3.prototype.pickKey = function (keyId) {
                 var _this = this;
-                this.content.mouseEnabled = false;
+                this.content.interactiveChildren = false;
                 this.keys[keyId].gotoAndPlay("key");
                 // play sound
                 gameui.AudiosManager.playSound("button");
                 setTimeout(function () {
-                    _this.content.mouseEnabled = true;
+                    _this.content.interactiveChildren = true;
                     //if key is correct
                     if (keyId == _this.correctKeyId) {
                         //play movie clip
@@ -4230,7 +4241,7 @@ var FlipPlus;
                 this.mainClip["indicator"].gotoAndStop(2 - this.chances);
                 //verify if user looses
                 if (this.chances < 0) {
-                    this.content.mouseEnabled = false;
+                    this.content.interactiveChildren = false;
                     this.message.showtext(StringResources.b3_noMoreChances, 2000, 1100);
                     this.message.addEventListener("onclose", function () { _this.endBonus(); });
                     // play sound
@@ -4728,14 +4739,14 @@ var FlipPlus;
                 playBt.x = 800;
                 playBt.y = 1139;
                 this.playBt = playBt;
-                var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", function () {
-                    FlipPlus.FlipPlusGame.showBonus("Bonus1");
-                });
-                playBt.interactive = true;
-                this.content.addChild(playBt);
-                playBt.x = 800;
-                playBt.y = 739;
-                this.playBt = playBt;
+                //var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
+                //    FlipPlus.FlipPlusGame.showBonus("Bonus3");
+                //  })
+                //  playBt.interactive = true;
+                //this.content.addChild(playBt);
+                //playBt.x = 800;
+                //playBt.y = 739;
+                //this.playBt = playBt;
             };
             MainMenu.prototype.back = function () {
                 FlipPlus.FlipPlusGame.showTitleScreen();

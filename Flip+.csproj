@@ -26,7 +26,6 @@
     <TypeScriptCompile Include="gameui\ScreenState.ts" />
     <TypeScriptCompile Include="gameui\Transition.ts" />
     <TypeScriptCompile Include="gameui\UIItem.ts" />
-    <Content Include="assets\agua.json" />
     <Content Include="assets\assetsManifest.js" />
     <Content Include="assets\bg.jpg" />
     <Content Include="assets\Bonus1.js" />

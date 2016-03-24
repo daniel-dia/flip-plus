@@ -121,14 +121,14 @@ module FlipPlus.Menu {
             this.playBt = playBt;
 
 
-            var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
-                FlipPlus.FlipPlusGame.showBonus("Bonus1");
-              })
-              playBt.interactive = true;
-              this.content.addChild(playBt);
-              playBt.x = 800;
-              playBt.y = 739;
-              this.playBt = playBt;
+             //var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
+             //    FlipPlus.FlipPlusGame.showBonus("Bonus3");
+             //  })
+             //  playBt.interactive = true;
+             //this.content.addChild(playBt);
+             //playBt.x = 800;
+             //playBt.y = 739;
+             //this.playBt = playBt;
 
         }
 

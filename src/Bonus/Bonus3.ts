@@ -27,7 +27,9 @@
             this.content.addChild(this.itemsContainer);
             this.currentChestId = 0;
             this.chances = 2;
+            this.updateChances();
             this.nextChest();
+
         }
         
         addObjects() {
@@ -39,11 +41,11 @@
             
 
             //set stops
-            this.mainClip.addEventListener("ready", () => { this.mainClip.stop() });
+            this.mainClip.addEventListener("ready", ()    => { this.mainClip.stop() });
             this.mainClip.addEventListener("WrongEnd", () => { this.mainClip.stop() });
             this.mainClip.addEventListener("End", () => {
+                
                 this.mainClip.stop();
-
                 this.message.showtext(StringResources.b3_finish, 2000, 1000);
                 this.message.addEventListener("onclose", () => { this.endBonus(); });
             });
@@ -54,12 +56,24 @@
             this.keys.push(this.mainClip["key2"]);
             this.keys.push(this.mainClip["key3"]);
 
+            // set keys interactives
+            this.keys[0]["interactive"] = true;
+            this.keys[1]["interactive"] = true;
+            this.keys[2]["interactive"] = true;
             
-            this.keys[0].addEventListener("mousedown", () => { this.pickKey(0) })
-            this.keys[1].addEventListener("mousedown", () => { this.pickKey(1) })
-            this.keys[2].addEventListener("mousedown", () => { this.pickKey(2) })
+            this.keys[0].addEventListener("click", () => { this.pickKey(0) }) ;
+            this.keys[1].addEventListener("click", () => { this.pickKey(1) }) ;
+            this.keys[2].addEventListener("click", () => { this.pickKey(2) }) ;
+                                                                              
+            this.keys[0].addEventListener("touch", () => { this.pickKey(0) }) ;
+            this.keys[1].addEventListener("touch", () => { this.pickKey(1) }) ;
+            this.keys[2].addEventListener("touch", () => { this.pickKey(2) }) ;
 
-            this.mainClip["indicator"].stop();
+            
+            setTimeout(() => {
+                this.mainClip["indicator"].gotoAndStop(0);
+                this.mainClip["indicator"].paused = true;
+            }, 100);
         }
 
         //========================= Game behaviour =======================
@@ -67,7 +81,7 @@
 
         nextChest() {
             // locks mouse
-            this.content.mouseEnabled = false;
+            this.content.interactiveChildren = false;
             if (this.currentChestId < 3) {
 
                 for (var i in this.keys)
@@ -75,7 +89,7 @@
                         //restart keys
                         this.keys[c].alpha = 1; this.keys[c].gotoAndPlay("start")
                         //unlocks mouse
-                        this.content.mouseEnabled = true;
+                        this.content.interactiveChildren = true;
                     }, [i]);
 
                 //define the correct key for this chest
@@ -85,13 +99,13 @@
         }
 
         pickKey(keyId: number) {
-            this.content.mouseEnabled = false;
+            this.content.interactiveChildren = false;
             this.keys[keyId].gotoAndPlay("key");
             // play sound
             gameui.AudiosManager.playSound("button");
 
             setTimeout(() => {
-                this.content.mouseEnabled = true;    
+                this.content.interactiveChildren  = true;    
                 //if key is correct
                 if (keyId == this.correctKeyId) {
 
@@ -127,14 +141,14 @@
 
         updateChances() {
 
-            this.mainClip["indicator"].gotoAndStop(2-this.chances)
-
+            this.mainClip["indicator"].gotoAndStop(2 - this.chances)
+            
+            
             //verify if user looses
             if (this.chances < 0) {
-                this.content.mouseEnabled = false;
+                this.content.interactiveChildren = false;
                 this.message.showtext(StringResources.b3_noMoreChances, 2000, 1100);
                 this.message.addEventListener("onclose", () => { this.endBonus(); });
-
 
                 // play sound
                 gameui.AudiosManager.playSound("Wrong Answer");
