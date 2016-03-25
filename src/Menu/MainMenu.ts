@@ -6,7 +6,7 @@ module FlipPlus.Menu {
         private myBots: Robots.MyBots;
         private intro: Intro;
 
-        private terminal: View.Terminal;
+        public terminal: View.Terminal;
         private menu: View.ScreenMenu;
 
         private playBt: PIXI.DisplayObject;
@@ -20,8 +20,7 @@ module FlipPlus.Menu {
             bg.y = -339;
             bg.scale.y = 1.3310546875;
             this.content.addChild(bg);
-
-
+            
             this.addTerminal();
 
             this.addPlayButton();
@@ -29,10 +28,7 @@ module FlipPlus.Menu {
             this.addMyBots();
              
             this.addMenu();
-
-
-          
-
+            
             this.onback = () => {this.back();};
             this.addCoinsIndicator();
         }
@@ -67,10 +63,12 @@ module FlipPlus.Menu {
 
                 //updates robots lobby
                 this.myBots.update();
+
+                // updates terminal
+                this.terminal.activate();
+
             }
 
-            // updates terminal
-            this.terminal.activate();
 
             // updates parts counter
             this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
@@ -139,13 +137,13 @@ module FlipPlus.Menu {
         //------------Robots Behaviour ---------------------------------
 
         private robotClick(robot: string) {
-            var t = FlipPlusGame.timersData.getTimer(robot);
-            this.terminal.setText(Math.floor(t/1000/60) + " minutes") 
+            //var t = FlipPlusGame.timersData.getTimer(robot);
+            this.terminal.setText("Hi, Im am a Bot");
         }
         
         public showNewBot(botId: string) {
-            this.myBots.castNewEffect(botId);
-            this.terminal.setText("Novo Amigo");
+            //this.myBots.castNewEffect(botId);
+            //this.terminal.setText("Novo Amigo");
         }
 
     }

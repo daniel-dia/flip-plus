@@ -38,6 +38,8 @@ var imageManifest = [
 
         { src: "botparts/bgnewbot.png", id: "bgnewbot" },
         { src: "mybotsbg.jpg", id: "mybotsbg" },
+        { src: "static.png", id: "static" },
+        { src: "terminalMask.png", id: "terminalMask" },
         { src: "botparts/arm1.png", id: "arm1" },
         { src: "botparts/arm2.png", id: "arm2" },
         { src: "botparts/B00Mbody.png", id: "B00Mbody" },
@@ -322,6 +324,7 @@ var audioManifest = [
 
         //Sound
         { id: "Music Dot Robot", src: "Music Dot Robot.ogg" },
+        { id: "terminal", src: "terminal.ogg" },
         { id: "Music Minimal Tech", src: "Music Minimal Tech.ogg" },
         { id: "Correct Answer", src: "Correct Answer.ogg" },
         { id: "Correct Answer 2", src: "Correct Answer 2.ogg" },

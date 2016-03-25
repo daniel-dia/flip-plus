@@ -5,22 +5,24 @@ module FlipPlus.Menu.View
     {
 
         private screenContaier: PIXI.Container;
+        private content: PIXI.Container;
         private textBox: PIXI.extras.BitmapText;
-
+        private static: PIXI.DisplayObject;
+        private mymask: PIXI.Sprite;
         private secondsInteval: number;
         private rotationInterval: number;
         
-        private intervalTimeout = 4000;
+        private intervalTimeout = 7000;
         private saleChance = 0.05;
         private bonuses = ["Bonus1", "Bonus2", "Bonus3"];
-        
-        
+                
         constructor()
         {
             super();
 
             //set informations container
             this.screenContaier = new PIXI.Container();
+            this.addChild(this.content);
             this.addChild(this.screenContaier);
 
             //textBox
@@ -31,11 +33,22 @@ module FlipPlus.Menu.View
             this.x = 361;
             this.y = 451;
 
+            //add static
+            this.static = gameui.AssetsManager.getBitmap("static");
+            this.addChild(this.static);
+            this.static.set({ x: -60, y: -73 });
+
+            //add static
+            this.mymask = gameui.AssetsManager.getBitmap("terminalMask");
+            this.addChild(this.mymask);
+            this.mymask.set({ x: -60, y: -73 });
+            this.mask = this.mymask;
+            this.static.alpha = 0.1;
+            
+
             this.once("touch", () => { this.emit("terminalAction") });
             this.once("click", () => { this.emit("terminalAction") });
-
-            this.activate();
-
+            
             this.interactive = true;
             this.hitArea = new PIXI.Rectangle(0, 0, 976, 527);
         }
@@ -56,6 +69,98 @@ module FlipPlus.Menu.View
             if (this.secondsInteval) clearInterval(this.secondsInteval);
             if (this.rotationInterval) clearInterval(this.rotationInterval);
         }
+        
+      
+        // set a container graphic into the Terminal.
+        public setContent(content: PIXI.Container) {
+            this.textBox.text = "";
+            var oldContent = this.content;
+            
+            // play Sound
+            gameui.AudiosManager.playSound("terminal")
+
+            // animates out the monitor content
+            if (oldContent) {
+                createjs.Tween.get(oldContent).to({ scaleX: 1, scaleY: 1, alpha: 1 }).to({ scaleX: 3, scaleY: 0, alpha: 0},200, createjs.Ease.quadOut).call(() => {
+                    this.removeChild(oldContent);
+                });
+            }
+
+            // animates static
+            createjs.Tween.get(this.static).to({ alpha: 0.1, y: -200 }).to({ alpha: 0.7, y: -100 }, 50).to({ alpha: 0.1, y: 0 }, 50).to({ alpha: 0.7, y: 100 }, 50).to({ alpha: 0.1, y: 200}, 50);
+            
+            // animates in the new content
+            this.content = content;
+            this.addChild(content);
+            createjs.Tween.get(content).to({ scaleX: 0, scaleY: 3, alpha: 0 }).wait(200).to({ scaleX: 1, scaleY: 1, alpha: 1}, 200, createjs.Ease.quadOut);
+        }
+
+        public setTextIcon(title: string, text: string, icon: string) {
+            var content = new PIXI.Container();
+            
+            var titleDO = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong");
+            var iconDO = gameui.AssetsManager.getBitmap(icon);
+            var textDO = gameui.AssetsManager.getBitmapText(text, "fontWhite");
+
+            titleDO.regX = titleDO.textWidth / 2;
+            titleDO.regY = titleDO.textHeight / 2;
+            titleDO.y = 60 - 250;
+            titleDO.name = "Title";
+
+            textDO.regX = textDO.textWidth / 2;
+            textDO.regY = textDO.textHeight / 2;
+            textDO.y = 360 - 250;
+            textDO.name = "text";
+
+            iconDO.regX = iconDO.width / 2;
+            iconDO.regY = iconDO.height / 2;
+            iconDO.y = (titleDO.y + textDO.y ) /2
+            iconDO.name = "icon";
+
+            content.addChild(titleDO);
+            content.addChild(iconDO);
+            content.addChild(textDO);
+            
+            content.x = 420;
+            content.y = 250;
+
+            this.setContent(content); 
+
+            return content;
+        }
+
+        public setText(text: string,timeout:number=8000) {
+
+            clearInterval(this.rotationInterval);
+
+            var content = new PIXI.Container();
+            var textDO = gameui.AssetsManager.getBitmapText(text, "fontWhite");
+
+            textDO.regX = textDO.textWidth / 2;
+              
+            textDO.y = - 250;
+
+            content.addChild(textDO);
+
+            content.x = 420;
+            content.y = 250;
+
+            this.setContent(content);
+
+            this.rotationInterval = setInterval(() => {
+               this.startBonusRotation()
+            }, timeout);
+
+        }
+
+        // #region sale
+
+        private showSale() {
+            this.setTextIcon("Sale", "buy for 1usd", "partsicon");
+        }
+        // #endregion
+
+        // #region bonus
 
         // show bonus rotation or bonus ready
         public showBonusStatus() {
@@ -73,9 +178,9 @@ module FlipPlus.Menu.View
                 this.showBonusReady(bonusready)
             else
                 this.startBonusRotation();
-        }
-        
-        // start showing all bonus status in a rotation
+        } 
+
+        // starts bonus channels rotations
         private startBonusRotation() {
             
             // clear current interval
@@ -100,42 +205,42 @@ module FlipPlus.Menu.View
         // show a single bonus timeout info.
         private showBonusTimer(bonusId: string) {
 
+            var timeout = FlipPlusGame.timersData.getTimer(bonusId);
+            var content = this.setTextIcon(bonusId, this.toHHMMSS(timeout), "partsicon");
+
+
             if (this.secondsInteval) clearInterval(this.secondsInteval);
             this.secondsInteval = setInterval(() => {
-
-                var timeout = FlipPlusGame.timersData.getTimer(bonusId);
-                this.textBox.text = bonusId + " " + this.toHHMMSS(timeout);
-
+                timeout = FlipPlusGame.timersData.getTimer(bonusId);
+                content.getChildByName("text")["text"] = this.toHHMMSS(timeout);
             }, 1000);
-            // Todo make it better
         }
-
 
         // show a bonus screen ready to play
         private showBonusReady(bonusId: string) {
-            this.textBox.text = bonusId + " ready \n tap to play";
+            this.setTextIcon(bonusId, "ready to play!", "menu/iccontinue");
 
             this.once("touch", () => { FlipPlusGame.showBonus(bonusId) });
             this.once("click", () => { FlipPlusGame.showBonus(bonusId) });
         }
+        
+        // #endregion
 
-
-        private showSale() {
-        }
-
-
+        // #region utils
 
         private toHHMMSS(sec_num: number): string {
             var hours = Math.floor(sec_num / 3600);
             var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
             var seconds = sec_num - (hours * 3600) - (minutes * 60);
 
-            if (hours < 10) { hours = 0 + hours; }
-            if (minutes < 10) { minutes = 0 + minutes; }
-            if (seconds < 10) { seconds = 0 + seconds; }
+            if (hours < 10)   {     hours =   "0" + hours;   }
+            if (minutes < 10) {     minutes = "0" + minutes; }
+            if (seconds < 10) {     seconds = "0" + seconds; }
             var time = hours + ':' + minutes + ':' + seconds;
             return time;
         }
+
+        // #endregion
     
     }
 }

@@ -50,8 +50,6 @@ module FlipPlus.Robots {
 
                 var hit = robot.getLocalBounds();
                 robot.interactive = true;
-
-                //robot.hitArea = hit;
             }
         }
 
@@ -147,13 +145,15 @@ module FlipPlus.Robots {
         public playIntroPartA() {
             this.hideAllRobots();
             this.showRobot("Bot01a");
-            this.popup.showBotText(StringResources.it_text1, 6000, 1000)
+            FlipPlusGame.mainScreen.terminal.setText(StringResources.it_text1, 60000);
+            //this.popup.showBotText(StringResources.it_text1, 6000, 1000)
         }
 
         public playIntroPartB() {
             this.hideAllRobots();
             this.showRobot("Bot01b");
-            this.popup.showBotText(StringResources.it_text2,6000,1000);
+            FlipPlusGame.mainScreen.terminal.setText(StringResources.it_text2,60000);
+            //this.popup.showBotText(StringResources.it_text2,6000,1000);
         }
 
         public clear() {

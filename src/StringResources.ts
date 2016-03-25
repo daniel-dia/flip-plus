@@ -1,8 +1,8 @@
 ﻿var StringResources = {
     ld: "Loading",
 
-    it_text1: "N3-S needs\nrepair",
-    it_text2: "alone = bad\nfriends=good",
+    it_text1: "N3-S needs\nrepair\nplase nPLAY to repair",
+    it_text2: "alone = bad\nfriends = good\nPLAY = + friends",
 
     tut_1_1_title: "The plus shape",
     tut_1_1_text: "flip the white squares to make\nthem color squares",
@@ -146,8 +146,8 @@
 var stringResources_pt = {
     ld: "Carregando",
 
-    it_text1: "N3-S precisa de\nreparos",
-    it_text2: "sozinho = ruim\namigos= bom",
+    it_text1: "N3-S\nprecisa de reparos\n\nJOGAR para reparar",
+    it_text2: "sozinho = ruim\namigos = bom\n\nJOGAR = + amigos",
 
     tut_1_1_title: "Forma de cruz",
     tut_1_1_text: "Vire todos os blocos brancos\npara blocos verdes",
