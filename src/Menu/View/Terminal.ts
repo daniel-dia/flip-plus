@@ -81,7 +81,7 @@ module FlipPlus.Menu.View
 
             // animates out the monitor content
             if (oldContent) {
-                createjs.Tween.get(oldContent).to({ scaleX: 1, scaleY: 1, alpha: 1 }).to({ scaleX: 3, scaleY: 0, alpha: 0},200, createjs.Ease.quadOut).call(() => {
+                createjs.Tween.get(oldContent).to({ scaleX: 3, scaleY: 0, alpha: 0},200, createjs.Ease.quadOut).call(() => {
                     this.removeChild(oldContent);
                 });
             }
@@ -98,7 +98,8 @@ module FlipPlus.Menu.View
             this.content = content;
             this.addChild(content);
             content.rotation = -0.015
-            createjs.Tween.get(content).to({ scaleX: 0, scaleY: 3, alpha: 0 }).wait(200).to({ scaleX: 1, scaleY: 1, alpha: 1}, 200, createjs.Ease.quadOut);
+            content.scaleX = content.scaleY = 0.8;
+            createjs.Tween.get(content).to({ scaleX: 0, scaleY: 3, alpha: 0 }).wait(200).to({ scaleX: 0.8, scaleY: 0.8, alpha: 1}, 200, createjs.Ease.quadOut);
         }
 
         public setTextIcon(title: string, text: string, icon: string, iconText: string ) {
@@ -175,6 +176,7 @@ module FlipPlus.Menu.View
             var char = 0;
             var i = setInterval(() => {
                 textDO.text = text.substring(0, char++);
+                gameui.AudiosManager.playSound("terminalChar", true);
                 if (char > text.length)
                     clearInterval(i);
             }, 40);

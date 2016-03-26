@@ -53,14 +53,14 @@
 
         // Layer 6
         this.Bot10 = new lib.Bot10();
-        this.Bot10.setTransform(656.8, 465.8, 0.5, 0.5, 0, 0, 0, 0.6, -33.1);
+        this.Bot10.setTransform(656.8, 305.8, 0.5, 0.5, 0, 0, 0, 0.6, -33.1);
 
         this.Bot11 = new lib.Bot11();
         this.Bot11.setTransform(834.8, 916.2, 0.5, 0.5);
 
         // Layer 1
         this.Bot18 = new lib.Bot18();
-        this.Bot18.setTransform(1467, 657.5, 0.694, 0.694);
+        this.Bot18.setTransform(1467, 507.5, 0.694, 0.694);
 
         // Layer 14
         this.Bot01 = new lib.Bot01();

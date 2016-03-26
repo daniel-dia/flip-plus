@@ -103,18 +103,20 @@ module FlipPlus {
                 return this.gameScreen.sendBackButtonEvent()
             })
 
-            // var ps = this.levelsManager.getAllProjects();
-            // ps[1].UserData.unlocked = true;
-            // ps[2].UserData.unlocked = true;
-            // for (var p in ps) {
-            //     ps[p].UserData.unlocked = true;
-            //     ps[p].UserData.stars=0;
-            //     for (var l in ps[p].levels) {
-            //         ps[p].levels[l].userdata.solved = false;
-            //         ps[p].levels[l].userdata.unlocked = true;
-            //
-            //     }
-            // }
+             var ps = this.levelsManager.getAllProjects();
+             ps[1].UserData.unlocked = true;
+             ps[2].UserData.unlocked = true;
+             for (var p in ps) {
+                 ps[p].UserData.unlocked = true;
+                 ps[p].UserData.complete = true;
+                 ps[p].UserData.stars = 0;
+                 ps[p].levels.length = 1;
+                 for (var l in ps[p].levels) {
+                     ps[p].levels[l].userdata.solved = false;
+                     ps[p].levels[l].userdata.unlocked = true;
+            
+                 }
+             }
         }
 
         public static initializeAds() {

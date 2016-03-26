@@ -49,7 +49,7 @@ module FlipPlus.Robots {
                 robot.addEventListener("tap", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
 
                 var hit = robot.getLocalBounds();
-                robot.interactive = true;
+                robot.interactive = false
             }
         }
 
@@ -66,10 +66,21 @@ module FlipPlus.Robots {
                 var px = robotMc.scale.x;
                 var py = robotMc.scale.y;
                 var ot = robotMc.y;
-
-                /// Depreciated robotMc.gotoAndPlay("touch");
+                
+                
                 this.emit("robot", robotMc.name);  
-                gameui.AudiosManager.playSound("Robot Talk_0" + Math.ceil(Math.random() * 7), true);
+
+                // play bot sound
+                var id = parseInt(robotMc.name.slice(-2)); 
+                if(id<8)
+                    var filename = "Emotional Robot Talk " + Math.ceil(Math.random() * 15);
+                else    
+                    var filename = "Talking Robot-" + Math.ceil(Math.random() * 19);
+
+                gameui.AudiosManager.playSound(filename, true);
+                
+
+                // animate bot
                 createjs.Tween.get(robotMc) 
                     .to({ scaleX: px * 1.1, scaleY: py *0.9 }, 100)
                     .to({ scaleX: px, scaleY: py }, 1000, createjs.Ease.elasticOut) 

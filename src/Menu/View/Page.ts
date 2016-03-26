@@ -10,16 +10,15 @@
         public showPage() {
 
             if (this.pageVisibility == false) {
-                //this.pageVisibility = this.visible = true;
+                this.pageVisibility = this.visible = true;
                 if (this.onShowPage) this.onShowPage();
             }
         }
 
         public hidePage() {
-            if (this.pageVisibility == true) {
-                this.pageVisibility = this.visible = false;
-                if (this.onHidePage) this.onHidePage();
-            }
+            this.pageVisibility = this.visible = false;
+            if (this.pageVisibility == true) if (this.onHidePage) this.onHidePage();
+            
         }
 
     }

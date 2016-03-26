@@ -107,16 +107,15 @@ module FlipPlus.Menu.View {
                 this.pages[pageId].visible = true;
                 createjs.Tween.removeTweens(this.pagesContainer);
                 createjs.Tween.get(this.pagesContainer).to({ x: -this.pagewidth * pageId }, 250, createjs.Ease.quadOut).call(() => {
-					this.showOlnyPage(pageId);
+                    this.showOlnyPage(pageId, 1);
                 });
             }
             else {
 
 				//move current page
 				this.pagesContainer.x = -this.pagewidth * pageId;
-				this.showOlnyPage(pageId);
-				
-			}
+                this.showOlnyPage(pageId,1);
+            }
 		}
 
 		private showOlnyPage(id: number,margin:number=0) {
@@ -128,12 +127,12 @@ module FlipPlus.Menu.View {
 					this.hidePage(i);
 		}
 
-		private showPage(id: number) {
-			this.pages[id].showPage();
+        private showPage(id: number) {
+            if (this.pages[id]) this.pages[id].showPage();
 		}
 
-		private hidePage(id: number) {
-			this.pages[id].hidePage();
+        private hidePage(id: number) {
+            if (this.pages[id]) this.pages[id].hidePage();
 		}
 
         public stayOnPage() {
