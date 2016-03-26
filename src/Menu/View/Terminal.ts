@@ -243,7 +243,7 @@ module FlipPlus.Menu.View
 
             this.once("tap", () => { FlipPlusGame.showBonus(bonusId) });
             this.once("click", () => { FlipPlusGame.showBonus(bonusId) });
-
+            createjs.DisplayObject.prototype.dispatchEvent
             if (this.secondsInteval) clearInterval(this.secondsInteval);
             this.secondsInteval = setInterval(() => {
                 timeout = FlipPlusGame.timersData.getTimer(bonusId);

@@ -1425,9 +1425,8 @@
     <Content Include="scripts\createjs-2015.05.21.min.js" />
     <Content Include="scripts\md5.js" />
     <Content Include="scripts\MovieClipCjs.js" />
-    <Content Include="scripts\pixi.js" />
     <Content Include="scripts\PIXIpatch.js" />
-    <Content Include="scripts\pixi_original.js" />
+    <Content Include="scripts\pixi.js" />
     <Content Include="scripts\plataform.js" />
     <Content Include="scripts\script.js" />
     <Content Include="scripts\setMobileScale.js" />

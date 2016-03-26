@@ -74,8 +74,7 @@ PIXI.DisplayObject.prototype.set = function (props) {
 
 PIXI.Sprite.prototype.initialize = PIXI.Sprite.prototype.constructor
 PIXI.Container.prototype.initialize = PIXI.Container.prototype.constructor
-createjs.Container = PIXI.Container;
-createjs.Bitmap = PIXI.Sprite;
+
 PIXI.DisplayObject.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY) {
     
     this.x = x || 0;
@@ -106,3 +105,12 @@ PIXI.Container.prototype.addChild = function(child) {
   };
 
 
+
+createjs.Container = PIXI.Container;
+createjs.Bitmap = PIXI.Sprite;
+createjs.DisplayObject.prototype.emit = function () { };
+createjs.DisplayObject.prototype.on = function () { };
+createjs.DisplayObject.prototype.updateTransform = function () { };
+createjs.DisplayObject.prototype.once = function () { };
+createjs.DisplayObject.prototype.renderWebGL = function () { };
+createjs.DisplayObject.prototype.renderCanvas = function () { };
