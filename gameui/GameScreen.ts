@@ -66,19 +66,8 @@ module gameui {
 
 
         private update() {
-            var time = Date.now();
-
-            if (doing) alert("strange");
-            if (!doing) {
-                //if (time - last > minfps) {
-                    doing = true;
-                    last = time;
-                    // render the stage   
-                    // RENDER MUST BE BEFORE REQUEST
-                    PIXIrenderer.render(PIXIstage);
-                    doing = false;
-                //}
-            }
+                           
+            PIXIrenderer.render(PIXIstage);
             requestAnimationFrame(updateFn);
         }
 

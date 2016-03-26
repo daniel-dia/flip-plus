@@ -69,9 +69,8 @@
         // create a new barrel object                
         private createBarrel(id,position): gameui.Button {
 
-            var barrel = new gameui.Button();
-            barrel.once("mousedown", (event: any) => { this.barrelTap(event) });
-
+            var barrel = new gameui.Button((event: any) => { this.barrelTap(event) });
+            
             //adds Barrel 
             var spriteBarrel = gameui.AssetsManager.getBitmap("Bonus1/barrel" + id);
             spriteBarrel.rotation = 10 / Math.PI / 180;
@@ -107,12 +106,6 @@
                 .wait(Math.random() * 2000)
                 .to({ x: position.x + 180 }, 2000, createjs.Ease.quadInOut);
 
-            //setTimeout((a) => {
-            //    createjs.Tween.get(a, { loop: true })
-            //        .to({ y: a.y - 15 }, 500, createjs.Ease.quadInOut)
-            //        .to({ y: a.y }, 500, createjs.Ease.quadInOut)
-            //}, Math.random() * 1000, spriteBarrel);
-            
             // mirror some of them
             if (Math.random() > 0.5) barrel.scale.x = -1;
 

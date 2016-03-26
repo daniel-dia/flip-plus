@@ -19,8 +19,7 @@ module FlipPlus.Menu.View {
             this.pagesContainer.hitArea = null;
 
             //configure pages
-            for (var i in pages)
-                pages[i].x = this.pagewidth * i;
+            for (var i in pages) pages[i].x = this.pagewidth * i;
 
             //adds event
             var xpos;

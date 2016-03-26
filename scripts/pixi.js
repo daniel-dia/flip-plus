@@ -25937,11 +25937,11 @@ InteractionManager.prototype.processTouchEnd = function ( displayObject, hit, id
 var touchfinished = true;
 InteractionManager.prototype.onTouchMove = function (event)
 {
-   // if (!touchfinished) return;
-   // touchfinished = false;
-     var delta = Date.now() - start;
-     if (delta < 33) return;
-     start = Date.now();
+    if (!touchfinished) return;
+    touchfinished = false;
+   //   var delta = Date.now() - start;
+   //   if (delta < 33) return;
+   //   start = Date.now();
 
    
 

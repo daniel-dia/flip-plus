@@ -160,18 +160,7 @@ var gameui;
             requestAnimationFrame(this.update);
         }
         GameScreen.prototype.update = function () {
-            var time = Date.now();
-            if (doing)
-                alert("strange");
-            if (!doing) {
-                //if (time - last > minfps) {
-                doing = true;
-                last = time;
-                // render the stage   
-                // RENDER MUST BE BEFORE REQUEST
-                PIXIrenderer.render(PIXIstage);
-                doing = false;
-            }
+            PIXIrenderer.render(PIXIstage);
             requestAnimationFrame(updateFn);
         };
         // switch current screen, optionaly with a pre defined transition
@@ -3775,8 +3764,7 @@ var FlipPlus;
             // create a new barrel object                
             BonusBarrel.prototype.createBarrel = function (id, position) {
                 var _this = this;
-                var barrel = new gameui.Button();
-                barrel.once("mousedown", function (event) { _this.barrelTap(event); });
+                var barrel = new gameui.Button(function (event) { _this.barrelTap(event); });
                 //adds Barrel 
                 var spriteBarrel = gameui.AssetsManager.getBitmap("Bonus1/barrel" + id);
                 spriteBarrel.rotation = 10 / Math.PI / 180;
@@ -3806,11 +3794,6 @@ var FlipPlus;
                     .to({ x: position.x + 180 - 30 }, 2000, createjs.Ease.quadInOut)
                     .wait(Math.random() * 2000)
                     .to({ x: position.x + 180 }, 2000, createjs.Ease.quadInOut);
-                //setTimeout((a) => {
-                //    createjs.Tween.get(a, { loop: true })
-                //        .to({ y: a.y - 15 }, 500, createjs.Ease.quadInOut)
-                //        .to({ y: a.y }, 500, createjs.Ease.quadInOut)
-                //}, Math.random() * 1000, spriteBarrel);
                 // mirror some of them
                 if (Math.random() > 0.5)
                     barrel.scale.x = -1;
@@ -4180,9 +4163,9 @@ var FlipPlus;
                 this.keys[0].addEventListener("click", function () { _this.pickKey(0); });
                 this.keys[1].addEventListener("click", function () { _this.pickKey(1); });
                 this.keys[2].addEventListener("click", function () { _this.pickKey(2); });
-                this.keys[0].addEventListener("touch", function () { _this.pickKey(0); });
-                this.keys[1].addEventListener("touch", function () { _this.pickKey(1); });
-                this.keys[2].addEventListener("touch", function () { _this.pickKey(2); });
+                this.keys[0].addEventListener("tap", function () { _this.pickKey(0); });
+                this.keys[1].addEventListener("tap", function () { _this.pickKey(1); });
+                this.keys[2].addEventListener("tap", function () { _this.pickKey(2); });
                 setTimeout(function () {
                     _this.mainClip["indicator"].gotoAndStop(0);
                     _this.mainClip["indicator"].paused = true;
@@ -5271,6 +5254,8 @@ var FlipPlus;
                     var _this = this;
                     var timeout = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
                     var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", this.toHHMMSS(timeout));
+                    this.once("tap", function () { FlipPlus.FlipPlusGame.showBonus(bonusId); });
+                    this.once("click", function () { FlipPlus.FlipPlusGame.showBonus(bonusId); });
                     if (this.secondsInteval)
                         clearInterval(this.secondsInteval);
                     this.secondsInteval = setInterval(function () {
@@ -5281,7 +5266,7 @@ var FlipPlus;
                 // show a bonus screen ready to play
                 Terminal.prototype.showBonusReady = function (bonusId) {
                     this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", StringResources.mm_play);
-                    this.once("touch", function () { FlipPlus.FlipPlusGame.showBonus(bonusId); });
+                    this.once("tap", function () { FlipPlus.FlipPlusGame.showBonus(bonusId); });
                     this.once("click", function () { FlipPlus.FlipPlusGame.showBonus(bonusId); });
                 };
                 // #endregion
@@ -6501,7 +6486,7 @@ var FlipPlus;
                     var robot = this.myBots.getChildAt(c);
                     ;
                     robot.addEventListener("click", function (e) { _this.userfeedback(e); });
-                    robot.addEventListener("touch", function (e) { _this.userfeedback(e); });
+                    robot.addEventListener("tap", function (e) { _this.userfeedback(e); });
                     var hit = robot.getLocalBounds();
                     robot.interactive = true;
                 }

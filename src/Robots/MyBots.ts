@@ -46,7 +46,7 @@ module FlipPlus.Robots {
             for (var c = 0; c < this.myBots.children.length; c++) {
                 var robot = <PIXI.extras.MovieClip>this.myBots.getChildAt(c);;
                 robot.addEventListener("click", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
-                robot.addEventListener("touch", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
+                robot.addEventListener("tap", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
 
                 var hit = robot.getLocalBounds();
                 robot.interactive = true;

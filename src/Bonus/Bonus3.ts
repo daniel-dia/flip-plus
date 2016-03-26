@@ -65,9 +65,9 @@
             this.keys[1].addEventListener("click", () => { this.pickKey(1) }) ;
             this.keys[2].addEventListener("click", () => { this.pickKey(2) }) ;
                                                                               
-            this.keys[0].addEventListener("touch", () => { this.pickKey(0) }) ;
-            this.keys[1].addEventListener("touch", () => { this.pickKey(1) }) ;
-            this.keys[2].addEventListener("touch", () => { this.pickKey(2) }) ;
+            this.keys[0].addEventListener("tap", () => { this.pickKey(0) }) ;
+            this.keys[1].addEventListener("tap", () => { this.pickKey(1) }) ;
+            this.keys[2].addEventListener("tap", () => { this.pickKey(2) }) ;
 
             
             setTimeout(() => {
