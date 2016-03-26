@@ -73,7 +73,7 @@
         // show a loading message
         private showLoading() {
             this.statusText.text = StringResources.menus.loading;
-            this.statusText.pivot.x = this.statusText.getLocalBounds().width / 2;
+            this.statusText.pivot.x = this.statusText.textWidth / 2;
             this.loadingObject.visible = true;
         }
 
@@ -86,6 +86,7 @@
         // show a error message in it
         private showError() {
             this.statusText.text = StringResources.menus.errorShop;
+            this.statusText.pivot.x = this.statusText.textWidth / 2;
             this.loadingObject.visible = false;
         }
 
@@ -129,9 +130,13 @@
 
             this.showLoading();
 
-            var inappsService = Cocoon.InApp;
+            var inappsService = Cocoon["InApp"];
 
             // Service initialization
+            if (!inappsService) {
+                this.showError();
+                return;
+            }
             inappsService.initialize({autofinish: true},
                 (error) => {
                     console.log("initialized Store" + error)

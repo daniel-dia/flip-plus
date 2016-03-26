@@ -64,15 +64,18 @@
     gp_mv_statusEnd: "END",
     gp_mv_noMoreMoves: "No more moves",
 
-    Bonus1_title: "pick 3 Barrels",
+    Bonus1_title: "Pick 3 Barrels",
+    Bonus1: "Bonus 1",
     b1_popup1Ttitle: "Pick 3 Barrels",
     b1_popup1Text: "Some Barrels has hidden items",
 
-    Bonus2_title: "find the pairs",
+    Bonus2_title: "Find the pairs",
+    Bonus2: "Bonus 2",
     b2_noMoreChances: "",
     b2_finish: "Well done!",
 
     Bonus3_title: "Capitain's chest",
+    Bonus3: "Bonus 3",
     b3_finish: "Well done!",
     b3_noMoreChances: "No more chances",
 
@@ -211,14 +214,17 @@ var stringResources_pt = {
     gp_mv_noMoreMoves: "Acabou",
 
     Bonus1_title: "Escolha 3 Barris",
+    Bonus1: "Bonus 1",
     b1_popup1Ttitle: "Escolha 3 Barris",
     b1_popup1Text: "Alguns Barris tem itens escondidos",
 
     Bonus2_title: "Encontre os pares",
+    Bonus2: "Bonus 2",
     b2_noMoreChances: "acabaram as chances",
     b2_finish: "Muito bem!",
 
     Bonus3_title: "baú do Capitão",
+    Bonus3: "Bonus 2",
     b3_finish: "Muito bem!",
     b3_noMoreChances: "acabaram as chances",
 

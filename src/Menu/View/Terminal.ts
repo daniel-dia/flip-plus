@@ -87,43 +87,69 @@ module FlipPlus.Menu.View
             }
 
             // animates static
-            createjs.Tween.get(this.static).to({ alpha: 0.1, y: -200 }).to({ alpha: 0.7, y: -100 }, 50).to({ alpha: 0.1, y: 0 }, 50).to({ alpha: 0.7, y: 100 }, 50).to({ alpha: 0.1, y: 200}, 50);
+            createjs.Tween.get(this.static).
+                to({ alpha: 0.1, y: -400 }, 50).
+                to({ alpha: 0.7, y: -300 }, 50).
+                to({ alpha: 0.1, y: -200 }, 50).
+                to({ alpha: 0.7, y: -100 }, 50).
+                to({ alpha: 0.1, y:  0   }, 50);
             
             // animates in the new content
             this.content = content;
             this.addChild(content);
+            content.rotation = -0.015
             createjs.Tween.get(content).to({ scaleX: 0, scaleY: 3, alpha: 0 }).wait(200).to({ scaleX: 1, scaleY: 1, alpha: 1}, 200, createjs.Ease.quadOut);
         }
 
-        public setTextIcon(title: string, text: string, icon: string) {
+        public setTextIcon(title: string, text: string, icon: string, iconText: string ) {
+            var space = 20;
+            var fl = -210;
+            var ll = 110;
+            var md = (fl + ll) / 2;
+
             var content = new PIXI.Container();
             
             var titleDO = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong");
+            var iconTextDO = gameui.AssetsManager.getBitmapText(iconText.toUpperCase(), "fontWhite");
             var iconDO = gameui.AssetsManager.getBitmap(icon);
             var textDO = gameui.AssetsManager.getBitmapText(text, "fontWhite");
 
             titleDO.regX = titleDO.textWidth / 2;
             titleDO.regY = titleDO.textHeight / 2;
-            titleDO.y = 60 - 250;
-            titleDO.name = "Title";
+            titleDO.y = fl;
+            titleDO.name = "title";
+            titleDO.scaleX = titleDO.scaleY = 850 / Math.max(titleDO.textWidth, 850)
+
 
             textDO.regX = textDO.textWidth / 2;
             textDO.regY = textDO.textHeight / 2;
-            textDO.y = 360 - 250;
+            textDO.y = md
             textDO.name = "text";
+            
+            iconTextDO.regX = iconTextDO.textWidth / 2;
+            iconTextDO.regY = iconTextDO.textHeight / 2;
+            iconTextDO.name = "iconText";
+            iconTextDO.scaleX = titleDO.scaleY = 850 / Math.max(titleDO.textWidth, 850)
 
             iconDO.regX = iconDO.width / 2;
             iconDO.regY = iconDO.height / 2;
-            iconDO.y = (titleDO.y + textDO.y ) /2
             iconDO.name = "icon";
 
+            iconDO.x = - iconTextDO.width / 2 - space;
+            iconTextDO.x = iconDO.width / 2 + space;
+            iconDO.y =     ll;
+            iconTextDO.y = ll;
+            
+
+
             content.addChild(titleDO);
+            content.addChild(iconTextDO);
             content.addChild(iconDO);
             content.addChild(textDO);
             
             content.x = 420;
             content.y = 250;
-
+            
             this.setContent(content); 
 
             return content;
@@ -134,10 +160,9 @@ module FlipPlus.Menu.View
             clearInterval(this.rotationInterval);
 
             var content = new PIXI.Container();
-            var textDO = gameui.AssetsManager.getBitmapText(text, "fontWhite");
+            var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
 
-            textDO.regX = textDO.textWidth / 2;
-              
+            textDO.x =  - 400;
             textDO.y = - 250;
 
             content.addChild(textDO);
@@ -147,16 +172,24 @@ module FlipPlus.Menu.View
 
             this.setContent(content);
 
+            var char = 0;
+            var i = setInterval(() => {
+                textDO.text = text.substring(0, char++);
+                if (char > text.length)
+                    clearInterval(i);
+            }, 40);
+
             this.rotationInterval = setInterval(() => {
                this.startBonusRotation()
             }, timeout);
+
 
         }
 
         // #region sale
 
         private showSale() {
-            this.setTextIcon("Sale", "buy for 1usd", "partsicon");
+            this.setTextIcon("SALE","Sale", "buy for 1usd", "partsicon");
         }
         // #endregion
 
@@ -206,19 +239,19 @@ module FlipPlus.Menu.View
         private showBonusTimer(bonusId: string) {
 
             var timeout = FlipPlusGame.timersData.getTimer(bonusId);
-            var content = this.setTextIcon(bonusId, this.toHHMMSS(timeout), "partsicon");
+            var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", this.toHHMMSS(timeout));
 
 
             if (this.secondsInteval) clearInterval(this.secondsInteval);
             this.secondsInteval = setInterval(() => {
                 timeout = FlipPlusGame.timersData.getTimer(bonusId);
-                content.getChildByName("text")["text"] = this.toHHMMSS(timeout);
+                content.getChildByName("iconText")["text"] = this.toHHMMSS(timeout);
             }, 1000);
         }
 
         // show a bonus screen ready to play
         private showBonusReady(bonusId: string) {
-            this.setTextIcon(bonusId, "ready to play!", "menu/iccontinue");
+            this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", StringResources.mm_play);
 
             this.once("touch", () => { FlipPlusGame.showBonus(bonusId) });
             this.once("click", () => { FlipPlusGame.showBonus(bonusId) });

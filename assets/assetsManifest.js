@@ -325,6 +325,7 @@ var audioManifest = [
         //Sound
         { id: "Music Dot Robot", src: "Music Dot Robot.ogg" },
         { id: "terminal", src: "terminal.ogg" },
+        { id: "bonusbg", src: "bonusbg.ogg" },
         { id: "Music Minimal Tech", src: "Music Minimal Tech.ogg" },
         { id: "Correct Answer", src: "Correct Answer.ogg" },
         { id: "Correct Answer 2", src: "Correct Answer 2.ogg" },

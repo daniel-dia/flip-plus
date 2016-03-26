@@ -224,6 +224,10 @@
             super.activate(parameters);
 
             this.updatePartsAmmount();
+
+            // play music
+            gameui.AudiosManager.playMusic("bonusbg");
+
         }        
         
         back() {

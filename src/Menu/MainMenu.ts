@@ -138,7 +138,7 @@ module FlipPlus.Menu {
 
         private robotClick(robot: string) {
             //var t = FlipPlusGame.timersData.getTimer(robot);
-            this.terminal.setText("Hi, Im am a Bot");
+            this.terminal.setText("Hi, I'm am a Bot");
         }
         
         public showNewBot(botId: string) {
