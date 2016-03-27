@@ -36,7 +36,7 @@ module gameui {
          
         //-----------------------------------------------------------------------
 
-        constructor(divId: string, gameWidth: number, gameHeight?: number, fps: number = 60, showFps?: boolean) {
+        constructor(divId: string, gameWidth: number, gameHeight?: number, fps: number = 60) {
 
             this.defaultWidth = gameWidth;
             this.defaultHeight = gameHeight;
@@ -60,15 +60,10 @@ module gameui {
             this.resizeGameScreen(window.innerWidth, window.innerHeight);
             window.onresize = () => { this.resizeGameScreen(window.innerWidth, window.innerHeight); };
 
-            updateFn = this.update
-            requestAnimationFrame(this.update);
-        }
+            createjs.Ticker.addEventListener("tick", (e)=> {
 
-
-        private update() {
-                           
-            PIXIrenderer.render(PIXIstage);
-            requestAnimationFrame(updateFn);
+                PIXIrenderer.render(PIXIstage);
+            });
         }
 
         // switch current screen, optionaly with a pre defined transition

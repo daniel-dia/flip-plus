@@ -138,7 +138,7 @@ var gameui;
     var doing = false;
     var GameScreen = (function () {
         //-----------------------------------------------------------------------
-        function GameScreen(divId, gameWidth, gameHeight, fps, showFps) {
+        function GameScreen(divId, gameWidth, gameHeight, fps) {
             var _this = this;
             if (fps === void 0) { fps = 60; }
             this.defaultWidth = gameWidth;
@@ -156,13 +156,10 @@ var gameui;
             //var windowWidth = window.innerWidth;
             this.resizeGameScreen(window.innerWidth, window.innerHeight);
             window.onresize = function () { _this.resizeGameScreen(window.innerWidth, window.innerHeight); };
-            updateFn = this.update;
-            requestAnimationFrame(this.update);
+            createjs.Ticker.addEventListener("tick", function (e) {
+                PIXIrenderer.render(PIXIstage);
+            });
         }
-        GameScreen.prototype.update = function () {
-            PIXIrenderer.render(PIXIstage);
-            requestAnimationFrame(updateFn);
-        };
         // switch current screen, optionaly with a pre defined transition
         GameScreen.prototype.switchScreen = function (newScreen, parameters, transition) {
             var _this = this;
