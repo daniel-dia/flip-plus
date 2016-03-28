@@ -60,10 +60,20 @@ module gameui {
             this.resizeGameScreen(window.innerWidth, window.innerHeight);
             window.onresize = () => { this.resizeGameScreen(window.innerWidth, window.innerHeight); };
 
-            createjs.Ticker.addEventListener("tick", (e)=> {
+            updateFn = this.update
+            var win=false
+            if (win) {
+                createjs.Ticker.addEventListener("tick", function (e) {
+                    PIXIrenderer.render(PIXIstage);
+                });
+            } else updateFn();
+        }
 
-                PIXIrenderer.render(PIXIstage);
-            });
+
+        private update() {
+                         
+            PIXIrenderer.render(PIXIstage);
+            requestAnimationFrame(updateFn);
         }
 
         // switch current screen, optionaly with a pre defined transition

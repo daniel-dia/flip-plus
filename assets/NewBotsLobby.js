@@ -1370,37 +1370,37 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 1
-        this.instance = new lib.Interpolar1("synched", 0);
+        this.instance = new lib.Interpolar1()//("synched", 0);
         this.instance.setTransform(-14, -126.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance).to({ y: -80.8 }, 6).to({ scaleY: 1.03, rotation_d: -15, x: -38, y: -242.7 }, 6).to({ y: -258.7 }, 6).to({ y: -242.7 }, 6).to({ scaleY: 1, rotation_d: 0, x: -14, y: -126.5 }, 5).to({ y: -116.8 }, 8).to({ y: -126.5 }, 7).wait(1));
 
         // Camada 2
-        this.instance_1 = new lib.Interpolar3("synched", 0);
+        this.instance_1 = new lib.Interpolar3()//("synched", 0);
         this.instance_1.setTransform(169, 157.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_1).to({ scaleX: 1.03, scaleY: 0.96, x: 185, y: 163.8 }, 6).to({ scaleX: 1.02, scaleY: 1.1, rotation_d: -45, x: 265.5, y: -36.3 }, 6).to({ scaleX: 1, scaleY: 1, rotation_d: 15, x: 195, y: -24 }, 6).to({ rotation_d: -15, x: 235, y: -28 }, 6).to({ rotation_d: 0, x: 169, y: 157.5 }, 5).to({ scaleX: 1.03, scaleY: 0.96, x: 185, y: 163.8 }, 8).to({ scaleX: 1, scaleY: 1, x: 169, y: 157.5 }, 7).wait(1));
 
         // Camada 3
-        this.instance_2 = new lib.Interpolar5("synched", 0);
+        this.instance_2 = new lib.Interpolar5()//("synched", 0);
         this.instance_2.setTransform(-143.5, 173);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ scaleX: 1.04, scaleY: 0.97, x: -159.5, y: 175 }, 6).to({ scaleX: 1.03, scaleY: 1.19, x: -93.5, y: 86.3 }, 6).to({ scaleX: 1, scaleY: 1, rotation_d: -60, x: -11.5, y: 43 }, 6).to({ y: 59 }, 6).to({ rotation_d: 0, x: -143.5, y: 173 }, 5).to({ scaleX: 1.04, scaleY: 0.97, x: -159.5, y: 175 }, 8).to({ scaleX: 1, scaleY: 1, x: -143.5, y: 173 }, 7).wait(1));
 
         // Camada 4
-        this.instance_3 = new lib.Interpolar7("synched", 0);
+        this.instance_3 = new lib.Interpolar7()//("synched", 0);
         this.instance_3.setTransform(-329.5, -41.4);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_3).to({ rotation_d: 52.2, x: -379.7, y: -90.7 }, 6).to({ scaleX: 1, scaleY: 1.1, rotation_d: -20.2, x: -312.1, y: -82.8 }, 6).to({ scaleX: 1, scaleY: 1, rotation_d: 0, x: -351, y: -114 }, 6).to({ y: -98 }, 6).to({ x: -329.5, y: -41.4 }, 5).to({ rotation_d: 22.2, x: -363.7, y: -72.7 }, 8).to({ rotation_d: 0, x: -329.5, y: -41.4 }, 7).wait(1));
 
         // Camada 5
-        this.instance_4 = new lib.Interpolar9("synched", 0);
+        this.instance_4 = new lib.Interpolar9()//("synched", 0);
         this.instance_4.setTransform(314.7, -73);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_4).to({ rotation_d: -60, x: 346.3, y: -145.8 }, 6).to({ scaleX: 1, scaleY: 1.11, rotation_d: -9.8, x: 283.8, y: -260.8 }, 6).to({ rotation_d: -24.8, x: 303.8, y: -300.8 }, 6).to({ y: -284.8 }, 6).to({ scaleX: 1, scaleY: 1, rotation_d: 0, x: 314.7, y: -73 }, 5).to({ rotation_d: -15, x: 334.3, y: -91.8 }, 8).to({ rotation_d: 0, x: 314.7, y: -73 }, 7).wait(1));
 
         // Camada 6
-        this.instance_5 = new lib.Interpolar44("synched", 0);
+        this.instance_5 = new lib.Interpolar44()//("synched", 0);
         this.instance_5.setTransform(5.3, 257.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_5).to({ startPosition: 0 }, 8).to({ scaleX: 0.75, scaleY: 0.75 }, 10).to({ startPosition: 0 }, 6).to({ scaleX: 1, scaleY: 1 }, 5).wait(16));
@@ -1414,25 +1414,25 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 1
-        this.instance = new lib.Interpolar1("synched", 0);
+        this.instance = new lib.Interpolar1()//("synched", 0);
         this.instance.setTransform(-14, -126.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance).to({ y: -120.8 }, 17).to({ y: -122.7 }, 20).to({ y: -126.5 }, 22).wait(1));
 
         // Camada 2
-        this.instance_1 = new lib.Interpolar3("synched", 0);
+        this.instance_1 = new lib.Interpolar3()//("synched", 0);
         this.instance_1.setTransform(169, 157.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_1).to({ scaleX: 1.03, scaleY: 0.96, y: 163.8 }, 17).to({ scaleX: 1.02, scaleY: 0.97, y: 161.7 }, 20).to({ scaleX: 1, scaleY: 1, y: 157.5 }, 22).wait(1));
 
         // Camada 3
-        this.instance_2 = new lib.Interpolar5("synched", 0);
+        this.instance_2 = new lib.Interpolar5()//("synched", 0);
         this.instance_2.setTransform(-143.5, 173);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ scaleX: 1.04, scaleY: 0.97, y: 175 }, 17).to({ scaleX: 1.03, scaleY: 0.98, y: 174.3 }, 20).to({ scaleX: 1, scaleY: 1, y: 173 }, 22).wait(1));
 
         // Camada 4
-        this.instance_3 = new lib.Interpolar7("synched", 0);
+        this.instance_3 = new lib.Interpolar7()//("synched", 0);
         this.instance_3.setTransform(-265.5, -1.4, 1, 1, -30);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_3).to({ rotation_d: -22.4, x: -279.5, y: -3.4 }, 17).to({ rotation_d: -26.6, x: -273.5, y: -1.4 }, 20).to({ rotation_d: -30, x: -265.5 }, 22).wait(1));
@@ -1471,10 +1471,10 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(9).to({ rotation_d: -1.5, x: 106.6, y: -371.9 }, 0).wait(12).to({ rotation_d: 10, x: 164.6, y: -414.8 }, 0).wait(13).to({ rotation_d: -1, x: 109.3, y: -372.4 }, 0).wait(25).to({ rotation_d: 10, x: 164.6, y: -414.8 }, 0).wait(1));
 
         // Camada 8
-        this.instance_3 = new lib.Interpolar45("synched", 0);
+        this.instance_3 = new lib.Interpolar45()//("synched", 0);
         this.instance_3.setTransform(-146.7, 219.5);
 
-        this.instance_4 = new lib.Interpolar46("synched", 0);
+        this.instance_4 = new lib.Interpolar46()//("synched", 0);
         this.instance_4.setTransform(-146.7, 247.5);
         this.instance_4._off = true;
 
@@ -1514,10 +1514,10 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(9).to({ y: -335.1 }, 0).wait(24).to({ y: -340.5 }, 0).wait(17));
 
         // Camada 6
-        this.instance_2 = new lib.Interpolar28("synched", 0);
+        this.instance_2 = new lib.Interpolar28()//("synched", 0);
         this.instance_2.setTransform(203, -373.9);
 
-        this.instance_3 = new lib.Interpolar29("synched", 0);
+        this.instance_3 = new lib.Interpolar29()//("synched", 0);
         this.instance_3.setTransform(194.8, -381.7, 1, 1, -7.4);
         this.instance_3._off = true;
 
@@ -1558,14 +1558,14 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 6
-        this.instance = new lib.Interpolar32("synched", 0);
+        this.instance = new lib.Interpolar32()//("synched", 0);
         this.instance.setTransform(191.5, -308.6);
 
-        this.instance_1 = new lib.Interpolar33("synched", 0);
+        this.instance_1 = new lib.Interpolar33()//("synched", 0);
         this.instance_1.setTransform(191.5, -300.5);
         this.instance_1._off = true;
 
-        this.instance_2 = new lib.Interpolar34("synched", 0);
+        this.instance_2 = new lib.Interpolar34()//("synched", 0);
         this.instance_2.setTransform(191.5, -292.4);
         this.instance_2._off = true;
 
@@ -1574,10 +1574,10 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(12).to({ _off: false }, 14).to({ _off: true, y: -300.5 }, 15).wait(19));
 
         // Camada 8
-        this.instance_3 = new lib.Interpolar36("synched", 0);
+        this.instance_3 = new lib.Interpolar36()//("synched", 0);
         this.instance_3.setTransform(255.2, 78.8);
 
-        this.instance_4 = new lib.Interpolar37("synched", 0);
+        this.instance_4 = new lib.Interpolar37()//("synched", 0);
         this.instance_4.setTransform(252.5, 84.2);
         this.instance_4._off = true;
 
@@ -1585,14 +1585,14 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_4).to({ _off: false }, 14).to({ y: 92.3 }, 15).to({ x: 255.2, y: 86.9 }, 19).to({ _off: true, y: 78.8 }, 11).wait(1));
 
         // Camada 7
-        this.instance_5 = new lib.Interpolar38("synched", 0);
+        this.instance_5 = new lib.Interpolar38()//("synched", 0);
         this.instance_5.setTransform(-406.1, -109.7);
 
-        this.instance_6 = new lib.Interpolar39("synched", 0);
+        this.instance_6 = new lib.Interpolar39()//("synched", 0);
         this.instance_6.setTransform(-422.3, -96.2, 1, 1, -5.7);
         this.instance_6._off = true;
 
-        this.instance_7 = new lib.Interpolar43("synched", 0);
+        this.instance_7 = new lib.Interpolar43()//("synched", 0);
         this.instance_7.setTransform(-406.1, -109.7);
 
         this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance_5 }] }).to({ state: [{ t: this.instance_6 }] }, 14).to({ state: [{ t: this.instance_6 }] }, 15).to({ state: [{ t: this.instance_6 }] }, 19).to({ state: [{ t: this.instance_7 }] }, 11).wait(1));
@@ -1627,20 +1627,20 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 7
-        this.instance = new lib.Interpolar11("synched", 0);
+        this.instance = new lib.Interpolar11()//("synched", 0);
         this.instance.setTransform(-164.5, -202.3);
 
-        this.instance_1 = new lib.Interpolar18("synched", 0);
+        this.instance_1 = new lib.Interpolar18()//("synched", 0);
         this.instance_1.setTransform(-164.5, -202.3);
 
         this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance }] }).to({ state: [{ t: this.instance }] }, 17).to({ state: [{ t: this.instance }] }, 20).to({ state: [{ t: this.instance_1 }] }, 22).wait(1));
         this.timeline.addTween(cjs.Tween.get(this.instance).to({ rotation_d: -6.7, x: -180.7, y: -196.9 }, 17).to({ y: -188.8 }, 20).to({ _off: true, rotation_d: 0, x: -164.5, y: -202.3 }, 22).wait(1));
 
         // Camada 6
-        this.instance_2 = new lib.Interpolar13("synched", 0);
+        this.instance_2 = new lib.Interpolar13()//("synched", 0);
         this.instance_2.setTransform(213.2, -188.1);
 
-        this.instance_3 = new lib.Interpolar19("synched", 0);
+        this.instance_3 = new lib.Interpolar19()//("synched", 0);
         this.instance_3.setTransform(213.2, -188.1);
 
         this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance_2 }] }).to({ state: [{ t: this.instance_2 }] }, 17).to({ state: [{ t: this.instance_2 }] }, 20).to({ state: [{ t: this.instance_3 }] }, 22).wait(1));
@@ -1653,10 +1653,10 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_4).wait(37).to({ scaleX: 1.03, scaleY: 0.97, x: -200.1, y: -158.7 }, 0).wait(22).to({ scaleX: 1, scaleY: 1, x: -194.8, y: -170.7 }, 0).wait(1));
 
         // Camada 8
-        this.instance_5 = new lib.Interpolar15("synched", 0);
+        this.instance_5 = new lib.Interpolar15()//("synched", 0);
         this.instance_5.setTransform(329.9, 4.1);
 
-        this.instance_6 = new lib.Interpolar17("synched", 0);
+        this.instance_6 = new lib.Interpolar17()//("synched", 0);
         this.instance_6.setTransform(329.9, 4.1);
 
         this.instance_7 = new lib.P1K4part3();
@@ -1681,14 +1681,14 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 7
-        this.instance = new lib.Interpolar20("synched", 0);
+        this.instance = new lib.Interpolar20()//("synched", 0);
         this.instance.setTransform(-24.9, -276.8, 1, 1, 9.2);
 
-        this.instance_1 = new lib.Interpolar21("synched", 0);
+        this.instance_1 = new lib.Interpolar21()//("synched", 0);
         this.instance_1.setTransform(-27.4, -278.3, 1, 1, 15);
         this.instance_1._off = true;
 
-        this.instance_2 = new lib.Interpolar24("synched", 0);
+        this.instance_2 = new lib.Interpolar24()//("synched", 0);
         this.instance_2.setTransform(-26.6, -276.4);
         this.instance_2._off = true;
 
@@ -1709,14 +1709,14 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_4).wait(60));
 
         // Camada 6
-        this.instance_5 = new lib.Interpolar22("synched", 0);
+        this.instance_5 = new lib.Interpolar22()//("synched", 0);
         this.instance_5.setTransform(2.7, 181.8);
 
-        this.instance_6 = new lib.Interpolar23("synched", 0);
+        this.instance_6 = new lib.Interpolar23()//("synched", 0);
         this.instance_6.setTransform(0.2, 180.9, 1.05, 1.007, 0, -6.9, 0);
         this.instance_6._off = true;
 
-        this.instance_7 = new lib.Interpolar26("synched", 0);
+        this.instance_7 = new lib.Interpolar26()//("synched", 0);
         this.instance_7.setTransform(2.7, 181.8);
         this.instance_7._off = true;
 
@@ -1740,31 +1740,31 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 1
-        this.instance = new lib.Interpolar1("synched", 0);
+        this.instance = new lib.Interpolar1()//("synched", 0);
         this.instance.setTransform(-14, -126.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance).to({ y: -120.8 }, 17).to({ y: -122.7 }, 20).to({ y: -126.5 }, 22).wait(1));
 
         // Camada 2
-        this.instance_1 = new lib.Interpolar3("synched", 0);
+        this.instance_1 = new lib.Interpolar3()//("synched", 0);
         this.instance_1.setTransform(169, 157.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_1).to({ scaleX: 1.03, scaleY: 0.96, y: 163.8 }, 17).to({ scaleX: 1.02, scaleY: 0.97, y: 161.7 }, 20).to({ scaleX: 1, scaleY: 1, y: 157.5 }, 22).wait(1));
 
         // Camada 3
-        this.instance_2 = new lib.Interpolar5("synched", 0);
+        this.instance_2 = new lib.Interpolar5()//("synched", 0);
         this.instance_2.setTransform(-143.5, 173);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ scaleX: 1.04, scaleY: 0.97, y: 175 }, 17).to({ scaleX: 1.03, scaleY: 0.98, y: 174.3 }, 20).to({ scaleX: 1, scaleY: 1, y: 173 }, 22).wait(1));
 
         // Camada 4
-        this.instance_3 = new lib.Interpolar7("synched", 0);
+        this.instance_3 = new lib.Interpolar7()//("synched", 0);
         this.instance_3.setTransform(-329.5, -41.4);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_3).to({ rotation_d: 15, x: -355.7, y: -70.7 }, 17).to({ scaleX: 1, scaleY: 1, rotation_d: 9.8, x: -347, y: -61 }, 20).to({ scaleX: 1, scaleY: 1, rotation_d: 0, x: -329.5, y: -41.4 }, 22).wait(1));
 
         // Camada 5
-        this.instance_4 = new lib.Interpolar9("synched", 0);
+        this.instance_4 = new lib.Interpolar9()//("synched", 0);
         this.instance_4.setTransform(314.7, -73);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_4).to({ rotation_d: -15, x: 334.3, y: -93.8 }, 17).to({ scaleX: 1, scaleY: 1, rotation_d: -9.8, x: 327.8, y: -86.9 }, 20).to({ scaleX: 1, scaleY: 1, rotation_d: 0, x: 314.7, y: -73 }, 22).wait(1));

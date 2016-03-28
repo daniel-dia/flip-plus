@@ -132,7 +132,7 @@ this.createjs = this.createjs || {};
         var independent = MovieClip.INDEPENDENT;
         if (this.mode != independent) { return; }
 
-        var o = this, fps = o.framerate;
+        var o = this, fps = o.framerate = createjs.Ticker.framerate;
         while ((o = o.parent) && fps == null) {
             if (o.mode == independent) { fps = o._framerate; }
         }
@@ -162,11 +162,10 @@ this.createjs = this.createjs || {};
     // private methods:
 
     p._tick = function (evtObj) {
-        //ver aqui, deve avançar
+ 
         if (this.timeline)
             this._updateTimeline();
-        this.advance(evtObj && evtObj.delta);
-        //this.Container__tick(evtObj);
+        this.advance(evtObj && evtObj.delta); 
     };
 
     p._goto = function (positionOrLabel) {
@@ -337,11 +336,19 @@ Ticker._setupTick = function () {
     if (Ticker._timerId != null) { return; } // avoid duplicates
 
     var mode = Ticker.timingMode || (Ticker.useRAF && Ticker.RAF_SYNCHED);
+    if (mode == Ticker.RAF_SYNCHED || mode == Ticker.RAF) {
+        var f = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+        if (f) {
+            Ticker._timerId = f(mode == Ticker.RAF ? Ticker._handleRAF : Ticker._handleSynch);
+            Ticker._raf = true;
+            return;
+        }
+    }
 
     Ticker._raf = false;
 
     Ticker._timerId = setTimeout(function () {
         Ticker._timerId = setTimeout(Ticker._handleTimeout, Ticker._interval);
-    }, 1);
+    },0);
 
 };

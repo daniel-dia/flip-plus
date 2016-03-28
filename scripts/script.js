@@ -156,10 +156,20 @@ var gameui;
             //var windowWidth = window.innerWidth;
             this.resizeGameScreen(window.innerWidth, window.innerHeight);
             window.onresize = function () { _this.resizeGameScreen(window.innerWidth, window.innerHeight); };
-            createjs.Ticker.addEventListener("tick", function (e) {
-                PIXIrenderer.render(PIXIstage);
-            });
+            updateFn = this.update;
+            var win = false;
+            if (win) {
+                createjs.Ticker.addEventListener("tick", function (e) {
+                    PIXIrenderer.render(PIXIstage);
+                });
+            }
+            else
+                updateFn();
         }
+        GameScreen.prototype.update = function () {
+            PIXIrenderer.render(PIXIstage);
+            requestAnimationFrame(updateFn);
+        };
         // switch current screen, optionaly with a pre defined transition
         GameScreen.prototype.switchScreen = function (newScreen, parameters, transition) {
             var _this = this;
