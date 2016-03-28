@@ -72,8 +72,9 @@ module gameui {
 
         private update() {
                          
-            PIXIrenderer.render(PIXIstage);
+           
             requestAnimationFrame(updateFn);
+            PIXIrenderer.render(PIXIstage);
         }
 
         // switch current screen, optionaly with a pre defined transition

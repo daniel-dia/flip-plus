@@ -100,7 +100,7 @@
     p.nominalBounds = new cjs.Rectangle(0, 0, 47, 47);
 
 
-    (lib.Símbolo7 = function () {
+    (lib.Simbolo7 = function () {
         this.initialize();
 
         // Camada 1
@@ -112,7 +112,7 @@
     p.nominalBounds = new cjs.Rectangle(0, 0, 104, 20.5);
 
 
-    (lib.Símbolo6 = function () {
+    (lib.Simbolo6 = function () {
         this.initialize();
 
         // Camada 1
@@ -124,7 +124,7 @@
     p.nominalBounds = new cjs.Rectangle(0, 0, 41.3, 16.5);
 
 
-    (lib.Símbolo5 = function () {
+    (lib.Simbolo5 = function () {
         this.initialize();
 
         // Camada 1
@@ -136,7 +136,7 @@
     p.nominalBounds = new cjs.Rectangle(0, 0, 68.3, 111.5);
 
 
-    (lib.Símbolo4 = function () {
+    (lib.Simbolo4 = function () {
         this.initialize();
 
         // Camada 1
@@ -148,7 +148,7 @@
     p.nominalBounds = new cjs.Rectangle(0, 0, 46.8, 64.8);
 
 
-    (lib.Símbolo3 = function () {
+    (lib.Simbolo3 = function () {
         this.initialize();
 
         // Camada 1
@@ -160,7 +160,7 @@
     p.nominalBounds = new cjs.Rectangle(0, 0, 103.5, 169.3);
 
 
-    (lib.Símbolo2 = function () {
+    (lib.Simbolo2 = function () {
         this.initialize();
 
         // Camada 1
@@ -172,7 +172,7 @@
     p.nominalBounds = new cjs.Rectangle(0, 0, 11.8, 11.8);
 
 
-    (lib.Símbolo1 = function (mode, startPosition, loop) {
+    (lib.Simbolo1 = function (mode, startPosition, loop) {
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 1
@@ -244,7 +244,7 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 1
-        this.instance = new lib.Símbolo2();
+        this.instance = new lib.Simbolo2();
         this.instance.setTransform(11.7, -0.8, 1, 1, 0, 0, 0, 5.9, 5.9);
 
         this.timeline.addTween(cjs.Tween.get(this.instance).to({ x: 11.8, y: 2.7 }, 6).to({ y: 6.4 }, 6).to({ x: 11.7, y: 9.4 }, 5).to({ x: 11.4, y: 13 }, 6).to({ x: 10.8, y: 17.8 }, 8).to({ x: 10.1, y: 21.4 }, 6).to({ x: 9.2, y: 24.9 }, 6).to({ x: 7.9, y: 29 }, 7).to({ x: 5.9, y: 33.5 }, 8).to({ x: 2, y: 39.8 }, 12).to({ x: -0.6, y: 43.1 }, 7).to({ x: -4.7, y: 46.9 }, 9).to({ x: -9.2, y: 50.2 }, 9).to({ x: -12.5, y: 52 }, 6).to({ x: -17, y: 54 }, 8).to({ x: -23.4, y: 55.7 }, 11).to({ x: -26.9, y: 50.2 }, 11).to({ x: -31, y: 44.3 }, 12).to({ x: -35.8, y: 38.1 }, 13).to({ x: -41.4, y: 31.8 }, 14).to({ x: -46.3, y: 27.2 }, 11).to({ x: -53.6, y: 21.7 }, 15).to({ x: -58.9, y: 18.7 }, 10).to({ x: -65.2, y: 16.3 }, 11).to({ x: -71.3, y: 15.1 }, 10).to({ x: -74, y: 11.8 }, 8).to({ x: -75.7, y: 5.3 }, 11).to({ x: -76.2, y: -1.8 }, 12).to({ x: -75.7, y: -6.1 }, 7).to({ x: -74.1, y: -11.5 }, 9).to({ x: -71.7, y: -15.9 }, 8).to({ x: -68.6, y: -19.8 }, 8).to({ x: -63.9, y: -24.1 }, 10).to({ x: -59.8, y: -26.9 }, 8).to({ x: -55, y: -29.7 }, 9).to({ x: -51.6, y: -31.3 }, 6).to({ x: -48.6, y: -32 }, 5).to({ x: -44.2, y: -31.6 }, 7).to({ x: -39.5, y: -29.7 }, 8).to({ x: -34.4, y: -25.9 }, 10).to({ x: -30.6, y: -21.7 }, 9).to({ x: -27.7, y: -17.6 }, 8).to({ x: -25.4, y: -13.9 }, 7).to({ x: -21.5, y: -7.6 }, 12).to({ x: -19.9, y: -5.8 }, 4).to({ x: -16.8, y: -2.9 }, 7).to({ x: -13.8, y: -0.7 }, 6).to({ x: -9.9, y: 0.9 }, 7).to({ x: -4.4, y: 2.1 }, 9).to({ x: 1, y: 1.8 }, 9).to({ x: 5.3, y: 0.8 }, 7).to({ x: 8.2, y: 0 }, 5).to({ x: 11, y: -1.3 }, 5).wait(2));
@@ -257,7 +257,7 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 1
-        this.instance = new lib.Símbolo4();
+        this.instance = new lib.Simbolo4();
 
         this.timeline.addTween(cjs.Tween.get(this.instance).to({ scaleY: 1.01, y: -0.7 }, 24).to({ scaleY: 1, y: 0 }, 25).wait(1));
 
@@ -269,7 +269,7 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 1
-        this.instance = new lib.Símbolo3();
+        this.instance = new lib.Simbolo3();
         this.instance.setTransform(102.8, 138.7, 1, 1, 0, 0, 0, 102.8, 138.7);
 
         this.timeline.addTween(cjs.Tween.get(this.instance).to({ skewX: -1 }, 34).to({ skewX: 0 }, 40).wait(1));
@@ -294,7 +294,7 @@
         this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance_1 }] }).wait(450));
 
         // Layer 3
-        this.instance_2 = new lib.Símbolo5();
+        this.instance_2 = new lib.Simbolo5();
         this.instance_2.setTransform(-734.6, -856, 1, 1, 0, 0, 0, 34.1, 55.8);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ skewY: -0.6, y: -856.4 }, 40).to({ skewY: 0.5, y: -855.4 }, 39).to({ skewY: 0, y: -855.9 }, 40).to({ skewY: 0.5, y: -855.4 }, 81).to({ skewY: 0, y: -855.9 }, 75).to({ skewY: 0.5, y: -855.4 }, 75).wait(100));
@@ -337,7 +337,7 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_10).to({ x: -479.8, y: -655.7, alpha: 1 }, 44).to({ x: -476.8, y: -652.7, alpha: 0 }, 45).to({ x: -469.8, y: -644.7 }, 106).to({ x: -479.8, y: -655.7, alpha: 1 }, 29).to({ x: -475, y: -650.4, alpha: 0 }, 36).to({ x: -469.8, y: -644.7 }, 84).to({ x: -479.8, y: -655.7, alpha: 1 }, 29).to({ x: -475, y: -650.4, alpha: 0 }, 36).to({ startPosition: 0 }, 40).wait(1));
 
         // 2
-        this.instance_11 = new lib.Símbolo6();
+        this.instance_11 = new lib.Simbolo6();
         this.instance_11.setTransform(-692, -633.8, 1, 1, 0, 0, 0, 20.6, 8.3);
         this.instance_11.alpha = 0;
         this.instance_11._off = true;
@@ -345,7 +345,7 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_11).wait(19).to({ _off: false }, 0).to({ x: -682.9, y: -644.7, alpha: 1 }, 54).to({ x: -685.9, y: -640.7, alpha: 0 }, 46).to({ _off: true }, 1).wait(151).wait(1).to({ x: -691.9, y: -633.7, _off: false }, 0).to({ x: -682.9, y: -644.7, alpha: 1 }, 54).to({ x: -689, y: -630.7, alpha: 0 }, 46).to({ _off: true }, 1).wait(77));
 
         // 3
-        this.instance_12 = new lib.Símbolo7();
+        this.instance_12 = new lib.Simbolo7();
         this.instance_12.setTransform(-581.9, -636.8, 1, 1, 0, 0, 0, 52, 10.3);
         this.instance_12.alpha = 0;
         this.instance_12._off = true;
@@ -353,7 +353,7 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_12).wait(72).to({ _off: false }, 0).to({ x: -580.5, y: -640.5, alpha: 0.262 }, 11).to({ x: -579.1, y: -644.2, alpha: 0.531 }, 11).to({ x: -576.9, y: -650.4, alpha: 0.949 }, 21).to({ x: -577.6, y: -648.2, alpha: 0.578 }, 15).to({ x: -578.6, y: -645.3, alpha: 0.09 }, 20).to({ x: -578.8, y: -644.7, alpha: 0 }, 13).wait(100).to({ _off: true }, 7).wait(1).to({ x: -581.8, y: -636.7, _off: false }, 0).to({ x: -579.7, y: -642.5, alpha: 0.41 }, 17).to({ x: -577.8, y: -648, alpha: 0.801 }, 16).to({ x: -577, y: -650, alpha: 0.871 }, 13).to({ x: -577.8, y: -647.6, alpha: 0.48 }, 16).to({ x: -578.4, y: -646, alpha: 0.211 }, 11).to({ x: -578.8, y: -644.7, alpha: 0 }, 9).to({ _off: true }, 1).wait(96));
 
         // Layer 10
-        this.instance_13 = new lib.Símbolo1("synched", 0);
+        this.instance_13 = new lib.Simbolo1("synched", 0);
         this.instance_13.setTransform(-548.3, -817.9, 0.25, 0.25, 0, 0, 0, 59, 53.4);
 
         this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance_13 }] }).wait(450));
@@ -380,5 +380,5 @@
     }).prototype = p = new cjs.MovieClip();
     p.nominalBounds = new cjs.Rectangle(-805.7, -1023.9, 425.5, 542.6);
 
-})(lib = lib || {}, images = images || {}, createjs = createjs || {});
-var lib, images, createjs;
+})(lib_logo = lib_logo || {}, images = images || {}, pixiflash = pixiflash || {});
+var lib_logo, images, pixiflash;

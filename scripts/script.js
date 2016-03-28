@@ -167,8 +167,8 @@ var gameui;
                 updateFn();
         }
         GameScreen.prototype.update = function () {
-            PIXIrenderer.render(PIXIstage);
             requestAnimationFrame(updateFn);
+            PIXIrenderer.render(PIXIstage);
         };
         // switch current screen, optionaly with a pre defined transition
         GameScreen.prototype.switchScreen = function (newScreen, parameters, transition) {
@@ -4601,7 +4601,7 @@ var FlipPlus;
                 loadinBar.y = defaultHeight / 2;
             };
             Loading.prototype.addBeach = function () {
-                var logo = new lib.LogoScreen();
+                var logo = new lib_logo.LogoScreen();
                 this.content.addChild(logo);
                 this.beach = logo["instance"]["instance_14"];
             };
@@ -6499,7 +6499,7 @@ var FlipPlus;
                     robot.addEventListener("click", function (e) { _this.userfeedback(e); });
                     robot.addEventListener("tap", function (e) { _this.userfeedback(e); });
                     var hit = robot.getLocalBounds();
-                    robot.interactive = false;
+                    robot.interactive = true;
                 }
             };
             //User action feedback to user touch
@@ -7356,7 +7356,7 @@ var FlipPlus;
                 this.content.on("click", tap);
             }
             TitleScreen.prototype.addBeach = function () {
-                var logo = new lib.LogoScreen();
+                var logo = new lib_logo.LogoScreen();
                 this.content.addChild(logo);
                 this.beach = logo["instance"]["instance_14"];
             };

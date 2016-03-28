@@ -96,17 +96,16 @@ module FlipPlus.Menu {
 
         private beach: PIXI.DisplayObject;
         private addBeach() {
-            var logo = new lib.LogoScreen();
+            var logo = new lib_logo.LogoScreen();
             this.content.addChild(logo);
 
             this.beach = logo["instance"]["instance_14"];
-            
+             
         }
 
         public redim(headerY: number, footerY: number, width: number, height: number) {
             super.redim(headerY, footerY, width, height);
-            if (this.beach)
-                this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
+            if (this.beach) this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
         }
 
 

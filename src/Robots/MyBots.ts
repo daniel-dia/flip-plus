@@ -49,7 +49,8 @@ module FlipPlus.Robots {
                 robot.addEventListener("tap", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
 
                 var hit = robot.getLocalBounds();
-                robot.interactive = false
+                
+                robot.interactive = true
             }
         }
 
