@@ -1424,7 +1424,7 @@
     <Content Include="scripts\CocoonJStouchPathc.js" />
     <Content Include="scripts\createjs-2015.05.21.min.js" />
     <Content Include="scripts\md5.js" />
-    <Content Include="scripts\MovieClipCjs.js" />
+    <Content Include="scripts\pixi-flash.js" />
     <Content Include="scripts\PIXIpatch.js" />
     <Content Include="scripts\pixi.js" />
     <Content Include="scripts\plataform.js" />

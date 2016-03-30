@@ -3,6 +3,91 @@
     var p; // shortcut to reference prototypes
     var rect; // used to reference frame bounds
 
+    // library properties:
+    lib.properties = {
+        width: 1536,
+        height: 2048,
+        fps: 60,
+        color: "#FFFFFF",
+        manifest: [
+            { src: "images/arm1.png", id: "arm1" },
+            { src: "images/arm2.png", id: "arm2" },
+            { src: "images/B00Mbody.png", id: "B00Mbody" },
+            { src: "images/B00Mleg.png", id: "B00Mleg" },
+            { src: "images/BGSTbody1.png", id: "BGSTbody1" },
+            { src: "images/BGSTbody2.png", id: "BGSTbody2" },
+            { src: "images/BGSTleg.png", id: "BGSTleg" },
+            { src: "images/BGSTpart.png", id: "BGSTpart" },
+            { src: "images/BJKZarm1.png", id: "BJKZarm1" },
+            { src: "images/BJKZarm2.png", id: "BJKZarm2" },
+            { src: "images/BJKZbody.png", id: "BJKZbody" },
+            { src: "images/BJKZpart.png", id: "BJKZpart" },
+            { src: "images/body.png", id: "body" },
+            { src: "images/BUMbody.png", id: "BUMbody" },
+            { src: "images/BUMleg1.png", id: "BUMleg1" },
+            { src: "images/BUMleg2.png", id: "BUMleg2" },
+            { src: "images/BUMpart.png", id: "BUMpart" },
+            { src: "images/DD1arm1.png", id: "DD1arm1" },
+            { src: "images/DD1arm2.png", id: "DD1arm2" },
+            { src: "images/DD1body.png", id: "DD1body" },
+            { src: "images/DD1leg1.png", id: "DD1leg1" },
+            { src: "images/DD1leg2.png", id: "DD1leg2" },
+            { src: "images/DD1part.png", id: "DD1part" },
+            { src: "images/GGSTbody1.png", id: "GGSTbody1" },
+            { src: "images/GGSTbody2.png", id: "GGSTbody2" },
+            { src: "images/GGSTleg.png", id: "GGSTleg" },
+            { src: "images/GGSTpart.png", id: "GGSTpart" },
+            { src: "images/KON6arm1.png", id: "KON6arm1" },
+            { src: "images/KON6arm2.png", id: "KON6arm2" },
+            { src: "images/KON6body.png", id: "KON6body" },
+            { src: "images/KON6leg1.png", id: "KON6leg1" },
+            { src: "images/KON6leg2.png", id: "KON6leg2" },
+            { src: "images/KR8Ybody.png", id: "KR8Ybody" },
+            { src: "images/KR8Yleg.png", id: "KR8Yleg" },
+            { src: "images/L1NKarm1.png", id: "L1NKarm1" },
+            { src: "images/L1NKarm2.png", id: "L1NKarm2" },
+            { src: "images/L1NKbody.png", id: "L1NKbody" },
+            { src: "images/L1NKleg.png", id: "L1NKleg" },
+            { src: "images/L1NKpart.png", id: "L1NKpart" },
+            { src: "images/leg1.png", id: "leg1" },
+            { src: "images/leg2.png", id: "leg2" },
+            { src: "images/ME64arm1.png", id: "ME64arm1" },
+            { src: "images/ME64arm2.png", id: "ME64arm2" },
+            { src: "images/ME64body.png", id: "ME64body" },
+            { src: "images/ME64leg1.png", id: "ME64leg1" },
+            { src: "images/ME64leg2.png", id: "ME64leg2" },
+            { src: "images/ME64part.png", id: "ME64part" },
+            { src: "images/MyBots2.jpg", id: "MyBots2" },
+            { src: "images/P1K4body.png", id: "P1K4body" },
+            { src: "images/P1K4part1.png", id: "P1K4part1" },
+            { src: "images/P1K4part2.png", id: "P1K4part2" },
+            { src: "images/P1K4part3.png", id: "P1K4part3" },
+            { src: "images/P4CMbody1.png", id: "P4CMbody1" },
+            { src: "images/P4CMbody2.png", id: "P4CMbody2" },
+            { src: "images/P4CMleg.png", id: "P4CMleg" },
+            { src: "images/P4CMpart.png", id: "P4CMpart" },
+            { src: "images/RGSTbody1.png", id: "RGSTbody1" },
+            { src: "images/RGSTbody2.png", id: "RGSTbody2" },
+            { src: "images/RGSTleg.png", id: "RGSTleg" },
+            { src: "images/RGSTpart.png", id: "RGSTpart" },
+            { src: "images/RDMbody.png", id: "RDMbody" },
+            { src: "images/RDMleg1.png", id: "RDMleg1" },
+            { src: "images/RDMleg2.png", id: "RDMleg2" },
+            { src: "images/RDMpart.png", id: "RDMpart" },
+            { src: "images/SH06body.png", id: "SH06body" },
+            { src: "images/SH06leg1.png", id: "SH06leg1" },
+            { src: "images/SH06leg2.png", id: "SH06leg2" },
+            { src: "images/SH06leg3.png", id: "SH06leg3" },
+            { src: "images/TBLKarm.png", id: "TBLKarm" },
+            { src: "images/TBLKbody.png", id: "TBLKbody" },
+            { src: "images/TBLKleg.png", id: "TBLKleg" },
+            { src: "images/Y05Yarm1.png", id: "Y05Yarm1" },
+            { src: "images/Y05Yarm2.png", id: "Y05Yarm2" },
+            { src: "images/Y05Ybody.png", id: "Y05Ybody" },
+            { src: "images/Y05Yleg.png", id: "Y05Yleg" }
+        ]
+    };
+
     // stage content:
     (lib.NewBotsLobby = function () {
         this.initialize();
@@ -53,14 +138,14 @@
 
         // Layer 6
         this.Bot10 = new lib.Bot10();
-        this.Bot10.setTransform(656.8, 305.8, 0.5, 0.5, 0, 0, 0, 0.6, -33.1);
+        this.Bot10.setTransform(656.8, 265.8, 0.5, 0.5, 0, 0, 0, 0.6, -33.1);
 
         this.Bot11 = new lib.Bot11();
         this.Bot11.setTransform(834.8, 916.2, 0.5, 0.5);
 
         // Layer 1
         this.Bot18 = new lib.Bot18();
-        this.Bot18.setTransform(1467, 507.5, 0.694, 0.694);
+        this.Bot18.setTransform(1467, 657.5, 0.694, 0.694);
 
         // Layer 14
         this.Bot01 = new lib.Bot01();
@@ -932,7 +1017,7 @@
         this.instance = new lib.Y05Yarm1();
         this.instance.setTransform(-528.1, 119.6);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance).wait(17).to({ rotation_d: 15, x: -513.8, y: 75.3 }, 0).wait(20).to({ rotation_d: -8.2, x: -529.2, y: 137.6 }, 0).wait(22).to({ rotation_d: 0, x: -528.1, y: 119.6 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance).wait(17).to({ rotation: 15, x: -513.8, y: 75.3 }, 0).wait(20).to({ rotation: -8.2, x: -529.2, y: 137.6 }, 0).wait(22).to({ rotation: 0, x: -528.1, y: 119.6 }, 0).wait(1));
 
         // Camada 4
         this.instance_1 = new lib.Y05Ybody();
@@ -944,7 +1029,7 @@
         this.instance_2 = new lib.Y05Yarm2();
         this.instance_2.setTransform(-790.6, 68);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(17).to({ rotation_d: 7.2, x: -782.1, y: 51.4 }, 0).wait(20).to({ rotation_d: -5.7, x: -794.5, y: 78.3 }, 0).wait(22).to({ rotation_d: 0, x: -790.6, y: 68 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(17).to({ rotation: 7.2, x: -782.1, y: 51.4 }, 0).wait(20).to({ rotation: -5.7, x: -794.5, y: 78.3 }, 0).wait(22).to({ rotation: 0, x: -790.6, y: 68 }, 0).wait(1));
 
         // Camada 5
         this.instance_3 = new lib.Y05Yleg();
@@ -971,13 +1056,13 @@
         this.instance = new lib.TBLKarm();
         this.instance.setTransform(-70.1, 94.6, 1, 1, -39.9);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance).wait(9).to({ rotation_d: -47.9, x: -69.1, y: 129.3 }, 0).wait(12).to({ rotation_d: -39.9, x: -70.1, y: 94.6 }, 0).wait(13).to({ rotation_d: -47.9, x: -69.1, y: 129.3 }, 0).wait(25).to({ rotation_d: -39.9, x: -70.1, y: 94.6 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance).wait(9).to({ rotation: -47.9, x: -69.1, y: 129.3 }, 0).wait(12).to({ rotation: -39.9, x: -70.1, y: 94.6 }, 0).wait(13).to({ rotation: -47.9, x: -69.1, y: 129.3 }, 0).wait(25).to({ rotation: -39.9, x: -70.1, y: 94.6 }, 0).wait(1));
 
         // Camada 2
         this.instance_1 = new lib.TBLKarm();
         this.instance_1.setTransform(259.7, -164.6, 1, 1, -39.9);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(9).to({ rotation_d: -47.4, x: 269.1, y: -144.6 }, 0).wait(12).to({ rotation_d: -39.9, x: 259.7, y: -164.6 }, 0).wait(13).to({ rotation_d: -47.4, x: 269.1, y: -144.6 }, 0).wait(25).to({ rotation_d: -39.9, x: 259.7, y: -164.6 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(9).to({ rotation: -47.4, x: 269.1, y: -144.6 }, 0).wait(12).to({ rotation: -39.9, x: 259.7, y: -164.6 }, 0).wait(13).to({ rotation: -47.4, x: 269.1, y: -144.6 }, 0).wait(25).to({ rotation: -39.9, x: 259.7, y: -164.6 }, 0).wait(1));
 
         // Camada 3
         this.instance_2 = new lib.TBLKbody();
@@ -1003,7 +1088,7 @@
         this.instance = new lib.GGSTpart();
         this.instance.setTransform(-26.6, -516.5);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance).wait(17).to({ rotation_d: 4.7, x: -11.8, y: -493 }, 0).wait(20).to({ x: -7.8 }, 0).wait(22).to({ rotation_d: 0, x: -26.6, y: -516.5 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance).wait(17).to({ rotation: 4.7, x: -11.8, y: -493 }, 0).wait(20).to({ x: -7.8 }, 0).wait(22).to({ rotation: 0, x: -26.6, y: -516.5 }, 0).wait(1));
 
         // Camada 2
         this.instance_1 = new lib.GGSTbody2();
@@ -1048,7 +1133,7 @@
         this.instance_1 = new lib.P4CMbody2();
         this.instance_1.setTransform(-355.7, -297.7);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(17).to({ rotation_d: 4.7, x: -329.4, y: -324.5 }, 0).wait(20).to({ rotation_d: -3, x: -370.8, y: -276 }, 0).wait(22).to({ rotation_d: 0, x: -355.7, y: -297.7 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(17).to({ rotation: 4.7, x: -329.4, y: -324.5 }, 0).wait(20).to({ rotation: -3, x: -370.8, y: -276 }, 0).wait(22).to({ rotation: 0, x: -355.7, y: -297.7 }, 0).wait(1));
 
         // Camada 4
         this.instance_2 = new lib.P4CMbody1();
@@ -1081,7 +1166,7 @@
         this.instance = new lib.RGSTpart();
         this.instance.setTransform(-26.6, -516.5);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance).wait(17).to({ rotation_d: -15, x: -73.3, y: -490.6 }, 0).wait(20).to({ rotation_d: 4.7, x: -12.8, y: -519.5 }, 0).wait(22).to({ rotation_d: 0, x: -26.6, y: -516.5 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance).wait(17).to({ rotation: -15, x: -73.3, y: -490.6 }, 0).wait(20).to({ rotation: 4.7, x: -12.8, y: -519.5 }, 0).wait(22).to({ rotation: 0, x: -26.6, y: -516.5 }, 0).wait(1));
 
         // Camada 2
         this.instance_1 = new lib.RGSTbody2();
@@ -1159,7 +1244,7 @@
         this.instance = new lib.BUMpart();
         this.instance.setTransform(-56.8, -334);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance).wait(13).to({ rotation_d: 5.7, x: -47.6, y: -330.7 }, 0).wait(15).to({ rotation_d: 0, x: -56.8, y: -334 }, 0).wait(15).to({ rotation_d: 5.7, x: -47.6, y: -330.7 }, 0).wait(16).to({ rotation_d: 0, x: -56.8, y: -334 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance).wait(13).to({ rotation: 5.7, x: -47.6, y: -330.7 }, 0).wait(15).to({ rotation: 0, x: -56.8, y: -334 }, 0).wait(15).to({ rotation: 5.7, x: -47.6, y: -330.7 }, 0).wait(16).to({ rotation: 0, x: -56.8, y: -334 }, 0).wait(1));
 
         // Camada 1
         this.instance_1 = new lib.BUMbody();
@@ -1198,7 +1283,7 @@
         this.instance = new lib.BJKZarm2();
         this.instance.setTransform(212.6, 18.6);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance).wait(14).to({ rotation_d: -15, x: 203.3, y: 46.7 }, 0).wait(15).to({ rotation_d: 0, x: 212.6, y: 18.6 }, 0).wait(15).to({ rotation_d: -15, x: 203.3, y: 46.7 }, 0).wait(15).to({ rotation_d: 0, x: 212.6, y: 18.6 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance).wait(14).to({ rotation: -15, x: 203.3, y: 46.7 }, 0).wait(15).to({ rotation: 0, x: 212.6, y: 18.6 }, 0).wait(15).to({ rotation: -15, x: 203.3, y: 46.7 }, 0).wait(15).to({ rotation: 0, x: 212.6, y: 18.6 }, 0).wait(1));
 
         // Camada 2
         this.instance_1 = new lib.BJKZpart();
@@ -1216,7 +1301,7 @@
         this.instance_3 = new lib.BJKZarm1();
         this.instance_3.setTransform(-478.3, 75.5);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_3).wait(14).to({ rotation_d: 15, x: -461, y: 51.3 }, 0).wait(15).to({ rotation_d: 0, x: -478.3, y: 75.5 }, 0).wait(15).to({ rotation_d: 15, x: -461, y: 51.3 }, 0).wait(15).to({ rotation_d: 0, x: -478.3, y: 75.5 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_3).wait(14).to({ rotation: 15, x: -461, y: 51.3 }, 0).wait(15).to({ rotation: 0, x: -478.3, y: 75.5 }, 0).wait(15).to({ rotation: 15, x: -461, y: 51.3 }, 0).wait(15).to({ rotation: 0, x: -478.3, y: 75.5 }, 0).wait(1));
 
     }).prototype = p = new cjs.MovieClip();
     p.nominalBounds = rect = new cjs.Rectangle(-515.8, -599.5, 959.3, 962.9);
@@ -1230,13 +1315,13 @@
         this.instance = new lib.BGSTpart();
         this.instance.setTransform(-26.6, -516.5);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance).wait(17).to({ rotation_d: -7, x: -45.7, y: -516.3 }, 0).wait(20).to({ rotation_d: 3.7, x: -15.1, y: -518.9 }, 0).wait(22).to({ rotation_d: 0, x: -26.6, y: -516.5 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance).wait(17).to({ rotation: -7, x: -45.7, y: -516.3 }, 0).wait(20).to({ rotation: 3.7, x: -15.1, y: -518.9 }, 0).wait(22).to({ rotation: 0, x: -26.6, y: -516.5 }, 0).wait(1));
 
         // Camada 2
         this.instance_1 = new lib.BGSTbody2();
         this.instance_1.setTransform(-187.4, -350.2);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(17).to({ rotation_d: 2, x: -182.5, y: -361.9 }, 0).wait(20).to({ rotation_d: -2.2, x: -192.7, y: -342.6 }, 0).wait(22).to({ rotation_d: 0, x: -187.4, y: -350.2 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(17).to({ rotation: 2, x: -182.5, y: -361.9 }, 0).wait(20).to({ rotation: -2.2, x: -192.7, y: -342.6 }, 0).wait(22).to({ rotation: 0, x: -187.4, y: -350.2 }, 0).wait(1));
 
         // Camada 1
         this.instance_2 = new lib.BGSTbody1();
@@ -1332,7 +1417,7 @@
         this.instance_5 = new lib.KR8Yleg();
         this.instance_5.setTransform(-80.3, -30.4, 0.998, 0.998, -34.9);
 
-        this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation_d: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation_d: -109.9, x: 187.9, y: 110.1 } }] }).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation_d: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation_d: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation_d: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation_d: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation_d: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation_d: -4.9, x: -237.1, y: -42 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation_d: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation_d: -109.9, x: 187.9, y: 110.1 } }] }, 3).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation_d: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation_d: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation_d: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation_d: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation_d: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation_d: -4.9, x: -237.1, y: -42 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation_d: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation_d: -109.9, x: 187.9, y: 110.1 } }] }, 3).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation_d: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation_d: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation_d: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation_d: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation_d: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation_d: -4.9, x: -237.1, y: -42 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation_d: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation_d: -109.9, x: 187.9, y: 110.1 } }] }, 3).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation_d: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation_d: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation_d: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation_d: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation_d: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation_d: -4.9, x: -237.1, y: -42 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation_d: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation_d: -109.9, x: 187.9, y: 110.1 } }] }, 3).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation_d: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation_d: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation_d: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation_d: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation_d: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation_d: -4.9, x: -237.1, y: -42 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation_d: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation_d: -109.9, x: 187.9, y: 110.1 } }] }, 3).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation_d: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation_d: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation_d: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation_d: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation_d: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation_d: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation_d: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation_d: -4.9, x: -237.1, y: -42 } }] }, 3).wait(1));
+        this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation: -109.9, x: 187.9, y: 110.1 } }] }).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation: -4.9, x: -237.1, y: -42 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation: -109.9, x: 187.9, y: 110.1 } }] }, 3).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation: -4.9, x: -237.1, y: -42 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation: -109.9, x: 187.9, y: 110.1 } }] }, 3).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation: -4.9, x: -237.1, y: -42 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation: -109.9, x: 187.9, y: 110.1 } }] }, 3).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation: -4.9, x: -237.1, y: -42 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation: -109.9, x: 187.9, y: 110.1 } }] }, 3).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation: -4.9, x: -237.1, y: -42 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -4.9, x: -237.1, y: -22 } }, { t: this.instance_2, p: { rotation: -34.9, x: -38.3, y: 103.3 } }, { t: this.instance_1, p: { rotation: -109.9, x: 187.9, y: 110.1 } }] }, 3).to({ state: [{ t: this.instance_5 }, { t: this.instance_4, p: { rotation: -19.9, x: -184.9, y: 40.8 } }, { t: this.instance_3, p: { rotation: -64.9, x: 47.2, y: 139.5 } }, { t: this.instance_2, p: { rotation: -109.9, x: 175.9, y: 90.1 } }, { t: this.instance_1, p: { rotation: 2.6, x: -216.1, y: -82.5 } }] }, 3).to({ state: [{ t: this.instance_4, p: { rotation: -34.9, x: -80.3, y: -30.4 } }, { t: this.instance_3, p: { rotation: -34.9, x: -110.5, y: 90.3 } }, { t: this.instance_2, p: { rotation: -79.9, x: 132.3, y: 126.4 } }, { t: this.instance_1, p: { rotation: -4.9, x: -237.1, y: -42 } }] }, 3).wait(1));
 
     }).prototype = p = new cjs.MovieClip();
     p.nominalBounds = rect = new cjs.Rectangle(-237.1, -301.9, 525.5, 492.9);
@@ -1370,37 +1455,37 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 1
-        this.instance = new lib.Interpolar1()//("synched", 0);
+        this.instance = new lib.Interpolar1()//;("synched", 0);
         this.instance.setTransform(-14, -126.5);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance).to({ y: -80.8 }, 6).to({ scaleY: 1.03, rotation_d: -15, x: -38, y: -242.7 }, 6).to({ y: -258.7 }, 6).to({ y: -242.7 }, 6).to({ scaleY: 1, rotation_d: 0, x: -14, y: -126.5 }, 5).to({ y: -116.8 }, 8).to({ y: -126.5 }, 7).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance).to({ y: -80.8 }, 6).to({ scaleY: 1.03, rotation: -15, x: -38, y: -242.7 }, 6).to({ y: -258.7 }, 6).to({ y: -242.7 }, 6).to({ scaleY: 1, rotation: 0, x: -14, y: -126.5 }, 5).to({ y: -116.8 }, 8).to({ y: -126.5 }, 7).wait(1));
 
         // Camada 2
-        this.instance_1 = new lib.Interpolar3()//("synched", 0);
+        this.instance_1 = new lib.Interpolar3()//;("synched", 0);
         this.instance_1.setTransform(169, 157.5);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_1).to({ scaleX: 1.03, scaleY: 0.96, x: 185, y: 163.8 }, 6).to({ scaleX: 1.02, scaleY: 1.1, rotation_d: -45, x: 265.5, y: -36.3 }, 6).to({ scaleX: 1, scaleY: 1, rotation_d: 15, x: 195, y: -24 }, 6).to({ rotation_d: -15, x: 235, y: -28 }, 6).to({ rotation_d: 0, x: 169, y: 157.5 }, 5).to({ scaleX: 1.03, scaleY: 0.96, x: 185, y: 163.8 }, 8).to({ scaleX: 1, scaleY: 1, x: 169, y: 157.5 }, 7).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_1).to({ scaleX: 1.03, scaleY: 0.96, x: 185, y: 163.8 }, 6).to({ scaleX: 1.02, scaleY: 1.1, rotation: -45, x: 265.5, y: -36.3 }, 6).to({ scaleX: 1, scaleY: 1, rotation: 15, x: 195, y: -24 }, 6).to({ rotation: -15, x: 235, y: -28 }, 6).to({ rotation: 0, x: 169, y: 157.5 }, 5).to({ scaleX: 1.03, scaleY: 0.96, x: 185, y: 163.8 }, 8).to({ scaleX: 1, scaleY: 1, x: 169, y: 157.5 }, 7).wait(1));
 
         // Camada 3
-        this.instance_2 = new lib.Interpolar5()//("synched", 0);
+        this.instance_2 = new lib.Interpolar5()//;("synched", 0);
         this.instance_2.setTransform(-143.5, 173);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ scaleX: 1.04, scaleY: 0.97, x: -159.5, y: 175 }, 6).to({ scaleX: 1.03, scaleY: 1.19, x: -93.5, y: 86.3 }, 6).to({ scaleX: 1, scaleY: 1, rotation_d: -60, x: -11.5, y: 43 }, 6).to({ y: 59 }, 6).to({ rotation_d: 0, x: -143.5, y: 173 }, 5).to({ scaleX: 1.04, scaleY: 0.97, x: -159.5, y: 175 }, 8).to({ scaleX: 1, scaleY: 1, x: -143.5, y: 173 }, 7).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ scaleX: 1.04, scaleY: 0.97, x: -159.5, y: 175 }, 6).to({ scaleX: 1.03, scaleY: 1.19, x: -93.5, y: 86.3 }, 6).to({ scaleX: 1, scaleY: 1, rotation: -60, x: -11.5, y: 43 }, 6).to({ y: 59 }, 6).to({ rotation: 0, x: -143.5, y: 173 }, 5).to({ scaleX: 1.04, scaleY: 0.97, x: -159.5, y: 175 }, 8).to({ scaleX: 1, scaleY: 1, x: -143.5, y: 173 }, 7).wait(1));
 
         // Camada 4
-        this.instance_3 = new lib.Interpolar7()//("synched", 0);
+        this.instance_3 = new lib.Interpolar7()//;("synched", 0);
         this.instance_3.setTransform(-329.5, -41.4);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_3).to({ rotation_d: 52.2, x: -379.7, y: -90.7 }, 6).to({ scaleX: 1, scaleY: 1.1, rotation_d: -20.2, x: -312.1, y: -82.8 }, 6).to({ scaleX: 1, scaleY: 1, rotation_d: 0, x: -351, y: -114 }, 6).to({ y: -98 }, 6).to({ x: -329.5, y: -41.4 }, 5).to({ rotation_d: 22.2, x: -363.7, y: -72.7 }, 8).to({ rotation_d: 0, x: -329.5, y: -41.4 }, 7).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_3).to({ rotation: 52.2, x: -379.7, y: -90.7 }, 6).to({ scaleX: 1, scaleY: 1.1, rotation: -20.2, x: -312.1, y: -82.8 }, 6).to({ scaleX: 1, scaleY: 1, rotation: 0, x: -351, y: -114 }, 6).to({ y: -98 }, 6).to({ x: -329.5, y: -41.4 }, 5).to({ rotation: 22.2, x: -363.7, y: -72.7 }, 8).to({ rotation: 0, x: -329.5, y: -41.4 }, 7).wait(1));
 
         // Camada 5
-        this.instance_4 = new lib.Interpolar9()//("synched", 0);
+        this.instance_4 = new lib.Interpolar9()//;("synched", 0);
         this.instance_4.setTransform(314.7, -73);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_4).to({ rotation_d: -60, x: 346.3, y: -145.8 }, 6).to({ scaleX: 1, scaleY: 1.11, rotation_d: -9.8, x: 283.8, y: -260.8 }, 6).to({ rotation_d: -24.8, x: 303.8, y: -300.8 }, 6).to({ y: -284.8 }, 6).to({ scaleX: 1, scaleY: 1, rotation_d: 0, x: 314.7, y: -73 }, 5).to({ rotation_d: -15, x: 334.3, y: -91.8 }, 8).to({ rotation_d: 0, x: 314.7, y: -73 }, 7).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_4).to({ rotation: -60, x: 346.3, y: -145.8 }, 6).to({ scaleX: 1, scaleY: 1.11, rotation: -9.8, x: 283.8, y: -260.8 }, 6).to({ rotation: -24.8, x: 303.8, y: -300.8 }, 6).to({ y: -284.8 }, 6).to({ scaleX: 1, scaleY: 1, rotation: 0, x: 314.7, y: -73 }, 5).to({ rotation: -15, x: 334.3, y: -91.8 }, 8).to({ rotation: 0, x: 314.7, y: -73 }, 7).wait(1));
 
         // Camada 6
-        this.instance_5 = new lib.Interpolar44()//("synched", 0);
+        this.instance_5 = new lib.Interpolar44()//;("synched", 0);
         this.instance_5.setTransform(5.3, 257.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_5).to({ startPosition: 0 }, 8).to({ scaleX: 0.75, scaleY: 0.75 }, 10).to({ startPosition: 0 }, 6).to({ scaleX: 1, scaleY: 1 }, 5).wait(16));
@@ -1414,28 +1499,28 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 1
-        this.instance = new lib.Interpolar1()//("synched", 0);
+        this.instance = new lib.Interpolar1()//;("synched", 0);
         this.instance.setTransform(-14, -126.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance).to({ y: -120.8 }, 17).to({ y: -122.7 }, 20).to({ y: -126.5 }, 22).wait(1));
 
         // Camada 2
-        this.instance_1 = new lib.Interpolar3()//("synched", 0);
+        this.instance_1 = new lib.Interpolar3()//;("synched", 0);
         this.instance_1.setTransform(169, 157.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_1).to({ scaleX: 1.03, scaleY: 0.96, y: 163.8 }, 17).to({ scaleX: 1.02, scaleY: 0.97, y: 161.7 }, 20).to({ scaleX: 1, scaleY: 1, y: 157.5 }, 22).wait(1));
 
         // Camada 3
-        this.instance_2 = new lib.Interpolar5()//("synched", 0);
+        this.instance_2 = new lib.Interpolar5()//;("synched", 0);
         this.instance_2.setTransform(-143.5, 173);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ scaleX: 1.04, scaleY: 0.97, y: 175 }, 17).to({ scaleX: 1.03, scaleY: 0.98, y: 174.3 }, 20).to({ scaleX: 1, scaleY: 1, y: 173 }, 22).wait(1));
 
         // Camada 4
-        this.instance_3 = new lib.Interpolar7()//("synched", 0);
+        this.instance_3 = new lib.Interpolar7()//;("synched", 0);
         this.instance_3.setTransform(-265.5, -1.4, 1, 1, -30);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_3).to({ rotation_d: -22.4, x: -279.5, y: -3.4 }, 17).to({ rotation_d: -26.6, x: -273.5, y: -1.4 }, 20).to({ rotation_d: -30, x: -265.5 }, 22).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_3).to({ rotation: -22.4, x: -279.5, y: -3.4 }, 17).to({ rotation: -26.6, x: -273.5, y: -1.4 }, 20).to({ rotation: -30, x: -265.5 }, 22).wait(1));
 
         // Camada 5
         this.shape = new cjs.Shape();
@@ -1456,7 +1541,7 @@
         this.instance = new lib.DD1arm1();
         this.instance.setTransform(-357.7, -430.2);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance).wait(9).to({ rotation_d: 15, x: -277.7, y: -443.3 }, 0).wait(12).to({ rotation_d: 0, x: -357.7, y: -430.2 }, 0).wait(13).to({ rotation_d: 15, x: -277.7, y: -443.3 }, 0).wait(25).to({ rotation_d: 0, x: -357.7, y: -430.2 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance).wait(9).to({ rotation: 15, x: -277.7, y: -443.3 }, 0).wait(12).to({ rotation: 0, x: -357.7, y: -430.2 }, 0).wait(13).to({ rotation: 15, x: -277.7, y: -443.3 }, 0).wait(25).to({ rotation: 0, x: -357.7, y: -430.2 }, 0).wait(1));
 
         // Camada 3
         this.instance_1 = new lib.DD1body();
@@ -1468,13 +1553,13 @@
         this.instance_2 = new lib.DD1arm2();
         this.instance_2.setTransform(164.6, -414.8, 1, 1, 10);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(9).to({ rotation_d: -1.5, x: 106.6, y: -371.9 }, 0).wait(12).to({ rotation_d: 10, x: 164.6, y: -414.8 }, 0).wait(13).to({ rotation_d: -1, x: 109.3, y: -372.4 }, 0).wait(25).to({ rotation_d: 10, x: 164.6, y: -414.8 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(9).to({ rotation: -1.5, x: 106.6, y: -371.9 }, 0).wait(12).to({ rotation: 10, x: 164.6, y: -414.8 }, 0).wait(13).to({ rotation: -1, x: 109.3, y: -372.4 }, 0).wait(25).to({ rotation: 10, x: 164.6, y: -414.8 }, 0).wait(1));
 
         // Camada 8
-        this.instance_3 = new lib.Interpolar45()//("synched", 0);
+        this.instance_3 = new lib.Interpolar45()//;("synched", 0);
         this.instance_3.setTransform(-146.7, 219.5);
 
-        this.instance_4 = new lib.Interpolar46()//("synched", 0);
+        this.instance_4 = new lib.Interpolar46()//;("synched", 0);
         this.instance_4.setTransform(-146.7, 247.5);
         this.instance_4._off = true;
 
@@ -1491,7 +1576,7 @@
         this.instance_6 = new lib.DD1part();
         this.instance_6.setTransform(-373.7, -97.6);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_6).wait(9).to({ rotation_d: 15, x: -320.3, y: -115.2 }, 0).wait(12).to({ rotation_d: 0, x: -373.7, y: -97.6 }, 0).wait(13).to({ rotation_d: 15, x: -320.3, y: -115.2 }, 0).wait(25).to({ rotation_d: 0, x: -373.7, y: -97.6 }, 0).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_6).wait(9).to({ rotation: 15, x: -320.3, y: -115.2 }, 0).wait(12).to({ rotation: 0, x: -373.7, y: -97.6 }, 0).wait(13).to({ rotation: 15, x: -320.3, y: -115.2 }, 0).wait(25).to({ rotation: 0, x: -373.7, y: -97.6 }, 0).wait(1));
 
     }).prototype = p = new cjs.MovieClip();
     p.nominalBounds = rect = new cjs.Rectangle(-382.7, -442.3, 781.7, 814.7);
@@ -1505,7 +1590,7 @@
         this.instance = new lib.ME64arm2();
         this.instance.setTransform(174.9, -178.8);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance).wait(9).to({ rotation_d: -5.4, y: -173.4 }, 0).wait(24).to({ rotation_d: 0, y: -178.8 }, 0).wait(17));
+        this.timeline.addTween(cjs.Tween.get(this.instance).wait(9).to({ rotation: -5.4, y: -173.4 }, 0).wait(24).to({ rotation: 0, y: -178.8 }, 0).wait(17));
 
         // Camada 1
         this.instance_1 = new lib.ME64body();
@@ -1514,15 +1599,15 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(9).to({ y: -335.1 }, 0).wait(24).to({ y: -340.5 }, 0).wait(17));
 
         // Camada 6
-        this.instance_2 = new lib.Interpolar28()//("synched", 0);
+        this.instance_2 = new lib.Interpolar28()//;("synched", 0);
         this.instance_2.setTransform(203, -373.9);
 
-        this.instance_3 = new lib.Interpolar29()//("synched", 0);
+        this.instance_3 = new lib.Interpolar29()//;("synched", 0);
         this.instance_3.setTransform(194.8, -381.7, 1, 1, -7.4);
         this.instance_3._off = true;
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ _off: true, rotation_d: -7.4, x: 194.8, y: -381.7 }, 9).wait(4).to({ _off: false, rotation_d: 0, x: 203, y: -373.9 }, 20).to({ rotation_d: 6, x: 208.7, y: -366.8 }, 8).to({ rotation_d: 0, x: 203, y: -373.9 }, 8).wait(1));
-        this.timeline.addTween(cjs.Tween.get(this.instance_3).to({ _off: false }, 9).to({ rotation_d: -12.6, x: 188.6, y: -386.6 }, 4).to({ _off: true, rotation_d: 0, x: 203, y: -373.9 }, 20).wait(17));
+        this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ _off: true, rotation: -7.4, x: 194.8, y: -381.7 }, 9).wait(4).to({ _off: false, rotation: 0, x: 203, y: -373.9 }, 20).to({ rotation: 6, x: 208.7, y: -366.8 }, 8).to({ rotation: 0, x: 203, y: -373.9 }, 8).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_3).to({ _off: false }, 9).to({ rotation: -12.6, x: 188.6, y: -386.6 }, 4).to({ _off: true, rotation: 0, x: 203, y: -373.9 }, 20).wait(17));
 
         // Camada 2
         this.instance_4 = new lib.ME64leg1();
@@ -1540,7 +1625,7 @@
         this.instance_6 = new lib.ME64arm1();
         this.instance_6.setTransform(-454.4, -140.5);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_6).wait(9).to({ rotation_d: 4.2, x: -453.7, y: -155.3 }, 0).wait(24).to({ rotation_d: 0, x: -454.4, y: -140.5 }, 0).wait(17));
+        this.timeline.addTween(cjs.Tween.get(this.instance_6).wait(9).to({ rotation: 4.2, x: -453.7, y: -155.3 }, 0).wait(24).to({ rotation: 0, x: -454.4, y: -140.5 }, 0).wait(17));
 
         // Camada 7
         this.shape = new cjs.Shape();
@@ -1558,14 +1643,14 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 6
-        this.instance = new lib.Interpolar32()//("synched", 0);
+        this.instance = new lib.Interpolar32()//;("synched", 0);
         this.instance.setTransform(191.5, -308.6);
 
-        this.instance_1 = new lib.Interpolar33()//("synched", 0);
+        this.instance_1 = new lib.Interpolar33()//;("synched", 0);
         this.instance_1.setTransform(191.5, -300.5);
         this.instance_1._off = true;
 
-        this.instance_2 = new lib.Interpolar34()//("synched", 0);
+        this.instance_2 = new lib.Interpolar34()//;("synched", 0);
         this.instance_2.setTransform(191.5, -292.4);
         this.instance_2._off = true;
 
@@ -1574,10 +1659,10 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(12).to({ _off: false }, 14).to({ _off: true, y: -300.5 }, 15).wait(19));
 
         // Camada 8
-        this.instance_3 = new lib.Interpolar36()//("synched", 0);
+        this.instance_3 = new lib.Interpolar36()//;("synched", 0);
         this.instance_3.setTransform(255.2, 78.8);
 
-        this.instance_4 = new lib.Interpolar37()//("synched", 0);
+        this.instance_4 = new lib.Interpolar37()//;("synched", 0);
         this.instance_4.setTransform(252.5, 84.2);
         this.instance_4._off = true;
 
@@ -1585,19 +1670,19 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_4).to({ _off: false }, 14).to({ y: 92.3 }, 15).to({ x: 255.2, y: 86.9 }, 19).to({ _off: true, y: 78.8 }, 11).wait(1));
 
         // Camada 7
-        this.instance_5 = new lib.Interpolar38()//("synched", 0);
+        this.instance_5 = new lib.Interpolar38()//;("synched", 0);
         this.instance_5.setTransform(-406.1, -109.7);
 
-        this.instance_6 = new lib.Interpolar39()//("synched", 0);
+        this.instance_6 = new lib.Interpolar39()//;("synched", 0);
         this.instance_6.setTransform(-422.3, -96.2, 1, 1, -5.7);
         this.instance_6._off = true;
 
-        this.instance_7 = new lib.Interpolar43()//("synched", 0);
+        this.instance_7 = new lib.Interpolar43()//;("synched", 0);
         this.instance_7.setTransform(-406.1, -109.7);
 
         this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance_5 }] }).to({ state: [{ t: this.instance_6 }] }, 14).to({ state: [{ t: this.instance_6 }] }, 15).to({ state: [{ t: this.instance_6 }] }, 19).to({ state: [{ t: this.instance_7 }] }, 11).wait(1));
-        this.timeline.addTween(cjs.Tween.get(this.instance_5).to({ _off: true, rotation_d: -5.7, x: -422.3, y: -96.2 }, 14).wait(46));
-        this.timeline.addTween(cjs.Tween.get(this.instance_6).to({ _off: false }, 14).to({ rotation_d: -8.7, x: -427.7, y: -80 }, 15).to({ rotation_d: -5.7, x: -422.3, y: -96.2 }, 19).to({ _off: true, rotation_d: 0, x: -406.1, y: -109.7 }, 11).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_5).to({ _off: true, rotation: -5.7, x: -422.3, y: -96.2 }, 14).wait(46));
+        this.timeline.addTween(cjs.Tween.get(this.instance_6).to({ _off: false }, 14).to({ rotation: -8.7, x: -427.7, y: -80 }, 15).to({ rotation: -5.7, x: -422.3, y: -96.2 }, 19).to({ _off: true, rotation: 0, x: -406.1, y: -109.7 }, 11).wait(1));
 
         // Camada 1
         this.instance_8 = new lib.L1NKbody();
@@ -1627,24 +1712,24 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 7
-        this.instance = new lib.Interpolar11()//("synched", 0);
+        this.instance = new lib.Interpolar11()//;("synched", 0);
         this.instance.setTransform(-164.5, -202.3);
 
-        this.instance_1 = new lib.Interpolar18()//("synched", 0);
+        this.instance_1 = new lib.Interpolar18()//;("synched", 0);
         this.instance_1.setTransform(-164.5, -202.3);
 
         this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance }] }).to({ state: [{ t: this.instance }] }, 17).to({ state: [{ t: this.instance }] }, 20).to({ state: [{ t: this.instance_1 }] }, 22).wait(1));
-        this.timeline.addTween(cjs.Tween.get(this.instance).to({ rotation_d: -6.7, x: -180.7, y: -196.9 }, 17).to({ y: -188.8 }, 20).to({ _off: true, rotation_d: 0, x: -164.5, y: -202.3 }, 22).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance).to({ rotation: -6.7, x: -180.7, y: -196.9 }, 17).to({ y: -188.8 }, 20).to({ _off: true, rotation: 0, x: -164.5, y: -202.3 }, 22).wait(1));
 
         // Camada 6
-        this.instance_2 = new lib.Interpolar13()//("synched", 0);
+        this.instance_2 = new lib.Interpolar13()//;("synched", 0);
         this.instance_2.setTransform(213.2, -188.1);
 
-        this.instance_3 = new lib.Interpolar19()//("synched", 0);
+        this.instance_3 = new lib.Interpolar19()//;("synched", 0);
         this.instance_3.setTransform(213.2, -188.1);
 
         this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance_2 }] }).to({ state: [{ t: this.instance_2 }] }, 17).to({ state: [{ t: this.instance_2 }] }, 20).to({ state: [{ t: this.instance_3 }] }, 22).wait(1));
-        this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ rotation_d: 4.2, x: 221.1, y: -185.2 }, 17).to({ y: -177.1 }, 20).to({ _off: true, rotation_d: 0, x: 213.2, y: -188.1 }, 22).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ rotation: 4.2, x: 221.1, y: -185.2 }, 17).to({ y: -177.1 }, 20).to({ _off: true, rotation: 0, x: 213.2, y: -188.1 }, 22).wait(1));
 
         // Camada 1
         this.instance_4 = new lib.P1K4body();
@@ -1653,17 +1738,17 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_4).wait(37).to({ scaleX: 1.03, scaleY: 0.97, x: -200.1, y: -158.7 }, 0).wait(22).to({ scaleX: 1, scaleY: 1, x: -194.8, y: -170.7 }, 0).wait(1));
 
         // Camada 8
-        this.instance_5 = new lib.Interpolar15()//("synched", 0);
+        this.instance_5 = new lib.Interpolar15()//;("synched", 0);
         this.instance_5.setTransform(329.9, 4.1);
 
-        this.instance_6 = new lib.Interpolar17()//("synched", 0);
+        this.instance_6 = new lib.Interpolar17()//;("synched", 0);
         this.instance_6.setTransform(329.9, 4.1);
 
         this.instance_7 = new lib.P1K4part3();
         this.instance_7.setTransform(162.9, -205.4);
 
         this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance_5 }] }).to({ state: [{ t: this.instance_5 }] }, 17).to({ state: [{ t: this.instance_6 }] }, 20).to({ state: [{ t: this.instance_7 }] }, 22).wait(1));
-        this.timeline.addTween(cjs.Tween.get(this.instance_5).to({ rotation_d: 4.7, x: 346.6, y: 18.7 }, 17).to({ _off: true, rotation_d: 0, x: 329.9, y: 4.1 }, 20).wait(23));
+        this.timeline.addTween(cjs.Tween.get(this.instance_5).to({ rotation: 4.7, x: 346.6, y: 18.7 }, 17).to({ _off: true, rotation: 0, x: 329.9, y: 4.1 }, 20).wait(23));
 
         // Camada 9
         this.shape = new cjs.Shape();
@@ -1681,20 +1766,20 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 7
-        this.instance = new lib.Interpolar20()//("synched", 0);
+        this.instance = new lib.Interpolar20()//;("synched", 0);
         this.instance.setTransform(-24.9, -276.8, 1, 1, 9.2);
 
-        this.instance_1 = new lib.Interpolar21()//("synched", 0);
+        this.instance_1 = new lib.Interpolar21()//;("synched", 0);
         this.instance_1.setTransform(-27.4, -278.3, 1, 1, 15);
         this.instance_1._off = true;
 
-        this.instance_2 = new lib.Interpolar24()//("synched", 0);
+        this.instance_2 = new lib.Interpolar24()//;("synched", 0);
         this.instance_2.setTransform(-26.6, -276.4);
         this.instance_2._off = true;
 
-        this.timeline.addTween(cjs.Tween.get(this.instance).to({ _off: true, rotation_d: 15, x: -27.4, y: -278.3 }, 13).to({ _off: false, rotation_d: 9.2, x: -24.9, y: -276.8 }, 15).to({ _off: true, rotation_d: 0, x: -26.6, y: -276.4 }, 15).to({ _off: false, rotation_d: 9.2, x: -24.9, y: -276.8 }, 16).wait(1));
-        this.timeline.addTween(cjs.Tween.get(this.instance_1).to({ _off: false }, 13).to({ _off: true, rotation_d: 9.2, x: -24.9, y: -276.8 }, 15).wait(32));
-        this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(28).to({ _off: false }, 15).to({ _off: true, rotation_d: 9.2, x: -24.9, y: -276.8 }, 16).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance).to({ _off: true, rotation: 15, x: -27.4, y: -278.3 }, 13).to({ _off: false, rotation: 9.2, x: -24.9, y: -276.8 }, 15).to({ _off: true, rotation: 0, x: -26.6, y: -276.4 }, 15).to({ _off: false, rotation: 9.2, x: -24.9, y: -276.8 }, 16).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_1).to({ _off: false }, 13).to({ _off: true, rotation: 9.2, x: -24.9, y: -276.8 }, 15).wait(32));
+        this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(28).to({ _off: false }, 15).to({ _off: true, rotation: 9.2, x: -24.9, y: -276.8 }, 16).wait(1));
 
         // Camada 1
         this.instance_3 = new lib.RDMbody();
@@ -1709,14 +1794,14 @@
         this.timeline.addTween(cjs.Tween.get(this.instance_4).wait(60));
 
         // Camada 6
-        this.instance_5 = new lib.Interpolar22()//("synched", 0);
+        this.instance_5 = new lib.Interpolar22()//;("synched", 0);
         this.instance_5.setTransform(2.7, 181.8);
 
-        this.instance_6 = new lib.Interpolar23()//("synched", 0);
+        this.instance_6 = new lib.Interpolar23()//;("synched", 0);
         this.instance_6.setTransform(0.2, 180.9, 1.05, 1.007, 0, -6.9, 0);
         this.instance_6._off = true;
 
-        this.instance_7 = new lib.Interpolar26()//("synched", 0);
+        this.instance_7 = new lib.Interpolar26()//;("synched", 0);
         this.instance_7.setTransform(2.7, 181.8);
         this.instance_7._off = true;
 
@@ -1740,34 +1825,34 @@
         this.initialize(mode, startPosition, loop, {});
 
         // Camada 1
-        this.instance = new lib.Interpolar1()//("synched", 0);
+        this.instance = new lib.Interpolar1()//;("synched", 0);
         this.instance.setTransform(-14, -126.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance).to({ y: -120.8 }, 17).to({ y: -122.7 }, 20).to({ y: -126.5 }, 22).wait(1));
 
         // Camada 2
-        this.instance_1 = new lib.Interpolar3()//("synched", 0);
+        this.instance_1 = new lib.Interpolar3()//;("synched", 0);
         this.instance_1.setTransform(169, 157.5);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_1).to({ scaleX: 1.03, scaleY: 0.96, y: 163.8 }, 17).to({ scaleX: 1.02, scaleY: 0.97, y: 161.7 }, 20).to({ scaleX: 1, scaleY: 1, y: 157.5 }, 22).wait(1));
 
         // Camada 3
-        this.instance_2 = new lib.Interpolar5()//("synched", 0);
+        this.instance_2 = new lib.Interpolar5()//;("synched", 0);
         this.instance_2.setTransform(-143.5, 173);
 
         this.timeline.addTween(cjs.Tween.get(this.instance_2).to({ scaleX: 1.04, scaleY: 0.97, y: 175 }, 17).to({ scaleX: 1.03, scaleY: 0.98, y: 174.3 }, 20).to({ scaleX: 1, scaleY: 1, y: 173 }, 22).wait(1));
 
         // Camada 4
-        this.instance_3 = new lib.Interpolar7()//("synched", 0);
+        this.instance_3 = new lib.Interpolar7()//;("synched", 0);
         this.instance_3.setTransform(-329.5, -41.4);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_3).to({ rotation_d: 15, x: -355.7, y: -70.7 }, 17).to({ scaleX: 1, scaleY: 1, rotation_d: 9.8, x: -347, y: -61 }, 20).to({ scaleX: 1, scaleY: 1, rotation_d: 0, x: -329.5, y: -41.4 }, 22).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_3).to({ rotation: 15, x: -355.7, y: -70.7 }, 17).to({ scaleX: 1, scaleY: 1, rotation: 9.8, x: -347, y: -61 }, 20).to({ scaleX: 1, scaleY: 1, rotation: 0, x: -329.5, y: -41.4 }, 22).wait(1));
 
         // Camada 5
-        this.instance_4 = new lib.Interpolar9()//("synched", 0);
+        this.instance_4 = new lib.Interpolar9()//;("synched", 0);
         this.instance_4.setTransform(314.7, -73);
 
-        this.timeline.addTween(cjs.Tween.get(this.instance_4).to({ rotation_d: -15, x: 334.3, y: -93.8 }, 17).to({ scaleX: 1, scaleY: 1, rotation_d: -9.8, x: 327.8, y: -86.9 }, 20).to({ scaleX: 1, scaleY: 1, rotation_d: 0, x: 314.7, y: -73 }, 22).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this.instance_4).to({ rotation: -15, x: 334.3, y: -93.8 }, 17).to({ scaleX: 1, scaleY: 1, rotation: -9.8, x: 327.8, y: -86.9 }, 20).to({ scaleX: 1, scaleY: 1, rotation: 0, x: 314.7, y: -73 }, 22).wait(1));
 
         // Camada 6
         this.shape = new cjs.Shape();
@@ -1780,5 +1865,5 @@
     p.nominalBounds = rect = new cjs.Rectangle(-463.4, -350, 920.9, 656.7);
     p.frameBounds = [rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect = new cjs.Rectangle(-466.4, -346.1, 926.5, 652.8), rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect = new cjs.Rectangle(-449.7, -349.8, 895.7, 656.5), rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect, new cjs.Rectangle(-415, -350, 831.2, 656.7)];
 
-})(libmybots = libmybots || {}, images = images || {}, createjs = createjs || {});
-var libmybots, images, createjs;
+})(libmybots = libmybots || {}, images = images || {}, pixiflash = pixiflash || {});
+var libmybots, images, pixiflash;

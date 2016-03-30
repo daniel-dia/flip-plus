@@ -25,7 +25,7 @@ module FlipPlus.Menu {
         private beach: PIXI.DisplayObject;
 
         private addBeach() {
-            var logo = new lib.LogoScreen();
+            var logo = new lib_logo.LogoScreen();
             this.content.addChild(logo);
             this.beach = logo["instance"]["instance_14"];
         }

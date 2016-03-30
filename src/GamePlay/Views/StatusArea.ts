@@ -81,14 +81,14 @@ module FlipPlus.GamePlay.Views {
         //creates a movieClip animation for the alert button
         private createAlertAnimation() {
             var instance = this.rightIcon;
-            this.rightIconMC = new createjs.MovieClip(createjs.MovieClip.SYNCHED,0,false);
-            
-            this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
-                .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).
-                to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 }, 8).
-                to({ scaleX: 1.2, scaleY: 1.2, rotation: 19.2 }, 8).
-                to({ scaleX: 1, scaleY: 1, rotation: 0 }, 4).
-                to({ startPosition: 0 }, 35).wait(1));
+            //this.rightIconMC = new createjs.MovieClip(createjs.MovieClip.SYNCHED,0,false);
+            //
+            //this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
+            //    .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).
+            //    to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 }, 8).
+            //    to({ scaleX: 1.2, scaleY: 1.2, rotation: 19.2 }, 8).
+            //    to({ scaleX: 1, scaleY: 1, rotation: 0 }, 4).
+            //    to({ startPosition: 0 }, 35).wait(1));
           
 
         }
