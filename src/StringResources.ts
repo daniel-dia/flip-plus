@@ -102,7 +102,7 @@
     restart: "Restart",
     continue: "Continue",
     leave: "Leave",
-    
+
 
     menus: {
         highScore: "High Score",
@@ -145,7 +145,49 @@
 
     },
 
+    botsDescription: {
+        Bot01 :"Description",
+        Bot02 :"Description",
+        Bot03 :"Description",
+        Bot04 :"Description",
+        Bot05 :"Description",
+        Bot06 :"Description",
+        Bot07 :"Description",
+        Bot08 :"Description",
+        Bot09 :"Description",
+        Bot10 :"Description",
+        Bot11 :"Description",
+        Bot12 :"Description",
+        Bot13 :"Description",
+        Bot14 :"Description",
+        Bot15 :"Description",
+        Bot16 :"Description",
+        Bot17 :"Description",
+        Bot18 :"Description",
+    },
+
+    botsPhrases: {
+        Bot01 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot02 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot03 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot04 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot05 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot06 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot07 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot08 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot09 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot10 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot11 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot12 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot13 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot14 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot15 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot16 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot17 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot18 : ["Phrase 1", "Phrase 2", "Phrase 3"],
+    },
 }
+
 var stringResources_pt = {
     ld: "Carregando",
 
@@ -291,6 +333,49 @@ var stringResources_pt = {
         share: "Compartilhar",
         watchVideo: "Veja um Video",
         gift: "vídeo em @ min",
+    },
+
+
+    botsDescription: {
+        Bot01: "Descrição",
+        Bot02: "Descrição",
+        Bot03: "Descrição",
+        Bot04: "Descrição",
+        Bot05: "Descrição",
+        Bot06: "Descrição",
+        Bot07: "Descrição",
+        Bot08: "Descrição",
+        Bot09: "Descrição",
+        Bot10: "Descrição",
+        Bot11: "Descrição",
+        Bot12: "Descrição",
+        Bot13: "Descrição",
+        Bot14: "Descrição",
+        Bot15: "Descrição",
+        Bot16: "Descrição",
+        Bot17: "Descrição",
+        Bot18: "Descrição",
+    },
+
+    botsPhrases: {
+        Bot01: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot02: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot03: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot04: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot05: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot06: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot07: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot08: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot09: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot10: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot11: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot12: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot13: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot14: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot15: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot16: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot17: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot18: ["Frase 1", "Frase 2", "Frase 3"],
     },
 }
 

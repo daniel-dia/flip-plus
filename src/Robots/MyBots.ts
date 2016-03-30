@@ -45,8 +45,8 @@ module FlipPlus.Robots {
 
             for (var c = 0; c < this.myBots.children.length; c++) {
                 var robot = <PIXI.extras.MovieClip>this.myBots.getChildAt(c);;
-                robot.addEventListener("click", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
-                robot.addEventListener("tap", (e: PIXI.interaction.InteractionEvent) => { this.userfeedback(e); });
+                robot.addEventListener("click", (e: PIXI.interaction.InteractionEvent) => { this.userTouch(e); });
+                robot.addEventListener("tap", (e: PIXI.interaction.InteractionEvent)   => { this.userTouch(e); });
 
                 var hit = robot.getLocalBounds();
                 
@@ -55,7 +55,7 @@ module FlipPlus.Robots {
         }
 
         //User action feedback to user touch
-        private userfeedback(event: PIXI.interaction.InteractionEvent) {
+        private userTouch(event: PIXI.interaction.InteractionEvent) {
 
             var robotMc = <PIXI.extras.MovieClip>event.target;
             var project: Levels.BotLevelsSet = this.projectManager.getProjectByName(robotMc.name);
@@ -70,6 +70,7 @@ module FlipPlus.Robots {
                 
                 
                 this.emit("robot", robotMc.name);  
+                if (!robotMc.name) return;
 
                 // play bot sound
                 var id = parseInt(robotMc.name.slice(-2)); 

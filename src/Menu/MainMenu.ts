@@ -85,7 +85,7 @@ module FlipPlus.Menu {
             this.myBots = new Robots.MyBots(FlipPlusGame.levelsManager);
             this.content.addChild(this.myBots);
             this.myBots.addEventListener("robot", (e: PIXI.interaction.InteractionEvent) => {
-                this.robotClick(<string>e.target)
+                this.robotClick(<string>e)
             });
         }
 
@@ -137,8 +137,11 @@ module FlipPlus.Menu {
         //------------Robots Behaviour ---------------------------------
 
         private robotClick(robot: string) {
-            //var t = FlipPlusGame.timersData.getTimer(robot);
-            this.terminal.setText("Hi, I'm am a Bot");
+            var phrases = StringResources.botsPhrases[robot];
+            if (phrases) {
+                var index = Math.floor(Math.random() * phrases.length);
+                this.terminal.setText(phrases[index]);
+            }
         }
         
         public showNewBot(botId: string) {

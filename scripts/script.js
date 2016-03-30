@@ -3484,13 +3484,14 @@ var FlipPlus;
                 //creates a movieClip animation for the alert button
                 StatusArea.prototype.createAlertAnimation = function () {
                     var instance = this.rightIcon;
-                    this.rightIconMC = new createjs.MovieClip(createjs.MovieClip.SYNCHED, 0, false);
-                    this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
-                        .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).
-                        to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 }, 8).
-                        to({ scaleX: 1.2, scaleY: 1.2, rotation: 19.2 }, 8).
-                        to({ scaleX: 1, scaleY: 1, rotation: 0 }, 4).
-                        to({ startPosition: 0 }, 35).wait(1));
+                    //this.rightIconMC = new createjs.MovieClip(createjs.MovieClip.SYNCHED,0,false);
+                    //
+                    //this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
+                    //    .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).
+                    //    to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 }, 8).
+                    //    to({ scaleX: 1.2, scaleY: 1.2, rotation: 19.2 }, 8).
+                    //    to({ scaleX: 1, scaleY: 1, rotation: 0 }, 4).
+                    //    to({ startPosition: 0 }, 35).wait(1));
                 };
                 StatusArea.prototype.setText1 = function (text) {
                     this.bg1.visible = !(text == "" || text == null);
@@ -4704,7 +4705,7 @@ var FlipPlus;
                 this.myBots = new FlipPlus.Robots.MyBots(FlipPlus.FlipPlusGame.levelsManager);
                 this.content.addChild(this.myBots);
                 this.myBots.addEventListener("robot", function (e) {
-                    _this.robotClick(e.target);
+                    _this.robotClick(e);
                 });
             };
             MainMenu.prototype.addMenu = function () {
@@ -4746,8 +4747,11 @@ var FlipPlus;
             };
             //------------Robots Behaviour ---------------------------------
             MainMenu.prototype.robotClick = function (robot) {
-                //var t = FlipPlusGame.timersData.getTimer(robot);
-                this.terminal.setText("Hi, I'm am a Bot");
+                var phrases = StringResources.botsPhrases[robot];
+                if (phrases) {
+                    var index = Math.floor(Math.random() * phrases.length);
+                    this.terminal.setText(phrases[index]);
+                }
             };
             MainMenu.prototype.showNewBot = function (botId) {
                 //this.myBots.castNewEffect(botId);
@@ -6496,14 +6500,14 @@ var FlipPlus;
                 for (var c = 0; c < this.myBots.children.length; c++) {
                     var robot = this.myBots.getChildAt(c);
                     ;
-                    robot.addEventListener("click", function (e) { _this.userfeedback(e); });
-                    robot.addEventListener("tap", function (e) { _this.userfeedback(e); });
+                    robot.addEventListener("click", function (e) { _this.userTouch(e); });
+                    robot.addEventListener("tap", function (e) { _this.userTouch(e); });
                     var hit = robot.getLocalBounds();
                     robot.interactive = true;
                 }
             };
             //User action feedback to user touch
-            MyBots.prototype.userfeedback = function (event) {
+            MyBots.prototype.userTouch = function (event) {
                 var robotMc = event.target;
                 var project = this.projectManager.getProjectByName(robotMc.name);
                 if (createjs.Tween.hasActiveTweens(robotMc))
@@ -6514,6 +6518,8 @@ var FlipPlus;
                     var py = robotMc.scale.y;
                     var ot = robotMc.y;
                     this.emit("robot", robotMc.name);
+                    if (!robotMc.name)
+                        return;
                     // play bot sound
                     var id = parseInt(robotMc.name.slice(-2));
                     if (id < 8)
@@ -8593,6 +8599,46 @@ var StringResources = {
         share: "Share",
         watchVideo: "Watch Video",
         gift: "gift in @ minutes"
+    },
+    botsDescription: {
+        Bot01: "Description",
+        Bot02: "Description",
+        Bot03: "Description",
+        Bot04: "Description",
+        Bot05: "Description",
+        Bot06: "Description",
+        Bot07: "Description",
+        Bot08: "Description",
+        Bot09: "Description",
+        Bot10: "Description",
+        Bot11: "Description",
+        Bot12: "Description",
+        Bot13: "Description",
+        Bot14: "Description",
+        Bot15: "Description",
+        Bot16: "Description",
+        Bot17: "Description",
+        Bot18: "Description"
+    },
+    botsPhrases: {
+        Bot01: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot02: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot03: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot04: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot05: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot06: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot07: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot08: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot09: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot10: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot11: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot12: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot13: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot14: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot15: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot16: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot17: ["Phrase 1", "Phrase 2", "Phrase 3"],
+        Bot18: ["Phrase 1", "Phrase 2", "Phrase 3"]
     }
 };
 var stringResources_pt = {
@@ -8706,6 +8752,46 @@ var stringResources_pt = {
         share: "Compartilhar",
         watchVideo: "Veja um Video",
         gift: "vídeo em @ min"
+    },
+    botsDescription: {
+        Bot01: "Descrição",
+        Bot02: "Descrição",
+        Bot03: "Descrição",
+        Bot04: "Descrição",
+        Bot05: "Descrição",
+        Bot06: "Descrição",
+        Bot07: "Descrição",
+        Bot08: "Descrição",
+        Bot09: "Descrição",
+        Bot10: "Descrição",
+        Bot11: "Descrição",
+        Bot12: "Descrição",
+        Bot13: "Descrição",
+        Bot14: "Descrição",
+        Bot15: "Descrição",
+        Bot16: "Descrição",
+        Bot17: "Descrição",
+        Bot18: "Descrição"
+    },
+    botsPhrases: {
+        Bot01: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot02: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot03: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot04: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot05: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot06: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot07: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot08: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot09: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot10: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot11: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot12: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot13: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot14: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot15: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot16: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot17: ["Frase 1", "Frase 2", "Frase 3"],
+        Bot18: ["Frase 1", "Frase 2", "Frase 3"]
     }
 };
 var language = navigator.language || navigator.userLanguage;
