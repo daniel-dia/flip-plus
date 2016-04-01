@@ -84,9 +84,9 @@ module FlipPlus.Menu {
         private addMyBots() {
             this.myBots = new Robots.MyBots(FlipPlusGame.levelsManager);
             this.content.addChild(this.myBots);
-            this.myBots.addEventListener("robot", (e: PIXI.interaction.InteractionEvent) => {
-                this.robotClick(<string>e)
-            });
+            this.myBots.addEventListener("robot", (BotId) => {
+                this.robotClick(BotId);
+           });
         }
 
         private addMenu() {
@@ -117,17 +117,6 @@ module FlipPlus.Menu {
             playBt.y = 1139;
 
             this.playBt = playBt;
-
-
-             //var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
-             //    FlipPlus.FlipPlusGame.showBonus("Bonus3");
-             //  })
-             //  playBt.interactive = true;
-             //this.content.addChild(playBt);
-             //playBt.x = 800;
-             //playBt.y = 739;
-             //this.playBt = playBt;
-
         }
 
         public back() {
@@ -137,6 +126,9 @@ module FlipPlus.Menu {
         //------------Robots Behaviour ---------------------------------
 
         private robotClick(robot: string) {
+            // play bot sound
+            Robots.MyBots.playRobotSound(robot);
+
             var phrases = StringResources.botsPhrases[robot];
             if (phrases) {
                 var index = Math.floor(Math.random() * phrases.length);

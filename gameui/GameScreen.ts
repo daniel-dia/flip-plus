@@ -60,19 +60,21 @@ module gameui {
             this.resizeGameScreen(window.innerWidth, window.innerHeight);
             window.onresize = () => { this.resizeGameScreen(window.innerWidth, window.innerHeight); };
 
+             
+
             updateFn = this.update
+
             var win=false
             if (win) {
                 createjs.Ticker.addEventListener("tick", function (e) {
                     PIXIrenderer.render(PIXIstage);
                 });
-            } else updateFn();
+            } else
+                updateFn();
         }
 
 
         private update() {
-                         
-           
             requestAnimationFrame(updateFn);
             PIXIrenderer.render(PIXIstage);
         }

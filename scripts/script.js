@@ -770,8 +770,8 @@ var FlipPlus;
         }
         // ----------------------------- Initialization -------------------------------------------//
         FlipPlusGame.initializeGame = function () {
+            //Cocoon.Utils.setNPOTEnabled(true);
             var _this = this;
-            Cocoon.Utils.setNPOTEnabled(true);
             this.gameScreen = new gameui.GameScreen("gameDiv", defaultWidth, defaultHeight, 60);
             // userData
             this.levelsUserDataManager = new FlipPlus.UserData.LevelsUserDataManager();
@@ -4704,8 +4704,8 @@ var FlipPlus;
                 var _this = this;
                 this.myBots = new FlipPlus.Robots.MyBots(FlipPlus.FlipPlusGame.levelsManager);
                 this.content.addChild(this.myBots);
-                this.myBots.addEventListener("robot", function (e) {
-                    _this.robotClick(e);
+                this.myBots.addEventListener("robot", function (BotId) {
+                    _this.robotClick(BotId);
                 });
             };
             MainMenu.prototype.addMenu = function () {
@@ -4733,20 +4733,14 @@ var FlipPlus;
                 playBt.x = 800;
                 playBt.y = 1139;
                 this.playBt = playBt;
-                //var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
-                //    FlipPlus.FlipPlusGame.showBonus("Bonus3");
-                //  })
-                //  playBt.interactive = true;
-                //this.content.addChild(playBt);
-                //playBt.x = 800;
-                //playBt.y = 739;
-                //this.playBt = playBt;
             };
             MainMenu.prototype.back = function () {
                 FlipPlus.FlipPlusGame.showTitleScreen();
             };
             //------------Robots Behaviour ---------------------------------
             MainMenu.prototype.robotClick = function (robot) {
+                // play bot sound
+                FlipPlus.Robots.MyBots.playRobotSound(robot);
                 var phrases = StringResources.botsPhrases[robot];
                 if (phrases) {
                     var index = Math.floor(Math.random() * phrases.length);
@@ -6476,6 +6470,15 @@ var FlipPlus;
                 this.initializeNames();
                 this.initializeUserFeedback();
             }
+            // play bot sound
+            MyBots.playRobotSound = function (botId) {
+                var id = parseInt(botId.slice(-2));
+                if (id < 8)
+                    var filename = "Emotional Robot Talk " + Math.ceil(Math.random() * 15);
+                else
+                    var filename = "Talking Robot-" + Math.ceil(Math.random() * 19);
+                gameui.AudiosManager.playSound(filename, true);
+            };
             //loads and add lobby graphics to the view
             MyBots.prototype.initializeGraphics = function () {
                 this.myBots = new libmybots.NewBotsLobby();
@@ -6521,12 +6524,7 @@ var FlipPlus;
                     if (!robotMc.name)
                         return;
                     // play bot sound
-                    var id = parseInt(robotMc.name.slice(-2));
-                    if (id < 8)
-                        var filename = "Emotional Robot Talk " + Math.ceil(Math.random() * 15);
-                    else
-                        var filename = "Talking Robot-" + Math.ceil(Math.random() * 19);
-                    gameui.AudiosManager.playSound(filename, true);
+                    Robots.MyBots.playRobotSound(robotMc.name);
                     // animate bot
                     createjs.Tween.get(robotMc)
                         .to({ scaleX: px * 1.1, scaleY: py * 0.9 }, 100)
@@ -8253,7 +8251,7 @@ var FlipPlus;
                             createjs.Tween.get(_this.stroke).wait(300).to({ alpha: 0 }, 600).call(function () { _this.stroke.visible = false; });
                             createjs.Tween.get(_this.completeBot).to({ alpha: 0, scaleX: 0.6, scaleY: 0.6 }).wait(300).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 600, createjs.Ease.quadOut);
                             gameui.AudiosManager.playSound("BotComplete");
-                            gameui.AudiosManager.playSound("Robot Talk_0" + Math.ceil(Math.random() * 7), true, 300);
+                            FlipPlus.Robots.MyBots.playRobotSound(_this.project.name);
                             _this.castNewEffect();
                         }
                     });

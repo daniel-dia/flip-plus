@@ -3646,10 +3646,13 @@ EventEmitter.prototype.on = function on(event, fn, context) {
   if (!this._events) this._events = prefix ? {} : Object.create(null);
   if (!this._events[evt]) this._events[evt] = listener;
   else {
-    if (!this._events[evt].fn) this._events[evt].push(listener);
-    else this._events[evt] = [
-      this._events[evt], listener
-    ];
+      if (!this._events[evt].fn) {
+          this._events[evt].push(listener);
+          console.log("ticker listener " + evt + " " + this._events[evt].length )
+      }
+      else this._events[evt] = [
+        this._events[evt], listener
+      ];
   }
 
   return this;

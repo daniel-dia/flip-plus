@@ -20,6 +20,18 @@ module FlipPlus.Robots {
             this.initializeUserFeedback();
         }
 
+        // play bot sound
+        public static playRobotSound(botId: string) {
+
+            var id = parseInt(botId.slice(-2));
+            if (id < 8)
+                var filename = "Emotional Robot Talk " + Math.ceil(Math.random() * 15);
+            else
+                var filename = "Talking Robot-" + Math.ceil(Math.random() * 19);
+
+            gameui.AudiosManager.playSound(filename, true);
+        }
+
         //loads and add lobby graphics to the view
         private initializeGraphics() {
             this.myBots = new libmybots.NewBotsLobby();
@@ -68,19 +80,11 @@ module FlipPlus.Robots {
                 var py = robotMc.scale.y;
                 var ot = robotMc.y;
                 
-                
                 this.emit("robot", robotMc.name);  
                 if (!robotMc.name) return;
 
                 // play bot sound
-                var id = parseInt(robotMc.name.slice(-2)); 
-                if(id<8)
-                    var filename = "Emotional Robot Talk " + Math.ceil(Math.random() * 15);
-                else    
-                    var filename = "Talking Robot-" + Math.ceil(Math.random() * 19);
-
-                gameui.AudiosManager.playSound(filename, true);
-                
+                Robots.MyBots.playRobotSound(robotMc.name);
 
                 // animate bot
                 createjs.Tween.get(robotMc) 

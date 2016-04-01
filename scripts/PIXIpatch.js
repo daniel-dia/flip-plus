@@ -114,3 +114,23 @@ createjs.DisplayObject.prototype.updateTransform = function () { };
 createjs.DisplayObject.prototype.once = function () { };
 createjs.DisplayObject.prototype.renderWebGL = function () { };
 createjs.DisplayObject.prototype.renderCanvas = function () { };
+
+var Ticker = createjs.Ticker;
+
+Ticker._setupTick = function () {
+    if (Ticker._timerId != null) { return; } // avoid duplicates
+
+    var mode = Ticker.timingMode || (Ticker.useRAF && Ticker.RAF_SYNCHED);
+    if (mode == Ticker.RAF_SYNCHED || mode == Ticker.RAF) {
+        var f = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+        if (f) {
+            Ticker._timerId = f(mode == Ticker.RAF ? Ticker._handleRAF : Ticker._handleSynch);
+            Ticker._raf = true;
+            return;
+        }
+    }
+    Ticker._raf = false;
+    setTimeout(function () { 
+        Ticker._timerId = setTimeout(Ticker._handleTimeout, Ticker._interval);
+    }, 1)
+};
