@@ -461,9 +461,11 @@ module FlipPlus.GamePlay {
                 var index = Math.floor(Math.random() * filtredInvertedBlocks.length);
                 blockId = filtredInvertedBlocks[index];
 
-                // save used hint on level
-                this.levelData.userdata.hints = this.levelData.userdata.hints || [];
-                this.levelData.userdata.hints.push(blockId);
+                // save used hint on level ;; only if blocks data are fixed.
+                if (this.levelData.blocksData && this.levelData.blocksData.length > 0) {
+                    this.levelData.userdata.hints = this.levelData.userdata.hints || [];
+                    this.levelData.userdata.hints.push(blockId);
+                }
                 
                 // saves 
                 FlipPlusGame.levelsUserDataManager.saveLevelData(this.levelData);

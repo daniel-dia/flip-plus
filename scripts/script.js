@@ -1664,9 +1664,11 @@ var FlipPlus;
                     //randomly select one from the list
                     var index = Math.floor(Math.random() * filtredInvertedBlocks.length);
                     blockId = filtredInvertedBlocks[index];
-                    // save used hint on level
-                    this.levelData.userdata.hints = this.levelData.userdata.hints || [];
-                    this.levelData.userdata.hints.push(blockId);
+                    // save used hint on level ;; only if blocks data are fixed.
+                    if (this.levelData.blocksData && this.levelData.blocksData.length > 0) {
+                        this.levelData.userdata.hints = this.levelData.userdata.hints || [];
+                        this.levelData.userdata.hints.push(blockId);
+                    }
                     // saves 
                     FlipPlus.FlipPlusGame.levelsUserDataManager.saveLevelData(this.levelData);
                 }
@@ -1784,7 +1786,14 @@ var FlipPlus;
                     this.gameplayMenu.addItemsButtons([Items.HINT]);
                 this.gameplayMenu.addEventListener(Items.SKIP, function (parameter) { _this.useItem(Items.SKIP); });
                 this.gameplayMenu.addEventListener(Items.HINT, function (parameter) { _this.useItem(Items.HINT, parameter.parameters); }); //solve this problem
-                this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+                if (levelData.blocksData)
+                    this.levelLogic.board.setInvertedBlocks(levelData.blocksData);
+                else
+                    levelData.blocksData = [];
+                this.initialInvertedBlocks = levelData.blocksData;
+                if (levelData.randomMinMoves && levelData.randomMaxMoves) {
+                    this.initialInvertedBlocks = this.levelLogic.board.setRandomBoard(levelData.randomMinMoves, levelData.randomMaxMoves);
+                }
                 //draw blocks
                 if (levelData.type == "draw" && levelData.drawData == null)
                     this.levelLogic.board.setDrawBlocks(levelData.blocksData);
@@ -1811,17 +1820,17 @@ var FlipPlus;
                 if (this.helped)
                     return;
                 var plays = this.levelData.userdata.playedTimes;
-                var invertsInitial = this.levelData.blocksData.length;
+                var invertsInitial = this.initialInvertedBlocks.length;
                 var inverts = this.levelLogic.board.getInvertedBlocksCount();
                 // verify if user went too far from solution.
                 if (inverts > invertsInitial * 2) {
                     // verifies if user play a the same level lot of times
-                    if (plays > 2) {
+                    if (plays > 2 && plays < 4) {
                         // send message to ask to skip
                         this.showSkipMessage();
                         this.helped = true;
                     }
-                    else {
+                    else if (plays <= 2) {
                         // show message to ask restart
                         this.showRestartMessage();
                         this.helped = true;
@@ -2645,10 +2654,14 @@ var FlipPlus;
                             index = (index + 1) % boardLength;
                         inverted[index] = true;
                     }
+                    var blocksData = [];
                     for (var i = 0; i < boardLength; i++)
-                        if (inverted[i] == true)
+                        if (inverted[i] == true) {
                             this.invertCross(i % this.width, Math.floor(i / this.width));
+                            blocksData.push(i);
+                        }
                     this.initializePrizes(2);
+                    return blocksData;
                 };
                 // Distribuite Prizes Along Board
                 Board.prototype.initializePrizes = function (prizesNumber, minMoves) {
@@ -6472,6 +6485,8 @@ var FlipPlus;
             }
             // play bot sound
             MyBots.playRobotSound = function (botId) {
+                if (!botId)
+                    return;
                 var id = parseInt(botId.slice(-2));
                 if (id < 8)
                     var filename = "Emotional Robot Talk " + Math.ceil(Math.random() * 15);

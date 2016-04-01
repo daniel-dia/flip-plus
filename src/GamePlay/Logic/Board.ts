@@ -189,11 +189,15 @@ module FlipPlus.GamePlay.Logic {
                 inverted[index] = true;
             }
 
-            for (var i = 0; i < boardLength; i++) 
-                if (inverted[i] == true)
+            var blocksData = [];
+            for (var i = 0; i < boardLength; i++)
+                if (inverted[i] == true) {
                     this.invertCross(i % this.width, Math.floor(i / this.width));
+                    blocksData.push(i);
+                }
             
             this.initializePrizes(2);
+            return blocksData;
         }
 
         // Distribuite Prizes Along Board

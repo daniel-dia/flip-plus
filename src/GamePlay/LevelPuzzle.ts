@@ -3,6 +3,7 @@ module FlipPlus.GamePlay {
 
         // help
         private helped: boolean;
+        private initialInvertedBlocks;
 
         constructor(levelData: Levels.Level) {
             super(levelData);
@@ -15,7 +16,16 @@ module FlipPlus.GamePlay {
             this.gameplayMenu.addEventListener(Items.SKIP, (parameter) => { this.useItem(Items.SKIP); });
             this.gameplayMenu.addEventListener(Items.HINT, (parameter) => { this.useItem(Items.HINT,(<any>parameter).parameters); }); //solve this problem
 
-            this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
+            if (levelData.blocksData) 
+                this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
+            else
+                levelData.blocksData = [];
+
+            this.initialInvertedBlocks = levelData.blocksData;
+
+            if (levelData.randomMinMoves && levelData.randomMaxMoves) {
+                this.initialInvertedBlocks = this.levelLogic.board.setRandomBoard(levelData.randomMinMoves, levelData.randomMaxMoves);
+            }
 
             //draw blocks
             if (levelData.type == "draw" &&  levelData.drawData == null)
@@ -51,18 +61,18 @@ module FlipPlus.GamePlay {
             if (this.helped) return;
 
             var plays = this.levelData.userdata.playedTimes;
-            var invertsInitial = this.levelData.blocksData.length;
+            var invertsInitial = this.initialInvertedBlocks.length;
             var inverts = this.levelLogic.board.getInvertedBlocksCount();
 
             // verify if user went too far from solution.
             if (inverts > invertsInitial * 2) {
                 // verifies if user play a the same level lot of times
-                if (plays > 2) {
+                if (plays > 2 && plays < 4) {
                     // send message to ask to skip
                     this.showSkipMessage();
                     this.helped = true;
                 }
-                else {
+                else if (plays <= 2) {
                     // show message to ask restart
                     this.showRestartMessage();
                     this.helped = true;
