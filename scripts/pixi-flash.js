@@ -834,24 +834,23 @@
     p._onAdded = function () {
         if (!this.parent._isPixiFlash) {
             if (!this.added) {
-                //SharedTicker.add(this._tickListener);
-                createjs.Ticker.addEventListener("tick", this._tickListener);
+                SharedTicker.add(this._tickListener); console.log("added");
+                //createjs.Ticker.addEventListener("tick", this._tickListener);
                 this.added = true;
             }
         }
     };
 
     p._tickListener = function (tickerDeltaTime) {
-        //if (!this.worldVisible) return;
-        var ms = tickerDeltaTime.delta / 10 / SharedTicker.speed / PIXI.TARGET_FPMS;
+        if (!this.worldVisible) return;
+        var ms = tickerDeltaTime.delta / SharedTicker.speed / PIXI.TARGET_FPMS;
         this._tick(ms);
     };
 
     p._onRemoved = function () {
         if (this._tickListener)
-            //SharedTicker.remove(this._tickListener);
-            createjs.Ticker.removeEventListener("tick", this._tickListener);
-        //this.added = false;
+            SharedTicker.remove(this._tickListener);
+            //createjs.Ticker.removeEventListener("tick", this._tickListener);
     };
 
     /**
@@ -874,8 +873,8 @@
     p.__Container_destroy = p.destroy;
     p.destroy = function (destroyChildren) {
         if (this._tickListener) {
-            createjs.Ticker.removeEventListener("tick", this._tickListener);
-            //SharedTicker.remove(this._tickListener);
+            //createjs.Ticker.removeEventListener("tick", this._tickListener);
+            SharedTicker.remove(this._tickListener);
             this._tickListener = null;
         }
 
@@ -1185,8 +1184,8 @@
     p._onAdded = function () {
         if (!this.parent._isPixiFlash) {
             if (!this.added) {
-                //SharedTicker.add(this._tickListener);
-                createjs.Ticker.addEventListener("tick", this._tickListener);
+                SharedTicker.add(this._tickListener); console.log("added");
+                //createjs.Ticker.addEventListener("tick", this._tickListener);
                 this.added = true;
             }
         }
@@ -1194,14 +1193,14 @@
 
     p._tickListener = function (tickerDeltaTime) {
         //if (!this.worldVisible) return;
-        var ms = tickerDeltaTime.delta / 10 / SharedTicker.speed / PIXI.TARGET_FPMS;
+        var ms = tickerDeltaTime.delta  / SharedTicker.speed / PIXI.TARGET_FPMS;
         this._tick(ms);
     };
 
     p._onRemoved = function () {
         if (this._tickListener)
-            createjs.Ticker.removeEventListener("tick", this._tickListener);
-        //SharedTicker.remove(this._tickListener);
+            //createjs.Ticker.removeEventListener("tick", this._tickListener);
+            SharedTicker.remove(this._tickListener);
         //this.added = false;
     };
 
@@ -1340,7 +1339,7 @@
         if (this.mode != independent) { return; }
 
         if (!this._framerate) {
-            var o = this, fps = 60//o._framerate;
+            var o = this, fps = o._framerate;
             while ((o = o.parent) && !fps) {
                 if (o.mode == independent) { fps = o._framerate; }
             }
@@ -1510,8 +1509,8 @@
     p.__Container_destroy = p.destroy;
     p.destroy = function (destroyChildren) {
         if (this._tickListener) {
-            //SharedTicker.remove(this._tickListener);
-            createjs.Ticker.removeEventListener("tick", this._tickListener);
+            SharedTicker.remove(this._tickListener);
+            //createjs.Ticker.removeEventListener("tick", this._tickListener);
             this._tickListener = null;
         }
 

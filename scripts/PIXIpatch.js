@@ -104,17 +104,16 @@ PIXI.Container.prototype.addChild = function(child) {
   	return this.Container_addChild(child)
   };
 
+//createjs.Container =    PIXI.Container;
+//createjs.Bitmap =       PIXI.Sprite;
+//createjs.DisplayObject.prototype.emit = function () { };
+//createjs.DisplayObject.prototype.on = function () { };
+//createjs.DisplayObject.prototype.updateTransform = function () { };
+//createjs.DisplayObject.prototype.once = function () { };
+//createjs.DisplayObject.prototype.renderWebGL = function () { };
+//createjs.DisplayObject.prototype.renderCanvas = function () { };
 
-
-createjs.Container = PIXI.Container;
-createjs.Bitmap = PIXI.Sprite;
-createjs.DisplayObject.prototype.emit = function () { };
-createjs.DisplayObject.prototype.on = function () { };
-createjs.DisplayObject.prototype.updateTransform = function () { };
-createjs.DisplayObject.prototype.once = function () { };
-createjs.DisplayObject.prototype.renderWebGL = function () { };
-createjs.DisplayObject.prototype.renderCanvas = function () { };
-
+/*
 var Ticker = createjs.Ticker;
 
 Ticker._setupTick = function () {
@@ -134,3 +133,4 @@ Ticker._setupTick = function () {
         Ticker._timerId = setTimeout(Ticker._handleTimeout, Ticker._interval);
     }, 1)
 };
+*/

@@ -23,8 +23,6 @@ module FlipPlus.Menu.View {
 
             this.mouseEnabled = true;
 
-            /// Check this.hitArea = (new PIXI.Graphics().beginFill(0xFFFFFF).drawRect(0, 0, defaultWidth, defaultHeight));
-
             this.addEventListener("mousedown", () => { this.closePopUp() });
 
         }

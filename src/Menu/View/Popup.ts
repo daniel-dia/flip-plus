@@ -2,7 +2,7 @@ module FlipPlus.Menu.View {
 
     // View Class
     export class Popup extends gameui.UIItem {
-
+        private ind : PIXI.extras.MovieClip;
         private closeinterval;
         // class contructor
         constructor(disableInput: boolean = false) {
@@ -300,17 +300,29 @@ module FlipPlus.Menu.View {
 
             //hide the popup{
             this.fadeOut(1, 0.5);
-
+            this.removesClickIndicator();
             //dispatch a event for parent objects
             this.emit("onclose");
         }
 
         protected addsClickIndicator() {
             //add click indicator
-            var ind = gameui.AssetsManager.getMovieClip("touch")
-            this.addChild(ind);
-            ind.x = 1350;
-            ind.y = 1100;
+            
+            if (!this.ind) {
+                this.ind = gameui.AssetsManager.getMovieClip("touch")
+                this.addChild(this.ind);
+                this.ind.x = 1350;
+                this.ind.y = 1100;
+                this.ind.play();
+            }
+        }
+
+        protected removesClickIndicator() {
+             
+            //add click indicator
+            this.ind.stop();
+            this.removeChild(this.ind);
+            this.ind = null;
         }
 
     }

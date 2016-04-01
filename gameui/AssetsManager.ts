@@ -144,7 +144,7 @@ module gameui {
 
             var mc = new PIXI.extras.MovieClip(textures);
 
-            mc.play();
+            //mc.play();
             return mc
 
             
