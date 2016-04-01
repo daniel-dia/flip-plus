@@ -145,6 +145,8 @@
 
     },
 
+    endingText: "Ending Text",
+
     botsDescription: {
         Bot01 :"Description",
         Bot02 :"Description",
@@ -335,7 +337,7 @@ var stringResources_pt = {
         gift: "vídeo em @ min",
     },
 
-
+    endingText:"Texto do Final",
     botsDescription: {
         Bot01: "Descrição",
         Bot02: "Descrição",

@@ -53,7 +53,6 @@ module FlipPlus.Menu.View
             this.hitArea = new PIXI.Rectangle(0, 0, 976, 527);
         }
 
- 
         // Activate, Or show bonus, or show a sale.
         public activate() {
 
@@ -69,8 +68,7 @@ module FlipPlus.Menu.View
             if (this.secondsInteval) clearInterval(this.secondsInteval);
             if (this.rotationInterval) clearInterval(this.rotationInterval);
         }
-        
-      
+              
         // set a container graphic into the Terminal.
         public setContent(content: PIXI.Container) {
             this.textBox.text = "";
@@ -261,6 +259,15 @@ module FlipPlus.Menu.View
             this.once("click", () => { FlipPlusGame.showBonus(bonusId) });
         }
         
+        // #endregion
+
+        // #region ending
+
+        public showEnding() {
+            this.setText(StringResources.endingText, 1000);
+        }
+
+
         // #endregion
 
         // #region utils
