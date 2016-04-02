@@ -7,7 +7,6 @@ declare function getAssetsManifest(assetscale:number):Array<any>;
 module FlipPlus { 
 
     // Main game Class
-    // Controller
     export class FlipPlusGame  {
 
         // game screen
@@ -83,10 +82,10 @@ module FlipPlus {
             this.loadingScreen = new FlipPlus.Menu.Loading();
             this.gameScreen.switchScreen(this.loadingScreen);
 
+            // loading screen
             this.loadingScreen.loaded = () => {
-                if (levelCreatorMode == true && !levelCreatorTestMode) {
+                if (levelCreatorMode == true && !levelCreatorTestMode)
                     this.toLevelCreator()
-                }
                 else
                     this.showMainScreen();
             }
@@ -97,7 +96,6 @@ module FlipPlus {
                 this.coinsData.setAmount(10);
             }            
 
-            // back callback
             // add back button 
             document.addEventListener("backbutton", () => {
                 return this.gameScreen.sendBackButtonEvent()

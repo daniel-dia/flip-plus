@@ -764,7 +764,6 @@ var gameui;
 var FlipPlus;
 (function (FlipPlus) {
     // Main game Class
-    // Controller
     var FlipPlusGame = (function () {
         function FlipPlusGame() {
         }
@@ -796,10 +795,10 @@ var FlipPlus;
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
             this.gameScreen.switchScreen(this.loadingScreen);
+            // loading screen
             this.loadingScreen.loaded = function () {
-                if (levelCreatorMode == true && !levelCreatorTestMode) {
+                if (levelCreatorMode == true && !levelCreatorTestMode)
                     _this.toLevelCreator();
-                }
                 else
                     _this.showMainScreen();
             };
@@ -808,7 +807,6 @@ var FlipPlus;
                 this.storyData.setStoryPlayed("coins");
                 this.coinsData.setAmount(10);
             }
-            // back callback
             // add back button 
             document.addEventListener("backbutton", function () {
                 return _this.gameScreen.sendBackButtonEvent();
