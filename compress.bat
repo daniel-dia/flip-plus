@@ -8,6 +8,7 @@ echo ------------------------------------------------------
 "C:\Program Files\7-Zip\7z" d LudeiPackage.zip *.xmp -r
 echo ------------------------------------------------------
 "C:\Program Files\7-Zip\7z" d LudeiPackage.zip *.bat -r
+"C:\Program Files\7-Zip\7z" d LudeiPackage.zip *.db -r
 echo ------------------------------------------------------
 "C:\Program Files\7-Zip\7z" d LudeiPackage.zip assets/images
 "C:\Program Files\7-Zip\7z" d LudeiPackage.zip assets/imagens
