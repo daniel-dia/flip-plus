@@ -98,10 +98,9 @@ module FlipPlus {
             }            
 
             // back callback
-            // add back button callback
-            Cocoon.App.exitCallback(() => {
-                return this.gameScreen.sendBackButtonEvent()
-            })
+            // add back button 
+            if (Cocoon)
+            Cocoon.App.exitCallback(() => {return this.gameScreen.sendBackButtonEvent()})
 
             /*
             var ps = this.levelsManager.getAllProjects();

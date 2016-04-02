@@ -338,8 +338,7 @@ var audioManifest = [
         { id: "final", src: "final.ogg" },
         { id: "Power Down", src: "Power Down.ogg" },
         { id: "Power Up", src: "Power Up.ogg" },
-        { id: "bot up", src: "bot up.ogg" },
-        { id: "Robot Talk", src: "Robot Talk.ogg" },
+        { id: "bot up", src: "bot up.ogg" }, 
         { id: "Task Complete", src: "Task Complete.ogg" },
         { id: "Ticking Clock", src: "Ticking Clock.ogg" },
         { id: "Wrong Awnser", src: "Wrong Awnser.ogg" },
@@ -352,23 +351,21 @@ var audioManifest = [
         { id: "button", src: "Interface Sound-06.ogg" },
         { id: "buttonOff", src: "Interface Sound-09.ogg" },
         { id: "Factory Ambience", src: "Factory Ambience.ogg" },
-        { id: "Emotional Robot Talk 1", src: "Emotional Robot Talk 01.ogg" },
-        { id: "Emotional Robot Talk 2", src: "Emotional Robot Talk 02.ogg" },
-        { id: "Emotional Robot Talk 3", src: "Emotional Robot Talk 03.ogg" },
-        { id: "Emotional Robot Talk 4", src: "Emotional Robot Talk 04.ogg" },
-        { id: "Emotional Robot Talk 5", src: "Emotional Robot Talk 05.ogg" },
-        { id: "Emotional Robot Talk 6", src: "Emotional Robot Talk 06.ogg" },
-        { id: "Emotional Robot Talk 7", src: "Emotional Robot Talk 07.ogg" },
-        { id: "Emotional Robot Talk 8", src: "Emotional Robot Talk 08.ogg" },
-        { id: "Emotional Robot Talk 9", src: "Emotional Robot Talk 09.ogg" },
+        { id: "Emotional Robot Talk 1",  src: "Emotional Robot Talk 01.ogg" },
+        { id: "Emotional Robot Talk 2",  src: "Emotional Robot Talk 02.ogg" },
+        { id: "Emotional Robot Talk 3",  src: "Emotional Robot Talk 03.ogg" },
+        { id: "Emotional Robot Talk 4",  src: "Emotional Robot Talk 04.ogg" },
+        { id: "Emotional Robot Talk 5",  src: "Emotional Robot Talk 05.ogg" },
+        { id: "Emotional Robot Talk 6",  src: "Emotional Robot Talk 06.ogg" },
+        { id: "Emotional Robot Talk 7",  src: "Emotional Robot Talk 07.ogg" },
+        { id: "Emotional Robot Talk 8",  src: "Emotional Robot Talk 08.ogg" },
+        { id: "Emotional Robot Talk 9",  src: "Emotional Robot Talk 09.ogg" },
         { id: "Emotional Robot Talk 10", src: "Emotional Robot Talk 10.ogg" },
         { id: "Emotional Robot Talk 11", src: "Emotional Robot Talk 11.ogg" },
         { id: "Emotional Robot Talk 12", src: "Emotional Robot Talk 12.ogg" },
         { id: "Emotional Robot Talk 13", src: "Emotional Robot Talk 13.ogg" },
         { id: "Emotional Robot Talk 14", src: "Emotional Robot Talk 14.ogg" },
-        { id: "Emotional Robot Talk 15", src: "Emotional Robot Talk 15.ogg" },
-        { id: "Emotional Robot Talk 16", src: "Emotional Robot Talk 16.ogg" },
-        { id: "Emotional Robot Talk 17", src: "Emotional Robot Talk 17.ogg" },
+        { id: "Emotional Robot Talk 15", src: "Emotional Robot Talk 15.ogg" }, 
 
 
         { id: "Talking Robot-0", src: "Talking Robot-00.ogg" },
@@ -391,14 +388,6 @@ var audioManifest = [
         { id: "Talking Robot-17", src: "Talking Robot-17.ogg" },
         { id: "Talking Robot-18", src: "Talking Robot-18.ogg" }, 
 
-
-
-        { id: "Robot Talk_02", src: "Robot Talk_02.ogg" },
-        { id: "Robot Talk_03", src: "Robot Talk_03.ogg" },
-        { id: "Robot Talk_04", src: "Robot Talk_04.ogg" },
-        { id: "Robot Talk_05", src: "Robot Talk_05.ogg" },
-        { id: "Robot Talk_06", src: "Robot Talk_06.ogg" },
-        { id: "Robot Talk_07", src: "Robot Talk_07.ogg" },
 ];
 
 var framesCount = {

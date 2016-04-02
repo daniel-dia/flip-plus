@@ -809,10 +809,9 @@ var FlipPlus;
                 this.coinsData.setAmount(10);
             }
             // back callback
-            // add back button callback
-            Cocoon.App.exitCallback(function () {
-                return _this.gameScreen.sendBackButtonEvent();
-            });
+            // add back button 
+            if (Cocoon)
+                Cocoon.App.exitCallback(function () { return _this.gameScreen.sendBackButtonEvent(); });
             /*
             var ps = this.levelsManager.getAllProjects();
             ps[1].UserData.unlocked = true;
