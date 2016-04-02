@@ -810,8 +810,9 @@ var FlipPlus;
             }
             // back callback
             // add back button 
-            if (Cocoon)
-                Cocoon.App.exitCallback(function () { return _this.gameScreen.sendBackButtonEvent(); });
+            document.addEventListener("backbutton", function () {
+                return _this.gameScreen.sendBackButtonEvent();
+            }, false);
             /*
             var ps = this.levelsManager.getAllProjects();
             ps[1].UserData.unlocked = true;
