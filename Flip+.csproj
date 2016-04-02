@@ -1418,9 +1418,7 @@
     <Content Include="index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="scripts\cocoon.js" />
     <Content Include="scripts\createjs-2015.05.21.min.js" />
-    <Content Include="scripts\HtmlPage1.html" />
     <Content Include="scripts\md5.js" />
     <Content Include="scripts\pixi-flash.js" />
     <Content Include="scripts\PIXIpatch.js" />
