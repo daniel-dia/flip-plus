@@ -1,12 +1,14 @@
-﻿module FlipPlus.Menu {
+﻿declare var Cocoon: any;
+
+module FlipPlus.Menu {
     export class ShopMenu extends GenericMenu {
 
         private productsListItems: Array<View.ProductListItem>;
         private statusText: PIXI.extras.BitmapText;
         private loadingObject: PIXI.DisplayObject;
-        private products: Array<Cocoon.Store.ProductInfo>;
+        private products: Array<any>;
 
-        private productInfo: Array<Cocoon.Store.ProductInfo> = [
+        private productInfo: Array<any> = [
             { productId: "50parts",   description: "50",   productAlias: "50",   title: "50",   localizedPrice: "U$ 0,99" },
             { productId: "200parts",  description: "200",  productAlias: "200",  title: "200",  localizedPrice: "U$ 1,99" },
             { productId: "500parts",  description: "500",  productAlias: "500",  title: "500",  localizedPrice: "U$ 3,99" },
@@ -40,7 +42,7 @@
         }
 
         // add all products in the list
-        protected fillProducts(productList: Array<Cocoon.Store.ProductInfo>, inappsService) {
+        protected fillProducts(productList: Array<any>, inappsService) {
             var dic = {};
             this.productsListItems = <Array<View.ProductListItem>>dic;
             this.showLoaded();
@@ -54,7 +56,7 @@
         }
 
         // add a single product in the list
-        protected createProduct(product: Cocoon.Store.ProductInfo, inappsService:any): PIXI.DisplayObject {
+        protected createProduct(product: any, inappsService:any): PIXI.DisplayObject {
 
             var productListItem = new View.ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice, "store/" + product.productId);
 

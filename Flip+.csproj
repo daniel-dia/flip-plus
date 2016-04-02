@@ -1421,17 +1421,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="scripts\cocoon.js" />
-    <Content Include="scripts\CocoonJStouchPathc.js" />
     <Content Include="scripts\createjs-2015.05.21.min.js" />
+    <Content Include="scripts\HtmlPage1.html" />
     <Content Include="scripts\md5.js" />
-    <Content Include="scripts\pixi - Copy.js" />
-    <Content Include="scripts\pixi-flash - Copy.js" />
     <Content Include="scripts\pixi-flash.js" />
     <Content Include="scripts\PIXIpatch.js" />
     <Content Include="scripts\pixi.js" />
     <Content Include="scripts\plataform.js" />
     <Content Include="scripts\script.js" />
     <Content Include="scripts\setMobileScale.js" />
+    <Content Include="scripts\socialServices.js" />
     <Content Include="scripts\timer.js" />
     <Content Include="style\main.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1508,7 +1507,6 @@
     <TypeScriptCompile Include="src\UserData\Story.ts" />
     <TypeScriptCompile Include="src\UserData\Timers.ts" />
     <TypeScriptCompile Include="src\Utils\Effects.ts" />
-    <TypeScriptCompile Include="typing\cocoon.d.ts" />
     <TypeScriptCompile Include="typing\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="typing\createjs\createjs.d.ts" />
     <TypeScriptCompile Include="typing\easeljs\easeljs.d.ts" />

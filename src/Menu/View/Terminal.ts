@@ -241,8 +241,9 @@ module FlipPlus.Menu.View
             var timeout = FlipPlusGame.timersData.getTimer(bonusId);
             var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", this.toHHMMSS(timeout));
 
-            this.once("tap", () => { FlipPlusGame.showBonus(bonusId) });
-            this.once("click", () => { FlipPlusGame.showBonus(bonusId) });
+            this.once("tap", () =>   { this.emit("bonus", bonusId) });
+            this.once("click", () => { this.emit("bonus", bonusId) });
+
             createjs.DisplayObject.prototype.dispatchEvent
             if (this.secondsInteval) clearInterval(this.secondsInteval);
             this.secondsInteval = setInterval(() => {
@@ -255,8 +256,8 @@ module FlipPlus.Menu.View
         private showBonusReady(bonusId: string) {
             this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", StringResources.mm_play);
 
-            this.once("tap", () => { FlipPlusGame.showBonus(bonusId) });
-            this.once("click", () => { FlipPlusGame.showBonus(bonusId) });
+            this.once("tap", () =>   { this.emit("bonus",bonusId) });
+            this.once("click", () => { this.emit("bonus", bonusId) });
         }
         
         // #endregion

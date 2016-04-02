@@ -1,4 +1,4 @@
-﻿declare var lib;
+﻿declare var lib_logo;
 
 module FlipPlus.Menu {
     export class TitleScreen extends gameui.ScreenState {

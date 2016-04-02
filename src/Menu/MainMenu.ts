@@ -105,6 +105,12 @@ module FlipPlus.Menu {
             this.terminal.x = 361;
             this.terminal.y = 451;
             this.content.addChild(this.terminal);
+
+            this.terminal.on("bonus", (bonusId) => {
+                FlipPlusGame.showBonus(bonusId);
+            });
+
+
         }
 
         private addPlayButton() {
