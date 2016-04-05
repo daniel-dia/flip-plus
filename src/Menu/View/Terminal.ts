@@ -12,7 +12,7 @@ module FlipPlus.Menu.View
         private secondsInteval: number;
         private rotationInterval: number;
         
-        private intervalTimeout = 7000;
+        private intervalTimeout = 5000;
         private saleChance = 0.05;
         private bonuses = ["Bonus1", "Bonus2", "Bonus3"];
                 
@@ -254,10 +254,11 @@ module FlipPlus.Menu.View
 
                 if (timeout > 0) text = this.toHHMMSS(timeout);
                 else {
-                    if (CocoonAds.getStatus() == CocoonAds.STATUS.READY) text = "ready";
-                    if (CocoonAds.getStatus() == CocoonAds.STATUS.LOADING) text = "loading";
-                    if (CocoonAds.getStatus() == CocoonAds.STATUS.FAIL) text = "fail";
-                    if (CocoonAds.getStatus() == CocoonAds.STATUS.TIMEOUT) text = "timeout";
+                    if (CocoonAds.getStatus() == CocoonAds.STATUS.READY) text = StringResources.mm_play;
+                    if (CocoonAds.getStatus() == CocoonAds.STATUS.NOT_AVALIABLE) text = StringResources.mm_play;
+                    if (CocoonAds.getStatus() == CocoonAds.STATUS.LOADING) text = StringResources.menus.loading;
+                    if (CocoonAds.getStatus() == CocoonAds.STATUS.FAIL) text = StringResources.menus.errorAds;
+                    if (CocoonAds.getStatus() == CocoonAds.STATUS.TIMEOUT) text = StringResources.menus.errorAds;
                 }
                 content.getChildByName("iconText")["text"] = text;
             }
@@ -286,11 +287,13 @@ module FlipPlus.Menu.View
             var hours = Math.floor(sec_num / 3600);
             var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
             var seconds = sec_num - (hours * 3600) - (minutes * 60);
-
-            if (hours < 10)   { hours =   "0" + hours;   }
-            if (minutes < 10) { minutes = "0" + minutes; }
-            if (seconds < 10) { seconds = "0" + seconds; }
-            var time = hours + ':' + minutes + ':' + seconds;
+            var s_hours = hours.toString();
+            var s_minutes = minutes.toString();
+            var s_seconds = seconds.toString();
+            if (hours   < 10) { s_hours   = "0" + hours;   }
+            if (minutes < 10) { s_minutes = "0" + minutes; }
+            if (seconds < 10) { s_seconds = "0" + seconds; }
+            var time = s_hours + ':' + s_minutes + ':' + s_seconds;
             return time;
         }
 

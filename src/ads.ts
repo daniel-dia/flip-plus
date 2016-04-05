@@ -7,7 +7,12 @@ class CocoonAds  {
     private static ad_timeout;
     
     public static show(callback: () => void) {
-        if (!this.interstitial) return;
+
+        if (!this.interstitial) {
+            callback();
+            return;
+        }
+
         if (this.getStatus() == CocoonAds.STATUS.READY) {
             this.debug("show")
             this.interstitial.on("show", (e) => { callback(); });
@@ -19,7 +24,7 @@ class CocoonAds  {
     }
 
     public static getStatus(): CocoonAds.STATUS {
-        if (!this.interstitial) return CocoonAds.STATUS.FAIL;
+        if (!this.interstitial) return CocoonAds.STATUS.NOT_AVALIABLE;
         if (this.interstitial && this.interstitial.isReady()) return CocoonAds.STATUS.READY;
         return this.status;
     }
@@ -94,6 +99,7 @@ module CocoonAds {
         FAIL,
         NOT_LOADED,
         TIMEOUT,
+        NOT_AVALIABLE,
     }
 
 }

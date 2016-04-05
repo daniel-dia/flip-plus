@@ -85,7 +85,7 @@ module FlipPlus.Menu {
         private addMyBots() {
             this.myBots = new Robots.MyBots(FlipPlusGame.levelsManager);
             this.content.addChild(this.myBots);
-            this.myBots.addEventListener("robot", (BotId) => {
+            this.myBots.on("robot", (BotId) => {
                 this.robotClick(BotId);
            });
         }

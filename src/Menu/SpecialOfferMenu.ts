@@ -10,7 +10,7 @@ module FlipPlus.Menu {
         }
 
         // add all products in the list
-        protected fillProducts(productList: Array<Cocoon.Store.ProductInfo>) {
+        protected fillProducts(productList: Array<any>) {
 
             var bt = new gameui.ImageButton("menu/specialOffer");
             this.content.addChild(bt);

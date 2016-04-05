@@ -134,7 +134,7 @@
         playerNameDesc: "Type your name for the leaderboards.",
         error: "Sorry, Something went wrong",
         errorShop: "Sorry, Shop Not avaliable",
-        errorAds: "Can't load Ads, try again",
+        errorAds: "Try again",
         rating: "Rate us",
 
         ratingDesc: "Are you enjoying?\nPlease rate us",
