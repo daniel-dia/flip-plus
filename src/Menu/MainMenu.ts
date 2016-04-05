@@ -1,3 +1,6 @@
+declare function ad_show(callback);
+declare function ad_initialize();
+
 module FlipPlus.Menu {
 
     export class MainMenu extends gameui.ScreenState {
@@ -66,9 +69,7 @@ module FlipPlus.Menu {
 
                 // updates terminal
                 this.terminal.activate();
-
             }
-
 
             // updates parts counter
             this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
@@ -106,8 +107,12 @@ module FlipPlus.Menu {
             this.terminal.y = 451;
             this.content.addChild(this.terminal);
 
+            CocoonAds.initialize();
+          
             this.terminal.on("bonus", (bonusId) => {
-                FlipPlusGame.showBonus(bonusId);
+                CocoonAds.show(() => {
+                    FlipPlusGame.showBonus(bonusId);
+                })
             });
 
 

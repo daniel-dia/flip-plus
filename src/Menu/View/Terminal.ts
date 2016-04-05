@@ -200,16 +200,16 @@ module FlipPlus.Menu.View
 
             var bonusready: string;
             // verifies in all bonuses if there is one ready.
-            for (var b in this.bonuses) {
-                var bonusId = this.bonuses[b];
-                var timer = FlipPlusGame.timersData.getTimer(bonusId);
-                //if there is a bonus ready, shows it
-                if (timer <= 0) bonusready = bonusId;
-            }
-
-            if (bonusready)
-                this.showBonusReady(bonusready)
-            else
+           //for (var b in this.bonuses) {
+           //    var bonusId = this.bonuses[b];
+           //    var timer = FlipPlusGame.timersData.getTimer(bonusId);
+           //    //if there is a bonus ready, shows it
+           //    if (timer <= 0) bonusready = bonusId;
+           //}
+           //
+           //if (bonusready)
+           //    this.showBonusReady(bonusready)
+           //else
                 this.startBonusRotation();
         } 
 
@@ -238,27 +238,36 @@ module FlipPlus.Menu.View
         // show a single bonus timeout info.
         private showBonusTimer(bonusId: string) {
 
+            
+
             var timeout = FlipPlusGame.timersData.getTimer(bonusId);
             var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", this.toHHMMSS(timeout));
 
             this.once("tap", () =>   { this.emit("bonus", bonusId) });
             this.once("click", () => { this.emit("bonus", bonusId) });
 
+            // update texts
+            var update = () => {
+
+                var text;
+                timeout = FlipPlusGame.timersData.getTimer(bonusId);
+
+                if (timeout > 0) text = this.toHHMMSS(timeout);
+                else {
+                    if (CocoonAds.getStatus() == CocoonAds.STATUS.READY) text = "ready";
+                    if (CocoonAds.getStatus() == CocoonAds.STATUS.LOADING) text = "loading";
+                    if (CocoonAds.getStatus() == CocoonAds.STATUS.FAIL) text = "fail";
+                    if (CocoonAds.getStatus() == CocoonAds.STATUS.TIMEOUT) text = "timeout";
+                }
+                content.getChildByName("iconText")["text"] = text;
+            }
+
             createjs.DisplayObject.prototype.dispatchEvent
             if (this.secondsInteval) clearInterval(this.secondsInteval);
-            this.secondsInteval = setInterval(() => {
-                timeout = FlipPlusGame.timersData.getTimer(bonusId);
-                content.getChildByName("iconText")["text"] = this.toHHMMSS(timeout);
-            }, 1000);
+            this.secondsInteval = setInterval(update, 500);
+            update();
         }
-
-        // show a bonus screen ready to play
-        private showBonusReady(bonusId: string) {
-            this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", StringResources.mm_play);
-
-            this.once("tap", () =>   { this.emit("bonus",bonusId) });
-            this.once("click", () => { this.emit("bonus", bonusId) });
-        }
+ 
         
         // #endregion
 
@@ -278,9 +287,9 @@ module FlipPlus.Menu.View
             var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
             var seconds = sec_num - (hours * 3600) - (minutes * 60);
 
-            if (hours < 10)   {     hours =   "0" + hours;   }
-            if (minutes < 10) {     minutes = "0" + minutes; }
-            if (seconds < 10) {     seconds = "0" + seconds; }
+            if (hours < 10)   { hours =   "0" + hours;   }
+            if (minutes < 10) { minutes = "0" + minutes; }
+            if (seconds < 10) { seconds = "0" + seconds; }
             var time = hours + ':' + minutes + ':' + seconds;
             return time;
         }

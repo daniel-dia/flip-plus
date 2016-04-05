@@ -1015,7 +1015,6 @@
     <Content Include="assets\images%401x\workshop\staryellow.png" />
     <Content Include="assets\images\agua.png" />
     <Content Include="assets\images\BackBt.png" />
-    <Content Include="assets\images\bar0a.png" />
     <Content Include="assets\images\bolinhas.png" />
     <Content Include="assets\images\Bonus1\back.png" />
     <Content Include="assets\images\Bonus1\barrel0.png" />
@@ -1418,6 +1417,7 @@
     <Content Include="index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="scripts\ads.js" />
     <Content Include="scripts\createjs-2015.05.21.min.js" />
     <Content Include="scripts\md5.js" />
     <Content Include="scripts\pixi-flash.js" />
@@ -1431,6 +1431,7 @@
     <Content Include="style\main.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="src\ads.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProductListItem.ts" />
     <TypeScriptCompile Include="src\Menu\WorkshopMenuAction.ts" />
     <TypeScriptCompile Include="src\Projects\ActionLevelsManager.ts" />

@@ -323,7 +323,7 @@
 "meta": {
 	"app": "Adobe Flash Professional",
 	"version": "13.1.0.226",
-	"image": "Touch.png",
+	"image": "touch.png",
 	"format": "RGBA8888",
 	"size": {"w":512,"h":512},
 	"scale": "1"

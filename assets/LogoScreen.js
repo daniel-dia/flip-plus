@@ -224,21 +224,7 @@
     p.nominalBounds = new cjs.Rectangle(-99.3, -46.4, 198.8, 93);
 
 
-    (lib.enter = function (mode, startPosition, loop) {
-        this.initialize(mode, startPosition, loop, {});
-
-        // Camada 1
-        this.text = new cjs.Text("ENTER", "Bold 40px 'Exo 2.0'", "#F8F5F8");
-        this.text.textAlign = "center";
-        this.text.lineHeight = 42;
-        this.text.setTransform(61.6, 0);
-        this.text.shadow = new cjs.Shadow("rgba(255,0,0,1)", 0, 0, 5);
-
-        this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.text }] }).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).to({ state: [{ t: this.text }] }, 1).wait(1));
-
-    }).prototype = p = new cjs.MovieClip();
-    p.nominalBounds = new cjs.Rectangle(0.8, 0, 125.6, 52);
-
+    
 
     (lib.vagalume_1 = function (mode, startPosition, loop) {
         this.initialize(mode, startPosition, loop, {});
@@ -280,12 +266,6 @@
 
     (lib.AllScene = function (mode, startPosition, loop) {
         this.initialize(mode, startPosition, loop, {});
-
-        // Layer 1
-        this.instance = new lib.enter("synched", 0);
-        this.instance.setTransform(-562.6, -592.3, 1, 1, 0, 0, 0, 76.8, 31);
-
-        this.timeline.addTween(cjs.Tween.get({}).to({ state: [{ t: this.instance }] }).wait(450));
 
         // Layer 2
         this.instance_1 = new lib.logo_1();
