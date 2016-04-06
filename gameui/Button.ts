@@ -24,8 +24,10 @@ module gameui {
 
             this.interactive = true;
 
-            this.on("click",    this.event);
-            this.on("tap",      this.event);
+            if (event) {
+                this.on("click", this.event);
+                this.on("tap", this.event);
+            }
             
             this.on("mousedown",  (event: any) => { this.onPress(event);})
             this.on("touchstart", (event: any) => { this.onPress(event);})

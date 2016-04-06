@@ -3,19 +3,27 @@ module FlipPlus.Menu.View
     //View
     export class Terminal extends PIXI.Container
     {
-
         private screenContaier: PIXI.Container;
         private content: PIXI.Container;
         private textBox: PIXI.extras.BitmapText;
-        private static: PIXI.DisplayObject;
+        private staticFX: PIXI.DisplayObject;
         private mymask: PIXI.Sprite;
-        private secondsInteval: number;
-        private rotationInterval: number;
         
+        
+        // current Actions
+        private currentAction: string;
+        private currentParameter: string;
+
+        // chance to get a sale
+        private saleChance = 0.02;
+
+        // interval for changing bonus
+        private rotationInterval: number;
+        private secondsIntevalUpdate: number;
         private intervalTimeout = 5000;
-        private saleChance = 0.05;
         private bonuses = ["Bonus1", "Bonus2", "Bonus3"];
-                
+            
+        // #region initialization    
         constructor()
         {
             super();
@@ -34,23 +42,45 @@ module FlipPlus.Menu.View
             this.y = 451;
 
             //add static
-            this.static = gameui.AssetsManager.getBitmap("static");
-            this.addChild(this.static);
-            this.static.set({ x: -60, y: -73 });
+            this.staticFX = gameui.AssetsManager.getBitmap("static");
+            this.addChild(this.staticFX);
+            this.staticFX.set({ x: -60, y: -73 });
 
             //add static
             this.mymask = gameui.AssetsManager.getBitmap("terminalMask");
             this.addChild(this.mymask);
             this.mymask.set({ x: -60, y: -73 });
             this.mask = this.mymask;
-            this.static.alpha = 0.1;
+            this.staticFX.alpha = 0.1;
             
+            // add click callback
+            this.once("tap", () => { this.interaction() });
+            this.once("click", () => { this.interaction() });
+            
+            // add Effects
+            this.on("mousedown", (event: any) => { this.effectClickOn(); })
+            this.on("touchstart", (event: any) => { this.effectClickOn(); })
 
-            this.once("touch", () => { this.emit("terminalAction") });
-            this.once("click", () => { this.emit("terminalAction") });
+            this.on("touchend", (event: any) => { this.effectClickOff(); })
+            this.on("mouseup", (event: any) => { this.effectClickOff(); })
+            this.on("mouseupoutside", (event: any) => { this.effectClickOff(); });
+            this.on("touchendoutside", (event: any) => { this.effectClickOff(); });
             
             this.interactive = true;
             this.hitArea = new PIXI.Rectangle(0, 0, 976, 527);
+        }
+
+        private interaction() {
+            if (this.currentAction) this.emit(this.currentAction, this.currentParameter) 
+        }
+
+        private effectClickOn() {
+            this.staticFX.visible = true;
+            this.staticFX.alpha = 1;
+        }
+
+        private effectClickOff() {
+            this.staticFX.visible = false;
         }
 
         // Activate, Or show bonus, or show a sale.
@@ -65,10 +95,14 @@ module FlipPlus.Menu.View
         // Stops all processing in the terminal
         public desactivate() {
             // clear current interval
-            if (this.secondsInteval) clearInterval(this.secondsInteval);
+            if (this.secondsIntevalUpdate)   clearInterval(this.secondsIntevalUpdate);
             if (this.rotationInterval) clearInterval(this.rotationInterval);
         }
               
+        // #endregion
+
+        // #region content
+
         // set a container graphic into the Terminal.
         public setContent(content: PIXI.Container) {
             this.textBox.text = "";
@@ -85,7 +119,7 @@ module FlipPlus.Menu.View
             }
 
             // animates static
-            createjs.Tween.get(this.static).
+            createjs.Tween.get(this.staticFX).
                 to({ alpha: 0.1, y: -400 }, 50).
                 to({ alpha: 0.7, y: -300 }, 50).
                 to({ alpha: 0.1, y: -200 }, 50).
@@ -156,6 +190,8 @@ module FlipPlus.Menu.View
 
         public setText(text: string,timeout:number=8000) {
 
+            this.currentAction = null;
+
             clearInterval(this.rotationInterval);
 
             var content = new PIXI.Container();
@@ -185,6 +221,8 @@ module FlipPlus.Menu.View
 
 
         }
+
+        // #endregion
 
         // #region sale
 
@@ -220,12 +258,12 @@ module FlipPlus.Menu.View
             if (this.rotationInterval) clearInterval(this.rotationInterval);
 
             // set a new rotation interval
-            this.showBonusTimer(this.bonuses[0]);
+            this.showBonusInfo(this.bonuses[0]);
             var currentBonus = 1;
             this.rotationInterval = setInterval(() => {
 
                 // show a bonus current timer info in loop.
-                this.showBonusTimer(this.bonuses[currentBonus]);
+                this.showBonusInfo(this.bonuses[currentBonus]);
 
                 currentBonus++;
 
@@ -236,15 +274,13 @@ module FlipPlus.Menu.View
         }
 
         // show a single bonus timeout info.
-        private showBonusTimer(bonusId: string) {
-
+        private showBonusInfo(bonusId: string) {
             
-
             var timeout = FlipPlusGame.timersData.getTimer(bonusId);
             var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", this.toHHMMSS(timeout));
 
-            this.once("tap", () =>   { this.emit("bonus", bonusId) });
-            this.once("click", () => { this.emit("bonus", bonusId) });
+            this.currentParameter = bonusId;
+            this.currentAction = "bonus";
 
             // update texts
             var update = () => {
@@ -264,8 +300,8 @@ module FlipPlus.Menu.View
             }
 
             createjs.DisplayObject.prototype.dispatchEvent
-            if (this.secondsInteval) clearInterval(this.secondsInteval);
-            this.secondsInteval = setInterval(update, 500);
+            if (this.secondsIntevalUpdate) clearInterval(this.secondsIntevalUpdate);
+            this.secondsIntevalUpdate = setInterval(update, 500);
             update();
         }
  
