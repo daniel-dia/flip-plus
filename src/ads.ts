@@ -1,25 +1,28 @@
 ﻿//jj 884d50c2c33a437cab51071d14983cfb
-//fp 1a895b1b280d48d88ab5ddce11633701
-
+//fp and 5c4ca98862a04ee09f2f9a67c5b95d80
+//fp ios 1a895b1b280d48d88ab5ddce11633701
 class CocoonAds  {
     private static interstitial
     private static status: CocoonAds.STATUS; 
     private static ad_timeout;
     
-    public static show(callback: () => void) {
+    public static show(callback?: (any?) => void) {
 
         if (!this.interstitial) {
-            callback();
+            if (callback) callback();
             return;
         }
 
         if (this.getStatus() == CocoonAds.STATUS.READY) {
             this.debug("show")
-            this.interstitial.on("show", (e) => { callback(); });
+            this.interstitial.on("show", (e) => {
+                if (callback) callback(true);
+            });
             this.interstitial.show()
         } else {
             this.debug("not loaded yet");
             this.load();
+            if (callback) callback();
         }
     }
 
@@ -34,21 +37,25 @@ class CocoonAds  {
     
     public static initialize() {
 
-        if (!window["Cocoon"] || !Cocoon.Ad || !Cocoon.Ad.MoPub) {
-            this.debug('Cocoon AdMob plugin not installed');
-            this.status = CocoonAds.STATUS.FAIL;
-            return;
-        }
-        
-        Cocoon.Ad.MoPub.configure({
-            ios: { interstitial: "1a895b1b280d48d88ab5ddce11633701"},
-            android: {interstitial: "5c4ca98862a04ee09f2f9a67c5b95d80"}
-        });
+        document.addEventListener('deviceready', () => {
 
-        if (!this.interstitial) this.interstitial = Cocoon.Ad.MoPub.createInterstitial();
+            if (!window["Cocoon"] || !Cocoon.Ad || !Cocoon.Ad.MoPub) {
+                this.debug('Cocoon AdMob plugin not installed');
+                this.status = CocoonAds.STATUS.FAIL;
+                return;
+            }
 
-        this.setCallbacks();
-        this.load();
+            Cocoon.Ad.MoPub.configure({
+                ios: { interstitial: "1a895b1b280d48d88ab5ddce11633701" },
+                android: { interstitial: "5c4ca98862a04ee09f2f9a67c5b95d80" }
+            });
+
+            if (!this.interstitial) this.interstitial = Cocoon.Ad.MoPub.createInterstitial();
+
+            this.setCallbacks();
+
+        }, false);
+       
     }
 
     private static setCallbacks() {
@@ -71,7 +78,7 @@ class CocoonAds  {
 
     }
 
-    private static load() {
+    public static load() {
         if (!this.interstitial) return;
         this.debug("loading") 
         this.interstitial.load();

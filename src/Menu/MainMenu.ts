@@ -107,12 +107,14 @@ module FlipPlus.Menu {
             this.terminal.y = 451;
             this.content.addChild(this.terminal);
 
-            CocoonAds.initialize();
-          
             this.terminal.on("bonus", (bonusId) => {
-                CocoonAds.show(() => {
-                    FlipPlusGame.showBonus(bonusId);
-                })
+
+                // loads ads and show bonus
+                CocoonAds.load();
+
+                // when bonus finishes the ads is shown
+                FlipPlusGame.showBonus(bonusId);
+                
             });
 
 

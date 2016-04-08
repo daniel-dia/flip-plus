@@ -8,10 +8,10 @@
         protected footerContainer: PIXI.Container;
 
         protected footerTexts: Array<PIXI.Text>;
-        protected footerMaxs:  Array<PIXI.Sprite>;
+        protected footerMaxs: Array<PIXI.Sprite>;
         protected partsIndicator: Menu.View.CoinsIndicator;
 
-        protected  menu: Menu.View.ScreenMenu;
+        protected menu: Menu.View.ScreenMenu;
 
         public popup: Menu.View.Popup;
         public message: Menu.View.Message;
@@ -22,11 +22,11 @@
 
         private fx: FlipPlus.Effects;
 
-        constructor(itemsArray: Array<string>,bonusId:string="1"){
+        constructor(itemsArray: Array<string>, bonusId: string = "1") {
             super();
 
             this.itemsArray = itemsArray;
-           
+
             this.bonusId = bonusId;
             this.itemsEarned = 0;
 
@@ -62,12 +62,12 @@
             //this.view.setChildIndex(this.content, this.view.children.length - 1); 
         }
 
-        //add Scene objects to the view
-        protected addScene(bonusId:string) {
+        // add Scene objects to the view
+        protected addScene(bonusId: string) {
             //adds Background
             var background = gameui.AssetsManager.getBitmap(bonusId + "/back");
             background.scale.x = background.scale.y = 2
-            background.name="background";
+            background.name = "background";
             this.background.addChild(background);
             
           
@@ -89,15 +89,15 @@
 
             this.footer.addChild(titleText);
 
-        
+
         }
 
-        //adds objects to the view <<interface>>
-        protected addObjects() {}
+        // adds objects to the view <<interface>>
+        protected addObjects() { }
 
-        //creates a footer
+        // creates a footer
         protected addFooter(itemsArray: Array<string>) {
-            
+
             this.footerContainer = new PIXI.Container();
             this.footerContainer.y = - 291;
             this.footerTexts = [];
@@ -113,7 +113,7 @@
                 itemObj.y = 180;
                 itemObj.x = defaultWidth / itemsArray.length * i + 80;
                 itemObj.name = itemId;
-                itemObj.pivot.x = itemObj.getBounds().width/2;
+                itemObj.pivot.x = itemObj.getBounds().width / 2;
                 itemObj.pivot.y = itemObj.getBounds().height / 2;
                 this.footerContainer.addChild(itemObj);
 
@@ -138,15 +138,15 @@
             this.footer.addChild(this.footerContainer);
         }
 
-        //updates all footer labels 
-         protected updatePartsAmmount() {
+        // updates all footer labels 
+        protected updatePartsAmmount() {
             var qt = FlipPlusGame.coinsData.getAmount();
             this.partsIndicator.updateAmmount(qt);
         }
 
-        //animate a display object to the menu
-         protected animateItemToHeader(itemObj: PIXI.DisplayObject, itemId: string = "coin") {
-            
+        // animate a display object to the menu
+        protected animateItemToHeader(itemObj: PIXI.DisplayObject, itemId: string = "coin") {
+
             if (itemId == "2coin" || itemId == "3coin") itemId = "coin"
             var footerItem = this.partsIndicator.getChildByName("icon");
             if (footerItem && itemObj.parent) {
@@ -174,18 +174,18 @@
 
                         //play Sound
                         gameui.AudiosManager.playSound("Correct Answer 2");
-                    }).to({ alpha: 0 },300);
+                    }).to({ alpha: 0 }, 300);
             }
 
         }
 
-        //create a loop animation for a item
+        // create a loop animation for a item
         protected animateItemObjectIdle(itemObj: PIXI.DisplayObject) {
-        
-            createjs.Tween.get(itemObj, { loop: true }).to({ y: itemObj.y - 20 }, 500, createjs.Ease.quadInOut).to({ y: itemObj.y}, 500, createjs.Ease.quadInOut);
+
+            createjs.Tween.get(itemObj, { loop: true }).to({ y: itemObj.y - 20 }, 500, createjs.Ease.quadInOut).to({ y: itemObj.y }, 500, createjs.Ease.quadInOut);
         }
 
-        //adds menu to the view
+        // adds menu to the view
         protected addMenu() {
             this.menu = new Menu.View.ScreenMenu();
             this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions() });
@@ -193,26 +193,27 @@
             this.header.addChild(this.menu);
         }
 
-        //updates user Data with new Item
+        // updates user Data with new Item
         protected userAquireItem(itemId: string) {
             var ammount = 1;
 
             if (itemId == "2coin") ammount = 2;
             if (itemId == "3coin") ammount = 3;
 
-            if (itemId == "2coin" || itemId == "3coin")itemId = "coin"
+            if (itemId == "2coin" || itemId == "3coin") itemId = "coin"
             FlipPlusGame.coinsData.increaseAmount(ammount);
             //FlipPlusGame.itemsData.increaseItemQuantity(itemId);
         }
 
+        // select random items in a array
         protected selectRandomItems(quantity: number): Array<string> {
             this.itemsArray
             var items = new Array();
 
             var ia = ["coin"];
 
-            for (var i = 0; i < quantity; i++) 
-                items.push(ia[Math.floor(Math.random()*ia.length)]);
+            for (var i = 0; i < quantity; i++)
+                items.push(ia[Math.floor(Math.random() * ia.length)]);
 
             return items;
         }
@@ -228,8 +229,8 @@
             // play music
             gameui.AudiosManager.playMusic("bonusbg");
 
-        }        
-        
+        }
+
         back() {
             FlipPlus.FlipPlusGame.showMainScreen();
         }
@@ -238,12 +239,12 @@
         endBonus() {
 
             FlipPlusGame.analytics.logBonus(this.bonusId, this.itemsEarned);
-
-            //lock menu interaction
-            //this.menu.fadeOut();
-
-            //back to the screen
+            
+            // back to main screen
             this.back();
+
+            // show ads and 
+            CocoonAds.show();
 
         }
     }

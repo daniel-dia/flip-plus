@@ -788,6 +788,8 @@ var FlipPlus;
             // analytics
             this.analytics = new Analytics();
             this.analytics.logGameStart();
+            // initialize ads
+            CocoonAds.initialize();
             //managers
             this.BotsLevelManager = new FlipPlus.Levels.LevelsManager(levelsData, this.levelsUserDataManager);
             this.actionLevelsManager = new FlipPlus.Levels.ActionLevelsManager(ActionLevelsData, this.levelsUserDataManager);
@@ -3602,7 +3604,7 @@ var FlipPlus;
                 //bring content to front
                 //this.view.setChildIndex(this.content, this.view.children.length - 1); 
             }
-            //add Scene objects to the view
+            // add Scene objects to the view
             BonusScreen.prototype.addScene = function (bonusId) {
                 //adds Background
                 var background = gameui.AssetsManager.getBitmap(bonusId + "/back");
@@ -3622,9 +3624,9 @@ var FlipPlus;
                 //titleText.textBaseline = "middle";
                 this.footer.addChild(titleText);
             };
-            //adds objects to the view <<interface>>
+            // adds objects to the view <<interface>>
             BonusScreen.prototype.addObjects = function () { };
-            //creates a footer
+            // creates a footer
             BonusScreen.prototype.addFooter = function (itemsArray) {
                 this.footerContainer = new PIXI.Container();
                 this.footerContainer.y = -291;
@@ -3659,12 +3661,12 @@ var FlipPlus;
                 }
                 this.footer.addChild(this.footerContainer);
             };
-            //updates all footer labels 
+            // updates all footer labels 
             BonusScreen.prototype.updatePartsAmmount = function () {
                 var qt = FlipPlus.FlipPlusGame.coinsData.getAmount();
                 this.partsIndicator.updateAmmount(qt);
             };
-            //animate a display object to the menu
+            // animate a display object to the menu
             BonusScreen.prototype.animateItemToHeader = function (itemObj, itemId) {
                 var _this = this;
                 if (itemId === void 0) { itemId = "coin"; }
@@ -3691,11 +3693,11 @@ var FlipPlus;
                     }).to({ alpha: 0 }, 300);
                 }
             };
-            //create a loop animation for a item
+            // create a loop animation for a item
             BonusScreen.prototype.animateItemObjectIdle = function (itemObj) {
                 createjs.Tween.get(itemObj, { loop: true }).to({ y: itemObj.y - 20 }, 500, createjs.Ease.quadInOut).to({ y: itemObj.y }, 500, createjs.Ease.quadInOut);
             };
-            //adds menu to the view
+            // adds menu to the view
             BonusScreen.prototype.addMenu = function () {
                 var _this = this;
                 this.menu = new FlipPlus.Menu.View.ScreenMenu();
@@ -3703,7 +3705,7 @@ var FlipPlus;
                 this.menu.addEventListener("back", function () { _this.back(); });
                 this.header.addChild(this.menu);
             };
-            //updates user Data with new Item
+            // updates user Data with new Item
             BonusScreen.prototype.userAquireItem = function (itemId) {
                 var ammount = 1;
                 if (itemId == "2coin")
@@ -3715,6 +3717,7 @@ var FlipPlus;
                 FlipPlus.FlipPlusGame.coinsData.increaseAmount(ammount);
                 //FlipPlusGame.itemsData.increaseItemQuantity(itemId);
             };
+            // select random items in a array
             BonusScreen.prototype.selectRandomItems = function (quantity) {
                 this.itemsArray;
                 var items = new Array();
@@ -3736,10 +3739,10 @@ var FlipPlus;
             //finalizes bonus game
             BonusScreen.prototype.endBonus = function () {
                 FlipPlus.FlipPlusGame.analytics.logBonus(this.bonusId, this.itemsEarned);
-                //lock menu interaction
-                //this.menu.fadeOut();
-                //back to the screen
+                // back to main screen
                 this.back();
+                // show ads and 
+                CocoonAds.show();
             };
             return BonusScreen;
         })(gameui.ScreenState);
@@ -4752,11 +4755,11 @@ var FlipPlus;
                 this.terminal.x = 361;
                 this.terminal.y = 451;
                 this.content.addChild(this.terminal);
-                CocoonAds.initialize();
                 this.terminal.on("bonus", function (bonusId) {
-                    CocoonAds.show(function () {
-                        FlipPlus.FlipPlusGame.showBonus(bonusId);
-                    });
+                    // loads ads and show bonus
+                    CocoonAds.load();
+                    // when bonus finishes the ads is shown
+                    FlipPlus.FlipPlusGame.showBonus(bonusId);
                 });
             };
             MainMenu.prototype.addPlayButton = function () {
@@ -5147,8 +5150,8 @@ var FlipPlus;
                     this.mask = this.mymask;
                     this.staticFX.alpha = 0.1;
                     // add click callback
-                    this.once("tap", function () { _this.interaction(); });
-                    this.once("click", function () { _this.interaction(); });
+                    this.on("tap", function () { _this.interaction(); });
+                    this.on("click", function () { _this.interaction(); });
                     // add Effects
                     this.on("mousedown", function (event) { _this.effectClickOn(); });
                     this.on("touchstart", function (event) { _this.effectClickOn(); });
@@ -5330,18 +5333,15 @@ var FlipPlus;
                         timeout = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
                         if (timeout > 0)
                             text = _this.toHHMMSS(timeout);
-                        else {
-                            if (CocoonAds.getStatus() == CocoonAds.STATUS.READY)
-                                text = StringResources.mm_play;
-                            if (CocoonAds.getStatus() == CocoonAds.STATUS.NOT_AVALIABLE)
-                                text = StringResources.mm_play;
-                            if (CocoonAds.getStatus() == CocoonAds.STATUS.LOADING)
-                                text = StringResources.menus.loading;
-                            if (CocoonAds.getStatus() == CocoonAds.STATUS.FAIL)
-                                text = StringResources.menus.errorAds;
-                            if (CocoonAds.getStatus() == CocoonAds.STATUS.TIMEOUT)
-                                text = StringResources.menus.errorAds;
-                        }
+                        else
+                            text = StringResources.mm_play;
+                        //else {
+                        //    if (CocoonAds.getStatus() == CocoonAds.STATUS.READY) text = StringResources.mm_play;
+                        //    if (CocoonAds.getStatus() == CocoonAds.STATUS.NOT_AVALIABLE) text = StringResources.mm_play;
+                        //    if (CocoonAds.getStatus() == CocoonAds.STATUS.LOADING) text = StringResources.menus.loading;
+                        //    if (CocoonAds.getStatus() == CocoonAds.STATUS.FAIL) text = StringResources.menus.errorAds;
+                        //    if (CocoonAds.getStatus() == CocoonAds.STATUS.TIMEOUT) text = StringResources.menus.errorAds;
+                        //}
                         content.getChildByName("iconText")["text"] = text;
                     };
                     createjs.DisplayObject.prototype.dispatchEvent;
@@ -6799,23 +6799,30 @@ var gameui;
     gameui.AudiosManager = AudiosManager;
 })(gameui || (gameui = {}));
 //jj 884d50c2c33a437cab51071d14983cfb
-//fp 1a895b1b280d48d88ab5ddce11633701
+//fp and 5c4ca98862a04ee09f2f9a67c5b95d80
+//fp ios 1a895b1b280d48d88ab5ddce11633701
 var CocoonAds = (function () {
     function CocoonAds() {
     }
     CocoonAds.show = function (callback) {
         if (!this.interstitial) {
-            callback();
+            if (callback)
+                callback();
             return;
         }
         if (this.getStatus() == CocoonAds.STATUS.READY) {
             this.debug("show");
-            this.interstitial.on("show", function (e) { callback(); });
+            this.interstitial.on("show", function (e) {
+                if (callback)
+                    callback(true);
+            });
             this.interstitial.show();
         }
         else {
             this.debug("not loaded yet");
             this.load();
+            if (callback)
+                callback();
         }
     };
     CocoonAds.getStatus = function () {
@@ -6827,19 +6834,21 @@ var CocoonAds = (function () {
     };
     //functions
     CocoonAds.initialize = function () {
-        if (!window["Cocoon"] || !Cocoon.Ad || !Cocoon.Ad.MoPub) {
-            this.debug('Cocoon AdMob plugin not installed');
-            this.status = CocoonAds.STATUS.FAIL;
-            return;
-        }
-        Cocoon.Ad.MoPub.configure({
-            ios: { interstitial: "1a895b1b280d48d88ab5ddce11633701" },
-            android: { interstitial: "5c4ca98862a04ee09f2f9a67c5b95d80" }
-        });
-        if (!this.interstitial)
-            this.interstitial = Cocoon.Ad.MoPub.createInterstitial();
-        this.setCallbacks();
-        this.load();
+        var _this = this;
+        document.addEventListener('deviceready', function () {
+            if (!window["Cocoon"] || !Cocoon.Ad || !Cocoon.Ad.MoPub) {
+                _this.debug('Cocoon AdMob plugin not installed');
+                _this.status = CocoonAds.STATUS.FAIL;
+                return;
+            }
+            Cocoon.Ad.MoPub.configure({
+                ios: { interstitial: "1a895b1b280d48d88ab5ddce11633701" },
+                android: { interstitial: "5c4ca98862a04ee09f2f9a67c5b95d80" }
+            });
+            if (!_this.interstitial)
+                _this.interstitial = Cocoon.Ad.MoPub.createInterstitial();
+            _this.setCallbacks();
+        }, false);
     };
     CocoonAds.setCallbacks = function () {
         var _this = this;

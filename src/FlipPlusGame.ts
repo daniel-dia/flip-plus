@@ -69,7 +69,10 @@ module FlipPlus {
             // analytics
             this.analytics = new Analytics();
             this.analytics.logGameStart();
-           
+
+            // initialize ads
+            CocoonAds.initialize(); 
+
             //managers
             this.BotsLevelManager    = new Levels.LevelsManager(levelsData, this.levelsUserDataManager);
             this.actionLevelsManager = new Levels.ActionLevelsManager(ActionLevelsData, this.levelsUserDataManager);
@@ -101,8 +104,7 @@ module FlipPlus {
                 return this.gameScreen.sendBackButtonEvent()
             }, false);
 
-            
-
+       
             /*
             var ps = this.levelsManager.getAllProjects();
             ps[1].UserData.unlocked = true;

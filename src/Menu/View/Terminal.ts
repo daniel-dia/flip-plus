@@ -54,8 +54,8 @@ module FlipPlus.Menu.View
             this.staticFX.alpha = 0.1;
             
             // add click callback
-            this.once("tap", () => { this.interaction() });
-            this.once("click", () => { this.interaction() });
+            this.on("tap", () => { this.interaction() });
+            this.on("click", () => { this.interaction() });
             
             // add Effects
             this.on("mousedown", (event: any) => { this.effectClickOn(); })
@@ -288,14 +288,14 @@ module FlipPlus.Menu.View
                 var text;
                 timeout = FlipPlusGame.timersData.getTimer(bonusId);
 
-                if (timeout > 0) text = this.toHHMMSS(timeout);
-                else {
-                    if (CocoonAds.getStatus() == CocoonAds.STATUS.READY) text = StringResources.mm_play;
-                    if (CocoonAds.getStatus() == CocoonAds.STATUS.NOT_AVALIABLE) text = StringResources.mm_play;
-                    if (CocoonAds.getStatus() == CocoonAds.STATUS.LOADING) text = StringResources.menus.loading;
-                    if (CocoonAds.getStatus() == CocoonAds.STATUS.FAIL) text = StringResources.menus.errorAds;
-                    if (CocoonAds.getStatus() == CocoonAds.STATUS.TIMEOUT) text = StringResources.menus.errorAds;
-                }
+                if (timeout > 0) text = this.toHHMMSS(timeout); else text = StringResources.mm_play;
+                //else {
+                //    if (CocoonAds.getStatus() == CocoonAds.STATUS.READY) text = StringResources.mm_play;
+                //    if (CocoonAds.getStatus() == CocoonAds.STATUS.NOT_AVALIABLE) text = StringResources.mm_play;
+                //    if (CocoonAds.getStatus() == CocoonAds.STATUS.LOADING) text = StringResources.menus.loading;
+                //    if (CocoonAds.getStatus() == CocoonAds.STATUS.FAIL) text = StringResources.menus.errorAds;
+                //    if (CocoonAds.getStatus() == CocoonAds.STATUS.TIMEOUT) text = StringResources.menus.errorAds;
+                //}
                 content.getChildByName("iconText")["text"] = text;
             }
 
