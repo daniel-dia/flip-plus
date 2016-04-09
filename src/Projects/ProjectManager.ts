@@ -251,7 +251,10 @@ module FlipPlus.Levels {
         //unlock a level inside a project
         private unlockLevel(level: Level) {
 
-            //unlock level user data
+            // analytics
+            if (!level.userdata.unlocked) FlipPlusGame.analytics.logLevelUnlock(level.name);
+
+            // unlock level user data
             level.userdata.unlocked = true;
             this.levelsUserDataManager.saveLevelData(level);
         }

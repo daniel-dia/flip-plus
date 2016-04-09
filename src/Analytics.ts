@@ -4,12 +4,7 @@ class Analytics {
 
     private userId: string;
     private sessionId: string;
-
-    // game start
-    public logGameStart() {
-        this.sendEvent("game", "start");
-    }
-    
+        
     // #region Level events
 
     public logLevelBlockClick(levelId: string, blockX: number, blockY: number) {
@@ -18,6 +13,10 @@ class Analytics {
 
     public logLevelStart(levelId: string) {
         this.sendEvent("level", "start", 1, levelId);
+    }
+
+    public logLevelUnlock(levelId: string) {
+        this.sendEvent("level", "unlock", 1, levelId);
     }
 
     public logLevelWin(levelId: string, time: number, clicks: number) {
@@ -47,12 +46,17 @@ class Analytics {
     // #endregion
 
     // #region others events
-    public logUsedItem(itemId: string, levelId: string) {
-        this.sendEvent("item", itemId, 1, levelId);
+
+    public logGameStart() {
+        this.sendEvent("game", "start");
     }
 
-    public logBotClick(botId: string, levelId: string) {
+    public logBotClick(botId: string) {
         this.sendEvent("bot", botId, 1);
+    }
+
+    public logUsedItem(itemId: string, levelId: string) {
+        this.sendEvent("item", itemId, 1, levelId);
     }
 
     public logBonusParts(bonusid: string, parts: number) {
@@ -68,7 +72,7 @@ class Analytics {
         if (!this.userId) this.userId = localStorage.getItem("dia_userID");
 
         if (!this.userId) {
-            this.userId = (Math.random() * 9999999999).toString();
+            this.userId = Math.floor(Math.random() * 9999999999).toString();
             localStorage.setItem("dia_userID", this.userId);
         }
 
@@ -77,7 +81,7 @@ class Analytics {
 
     private getSession(): string {
 
-        if (!this.sessionId) this.sessionId = (Math.random() * 9999999999).toString();
+        if (!this.sessionId) this.sessionId = Math.floor(Math.random() * 9999999999).toString();
 
         return this.sessionId;
     }

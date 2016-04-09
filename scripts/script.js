@@ -6226,7 +6226,10 @@ var FlipPlus;
             };
             //unlock a level inside a project
             LevelsManager.prototype.unlockLevel = function (level) {
-                //unlock level user data
+                // analytics
+                if (!level.userdata.unlocked)
+                    FlipPlus.FlipPlusGame.analytics.logLevelUnlock(level.name);
+                // unlock level user data
                 level.userdata.unlocked = true;
                 this.levelsUserDataManager.saveLevelData(level);
             };
@@ -6907,16 +6910,15 @@ var CocoonAds;
 var Analytics = (function () {
     function Analytics() {
     }
-    // game start
-    Analytics.prototype.logGameStart = function () {
-        this.sendEvent("game", "start");
-    };
     // #region Level events
     Analytics.prototype.logLevelBlockClick = function (levelId, blockX, blockY) {
         this.sendEvent("level", "blockclick", 1, levelId, blockX, blockY);
     };
     Analytics.prototype.logLevelStart = function (levelId) {
         this.sendEvent("level", "start", 1, levelId);
+    };
+    Analytics.prototype.logLevelUnlock = function (levelId) {
+        this.sendEvent("level", "unlock", 1, levelId);
     };
     Analytics.prototype.logLevelWin = function (levelId, time, clicks) {
         this.sendEvent("level", "complete", 1, levelId);
@@ -6940,11 +6942,14 @@ var Analytics = (function () {
     };
     // #endregion
     // #region others events
+    Analytics.prototype.logGameStart = function () {
+        this.sendEvent("game", "start");
+    };
+    Analytics.prototype.logBotClick = function (botId) {
+        this.sendEvent("bot", botId, 1);
+    };
     Analytics.prototype.logUsedItem = function (itemId, levelId) {
         this.sendEvent("item", itemId, 1, levelId);
-    };
-    Analytics.prototype.logBotClick = function (botId, levelId) {
-        this.sendEvent("bot", botId, 1);
     };
     Analytics.prototype.logBonusParts = function (bonusid, parts) {
         this.sendEvent("bonus", "parts", parts, bonusid);
@@ -6955,14 +6960,14 @@ var Analytics = (function () {
         if (!this.userId)
             this.userId = localStorage.getItem("dia_userID");
         if (!this.userId) {
-            this.userId = (Math.random() * 9999999999).toString();
+            this.userId = Math.floor(Math.random() * 9999999999).toString();
             localStorage.setItem("dia_userID", this.userId);
         }
         return this.userId;
     };
     Analytics.prototype.getSession = function () {
         if (!this.sessionId)
-            this.sessionId = (Math.random() * 9999999999).toString();
+            this.sessionId = Math.floor(Math.random() * 9999999999).toString();
         return this.sessionId;
     };
     Analytics.prototype.getBuild = function () {
