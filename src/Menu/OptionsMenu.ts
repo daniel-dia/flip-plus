@@ -18,13 +18,15 @@ module FlipPlus.Menu {
             this.content.addChild(soundMenu);
 
             p++;
-            this.content.addChild(new gameui.BitmapTextButton("Help", "fontBlue", "menu/btmenu", () => {
-                FlipPlusGame.showSpecialOffer(this);
-            }).set({ x: 0, y: p0 + p * s }));
-            p++;                                                      
-            this.content.addChild(new gameui.BitmapTextButton("Store","fontBlue", "menu/btmenu", () => {
+            this.content.addChild(new gameui.BitmapTextButton(StringResources.menus.shop, "fontBlue", "menu/btmenu", () => {
                 FlipPlusGame.showShopMenu(this);
             }).set({ x: 0, y: p0 + p * s }));
+            p++;
+
+            this.content.addChild(new gameui.BitmapTextButton(StringResources.menus.about, "fontBlue", "menu/btmenu", () => {
+                FlipPlusGame.showAbout(this);
+            }).set({ x: 0, y: p0 + p * s }));
+ 
             p++
             
             //add Other Buttons

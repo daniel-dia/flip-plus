@@ -6,7 +6,7 @@
             if (!previousScreen) previousScreen = FlipPlusGame.mainScreen;
             this.originY = 1;
             this.originX = defaultWidth;
-            super(StringResources.menus.menu, previousScreen);
+            super(StringResources.menus.about, previousScreen);
             
             // add menu buttons
              
