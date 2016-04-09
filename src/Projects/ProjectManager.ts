@@ -23,22 +23,35 @@ module FlipPlus.Levels {
         }
 
         protected loadProjects(data: Array<BotLevelsSet>) {
-        
+
+            // clear projects Data
             for (var p in data) { delete data[p].UserData }
+
+            // clear Levels Data
             for (var p in data) { for (var l in data[p].levels) { delete data[p].levels[l].userdata } }
-            for (var p in data) { for (var l in data[p].levels) { data[p].levels[l].name = p+"/"+l} }
                 
+            // automatically fix names
+            this.fixName(data);
+
+            // save data
             this.levelsData = data;
-
-            //append the project name in each level.
-            //for (var p in this.projects)
-            //    for (var l in this.projects[p].levels) {
-            //        this.projects[p].levels[l].name = this.projects[p].name + "/" + this.projects[p].levels[l].name;
-            //        ///this.projects[p].levels[l].project = this.projects[p];
-            //    }
-
+            
             //create a user data for each level/project
             this.levelsUserDataManager.addUserData(this.levelsData);
+        }
+
+        protected fixName(data: Array<BotLevelsSet>) {
+
+            function a40(v: number) {
+                var str = "0000000" + (v.toString());
+                return (str).substr(str.length - 4);
+            }
+
+            for (var p in data) {
+                for (var l in data[p].levels) {
+                    data[p].levels[l].name = a40((parseInt(p) + 1) * 100 + (parseInt(l) + 1))
+                }
+            }
         }
 
         // ------------------------------- manager Levels ----------------------------------------

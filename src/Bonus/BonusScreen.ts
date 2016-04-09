@@ -238,7 +238,7 @@
         //finalizes bonus game
         endBonus() {
 
-            FlipPlusGame.analytics.logBonus(this.bonusId, this.itemsEarned);
+            FlipPlusGame.analytics.logBonusParts(this.bonusId, this.itemsEarned);
             
             // back to main screen
             this.back();

@@ -60,6 +60,10 @@ module FlipPlus.GamePlay {
                 this.levelData.userdata.playedTimes = 0;
             this.levelData.userdata.playedTimes++;
 
+            // analytics
+            this.startedTime = Date.now();
+            FlipPlusGame.analytics.logLevelStart(this.levelData.name)
+                
             // menu back option
             this.onback = () => {
                 if (this.paused)
@@ -195,7 +199,7 @@ module FlipPlus.GamePlay {
             this.clicks++;
              
             //analytics
-            FlipPlusGame.analytics.logClick(this.levelData.name, col, row);
+            FlipPlusGame.analytics.logLevelBlockClick(this.levelData.name, col, row);
 
             //invert a cross
             this.levelLogic.invertCross(col, row);
@@ -220,7 +224,7 @@ module FlipPlus.GamePlay {
         // #region  GamePlay methods =========================================================================================================
 
         protected exit() {
-            FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
+            FlipPlusGame.analytics.logLevelExit(this.levelData.name, Date.now() - this.startedTime, this.clicks);
             FlipPlusGame.exitLevel();
             gameui.AudiosManager.playSound("Power Down")
         }
@@ -248,7 +252,7 @@ module FlipPlus.GamePlay {
         protected win(col: number, row: number, messageText: boolean= true) {
 
             // analytics
-            FlipPlusGame.analytics.logLevelWin(this.levelData.name, (Date.now() - this.startedTime) / 100, this.clicks)
+            FlipPlusGame.analytics.logLevelWin(this.levelData.name, (Date.now() - this.startedTime), this.clicks)
 
             // freze the board
             this.boardSprite.mouseEnabled = false;
@@ -323,8 +327,7 @@ module FlipPlus.GamePlay {
             setTimeout(() => { FlipPlusGame.looseLevel(); }, 3000);;
 
         }
-
-
+        
         // #endregion
 
         // #region  Items ====================================================================================================================
@@ -545,8 +548,7 @@ module FlipPlus.GamePlay {
             // play music
             gameui.AudiosManager.playMusic("Music Minimal Tech");
 
-            // analytics
-            this.startedTime = Date.now();
+            
 
             // updates Items buttons labels Quantity on footer
             this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());

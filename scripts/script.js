@@ -1362,6 +1362,9 @@ var FlipPlus;
                 if (!this.levelData.userdata.playedTimes)
                     this.levelData.userdata.playedTimes = 0;
                 this.levelData.userdata.playedTimes++;
+                // analytics
+                this.startedTime = Date.now();
+                FlipPlus.FlipPlusGame.analytics.logLevelStart(this.levelData.name);
                 // menu back option
                 this.onback = function () {
                     if (_this.paused)
@@ -1469,7 +1472,7 @@ var FlipPlus;
             LevelScreen.prototype.userInput = function (col, row) {
                 this.clicks++;
                 //analytics
-                FlipPlus.FlipPlusGame.analytics.logClick(this.levelData.name, col, row);
+                FlipPlus.FlipPlusGame.analytics.logLevelBlockClick(this.levelData.name, col, row);
                 //invert a cross
                 this.levelLogic.invertCross(col, row);
                 //update sprites 
@@ -1485,7 +1488,7 @@ var FlipPlus;
             // #endregion
             // #region  GamePlay methods =========================================================================================================
             LevelScreen.prototype.exit = function () {
-                FlipPlus.FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
+                FlipPlus.FlipPlusGame.analytics.logLevelExit(this.levelData.name, Date.now() - this.startedTime, this.clicks);
                 FlipPlus.FlipPlusGame.exitLevel();
                 gameui.AudiosManager.playSound("Power Down");
             };
@@ -1508,7 +1511,7 @@ var FlipPlus;
                 var _this = this;
                 if (messageText === void 0) { messageText = true; }
                 // analytics
-                FlipPlus.FlipPlusGame.analytics.logLevelWin(this.levelData.name, (Date.now() - this.startedTime) / 100, this.clicks);
+                FlipPlus.FlipPlusGame.analytics.logLevelWin(this.levelData.name, (Date.now() - this.startedTime), this.clicks);
                 // freze the board
                 this.boardSprite.mouseEnabled = false;
                 // play a win sound
@@ -1746,8 +1749,6 @@ var FlipPlus;
                     this.animatePuzzle(parameters);
                 // play music
                 gameui.AudiosManager.playMusic("Music Minimal Tech");
-                // analytics
-                this.startedTime = Date.now();
                 // updates Items buttons labels Quantity on footer
                 this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
                 this.gameplayMenu.updateItemsPrice(this.listItemPrices());
@@ -3738,7 +3739,7 @@ var FlipPlus;
             };
             //finalizes bonus game
             BonusScreen.prototype.endBonus = function () {
-                FlipPlus.FlipPlusGame.analytics.logBonus(this.bonusId, this.itemsEarned);
+                FlipPlus.FlipPlusGame.analytics.logBonusParts(this.bonusId, this.itemsEarned);
                 // back to main screen
                 this.back();
                 // show ads and 
@@ -6045,28 +6046,33 @@ var FlipPlus;
                 this.unlockProject(this.getAllProjects()[0]);
             }
             LevelsManager.prototype.loadProjects = function (data) {
+                // clear projects Data
                 for (var p in data) {
                     delete data[p].UserData;
                 }
+                // clear Levels Data
                 for (var p in data) {
                     for (var l in data[p].levels) {
                         delete data[p].levels[l].userdata;
                     }
                 }
-                for (var p in data) {
-                    for (var l in data[p].levels) {
-                        data[p].levels[l].name = p + "/" + l;
-                    }
-                }
+                // automatically fix names
+                this.fixName(data);
+                // save data
                 this.levelsData = data;
-                //append the project name in each level.
-                //for (var p in this.projects)
-                //    for (var l in this.projects[p].levels) {
-                //        this.projects[p].levels[l].name = this.projects[p].name + "/" + this.projects[p].levels[l].name;
-                //        ///this.projects[p].levels[l].project = this.projects[p];
-                //    }
                 //create a user data for each level/project
                 this.levelsUserDataManager.addUserData(this.levelsData);
+            };
+            LevelsManager.prototype.fixName = function (data) {
+                function a40(v) {
+                    var str = "0000000" + (v.toString());
+                    return (str).substr(str.length - 4);
+                }
+                for (var p in data) {
+                    for (var l in data[p].levels) {
+                        data[p].levels[l].name = a40((parseInt(p) + 1) * 100 + (parseInt(l) + 1));
+                    }
+                }
             };
             // ------------------------------- manager Levels ----------------------------------------
             //get current Level 
@@ -6832,24 +6838,6 @@ var CocoonAds = (function () {
             return CocoonAds.STATUS.READY;
         return this.status;
     };
-    //functions
-    CocoonAds.initialize = function () {
-        var _this = this;
-        document.addEventListener('deviceready', function () {
-            if (!window["Cocoon"] || !Cocoon.Ad || !Cocoon.Ad.MoPub) {
-                _this.debug('Cocoon AdMob plugin not installed');
-                _this.status = CocoonAds.STATUS.FAIL;
-                return;
-            }
-            Cocoon.Ad.MoPub.configure({
-                ios: { interstitial: "1a895b1b280d48d88ab5ddce11633701" },
-                android: { interstitial: "5c4ca98862a04ee09f2f9a67c5b95d80" }
-            });
-            if (!_this.interstitial)
-                _this.interstitial = Cocoon.Ad.MoPub.createInterstitial();
-            _this.setCallbacks();
-        }, false);
-    };
     CocoonAds.setCallbacks = function () {
         var _this = this;
         this.interstitial.on("load", function (e) {
@@ -6868,6 +6856,26 @@ var CocoonAds = (function () {
             _this.load();
         });
     };
+    CocoonAds.debug = function (text) {
+        //console.log("ads " + text) 
+    };
+    CocoonAds.initialize = function () {
+        var _this = this;
+        document.addEventListener('deviceready', function () {
+            if (!window["Cocoon"] || !Cocoon.Ad || !Cocoon.Ad.MoPub) {
+                _this.debug('Cocoon AdMob plugin not installed');
+                _this.status = CocoonAds.STATUS.FAIL;
+                return;
+            }
+            Cocoon.Ad.MoPub.configure({
+                ios: { interstitial: "1a895b1b280d48d88ab5ddce11633701" },
+                android: { interstitial: "5c4ca98862a04ee09f2f9a67c5b95d80" }
+            });
+            if (!_this.interstitial)
+                _this.interstitial = Cocoon.Ad.MoPub.createInterstitial();
+            _this.setCallbacks();
+        }, false);
+    };
     CocoonAds.load = function () {
         var _this = this;
         if (!this.interstitial)
@@ -6882,7 +6890,6 @@ var CocoonAds = (function () {
             _this.status = CocoonAds.STATUS.TIMEOUT;
         }, 15000);
     };
-    CocoonAds.debug = function (text) { console.log("ads " + text); };
     return CocoonAds;
 })();
 var CocoonAds;
@@ -6900,7 +6907,50 @@ var CocoonAds;
 var Analytics = (function () {
     function Analytics() {
     }
-    //create a random user ID
+    // game start
+    Analytics.prototype.logGameStart = function () {
+        this.sendEvent("game", "start");
+    };
+    // #region Level events
+    Analytics.prototype.logLevelBlockClick = function (levelId, blockX, blockY) {
+        this.sendEvent("level", "blockclick", 1, levelId, blockX, blockY);
+    };
+    Analytics.prototype.logLevelStart = function (levelId) {
+        this.sendEvent("level", "start", 1, levelId);
+    };
+    Analytics.prototype.logLevelWin = function (levelId, time, clicks) {
+        this.sendEvent("level", "complete", 1, levelId);
+        this.sendEvent("click", "complete", clicks, levelId);
+        this.sendEvent("time", "complete", time / 1000, levelId);
+    };
+    Analytics.prototype.logLevelRestart = function (levelId, time, clicks) {
+        this.sendEvent("level", "restart", 1, levelId);
+        this.sendEvent("click", "restart", clicks, levelId);
+        this.sendEvent("time", "restart", time / 1000, levelId);
+    };
+    Analytics.prototype.logLevelExit = function (levelId, time, clicks) {
+        this.sendEvent("level", "exit", 1, levelId);
+        this.sendEvent("click", "exit", clicks, levelId);
+        this.sendEvent("time", "exit", time / 1000, levelId);
+    };
+    Analytics.prototype.logLevelLoose = function (levelId, time, clicks) {
+        this.sendEvent("level", "loose", 1, levelId);
+        this.sendEvent("click", "loose", clicks, levelId);
+        this.sendEvent("time", "loose", time / 1000, levelId);
+    };
+    // #endregion
+    // #region others events
+    Analytics.prototype.logUsedItem = function (itemId, levelId) {
+        this.sendEvent("item", itemId, 1, levelId);
+    };
+    Analytics.prototype.logBotClick = function (botId, levelId) {
+        this.sendEvent("bot", botId, 1);
+    };
+    Analytics.prototype.logBonusParts = function (bonusid, parts) {
+        this.sendEvent("bonus", "parts", parts, bonusid);
+    };
+    // #endregion
+    // #region post event 
     Analytics.prototype.getUser = function () {
         if (!this.userId)
             this.userId = localStorage.getItem("dia_userID");
@@ -6918,38 +6968,8 @@ var Analytics = (function () {
     Analytics.prototype.getBuild = function () {
         return "alpha1";
     };
-    Analytics.prototype.logGameStart = function () {
-        this.sendEvent("game", "start", 1);
-    };
-    Analytics.prototype.logClick = function (levelId, blockX, blockY) {
-        this.sendEvent("mousedown", "mousedown", 1, levelId, blockX, blockY);
-    };
-    Analytics.prototype.logLevelWin = function (levelId, time, clicks) {
-        this.sendEvent("level", "complete", clicks, levelId, time);
-    };
-    Analytics.prototype.logLevelRestart = function (levelId, time, clicks) {
-        this.sendEvent("level", "restart", clicks, levelId, time);
-    };
-    Analytics.prototype.logLevelExit = function (levelId, time, clicks) {
-        this.sendEvent("level", "exit", clicks, levelId, time);
-    };
-    Analytics.prototype.logLevelLoose = function (levelId, time, clicks) {
-        this.sendEvent("level", "loose", clicks, levelId, time);
-    };
-    Analytics.prototype.logLevelStart = function (levelId, time, clicks) {
-        this.sendEvent("level", "start", 1, levelId, time);
-    };
-    Analytics.prototype.logUsedItem = function (itemId, levelId) {
-        this.sendEvent("item", itemId, 1, levelId);
-    };
-    Analytics.prototype.loglevelTime = function (levelId, time, final) {
-        this.sendEvent("time", final, time / 1000, levelId);
-    };
-    Analytics.prototype.logBonus = function (bonusid, items) {
-        this.sendEvent("bonus", bonusid.toString(), items, bonusid);
-    };
     Analytics.prototype.sendEvent = function (eventId, subEventId, value, level, x, y) {
-        return;
+        if (value === void 0) { value = 1; }
         var game_key = '1fc43682061946f75bfbecd4bbb2718b';
         var secret_key = '9b4ab4006d241ab5042eb3a730eec6c3e171d483';
         var data_api_key = 'd519f8572c1893fb49873fa2345d444c03afa172';
@@ -6959,11 +6979,14 @@ var Analytics = (function () {
             "session_id": this.getSession(),
             "build": this.getBuild(),
             "event_id": eventId + ":" + subEventId,
-            "value": value,
-            "area": level,
-            "x": x,
-            "y": y
+            "value": value
         };
+        if (x)
+            message["area"] = level;
+        if (x)
+            message["x"] = x;
+        if (x)
+            message["y"] = y;
         var json_message = JSON.stringify(message);
         var md5_msg = CryptoJS.MD5(json_message + secret_key);
         var header_auth_hex = CryptoJS.enc.Hex.stringify(md5_msg);
@@ -6976,7 +6999,7 @@ var Analytics = (function () {
         xhr.setRequestHeader('Content-Type', 'text/plain');
         xhr.setRequestHeader('Content-Length', JSON.stringify(data).length.toString());
         xhr.setRequestHeader("Authorization", header_auth_hex);
-        //xhr.addEventListener('load', function (e) {}, false);
+        //xhr.addEventListener('load', function (e) {console.log("anl");}, false);
         xhr.send(JSON.stringify(data));
     };
     return Analytics;

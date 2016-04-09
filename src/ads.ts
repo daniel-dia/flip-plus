@@ -1,6 +1,7 @@
 ﻿//jj 884d50c2c33a437cab51071d14983cfb
 //fp and 5c4ca98862a04ee09f2f9a67c5b95d80
 //fp ios 1a895b1b280d48d88ab5ddce11633701
+
 class CocoonAds  {
     private static interstitial
     private static status: CocoonAds.STATUS; 
@@ -32,9 +33,30 @@ class CocoonAds  {
         return this.status;
     }
 
+    private static setCallbacks() {
+        this.interstitial.on("load", (e) => {
+            this.debug("Interstitial loaded " + JSON.stringify(e));
+            this.status = CocoonAds.STATUS.READY;
+        });
 
-    //functions
-    
+        this.interstitial.on("fail", (e) => {
+            if (this.ad_timeout) clearTimeout(this.ad_timeout);
+            this.debug("Interstitial failed " + JSON.stringify(e));
+            this.status = CocoonAds.STATUS.FAIL;
+        });
+
+        this.interstitial.on("dismiss", (e) => {
+            this.debug("Interstitial dismissed " + JSON.stringify(e));
+            this.status = CocoonAds.STATUS.NOT_LOADED;
+            this.load();
+        });
+
+    }
+
+    private static debug(text) { 
+        //console.log("ads " + text) 
+    }
+
     public static initialize() {
 
         document.addEventListener('deviceready', () => {
@@ -58,26 +80,6 @@ class CocoonAds  {
        
     }
 
-    private static setCallbacks() {
-        this.interstitial.on("load", (e) => {
-            this.debug("Interstitial loaded " + JSON.stringify(e)); 
-            this.status = CocoonAds.STATUS.READY;
-        });
-
-        this.interstitial.on("fail", (e) => {
-            if (this.ad_timeout) clearTimeout(this.ad_timeout);
-            this.debug("Interstitial failed " + JSON.stringify(e));
-            this.status = CocoonAds.STATUS.FAIL;
-        });
-        
-        this.interstitial.on("dismiss", (e) => {
-            this.debug("Interstitial dismissed " + JSON.stringify(e));
-            this.status = CocoonAds.STATUS.NOT_LOADED; 
-            this.load();
-        });
-
-    }
-
     public static load() {
         if (!this.interstitial) return;
         this.debug("loading") 
@@ -92,9 +94,7 @@ class CocoonAds  {
         }, 15000)
 
     }
-    
-    private static debug(text) {console.log("ads "+ text)}
- 
+
 }
 
 
