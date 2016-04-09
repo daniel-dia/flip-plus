@@ -365,8 +365,12 @@ module FlipPlus {
 
         }
 
-        public static showOptions(previousScreen?: gameui.ScreenState){
+        public static showOptions(previousScreen?: gameui.ScreenState) {
             this.gameScreen.switchScreen(new Menu.OptionsMenu(previousScreen));
+        }
+
+        public static showAbout(previousScreen?: gameui.ScreenState) {
+            this.gameScreen.switchScreen(new Menu.About(previousScreen));
         }
 
         // ---------------------------- license --------------------------------------------------//
