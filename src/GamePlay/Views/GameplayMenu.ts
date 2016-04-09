@@ -9,7 +9,7 @@ module FlipPlus.GamePlay.Views {
 
         private items: Array<string>;
 
-        private tutorial_highlightSprite: PIXI.DisplayObject;
+        private tutorial_highlightSprite: PIXI.extras.MovieClip
 
         private currentItem:number;
         private xstart = 320;
@@ -93,6 +93,7 @@ module FlipPlus.GamePlay.Views {
 
             //highlight the item
             this.tutorial_highlightSprite.visible = true;
+            this.tutorial_highlightSprite.play();
             this.addChild(this.tutorial_highlightSprite);
             this.tutorial_highlightSprite.mouseEnabled = false;
             this.tutorial_highlightSprite.hitArea = new PIXI.Rectangle(0,0,1,1);
@@ -108,6 +109,7 @@ module FlipPlus.GamePlay.Views {
         //lock all other buttons
         public tutorial_lockAllButtons() {
             this.tutorial_highlightSprite.visible = false;
+            this.tutorial_highlightSprite.stop();
             for (var b in this.buttons)
                 this.buttons[b].mouseEnabled = false;
         }
@@ -115,6 +117,7 @@ module FlipPlus.GamePlay.Views {
         //lock all other buttons 
         public tutorial_unlockAllButtons() {
             this.tutorial_highlightSprite.visible = false;
+            this.tutorial_highlightSprite.stop();
             for (var b in this.buttons)
                 this.buttons[b].mouseEnabled = true;
         }
