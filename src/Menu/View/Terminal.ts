@@ -75,6 +75,8 @@ module FlipPlus.Menu.View
         }
 
         private effectClickOn() {
+            if (!this.currentAction) return;
+            gameui.AudiosManager.playSound("button");
             this.staticFX.visible = true;
             this.staticFX.alpha = 1;
         }
@@ -288,7 +290,16 @@ module FlipPlus.Menu.View
                 var text;
                 timeout = FlipPlusGame.timersData.getTimer(bonusId);
 
-                if (timeout > 0) text = this.toHHMMSS(timeout); else text = StringResources.mm_play;
+                if (timeout > 0) {
+                    text = this.toHHMMSS(timeout);
+                    this.currentAction = null;
+                }
+                else {
+                    this.currentParameter = bonusId;
+                    this.currentAction = "bonus";
+                    text = StringResources.mm_play;
+                }
+
                 //else {
                 //    if (CocoonAds.getStatus() == CocoonAds.STATUS.READY) text = StringResources.mm_play;
                 //    if (CocoonAds.getStatus() == CocoonAds.STATUS.NOT_AVALIABLE) text = StringResources.mm_play;
@@ -296,6 +307,7 @@ module FlipPlus.Menu.View
                 //    if (CocoonAds.getStatus() == CocoonAds.STATUS.FAIL) text = StringResources.menus.errorAds;
                 //    if (CocoonAds.getStatus() == CocoonAds.STATUS.TIMEOUT) text = StringResources.menus.errorAds;
                 //}
+
                 content.getChildByName("iconText")["text"] = text;
             }
 
@@ -305,7 +317,6 @@ module FlipPlus.Menu.View
             update();
         }
  
-        
         // #endregion
 
         // #region ending

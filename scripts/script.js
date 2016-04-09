@@ -5174,6 +5174,9 @@ var FlipPlus;
                         this.emit(this.currentAction, this.currentParameter);
                 };
                 Terminal.prototype.effectClickOn = function () {
+                    if (!this.currentAction)
+                        return;
+                    gameui.AudiosManager.playSound("button");
                     this.staticFX.visible = true;
                     this.staticFX.alpha = 1;
                 };
@@ -5338,10 +5341,15 @@ var FlipPlus;
                     var update = function () {
                         var text;
                         timeout = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
-                        if (timeout > 0)
+                        if (timeout > 0) {
                             text = _this.toHHMMSS(timeout);
-                        else
+                            _this.currentAction = null;
+                        }
+                        else {
+                            _this.currentParameter = bonusId;
+                            _this.currentAction = "bonus";
                             text = StringResources.mm_play;
+                        }
                         //else {
                         //    if (CocoonAds.getStatus() == CocoonAds.STATUS.READY) text = StringResources.mm_play;
                         //    if (CocoonAds.getStatus() == CocoonAds.STATUS.NOT_AVALIABLE) text = StringResources.mm_play;
