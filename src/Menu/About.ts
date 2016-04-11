@@ -14,7 +14,9 @@
             this.addLogo(); 
             this.addSeparator();
             this.addText("Created by DIA Studio");
-           
+            this.addSeparator();
+            this.addFeedback()
+
             // add creators
             this.addSeparator();
             this.addTitl("Game Designer")
@@ -56,15 +58,24 @@
             return tx;
         }
 
+        private addFeedback() {
+            var bt = new gameui.BitmapTextButton(StringResources.menus.feedback, "fontBlue", null, () => { 
+                Cocoon.App.openURL("mailto://feedback@dia-studio.com");
+            });
+            this.content.addChild(bt);
+            bt.y = this.currentY + bt.bitmapText.height /2;
+            this.currentY += bt.bitmapText.height;
+            return bt;
+        }
+
         private addLogo() {
             var bt = new gameui.ImageButton("Logo Small Round", () => {
                 Cocoon.App.openURL("http://www.diastudio.com.br");
             });
             this.content.addChild(bt);
+            bt.scaleY = bt.scaleX= 0.6;
 
-            bt.y = this.currentY + 522/2;
-           
-            
+            bt.y = this.currentY + (bt.height)   / 2;
             this.currentY += bt.height;
             return bt;
         }

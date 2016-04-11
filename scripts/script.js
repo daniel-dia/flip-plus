@@ -7241,6 +7241,8 @@ var FlipPlus;
                 this.addLogo();
                 this.addSeparator();
                 this.addText("Created by DIA Studio");
+                this.addSeparator();
+                this.addFeedback();
                 // add creators
                 this.addSeparator();
                 this.addTitl("Game Designer");
@@ -7273,12 +7275,22 @@ var FlipPlus;
                 this.content.addChild(tx);
                 return tx;
             };
+            About.prototype.addFeedback = function () {
+                var bt = new gameui.BitmapTextButton(StringResources.menus.feedback, "fontBlue", null, function () {
+                    Cocoon.App.openURL("mailto://feedback@dia-studio.com");
+                });
+                this.content.addChild(bt);
+                bt.y = this.currentY + bt.bitmapText.height / 2;
+                this.currentY += bt.bitmapText.height;
+                return bt;
+            };
             About.prototype.addLogo = function () {
                 var bt = new gameui.ImageButton("Logo Small Round", function () {
                     Cocoon.App.openURL("http://www.diastudio.com.br");
                 });
                 this.content.addChild(bt);
-                bt.y = this.currentY + 522 / 2;
+                bt.scaleY = bt.scaleX = 0.6;
+                bt.y = this.currentY + (bt.height) / 2;
                 this.currentY += bt.height;
                 return bt;
             };
@@ -8862,7 +8874,8 @@ var StringResources = {
         like: "Like us",
         share: "Share",
         watchVideo: "Watch Video",
-        gift: "gift in @ minutes"
+        gift: "gift in @ minutes",
+        feedback: "Give feedback"
     },
     endingText: "Ending Text",
     botsDescription: {
@@ -9016,7 +9029,8 @@ var stringResources_pt = {
         like: "Curtir",
         share: "Compartilhar",
         watchVideo: "Veja um Video",
-        gift: "vídeo em @ min"
+        gift: "vídeo em @ min",
+        feedback: "Deixe seu comentário"
     },
     endingText: "Texto do Final",
     botsDescription: {

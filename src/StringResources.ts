@@ -143,6 +143,7 @@
         watchVideo: "Watch Video",
         gift: "gift in @ minutes",
 
+        feedback:"Give feedback"
     },
 
     endingText: "Ending Text",
@@ -335,6 +336,8 @@ var stringResources_pt = {
         share: "Compartilhar",
         watchVideo: "Veja um Video",
         gift: "vídeo em @ min",
+
+        feedback: "Deixe seu comentário"
     },
 
     endingText:"Texto do Final",
