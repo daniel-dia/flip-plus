@@ -292,7 +292,7 @@ module FlipPlus.Menu.View
 
                 if (timeout > 0) {
                     text = this.toHHMMSS(timeout);
-                    this.currentAction = null;
+                    //this.currentAction = null;
                 }
                 else {
                     this.currentParameter = bonusId;

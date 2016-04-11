@@ -29,6 +29,13 @@
             return this.soundVolume;
         }
 
+        public static pauseMusic() {
+            if (this.currentMusic) this.currentMusic.stop()
+        }
+        public static continueMusic() {
+            if (this.currentMusic) this.currentMusic.play()
+        }
+
         public static playMusic(name: string, volume: number= 1) {
             if (this.currentMusic) {
                 this.currentMusic.setVolume(volume * this.getMusicVolume()*0.6);

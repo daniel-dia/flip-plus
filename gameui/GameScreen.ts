@@ -72,8 +72,7 @@ module gameui {
             } else
                 updateFn();
         }
-
-
+        
         private update() {
             requestAnimationFrame(updateFn);
             PIXIrenderer.render(PIXIstage);

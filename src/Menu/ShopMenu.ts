@@ -132,13 +132,15 @@ module FlipPlus.Menu {
 
             this.showLoading();
 
-            var inappsService = Cocoon["InApp"];
-
-            // Service initialization
-            if (!inappsService) {
+            if (!Cocoon || !Cocoon["InApp"]) {
                 this.showError();
                 return;
             }
+
+            var inappsService = Cocoon["InApp"];
+
+            // Service initialization
+            
             inappsService.initialize({autofinish: true},
                 (error) => {
                     console.log("initialized Store" + error)

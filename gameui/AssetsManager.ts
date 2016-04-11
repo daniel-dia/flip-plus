@@ -27,7 +27,7 @@ module gameui {
                 //creates a preload queue
                 this.loader = new PIXI.loaders.Loader(path);
 
-			///Check	//install sound plug-in for sounds format
+			    ///Check //install sound plug-in for sounds format
                 ///this.loader.installPlugin(createjs.Sound);
 				///createjs.Sound.alternateExtensions = ["mp3"];
 

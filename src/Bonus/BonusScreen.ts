@@ -244,7 +244,12 @@
             this.back();
 
             // show ads and 
-            CocoonAds.show();
+            var musicVol = gameui.AudiosManager.getMusicVolume();
+            gameui.AudiosManager.setMusicVolume(0);
+            CocoonAds.show(() => {
+                gameui.AudiosManager.setMusicVolume(musicVol);
+            });
+            
 
         }
     }

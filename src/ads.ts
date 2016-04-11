@@ -34,6 +34,12 @@ class CocoonAds  {
     }
 
     private static setCallbacks() {
+
+        this.interstitial.on("show", (e) => {
+            this.debug('music paused')
+        });
+
+
         this.interstitial.on("load", (e) => {
             this.debug("Interstitial loaded " + JSON.stringify(e));
             this.status = CocoonAds.STATUS.READY;
@@ -47,14 +53,14 @@ class CocoonAds  {
 
         this.interstitial.on("dismiss", (e) => {
             this.debug("Interstitial dismissed " + JSON.stringify(e));
-            this.status = CocoonAds.STATUS.NOT_LOADED;
+            this.status = CocoonAds.STATUS.NOT_LOADED; 
             this.load();
         });
 
     }
 
     private static debug(text) { 
-        //console.log("ads " + text) 
+        console.log("ads " + text) 
     }
 
     public static initialize() {

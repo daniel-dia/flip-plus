@@ -834,7 +834,7 @@
     p._onAdded = function () {
         if (!this.parent._isPixiFlash) {
             if (!this.added) {
-                SharedTicker.add(this._tickListener); console.log("added");
+                SharedTicker.add(this._tickListener); 
                 //createjs.Ticker.addEventListener("tick", this._tickListener);
                 this.added = true;
             }
