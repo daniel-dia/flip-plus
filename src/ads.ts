@@ -16,7 +16,7 @@ class CocoonAds  {
 
         if (this.getStatus() == CocoonAds.STATUS.READY) {
             this.debug("show")
-            this.interstitial.on("show", (e) => {
+            this.interstitial.on("dismiss", (e) => {
                 if (callback) callback(true);
             });
             this.interstitial.show()
@@ -38,7 +38,6 @@ class CocoonAds  {
         this.interstitial.on("show", (e) => {
             this.debug('music paused')
         });
-
 
         this.interstitial.on("load", (e) => {
             this.debug("Interstitial loaded " + JSON.stringify(e));

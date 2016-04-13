@@ -105,7 +105,7 @@ module FlipPlus {
             }, false);
 
        
-            /*
+            
             var ps = this.levelsManager.getAllProjects();
             ps[1].UserData.unlocked = true;
             ps[2].UserData.unlocked = true;
@@ -119,7 +119,7 @@ module FlipPlus {
                     ps[p].levels[l].userdata.unlocked = true;             
                 }
             }
-            */
+            
         }
 
         public static initializeAds() {

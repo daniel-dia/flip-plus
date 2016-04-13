@@ -198,7 +198,7 @@ module FlipPlus.Menu.View
 
             var content = new PIXI.Container();
             var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
-
+            textDO.maxWidth = 650;
             textDO.x =  - 400;
             textDO.y = - 250;
 
