@@ -21,7 +21,7 @@ module FlipPlus.Robots {
         }
 
         // play bot sound
-        public static playRobotSound(botId: string) {
+        public static playRobotSound(botId: string, delay:number) {
             if (!botId) return;
 
             var id = parseInt(botId.slice(-2));
@@ -30,7 +30,7 @@ module FlipPlus.Robots {
             else
                 var filename = "Talking Robot-" + Math.ceil(Math.random() * 19);
 
-            gameui.AudiosManager.playSound(filename, true);
+            gameui.AudiosManager.playSound(filename, true, delay);
         }
 
         //loads and add lobby graphics to the view

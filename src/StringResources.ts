@@ -345,43 +345,130 @@ var stringResources_pt = {
    /* S-N3S   */   Bot01: "The number one, conhecido por ser o protótipo dos demais robôs com inteligência artificial, feitos com ligas metálicas leves e densas. Com alto teor de metal fluído em seus tubos conectantes para melhor desempenho na hora da partida do seu motor. Sua visão melhorou depois de trocado sua tela por LCD",
    /* R-MS    */   Bot02: "Com ligas de leveduras leves pode estar em qualquer lugar para embolorar sua vida. Criado a partir da micologia grega está entre nós há séculos",
    /* P1K-4   */   Bot03: "Nada melhor que levar um amigo e poder usar de sua bateria infinita. Todos dizem que ele se parece com um personagem de um desenho, mas não tem televisão na fábrica, então, nada a comentar",
-   /* L-1NK   */   Bot04: "",
+   /* L-1NK   */   Bot04: "-",
    /* B00- M  */   Bot05: "Apesar de ser um ótimo motorista, é menor de idade e ainda não pode dirigir. Pode usar álcool após maior idade. Costuma ser meio explisivo na direção",
-   /* K-R8Y   */   Bot06: "Descrição",
-   /* R-GH    */   Bot14: "Descrição",
-   /* ME64-x  */   Bot07: "Descrição",
-   /* B-GH    */   Bot09: "Descrição",
-   /* BJ-KZ   */   Bot10: "Descrição",
-   /* BMS-M   */   Bot11: "Descrição",
-   /* K0N-6   */   Bot08: "Descrição",
-   /* S-H06   */   Bot12: "",
+   /* K-R8Y   */   Bot06: "-",
+   /* R-GH    */   Bot14: "-",
+   /* ME64-x  */   Bot07: "-",
+   /* B-GH    */   Bot09: "-",
+   /* BJ-KZ   */   Bot10: "-",
+   /* BMS-M   */   Bot11: "-",
+   /* K0N-6   */   Bot08: "-",
+   /* S-H06   */   Bot12: "-",
    /* D-D1    */   Bot13: "Descrição",
    /* P4C-M   */   Bot15: "Máquina feita para comer e engolir frutinhas. Gosta de andar em caminhos aleatórios em que haja comida. Só não se Sabe pra onde vai parar toda a comida",
-   /* G-GH    */   Bot16: "Descrição",
+   /* G-GH    */   Bot16: "-",
    /* T-BLK   */   Bot17: "Peça importante para liberar a próxima fase. Pode não parecer, mas na verdade, esse robô tem ombros largos e pernas curtas.",
    /* Y0S-1   */   Bot18: "Um dos melhores companheiros para humanos e encanadores. Suba nele para uma jornada inesquecível.",
  },
   
+ 
     botsPhrases: {
-    /* S-N3S   */    Bot01: ["Olá!", "Eu sou o primeiro robô", "Você gosta de conversar?", "Você me ajuda a criar novos amigos?", "Está curioso né?","Surpresa!"],
-    /* R-MS    */    Bot02: ["Quer crescer?.", "Vê se cresce!.", "Nem todo fungo é ruim.","Sou um bom cogumelo."],
-    /* P1K-4   */    Bot03: ["Hey!", "Eletrizante!", "Piiii..." , "Chuuu"],
-    /* L-1NK   */    Bot04: ["Preciso Salvar a Princesa.", "Clica nesse link!", "É perigoso ir sozinho, Pegue isto !"],
-    /* B00- M  */    Bot05: ["Vrum, vrum...", "Vrum, vrum...cof cof.", "BOOOM !", "Esse¬ barulho é o escapamento, eu juro!", "Eu não sou careca, meus pneus que são.","Meu sonho é ter nitro! Nitroglicerina"],
-    /* K-R8Y   */    Bot06: ["Weee…", "Shuuuuuuup...", "chooooowwwwp..."],
-    /* R-GH    */    Bot14: ["---"],
-    /* ME64-x  */    Bot07: ["Carregando...","Yeeeyyy !","Rock !","pew pew pew"],
-    /* B-GH    */    Bot09: ["---"],
-    /* BJ-KZ   */    Bot10: ["Eu toco Banjo", "Conhecem meu amigo?", "Quer ouvir uma música?"],
-    /* BMS-M   */    Bot11: ["---"],
-    /* K0N-6   */    Bot08: ["Bananas!", "Bananas Bananas", "uhh ah ahh!"],
-    /* S-H06   */    Bot12: ["To com pressa.", "Rápido !", "Queria ser amarelo","quero alguns anéis."],
-    /* D-D1    */    Bot13: ["Uh uh…", "Mim quer bananachips", "Mim jogar uns barrís!"],
-    /* P4C-M   */    Bot15: ["Olá!", "Que fome!", "Vamos caçar uns fantasmas"],
-    /* G-GH    */    Bot16: ["---"],
-    /* T-BLK   */    Bot17: ["Alguém viu uma peça palito?", "Eu sou a peça que faltava!", "Alguém me ajude, estou caindo!","Preciso calibrar meus pneus!"],
-    /* Y0S-1   */    Bot18: ["Gosto de frutinhas!", "Weee Puuuu", "quer subir em mim?"],
-    },
+        "Bot01": [
+            "Olá!",
+            "Eu sou o primeiro robô =)",
+            "Você gosta de conversar?",
+            "Você me ajuda a criar novos amigos?",
+            "Está curioso né?",
+            "Surpresa!"
+        ],
+        "Bot02": [
+            "Quer crescer?.",
+            "Vê se cresce!.",
+            "Nem todo fungo é ruim.",
+            "Sou um bom cogumelo."
+        ],
+        "Bot03": [
+            "Hey!",
+            "Eletrizante!",
+            "Piiii...",
+            "Chuuu >.<"
+        ],
+        "Bot04": [
+            "Preciso Salvar a Princesa.",
+            "Clica nesse link!",
+            "É perigoso ir sozinho, Pegue isto !"
+        ],
+        "Bot05": [
+            "Vrum, vrum...",
+            "Vrum, vrum...cof cof.",
+            "BOOOM !",
+            "Esse barulho é o escapamento, eu juro!",
+            "Eu não sou careca, meus pneus que são.",
+            "Meu sonho é ter nitro! Nitroglicerina"
+        ],
+        "Bot06": [
+            "Weee…",
+            "Shuuuuuuup...-o-",
+            "chooooowwwwp... -o-",
+            "Noomm Nommmmmmm... -o-"
+        ],
+        "Bot14" /* R-GH  */: [
+            "Assombranddo por ai...",
+            "MUAHAHAHA!",
+            "Ppreciso descansar um pouco para recuperar minhas forças -_-"
+        ],
+        "Bot07": [
+            "Carregando...",
+            "Yeeeyyy !",
+            "Rock !",
+            "pew pew pew -_-"
+        ],
+        "Bot09" /* B-GH  */: [
+            "BOOOO!",
+            "UHhhhhhh...",
+            "Iiiiik !"
+        ],
+        "Bot10": [
+            "Eu toco Banjo",
+            "Conhecem meu amigo?",
+            "Quer ouvir uma música?"
+        ],
+        "Bot11" /* BMS-M */: [
+            "1 UP !",
+            "Mais uma chance.",
+            "Mais uma vida",
+            "Corra por sua vida!"
+        ],
+        "Bot08": [
+            "Bananas!",
+            "Bananas Bananas",
+            "uhh ah ahh!"
+        ],
+        "Bot12": [
+            "To com pressa.",
+            "Rápido !",
+            "Queria ser amarelo",
+            "quero alguns anéis."
+        ],
+        "Bot13": [
+            "Uh uh…",
+            "Mim quer bananachips",
+            "Mim jogar uns barrís!"
+        ],
+        "Bot15": [
+            "Olá!",
+            "Que fome!",
+            "Vamos caçar uns fantasmas"
+        ],
+        "Bot16" /* G-GH  */: [
+            "Vou assombrar seu labirindo",
+            "Onde está o cara de amarelo?",
+            "Onde é a saída?"
+        ],
+        "Bot17": [
+            "Alguém viu uma peça palito?",
+            "Eu sou a peça que faltava!",
+            "Estou caindo!",
+            "Preciso calibrar meus pneus!"
+        ],
+        "Bot18": [
+            "Gosto de frutinhas!",
+            "Weee Puuuu",
+            "quer subir em mim?"
+        ]
+    }
+ 
 }
 
 var language = navigator.language || navigator.userLanguage;
