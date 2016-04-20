@@ -8601,7 +8601,7 @@ var FlipPlus;
                     var _this = this;
                     if (color === void 0) { color = 0xffcc2e; }
                     var newValue = this.project.UserData.percent;
-                    createjs.Tween.get(this.percentMask).wait(600).to({ scaleY: newValue }, 700, createjs.Ease.quadInOut).wait(500).call(function () {
+                    createjs.Tween.get(this.percentMask).wait(900).to({ scaleY: newValue }, 1400, createjs.Ease.elasticOut).wait(500).call(function () {
                         if (_this.project.UserData.complete)
                             _this.animateBotToComplete();
                     });
