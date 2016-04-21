@@ -21,7 +21,7 @@ module FlipPlus.Robots {
         }
 
         // play bot sound
-        public static playRobotSound(botId: string, delay:number) {
+        public static playRobotSound(botId: string, delay:number=0) {
             if (!botId) return;
 
             var id = parseInt(botId.slice(-2));
