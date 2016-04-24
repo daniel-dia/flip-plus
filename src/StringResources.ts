@@ -170,31 +170,116 @@
     },
 
     botsPhrases: {
-        Bot01 : ["Olá!", "Phrase2", "Phrase3"],
-        Bot02 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot03 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot04 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot05 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot06 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot07 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot08 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot09 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot10 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot11 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot12 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot13 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot14 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot15 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot16 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot17 : ["Phrase1", "Phrase2", "Phrase3"],
-        Bot18 : ["Phrase1", "Phrase2", "Phrase3"],
-    },
+        "Bot01": [
+            "Hello",
+            "I'm the first bot",
+            "Do you like to talk?",
+            "You help me make new friends?",
+            "'re Curious right?",
+            "Surprise!"
+        ],
+        "Bot02": [
+            "You want to grow?",
+            "Grow up!",
+            "Not every fungus are bad.",
+            "I'm a good mushroom."
+        ],
+        "Bot03": [
+            "Hey!",
+            "electrifying!",
+            "Piiii...",
+            "Chuuu >.<"
+        ],
+        "Bot04": [
+            "I need to save the princess.",
+            "Click this link!",
+            "It's dangerous to go alone, Take this!"
+        ],
+        "Bot05": [
+            "Vrum, vrum...",
+            "Vrum, vrum...cof cof.",
+            "BOOOM !",
+            "That noise is the exhaust, I swear!",
+            "My dream is to have nitro! Nitroglycerin."
+        ],
+        "Bot06": [
+            "Weee…",
+            "Shuuuuuuup...-o-",
+            "chooooowwwwp... -o-",
+            "Noomm Nommmmmmm... -o-"
+        ],
+        "Bot14" /* R-GH  */: [
+            "Haunting around ...",
+            "MUAHAHAHA!",
+            "I need some rest to recover my strength -_-"
+        ],
+        "Bot07": [
+            "charging...",
+            "Yeeeyyy !",
+            "Rock !",
+            "pew pew pew -_-"
+        ],
+        "Bot09" /* B-GH  */: [
+            "BOOOO!",
+            "UHhhhhhh...",
+            "Iiiiik !"
+        ],
+        "Bot10": [
+            "I play Banjo",
+            "You know my friend?",
+            "You want to hear a song?"
+        ],
+        "Bot11" /* BMS-M */: [
+            "1 UP !",
+            "One more chance.",
+            "One more Life.",
+            "Run for your life!"
+        ],
+        "Bot08": [
+            "Bananas!",
+            "Bananas Bananas",
+            "uhh ah ahh!"
+        ],
+        "Bot12": [
+            "I'm hurry.",
+            "hurry !",
+            "fast!",
+            "let's go catch some rings."
+        ],
+        "Bot13": [
+            "Uh uh…",
+            "I want Banana",
+            "I throw barrels!"
+        ],
+        "Bot15": [
+            "Hello!",
+            "I'm hungry!",
+            "Let's hunt some ghosts"
+        ],
+        "Bot16" /* G-GH  */: [
+            "I'll haunt your maze",
+            "where is the yellow guy?",
+            "where is the exit?"
+        ],
+        "Bot17": [
+            "Someone saw the I-block?",
+            "I am the missing block!",
+            "i'm falling!",
+            "I need to calibrate my tires!"
+        ],
+        "Bot18": [
+            "fruits please",
+            "Weee Puuuu",
+            "Do you wanna a ride?"
+        ]
+    }
+
 }
 
 var stringResources_pt = {
     ld: "Carregando",
 
-    it_text1: "N3-S\nprecisa de reparos\n\nJOGAR para reparar",
+    it_text1: "N3-S precisa de reparos\n\nJOGAR para reparar",
     it_text2: "sozinho = ruim\namigos = bom\n\nJOGAR = + amigos",
 
     tut_1_1_title: "Forma de cruz",
@@ -404,9 +489,9 @@ var stringResources_pt = {
             "Noomm Nommmmmmm... -o-"
         ],
         "Bot14" /* R-GH  */: [
-            "Assombranddo por ai...",
+            "Assombrando por ai...",
             "MUAHAHAHA!",
-            "Ppreciso descansar um pouco para recuperar minhas forças -_-"
+            "Preciso descansar um pouco para recuperar minhas forças -_-"
         ],
         "Bot07": [
             "Carregando...",

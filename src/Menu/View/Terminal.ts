@@ -198,7 +198,7 @@ module FlipPlus.Menu.View
 
             var content = new PIXI.Container();
             var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
-            textDO.maxWidth = 650;
+            textDO.maxWidth = 820;
             textDO.x =  - 400;
             textDO.y = - 250;
 
@@ -210,7 +210,11 @@ module FlipPlus.Menu.View
             this.setContent(content);
 
             var char = 0;
+
+            textDO.text = text;
+            return;
             var i = setInterval(() => {
+                textDO.text = "";
                 textDO.text = text.substring(0, char++);
                 gameui.AudiosManager.playSound("terminalChar", true);
                 if (char > text.length)
