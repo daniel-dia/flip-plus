@@ -106,9 +106,9 @@ class Analytics {
             "value": value,
         };
 
-        if (x) message["area"] = level;
+        if (level) message["area"] = level;
         if (x) message["x"] = x;
-        if (x) message["y"] = y;
+        if (y) message["y"] = y;
 
 
         var json_message = JSON.stringify(message);

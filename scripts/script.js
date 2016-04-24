@@ -7020,11 +7020,11 @@ var Analytics = (function () {
             "event_id": eventId + ":" + subEventId,
             "value": value
         };
-        if (x)
+        if (level)
             message["area"] = level;
         if (x)
             message["x"] = x;
-        if (x)
+        if (y)
             message["y"] = y;
         var json_message = JSON.stringify(message);
         var md5_msg = CryptoJS.MD5(json_message + secret_key);
