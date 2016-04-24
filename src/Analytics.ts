@@ -87,7 +87,7 @@ class Analytics {
     }
 
     private getBuild(): string {
-        return "alpha1";
+        return version;
     }
 
     private sendEvent(eventId: string, subEventId: string, value: number = 1, level?: string, x?: number, y?: number) {
@@ -107,8 +107,8 @@ class Analytics {
         };
 
         if (level) message["area"] = level;
-        if (x) message["x"] = x;
-        if (y) message["y"] = y;
+        if (y)     message["y"] = y;
+        if (x)     message["x"] = x;
 
 
         var json_message = JSON.stringify(message);

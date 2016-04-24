@@ -7005,7 +7005,7 @@ var Analytics = (function () {
         return this.sessionId;
     };
     Analytics.prototype.getBuild = function () {
-        return "alpha1";
+        return version;
     };
     Analytics.prototype.sendEvent = function (eventId, subEventId, value, level, x, y) {
         if (value === void 0) { value = 1; }
@@ -7022,10 +7022,10 @@ var Analytics = (function () {
         };
         if (level)
             message["area"] = level;
-        if (x)
-            message["x"] = x;
         if (y)
             message["y"] = y;
+        if (x)
+            message["x"] = x;
         var json_message = JSON.stringify(message);
         var md5_msg = CryptoJS.MD5(json_message + secret_key);
         var header_auth_hex = CryptoJS.enc.Hex.stringify(md5_msg);
@@ -7043,7 +7043,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 0.8.31";
+var version = "v 0.8.32";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
