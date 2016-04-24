@@ -88,11 +88,11 @@ module gameui {
 
             var x = 0;
             var y = 0;
+            var scale = 1;
             var alpha = 1;
 
             //if transition
             if (transition && oldScreen) {
-
 
                 switch (transition.type) {
                     case "fade":
@@ -119,14 +119,26 @@ module gameui {
                         transition.time = 0;
                         break;
 
+                    case "zoomOut":
+                        scale = 1 / 5;
+                        x = (defaultWidth  )*2;
+                        y = (defaultHeight )*2;
+                        alpha = 0;
+                        break;
+
+                    case "zoomIn":
+                        scale = 5;
+                        x = -(defaultWidth  / 2);
+                        y = -(defaultHeight / 2);
+                        alpha = 0;
+                        break;
                 }
 
                 newScreen.view.interactive = false;
                 oldScreen.view.interactive = false;
                 newScreen.view.interactiveChildren = false;
                 oldScreen.view.interactiveChildren = false;
-
-
+                
                 //and transition = fade
                 if (transition.type && transition.type != "none") {
 
@@ -134,17 +146,19 @@ module gameui {
                     newScreen.view.alpha = alpha;
                     newScreen.view.x = -x;
                     newScreen.view.y = -y;
+                    newScreen.view.scaleX = 1/scale;
+                    newScreen.view.scaleY = 1/scale;
 
                     oldScreen.view.alpha = 1;
                     oldScreen.view.x = 0;
                     oldScreen.view.y = 0;
 
                     //fade old screen out
-                    createjs.Tween.get(oldScreen.view).to({ alpha: 1, x: x, y: y }, transition.time, createjs.Ease.quadInOut);
-                    createjs.Tween.get(newScreen.view).to({ alpha: 1, x: 0, y: 0 }, transition.time, createjs.Ease.quadInOut).call(() => {
+                    createjs.Tween.get(oldScreen.view).to({ scaleX: scale, scaleY: scale, alpha: 1, x: x * scale, y: y * scale }, transition.time, createjs.Ease.quadInOut);
+                    createjs.Tween.get(newScreen.view).to({ scaleX: 1, scaleY: 1, alpha: 1, x: 0, y: 0 }, transition.time, createjs.Ease.quadInOut).call(() => {
 
-                        oldScreen.view.set({ alpha: 0, x: 0, y: 0 })
-                        newScreen.view.set({ alpha: 1, x: 0, y: 0 })
+                        oldScreen.view.set({ scaleX: 1, scaleY: 1, alpha: 0, x: 0, y: 0 })
+                        newScreen.view.set({ scaleX: 1, scaleY: 1, alpha: 1, x: 0, y: 0 })
 
                         newScreen.view.interactive = true;
                         oldScreen.view.interactive = true;
@@ -153,6 +167,7 @@ module gameui {
 
                         this.removeOldScreen(oldScreen)
                         oldScreen = null;
+
                     });
 
 

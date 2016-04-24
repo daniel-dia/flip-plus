@@ -336,16 +336,16 @@ module FlipPlus {
         }
 
         public static showMainScreen() {
-            if (this.mainScreen == null)
-                this.mainScreen = new Menu.MainMenu();
-
-            this.gameScreen.switchScreen(this.mainScreen);
-
+            if (this.mainScreen == null) this.mainScreen = new Menu.MainMenu();
+            if (this.gameScreen.currentScreen == this.titleScreen || this.gameScreen.currentScreen == this.loadingScreen)
+                this.gameScreen.switchScreen(this.mainScreen, null, { type: "zoomIn", time: 500 });
+            else 
+                this.gameScreen.switchScreen(this.mainScreen);
         }
 
         public static showTitleScreen() {
             if (!this.titleScreen) this.titleScreen = new Menu.TitleScreen();
-            this.gameScreen.switchScreen(this.titleScreen);
+            this.gameScreen.switchScreen(this.titleScreen, null, { type: "zoomOut", time:500 });
         }
 
         public static showShopMenu(previousScreen: gameui.ScreenState) {
