@@ -320,9 +320,11 @@ module FlipPlus.Menu.View {
         protected removesClickIndicator() {
              
             //add click indicator
-            this.ind.stop();
-            this.removeChild(this.ind);
-            this.ind = null;
+            if (this.ind) {
+                this.ind.stop();
+                this.removeChild(this.ind);
+                this.ind = null;
+            }
         }
 
     }
