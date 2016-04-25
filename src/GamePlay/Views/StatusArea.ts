@@ -13,7 +13,7 @@ module FlipPlus.GamePlay.Views {
         private iconetime: PIXI.DisplayObject;
 
         private rightIcon: PIXI.Container;
-        private rightIconMC: createjs.MovieClip;
+        private rightIconMC: PIXI.Sprite;
 
         private mode;
 
@@ -80,29 +80,30 @@ module FlipPlus.GamePlay.Views {
 
         //creates a movieClip animation for the alert button
         private createAlertAnimation() {
-            var instance = this.rightIcon;
-            //this.rightIconMC = new createjs.MovieClip(createjs.MovieClip.SYNCHED,0,false);
-            //
-            //this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
-            //    .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).
-            //    to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 }, 8).
-            //    to({ scaleX: 1.2, scaleY: 1.2, rotation: 19.2 }, 8).
-            //    to({ scaleX: 1, scaleY: 1, rotation: 0 }, 4).
-            //    to({ startPosition: 0 }, 35).wait(1));
-          
+            
+        }
 
+        private animateClock() {
+            var f = Math.PI / 180;
+            createjs.Tween.get(this.rightIcon)
+                .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2*f }, 60).
+                to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 * f }, 120).
+                to({ scaleX: 1.2, scaleY: 1.2, rotation: 19.2 * f }, 120).
+                to({ scaleX: 1, scaleY: 1, rotation: 0 * f }, 120).
+                to({ startPosition: 0 }, 120);
         }
 
         public setText1(text: string) {
             this.bg1.visible = !(text == "" || text == null); this.text1.text = text;
         }
+
         public setText3(text: string) {
             this.bg3.visible = !(text == "" || text == null);
             this.text3.text = text;
 
             //if time<10 , set a alert
             if (this.mode == "time" && parseInt(text) < 10)
-                 this.rightIconMC.timeline.gotoAndPlay(0);
+               this.animateClock();
         }
 
         //set the behaviour of the puzzle , puzze, draw, moves, time

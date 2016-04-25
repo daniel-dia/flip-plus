@@ -14,6 +14,9 @@ module FlipPlus.GamePlay {
             super(levelData);
             this.createMenu();
             this.startGame(levelData);
+
+            // update overlay
+            this.statusArea.setText1( "0/" + this.puzzlesToSolve.toString());
          }
 
         private createsTimer() {
@@ -67,16 +70,11 @@ module FlipPlus.GamePlay {
                 // update overlay
                 this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
 
-                // remove the current board
-                
                 // updates logic
                 this.currentPuzzle++;
                 this.createNewPuzzle(this.currentPuzzle);
 
                 // creates a new board
-
-
-
                 this.boardSprite.x = defaultX + defaultWidth;
                 createjs.Tween.get(this.boardSprite).to({ x: defaultX }, 250, createjs.Ease.quadOut)
             })

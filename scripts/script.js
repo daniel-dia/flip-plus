@@ -2305,6 +2305,8 @@ var FlipPlus;
                 this.puzzlesToSolve = 0;
                 this.createMenu();
                 this.startGame(levelData);
+                // update overlay
+                this.statusArea.setText1("0/" + this.puzzlesToSolve.toString());
             }
             LevelTimeAttack.prototype.createsTimer = function () {
                 var _this = this;
@@ -2350,7 +2352,6 @@ var FlipPlus;
                 createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(function () {
                     // update overlay
                     _this.statusArea.setText1(_this.currentPuzzle.toString() + "/" + _this.puzzlesToSolve.toString());
-                    // remove the current board
                     // updates logic
                     _this.currentPuzzle++;
                     _this.createNewPuzzle(_this.currentPuzzle);
@@ -3537,15 +3538,15 @@ var FlipPlus;
                 };
                 //creates a movieClip animation for the alert button
                 StatusArea.prototype.createAlertAnimation = function () {
-                    var instance = this.rightIcon;
-                    //this.rightIconMC = new createjs.MovieClip(createjs.MovieClip.SYNCHED,0,false);
-                    //
-                    //this.rightIconMC.timeline.addTween(createjs.Tween.get(instance)
-                    //    .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 }, 4).
-                    //    to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 }, 8).
-                    //    to({ scaleX: 1.2, scaleY: 1.2, rotation: 19.2 }, 8).
-                    //    to({ scaleX: 1, scaleY: 1, rotation: 0 }, 4).
-                    //    to({ startPosition: 0 }, 35).wait(1));
+                };
+                StatusArea.prototype.animateClock = function () {
+                    var f = Math.PI / 180;
+                    createjs.Tween.get(this.rightIcon)
+                        .to({ scaleX: 1.18, scaleY: 1.18, rotation: 19.2 * f }, 60).
+                        to({ scaleX: 1.16, scaleY: 1.16, rotation: -13.3 * f }, 120).
+                        to({ scaleX: 1.2, scaleY: 1.2, rotation: 19.2 * f }, 120).
+                        to({ scaleX: 1, scaleY: 1, rotation: 0 * f }, 120).
+                        to({ startPosition: 0 }, 120);
                 };
                 StatusArea.prototype.setText1 = function (text) {
                     this.bg1.visible = !(text == "" || text == null);
@@ -3556,7 +3557,7 @@ var FlipPlus;
                     this.text3.text = text;
                     //if time<10 , set a alert
                     if (this.mode == "time" && parseInt(text) < 10)
-                        this.rightIconMC.timeline.gotoAndPlay(0);
+                        this.animateClock();
                 };
                 //set the behaviour of the puzzle , puzze, draw, moves, time
                 StatusArea.prototype.setMode = function (mode) {
