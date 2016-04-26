@@ -390,5 +390,10 @@ module FlipPlus {
 function main() {
     FlipPlus.FlipPlusGame.initializeGame();
 };
-document.addEventListener('deviceready', main, false);
+if(Cocoon) document.addEventListener('deviceready', main, false);
 
+
+
+window.onload = function () {
+    FlipPlus.FlipPlusGame.initializeGame();
+};
