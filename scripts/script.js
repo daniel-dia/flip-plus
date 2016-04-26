@@ -7071,7 +7071,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 0.8.38";
+var version = "v 0.8.40";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
