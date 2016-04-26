@@ -32,6 +32,7 @@ module FlipPlus.Menu {
             //add Other Buttons
             this.content.addChild(new gameui.BitmapTextButton(StringResources.op_erase, "fontBlue", "", () => {
                 FlipPlusGame.levelsUserDataManager.clearAllData();
+                if(Cocoon) Cocoon.App.reload();
                 window.location.reload();
             }).set({ y : p0 + p * s }));
         }

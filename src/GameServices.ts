@@ -9,8 +9,9 @@ module FlipPlus {
         constructor() {
             if (!navigator.onLine) return;
             if (!Cocoon) return;
-
-            this.socialService=initSocialServices();
+            console.log("before")
+            this.socialService = initSocialServices();
+            console.log("initialized")
         }
 
         // show native leaderboards
@@ -52,12 +53,16 @@ module FlipPlus {
 
         // submit an achievement
         public submitAchievent(achievementId: string) {
+            console.log("ach1!");
             if (!navigator.onLine) return;
+            console.log("ach2!");
             if (!this.socialService) return;
-
+            console.log("ach3!");
             this.socialService.submitAchievement(achievementId, function (error) {
                 if (error)
                     console.error("submitAchievement error: " + error.message);
+                else
+                    console.error("submited");
             });
 
         }

@@ -1069,9 +1069,11 @@ var FlipPlus;
         GameMode[GameMode["ACTION"] = 1] = "ACTION";
     })(GameMode || (GameMode = {}));
 })(FlipPlus || (FlipPlus = {}));
-window.onload = function () {
+function main() {
     FlipPlus.FlipPlusGame.initializeGame();
-};
+}
+;
+document.addEventListener('deviceready', main, false);
 var Items = (function () {
     function Items() {
     }
@@ -4859,6 +4861,8 @@ var FlipPlus;
                 //add Other Buttons
                 this.content.addChild(new gameui.BitmapTextButton(StringResources.op_erase, "fontBlue", "", function () {
                     FlipPlus.FlipPlusGame.levelsUserDataManager.clearAllData();
+                    if (Cocoon)
+                        Cocoon.App.reload();
                     window.location.reload();
                 }).set({ y: p0 + p * s }));
             }
@@ -7067,7 +7071,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 0.8.32";
+var version = "v 0.8.38";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
@@ -7199,7 +7203,9 @@ var FlipPlus;
                 return;
             if (!Cocoon)
                 return;
+            console.log("before");
             this.socialService = initSocialServices();
+            console.log("initialized");
         }
         // show native leaderboards
         GameServices.prototype.showLeaderboard = function () {
@@ -7236,13 +7242,18 @@ var FlipPlus;
         };
         // submit an achievement
         GameServices.prototype.submitAchievent = function (achievementId) {
+            console.log("ach1!");
             if (!navigator.onLine)
                 return;
+            console.log("ach2!");
             if (!this.socialService)
                 return;
+            console.log("ach3!");
             this.socialService.submitAchievement(achievementId, function (error) {
                 if (error)
                     console.error("submitAchievement error: " + error.message);
+                else
+                    console.error("submited");
             });
         };
         return GameServices;

@@ -387,6 +387,8 @@ module FlipPlus {
 }
 
 
-window.onload = function () {
+function main() {
     FlipPlus.FlipPlusGame.initializeGame();
 };
+document.addEventListener('deviceready', main, false);
+

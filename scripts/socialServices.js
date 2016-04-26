@@ -1,4 +1,6 @@
-﻿function initSocialServices() {
+﻿var waitingLogin
+
+function initSocialServices() {
 
     //Get specific social service form platform
     if (Cocoon.getPlatform() === 'ios') {
@@ -8,6 +10,7 @@
         usingGameCenter = true;
     } else if (Cocoon.getPlatform() === 'android') {
         var gp = Cocoon.Social.GooglePlayGames;
+        
         //clientId parameter is not required in android
         gp.init({
            // defaultLeaderboard: "CgkIjMC3tPoHEAIQAg"
@@ -16,10 +19,11 @@
         //multiplayerService = gp.getMultiplayerInterface();
     }
 
-
+    console.log("init1");
     //Social Service Login and Score Listeners
     if (socialService) {
         socialService.on("loginStatusChanged", function (loggedIn, error) {
+            
             if (loggedIn) {
                 console.log("Logged into social service");
                 socialService.requestScore(function (score, error) {
@@ -30,7 +34,7 @@
                         model.localUserScore = score.score;
                     }
                 }, {
-                    leaderboardID: "tictactoe2"
+                    //leaderboardID: "tictactoe2"
                 });
             }
         });
