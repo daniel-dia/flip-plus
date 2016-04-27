@@ -84,7 +84,7 @@ module FlipPlus {
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
             this.gameScreen.switchScreen(this.loadingScreen);
-
+            
             // loading screen
             this.loadingScreen.loaded = () => {
                 if (levelCreatorMode == true && !levelCreatorTestMode)
@@ -104,8 +104,6 @@ module FlipPlus {
                 return this.gameScreen.sendBackButtonEvent()
             }, false);
 
-       
-            
            // var ps = this.levelsManager.getAllProjects();
            // ps[1].UserData.unlocked = true;
            // ps[2].UserData.unlocked = true;
@@ -122,35 +120,35 @@ module FlipPlus {
             
         }
 
-        public static initializeAds() {
+        //public static initializeAds() {
 
-            Cocoon.Ad.interstitial.on("ready", () => {
-                // tells that a ads s loaded
-                Cocoon.Ad.interstitial["loaded"] = true;
-                // once a ads is loaded so it is avaliable for this app.
-                this.storyData.setStoryPlayed("ads_avaliable");
-                console.log("ads loaded");
-            })
+        //    Cocoon.Ad.interstitial.on("ready", () => {
+        //        // tells that a ads s loaded
+        //        Cocoon.Ad.interstitial["loaded"] = true;
+        //        // once a ads is loaded so it is avaliable for this app.
+        //        this.storyData.setStoryPlayed("ads_avaliable");
+        //        console.log("ads loaded");
+        //    })
 
-            console.log("ads initialized");
-            Cocoon.Ad.loadInterstitial();
-        }
+        //    console.log("ads initialized");
+        //    Cocoon.Ad.loadInterstitial();
+        //}
 
-        public static initializeSocial() {
-            try {
-                var os = "web"
-                if (Cocoon.Device.getDeviceInfo()) os = Cocoon.Device.getDeviceInfo().os;
+        //public static initializeSocial() {
+        //    try {
+        //        var os = "web"
+        //        if (Cocoon.Device.getDeviceInfo()) os = Cocoon.Device.getDeviceInfo().os;
 
-                if (os == "windows") return;
+        //        if (os == "windows") return;
 
-                //initialize the Facebook Service the same way as the Official JS SDK
-                if (navigator.onLine) {
-                    var fb = Cocoon.Social.Facebook;
-                    fb.init({ appId: fbAppId });
-                    this.FBSocialService = fb.getSocialInterface();
-                }
-            } catch (e) { }
-        }
+        //        //initialize the Facebook Service the same way as the Official JS SDK
+        //        if (navigator.onLine) {
+        //            var fb = Cocoon.Social.Facebook;
+        //            fb.init({ appId: fbAppId });
+        //            this.FBSocialService = fb.getSocialInterface();
+        //        }
+        //    } catch (e) { }
+        //}
 
         // ----------------------------- Game Methods ---------------------------------------------//
         
@@ -385,15 +383,5 @@ module FlipPlus {
         ACTION
     }
 }
-
-
-function main() {
-    FlipPlus.FlipPlusGame.initializeGame();
-};
-if(Cocoon) document.addEventListener('deviceready', main, false);
-
-
-
-window.onload = function () {
-    FlipPlus.FlipPlusGame.initializeGame();
-};
+document.addEventListener('deviceready', FlipPlus.FlipPlusGame.initializeGame, false);
+//window.onload = FlipPlus.FlipPlusGame.initializeGame();

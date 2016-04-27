@@ -4,26 +4,22 @@ function initSocialServices() {
 
     //Get specific social service form platform
     if (Cocoon.getPlatform() === 'ios') {
-        var gc = Cocoon.Social.GameCenter;
-        socialService = gc.getSocialInterface();
+   
+        socialService = Cocoon.Social.GameCenter.getSocialInterface();
         //multiplayerService = gc.getMultiplayerInterface();
         usingGameCenter = true;
+
     } else if (Cocoon.getPlatform() === 'android') {
-        var gp = Cocoon.Social.GooglePlayGames;
-        
+      
         //clientId parameter is not required in android
-        gp.init({
-           // defaultLeaderboard: "CgkIjMC3tPoHEAIQAg"
-        });
-        socialService = gp.getSocialInterface();
+        Cocoon.Social.GooglePlayGames.init({});
+        socialService = Cocoon.Social.GooglePlayGames.getSocialInterface();
         //multiplayerService = gp.getMultiplayerInterface();
     }
 
-    console.log("init1");
     //Social Service Login and Score Listeners
     if (socialService) {
         socialService.on("loginStatusChanged", function (loggedIn, error) {
-            
             if (loggedIn) {
                 console.log("Logged into social service");
                 socialService.requestScore(function (score, error) {
@@ -40,16 +36,15 @@ function initSocialServices() {
         });
 
         //login
-        loginSocialService(true);
+        loginSocialService(socialService,true);
     }
+
     return socialService;
 }
 
 
-function loginSocialService(autoLogin) {
-    if (!socialService)
-        return;
-
+function loginSocialService(socialService,autoLogin) {
+    
     if (!waitingLogin) {
         waitingLogin = true;
         socialService.login(function (loggedIn, error) {

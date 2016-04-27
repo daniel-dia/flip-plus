@@ -844,34 +844,30 @@ var FlipPlus;
             //     }
             // }
         };
-        FlipPlusGame.initializeAds = function () {
-            var _this = this;
-            Cocoon.Ad.interstitial.on("ready", function () {
-                // tells that a ads s loaded
-                Cocoon.Ad.interstitial["loaded"] = true;
-                // once a ads is loaded so it is avaliable for this app.
-                _this.storyData.setStoryPlayed("ads_avaliable");
-                console.log("ads loaded");
-            });
-            console.log("ads initialized");
-            Cocoon.Ad.loadInterstitial();
-        };
-        FlipPlusGame.initializeSocial = function () {
-            try {
-                var os = "web";
-                if (Cocoon.Device.getDeviceInfo())
-                    os = Cocoon.Device.getDeviceInfo().os;
-                if (os == "windows")
-                    return;
-                //initialize the Facebook Service the same way as the Official JS SDK
-                if (navigator.onLine) {
-                    var fb = Cocoon.Social.Facebook;
-                    fb.init({ appId: fbAppId });
-                    this.FBSocialService = fb.getSocialInterface();
-                }
-            }
-            catch (e) { }
-        };
+        //public static initializeAds() {
+        //    Cocoon.Ad.interstitial.on("ready", () => {
+        //        // tells that a ads s loaded
+        //        Cocoon.Ad.interstitial["loaded"] = true;
+        //        // once a ads is loaded so it is avaliable for this app.
+        //        this.storyData.setStoryPlayed("ads_avaliable");
+        //        console.log("ads loaded");
+        //    })
+        //    console.log("ads initialized");
+        //    Cocoon.Ad.loadInterstitial();
+        //}
+        //public static initializeSocial() {
+        //    try {
+        //        var os = "web"
+        //        if (Cocoon.Device.getDeviceInfo()) os = Cocoon.Device.getDeviceInfo().os;
+        //        if (os == "windows") return;
+        //        //initialize the Facebook Service the same way as the Official JS SDK
+        //        if (navigator.onLine) {
+        //            var fb = Cocoon.Social.Facebook;
+        //            fb.init({ appId: fbAppId });
+        //            this.FBSocialService = fb.getSocialInterface();
+        //        }
+        //    } catch (e) { }
+        //}
         // ----------------------------- Game Methods ---------------------------------------------//
         FlipPlusGame.toLevelCreator = function (level, callback) {
             if (!level) {
@@ -1069,15 +1065,8 @@ var FlipPlus;
         GameMode[GameMode["ACTION"] = 1] = "ACTION";
     })(GameMode || (GameMode = {}));
 })(FlipPlus || (FlipPlus = {}));
-function main() {
-    FlipPlus.FlipPlusGame.initializeGame();
-}
-;
-if (Cocoon)
-    document.addEventListener('deviceready', main, false);
-window.onload = function () {
-    FlipPlus.FlipPlusGame.initializeGame();
-};
+document.addEventListener('deviceready', FlipPlus.FlipPlusGame.initializeGame, false);
+//window.onload = FlipPlus.FlipPlusGame.initializeGame(); 
 var Items = (function () {
     function Items() {
     }
@@ -7207,9 +7196,7 @@ var FlipPlus;
                 return;
             if (!Cocoon)
                 return;
-            console.log("before");
             this.socialService = initSocialServices();
-            console.log("initialized");
         }
         // show native leaderboards
         GameServices.prototype.showLeaderboard = function () {

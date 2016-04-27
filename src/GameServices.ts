@@ -9,9 +9,7 @@ module FlipPlus {
         constructor() {
             if (!navigator.onLine) return;
             if (!Cocoon) return;
-            console.log("before")
             this.socialService = initSocialServices();
-            console.log("initialized")
         }
 
         // show native leaderboards
