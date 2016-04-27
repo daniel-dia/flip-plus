@@ -50,12 +50,6 @@ module FlipPlus.Menu {
             var imagePath = "assets/images@" + assetscale + "x/";
             var audioPath = "assets/sound/";
 
-            if (Cocoon && Cocoon["Utils"]) {
-                Cocoon.Utils.markAsMusic("assets/sound/Music Minimal Tech.ogg");
-                Cocoon.Utils.markAsMusic("assets/sound/bonusbg.ogg");
-                Cocoon.Utils.markAsMusic("assets/sound/Music Dot Robot.ogg");
-            }
-
             //creates load complete action
             gameui.AssetsManager.onComplete = () => {
                 if (this.loaded) this.loaded();
