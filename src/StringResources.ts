@@ -145,7 +145,11 @@
         watchVideo: "Watch Video",
         gift: "gift in @ minutes",
 
-        feedback:"Give feedback"
+        feedback: "Give feedback",
+
+        exitConfirm: "Are you sure you want to exit?!",
+        yes: "Yes",
+        no: "No",
     },
 
     endingText: "Ending Text",
@@ -318,7 +322,7 @@ var stringResources_pt = {
     mm_play: "JOGAR",
 
     op_back: "Voltar",
-    op_erase: "apagar todos os dados",
+    op_erase: "Apagar todos os dados",
     op_options: "Opções",
 
     pr_notStarsTitle: "sem estrelas",
@@ -426,7 +430,12 @@ var stringResources_pt = {
         watchVideo: "Veja um Video",
         gift: "vídeo em @ min",
 
-        feedback: "Deixe seu comentário"
+        feedback: "Deixe seu comentário",
+
+        exitConfirm: "Tem certeza que quer sair?!",
+        yes: "Sim",
+        no: "Não",
+
     },
 
     endingText:"Texto do Final",

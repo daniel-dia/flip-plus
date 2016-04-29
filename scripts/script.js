@@ -834,7 +834,9 @@ var FlipPlus;
         };
         // test debug 
         FlipPlusGame.tests = function () {
+            var _this = this;
             this.gameServices.showAchievements();
+            setTimeout(function () { _this.gameServices.submitAchievent("ACH_Bot02"); }, 4000);
         };
         // test debug 
         FlipPlusGame.unlockAll = function () {
@@ -4824,6 +4826,8 @@ var FlipPlus;
                 this.originY = 1;
                 this.originX = defaultWidth;
                 _super.call(this, StringResources.menus.menu, previousScreen);
+                this.popup = new Menu.View.PopupConfirm();
+                this.overlay.addChild(this.popup);
                 // add menu buttons
                 var p0 = -350;
                 var p = 0;
@@ -4842,10 +4846,14 @@ var FlipPlus;
                 p++;
                 //add Other Buttons
                 this.content.addChild(new gameui.BitmapTextButton(StringResources.op_erase, "fontBlue", "", function () {
-                    FlipPlus.FlipPlusGame.levelsUserDataManager.clearAllData();
-                    if (Cocoon)
-                        Cocoon.App.reload();
-                    window.location.reload();
+                    var confirmText = StringResources.op_erase + "?";
+                    _this.popup.showConfirmMessage(confirmText, function () {
+                        FlipPlus.FlipPlusGame.levelsUserDataManager.clearAllData();
+                        if (Cocoon)
+                            Cocoon.App.reload();
+                        else
+                            window.location.reload();
+                    });
                 }).set({ y: p0 + p * s }));
             }
             return OptionsMenu;
@@ -7053,7 +7061,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 0.8.42";
+var version = "v 0.8.46";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
@@ -7222,19 +7230,24 @@ var FlipPlus;
         };
         // submit an achievement
         GameServices.prototype.submitAchievent = function (achievementId) {
-            console.log("ach1!");
             if (!navigator.onLine)
                 return;
-            console.log("ach2!");
             if (!this.socialService)
                 return;
-            console.log("ach3!");
-            this.socialService.submitAchievement(achievementId, function (error) {
-                if (error)
-                    console.error("submitAchievement error: " + error.message);
-                else
-                    console.error("submited");
-            });
+            var id = "";
+            if (Cocoon.getPlatform() === 'ios') {
+                id = constantsiOS[achievementId];
+            }
+            else if (Cocoon.getPlatform() === 'android') {
+                id = contantsAndroid[achievementId];
+            }
+            if (id)
+                this.socialService.submitAchievement(id, function (error) {
+                    if (error)
+                        console.error("submitAchievement error: " + error.message);
+                    else
+                        console.error("submited");
+                });
         };
         return GameServices;
     })();
@@ -7644,6 +7657,7 @@ var FlipPlus;
         var TitleScreen = (function (_super) {
             __extends(TitleScreen, _super);
             function TitleScreen() {
+                var _this = this;
                 _super.call(this);
                 this.addBeach();
                 this.content.interactive = true;
@@ -7653,6 +7667,9 @@ var FlipPlus;
                 };
                 this.content.on("tap", tap);
                 this.content.on("click", tap);
+                this.popup = new Menu.View.PopupConfirm();
+                this.overlay.addChild(this.popup);
+                this.onback = function () { _this.back(); };
             }
             TitleScreen.prototype.addBeach = function () {
                 var logo = new lib_logo.LogoScreen();
@@ -7668,6 +7685,12 @@ var FlipPlus;
                 _super.prototype.activate.call(this, parameters);
                 // play music
                 gameui.AudiosManager.playMusic("Music Dot Robot");
+            };
+            TitleScreen.prototype.back = function () {
+                var confirmText = StringResources.exitConfirm;
+                this.popup.showConfirmMessage(confirmText, function () {
+                    navigator.app.exitApp();
+                });
             };
             return TitleScreen;
         })(gameui.ScreenState);
@@ -8117,6 +8140,50 @@ var FlipPlus;
                 return PopupBot;
             })(View.Popup);
             View.PopupBot = PopupBot;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            // View Class
+            var PopupConfirm = (function (_super) {
+                __extends(PopupConfirm, _super);
+                // class contructor
+                function PopupConfirm() {
+                    _super.call(this, true);
+                }
+                PopupConfirm.prototype.showConfirmMessage = function (message, accept) {
+                    var _this = this;
+                    this.showsPopup(0, 0);
+                    //clean display Object
+                    this.removeChildren();
+                    //draw background
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+                    // create a text
+                    var textDO = gameui.AssetsManager.getBitmapText(message, "fontWhite");
+                    this.addChild(textDO);
+                    textDO.pivot.x = textDO.getLocalBounds().width / 2;
+                    textDO.x = defaultWidth / 2;
+                    textDO.y = 550;
+                    // Add Buttons
+                    var btYes = new gameui.BitmapTextButton(StringResources.menus.no, "fontWhite", "menu/btoptions", function () { _this.closePopUp(); });
+                    var btNo = new gameui.BitmapTextButton(StringResources.menus.yes, "fontWhite", "menu/btoptions", function () { _this.closePopUp(); accept(); });
+                    this.addChild(btYes);
+                    this.addChild(btNo);
+                    btYes.x = 1136;
+                    btNo.x = 400;
+                    btYes.y = btNo.y = 1100;
+                };
+                return PopupConfirm;
+            })(View.Popup);
+            View.PopupConfirm = PopupConfirm;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
@@ -8905,7 +8972,10 @@ var StringResources = {
         share: "Share",
         watchVideo: "Watch Video",
         gift: "gift in @ minutes",
-        feedback: "Give feedback"
+        feedback: "Give feedback",
+        exitConfirm: "Are you sure you want to exit?!",
+        yes: "Yes",
+        no: "No"
     },
     endingText: "Ending Text",
     botsDescription: {
@@ -9059,7 +9129,7 @@ var stringResources_pt = {
     tut_5_1_text: "Termine essa tela para\nfinalizar os reparos no S-N3S!",
     mm_play: "JOGAR",
     op_back: "Voltar",
-    op_erase: "apagar todos os dados",
+    op_erase: "Apagar todos os dados",
     op_options: "Opções",
     pr_notStarsTitle: "sem estrelas",
     pr_notStarsText: "Você tem # estrelas e precisa\nde # estrelas para desbloquear.\nJogue mais para ganhar estrelas.",
@@ -9146,7 +9216,10 @@ var stringResources_pt = {
         share: "Compartilhar",
         watchVideo: "Veja um Video",
         gift: "vídeo em @ min",
-        feedback: "Deixe seu comentário"
+        feedback: "Deixe seu comentário",
+        exitConfirm: "Tem certeza que quer sair?!",
+        yes: "Sim",
+        no: "Não"
     },
     endingText: "Texto do Final",
     botsDescription: {

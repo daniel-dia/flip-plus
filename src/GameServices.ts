@@ -51,12 +51,19 @@ module FlipPlus {
 
         // submit an achievement
         public submitAchievent(achievementId: string) {
-            console.log("ach1!");
+             
             if (!navigator.onLine) return;
-            console.log("ach2!");
             if (!this.socialService) return;
-            console.log("ach3!");
-            this.socialService.submitAchievement(achievementId, function (error) {
+
+            var id = "";
+            if (Cocoon.getPlatform() === 'ios') {
+                id = constantsiOS[achievementId];
+            } else if (Cocoon.getPlatform() === 'android') {
+                id = contantsAndroid[achievementId];
+            }
+           
+            if(id)
+                this.socialService.submitAchievement(id, function (error) {
                 if (error)
                     console.error("submitAchievement error: " + error.message);
                 else

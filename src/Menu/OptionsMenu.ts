@@ -1,6 +1,7 @@
 module FlipPlus.Menu {
     export class OptionsMenu extends GenericMenu {
 
+        private popup: View.PopupConfirm;
 
         constructor(previousScreen?: gameui.ScreenState) {
             if (!previousScreen) previousScreen = FlipPlusGame.mainScreen;
@@ -8,6 +9,9 @@ module FlipPlus.Menu {
             this.originX = defaultWidth; 
             super(StringResources.menus.menu, previousScreen);
             
+            this.popup = new View.PopupConfirm();
+            this.overlay.addChild(this.popup);
+
             // add menu buttons
             var p0 = -350;
             var p = 0;
@@ -31,9 +35,18 @@ module FlipPlus.Menu {
             
             //add Other Buttons
             this.content.addChild(new gameui.BitmapTextButton(StringResources.op_erase, "fontBlue", "", () => {
-                FlipPlusGame.levelsUserDataManager.clearAllData();
-                if(Cocoon) Cocoon.App.reload();
-                window.location.reload();
+
+
+                
+                var confirmText = StringResources.op_erase + "?";
+                this.popup.showConfirmMessage(confirmText, () => {
+                    FlipPlusGame.levelsUserDataManager.clearAllData();
+                    if (Cocoon) Cocoon.App.reload();
+                    else window.location.reload();
+                });
+
+                
+                
             }).set({ y : p0 + p * s }));
         }
 

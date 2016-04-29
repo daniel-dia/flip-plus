@@ -1433,6 +1433,7 @@
     </Content>
     <TypeScriptCompile Include="src\ads.ts" />
     <TypeScriptCompile Include="src\Menu\About.ts" />
+    <TypeScriptCompile Include="src\Menu\View\popupConfirm.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProductListItem.ts" />
     <TypeScriptCompile Include="src\Menu\WorkshopMenuAction.ts" />
     <TypeScriptCompile Include="src\Projects\ActionLevelsManager.ts" />

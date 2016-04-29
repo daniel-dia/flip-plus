@@ -66,7 +66,6 @@ module FlipPlus {
             // game service
             this.gameServices = new GameServices();
             
-
             // analytics
             this.analytics = new Analytics();
             this.analytics.logGameStart();
@@ -110,7 +109,8 @@ module FlipPlus {
 
         // test debug 
         public static tests() {
-            this.gameServices.showAchievements();    
+            this.gameServices.showAchievements();
+            setTimeout(() => { this.gameServices.submitAchievent("ACH_Bot02"); }, 4000);
         }
 
         // test debug 

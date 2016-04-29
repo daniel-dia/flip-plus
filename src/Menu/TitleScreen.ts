@@ -3,7 +3,7 @@
 module FlipPlus.Menu {
     export class TitleScreen extends gameui.ScreenState {
 
-      
+        private popup: View.PopupConfirm;
 
         constructor() {
             super();
@@ -19,6 +19,11 @@ module FlipPlus.Menu {
 
             this.content.on("tap", tap );
             this.content.on("click", tap);
+
+            this.popup = new View.PopupConfirm();
+            this.overlay.addChild(this.popup);
+
+            this.onback = () => { this.back(); };
  
        }
 
@@ -39,6 +44,13 @@ module FlipPlus.Menu {
             super.activate(parameters);
             // play music
             gameui.AudiosManager.playMusic("Music Dot Robot");
+        }
+
+        public back() {
+            var confirmText = StringResources.exitConfirm;
+            this.popup.showConfirmMessage(confirmText, () => {
+                navigator.app.exitApp();
+            });
         }
     }
 }
