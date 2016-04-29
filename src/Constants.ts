@@ -1,4 +1,4 @@
-var version = "v 0.8.40"
+var version = "v 0.8.42"
 
 var defaultWidth = 1536;
 var defaultHeight = 2048;
@@ -16,8 +16,8 @@ var storagePrefix = "flipp_";
 // Store Variables
 
 var fbAppId: string = "1416523228649363";
-var gameWebsite: string = "http://www.flipplus.com";
-var gameWebsiteIcon: string = "http://www.flipplus.com/preview.jpg"; 
+var gameWebsite: string = "http://www.diastudio.com.br/flipp";
+var gameWebsiteIcon: string = "http://www.diastudio.com.br/flipp/preview.jpg"; 
 
 // TODO
 var contantsAndroid = {
