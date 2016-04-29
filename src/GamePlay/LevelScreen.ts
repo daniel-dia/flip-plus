@@ -5,6 +5,8 @@ module FlipPlus.GamePlay {
     //Controller
     export class LevelScreen extends gameui.ScreenState {
 
+        // #region  properties
+
         // Display Sprites
         public boardSprite: Views.BoardSprite;
         private fx: Effects;
@@ -34,7 +36,7 @@ module FlipPlus.GamePlay {
         private startedTime: number;
         private clicks: number;
 
-
+        // #endregion
 
         // #region Initialization methodos ==================================================================================================
 

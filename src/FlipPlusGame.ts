@@ -65,6 +65,7 @@ module FlipPlus {
 
             // game service
             this.gameServices = new GameServices();
+            
 
             // analytics
             this.analytics = new Analytics();
@@ -81,6 +82,19 @@ module FlipPlus {
             // gameMode
             this.gameMode = GameMode.PROJECTS;
 
+           // give 10 coins to user first time
+            if (!this.storyData.getStoryPlayed("coins")){
+                this.storyData.setStoryPlayed("coins")
+                this.coinsData.setAmount(10);
+            }            
+
+            // add back button 
+            document.addEventListener("backbutton", () => {
+                return this.gameScreen.sendBackButtonEvent()
+            }, false);
+
+            //setTimeout(() => { this.tests(); }, 4000); return
+
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
             this.gameScreen.switchScreen(this.loadingScreen);
@@ -92,63 +106,26 @@ module FlipPlus {
                 else
                     this.showMainScreen();
             }
-
-            // give 10 coins to user first time
-            if (!this.storyData.getStoryPlayed("coins")){
-                this.storyData.setStoryPlayed("coins")
-                this.coinsData.setAmount(10);
-            }            
-
-            // add back button 
-            document.addEventListener("backbutton", () => {
-                return this.gameScreen.sendBackButtonEvent()
-            }, false);
-
-           // var ps = this.levelsManager.getAllProjects();
-           // ps[1].UserData.unlocked = true;
-           // ps[2].UserData.unlocked = true;
-           // for (var p in ps) {
-           //     ps[p].UserData.unlocked = true;
-           //     ps[p].UserData.complete = true;
-           //     ps[p].UserData.stars = 0;
-           //     ps[p].levels.length = 1;
-           //     for (var l in ps[p].levels) {
-           //         ps[p].levels[l].userdata.solved = false;
-           //         ps[p].levels[l].userdata.unlocked = true;             
-           //     }
-           // }
-            
         }
 
-        //public static initializeAds() {
+        // test debug 
+        public static tests() {
+            this.gameServices.showAchievements();    
+        }
 
-        //    Cocoon.Ad.interstitial.on("ready", () => {
-        //        // tells that a ads s loaded
-        //        Cocoon.Ad.interstitial["loaded"] = true;
-        //        // once a ads is loaded so it is avaliable for this app.
-        //        this.storyData.setStoryPlayed("ads_avaliable");
-        //        console.log("ads loaded");
-        //    })
-
-        //    console.log("ads initialized");
-        //    Cocoon.Ad.loadInterstitial();
-        //}
-
-        //public static initializeSocial() {
-        //    try {
-        //        var os = "web"
-        //        if (Cocoon.Device.getDeviceInfo()) os = Cocoon.Device.getDeviceInfo().os;
-
-        //        if (os == "windows") return;
-
-        //        //initialize the Facebook Service the same way as the Official JS SDK
-        //        if (navigator.onLine) {
-        //            var fb = Cocoon.Social.Facebook;
-        //            fb.init({ appId: fbAppId });
-        //            this.FBSocialService = fb.getSocialInterface();
-        //        }
-        //    } catch (e) { }
-        //}
+        // test debug 
+        public static unlockAll() {
+            var ps = this.levelsManager.getAllProjects();
+            for (var p in ps) {
+                ps[p].UserData.unlocked = true;
+                ps[p].UserData.complete = true;
+                ps[p].UserData.stars = 3;
+                for (var l in ps[p].levels) {
+                    ps[p].levels[l].userdata.solved = true;
+                    ps[p].levels[l].userdata.unlocked = true;    
+                }
+            }
+        }
 
         // ----------------------------- Game Methods ---------------------------------------------//
         
@@ -383,5 +360,8 @@ module FlipPlus {
         ACTION
     }
 }
-document.addEventListener('deviceready', FlipPlus.FlipPlusGame.initializeGame, false);
-//window.onload = FlipPlus.FlipPlusGame.initializeGame();
+
+if(window.cordova)
+    document.addEventListener('deviceready', function () { FlipPlus.FlipPlusGame.initializeGame() }, false);
+else
+    window.onload = function () { FlipPlus.FlipPlusGame.initializeGame() }

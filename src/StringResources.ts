@@ -86,6 +86,7 @@
     desc_item_solve: "Solve board",
 
     help_restart: "Are you lost?\nIn the pause menu you can restart!",
+    help_hint: "Are you lost?\nUse hints!",
     help_skip: "Don't worry, you\ncan use parts\nto skip this board and move on!",
     help_time: "Don't worry, you\ncan use parts\nto get more time!",
     help_touch: "Don't worry, you\ncan use parts\nto get more taps!",
@@ -96,6 +97,7 @@
     help_touch_bt: "More Taps",
 
     skip: "Skip",
+    hint: "Hint",
     time: "Touch",
     touch: "Time",
 
@@ -365,6 +367,7 @@ var stringResources_pt = {
     desc_item_solve: "Resolva este quadro",
 
     help_restart: "Se perdeu? No menu\nde pausa você, pode\nrecomeçar a tela!",
+    help_hint: "Se perdeu?\n Use dicas!",
     help_skip: "Não esquenta, você\npode usar peças para\npular esta tela e\nseguir em frente!",
     help_time: "Não esquenta, você\npode usar peças para\nganhar mais tempo!",
     help_touch: "Não esquenta, você\npode usar peças para\nganhar mais toques!",
@@ -374,6 +377,7 @@ var stringResources_pt = {
     help_time_bt: "Mais Tempo",
     help_touch_bt: "Mais Toques",
 
+    hint: "Dicas",
     skip: "Pular",
     time: "Tempo",
     touch: "Toques",

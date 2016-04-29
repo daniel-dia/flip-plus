@@ -811,6 +811,16 @@ var FlipPlus;
             this.levelsManager = this.BotsLevelManager;
             // gameMode
             this.gameMode = GameMode.PROJECTS;
+            // give 10 coins to user first time
+            if (!this.storyData.getStoryPlayed("coins")) {
+                this.storyData.setStoryPlayed("coins");
+                this.coinsData.setAmount(10);
+            }
+            // add back button 
+            document.addEventListener("backbutton", function () {
+                return _this.gameScreen.sendBackButtonEvent();
+            }, false);
+            //setTimeout(() => { this.tests(); }, 4000); return
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
             this.gameScreen.switchScreen(this.loadingScreen);
@@ -821,53 +831,24 @@ var FlipPlus;
                 else
                     _this.showMainScreen();
             };
-            // give 10 coins to user first time
-            if (!this.storyData.getStoryPlayed("coins")) {
-                this.storyData.setStoryPlayed("coins");
-                this.coinsData.setAmount(10);
-            }
-            // add back button 
-            document.addEventListener("backbutton", function () {
-                return _this.gameScreen.sendBackButtonEvent();
-            }, false);
-            // var ps = this.levelsManager.getAllProjects();
-            // ps[1].UserData.unlocked = true;
-            // ps[2].UserData.unlocked = true;
-            // for (var p in ps) {
-            //     ps[p].UserData.unlocked = true;
-            //     ps[p].UserData.complete = true;
-            //     ps[p].UserData.stars = 0;
-            //     ps[p].levels.length = 1;
-            //     for (var l in ps[p].levels) {
-            //         ps[p].levels[l].userdata.solved = false;
-            //         ps[p].levels[l].userdata.unlocked = true;             
-            //     }
-            // }
         };
-        //public static initializeAds() {
-        //    Cocoon.Ad.interstitial.on("ready", () => {
-        //        // tells that a ads s loaded
-        //        Cocoon.Ad.interstitial["loaded"] = true;
-        //        // once a ads is loaded so it is avaliable for this app.
-        //        this.storyData.setStoryPlayed("ads_avaliable");
-        //        console.log("ads loaded");
-        //    })
-        //    console.log("ads initialized");
-        //    Cocoon.Ad.loadInterstitial();
-        //}
-        //public static initializeSocial() {
-        //    try {
-        //        var os = "web"
-        //        if (Cocoon.Device.getDeviceInfo()) os = Cocoon.Device.getDeviceInfo().os;
-        //        if (os == "windows") return;
-        //        //initialize the Facebook Service the same way as the Official JS SDK
-        //        if (navigator.onLine) {
-        //            var fb = Cocoon.Social.Facebook;
-        //            fb.init({ appId: fbAppId });
-        //            this.FBSocialService = fb.getSocialInterface();
-        //        }
-        //    } catch (e) { }
-        //}
+        // test debug 
+        FlipPlusGame.tests = function () {
+            this.gameServices.showAchievements();
+        };
+        // test debug 
+        FlipPlusGame.unlockAll = function () {
+            var ps = this.levelsManager.getAllProjects();
+            for (var p in ps) {
+                ps[p].UserData.unlocked = true;
+                ps[p].UserData.complete = true;
+                ps[p].UserData.stars = 3;
+                for (var l in ps[p].levels) {
+                    ps[p].levels[l].userdata.solved = true;
+                    ps[p].levels[l].userdata.unlocked = true;
+                }
+            }
+        };
         // ----------------------------- Game Methods ---------------------------------------------//
         FlipPlusGame.toLevelCreator = function (level, callback) {
             if (!level) {
@@ -1065,8 +1046,10 @@ var FlipPlus;
         GameMode[GameMode["ACTION"] = 1] = "ACTION";
     })(GameMode || (GameMode = {}));
 })(FlipPlus || (FlipPlus = {}));
-document.addEventListener('deviceready', FlipPlus.FlipPlusGame.initializeGame, false);
-//window.onload = FlipPlus.FlipPlusGame.initializeGame(); 
+if (window.cordova)
+    document.addEventListener('deviceready', function () { FlipPlus.FlipPlusGame.initializeGame(); }, false);
+else
+    window.onload = function () { FlipPlus.FlipPlusGame.initializeGame(); };
 var Items = (function () {
     function Items() {
     }
@@ -1359,6 +1342,7 @@ var FlipPlus;
         //Controller
         var LevelScreen = (function (_super) {
             __extends(LevelScreen, _super);
+            // #endregion
             // #region Initialization methodos ==================================================================================================
             function LevelScreen(leveldata) {
                 var _this = this;
@@ -1858,12 +1842,17 @@ var FlipPlus;
                 // verify if user went too far from solution.
                 if (inverts > invertsInitial * 2) {
                     // verifies if user play a the same level lot of times
-                    if (plays > 2 && plays < 4) {
+                    if (plays > 3 && plays <= 5) {
                         // send message to ask to skip
                         this.showSkipMessage();
                         this.helped = true;
                     }
-                    else if (plays <= 2) {
+                    else if (plays > 1 && plays <= 3) {
+                        // show message to ask restart
+                        this.showHintMessage();
+                        this.helped = true;
+                    }
+                    else if (plays <= 1) {
                         // show message to ask restart
                         this.showRestartMessage();
                         this.helped = true;
@@ -1878,6 +1867,11 @@ var FlipPlus;
             LevelPuzzle.prototype.showSkipMessage = function () {
                 var _this = this;
                 this.popupHelper.showItemMessage(Items.SKIP, this.getItemPrice(Items.SKIP), function () { _this.useItem(Items.SKIP); }, function () { }, "menu/imskip");
+            };
+            // show a message asking for user to hint
+            LevelPuzzle.prototype.showHintMessage = function () {
+                var _this = this;
+                this.popupHelper.showItemMessage(Items.HINT, this.getItemPrice(Items.HINT), function () { _this.useItem(Items.HINT); }, function () { }, "menu/imitem");
             };
             return LevelPuzzle;
         })(GamePlay.LevelScreen);
@@ -8210,7 +8204,7 @@ var FlipPlus;
                     acceptBt.x = defaultWidth / 4 * 3;
                     acceptBt.y = 1150;
                     //add stuff on button
-                    acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + item).set({ x: -170, y: -10 }));
+                    acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + item).set({ x: -170, y: -20 }));
                     acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_coin").set({ x: 90, y: 10, scaleX: 0.8, scaleY: 0.8 }));
                     acceptBt.addChild(gameui.AssetsManager.getBitmapText(price.toString(), "fontWhite").set({ x: 10 }));
                 };
@@ -8863,6 +8857,7 @@ var StringResources = {
     desc_item_skip: "Skip",
     desc_item_solve: "Solve board",
     help_restart: "Are you lost?\nIn the pause menu you can restart!",
+    help_hint: "Are you lost?\nUse hints!",
     help_skip: "Don't worry, you\ncan use parts\nto skip this board and move on!",
     help_time: "Don't worry, you\ncan use parts\nto get more time!",
     help_touch: "Don't worry, you\ncan use parts\nto get more taps!",
@@ -8871,6 +8866,7 @@ var StringResources = {
     help_time_bt: "More Time",
     help_touch_bt: "More Taps",
     skip: "Skip",
+    hint: "Hint",
     time: "Touch",
     touch: "Time",
     restart: "Restart",
@@ -9102,6 +9098,7 @@ var stringResources_pt = {
     desc_item_skip: "Pular",
     desc_item_solve: "Resolva este quadro",
     help_restart: "Se perdeu? No menu\nde pausa você, pode\nrecomeçar a tela!",
+    help_hint: "Se perdeu?\n Use dicas!",
     help_skip: "Não esquenta, você\npode usar peças para\npular esta tela e\nseguir em frente!",
     help_time: "Não esquenta, você\npode usar peças para\nganhar mais tempo!",
     help_touch: "Não esquenta, você\npode usar peças para\nganhar mais toques!",
@@ -9109,6 +9106,7 @@ var stringResources_pt = {
     help_cancel_bt: "Agora não",
     help_time_bt: "Mais Tempo",
     help_touch_bt: "Mais Toques",
+    hint: "Dicas",
     skip: "Pular",
     time: "Tempo",
     touch: "Toques",

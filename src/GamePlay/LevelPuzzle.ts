@@ -67,12 +67,17 @@ module FlipPlus.GamePlay {
             // verify if user went too far from solution.
             if (inverts > invertsInitial * 2) {
                 // verifies if user play a the same level lot of times
-                if (plays > 2 && plays < 4) {
+                if (plays > 3 && plays <= 5) {
                     // send message to ask to skip
                     this.showSkipMessage();
                     this.helped = true;
                 }
-                else if (plays <= 2) {
+                else if (plays >1 && plays <=3) {
+                    // show message to ask restart
+                    this.showHintMessage();
+                    this.helped = true;
+                }
+                else if (plays <= 1) {
                     // show message to ask restart
                     this.showRestartMessage();
                     this.helped = true;
@@ -87,7 +92,12 @@ module FlipPlus.GamePlay {
 
         // show a message asking for user to skip
         private showSkipMessage() {
-            this.popupHelper.showItemMessage(Items.SKIP, this.getItemPrice(Items.SKIP), () => { this.useItem(Items.SKIP) }, () => { },"menu/imskip");
+            this.popupHelper.showItemMessage(Items.SKIP, this.getItemPrice(Items.SKIP), () => { this.useItem(Items.SKIP) }, () => { }, "menu/imskip");
+        }
+
+        // show a message asking for user to hint
+        private showHintMessage() {
+            this.popupHelper.showItemMessage(Items.HINT, this.getItemPrice(Items.HINT), () => { this.useItem(Items.HINT) }, () => { }, "menu/imitem");
         }
 
         // #endregion

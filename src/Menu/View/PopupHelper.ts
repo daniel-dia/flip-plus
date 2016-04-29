@@ -96,7 +96,7 @@ module FlipPlus.Menu.View {
             acceptBt.y = 1150;
 
             //add stuff on button
-            acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + item).set({ x: -170, y: -10 }));
+            acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + item).set({ x: -170, y: -20 }));
             acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_coin").set({ x: 90, y: 10, scaleX: 0.8, scaleY: 0.8 }));
             acceptBt.addChild(gameui.AssetsManager.getBitmapText(price.toString(), "fontWhite").set({ x: 10 }));
 
