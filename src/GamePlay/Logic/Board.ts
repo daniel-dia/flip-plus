@@ -201,20 +201,24 @@ module FlipPlus.GamePlay.Logic {
         }
 
         // Distribuite Prizes Along Board
-        public initializePrizes(prizesNumber: number, minMoves: number = 0) {
+        public initializePrizes(prizesNumber: number, minMoves: number = 3, interval:number=3) {
 
-            if (0 == minMoves)
-                minMoves = this.getInvertedBlocks().length;
+            //if (0 == minMoves)
+            //    minMoves = this.getInvertedBlocks().length;
+            //
+            //if (prizesNumber < 1) return;
+            //
+            //var interval = minMoves / (prizesNumber + 1)
+            //
+            //for (var i = 0; i < prizesNumber; i++) {
+            //    var val = (prizesNumber - i) * interval;
+            //    val = minMoves - val;
+            //    val = Math.floor(val);
+            //    this.prizes.push(val);
+            //}
 
-            if (prizesNumber < 1) return;
-
-            var interval = minMoves / (prizesNumber + 1)
-
-            for (var i = 0; i < prizesNumber; i++) {
-                var val = (prizesNumber - i) * interval;
-                val = minMoves - val;
-                val = Math.floor(val);
-                this.prizes.push(val);
+            for (var i = interval; i < this.getInvertedBlocks().length -1; i += interval) {
+                this.prizes.push(i);
             }
         }
 

@@ -50,7 +50,8 @@ var levelsData = [
              "tutorial": [
                {
                    "text": "tut_1_1_text",
-                   "title": "tut_1_1_title"
+                   "title": "tut_1_1_title",
+                 
                },
                {
                    "mousedown": 12
@@ -58,7 +59,9 @@ var levelsData = [
                {
                    "atEnd": true,
                    "text": "tut_1_2_text",
-                   "title": "tut_1_2_title"
+                   "title": "tut_1_2_title",
+                   "image": "tutorial",
+
                }
              ]
          },

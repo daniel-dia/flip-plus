@@ -34,8 +34,9 @@ module FlipPlus.GamePlay {
 
                 var text = StringResources[step.text];
                 var title = StringResources[step.title];
+                var image = step.image;
 
-                this.popup.showtext(title, text);
+                this.popup.showTextImage(title, text, image);
                 var listener = this.popup.once("onclose", () => {
                     this.playNextTurorialStep();
                 });

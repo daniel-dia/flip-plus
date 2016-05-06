@@ -101,7 +101,7 @@ module FlipPlus.GamePlay.Views {
         }
 
         //update the blockSprite based on the block information
-        public updateSprite( block?: Logic.Block) {
+        public updateSprite(block?: Logic.Block) {
 
             if(block) this.block = block;
 
@@ -140,18 +140,28 @@ module FlipPlus.GamePlay.Views {
             var oldStateImage: PIXI.DisplayObject = this.stateImage;
             this.stateImage = newStateImage;
 
+            var time = 150;
+
+            // shame
+            var delay = gambiarraDeTempo * 50;
+            gambiarraDeTempo++;
+            if (gambiarraDeTempo > 5) gambiarraDeTempo = 0;
+
+            gambiarraDeTempo
             //animate them
             if (newStateImage != null) {
                 newStateImage.scale.y = 0;
-                newStateImage.scale.x = 0;
+                newStateImage.scale.x = 1;
                 newStateImage.visible = true;
                 createjs.Tween.removeTweens(newStateImage);
-                createjs.Tween.get(newStateImage).wait(100).to({ scaleY: 1, scaleX: 1  }, 200, createjs.Ease.backOut);
+                createjs.Tween.get(newStateImage).wait(delay).wait(time).to({ scaleY: 1, scaleX: 1 }, time , createjs.Ease.backOut);
             }
 
             if (oldStateImage != null) {
                 createjs.Tween.removeTweens(oldStateImage);
-                createjs.Tween.get(oldStateImage).to({ scaleY: 0, scaleX: 0 }, 100, createjs.Ease.cubicIn).call(() => { oldStateImage.visible = false; });
+                createjs.Tween.get(oldStateImage).wait(delay).to({ scaleY: 0, scaleX: 1 }, time , createjs.Ease.cubicIn).call(() => {
+                    oldStateImage.visible = false;
+                });
                 oldStateImage.scale.y = 1;
                 oldStateImage.scale.x = 1;
             }
@@ -330,3 +340,5 @@ module FlipPlus.GamePlay.Views {
         }
     }
 }
+
+var gambiarraDeTempo = 0;

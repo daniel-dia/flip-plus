@@ -4,9 +4,11 @@ module FlipPlus.Menu.View {
     export class Popup extends gameui.UIItem {
         private ind : PIXI.extras.MovieClip;
         private closeinterval;
+        private disabledInput = false;
         // class contructor
         constructor(disableInput: boolean = false) {
-            super(); 
+            super();
+            this.disabledInput = disableInput;
             
             //centralize the popup on screen
             this.width = defaultWidth;
@@ -16,28 +18,68 @@ module FlipPlus.Menu.View {
             this.pivot = this.position;
             this.visible = false;
 
-           
-            if (!disableInput) {
-               
+        }
 
-                //hide popup
-                this.visible = false;
+        protected addCloseCallback() {
+            this.once("click", () => {
+                this.closePopUp();
+                clearTimeout(this.closeinterval);
+            });
 
-                //add callback
-         
-                this.addEventListener("click", () => {
-                    this.closePopUp();
-                    clearTimeout(this.closeinterval);
-                });
-
-                this.addEventListener("tap", () => {
-                    this.closePopUp();
-                    clearTimeout(this.closeinterval);
-                });
-            }
+            this.once("tap", () => {
+                this.closePopUp();
+                clearTimeout(this.closeinterval);
+            });
         }
 
         // public method to invoke the popup
+        public showTextImage(title: string, text?: string, image?: string, timeout: number = 7000, delay: number = 0) {
+
+            //clean display Object
+            this.removeChildren();
+
+            this.showsPopup(timeout, delay);
+            
+            //draw background
+            var bg = gameui.AssetsManager.getBitmap("popups/popup")
+            bg.x = 0;
+            bg.y = 100;
+            this.addChild(bg);
+
+            //create a title 
+            var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
+            this.addChild(titleDO);
+            titleDO.x = defaultWidth / 2;
+            titleDO.y = defaultHeight / 2;
+
+            //create a text
+            var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
+            textDO.x = defaultWidth / 2;
+            this.addChild(textDO);
+
+
+            //create a text
+            if (image) {
+                var imageDO = gameui.AssetsManager.getBitmap(image);
+                imageDO.x = defaultWidth / 2;
+                imageDO.regX = imageDO.width / 2;
+                imageDO.y = defaultHeight / 2 + 100;
+                this.addChild(imageDO);
+            }
+            //updates title and text values
+            if (text) {
+                textDO.text = text;
+                textDO.pivot.x = textDO.getLocalBounds().width / 2;
+                titleDO.text = title.toUpperCase();
+                titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
+            }
+
+            var b = defaultHeight / 2 - 500;
+
+            titleDO.y = 0 + b + 50
+            textDO.y = b + 300;
+        }
+
         public showtext(title: string, text?: string, timeout: number = 7000, delay: number = 0) {
 
             //clean display Object
@@ -75,8 +117,6 @@ module FlipPlus.Menu.View {
 
             titleDO.y = 0 + b + 50
             textDO.y = b + 300;
-
-            this.addsClickIndicator();
         }
         
         // shows a poput with a purchase button
@@ -126,8 +166,7 @@ module FlipPlus.Menu.View {
 
             titleDO.y = b
             textDO.y = b + 200;
-
-            this.addsClickIndicator();
+            
         }
         
         // show a popup for timeAttack
@@ -208,8 +247,7 @@ module FlipPlus.Menu.View {
             timeDO.x = defaultWidth / 2 + 400;
             boardsDO.x = defaultWidth / 2 - 400;
 
-
-            this.addsClickIndicator();
+            
         }
         
         // shows a popup for taps level
@@ -268,7 +306,6 @@ module FlipPlus.Menu.View {
             textDO2.y = 600 + b;
             tapsDO.y = 450 + b;
 
-            this.addsClickIndicator();
         }
          
         // other stuff
@@ -285,6 +322,16 @@ module FlipPlus.Menu.View {
 
             }, delay);;
 
+
+            //add callback
+            if (!this.disabledInput)
+                setTimeout(() => {
+                    this.addCloseCallback();
+                    this.addsClickIndicator();
+                },2000)
+            
+
+
             //create a interval for closing the popopu
             if (timeout > 0)
                 this.closeinterval = setTimeout(() => {
@@ -293,6 +340,8 @@ module FlipPlus.Menu.View {
 
             //dispatch a event for parent objects
             this.emit("onshow");
+
+
         }
 
         // method for close popup 

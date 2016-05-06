@@ -112,8 +112,9 @@
             this.preInvertRelease(<BlockSprite>event.target);
         }
 
+        
         //updates sprites in the board
-        public updateSprites(blocks:Logic.Block[][]) {
+        public updateSprites(blocks: Logic.Block[][]) {
             for (var col = 0; col < this.blocksSprites.length; col++)
                 for (var row = 0; row < this.blocksSprites[col].length; row++)
                     this.blocksSprites[col][row].updateSprite(blocks[col][row]);

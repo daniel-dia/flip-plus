@@ -2440,7 +2440,8 @@ var FlipPlus;
                 if (step.text) {
                     var text = StringResources[step.text];
                     var title = StringResources[step.title];
-                    this.popup.showtext(title, text);
+                    var image = step.image;
+                    this.popup.showTextImage(title, text, image);
                     var listener = this.popup.once("onclose", function () {
                         _this.playNextTurorialStep();
                     });
@@ -2694,18 +2695,24 @@ var FlipPlus;
                     return blocksData;
                 };
                 // Distribuite Prizes Along Board
-                Board.prototype.initializePrizes = function (prizesNumber, minMoves) {
-                    if (minMoves === void 0) { minMoves = 0; }
-                    if (0 == minMoves)
-                        minMoves = this.getInvertedBlocks().length;
-                    if (prizesNumber < 1)
-                        return;
-                    var interval = minMoves / (prizesNumber + 1);
-                    for (var i = 0; i < prizesNumber; i++) {
-                        var val = (prizesNumber - i) * interval;
-                        val = minMoves - val;
-                        val = Math.floor(val);
-                        this.prizes.push(val);
+                Board.prototype.initializePrizes = function (prizesNumber, minMoves, interval) {
+                    //if (0 == minMoves)
+                    //    minMoves = this.getInvertedBlocks().length;
+                    //
+                    //if (prizesNumber < 1) return;
+                    //
+                    //var interval = minMoves / (prizesNumber + 1)
+                    //
+                    //for (var i = 0; i < prizesNumber; i++) {
+                    //    var val = (prizesNumber - i) * interval;
+                    //    val = minMoves - val;
+                    //    val = Math.floor(val);
+                    //    this.prizes.push(val);
+                    //}
+                    if (minMoves === void 0) { minMoves = 3; }
+                    if (interval === void 0) { interval = 3; }
+                    for (var i = interval; i < this.getInvertedBlocks().length - 1; i += interval) {
+                        this.prizes.push(i);
                     }
                 };
                 // Invert a cross into the board
@@ -2915,17 +2922,26 @@ var FlipPlus;
                     var newStateImage = this.getStateImage(newState);
                     var oldStateImage = this.stateImage;
                     this.stateImage = newStateImage;
+                    var time = 150;
+                    // shame
+                    var delay = gambiarraDeTempo * 50;
+                    gambiarraDeTempo++;
+                    if (gambiarraDeTempo > 5)
+                        gambiarraDeTempo = 0;
+                    gambiarraDeTempo;
                     //animate them
                     if (newStateImage != null) {
                         newStateImage.scale.y = 0;
-                        newStateImage.scale.x = 0;
+                        newStateImage.scale.x = 1;
                         newStateImage.visible = true;
                         createjs.Tween.removeTweens(newStateImage);
-                        createjs.Tween.get(newStateImage).wait(100).to({ scaleY: 1, scaleX: 1 }, 200, createjs.Ease.backOut);
+                        createjs.Tween.get(newStateImage).wait(delay).wait(time).to({ scaleY: 1, scaleX: 1 }, time, createjs.Ease.backOut);
                     }
                     if (oldStateImage != null) {
                         createjs.Tween.removeTweens(oldStateImage);
-                        createjs.Tween.get(oldStateImage).to({ scaleY: 0, scaleX: 0 }, 100, createjs.Ease.cubicIn).call(function () { oldStateImage.visible = false; });
+                        createjs.Tween.get(oldStateImage).wait(delay).to({ scaleY: 0, scaleX: 1 }, time, createjs.Ease.cubicIn).call(function () {
+                            oldStateImage.visible = false;
+                        });
                         oldStateImage.scale.y = 1;
                         oldStateImage.scale.x = 1;
                     }
@@ -3085,6 +3101,7 @@ var FlipPlus;
         })(Views = GamePlay.Views || (GamePlay.Views = {}));
     })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
 })(FlipPlus || (FlipPlus = {}));
+var gambiarraDeTempo = 0;
 var FlipPlus;
 (function (FlipPlus) {
     var GamePlay;
@@ -6342,9 +6359,10 @@ var FlipPlus;
                 __extends(Popup, _super);
                 // class contructor
                 function Popup(disableInput) {
-                    var _this = this;
                     if (disableInput === void 0) { disableInput = false; }
                     _super.call(this);
+                    this.disabledInput = false;
+                    this.disabledInput = disableInput;
                     //centralize the popup on screen
                     this.width = defaultWidth;
                     this.height = defaultHeight;
@@ -6352,21 +6370,58 @@ var FlipPlus;
                     this.y = defaultHeight / 2;
                     this.pivot = this.position;
                     this.visible = false;
-                    if (!disableInput) {
-                        //hide popup
-                        this.visible = false;
-                        //add callback
-                        this.addEventListener("click", function () {
-                            _this.closePopUp();
-                            clearTimeout(_this.closeinterval);
-                        });
-                        this.addEventListener("tap", function () {
-                            _this.closePopUp();
-                            clearTimeout(_this.closeinterval);
-                        });
-                    }
                 }
+                Popup.prototype.addCloseCallback = function () {
+                    var _this = this;
+                    this.once("click", function () {
+                        _this.closePopUp();
+                        clearTimeout(_this.closeinterval);
+                    });
+                    this.once("tap", function () {
+                        _this.closePopUp();
+                        clearTimeout(_this.closeinterval);
+                    });
+                };
                 // public method to invoke the popup
+                Popup.prototype.showTextImage = function (title, text, image, timeout, delay) {
+                    if (timeout === void 0) { timeout = 7000; }
+                    if (delay === void 0) { delay = 0; }
+                    //clean display Object
+                    this.removeChildren();
+                    this.showsPopup(timeout, delay);
+                    //draw background
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+                    //create a title 
+                    var titleDO = gameui.AssetsManager.getBitmapText("", "fontTitle");
+                    this.addChild(titleDO);
+                    titleDO.x = defaultWidth / 2;
+                    titleDO.y = defaultHeight / 2;
+                    //create a text
+                    var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
+                    textDO.x = defaultWidth / 2;
+                    this.addChild(textDO);
+                    //create a text
+                    if (image) {
+                        var imageDO = gameui.AssetsManager.getBitmap(image);
+                        imageDO.x = defaultWidth / 2;
+                        imageDO.regX = imageDO.width / 2;
+                        imageDO.y = defaultHeight / 2 + 100;
+                        this.addChild(imageDO);
+                    }
+                    //updates title and text values
+                    if (text) {
+                        textDO.text = text;
+                        textDO.pivot.x = textDO.getLocalBounds().width / 2;
+                        titleDO.text = title.toUpperCase();
+                        titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
+                    }
+                    var b = defaultHeight / 2 - 500;
+                    titleDO.y = 0 + b + 50;
+                    textDO.y = b + 300;
+                };
                 Popup.prototype.showtext = function (title, text, timeout, delay) {
                     if (timeout === void 0) { timeout = 7000; }
                     if (delay === void 0) { delay = 0; }
@@ -6397,7 +6452,6 @@ var FlipPlus;
                     var b = defaultHeight / 2 - 500;
                     titleDO.y = 0 + b + 50;
                     textDO.y = b + 300;
-                    this.addsClickIndicator();
                 };
                 // shows a poput with a purchase button
                 Popup.prototype.showtextBuy = function (title, text, previousScreen, timeout, delay) {
@@ -6435,7 +6489,6 @@ var FlipPlus;
                     var b = defaultHeight / 2 - 600;
                     titleDO.y = b;
                     textDO.y = b + 200;
-                    this.addsClickIndicator();
                 };
                 // show a popup for timeAttack
                 Popup.prototype.showTimeAttack = function (time, boards, timeout, delay) {
@@ -6498,7 +6551,6 @@ var FlipPlus;
                     timeDO.x = 500;
                     timeDO.x = defaultWidth / 2 + 400;
                     boardsDO.x = defaultWidth / 2 - 400;
-                    this.addsClickIndicator();
                 };
                 // shows a popup for taps level
                 Popup.prototype.showTaps = function (taps, timeout, delay) {
@@ -6544,7 +6596,6 @@ var FlipPlus;
                     textDO.y = 300 + b;
                     textDO2.y = 600 + b;
                     tapsDO.y = 450 + b;
-                    this.addsClickIndicator();
                 };
                 // other stuff
                 Popup.prototype.showsPopup = function (timeout, delay) {
@@ -6558,6 +6609,12 @@ var FlipPlus;
                         _this.fadeIn(1, 0.5);
                     }, delay);
                     ;
+                    //add callback
+                    if (!this.disabledInput)
+                        setTimeout(function () {
+                            _this.addCloseCallback();
+                            _this.addsClickIndicator();
+                        }, 2000);
                     //create a interval for closing the popopu
                     if (timeout > 0)
                         this.closeinterval = setTimeout(function () {
@@ -6963,296 +7020,6 @@ var CocoonAds;
     })(CocoonAds.STATUS || (CocoonAds.STATUS = {}));
     var STATUS = CocoonAds.STATUS;
 })(CocoonAds || (CocoonAds = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var About = (function (_super) {
-            __extends(About, _super);
-            function About(previousScreen) {
-                if (!previousScreen)
-                    previousScreen = FlipPlus.FlipPlusGame.mainScreen;
-                this.originY = defaultHeight / 2 + 200;
-                this.originX = defaultWidth / 2;
-                _super.call(this, StringResources.menus.about, previousScreen);
-                this.currentY = -500;
-                // add studio
-                this.addLogo();
-                this.addSeparator();
-                this.addText("Created by DIA Studio");
-                this.addSeparator();
-                this.addFeedback();
-                // add creators
-                this.addSeparator();
-                this.addTitl("Game Designer");
-                this.addText("Daniel Santos & Thiago Ferraz");
-                this.addSeparator();
-                this.addTitl("Game Artist");
-                this.addText("Thiago Ferraz");
-                this.addSeparator();
-                this.addTitl("Game Developer");
-                this.addText("Daniel Santos");
-                // add credits note
-                this.addVersion(version);
-            }
-            About.prototype.addSeparator = function () {
-                this.currentY += 50;
-            };
-            About.prototype.addTitl = function (text) {
-                var tx = gameui.AssetsManager.getBitmapText(text.toUpperCase(), "fontStrong", 0, 0.6);
-                tx.y = this.currentY;
-                tx.regX = tx.textWidth / 2;
-                this.currentY += tx.textHeight * tx.scaleY;
-                this.content.addChild(tx);
-                return tx;
-            };
-            About.prototype.addText = function (text) {
-                var tx = gameui.AssetsManager.getBitmapText(text, "fontBlue", null, 0.8);
-                tx.y = this.currentY;
-                tx.regX = tx.textWidth / 2;
-                this.currentY += tx.textHeight * tx.scaleY;
-                this.content.addChild(tx);
-                return tx;
-            };
-            About.prototype.addFeedback = function () {
-                var bt = new gameui.BitmapTextButton(StringResources.menus.feedback, "fontBlue", null, function () {
-                    Cocoon.App.openURL("mailto://feedback@dia-studio.com");
-                });
-                this.content.addChild(bt);
-                bt.y = this.currentY + bt.bitmapText.height / 2;
-                this.currentY += bt.bitmapText.height;
-                return bt;
-            };
-            About.prototype.addLogo = function () {
-                var bt = new gameui.ImageButton("Logo Small Round", function () {
-                    Cocoon.App.openURL("http://www.diastudio.com.br");
-                });
-                this.content.addChild(bt);
-                bt.scaleY = bt.scaleX = 0.6;
-                bt.y = this.currentY + (bt.height) / 2;
-                this.currentY += bt.height;
-                return bt;
-            };
-            About.prototype.addVersion = function (text) {
-                var tx = gameui.AssetsManager.getBitmapText(text, "fontWhite", null, 0.8);
-                tx.y = -100;
-                tx.x = 1500;
-                tx.scaleX = tx.scaleY = 0.6;
-                tx.regX = tx.textWidth;
-                this.footer.addChild(tx);
-            };
-            return About;
-        })(Menu.GenericMenu);
-        Menu.About = About;
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var View;
-        (function (View) {
-            // View Class
-            var PopupConfirm = (function (_super) {
-                __extends(PopupConfirm, _super);
-                // class contructor
-                function PopupConfirm() {
-                    _super.call(this, true);
-                }
-                PopupConfirm.prototype.showConfirmMessage = function (message, accept) {
-                    var _this = this;
-                    this.showsPopup(0, 0);
-                    //clean display Object
-                    this.removeChildren();
-                    //draw background
-                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
-                    bg.x = 0;
-                    bg.y = 100;
-                    this.addChild(bg);
-                    // create a text
-                    var textDO = gameui.AssetsManager.getBitmapText(message, "fontWhite");
-                    this.addChild(textDO);
-                    textDO.pivot.x = textDO.getLocalBounds().width / 2;
-                    textDO.x = defaultWidth / 2;
-                    textDO.y = 550;
-                    // Add Buttons
-                    var btYes = new gameui.BitmapTextButton(StringResources.menus.no, "fontWhite", "menu/btoptions", function () { _this.closePopUp(); });
-                    var btNo = new gameui.BitmapTextButton(StringResources.menus.yes, "fontWhite", "menu/btoptions", function () { _this.closePopUp(); accept(); });
-                    this.addChild(btYes);
-                    this.addChild(btNo);
-                    btYes.x = 1136;
-                    btNo.x = 400;
-                    btYes.y = btNo.y = 1100;
-                };
-                return PopupConfirm;
-            })(View.Popup);
-            View.PopupConfirm = PopupConfirm;
-        })(View = Menu.View || (Menu.View = {}));
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var View;
-        (function (View) {
-            var ProductListItem = (function (_super) {
-                __extends(ProductListItem, _super);
-                function ProductListItem(productId, name, description, localizedPrice, image) {
-                    var _this = this;
-                    _super.call(this);
-                    // adds BG
-                    this.addChild(gameui.AssetsManager.getBitmap("menu/storeItem").set({ regX: 1204 / 2, regY: 277 / 2 }));
-                    // adds Button
-                    this.addChild(gameui.AssetsManager.getBitmap("menu/storeItem").set({ regX: 1204 / 2, regY: 277 / 2 }));
-                    // adds image icon
-                    if (image) {
-                        var i = gameui.AssetsManager.getBitmap(image);
-                        i.set({ x: -400, regY: 150, regX: 150 });
-                        i.regX = i.width / 2;
-                        i.regY = i.height / 2;
-                        this.addChild(i);
-                    }
-                    // adds text
-                    this.addChild(gameui.AssetsManager.getBitmapText(name, "fontStrong", 0x333071, 1.1).set({ x: -160, y: -70 }));
-                    this.purchaseButton = new gameui.ImageButton("menu/purchaseButton", function () { _this.emit("pressed"); });
-                    this.purchaseButton.x = 370;
-                    // adds price
-                    var t = gameui.AssetsManager.getBitmapText(localizedPrice, "fontStrong", 0xffffff, 0.8);
-                    t.y = -90;
-                    this.purchaseButton.addChild(t);
-                    t.regX = t.textWidth / 2;
-                    // adds buy text
-                    var t = gameui.AssetsManager.getBitmapText(StringResources.menus.buy, "fontWhite", 0x86c0f1);
-                    t.y = 20;
-                    this.purchaseButton.addChild(t);
-                    t.regX = t.textWidth / 2;
-                    this.addChild(this.purchaseButton);
-                }
-                ProductListItem.prototype.setPurchasing = function () {
-                    this.disable();
-                    ///this.loadingIcon.visible = true;
-                };
-                ProductListItem.prototype.loading = function () {
-                    this.disable();
-                    //this.loadingIcon.visible = true;
-                };
-                ProductListItem.prototype.setNotAvaliable = function () {
-                    this.purchaseButton.fadeOut();
-                    //this.purchasedIcon.visible = false;
-                    //this.loadingIcon.visible = false;
-                };
-                ProductListItem.prototype.setAvaliable = function () { };
-                ProductListItem.prototype.setPurchased = function (timeOut) {
-                    var _this = this;
-                    if (timeOut === void 0) { timeOut = false; }
-                    this.purchaseButton.fadeOut();
-                    //this.purchasedIcon.visible = true;
-                    //this.loadingIcon.visible = false;
-                    gameui.AudiosManager.playSound("Interface Sound-11");
-                    if (timeOut)
-                        setTimeout(function () { _this.setNormal(); }, 1000);
-                };
-                ProductListItem.prototype.setNormal = function () {
-                    this.purchaseButton.fadeIn();
-                    //this.purchasedIcon.visible = false;
-                    //this.loadingIcon.visible = false;
-                };
-                ProductListItem.prototype.enable = function () {
-                    this.purchaseButton.fadeIn();
-                    this.loadingIcon.visible = false;
-                };
-                ProductListItem.prototype.disable = function () {
-                    //this.purchasedIcon.visible = false;
-                    this.purchaseButton.fadeOut();
-                };
-                return ProductListItem;
-            })(PIXI.Container);
-            View.ProductListItem = ProductListItem;
-        })(View = Menu.View || (Menu.View = {}));
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var WorkshopMenuAction = (function (_super) {
-            __extends(WorkshopMenuAction, _super);
-            function WorkshopMenuAction() {
-                _super.apply(this, arguments);
-            }
-            WorkshopMenuAction.prototype.back = function () {
-                FlipPlus.FlipPlusGame.showMainScreen();
-            };
-            return WorkshopMenuAction;
-        })(Menu.WorkshopMenu);
-        Menu.WorkshopMenuAction = WorkshopMenuAction;
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Levels;
-    (function (Levels) {
-        // Controls projects and Levels.
-        // Model
-        var ActionLevelsManager = (function (_super) {
-            __extends(ActionLevelsManager, _super);
-            function ActionLevelsManager() {
-                _super.apply(this, arguments);
-            }
-            // #region initialization ----------------------------------------//
-            ActionLevelsManager.prototype.loadProjects = function (data) {
-                for (var p in data) {
-                    delete data[p].UserData;
-                }
-                for (var p in data) {
-                    for (var l in data[p].levels) {
-                        delete data[p].levels[l].userdata;
-                    }
-                }
-                this.levelsData = data;
-                // get a user data for each level/project
-                this.levelsUserDataManager.addUserData(this.levelsData);
-            };
-            // #endregion
-            //Updates user data project status
-            ActionLevelsManager.prototype.updateProjectUserData = function (project) {
-                var solvedLevels = 0;
-                //count solved levels
-                for (var l = 0; l < project.levels.length; l++)
-                    if (project.levels[l].userdata.solved ||
-                        project.levels[l].userdata.skip ||
-                        project.levels[l].userdata.item)
-                        solvedLevels++;
-                //calculate percentage
-                project.UserData.percent = solvedLevels / project.levels.length;
-                //calculate Stars
-                var stars = 0;
-                var temp = new Object;
-                for (var l = 0; l < project.levels.length; l++) {
-                    var level = project.levels[l];
-                    if (temp[level.theme] == null)
-                        temp[level.theme] = true;
-                    if (!level.userdata.solved || level.userdata.item)
-                        temp[level.theme] = false;
-                }
-                for (var i in temp) {
-                    if (temp[i])
-                        stars++;
-                }
-                //updates project stars count
-                project.UserData.stars = stars;
-                //verifies if level can be ulocked
-                this.unlockProject(project);
-                //complete Project
-                if (solvedLevels == project.levels.length)
-                    this.completeProject(project);
-            };
-            return ActionLevelsManager;
-        })(Levels.LevelsManager);
-        Levels.ActionLevelsManager = ActionLevelsManager;
-    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
-})(FlipPlus || (FlipPlus = {}));
 var Analytics = (function () {
     function Analytics() {
     }
@@ -7546,6 +7313,89 @@ var FlipPlus;
         return GameServices;
     })();
     FlipPlus.GameServices = GameServices;
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var About = (function (_super) {
+            __extends(About, _super);
+            function About(previousScreen) {
+                if (!previousScreen)
+                    previousScreen = FlipPlus.FlipPlusGame.mainScreen;
+                this.originY = defaultHeight / 2 + 200;
+                this.originX = defaultWidth / 2;
+                _super.call(this, StringResources.menus.about, previousScreen);
+                this.currentY = -500;
+                // add studio
+                this.addLogo();
+                this.addSeparator();
+                this.addText("Created by DIA Studio");
+                this.addSeparator();
+                this.addFeedback();
+                // add creators
+                this.addSeparator();
+                this.addTitl("Game Designer");
+                this.addText("Daniel Santos & Thiago Ferraz");
+                this.addSeparator();
+                this.addTitl("Game Artist");
+                this.addText("Thiago Ferraz");
+                this.addSeparator();
+                this.addTitl("Game Developer");
+                this.addText("Daniel Santos");
+                // add credits note
+                this.addVersion(version);
+            }
+            About.prototype.addSeparator = function () {
+                this.currentY += 50;
+            };
+            About.prototype.addTitl = function (text) {
+                var tx = gameui.AssetsManager.getBitmapText(text.toUpperCase(), "fontStrong", 0, 0.6);
+                tx.y = this.currentY;
+                tx.regX = tx.textWidth / 2;
+                this.currentY += tx.textHeight * tx.scaleY;
+                this.content.addChild(tx);
+                return tx;
+            };
+            About.prototype.addText = function (text) {
+                var tx = gameui.AssetsManager.getBitmapText(text, "fontBlue", null, 0.8);
+                tx.y = this.currentY;
+                tx.regX = tx.textWidth / 2;
+                this.currentY += tx.textHeight * tx.scaleY;
+                this.content.addChild(tx);
+                return tx;
+            };
+            About.prototype.addFeedback = function () {
+                var bt = new gameui.BitmapTextButton(StringResources.menus.feedback, "fontBlue", null, function () {
+                    Cocoon.App.openURL("mailto://feedback@dia-studio.com");
+                });
+                this.content.addChild(bt);
+                bt.y = this.currentY + bt.bitmapText.height / 2;
+                this.currentY += bt.bitmapText.height;
+                return bt;
+            };
+            About.prototype.addLogo = function () {
+                var bt = new gameui.ImageButton("Logo Small Round", function () {
+                    Cocoon.App.openURL("http://www.diastudio.com.br");
+                });
+                this.content.addChild(bt);
+                bt.scaleY = bt.scaleX = 0.6;
+                bt.y = this.currentY + (bt.height) / 2;
+                this.currentY += bt.height;
+                return bt;
+            };
+            About.prototype.addVersion = function (text) {
+                var tx = gameui.AssetsManager.getBitmapText(text, "fontWhite", null, 0.8);
+                tx.y = -100;
+                tx.x = 1500;
+                tx.scaleX = tx.scaleY = 0.6;
+                tx.regX = tx.textWidth;
+                this.footer.addChild(tx);
+            };
+            return About;
+        })(Menu.GenericMenu);
+        Menu.About = About;
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
@@ -8361,6 +8211,50 @@ var FlipPlus;
         var View;
         (function (View) {
             // View Class
+            var PopupConfirm = (function (_super) {
+                __extends(PopupConfirm, _super);
+                // class contructor
+                function PopupConfirm() {
+                    _super.call(this, true);
+                }
+                PopupConfirm.prototype.showConfirmMessage = function (message, accept) {
+                    var _this = this;
+                    this.showsPopup(0, 0);
+                    //clean display Object
+                    this.removeChildren();
+                    //draw background
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+                    // create a text
+                    var textDO = gameui.AssetsManager.getBitmapText(message, "fontWhite");
+                    this.addChild(textDO);
+                    textDO.pivot.x = textDO.getLocalBounds().width / 2;
+                    textDO.x = defaultWidth / 2;
+                    textDO.y = 550;
+                    // Add Buttons
+                    var btYes = new gameui.BitmapTextButton(StringResources.menus.no, "fontWhite", "menu/btoptions", function () { _this.closePopUp(); });
+                    var btNo = new gameui.BitmapTextButton(StringResources.menus.yes, "fontWhite", "menu/btoptions", function () { _this.closePopUp(); accept(); });
+                    this.addChild(btYes);
+                    this.addChild(btNo);
+                    btYes.x = 1136;
+                    btNo.x = 400;
+                    btYes.y = btNo.y = 1100;
+                };
+                return PopupConfirm;
+            })(View.Popup);
+            View.PopupConfirm = PopupConfirm;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            // View Class
             var PopupHelper = (function (_super) {
                 __extends(PopupHelper, _super);
                 // class contructor
@@ -8445,6 +8339,88 @@ var FlipPlus;
                 return PopupHelper;
             })(View.Popup);
             View.PopupHelper = PopupHelper;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
+            var ProductListItem = (function (_super) {
+                __extends(ProductListItem, _super);
+                function ProductListItem(productId, name, description, localizedPrice, image) {
+                    var _this = this;
+                    _super.call(this);
+                    // adds BG
+                    this.addChild(gameui.AssetsManager.getBitmap("menu/storeItem").set({ regX: 1204 / 2, regY: 277 / 2 }));
+                    // adds Button
+                    this.addChild(gameui.AssetsManager.getBitmap("menu/storeItem").set({ regX: 1204 / 2, regY: 277 / 2 }));
+                    // adds image icon
+                    if (image) {
+                        var i = gameui.AssetsManager.getBitmap(image);
+                        i.set({ x: -400, regY: 150, regX: 150 });
+                        i.regX = i.width / 2;
+                        i.regY = i.height / 2;
+                        this.addChild(i);
+                    }
+                    // adds text
+                    this.addChild(gameui.AssetsManager.getBitmapText(name, "fontStrong", 0x333071, 1.1).set({ x: -160, y: -70 }));
+                    this.purchaseButton = new gameui.ImageButton("menu/purchaseButton", function () { _this.emit("pressed"); });
+                    this.purchaseButton.x = 370;
+                    // adds price
+                    var t = gameui.AssetsManager.getBitmapText(localizedPrice, "fontStrong", 0xffffff, 0.8);
+                    t.y = -90;
+                    this.purchaseButton.addChild(t);
+                    t.regX = t.textWidth / 2;
+                    // adds buy text
+                    var t = gameui.AssetsManager.getBitmapText(StringResources.menus.buy, "fontWhite", 0x86c0f1);
+                    t.y = 20;
+                    this.purchaseButton.addChild(t);
+                    t.regX = t.textWidth / 2;
+                    this.addChild(this.purchaseButton);
+                }
+                ProductListItem.prototype.setPurchasing = function () {
+                    this.disable();
+                    ///this.loadingIcon.visible = true;
+                };
+                ProductListItem.prototype.loading = function () {
+                    this.disable();
+                    //this.loadingIcon.visible = true;
+                };
+                ProductListItem.prototype.setNotAvaliable = function () {
+                    this.purchaseButton.fadeOut();
+                    //this.purchasedIcon.visible = false;
+                    //this.loadingIcon.visible = false;
+                };
+                ProductListItem.prototype.setAvaliable = function () { };
+                ProductListItem.prototype.setPurchased = function (timeOut) {
+                    var _this = this;
+                    if (timeOut === void 0) { timeOut = false; }
+                    this.purchaseButton.fadeOut();
+                    //this.purchasedIcon.visible = true;
+                    //this.loadingIcon.visible = false;
+                    gameui.AudiosManager.playSound("Interface Sound-11");
+                    if (timeOut)
+                        setTimeout(function () { _this.setNormal(); }, 1000);
+                };
+                ProductListItem.prototype.setNormal = function () {
+                    this.purchaseButton.fadeIn();
+                    //this.purchasedIcon.visible = false;
+                    //this.loadingIcon.visible = false;
+                };
+                ProductListItem.prototype.enable = function () {
+                    this.purchaseButton.fadeIn();
+                    this.loadingIcon.visible = false;
+                };
+                ProductListItem.prototype.disable = function () {
+                    //this.purchasedIcon.visible = false;
+                    this.purchaseButton.fadeOut();
+                };
+                return ProductListItem;
+            })(PIXI.Container);
+            View.ProductListItem = ProductListItem;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
@@ -8862,6 +8838,87 @@ var FlipPlus;
             View.TextEffect = TextEffect;
         })(View = Menu.View || (Menu.View = {}));
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var WorkshopMenuAction = (function (_super) {
+            __extends(WorkshopMenuAction, _super);
+            function WorkshopMenuAction() {
+                _super.apply(this, arguments);
+            }
+            WorkshopMenuAction.prototype.back = function () {
+                FlipPlus.FlipPlusGame.showMainScreen();
+            };
+            return WorkshopMenuAction;
+        })(Menu.WorkshopMenu);
+        Menu.WorkshopMenuAction = WorkshopMenuAction;
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Levels;
+    (function (Levels) {
+        // Controls projects and Levels.
+        // Model
+        var ActionLevelsManager = (function (_super) {
+            __extends(ActionLevelsManager, _super);
+            function ActionLevelsManager() {
+                _super.apply(this, arguments);
+            }
+            // #region initialization ----------------------------------------//
+            ActionLevelsManager.prototype.loadProjects = function (data) {
+                for (var p in data) {
+                    delete data[p].UserData;
+                }
+                for (var p in data) {
+                    for (var l in data[p].levels) {
+                        delete data[p].levels[l].userdata;
+                    }
+                }
+                this.levelsData = data;
+                // get a user data for each level/project
+                this.levelsUserDataManager.addUserData(this.levelsData);
+            };
+            // #endregion
+            //Updates user data project status
+            ActionLevelsManager.prototype.updateProjectUserData = function (project) {
+                var solvedLevels = 0;
+                //count solved levels
+                for (var l = 0; l < project.levels.length; l++)
+                    if (project.levels[l].userdata.solved ||
+                        project.levels[l].userdata.skip ||
+                        project.levels[l].userdata.item)
+                        solvedLevels++;
+                //calculate percentage
+                project.UserData.percent = solvedLevels / project.levels.length;
+                //calculate Stars
+                var stars = 0;
+                var temp = new Object;
+                for (var l = 0; l < project.levels.length; l++) {
+                    var level = project.levels[l];
+                    if (temp[level.theme] == null)
+                        temp[level.theme] = true;
+                    if (!level.userdata.solved || level.userdata.item)
+                        temp[level.theme] = false;
+                }
+                for (var i in temp) {
+                    if (temp[i])
+                        stars++;
+                }
+                //updates project stars count
+                project.UserData.stars = stars;
+                //verifies if level can be ulocked
+                this.unlockProject(project);
+                //complete Project
+                if (solvedLevels == project.levels.length)
+                    this.completeProject(project);
+            };
+            return ActionLevelsManager;
+        })(Levels.LevelsManager);
+        Levels.ActionLevelsManager = ActionLevelsManager;
+    })(Levels = FlipPlus.Levels || (FlipPlus.Levels = {}));
 })(FlipPlus || (FlipPlus = {}));
 var StringResources = {
     ld: "Loading",

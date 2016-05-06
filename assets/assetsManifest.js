@@ -18,8 +18,8 @@
 
 var imageManifest = [
         
-
-        { src : "Logo Small Round.png", id:"Logo Small Round"},
+        { src :"tutorial.png", id:"tutorial"},
+        { src :"Logo Small Round.png", id:"Logo Small Round"},
         { src: "logo/logo.png", id: "logo" },
         { src: "logo/onda01.png", id: "onda01" },
         { src: "logo/onda02.png", id: "onda02" },

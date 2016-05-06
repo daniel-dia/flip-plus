@@ -74,6 +74,7 @@ module FlipPlus.Levels {
     export interface tutorialStep {
         text?: string;
         title?: string;
+        image?: string;
         item?: string;
         click?: number;
         parameter?: any;
