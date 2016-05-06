@@ -121,6 +121,7 @@ var imageManifest = [
         // menus
         { id: "MenuBt", src: "MenuBt.png" },
         { id: "BackBt", src: "BackBt.png" },
+        { id: "AchBt", src: "AchBt.png" },
         { id: "btpage", src: "btpage.png" },
 
         { id: "menu/btmenu", src: "menu/btmenu.png" },
