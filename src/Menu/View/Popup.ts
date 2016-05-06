@@ -80,6 +80,7 @@ module FlipPlus.Menu.View {
             textDO.y = b + 300;
         }
 
+        // show a simple text
         public showtext(title: string, text?: string, timeout: number = 7000, delay: number = 0) {
 
             //clean display Object
@@ -330,8 +331,7 @@ module FlipPlus.Menu.View {
                     this.addsClickIndicator();
                 },2000)
             
-
-
+            
             //create a interval for closing the popopu
             if (timeout > 0)
                 this.closeinterval = setTimeout(() => {
@@ -340,8 +340,6 @@ module FlipPlus.Menu.View {
 
             //dispatch a event for parent objects
             this.emit("onshow");
-
-
         }
 
         // method for close popup 
