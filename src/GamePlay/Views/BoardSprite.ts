@@ -91,6 +91,7 @@
             event.target.pressed = false;
             this.preInvertRelease(<BlockSprite>event.target);
             
+            // get block
             var b: BlockSprite = <BlockSprite>event.target;
             this.callback(b.col, b.row);
 
@@ -100,7 +101,6 @@
 
             //tutorialrelease
             if (b.tutorialHighLighted) {
-
                 this.tutorialRelease();
                 this.emit("ontutorialclick");
             }    
@@ -112,7 +112,18 @@
             this.preInvertRelease(<BlockSprite>event.target);
         }
 
-        
+        //update a SingleCross
+        public updateCross(blocks: Logic.Block[][], col: number, row: number) {
+
+            gambiarraDeTempo = 0;
+            this.blocksSprites[col][row].updateSprite(blocks[col][row]);
+
+            if(blocks[col+1] && blocks[col+1][row]) this.blocksSprites[col+1][row].updateSprite(blocks[col+1][row]);
+            if(blocks[col-1] && blocks[col-1][row]) this.blocksSprites[col-1][row].updateSprite(blocks[col-1][row]);
+            if(blocks[col+0] && blocks[col][row+1]) this.blocksSprites[col][row+1].updateSprite(blocks[col][row+1]);
+            if(blocks[col+0] && blocks[col][row-1]) this.blocksSprites[col][row-1].updateSprite(blocks[col][row-1]);
+        }
+
         //updates sprites in the board
         public updateSprites(blocks: Logic.Block[][]) {
             for (var col = 0; col < this.blocksSprites.length; col++)

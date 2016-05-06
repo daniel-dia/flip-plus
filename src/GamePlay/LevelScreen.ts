@@ -207,7 +207,8 @@ module FlipPlus.GamePlay {
             this.levelLogic.invertCross(col, row);
 
             //update sprites 
-            this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+            this.boardSprite.updateCross(this.levelLogic.board.blocks, col, row);
+            //this.boardSprite.updateSprites(this.levelLogic.board.blocks);
 
             //verifies prize
             if (this.levelLogic.verifyPrize())

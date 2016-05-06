@@ -1476,7 +1476,8 @@ var FlipPlus;
                 //invert a cross
                 this.levelLogic.invertCross(col, row);
                 //update sprites 
-                this.boardSprite.updateSprites(this.levelLogic.board.blocks);
+                this.boardSprite.updateCross(this.levelLogic.board.blocks, col, row);
+                //this.boardSprite.updateSprites(this.levelLogic.board.blocks);
                 //verifies prize
                 if (this.levelLogic.verifyPrize())
                     this.earnPrize(col, row);
@@ -3171,6 +3172,7 @@ var FlipPlus;
                         return;
                     event.target.pressed = false;
                     this.preInvertRelease(event.target);
+                    // get block
                     var b = event.target;
                     this.callback(b.col, b.row);
                     // play a Radom Sounds
@@ -3187,6 +3189,19 @@ var FlipPlus;
                         return;
                     event.target.pressed = false;
                     this.preInvertRelease(event.target);
+                };
+                //update a SingleCross
+                BoardSprite.prototype.updateCross = function (blocks, col, row) {
+                    gambiarraDeTempo = 0;
+                    this.blocksSprites[col][row].updateSprite(blocks[col][row]);
+                    if (blocks[col + 1] && blocks[col + 1][row])
+                        this.blocksSprites[col + 1][row].updateSprite(blocks[col + 1][row]);
+                    if (blocks[col - 1] && blocks[col - 1][row])
+                        this.blocksSprites[col - 1][row].updateSprite(blocks[col - 1][row]);
+                    if (blocks[col + 0] && blocks[col][row + 1])
+                        this.blocksSprites[col][row + 1].updateSprite(blocks[col][row + 1]);
+                    if (blocks[col + 0] && blocks[col][row - 1])
+                        this.blocksSprites[col][row - 1].updateSprite(blocks[col][row - 1]);
                 };
                 //updates sprites in the board
                 BoardSprite.prototype.updateSprites = function (blocks) {
@@ -6422,6 +6437,7 @@ var FlipPlus;
                     titleDO.y = 0 + b + 50;
                     textDO.y = b + 300;
                 };
+                // show a simple text
                 Popup.prototype.showtext = function (title, text, timeout, delay) {
                     if (timeout === void 0) { timeout = 7000; }
                     if (delay === void 0) { delay = 0; }
