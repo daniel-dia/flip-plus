@@ -2870,6 +2870,7 @@ var levelsData = [
             "theme": "yellow",
             "type": "time",
             "time": 20,
+			"puzzlesToSolve":10,
             "randomMinMoves": 15,
             "randomMaxMoves": "17"
         }
