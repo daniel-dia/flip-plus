@@ -361,7 +361,7 @@ module FlipPlus {
     }
 }
 
-if(window.cordova)
+if(window["cordova"])
     document.addEventListener('deviceready', function () { FlipPlus.FlipPlusGame.initializeGame() }, false);
 else
     window.onload = function () { FlipPlus.FlipPlusGame.initializeGame() }

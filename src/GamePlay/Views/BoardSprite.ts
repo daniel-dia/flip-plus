@@ -115,13 +115,12 @@
         //update a SingleCross
         public updateCross(blocks: Logic.Block[][], col: number, row: number) {
 
-            gambiarraDeTempo = 0;
-            this.blocksSprites[col][row].updateSprite(blocks[col][row]);
+            this.blocksSprites[col][row].updateSprite(blocks[col][row],0);
 
-            if(blocks[col+1] && blocks[col+1][row]) this.blocksSprites[col+1][row].updateSprite(blocks[col+1][row]);
-            if(blocks[col-1] && blocks[col-1][row]) this.blocksSprites[col-1][row].updateSprite(blocks[col-1][row]);
-            if(blocks[col+0] && blocks[col][row+1]) this.blocksSprites[col][row+1].updateSprite(blocks[col][row+1]);
-            if(blocks[col+0] && blocks[col][row-1]) this.blocksSprites[col][row-1].updateSprite(blocks[col][row-1]);
+            if(blocks[col+1] && blocks[col+1][row]) this.blocksSprites[col+1][row].updateSprite(blocks[col+1][row],1);
+            if(blocks[col-1] && blocks[col-1][row]) this.blocksSprites[col-1][row].updateSprite(blocks[col-1][row],2);
+            if(blocks[col+0] && blocks[col][row+1]) this.blocksSprites[col][row+1].updateSprite(blocks[col][row+1],3);
+            if(blocks[col+0] && blocks[col][row-1]) this.blocksSprites[col][row-1].updateSprite(blocks[col][row-1],4);
         }
 
         //updates sprites in the board

@@ -1048,7 +1048,7 @@ var FlipPlus;
         GameMode[GameMode["ACTION"] = 1] = "ACTION";
     })(GameMode || (GameMode = {}));
 })(FlipPlus || (FlipPlus = {}));
-if (window.cordova)
+if (window["cordova"])
     document.addEventListener('deviceready', function () { FlipPlus.FlipPlusGame.initializeGame(); }, false);
 else
     window.onload = function () { FlipPlus.FlipPlusGame.initializeGame(); };
@@ -2891,7 +2891,7 @@ var FlipPlus;
                     /// Check this.hitArea = hit;
                 };
                 //update the blockSprite based on the block information
-                BlockSprite.prototype.updateSprite = function (block) {
+                BlockSprite.prototype.updateSprite = function (block, delay) {
                     if (block)
                         this.block = block;
                     if (!this.block)
@@ -2925,22 +2925,19 @@ var FlipPlus;
                     this.stateImage = newStateImage;
                     var time = 150;
                     // shame
-                    var delay = gambiarraDeTempo * 50;
-                    gambiarraDeTempo++;
-                    if (gambiarraDeTempo > 5)
-                        gambiarraDeTempo = 0;
-                    gambiarraDeTempo;
+                    if (delay == null)
+                        delay = Math.random() * 5;
                     //animate them
                     if (newStateImage != null) {
                         newStateImage.scale.y = 0;
                         newStateImage.scale.x = 1;
                         newStateImage.visible = true;
                         createjs.Tween.removeTweens(newStateImage);
-                        createjs.Tween.get(newStateImage).wait(delay).wait(time).to({ scaleY: 1, scaleX: 1 }, time, createjs.Ease.backOut);
+                        createjs.Tween.get(newStateImage).wait(delay * 50).wait(time).to({ scaleY: 1, scaleX: 1 }, time, createjs.Ease.backOut);
                     }
                     if (oldStateImage != null) {
                         createjs.Tween.removeTweens(oldStateImage);
-                        createjs.Tween.get(oldStateImage).wait(delay).to({ scaleY: 0, scaleX: 1 }, time, createjs.Ease.cubicIn).call(function () {
+                        createjs.Tween.get(oldStateImage).wait(delay * 50).to({ scaleY: 0, scaleX: 1 }, time, createjs.Ease.cubicIn).call(function () {
                             oldStateImage.visible = false;
                         });
                         oldStateImage.scale.y = 1;
@@ -3102,7 +3099,6 @@ var FlipPlus;
         })(Views = GamePlay.Views || (GamePlay.Views = {}));
     })(GamePlay = FlipPlus.GamePlay || (FlipPlus.GamePlay = {}));
 })(FlipPlus || (FlipPlus = {}));
-var gambiarraDeTempo = 0;
 var FlipPlus;
 (function (FlipPlus) {
     var GamePlay;
@@ -3192,16 +3188,15 @@ var FlipPlus;
                 };
                 //update a SingleCross
                 BoardSprite.prototype.updateCross = function (blocks, col, row) {
-                    gambiarraDeTempo = 0;
-                    this.blocksSprites[col][row].updateSprite(blocks[col][row]);
+                    this.blocksSprites[col][row].updateSprite(blocks[col][row], 0);
                     if (blocks[col + 1] && blocks[col + 1][row])
-                        this.blocksSprites[col + 1][row].updateSprite(blocks[col + 1][row]);
+                        this.blocksSprites[col + 1][row].updateSprite(blocks[col + 1][row], 1);
                     if (blocks[col - 1] && blocks[col - 1][row])
-                        this.blocksSprites[col - 1][row].updateSprite(blocks[col - 1][row]);
+                        this.blocksSprites[col - 1][row].updateSprite(blocks[col - 1][row], 2);
                     if (blocks[col + 0] && blocks[col][row + 1])
-                        this.blocksSprites[col][row + 1].updateSprite(blocks[col][row + 1]);
+                        this.blocksSprites[col][row + 1].updateSprite(blocks[col][row + 1], 3);
                     if (blocks[col + 0] && blocks[col][row - 1])
-                        this.blocksSprites[col][row - 1].updateSprite(blocks[col][row - 1]);
+                        this.blocksSprites[col][row - 1].updateSprite(blocks[col][row - 1], 4);
                 };
                 //updates sprites in the board
                 BoardSprite.prototype.updateSprites = function (blocks) {
@@ -7138,7 +7133,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 0.8.50";
+var version = "v 0.8.60";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
@@ -7764,9 +7759,9 @@ var FlipPlus;
                 gameui.AudiosManager.playMusic("Music Dot Robot");
             };
             TitleScreen.prototype.back = function () {
-                var confirmText = StringResources.exitConfirm;
+                var confirmText = StringResources.menus.exitConfirm;
                 this.popup.showConfirmMessage(confirmText, function () {
-                    navigator.app.exitApp();
+                    navigator["app"].exitApp();
                 });
             };
             return TitleScreen;
