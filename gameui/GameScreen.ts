@@ -63,13 +63,13 @@ module gameui {
             updateFn = this.update
             createjs.Tween["_inited"] = true;
 
-            var win=false
-            if (win) {
-                createjs.Ticker.addEventListener("tick", function (e) {
-                    PIXIrenderer.render(PIXIstage);
-                });
-            } else
-                requestAnimationFrame(updateFn);
+            //var win=false
+            //if (win) {
+            //    createjs.Ticker.addEventListener("tick", function (e) {
+            //        PIXIrenderer.render(PIXIstage);
+            //    });
+            //} else
+            requestAnimationFrame(updateFn);
         }
 
         private time;

@@ -147,7 +147,6 @@ var gameui;
             PIXIstage = new PIXI.Container();
             PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { backgroundColor: 0 });
             var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer);
-            createjs.Ticker.setFPS(fps);
             // add the renderer view element to the DOM
             document.getElementById(divId).appendChild(PIXIrenderer.view);
             var x = 0;
@@ -157,18 +156,23 @@ var gameui;
             this.resizeGameScreen(window.innerWidth, window.innerHeight);
             window.onresize = function () { _this.resizeGameScreen(window.innerWidth, window.innerHeight); };
             updateFn = this.update;
-            var win = false;
-            if (win) {
-                createjs.Ticker.addEventListener("tick", function (e) {
-                    PIXIrenderer.render(PIXIstage);
-                });
-            }
-            else
-                updateFn();
-        }
-        GameScreen.prototype.update = function () {
+            createjs.Tween["_inited"] = true;
+            //var win=false
+            //if (win) {
+            //    createjs.Ticker.addEventListener("tick", function (e) {
+            //        PIXIrenderer.render(PIXIstage);
+            //    });
+            //} else
             requestAnimationFrame(updateFn);
+        }
+        GameScreen.prototype.update = function (timestamp) {
+            if (!this.time)
+                this.time = timestamp;
+            var delta = timestamp - this.time;
+            this.time = timestamp;
+            createjs.Tween.tick(delta, false);
             PIXIrenderer.render(PIXIstage);
+            requestAnimationFrame(updateFn);
         };
         // switch current screen, optionaly with a pre defined transition
         GameScreen.prototype.switchScreen = function (newScreen, parameters, transition) {
