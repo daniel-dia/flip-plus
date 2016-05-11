@@ -19,20 +19,14 @@ module gameui {
             // initialize objects
             this.spriteSheets = spriteSheets ? spriteSheets : new Array();
             this.assetsManifest = manifest;
-
-
+            
             if (!images) images = images ? images : new Array();
 		
             if (!this.loader) {
                 //creates a preload queue
                 this.loader = new PIXI.loaders.Loader(path);
 
-			    ///Check //install sound plug-in for sounds format
-                ///this.loader.installPlugin(createjs.Sound);
-				///createjs.Sound.alternateExtensions = ["mp3"];
-
-                
-                // Adds callbacks
+		        // Adds callbacks
                 //this.loader.addEventListener("filestart", (evt: any) => { console.log("loading " + evt.item.src) })
                 this.loader.on("error ", (evt: any) => { console.log("error " + evt.item.src) })
                 this.loader.on("fileerror ", (evt: any) => { console.log("ferror " + evt.item.src) })

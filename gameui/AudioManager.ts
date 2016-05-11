@@ -28,7 +28,7 @@
             if (this.soundVolume == undefined) return 1;
             return this.soundVolume;
         }
-
+         
         public static pauseMusic() {
             if (this.currentMusic) this.currentMusic.stop()
         }

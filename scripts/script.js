@@ -17,9 +17,6 @@ var gameui;
             if (!this.loader) {
                 //creates a preload queue
                 this.loader = new PIXI.loaders.Loader(path);
-                ///Check //install sound plug-in for sounds format
-                ///this.loader.installPlugin(createjs.Sound);
-                ///createjs.Sound.alternateExtensions = ["mp3"];
                 // Adds callbacks
                 //this.loader.addEventListener("filestart", (evt: any) => { console.log("loading " + evt.item.src) })
                 this.loader.on("error ", function (evt) { console.log("error " + evt.item.src); });
@@ -4666,7 +4663,6 @@ var FlipPlus;
                     createjs.Sound.alternateExtensions = ["mp3"];
                     createjs.Sound.registerSounds(audioManifest, audioPath);
                 }
-                //gameui.AssetsManager.loadAssets(logoManifest, imagePath);
                 gameui.AssetsManager.loadAssets(imageManifest, imagePath);
                 gameui.AssetsManager.loadFontSpriteSheet("fontWhite", "fontWhite.fnt");
                 gameui.AssetsManager.loadFontSpriteSheet("fontBlue", "fontBlue.fnt");
@@ -4796,13 +4792,15 @@ var FlipPlus;
                 this.menu.addEventListener("back", function () { _this.back(); });
                 this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
                 this.header.addChild(this.menu);
-                //adds menu button
-                var achBt = new gameui.ImageButton("AchBt", function () {
-                    FlipPlus.FlipPlusGame.gameServices.showAchievements();
-                });
-                achBt.y = -90;
-                achBt.x = defaultWidth - 130;
-                this.footer.addChild(achBt);
+                if (!win) {
+                    //adds menu button
+                    var achBt = new gameui.ImageButton("AchBt", function () {
+                        FlipPlus.FlipPlusGame.gameServices.showAchievements();
+                    });
+                    achBt.y = -90;
+                    achBt.x = defaultWidth - 130;
+                    this.footer.addChild(achBt);
+                }
             };
             MainMenu.prototype.addTerminal = function () {
                 this.terminal = new Menu.View.Terminal();
@@ -7137,7 +7135,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 0.8.60";
+var version = "v 0.90";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";

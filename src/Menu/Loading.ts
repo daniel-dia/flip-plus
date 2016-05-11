@@ -28,8 +28,7 @@ module FlipPlus.Menu {
             if (levelCreatorMode) { assetscale = 1 }
 
             this.preLoad();
-
-        }
+        } 
         
         private preLoad() {
 
@@ -43,7 +42,6 @@ module FlipPlus.Menu {
 
             }
             gameui.AssetsManager.loadAssets(logoManifest, imagePath);
-             
         } 
 
         private load() {
@@ -62,11 +60,11 @@ module FlipPlus.Menu {
             
             //load audio
             if (!levelCreatorMode && typeof WPAudioManager == 'undefined') {
-                //createjs.Sound.alternateExtensions = ["mp3"];
+                createjs.Sound.alternateExtensions = ["mp3"];
                 createjs.Sound.registerSounds(audioManifest, audioPath);
-                //gameui.AssetsManager.loadAssets(audioManifest, audioPath);
             }
-            //gameui.AssetsManager.loadAssets(logoManifest, imagePath);
+
+             
             gameui.AssetsManager.loadAssets(imageManifest, imagePath);
             gameui.AssetsManager.loadFontSpriteSheet("fontWhite", "fontWhite.fnt");
             gameui.AssetsManager.loadFontSpriteSheet("fontBlue", "fontBlue.fnt");

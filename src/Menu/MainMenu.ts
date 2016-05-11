@@ -97,13 +97,15 @@ module FlipPlus.Menu {
             this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(); });
             this.header.addChild(this.menu);
 
-            //adds menu button
-            var achBt: gameui.ImageButton = new gameui.ImageButton("AchBt", () => {
-                FlipPlusGame.gameServices.showAchievements();
-            });
-            achBt.y = -90;
-            achBt.x = defaultWidth - 130;
-            this.footer.addChild(achBt);
+            if (!win) {
+                //adds menu button
+                var achBt: gameui.ImageButton = new gameui.ImageButton("AchBt", () => {
+                    FlipPlusGame.gameServices.showAchievements();
+                });
+                achBt.y = -90;
+                achBt.x = defaultWidth - 130;
+                this.footer.addChild(achBt);
+            }
 
         }
         
