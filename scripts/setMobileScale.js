@@ -23,3 +23,4 @@ function setMobileScale(width) {
     } catch (e) { }
 }
 
+setMobileScale(window.innerWidth * window.devicePixelRatio);

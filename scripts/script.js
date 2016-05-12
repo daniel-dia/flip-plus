@@ -1,4 +1,4 @@
-var images;
+﻿var images;
 var gameui;
 (function (gameui) {
     // Class

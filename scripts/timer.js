@@ -1,4 +1,4 @@
-var TimerEvent = function (type, timer) {
+﻿var TimerEvent = function (type, timer) {
     this.type = type;
     this.target = timer;
 }

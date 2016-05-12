@@ -1,4 +1,4 @@
-(function (lib, img, cjs) {
+﻿(function (lib, img, cjs) {
 
 var p; // shortcut to reference prototypes
 
