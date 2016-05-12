@@ -41,7 +41,7 @@ module FlipPlus.Menu {
                 var confirmText = StringResources.op_erase + "?";
                 this.popup.showConfirmMessage(confirmText, () => {
                     FlipPlusGame.levelsUserDataManager.clearAllData();
-                    if (Cocoon) Cocoon.App.reload();
+                    if (window["Cocoon"]) Cocoon.App.reload();
                     else window.location.reload();
                 });
 

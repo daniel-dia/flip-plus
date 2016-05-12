@@ -152,7 +152,7 @@ var gameui;
             this.resizeGameScreen(window.innerWidth, window.innerHeight);
             window.onresize = function () { _this.resizeGameScreen(window.innerWidth, window.innerHeight); };
             //if is not cocoon, then .. its windows
-            if (!Cocoon)
+            if (!window["Cocoon"])
                 win = true;
             updateFn = this.update;
             createjs.Tween["_inited"] = true;
@@ -4918,7 +4918,7 @@ var FlipPlus;
                     var confirmText = StringResources.op_erase + "?";
                     _this.popup.showConfirmMessage(confirmText, function () {
                         FlipPlus.FlipPlusGame.levelsUserDataManager.clearAllData();
-                        if (Cocoon)
+                        if (window["Cocoon"])
                             Cocoon.App.reload();
                         else
                             window.location.reload();
@@ -7307,7 +7307,7 @@ var FlipPlus;
         function GameServices() {
             if (!navigator.onLine)
                 return;
-            if (!Cocoon)
+            if (!window["Cocoon"])
                 return;
             this.socialService = initSocialServices();
         }

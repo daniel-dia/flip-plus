@@ -8,7 +8,7 @@ module FlipPlus {
 
         constructor() {
             if (!navigator.onLine) return;
-            if (!Cocoon) return;
+            if (!window["Cocoon"]) return;
             this.socialService = initSocialServices();
         }
 

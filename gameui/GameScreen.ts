@@ -57,7 +57,7 @@ module gameui {
             window.onresize = () => { this.resizeGameScreen(window.innerWidth, window.innerHeight); };
 
             //if is not cocoon, then .. its windows
-            if (!Cocoon) win = true;
+            if (!window["Cocoon"]) win = true;
             updateFn = this.update
             createjs.Tween["_inited"] = true;
             requestAnimationFrame(updateFn);
