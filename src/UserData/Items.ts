@@ -18,8 +18,7 @@ module FlipPlus.UserData {
         //defines existent Itens
         //TODO shall not be in userData
         public static itemsNames: Array<string> = [Items.TAP, Items.HINT, Items.SKIP, Items.SOLVE, Items.TIME];
-
-
+        
         constructor() {
             var data = localStorage.getItem(storagePrefix + "items");
             if (data)
@@ -28,7 +27,7 @@ module FlipPlus.UserData {
             else this.itensDictionary = new Object();
         }
 
-         public getItemQuantity(item: string): number {
+        public getItemQuantity(item: string): number {
             if (this.itensDictionary[item])
                 return this.itensDictionary[item];
             else
@@ -52,6 +51,41 @@ module FlipPlus.UserData {
             var iq: number = this.getItemQuantity(item);
             if (iq<value) return;
             this.setQuantityItem(item, iq-value);
+        }
+
+        public static calculateItemPrice(item: string, levelSetId: number, timesUsed: number =  0) {
+            var base = 2.2;
+            var factor = 0.3;
+
+            switch (item) {
+
+                case Items.TAP: case Items.SOLVE: case Items.TIME:
+                    factor = 1;
+                    break;
+
+                case Items.SKIP:
+                    factor = 1;
+                    timesUsed = 2;
+                    break;
+                
+                case Items.HINT:
+                    factor = 0.3;
+                    break;
+            }
+
+            //calculates number
+            var price = Math.pow(base, timesUsed+1) * levelSetId * factor;
+
+            //roud the number
+            if (price > 300) price = Math.ceil(price / 100) * 100;
+            if (price > 100) price = Math.ceil(price / 50) * 50;
+            if (price > 50) price = Math.ceil(price / 20) * 20;
+            if (price > 30) price = Math.ceil(price / 10) * 10;
+            if (price > 7) price = Math.ceil(price / 5) * 5;
+            if (price > 5) price = Math.ceil(price / 2) * 2;
+            price = Math.ceil(price)
+
+            return price;
         }
     }
 }

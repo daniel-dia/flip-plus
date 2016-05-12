@@ -2,6 +2,16 @@ module FlipPlus.Levels {
 
     export class Level {
 
+        // ================= Identification =========================================
+
+        // level Identification
+        public leveld: number;
+
+        // Project Identification
+        public projectId: number;
+
+        // ================= parameters =========================================
+
         //game type: Puzzle, time Atack, Draw
         public type: string;
 

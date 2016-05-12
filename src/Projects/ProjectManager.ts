@@ -42,14 +42,23 @@ module FlipPlus.Levels {
 
         protected fixName(data: Array<BotLevelsSet>) {
 
-            function a40(v: number) {
+            function add40(v: number) {
                 var str = "0000000" + (v.toString());
                 return (str).substr(str.length - 4);
             }
-
+            
             for (var p in data) {
                 for (var l in data[p].levels) {
-                    data[p].levels[l].name = a40((parseInt(p) + 1) * 100 + (parseInt(l) + 1))
+
+                    var project = data[p];
+                    var level = data[p].levels[l];
+
+                    // adds LevelId and ProjectId properties
+                    level.projectId = p;
+                    level.leveld = l;
+                    
+                    // Fix level name
+                    level.name = add40((parseInt(p) + 1) * 100 + (parseInt(l) + 1))
                 }
             }
         }

@@ -1,5 +1,3 @@
-declare var items: Array<{ price: Array<number> }>
-
 module FlipPlus.GamePlay {
 
     //Controller
@@ -45,13 +43,16 @@ module FlipPlus.GamePlay {
             super();
 
             this.itemsFunctions = {};
-            this.itemTimes = <Array<number>>new Object();
             this.clicks = 0;
 
             // Store level data;
             this.levelData = leveldata;
 
-            // initializate level Model
+            // Initialize items history
+            this.itemTimes = <Array<number>>new Object();
+            if (this.levelData.userdata.hints) this.itemTimes[Items.HINT] = this.levelData.userdata.hints.length;
+
+            // Initializate level Model
             this.levelLogic = new Logic.Level(leveldata);
 
             // creates all screen objects
@@ -337,27 +338,21 @@ module FlipPlus.GamePlay {
 
         // get item value based on how many times it has been used.
         protected getItemPrice(item): number {
-
-            // increase the times counter
-            var times = this.itemTimes[item];
-            if (!times) times = 0;
-
-            // get item price
-            var price = items[item].price[times];
-
-            // return the selected price
-            if (price) return price;
-
-            // if there is no more prices, get the highest price
-            return items[item].price[items[item].price.length - 1];
+            
+            var timesUsed = this.itemTimes[item];
+            var levelSetId = this.levelData.projectId+1;
+            return UserData.ItemsManager.calculateItemPrice(item, levelSetId, timesUsed);
         }
 
         // list all item prices
         private listItemPrices(): Array<number> {
-
+            var items = UserData.ItemsManager.itemsNames;
             var list = new Object();
-            for (var item in items)
+
+            for (var i in items) {
+                var item = items[i]
                 list[item] = this.getItemPrice(item);
+            }
 
             return <Array<number>>list;
         }
@@ -379,14 +374,16 @@ module FlipPlus.GamePlay {
             var coinsAmount = FlipPlusGame.coinsData.getAmount()
             if (free || coinsAmount >= price) {
 
+                // purchase a item using parts
                 if (!free) {
+
                     // saves item used information
                     if (!this.itemTimes[item]) this.itemTimes[item] = 0;
                     this.itemTimes[item]++;
 
                     // updates data
                     if (item != Items.HINT) this.usedItem = item;
-
+                                       
                     // updates player coins
                     FlipPlusGame.coinsData.decreaseAmount(price);
 
@@ -422,6 +419,7 @@ module FlipPlus.GamePlay {
             }
         }
 
+        // cast a animation for the part moving
         protected animateCoins(item:string, price:number) {
             var btx = this.gameplayMenu.getButtonPosition(item);
             if (btx)

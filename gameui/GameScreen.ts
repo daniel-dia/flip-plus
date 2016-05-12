@@ -1,4 +1,4 @@
-declare function getQueryVariable(variable: string);
+ï»¿declare function getQueryVariable(variable: string);
 declare function setMobileScale(a: number);
 declare var assetscale: number;
 declare function requestAnimationFrame(callback: any): void;
@@ -64,7 +64,7 @@ module gameui {
         }
 
 
-        // atualização da tela
+        // atualizaÃ§Ã£o da tela
         private time;
         private update(timestamp) {
 
