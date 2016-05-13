@@ -974,7 +974,8 @@ var FlipPlus;
             //TODO better
         };
         FlipPlusGame.completeProject = function () {
-            FlipPlusGame.showMainScreen();
+            var currentProjectID = FlipPlusGame.levelsManager.getCurrentProject().name;
+            FlipPlusGame.showMainScreen({ bot: currentProjectID });
             FlipPlusGame.levelsManager.setCurrentProject(null);
             FlipPlusGame.verifyGameEnd();
         };
@@ -1005,13 +1006,13 @@ var FlipPlus;
             this.completeLevel(complete);
             ///this.showProjectLevelsMenu(null, { complete: complete });
         };
-        FlipPlusGame.showMainScreen = function () {
+        FlipPlusGame.showMainScreen = function (parameters) {
             if (this.mainScreen == null)
                 this.mainScreen = new FlipPlus.Menu.MainMenu();
             if (this.gameScreen.currentScreen == this.titleScreen || this.gameScreen.currentScreen == this.loadingScreen)
-                this.gameScreen.switchScreen(this.mainScreen, null, { type: "zoomIn", time: 500 });
+                this.gameScreen.switchScreen(this.mainScreen, parameters, { type: "zoomIn", time: 500 });
             else
-                this.gameScreen.switchScreen(this.mainScreen);
+                this.gameScreen.switchScreen(this.mainScreen, parameters);
         };
         FlipPlusGame.showTitleScreen = function () {
             if (!this.titleScreen)
@@ -1386,12 +1387,12 @@ var FlipPlus;
             function LevelScreen(leveldata) {
                 var _this = this;
                 _super.call(this);
-                //window.onkeydown =  (e) => {
-                //    if (e.char == "s") {
-                //        this.win(0, 0);
-                //        window.onkeydown = null;
-                //    }
-                //};
+                window.onkeydown = function (e) {
+                    if (e.char == "s") {
+                        _this.win(0, 0);
+                        window.onkeydown = null;
+                    }
+                };
                 this.itemsFunctions = {};
                 this.clicks = 0;
                 // Store level data;
@@ -4798,7 +4799,8 @@ var FlipPlus;
                 this.coinsIndicator.x = defaultWidth / 2;
                 this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
             };
-            MainMenu.prototype.activate = function () {
+            MainMenu.prototype.activate = function (parameters) {
+                var _this = this;
                 _super.prototype.activate.call(this);
                 // play BgSound
                 gameui.AudiosManager.playMusic("Music Dot Robot");
@@ -4815,6 +4817,10 @@ var FlipPlus;
                     this.myBots.update();
                     // updates terminal
                     this.terminal.activate();
+                }
+                // if is a new bot, animate it after 0.5 sec
+                if (parameters && parameters.bot) {
+                    setTimeout(function () { _this.myBots.animateBot(parameters.bot); }, 500);
                 }
                 // updates parts counter
                 this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
@@ -6537,8 +6543,12 @@ var FlipPlus;
             };
             //User action feedback to user touch
             MyBots.prototype.userTouch = function (event) {
-                var robotMc = event.target;
-                var project = this.projectManager.getProjectByName(robotMc.name);
+                var bot = event.target;
+                this.animateBot(bot.name);
+            };
+            MyBots.prototype.animateBot = function (botName) {
+                var project = this.projectManager.getProjectByName(botName);
+                var robotMc = this.myBots[botName];
                 if (createjs.Tween.hasActiveTweens(robotMc))
                     return;
                 //verifies if robot is ready or have parts ready

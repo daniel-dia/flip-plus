@@ -69,32 +69,37 @@ module FlipPlus.Robots {
 
         //User action feedback to user touch
         private userTouch(event: PIXI.interaction.InteractionEvent) {
+            var bot = <PIXI.extras.MovieClip>event.target;
+            this.animateBot(bot.name);
+        }
 
-            var robotMc = <PIXI.extras.MovieClip>event.target;
-            var project: Levels.BotLevelsSet = this.projectManager.getProjectByName(robotMc.name);
+        public animateBot(botName:string) {
 
-            if (createjs.Tween.hasActiveTweens(robotMc))return;
+            var project: Levels.BotLevelsSet = this.projectManager.getProjectByName(botName);
+            var robotMc: PIXI.DisplayObject = this.myBots[botName]
+
+            if (createjs.Tween.hasActiveTweens(robotMc)) return;
             //verifies if robot is ready or have parts ready
             if (project && project.UserData.complete || !project) {
 
                 var px = robotMc.scale.x;
                 var py = robotMc.scale.y;
                 var ot = robotMc.y;
-                
-                this.emit("robot", robotMc.name);  
+
+                this.emit("robot", robotMc.name);
                 if (!robotMc.name) return;
 
                 // play bot sound
                 Robots.MyBots.playRobotSound(robotMc.name);
 
                 // animate bot
-                createjs.Tween.get(robotMc) 
-                    .to({ scaleX: px * 1.1, scaleY: py *0.9 }, 100)
-                    .to({ scaleX: px, scaleY: py }, 1000, createjs.Ease.elasticOut) 
-                createjs.Tween.get(robotMc) 
+                createjs.Tween.get(robotMc)
+                    .to({ scaleX: px * 1.1, scaleY: py * 0.9 }, 100)
+                    .to({ scaleX: px, scaleY: py }, 1000, createjs.Ease.elasticOut)
+                createjs.Tween.get(robotMc)
                     .to({ y: ot - 50 }, 100, createjs.Ease.quadOut)
-                    .to({ y: ot}, 1000, createjs.Ease.bounceOut) 
-                 
+                    .to({ y: ot }, 1000, createjs.Ease.bounceOut)
+
             }
         }
 

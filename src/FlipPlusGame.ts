@@ -273,7 +273,8 @@ module FlipPlus {
         }
 
         public static completeProject() {
-            FlipPlusGame.showMainScreen();
+            var currentProjectID = FlipPlusGame.levelsManager.getCurrentProject().name;
+            FlipPlusGame.showMainScreen({ bot: currentProjectID});
             FlipPlusGame.levelsManager.setCurrentProject(null);
             FlipPlusGame.verifyGameEnd();
         }
@@ -310,12 +311,12 @@ module FlipPlus {
             ///this.showProjectLevelsMenu(null, { complete: complete });
         }
 
-        public static showMainScreen() {
+        public static showMainScreen(parameters:any) {
             if (this.mainScreen == null) this.mainScreen = new Menu.MainMenu();
             if (this.gameScreen.currentScreen == this.titleScreen || this.gameScreen.currentScreen == this.loadingScreen)
-                this.gameScreen.switchScreen(this.mainScreen, null, { type: "zoomIn", time: 500 });
+                this.gameScreen.switchScreen(this.mainScreen, parameters, { type: "zoomIn", time: 500 });
             else 
-                this.gameScreen.switchScreen(this.mainScreen);
+                this.gameScreen.switchScreen(this.mainScreen, parameters);
         }
 
         public static showTitleScreen() {

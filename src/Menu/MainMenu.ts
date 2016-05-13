@@ -47,7 +47,7 @@ module FlipPlus.Menu {
             this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
         }
 
-        public activate() {
+        public activate(parameters) {
             super.activate();
             
             // play BgSound
@@ -69,6 +69,11 @@ module FlipPlus.Menu {
 
                 // updates terminal
                 this.terminal.activate();
+            }
+
+            // if is a new bot, animate it after 0.5 sec
+            if (parameters && parameters.bot) {
+                setTimeout(() => { this.myBots.animateBot(parameters.bot); }, 500);
             }
 
             // updates parts counter
