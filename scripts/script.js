@@ -4628,7 +4628,7 @@ var FlipPlus;
                 // play music
                 this.factorySound = gameui.AudiosManager.playSound("Factory Ambience", true, 0, 0, 0, 0.4);
                 //update enabled Projects
-                this.addProjects(this.levelsManager.getUnlockedProjects());
+                this.addProjects(this.levelsManager.getAllProjects());
                 var page = FlipPlus.FlipPlusGame.levelsManager.getHighestProject();
                 var current = this.levelsManager.getCurrentProject();
                 if (current) {
@@ -4642,7 +4642,11 @@ var FlipPlus;
                 //goto current project
                 this.pagesSwipe.gotoPage(page);
                 //activate current project
-                this.projectViews[page].activate(parameters);
+                for (var p in this.projectViews)
+                    if (p == page)
+                        this.projectViews[p].activate(parameters);
+                    else
+                        this.projectViews[p].activate();
             };
             return WorkshopMenu;
         })(gameui.ScreenState);
@@ -4930,284 +4934,6 @@ var FlipPlus;
         Menu.OptionsMenu = OptionsMenu;
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
-/*
-module FlipPlus.Menu {
-
-    export class ProjectsMenu extends gameui.ScreenState {
-
-        private starsIndicator: View.StarsIndicator;
-        private statisticsTextField: PIXI.extras.BitmapText;
-        private projectsGrid: PIXI.Container;
-
-        private projectsItems: View.ProjectItem[] = [];
-        private bonusItems: View.BonusItem[] = [];
-
-        private menu: View.ScreenMenu;
-        private popup: View.Popup;
-
-        private pagesSwipe: View.PagesSwiper;
-        private pages: Array<View.Page>;
-
-        //==================================== initialization ==============================================
-        // Constructor
-        constructor() {
-            super();
-            this.createObjects();
-            this.onback = () => { this.back(); };
-        }
-        
-        //populate View
-        private createObjects() {
-
-            var bg = gameui.AssetsManager.getBitmap("projects/bgprojects");
-            bg.scale.y = bg.scale.x = 2;
-            this.background.addChild(bg);
-
-            this.addHeader();
-            this.addProjects();
-            this.addBonuses();
-            
-            this.pagesSwipe = new View.PagesSwiper(this.projectsGrid, this.pages, defaultWidth);
-            this.createPaginationButtons(this.projectsGrid);
-            
-            this.createPopup();
-        }
-
-        //creates a popup
-        private createPopup() {
-            this.popup = new View.Popup();
-            this.content.addChild(this.popup);
-        }
-
-        //Adds defaultMenu to screen
-        private addHeader() {
-            
-            //create background
-            this.header.addChild(gameui.AssetsManager.getBitmap("projects/projectHeader"));
-
-
-            this.menu = new View.ScreenMenu(true, true);
-            //TODO fazer camada intermediaria
-            //TODO o options sempre volta pro menu principal. O_o
-            this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(this) });
-            this.menu.addEventListener("back", () => { this.back() });
-            this.header.addChild(this.menu);
-
-            //create starsIndicator
-            this.starsIndicator = new Menu.View.StarsIndicator();
-            this.header.addChild(this.starsIndicator);
-            this.starsIndicator.x = defaultWidth;
-            this.starsIndicator.y = 220;
-
-            //create bots statistics
-            this.statisticsTextField = gameui.AssetsManager.getBitmapText("0", "fontBlue");
-            this.header.addChild(this.statisticsTextField);
-            this.statisticsTextField.y = 220;
-            this.statisticsTextField.x = 80;
-
-        }
-
-        //update statistics
-        private updateStatistcs() {
-            var done = FlipPlusGame.levelsManager.getFinihedProjects().length;
-            var total = FlipPlusGame.levelsManager.getAllProjects().length;
-            this.statisticsTextField.text = done + "/" + total + " BOTS";
-        }
-
-        //adds projects objects to the view
-        private addProjects() {
-
-            //grid properties
-            var xspacing = 500;
-            var yspacing = 960;
-            var rows = 2;
-            var cols = 3;
-
-            //create grid
-            this.projectsGrid = new PIXI.Container();
-            this.content.addChild(this.projectsGrid);
-            this.projectsGrid.x = (defaultWidth - xspacing * cols) / 2 + xspacing / 2;
-            this.projectsGrid.y = 600;
-
-            // create Pages
-            this.pages = [];
-            var currentPage: View.Page;
-            
-            // Create projectItens
-            var projects = FlipPlusGame.levelsManager.getAllProjects();
-            
-            //creates all itens
-            for (var i = 0; i < projects.length; i++) {
-
-                //create current page
-                if (i % (cols * rows) == 0) {
-                    currentPage = new View.Page();
-
-                    this.projectsGrid.addChild(currentPage);
-                    this.pages.push(currentPage);
-                }
-
-                
-                var projectView = new View.ProjectItem(projects[i], (e: PIXI.interaction.InteractionEvent) => {
-                    this.projectItemClick(e);
-                });
- 
-                
-                //add item to scene
-                this.projectsItems.push(projectView);
-                currentPage.addChild(projectView);
-                
-
-                //set item position
-                projectView.x = xspacing * (i % cols) + 260;
-                projectView.y = yspacing * Math.floor((i % (cols * rows)) / cols);
-
-            }
-        }
-
-        //adds bonuses objects to the view
-        private addBonuses() {
-            for (var p = 0; p < this.pages.length; p++) {
-                var bonusBt = new View.BonusItem("Bonus" + (p + 1), (e) => {
-                    //cancel click in case of drag
-                    if (this.pagesSwipe.cancelClick) return;
-
-                    var bonusId = (<View.BonusItem>e.target).bonusId;
-                    var timer = FlipPlusGame.timersData.getTimer(bonusId);
-
-                    if (bonusData[bonusId].cost <= FlipPlusGame.levelsManager.getStarsCount()) {
-                        if (timer == 0) FlipPlusGame.showBonus(bonusId);
-                        else this.showtimeWarning(timer.toString());
-                    }
-                    else {
-                        this.showStarWarning(FlipPlusGame.levelsManager.getStarsCount(), bonusData[bonusId].cost);
-                    }
-                });
-
-                this.pages[p].addChild(bonusBt);
-                this.bonusItems.push(bonusBt);
-
-            }
-        }
-
-        //Callback to the project item click
-        private projectItemClick(e: PIXI.interaction.InteractionEvent) {
-
-            //cancel click in case of drag
-            if (this.pagesSwipe.cancelClick) return;
-                
-            //get proper project target
-            var t: any = e.target;
-            var pv = <View.ProjectItem> t;
-            var p = pv.project;
-
-            if (p.UserData.unlocked)
-                FlipPlusGame.showProjectLevelsMenu(p, { rebuild: true });
-
-            else {
-                var stars = FlipPlusGame.levelsManager.getStarsCount();
-                if (stars < p.cost)
-                    this.showStarWarning(stars, p.cost);
-            }
-        }
-
-        //Show warning for no using stars
-        private showStarWarning(stars: number, cost: number) {
-            this.popup.showtext(StringResources.pr_notStarsTitle, StringResources.pr_notStarsText.split("#")[0] + stars.toString() + StringResources.pr_notStarsText.split("#")[1] + cost.toString() + StringResources.pr_notStarsText.split("#")[2], 10000);
-        }
-
-        //show there is no time for it
-        private showtimeWarning(time: string) {
-            this.popup.showtext(StringResources.pr_notTimeText.split("#")[0], StringResources.pr_notTimeText.split("#")[1] + time + StringResources.pr_notTimeText.split("#")[2], 10000);
-        }
-
-        //update all projects preview in the menu page
-        private updateProjects() {
-            for (var i = 0; i < this.projectsItems.length; i++)
-                this.projectsItems[i].updateProjectInfo();
-        }
-
-        //update all projects preview in the menu page
-        private updateBonuses() {
-            for (var i = 0; i < 3; i++)
-                this.bonusItems[i].updateProjectInfo();
-        }
-
-        //=====================================================
-
-        //create paginations buttons
-        private createPaginationButtons(pagesContainer: PIXI.Container) {
-
-            var bg = gameui.AssetsManager.getBitmap("projects/projectFooter")
-            bg.y = -246;
-            this.footer.addChild(bg);
-
-            //create leftButton
-            var lb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoPreviousPage() }, "buttonOut");
-            lb.y = -100;
-            lb.x = defaultWidth * 0.1;
-            this.footer.addChild(lb);
-
-            //create right button
-            var rb: gameui.Button = new gameui.ImageButton("projects/btpage", () => { this.pagesSwipe.gotoNextPage() });
-            rb.y = -100;
-            rb.x = defaultWidth * 0.9;
-            rb.scale.x = -1;
-            this.footer.addChild(rb);
-
-            //create pagination indicator
-            var indicatorContainer: PIXI.Container = new PIXI.Container();
-            indicatorContainer.mouseEnabled = false;
-            indicatorContainer.x = 500;
-            indicatorContainer.y = -130;
-            for (var i = 0; i < 3; i++) {
-
-                var off = gameui.AssetsManager.getBitmap("projects/pageoff")
-                off.x = i * 200;
-                indicatorContainer.addChild(off);
-
-                var on = gameui.AssetsManager.getBitmap("projects/pageon")
-                on.x = off.x;
-                on.visible = false;
-                on.name = i.toString();
-                indicatorContainer.addChild(on);
-            }
-
-            this.pagesSwipe.onPageChange = (pageId) => {
-                for (var i = 0; i < 3; i++)
-                    indicatorContainer.getChildByName(i.toString()).visible = false;
-                indicatorContainer.getChildByName(pageId.toString()).visible = true;
-            }
-
-            this.footer.addChild(indicatorContainer);
-
-            //goto defaul page
-            this.pagesSwipe.gotoPage(0);
-        }
-
-        //=====================================================
-
-        //executes when activate the screen
-        public activate() {
-            super.activate();
-            
-            // play music
-            gameui.AudiosManager.playMusic("Music Dot Robot");
-
-
-            this.updateProjects();
-            this.updateStatistcs();
-            this.updateBonuses();
-
-            this.starsIndicator.updateStarsAmount(FlipPlusGame.levelsManager.getStarsCount());
-        }
-
-        //back button
-        public back() {
-            FlipPlus.FlipPlusGame.showMainScreen();
-        }
-    }
-}*/ 
 var FlipPlus;
 (function (FlipPlus) {
     var Menu;
@@ -5535,16 +5261,23 @@ var FlipPlus;
             var LevelGrid = (function (_super) {
                 __extends(LevelGrid, _super);
                 //Constructor
-                function LevelGrid(chapter) {
+                function LevelGrid(project) {
                     _super.call(this, 5, 2, 1190, 476);
                     this.challangesMap = new Object();
                     this.thumbs = [];
-                    this.currentChapter = chapter;
-                    this.createChapterSet(chapter);
+                    this.project = project;
+                    this.updateGrid(project);
                 }
                 //create a chapter menu, containing a lot o challanges
-                LevelGrid.prototype.createChapterSet = function (chapter) {
+                LevelGrid.prototype.createLevelsThumbs = function (chapter) {
                     var _this = this;
+                    // only adds once
+                    if (this.gridCreated)
+                        return;
+                    this.gridCreated = true;
+                    // removes infoText
+                    if (this.infoText)
+                        this.removeChild(this.infoText);
                     //creates a icon tiles
                     for (var i = 0; i < chapter.levels.length; i++) {
                         //get current chapter
@@ -5574,11 +5307,40 @@ var FlipPlus;
                         this.addObject(levelThumb);
                     }
                 };
+                LevelGrid.prototype.updateGrid = function (project) {
+                    if ((!FlipPlus.FlipPlusGame.isFree() && project.free) || (FlipPlus.FlipPlusGame.isFree())) {
+                        if (project.UserData.unlocked)
+                            this.createLevelsThumbs(project);
+                        else
+                            this.showLockedText();
+                    }
+                    else
+                        this.showNotFreeText();
+                };
+                // Add Locked Text
+                LevelGrid.prototype.showLockedText = function () {
+                    if (!this.infoText)
+                        this.infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontWhite");
+                    this.infoText.pivot.x = this.infoText.getLocalBounds().width / 2;
+                    this.infoText.y = 210;
+                    this.infoText.x = (defaultWidth - this.x * 2) / 2;
+                    this.addChild(this.infoText);
+                };
+                // Add "not free" text
+                LevelGrid.prototype.showNotFreeText = function () {
+                    if (!this.infoText)
+                        this.infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontWhite");
+                    this.infoText.pivot.x = this.infoText.getLocalBounds().width / 2;
+                    this.infoText.y = 210;
+                    this.infoText.x = (defaultWidth - this.x * 2) / 2;
+                    this.addChild(this.infoText);
+                };
                 LevelGrid.prototype.updateUserData = function () {
+                    this.updateGrid(this.project);
                     //get User data from storage
                     for (var i = 0; i < this.thumbs.length; i++) {
                         var level = this.challangesMap[this.thumbs[i].name];
-                        var chapter = this.currentChapter;
+                        var chapter = this.project;
                         this.thumbs[i].updateUserData();
                     }
                 };
@@ -6902,8 +6664,7 @@ var FlipPlus;
 /// <reference path="src/Menu/WorkshopMenu.ts" />
 /// <reference path="src/Menu/Loading.ts" />
 /// <reference path="src/Menu/MainMenu.ts" />
-/// <reference path="src/Menu/OptionsMenu.ts" />
-/// <reference path="src/Menu/ProjectsMenu.ts" /> 
+/// <reference path="src/Menu/OptionsMenu.ts" /> 
 /// <reference path="src/Menu/View/Terminal.ts" />
 /// <reference path="src/Menu/View/ScreenMenu.ts" />
 /// <reference path="src/Menu/View/LevelGrid.ts" />
@@ -8488,6 +8249,7 @@ var FlipPlus;
             // Class
             var ProjectWorkshopView = (function (_super) {
                 __extends(ProjectWorkshopView, _super);
+                //# region Initialization 
                 // Constructor
                 function ProjectWorkshopView(project) {
                     var _this = this;
@@ -8498,9 +8260,10 @@ var FlipPlus;
                     this.project = project;
                     this.name = project.name;
                     this.onShowPage = function () {
-                        ////add levels information
+                        // add levels information
                         _this.addObjects(project);
-                        ////activate layer
+                        _this.activate();
+                        // activate layer
                         if (_this.levelGrid)
                             _this.levelGrid.updateUserData();
                         _this.redim(_this.headerY, _this.footerY);
@@ -8509,20 +8272,21 @@ var FlipPlus;
                         _this.removeChildren();
                     };
                 }
-                //--------------------- Initialization ---------------------
+                // Adds Object to scene
                 ProjectWorkshopView.prototype.addObjects = function (project) {
                     if (this.objectsAdded)
                         return;
                     this.objectsAdded = true;
-                    //add Project levels
+                    // add Project levels
                     this.addProjectMachine(project);
-                    //add project Name
+                    // add project Name
                     this.addStatus(project);
-                    //add robot preview
+                    // add robot preview
                     this.addRobotPreview(project);
                 };
                 //create projetview control
                 ProjectWorkshopView.prototype.addRobotPreview = function (project) {
+                    // only show unlocked projects
                     this.robotPreview = new View.RobotPreview(project);
                     this.robotPreview.x = defaultWidth / 2;
                     this.robotPreview.y = 1100;
@@ -8534,66 +8298,63 @@ var FlipPlus;
                     this.statusArea = new PIXI.Container();
                     this.statusArea.pivot.x = this.statusArea.x = defaultWidth / 2;
                     var bg = gameui.AssetsManager.getBitmap("partshud");
-                    bg.y = 0; //150;
+                    bg.y = 0;
                     bg.x = defaultWidth / 2;
                     bg.scale.x = 2;
                     bg.pivot.x = bg.getLocalBounds().width / 2;
                     this.statusArea.addChild(bg);
-                    var l = gameui.AssetsManager.getBitmapText(project.nickName.toUpperCase(), "fontWhite");
-                    l.y = 20; //250;
-                    l.pivot.x = l.getLocalBounds().width / 2;
-                    l.x = defaultWidth / 2;
-                    this.statusArea.addChild(l);
+                    this.titleText = gameui.AssetsManager.getBitmapText("?", "fontWhite");
+                    this.titleText.y = 20;
+                    this.titleText.x = defaultWidth / 2;
+                    this.statusArea.addChild(this.titleText);
+                    this.titleText.pivot.x = this.titleText.textWidth / 2;
                     this.addChild(this.statusArea);
                 };
                 //Adds level thumbs to the scene
                 ProjectWorkshopView.prototype.addProjectMachine = function (project) {
-                    var _this = this;
-                    var levelMachine = new PIXI.Container;
-                    this.addChild(levelMachine);
-                    this.levelsMachine = levelMachine;
+                    this.levelMachine = new PIXI.Container;
+                    this.addChild(this.levelMachine);
+                    this.levelsMachine = this.levelMachine;
                     // add Machine background
                     var baseFases = gameui.AssetsManager.getBitmap("workshop/basefases");
                     baseFases.y = -741;
-                    levelMachine.addChild(baseFases);
+                    this.levelMachine.addChild(baseFases);
                     // Add Stars
                     this.starsIndicator = new View.ProjectStarsIndicator(project);
                     this.starsIndicator.x = 1115;
                     this.starsIndicator.y = 1334 - 2048;
-                    levelMachine.addChild(this.starsIndicator);
-                    if ((!FlipPlus.FlipPlusGame.isFree() && project.free) || FlipPlus.FlipPlusGame.isFree()) {
-                        if (project.UserData.unlocked) {
-                            // Add Level Thumbs
-                            this.levelGrid = new Menu.View.LevelGrid(project);
-                            this.levelGrid.addEventListener("levelClick", function (e) {
-                                _this.emit("levelClick", { level: e.level, parameters: e.parameters });
-                            });
-                            this.levelGrid.x = 180;
-                            this.levelGrid.y = 1538 - 2048;
-                            levelMachine.addChild(this.levelGrid);
-                        }
-                        else {
-                            var text = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontBlue");
-                            text.pivot.x = text.getLocalBounds().width / 2;
-                            text.y = 1738 - 2048;
-                            text.x = defaultWidth / 2;
-                            levelMachine.addChild(text);
-                        }
-                    }
-                    else {
-                        //TODO mudar o nome disso.
-                        var text = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontBlue");
-                        text.pivot.x = text.getLocalBounds().width / 2;
-                        text.y = 1738 - 2048;
-                        text.x = defaultWidth / 2;
-                        levelMachine.addChild(text);
-                    }
+                    this.levelMachine.addChild(this.starsIndicator);
+                    // add grid
+                    this.addLevelGrid();
                 };
-                //-Animation------------------------------------------------------------
+                // Add Level Thumbs
+                ProjectWorkshopView.prototype.addLevelGrid = function () {
+                    var _this = this;
+                    this.levelGrid = new Menu.View.LevelGrid(this.project);
+                    this.levelGrid.addEventListener("levelClick", function (e) {
+                        _this.emit("levelClick", { level: e.level, parameters: e.parameters });
+                    });
+                    this.levelGrid.x = 180;
+                    this.levelGrid.y = 1538 - 2048;
+                    this.levelMachine.addChild(this.levelGrid);
+                };
+                // update botTitle 
+                ProjectWorkshopView.prototype.updateBotTitle = function () {
+                    if (!this.titleText)
+                        return;
+                    if (this.project.UserData.unlocked)
+                        this.titleText.text = this.project.nickName.toUpperCase();
+                    else
+                        this.titleText.text = "?";
+                    this.titleText.pivot.x = this.titleText.textWidth / 2;
+                };
+                // #end region
+                // #region Animation 
                 ProjectWorkshopView.prototype.setRelativePos = function (pos) {
                     this.robotPreview.x = this.statusArea.x = -pos * 0.35 + defaultWidth / 2;
                 };
-                //--Behaviour-----------------------------------------------------------
+                // #end region
+                // #region Behaviour 
                 //open a level
                 ProjectWorkshopView.prototype.openLevel = function (event) {
                     var level = event.target['level'];
@@ -8615,6 +8376,7 @@ var FlipPlus;
                     var direction = -1;
                     var freeze = 0;
                     var firstTime = false;
+                    var silent = false;
                     if (parameters) {
                         if (parameters.complete)
                             complete = parameters.complete;
@@ -8624,13 +8386,16 @@ var FlipPlus;
                             freeze = parameters.freeze;
                         if (parameters.firstTime)
                             firstTime = parameters.firstTime;
+                        if (parameters.silent)
+                            silent = parameters.silent;
                     }
                     if (this.levelGrid)
                         this.levelGrid.updateUserData();
                     if (this.starsIndicator)
-                        this.starsIndicator.updateProjectInfo();
+                        this.starsIndicator.updateProjectInfo(!silent);
                     if (this.robotPreview)
                         this.robotPreview.update(complete, firstTime);
+                    this.updateBotTitle();
                 };
                 return ProjectWorkshopView;
             })(View.Page);
@@ -8649,8 +8414,8 @@ var FlipPlus;
                 //Constructor
                 function RobotPreview(project) {
                     _super.call(this);
+                    this.botCreated = false;
                     this.project = project;
-                    this.createPercentualFill(project);
                     this.update();
                     this.createHitArea();
                 }
@@ -8660,6 +8425,8 @@ var FlipPlus;
                 };
                 //create graphics
                 RobotPreview.prototype.createPercentualFill = function (project) {
+                    if (this.botCreated)
+                        return;
                     var size = 1000;
                     this.fill = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill");
                     this.stroke = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke");
@@ -8676,6 +8443,7 @@ var FlipPlus;
                     this.percentMask.y = -25;
                     this.addChild(this.percentMask);
                     this.fill.mask = this.percentMask;
+                    this.botCreated = true;
                 };
                 // shows up the completed bot
                 RobotPreview.prototype.createCompletedBot = function () {
@@ -8695,20 +8463,23 @@ var FlipPlus;
                 RobotPreview.prototype.update = function (animate, firstTime) {
                     if (animate === void 0) { animate = false; }
                     if (firstTime === void 0) { firstTime = false; }
-                    try {
-                        if (animate)
-                            this.animateBox();
-                        if (firstTime)
-                            this.animateBotFillTo();
-                        if (!firstTime || !animate) {
-                            if (this.project.UserData.complete)
-                                this.createCompletedBot();
-                            else
-                                this.updateFill();
+                    if (this.project.UserData.unlocked) {
+                        this.createPercentualFill(this.project);
+                        try {
+                            if (animate)
+                                this.animateBox();
+                            if (firstTime)
+                                this.animateBotFillTo();
+                            if (!firstTime || !animate) {
+                                if (this.project.UserData.complete)
+                                    this.createCompletedBot();
+                                else
+                                    this.updateFill();
+                            }
                         }
+                        catch (e) { }
+                        ;
                     }
-                    catch (e) { }
-                    ;
                 };
                 // update bot fill based on user data
                 RobotPreview.prototype.updateFill = function () {

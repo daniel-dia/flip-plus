@@ -1466,7 +1466,6 @@
     <TypeScriptCompile Include="src\Menu\Loading.ts" />
     <TypeScriptCompile Include="src\Menu\MainMenu.ts" />
     <TypeScriptCompile Include="src\Menu\OptionsMenu.ts" />
-    <TypeScriptCompile Include="src\Menu\ProjectsMenu.ts" />
     <TypeScriptCompile Include="src\Menu\ShopMenu.ts" />
     <TypeScriptCompile Include="src\Menu\SlideShow.ts" />
     <TypeScriptCompile Include="src\Menu\SpecialOfferMenu.ts" />

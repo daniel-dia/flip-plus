@@ -47,8 +47,7 @@
 /// <reference path="src/Menu/WorkshopMenu.ts" />
 /// <reference path="src/Menu/Loading.ts" />
 /// <reference path="src/Menu/MainMenu.ts" />
-/// <reference path="src/Menu/OptionsMenu.ts" />
-/// <reference path="src/Menu/ProjectsMenu.ts" /> 
+/// <reference path="src/Menu/OptionsMenu.ts" /> 
 
 /// <reference path="src/Menu/View/Terminal.ts" />
 /// <reference path="src/Menu/View/ScreenMenu.ts" />

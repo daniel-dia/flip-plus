@@ -14,6 +14,10 @@ module FlipPlus.Menu {
 
         private factorySound: createjs.SoundInstance;
         
+        //inertia fx
+        private offset = 0;
+        private lastx = 0;
+        
         // projects manager
         private levelsManager: Levels.LevelsManager;
 
@@ -74,10 +78,6 @@ module FlipPlus.Menu {
             this.header.addChild(this.menu);
 
         }
-
-        //inertia fx
-        private offset = 0;
-        private lastx = 0;
 
         //adds all projects in swipe view
         protected addProjects(projects) {
@@ -186,7 +186,7 @@ module FlipPlus.Menu {
             this.factorySound = gameui.AudiosManager.playSound("Factory Ambience",true,0,0,0,0.4);
             
             //update enabled Projects
-            this.addProjects(this.levelsManager.getUnlockedProjects());
+            this.addProjects(this.levelsManager.getAllProjects());
 
             var page = FlipPlusGame.levelsManager.getHighestProject();
             var current = this.levelsManager.getCurrentProject();
@@ -204,7 +204,9 @@ module FlipPlus.Menu {
             this.pagesSwipe.gotoPage(page);
 
             //activate current project
-            this.projectViews[page].activate(parameters);
+            for (var p in this.projectViews)
+                if (p == page) this.projectViews[p].activate(parameters);
+                else           this.projectViews[p].activate();
 
         }
     }

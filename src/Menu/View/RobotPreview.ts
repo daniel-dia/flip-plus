@@ -8,12 +8,15 @@
         private fill: PIXI.Sprite;
         private stroke: PIXI.Sprite;
         private completeBot: PIXI.DisplayObject;
+        private botCreated: boolean;
 
         //Constructor
         constructor(project: FlipPlus.Levels.BotLevelsSet) {
+            
             super();
+
+            this.botCreated = false;
             this.project = project;
-            this.createPercentualFill(project);
             this.update();
             this.createHitArea();
         }
@@ -25,29 +28,31 @@
         }
 
         //create graphics
-        private createPercentualFill(project: FlipPlus.Levels.BotLevelsSet){
-          
-                var size: number = 1000;
-                this.fill =   gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"  );
-                this.stroke = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke");
+        private createPercentualFill(project: FlipPlus.Levels.BotLevelsSet) {
+            if (this.botCreated) return;
+
+            var size: number = 1000;
+            this.fill =   gameui.AssetsManager.getBitmap("workshop/" + project.name + "_fill"  );
+            this.stroke = gameui.AssetsManager.getBitmap("workshop/" + project.name + "_stroke");
                 
-                this.fill.pivot.x = this.stroke.pivot.x = this.fill.width / 2;
-                this.fill.pivot.y = this.stroke.pivot.y = this.fill.height;
+            this.fill.pivot.x = this.stroke.pivot.x = this.fill.width / 2;
+            this.fill.pivot.y = this.stroke.pivot.y = this.fill.height;
 
-                this.fill.pivot.x - 25;
-                this.fill.pivot.y - 25;
+            this.fill.pivot.x - 25;
+            this.fill.pivot.y - 25;
 
-                this.addChild(this.fill);
-                this.addChild(this.stroke); 
+            this.addChild(this.fill);
+            this.addChild(this.stroke); 
             
-                //mask
-                this.percentMask = new PIXI.Graphics();
-                this.percentMask.beginFill(0xFFFFFF).drawRect(-size / 2, 0, size, -this.fill.getLocalBounds().height).endFill();
-                this.percentMask.scale.y = 0;
-                this.percentMask.y = -25;
-                this.addChild(this.percentMask);
-                this.fill.mask = this.percentMask;
+            //mask
+            this.percentMask = new PIXI.Graphics();
+            this.percentMask.beginFill(0xFFFFFF).drawRect(-size / 2, 0, size, -this.fill.getLocalBounds().height).endFill();
+            this.percentMask.scale.y = 0;
+            this.percentMask.y = -25;
+            this.addChild(this.percentMask);
+            this.fill.mask = this.percentMask;
                 
+            this.botCreated = true;
         }
 
         // shows up the completed bot
@@ -68,20 +73,23 @@
 
         //update bot preview show
         public update(animate: boolean = false, firstTime = false) {
-            
-            try {
-                if (animate) this.animateBox();
-                
-                if (firstTime) this.animateBotFillTo();
-                
-                if (!firstTime || !animate) {
-                    if (this.project.UserData.complete)
-                        this.createCompletedBot()
-                    else
-                        this.updateFill();
-                }
 
-            } catch (e) { };
+            if (this.project.UserData.unlocked) {
+                this.createPercentualFill(this.project);
+
+                try {
+                    if (animate) this.animateBox();
+                    if (firstTime) this.animateBotFillTo();
+
+                    if (!firstTime || !animate) {
+                        if (this.project.UserData.complete)
+                            this.createCompletedBot()
+                        else
+                            this.updateFill();
+                    }
+
+                } catch (e) { };
+            }
         }
         
         // update bot fill based on user data

@@ -3,20 +3,31 @@ module FlipPlus.Menu.View {
     export class LevelGrid extends gameui.Grid {
 
         private challangesMap = new Object();
-        private currentChapter: Levels.BotLevelsSet;
+        private project: Levels.BotLevelsSet;
         private thumbs: LevelThumb[];
+        private gridCreated: boolean;
+        private infoText: PIXI.extras.BitmapText;
 
         //Constructor
-        constructor(chapter: FlipPlus.Levels.BotLevelsSet) {
-            super(5,2,1190,476);
+        constructor(project: FlipPlus.Levels.BotLevelsSet) {
+            super(5, 2, 1190, 476);
+            
             this.thumbs = [];
-            this.currentChapter = chapter;
-            this.createChapterSet(chapter);
+            this.project = project;
+            
+            this.updateGrid(project);
         }
 
         //create a chapter menu, containing a lot o challanges
-        private createChapterSet(chapter: FlipPlus.Levels.BotLevelsSet):void {
+        private createLevelsThumbs(chapter: FlipPlus.Levels.BotLevelsSet):void {
 
+            // only adds once
+            if (this.gridCreated) return;
+            this.gridCreated = true;
+
+            // removes infoText
+            if (this.infoText) this.removeChild(this.infoText);
+           
             //creates a icon tiles
             for (var i = 0; i < chapter.levels.length; i++) {
 
@@ -54,18 +65,50 @@ module FlipPlus.Menu.View {
                 //Add object on grid
                 this.addObject(levelThumb);
 
-                
             }
         }
 
+        private updateGrid(project: Levels.BotLevelsSet) {
+
+            if ((!FlipPlusGame.isFree() && project.free) || (FlipPlusGame.isFree())) {
+                if (project.UserData.unlocked)
+                    this.createLevelsThumbs(project);
+                else
+                    this.showLockedText();
+            } else
+                this.showNotFreeText();
+        }
+
+        // Add Locked Text
+        private showLockedText() {
+            if (!this.infoText) this.infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontWhite");
+            this.infoText.pivot.x = this.infoText.getLocalBounds().width / 2;
+            this.infoText.y = 210;
+            this.infoText.x = (defaultWidth-this.x*2 )/ 2;
+            this.addChild(this.infoText);
+        }
+
+        // Add "not free" text
+        private showNotFreeText() {
+            if (!this.infoText) this.infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontWhite");
+            this.infoText.pivot.x = this.infoText.getLocalBounds().width / 2;
+            this.infoText.y = 210;
+            this.infoText.x = (defaultWidth - this.x * 2) / 2;
+            this.addChild(this.infoText);
+        }
+        
         public updateUserData() {
+
+            this.updateGrid(this.project);
+
             //get User data from storage
             for (var i = 0; i < this.thumbs.length; i++) {
                 
                 var level:Levels.Level = this.challangesMap[this.thumbs[i].name];
-                var chapter: Levels.BotLevelsSet = this.currentChapter;
+                var chapter: Levels.BotLevelsSet = this.project;
                  
                 this.thumbs[i].updateUserData();
+
             }
         }
     }

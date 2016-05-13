@@ -14,7 +14,12 @@ module FlipPlus.Menu.View {
         private objectsAdded: boolean = false;
         private headerY: number = 0;
         private footerY: number = 0;
+        private titleText: PIXI.extras.BitmapText;
+        private levelMachine: PIXI.Container;
 
+        
+        //# region Initialization 
+        
         // Constructor
         constructor(project: Levels.BotLevelsSet) {
             super();
@@ -23,10 +28,11 @@ module FlipPlus.Menu.View {
 
             this.onShowPage = () => {
                 
-                ////add levels information
+                // add levels information
                 this.addObjects(project);
-                
-                ////activate layer
+                this.activate();
+
+                // activate layer
                 if (this.levelGrid) this.levelGrid.updateUserData();
                  
                 this.redim(this.headerY, this.footerY);
@@ -36,27 +42,27 @@ module FlipPlus.Menu.View {
                 this.removeChildren();
             }
         }
-
-        //--------------------- Initialization ---------------------
  
+        // Adds Object to scene
         private addObjects(project: Levels.BotLevelsSet) {
 
             if (this.objectsAdded) return;
-
             this.objectsAdded = true;
 
-            //add Project levels
+            // add Project levels
             this.addProjectMachine(project);
 
-            //add project Name
+            // add project Name
             this.addStatus(project);
 
-            //add robot preview
+            // add robot preview
             this.addRobotPreview(project);
         }
 
         //create projetview control
         private addRobotPreview(project: Levels.BotLevelsSet) {
+
+            // only show unlocked projects
             this.robotPreview = new View.RobotPreview(project);
             this.robotPreview.x = defaultWidth / 2;
             this.robotPreview.y = 1100;
@@ -69,17 +75,17 @@ module FlipPlus.Menu.View {
             this.statusArea = new PIXI.Container();
             this.statusArea.pivot.x = this.statusArea.x = defaultWidth / 2;
             var bg = gameui.AssetsManager.getBitmap("partshud");
-            bg.y = 0//150;
+            bg.y = 0;
             bg.x = defaultWidth / 2;
             bg.scale.x = 2;
             bg.pivot.x = bg.getLocalBounds().width / 2;
             this.statusArea.addChild(bg);
-
-            var l: PIXI.extras.BitmapText = gameui.AssetsManager.getBitmapText(project.nickName.toUpperCase(), "fontWhite");
-            l.y = 20;//250;
-            l.pivot.x = l.getLocalBounds().width / 2;
-            l.x = defaultWidth / 2;
-            this.statusArea.addChild(l);
+                       
+            this.titleText  = gameui.AssetsManager.getBitmapText("?", "fontWhite");
+            this.titleText.y = 20;
+            this.titleText.x = defaultWidth / 2;
+            this.statusArea.addChild(this.titleText);
+            this.titleText.pivot.x = this.titleText.textWidth / 2; 
 
             this.addChild(this.statusArea);
         }
@@ -87,64 +93,65 @@ module FlipPlus.Menu.View {
         //Adds level thumbs to the scene
         private addProjectMachine(project: Levels.BotLevelsSet) {
 
-            var levelMachine = new PIXI.Container;
+            this.levelMachine = new PIXI.Container;
 
-            this.addChild(levelMachine);
-            this.levelsMachine = levelMachine;
+            this.addChild(this.levelMachine);
+            this.levelsMachine = this.levelMachine;
 
             // add Machine background
             var baseFases = gameui.AssetsManager.getBitmap("workshop/basefases")
-            baseFases.y = - 741;
-            levelMachine.addChild(baseFases);
+            baseFases.y = -741;
+            this.levelMachine.addChild(baseFases);
              
             // Add Stars
             this.starsIndicator = new View.ProjectStarsIndicator(project);
             this.starsIndicator.x = 1115;
             this.starsIndicator.y = 1334 - 2048;
-            levelMachine.addChild(this.starsIndicator);
+            this.levelMachine.addChild(this.starsIndicator);
 
-            if ((!FlipPlusGame.isFree() && project.free) || FlipPlusGame.isFree()) {
-
-                if (project.UserData.unlocked) {
-                    // Add Level Thumbs
-                    this.levelGrid = new Menu.View.LevelGrid(project);
-                    this.levelGrid.addEventListener("levelClick", (e: any) => {
-                        this.emit("levelClick", { level: e.level, parameters: e.parameters });
-                    });
-                    this.levelGrid.x = 180;
-                    this.levelGrid.y = 1538 - 2048;
-                    levelMachine.addChild(this.levelGrid);
-
-                }
-                else {
-                    var text = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontBlue");
-                    text.pivot.x = text.getLocalBounds().width / 2;
-                    text.y = 1738 - 2048;
-                    text.x = defaultWidth / 2;
-                    levelMachine.addChild(text);
-                }
-            } else {
-                //TODO mudar o nome disso.
-                var text = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontBlue");
-                text.pivot.x = text.getLocalBounds().width / 2;
-                text.y = 1738 - 2048;
-                text.x = defaultWidth / 2;
-                levelMachine.addChild(text);
-            }
-
-
-
+            // add grid
+            this.addLevelGrid();
         }
 
-        //-Animation------------------------------------------------------------
+        // Add Level Thumbs
+        private addLevelGrid() {
+            this.levelGrid = new Menu.View.LevelGrid(this.project);
 
+            this.levelGrid.addEventListener("levelClick", (e: any) => {
+                this.emit("levelClick", { level: e.level, parameters: e.parameters });
+            });
+
+            this.levelGrid.x = 180;
+            this.levelGrid.y = 1538 - 2048;
+            this.levelMachine.addChild(this.levelGrid);
+        }
+
+        // update botTitle 
+        private updateBotTitle() {
+            if (!this.titleText) return;
+
+            if (this.project.UserData.unlocked)
+                this.titleText.text = this.project.nickName.toUpperCase();
+            else
+                this.titleText.text = "?";
+
+            this.titleText.pivot.x = this.titleText.textWidth / 2; 
+        }
+
+        // #end region
+
+        // #region Animation 
+        
         public setRelativePos(pos: number) {
             this.robotPreview.x = this.statusArea.x = -pos * 0.35 + defaultWidth / 2;
         }
 
-        //--Behaviour-----------------------------------------------------------
+        // #end region
 
+        // #region Behaviour 
+       
         //open a level
+
         private openLevel(event: PIXI.interaction.InteractionEvent) {
 
             var level: Levels.Level = <Levels.Level>event.target['level'];
@@ -169,17 +176,23 @@ module FlipPlus.Menu.View {
             var direction = -1;
             var freeze = 0;
             var firstTime = false;
+            var silent = false;
 
             if (parameters) {
                 if (parameters.complete) complete = parameters.complete;
                 if (parameters.direction) direction = parameters.direction;
                 if (parameters.freeze) freeze = parameters.freeze;
                 if (parameters.firstTime) firstTime = parameters.firstTime;
+                if (parameters.silent) silent = parameters.silent;
             }
 
-            if (this.levelGrid)      this.levelGrid.updateUserData();
-            if (this.starsIndicator) this.starsIndicator.updateProjectInfo();
-            if (this.robotPreview)   this.robotPreview.update(complete,firstTime);
+            if (this.levelGrid)         this.levelGrid.updateUserData();
+            if (this.starsIndicator)    this.starsIndicator.updateProjectInfo(!silent);
+            if (this.robotPreview)      this.robotPreview.update(complete, firstTime);
+
+            this.updateBotTitle();
         }
+
+        // #end region
     }
 }
