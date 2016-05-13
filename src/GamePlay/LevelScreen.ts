@@ -42,6 +42,13 @@ module FlipPlus.GamePlay {
 
             super();
 
+            //window.onkeydown =  (e) => {
+            //    if (e.char == "s") {
+            //        this.win(0, 0);
+            //        window.onkeydown = null;
+            //    }
+            //};
+
             this.itemsFunctions = {};
             this.clicks = 0;
 
