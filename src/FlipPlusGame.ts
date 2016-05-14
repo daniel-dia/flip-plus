@@ -311,7 +311,7 @@ module FlipPlus {
             ///this.showProjectLevelsMenu(null, { complete: complete });
         }
 
-        public static showMainScreen(parameters:any) {
+        public static showMainScreen(parameters?:any) {
             if (this.mainScreen == null) this.mainScreen = new Menu.MainMenu();
             if (this.gameScreen.currentScreen == this.titleScreen || this.gameScreen.currentScreen == this.loadingScreen)
                 this.gameScreen.switchScreen(this.mainScreen, parameters, { type: "zoomIn", time: 500 });

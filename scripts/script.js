@@ -124,6 +124,7 @@ var gameui;
     })();
     gameui.AssetsManager = AssetsManager;
 })(gameui || (gameui = {}));
+win = false;
 //TODO remove universal variable defaultWidth and DefaultHeigth
 var gameui;
 (function (gameui) {
@@ -6954,7 +6955,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 0.91";
+var version = "v 0.9.6";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";

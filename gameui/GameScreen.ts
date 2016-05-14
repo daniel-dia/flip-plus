@@ -3,6 +3,7 @@ declare function setMobileScale(a: number);
 declare var assetscale: number;
 declare function requestAnimationFrame(callback: any): void;
 declare var win;
+win = false;
 //TODO remove universal variable defaultWidth and DefaultHeigth
 
 module gameui {
