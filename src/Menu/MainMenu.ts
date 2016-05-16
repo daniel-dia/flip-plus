@@ -13,7 +13,8 @@ module FlipPlus.Menu {
         private menu: View.ScreenMenu;
 
         private playBt: PIXI.DisplayObject;
-        
+        private logo: PIXI.DisplayObject;
+
         protected coinsIndicator: Menu.View.CoinsIndicator;
 
         constructor() {
@@ -23,7 +24,9 @@ module FlipPlus.Menu {
             bg.y = -339;
             bg.scale.y = 1.3310546875;
             this.content.addChild(bg);
-            
+
+            this.addLogo();
+
             this.addTerminal();
 
             this.addPlayButton();
@@ -32,8 +35,9 @@ module FlipPlus.Menu {
              
             this.addMenu();
             
-            this.onback = () => {this.back();};
             this.addCoinsIndicator();
+
+            this.onback = () => { this.back(); };
         }
 
         private addCoinsIndicator() {
@@ -42,7 +46,7 @@ module FlipPlus.Menu {
                 FlipPlusGame.showShopMenu(this);
             });
 
-            this.header.addChild(this.coinsIndicator);
+            //this.header.addChild(this.coinsIndicator);
             this.coinsIndicator.x = defaultWidth / 2;
             this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
         }
@@ -50,6 +54,11 @@ module FlipPlus.Menu {
         public activate(parameters) {
             super.activate();
             
+            // animate logo
+            var x = 370;
+            var y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
+            createjs.Tween.get(this.logo).to({ y: -230, rotation: -0.5 }).to({ y: y, x: x, rotation: 0 }, 1500, createjs.Ease.bounceOut);
+
             // play BgSound
             gameui.AudiosManager.playMusic("Music Dot Robot");
             
@@ -87,6 +96,14 @@ module FlipPlus.Menu {
             this.myBots.clear();
         }
       
+        private addLogo() {
+            this.logo = new PIXI.extras.TilingSprite(gameui.AssetsManager.getLoadedImage("logo"), 795, 260);
+            this.header.addChild(this.logo);
+            
+            this.logo.x = 370;
+            this.logo.y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
+        }
+    
         private addMyBots() {
             this.myBots = new Robots.MyBots(FlipPlusGame.levelsManager);
             this.content.addChild(this.myBots);

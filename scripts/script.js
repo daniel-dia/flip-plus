@@ -4783,12 +4783,13 @@ var FlipPlus;
                 bg.y = -339;
                 bg.scale.y = 1.3310546875;
                 this.content.addChild(bg);
+                this.addLogo();
                 this.addTerminal();
                 this.addPlayButton();
                 this.addMyBots();
                 this.addMenu();
-                this.onback = function () { _this.back(); };
                 this.addCoinsIndicator();
+                this.onback = function () { _this.back(); };
             }
             MainMenu.prototype.addCoinsIndicator = function () {
                 var _this = this;
@@ -4796,13 +4797,17 @@ var FlipPlus;
                 this.coinsIndicator = new Menu.View.CoinsIndicator(function () {
                     FlipPlus.FlipPlusGame.showShopMenu(_this);
                 });
-                this.header.addChild(this.coinsIndicator);
+                //this.header.addChild(this.coinsIndicator);
                 this.coinsIndicator.x = defaultWidth / 2;
                 this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
             };
             MainMenu.prototype.activate = function (parameters) {
                 var _this = this;
                 _super.prototype.activate.call(this);
+                // animate logo
+                var x = 370;
+                var y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
+                createjs.Tween.get(this.logo).to({ y: -230, rotation: -0.5 }).to({ y: y, x: x, rotation: 0 }, 1500, createjs.Ease.bounceOut);
                 // play BgSound
                 gameui.AudiosManager.playMusic("Music Dot Robot");
                 // Verifies if it is the first time playing
@@ -4830,6 +4835,12 @@ var FlipPlus;
                 _super.prototype.desactivate.call(this, parameters);
                 this.terminal.desactivate();
                 this.myBots.clear();
+            };
+            MainMenu.prototype.addLogo = function () {
+                this.logo = new PIXI.extras.TilingSprite(gameui.AssetsManager.getLoadedImage("logo"), 795, 260);
+                this.header.addChild(this.logo);
+                this.logo.x = 370;
+                this.logo.y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
             };
             MainMenu.prototype.addMyBots = function () {
                 var _this = this;
