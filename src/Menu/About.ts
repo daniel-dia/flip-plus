@@ -1,4 +1,6 @@
-﻿module FlipPlus.Menu {
+﻿declare var Windows;
+
+module FlipPlus.Menu {
     export class About extends GenericMenu {
 
         private currentY
@@ -15,7 +17,7 @@
             this.addSeparator();
             this.addText("Created by DIA Studio");
             this.addSeparator();
-            this.addFeedback()
+            //this.addFeedback()
 
             // add creators
             this.addSeparator();
@@ -60,8 +62,17 @@
 
         private addFeedback() {
             var bt = new gameui.BitmapTextButton(StringResources.menus.feedback, "fontBlue", null, () => { 
-                Cocoon.App.openURL("mailto://feedback@dia-studio.com");
+                var url = "mailto://feedback@diastudio.com.br";
+
+                if (typeof Windows !== 'undefined')
+                    Windows.System.Launcher.launchUriAsync(new Windows.Foundation.Uri(url))
+                else if (typeof Cocoon !== 'undefined')
+                    Cocoon.App.openURL(url);
+                else
+                    window.open(url);
+
             });
+
             this.content.addChild(bt);
             bt.y = this.currentY + bt.bitmapText.height /2;
             this.currentY += bt.bitmapText.height;
@@ -70,7 +81,15 @@
 
         private addLogo() {
             var bt = new gameui.ImageButton("Logo Small Round", () => {
-                Cocoon.App.openURL("http://www.diastudio.com.br");
+                var url = "http://www.diastudio.com.br";
+
+                if (typeof Windows !== 'undefined') 
+                    Windows.System.Launcher.launchUriAsync(new Windows.Foundation.Uri(url))
+                else if (typeof Cocoon !== 'undefined') 
+                    Cocoon.App.openURL(url);
+                else
+                    window.open(url);
+             
             });
             this.content.addChild(bt);
             bt.scaleY = bt.scaleX= 0.6;

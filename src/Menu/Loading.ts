@@ -22,7 +22,15 @@ module FlipPlus.Menu {
         constructor() {
             super();
             PIXI.RETINA_PREFIX = /@(.+)x.+((png)|(jpg)|(xml)|(fnt))$/;
-            assetscale = 1;
+
+            assetscale = 0.5;
+
+            // only HiRes if iOS
+            if (window["Cocoon"]) {
+                if(Cocoon.getPlatform() === 'ios')
+                    assetscale = 1;
+            }
+
             if (window.innerWidth <= 1070) assetscale = 0.5;
             if (window.innerWidth <= 384) assetscale = 0.25;
             if (levelCreatorMode) { assetscale = 1 }
