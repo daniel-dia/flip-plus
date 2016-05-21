@@ -51,16 +51,17 @@ var levelsData = [
                {
                    "text": "tut_1_1_text",
                    "title": "tut_1_1_title",
+                   "image": "tutorial",
                  
                },
                {
-                   "mousedown": 12
+                   "click": 12
                },
                {
                    "atEnd": true,
                    "text": "tut_1_2_text",
                    "title": "tut_1_2_title",
-                   "image": "tutorial",
+                 
 
                }
              ]
@@ -84,7 +85,7 @@ var levelsData = [
                    "title": "tut_2_1_title"
                },
                {
-                   "mousedown": 16
+                   "click": 16
                },
                {
                    "atEnd": true,
@@ -128,7 +129,7 @@ var levelsData = [
                    "title": "tut_3_1_title"
                },
                {
-                   "mousedown": 11
+                   "click": 11
                },
                {
                    "atEnd": true,
@@ -156,7 +157,7 @@ var levelsData = [
                    "parameter": 14
                },
                {
-                   "mousedown": 14
+                   "click": 14
                },
                {
                    "atEnd": true,

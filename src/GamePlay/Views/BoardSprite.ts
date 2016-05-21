@@ -10,7 +10,7 @@
         private callback: (col: number, row: number) => void;
 
         //indicator
-        private tutorialIndiatcor: PIXI.Sprite;
+        private tutorialIndicator: PIXI.extras.MovieClip;
 
         constructor(levelWidth: number, levelHeight: number, levelTheme: string,levelType?:string) {
             super();
@@ -29,11 +29,11 @@
             this.pivot.y = boardHeight / 2;
 
             //load click indicator
-            this.tutorialIndiatcor = gameui.AssetsManager.getMovieClip("touch")
-            this.tutorialIndiatcor.pivot.x = this.tutorialIndiatcor.pivot.y = -55;
-            this.tutorialIndiatcor.mouseEnabled = false;
-            this.addChild(this.tutorialIndiatcor);
-            this.tutorialIndiatcor.visible = false;
+            this.tutorialIndicator = gameui.AssetsManager.getMovieClip("touch")
+            this.tutorialIndicator.pivot.x = this.tutorialIndicator.pivot.y = -55;
+            this.tutorialIndicator.mouseEnabled = false;
+            this.addChild(this.tutorialIndicator);
+            this.tutorialIndicator.visible = false;
         }
 
         //initializes the effectss sprites
@@ -162,9 +162,13 @@
             var block = this.getBlockById(blockId);
             block.tutorialHighLight();
 
-            this.tutorialIndiatcor.visible = true;
-            this.tutorialIndiatcor.x = block.x;
-            this.tutorialIndiatcor.y = block.y;
+            this.tutorialIndicator.visible = true;
+            this.tutorialIndicator.x = block.x - 100;
+            this.tutorialIndicator.y = block.y - 100;
+            this.tutorialIndicator.interactive = false;
+            this.tutorialIndicator.interactiveChildren = false;
+            this.tutorialIndicator.hitArea = new PIXI.Rectangle(0, 0, 0, 0);
+            this.tutorialIndicator.play();
             
         }
         
@@ -177,7 +181,7 @@
             }
 
 
-            this.tutorialIndiatcor.visible = false;
+            this.tutorialIndicator.visible = false;
 
 
         }

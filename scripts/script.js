@@ -3166,11 +3166,11 @@ var FlipPlus;
                     this.pivot.x = boardWidth / 2;
                     this.pivot.y = boardHeight / 2;
                     //load click indicator
-                    this.tutorialIndiatcor = gameui.AssetsManager.getMovieClip("touch");
-                    this.tutorialIndiatcor.pivot.x = this.tutorialIndiatcor.pivot.y = -55;
-                    this.tutorialIndiatcor.mouseEnabled = false;
-                    this.addChild(this.tutorialIndiatcor);
-                    this.tutorialIndiatcor.visible = false;
+                    this.tutorialIndicator = gameui.AssetsManager.getMovieClip("touch");
+                    this.tutorialIndicator.pivot.x = this.tutorialIndicator.pivot.y = -55;
+                    this.tutorialIndicator.mouseEnabled = false;
+                    this.addChild(this.tutorialIndicator);
+                    this.tutorialIndicator.visible = false;
                 }
                 //initializes the effectss sprites
                 BoardSprite.prototype.initializeEffects = function () {
@@ -3274,9 +3274,13 @@ var FlipPlus;
                     }
                     var block = this.getBlockById(blockId);
                     block.tutorialHighLight();
-                    this.tutorialIndiatcor.visible = true;
-                    this.tutorialIndiatcor.x = block.x;
-                    this.tutorialIndiatcor.y = block.y;
+                    this.tutorialIndicator.visible = true;
+                    this.tutorialIndicator.x = block.x - 100;
+                    this.tutorialIndicator.y = block.y - 100;
+                    this.tutorialIndicator.interactive = false;
+                    this.tutorialIndicator.interactiveChildren = false;
+                    this.tutorialIndicator.hitArea = new PIXI.Rectangle(0, 0, 0, 0);
+                    this.tutorialIndicator.play();
                 };
                 BoardSprite.prototype.tutorialRelease = function () {
                     var blocksCount = this.boardWidth * this.boardHeight;
@@ -3284,7 +3288,7 @@ var FlipPlus;
                         var block = this.getBlockById(b);
                         block.tutorialUnlock();
                     }
-                    this.tutorialIndiatcor.visible = false;
+                    this.tutorialIndicator.visible = false;
                 };
                 BoardSprite.prototype.tutorialLockBlocks = function () {
                     var blocksCount = this.boardWidth * this.boardHeight;
@@ -4541,6 +4545,7 @@ var FlipPlus;
                 this.content.addChild(this.popup);
                 this.message = new Menu.View.Message();
                 this.content.addChild(this.message);
+                //this.addCoinsIndicator();
             };
             //Adds menu to screen;
             WorkshopMenu.prototype.addMenu = function () {
@@ -4563,6 +4568,16 @@ var FlipPlus;
                     projectView.addEventListener("levelClick", function (e) { _this.openLevel(e.level, e.parameters); });
                     this.projectsContainer.addChild(projectView);
                 }
+            };
+            WorkshopMenu.prototype.addCoinsIndicator = function () {
+                var _this = this;
+                // parts Indicator
+                this.coinsIndicator = new Menu.View.CoinsIndicator(function () {
+                    FlipPlus.FlipPlusGame.showShopMenu(_this);
+                });
+                this.header.addChild(this.coinsIndicator);
+                this.coinsIndicator.x = defaultWidth / 2;
+                this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
             };
             WorkshopMenu.prototype.disableInteraction = function () {
                 this.view.interactiveChildren = false;
@@ -4633,9 +4648,11 @@ var FlipPlus;
             };
             WorkshopMenu.prototype.activate = function (parameters) {
                 _super.prototype.activate.call(this);
+                // update coins
+                //this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
                 // play music
                 this.factorySound = gameui.AudiosManager.playSound("Factory Ambience", true, 0, 0, 0, 0.4);
-                //update enabled Projects
+                // update enabled Projects
                 this.addProjects(this.levelsManager.getAllProjects());
                 var page = FlipPlus.FlipPlusGame.levelsManager.getHighestProject();
                 var current = this.levelsManager.getCurrentProject();
@@ -6966,7 +6983,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 0.9.6";
+var version = "v 0.9.7";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
@@ -8325,17 +8342,16 @@ var FlipPlus;
                 ProjectWorkshopView.prototype.addStatus = function (project) {
                     this.statusArea = new PIXI.Container();
                     this.statusArea.pivot.x = this.statusArea.x = defaultWidth / 2;
-                    var bg = gameui.AssetsManager.getBitmap("partshud");
-                    bg.y = 0;
+                    var bg = gameui.AssetsManager.getBitmap("workshop/painelworkshop");
+                    bg.y = 10;
                     bg.x = defaultWidth / 2;
-                    bg.scale.x = 2;
                     bg.pivot.x = bg.getLocalBounds().width / 2;
                     this.statusArea.addChild(bg);
-                    this.titleText = gameui.AssetsManager.getBitmapText("?", "fontWhite");
-                    this.titleText.y = 20;
+                    this.titleText = gameui.AssetsManager.getBitmapText("", "fontWhite");
+                    this.titleText.y = bg.y + 50;
                     this.titleText.x = defaultWidth / 2;
                     this.statusArea.addChild(this.titleText);
-                    this.titleText.pivot.x = this.titleText.textWidth / 2;
+                    this.updateBotTitle();
                     this.addChild(this.statusArea);
                 };
                 //Adds level thumbs to the scene
@@ -8400,6 +8416,7 @@ var FlipPlus;
                         this.statusArea.y = headerY;
                 };
                 ProjectWorkshopView.prototype.activate = function (parameters) {
+                    var _this = this;
                     var complete = false;
                     var direction = -1;
                     var freeze = 0;
@@ -8423,7 +8440,9 @@ var FlipPlus;
                         this.starsIndicator.updateProjectInfo(!silent);
                     if (this.robotPreview)
                         this.robotPreview.update(complete, firstTime);
-                    this.updateBotTitle();
+                    setTimeout(function () {
+                        _this.updateBotTitle();
+                    }, 100);
                 };
                 return ProjectWorkshopView;
             })(View.Page);
@@ -8691,23 +8710,6 @@ var FlipPlus;
             })(gameui.UIItem);
             View.TextEffect = TextEffect;
         })(View = Menu.View || (Menu.View = {}));
-    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Menu;
-    (function (Menu) {
-        var WorkshopMenuAction = (function (_super) {
-            __extends(WorkshopMenuAction, _super);
-            function WorkshopMenuAction() {
-                _super.apply(this, arguments);
-            }
-            WorkshopMenuAction.prototype.back = function () {
-                FlipPlus.FlipPlusGame.showMainScreen();
-            };
-            return WorkshopMenuAction;
-        })(Menu.WorkshopMenu);
-        Menu.WorkshopMenuAction = WorkshopMenuAction;
     })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;

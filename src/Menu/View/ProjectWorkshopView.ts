@@ -70,23 +70,23 @@ module FlipPlus.Menu.View {
             this.addChild(this.robotPreview);
         }
 
+ 
+
         //Adds RobotName
         private addStatus(project: Levels.BotLevelsSet) {
             this.statusArea = new PIXI.Container();
             this.statusArea.pivot.x = this.statusArea.x = defaultWidth / 2;
-            var bg = gameui.AssetsManager.getBitmap("partshud");
-            bg.y = 0;
+            var bg = gameui.AssetsManager.getBitmap("workshop/painelworkshop");
+            bg.y = 10;
             bg.x = defaultWidth / 2;
-            bg.scale.x = 2;
             bg.pivot.x = bg.getLocalBounds().width / 2;
             this.statusArea.addChild(bg);
                        
-            this.titleText  = gameui.AssetsManager.getBitmapText("?", "fontWhite");
-            this.titleText.y = 20;
+            this.titleText  = gameui.AssetsManager.getBitmapText("", "fontWhite");
+            this.titleText.y = bg.y + 50;
             this.titleText.x = defaultWidth / 2;
-            this.statusArea.addChild(this.titleText);
-            this.titleText.pivot.x = this.titleText.textWidth / 2; 
-
+            this.statusArea.addChild(this.titleText); 
+            this.updateBotTitle();
             this.addChild(this.statusArea);
         }
 
@@ -190,7 +190,9 @@ module FlipPlus.Menu.View {
             if (this.starsIndicator)    this.starsIndicator.updateProjectInfo(!silent);
             if (this.robotPreview)      this.robotPreview.update(complete, firstTime);
 
-            this.updateBotTitle();
+            setTimeout(() => {
+                this.updateBotTitle();
+            }, 100);
         }
 
         // #end region

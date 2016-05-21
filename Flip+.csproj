@@ -1434,7 +1434,6 @@
     <TypeScriptCompile Include="src\Menu\About.ts" />
     <TypeScriptCompile Include="src\Menu\View\popupConfirm.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProductListItem.ts" />
-    <TypeScriptCompile Include="src\Menu\WorkshopMenuAction.ts" />
     <TypeScriptCompile Include="src\Projects\ActionLevelsManager.ts" />
     <TypeScriptCompile Include="src\Analytics.ts" />
     <TypeScriptCompile Include="src\Bonus\Bonus1.ts" />

@@ -14,6 +14,8 @@ module FlipPlus.Menu {
 
         private factorySound: createjs.SoundInstance;
         
+        protected coinsIndicator: Menu.View.CoinsIndicator;
+
         //inertia fx
         private offset = 0;
         private lastx = 0;
@@ -64,6 +66,7 @@ module FlipPlus.Menu {
             this.message = new View.Message();
             this.content.addChild(this.message);
 
+            //this.addCoinsIndicator();
         }
 
         //Adds menu to screen;
@@ -94,6 +97,19 @@ module FlipPlus.Menu {
                 this.projectsContainer.addChild(projectView);
             }   
         }
+
+        private addCoinsIndicator() {
+            // parts Indicator
+            this.coinsIndicator = new Menu.View.CoinsIndicator(() => {
+                FlipPlusGame.showShopMenu(this);
+            });
+
+            this.header.addChild(this.coinsIndicator);
+            this.coinsIndicator.x = defaultWidth / 2;
+            this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
+        }
+
+
 
         public disableInteraction() {
             this.view.interactiveChildren = false;
@@ -182,10 +198,13 @@ module FlipPlus.Menu {
 
             super.activate();
 
+            // update coins
+            //this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
+
             // play music
             this.factorySound = gameui.AudiosManager.playSound("Factory Ambience",true,0,0,0,0.4);
             
-            //update enabled Projects
+            // update enabled Projects
             this.addProjects(this.levelsManager.getAllProjects());
 
             var page = FlipPlusGame.levelsManager.getHighestProject();
