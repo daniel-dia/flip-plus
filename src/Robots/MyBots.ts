@@ -77,6 +77,7 @@ module FlipPlus.Robots {
 
             var project: Levels.BotLevelsSet = this.projectManager.getProjectByName(botName);
             var robotMc: PIXI.DisplayObject = this.myBots[botName]
+            if (!robotMc) return;
 
             if (createjs.Tween.hasActiveTweens(robotMc)) return;
             //verifies if robot is ready or have parts ready

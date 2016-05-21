@@ -105,6 +105,7 @@
     continue: "Continue",
     leave: "Leave",
 
+    bonusLocked: "Build more Bots",
 
     menus: {
         highScore: "High Score",
@@ -390,6 +391,7 @@ var stringResources_pt = {
     continue: "Continuar",
     leave: "Sair",
     
+    bonusLocked: "Monte mais Robôs",
 
     menus: {
         highScore: "Recorde",

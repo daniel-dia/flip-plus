@@ -4842,7 +4842,7 @@ var FlipPlus;
                     this.terminal.activate();
                 }
                 // if is a new bot, animate it after 0.5 sec
-                if (parameters && parameters.bot) {
+                if (parameters && parameters.bot && parameters.bot != "Bot01") {
                     setTimeout(function () { _this.myBots.animateBot(parameters.bot); }, 500);
                 }
                 // updates parts counter
@@ -4989,7 +4989,7 @@ var FlipPlus;
                     var _this = this;
                     _super.call(this);
                     // chance to get a sale
-                    this.saleChance = 0.02;
+                    this.saleChance = 0.00;
                     this.intervalTimeout = 5000;
                     this.bonuses = ["Bonus1", "Bonus2", "Bonus3"];
                     //set informations container
@@ -5161,17 +5161,20 @@ var FlipPlus;
                 Terminal.prototype.showBonusStatus = function () {
                     var bonusready;
                     // verifies in all bonuses if there is one ready.
-                    //for (var b in this.bonuses) {
-                    //    var bonusId = this.bonuses[b];
-                    //    var timer = FlipPlusGame.timersData.getTimer(bonusId);
-                    //    //if there is a bonus ready, shows it
-                    //    if (timer <= 0) bonusready = bonusId;
-                    //}
-                    //
-                    //if (bonusready)
-                    //    this.showBonusReady(bonusready)
-                    //else
-                    this.startBonusRotation();
+                    for (var b in this.bonuses) {
+                        var bonusId = this.bonuses[b];
+                        var timer = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
+                        var unlockedBots = FlipPlus.FlipPlusGame.BotsLevelManager.getFinihedProjects().length;
+                        //if there is a bonus ready, shows it
+                        if (timer <= 0 && !(unlockedBots < bonusData[bonusId].unlock)) {
+                            bonusready = bonusId;
+                            break;
+                        }
+                    }
+                    if (bonusready)
+                        this.showBonusInfo(bonusready);
+                    else
+                        this.startBonusRotation();
                 };
                 // starts bonus channels rotations
                 Terminal.prototype.startBonusRotation = function () {
@@ -5201,7 +5204,12 @@ var FlipPlus;
                     var update = function () {
                         var text;
                         timeout = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
-                        if (timeout > 0) {
+                        var unlockedBots = FlipPlus.FlipPlusGame.BotsLevelManager.getFinihedProjects().length;
+                        if (unlockedBots < bonusData[bonusId].unlock) {
+                            text = StringResources.bonusLocked;
+                            _this.currentAction = null;
+                        }
+                        else if (timeout > 0) {
                             text = _this.toHHMMSS(timeout);
                             _this.currentAction = null;
                         }
@@ -5210,20 +5218,18 @@ var FlipPlus;
                             _this.currentAction = "bonus";
                             text = StringResources.mm_play;
                         }
-                        //else {
-                        //    if (CocoonAds.getStatus() == CocoonAds.STATUS.READY) text = StringResources.mm_play;
-                        //    if (CocoonAds.getStatus() == CocoonAds.STATUS.NOT_AVALIABLE) text = StringResources.mm_play;
-                        //    if (CocoonAds.getStatus() == CocoonAds.STATUS.LOADING) text = StringResources.menus.loading;
-                        //    if (CocoonAds.getStatus() == CocoonAds.STATUS.FAIL) text = StringResources.menus.errorAds;
-                        //    if (CocoonAds.getStatus() == CocoonAds.STATUS.TIMEOUT) text = StringResources.menus.errorAds;
-                        //}
-                        content.getChildByName("iconText")["text"] = text;
+                        var iconTextDO = content.getChildByName("iconText");
+                        iconTextDO.text = text;
                     };
-                    createjs.DisplayObject.prototype.dispatchEvent;
                     if (this.secondsIntevalUpdate)
                         clearInterval(this.secondsIntevalUpdate);
                     this.secondsIntevalUpdate = setInterval(update, 500);
                     update();
+                    var iconTextDO = content.getChildByName("iconText");
+                    var iconDO = content.getChildByName("icon");
+                    iconTextDO.pivot.x = iconTextDO.getLocalBounds().width / 2 * iconTextDO.scaleX;
+                    iconDO.x = -iconTextDO.width / 2 - 20;
+                    iconTextDO.x = iconDO.width / 2 + 20;
                 };
                 // #endregion
                 // #region ending
@@ -6578,6 +6584,8 @@ var FlipPlus;
             MyBots.prototype.animateBot = function (botName) {
                 var project = this.projectManager.getProjectByName(botName);
                 var robotMc = this.myBots[botName];
+                if (!robotMc)
+                    return;
                 if (createjs.Tween.hasActiveTweens(robotMc))
                     return;
                 //verifies if robot is ready or have parts ready
@@ -6983,7 +6991,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 0.9.7";
+var version = "v 0.9.10";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
@@ -8856,6 +8864,7 @@ var StringResources = {
     restart: "Restart",
     continue: "Continue",
     leave: "Leave",
+    bonusLocked: "Build more Bots",
     menus: {
         highScore: "High Score",
         loading: "loading",
@@ -9100,6 +9109,7 @@ var stringResources_pt = {
     restart: "Recomeçar",
     continue: "Continuar",
     leave: "Sair",
+    bonusLocked: "Monte mais Robôs",
     menus: {
         highScore: "Recorde",
         loading: "Carregando",

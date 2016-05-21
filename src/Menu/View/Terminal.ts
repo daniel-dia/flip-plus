@@ -15,7 +15,7 @@ module FlipPlus.Menu.View
         private currentParameter: string;
 
         // chance to get a sale
-        private saleChance = 0.02;
+        private saleChance = 0.00;
 
         // interval for changing bonus
         private rotationInterval: number;
@@ -244,16 +244,22 @@ module FlipPlus.Menu.View
 
             var bonusready: string;
             // verifies in all bonuses if there is one ready.
-           //for (var b in this.bonuses) {
-           //    var bonusId = this.bonuses[b];
-           //    var timer = FlipPlusGame.timersData.getTimer(bonusId);
-           //    //if there is a bonus ready, shows it
-           //    if (timer <= 0) bonusready = bonusId;
-           //}
-           //
-           //if (bonusready)
-           //    this.showBonusReady(bonusready)
-           //else
+            for (var b in this.bonuses) {
+                var bonusId = this.bonuses[b];
+                var timer = FlipPlusGame.timersData.getTimer(bonusId);
+                var unlockedBots = FlipPlusGame.BotsLevelManager.getFinihedProjects().length;
+                 
+
+                //if there is a bonus ready, shows it
+                if (timer <= 0 && !(unlockedBots < bonusData[bonusId].unlock)) {
+                    bonusready = bonusId;
+                    break;
+                }
+            }
+            
+            if (bonusready)
+                this.showBonusInfo(bonusready)
+            else
                 this.startBonusRotation();
         } 
 
@@ -294,7 +300,14 @@ module FlipPlus.Menu.View
                 var text;
                 timeout = FlipPlusGame.timersData.getTimer(bonusId);
 
-                if (timeout > 0) {
+                var unlockedBots = FlipPlusGame.BotsLevelManager.getFinihedProjects().length;
+
+                if (unlockedBots < bonusData[bonusId].unlock) {
+                    text = StringResources.bonusLocked;
+                    this.currentAction = null;
+                }
+               
+                else if (timeout > 0) {
                     text = this.toHHMMSS(timeout);
                     this.currentAction = null;
                 }
@@ -303,22 +316,25 @@ module FlipPlus.Menu.View
                     this.currentAction = "bonus";
                     text = StringResources.mm_play;
                 }
+                var iconTextDO = <PIXI.extras.BitmapText>content.getChildByName("iconText")
 
-                //else {
-                //    if (CocoonAds.getStatus() == CocoonAds.STATUS.READY) text = StringResources.mm_play;
-                //    if (CocoonAds.getStatus() == CocoonAds.STATUS.NOT_AVALIABLE) text = StringResources.mm_play;
-                //    if (CocoonAds.getStatus() == CocoonAds.STATUS.LOADING) text = StringResources.menus.loading;
-                //    if (CocoonAds.getStatus() == CocoonAds.STATUS.FAIL) text = StringResources.menus.errorAds;
-                //    if (CocoonAds.getStatus() == CocoonAds.STATUS.TIMEOUT) text = StringResources.menus.errorAds;
-                //}
-
-                content.getChildByName("iconText")["text"] = text;
+                iconTextDO.text = text;
             }
 
-            createjs.DisplayObject.prototype.dispatchEvent
             if (this.secondsIntevalUpdate) clearInterval(this.secondsIntevalUpdate);
             this.secondsIntevalUpdate = setInterval(update, 500);
+
             update();
+
+            
+                var iconTextDO = <PIXI.extras.BitmapText>content.getChildByName("iconText")
+                var iconDO = <PIXI.extras.BitmapText>content.getChildByName("icon")
+
+                iconTextDO.pivot.x = iconTextDO.getLocalBounds().width / 2 * iconTextDO.scaleX;
+                iconDO.x = - iconTextDO.width / 2 - 20;
+                iconTextDO.x = iconDO.width / 2 + 20;
+            
+
         }
  
         // #endregion

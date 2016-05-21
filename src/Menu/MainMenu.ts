@@ -81,7 +81,7 @@ module FlipPlus.Menu {
             }
 
             // if is a new bot, animate it after 0.5 sec
-            if (parameters && parameters.bot) {
+            if (parameters && parameters.bot && parameters.bot != "Bot01") {
                 setTimeout(() => { this.myBots.animateBot(parameters.bot); }, 500);
             }
 
