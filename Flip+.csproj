@@ -1359,7 +1359,6 @@
     <Content Include="assets\LogoScreen.js" />
     <Content Include="assets\NewBotsLobby.js" />
     <Content Include="assets\resize.bat" />
-    <Content Include="assets\RobotsAssets.js" />
     <Content Include="assets\sound\BotComplete.mp3" />
     <Content Include="assets\sound\Close.mp3" />
     <Content Include="assets\sound\Close.ogg" />
