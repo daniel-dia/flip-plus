@@ -410,9 +410,9 @@ module FlipPlus.GamePlay {
                 switch (item) {
                     case Items.SKIP:  this.useItemSkip(); break;
                     case Items.SOLVE: this.useItemSolve(); break;
-                    case Items.HINT: this.useItemHint(parameters); break;
-                    case Items.TIME: this.useItemTime(); break;
-                    case Items.TAP: this.useItemTap(); break;
+                    case Items.HINT:  this.useItemHint(parameters); break;
+                    case Items.TIME:  this.useItemTime(); break;
+                    case Items.TAP:   this.useItemTap(); break;
                 }
 
                 return true;
@@ -420,8 +420,9 @@ module FlipPlus.GamePlay {
             } else {
                 //show text effect
                 this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
-                this.popup.showtextBuy(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints,this);
-
+                this.pauseGame(false);
+                this.popup.showtextBuy(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints, this);
+                this.popup.once("onclose", () => { this.unPauseGame(false) });
                 return false;
             }
         }
@@ -503,10 +504,12 @@ module FlipPlus.GamePlay {
         
         // #region Menus ====================================================================================================================
 
-        protected pauseGame() {
+        protected pauseGame(changeMenu: boolean = true) {
 
             this.paused = true;
             this.boardSprite.lock();
+
+            if (!changeMenu) return;
             var med = defaultWidth / 4;
 
             createjs.Tween.removeTweens(this.boardSprite);
@@ -519,9 +522,12 @@ module FlipPlus.GamePlay {
             this.pauseMenu.updateSkipPrice(this.getItemPrice("skip"));
         }
 
-        protected unPauseGame() {
+        protected unPauseGame(changeMenu: boolean = true) {
             this.paused = false;
             this.boardSprite.unlock();
+
+            if (!changeMenu) return;
+
             var med = defaultWidth / 4;
 
             this.boardSprite.scale.x = 0.5;

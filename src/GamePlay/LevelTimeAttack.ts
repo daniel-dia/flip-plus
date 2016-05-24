@@ -26,6 +26,7 @@ module FlipPlus.GamePlay {
             this.timer.addEventListener(TimerEvent.TIMER, (e) => {
                 this.currentTime--;
                 this.statusArea.setText3(this.currentTime.toString());
+
                 if (this.currentTime <= 0) {
 
                     // suggest more time
@@ -120,14 +121,14 @@ module FlipPlus.GamePlay {
                 this.showNextPuzzle();
             }
         }
-     
-        public pauseGame() {
-            super.pauseGame();
+
+        protected pauseGame(changeMenu: boolean = true) {
+            super.pauseGame(changeMenu);
             this.timer.stop();
         }
 
-        public unPauseGame() {
-            super.unPauseGame();
+        protected unPauseGame(changeMenu: boolean = true) {
+            super.unPauseGame(changeMenu);
             this.timer.start();
         }
  
@@ -141,7 +142,7 @@ module FlipPlus.GamePlay {
             this.boardSprite.visible = false;
             //shows popup
             this.popup.showTimeAttack( this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString()); 
-            this.popup.addEventListener("onclose", () => {
+            this.popup.once("onclose", () => {
 
                 this.boardSprite.visible = true;
                 //shows puzzle
