@@ -589,6 +589,8 @@ var gameui;
         Button.prototype.onOut = function (Event) {
             if (this.pressed) {
                 this.pressed = false;
+                if (!this.enableAnimation)
+                    return;
                 this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
                 createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
             }
@@ -631,23 +633,53 @@ var gameui;
                 this.addChildAt(this.background, 0);
                 //Sets the image into the pivot center.
                 if (this.background.getBounds()) {
-                    this.centralizeImage();
+                    this.centralizeImage(this.background);
                 }
                 else if (this.background["image"])
-                    this.background["image"].onload = function () { _this.centralizeImage(); };
+                    this.background["image"].onload = function () { _this.centralizeImage(_this.background); };
             }
             this.createHitArea();
         }
-        ImageButton.prototype.centralizeImage = function () {
-            this.width = this.background.getBounds().width;
-            this.height = this.background.getBounds().height;
-            this.background.pivot.x = this.width / 2;
-            this.background.pivot.y = this.height / 2;
+        //Sets the image into the pivot center.
+        ImageButton.prototype.centralizeImage = function (image) {
+            if (!image.getBounds())
+                return;
+            image.pivot.x = image.getBounds().width / 2;
+            image.pivot.y = image.getBounds().height / 2;
+            if (this.centered)
+                return;
+            this.width = image.getBounds().width;
+            this.height = image.getBounds().height;
             this.centered = true;
         };
         return ImageButton;
     })(Button);
     gameui.ImageButton = ImageButton;
+    var TwoImageButton = (function (_super) {
+        __extends(TwoImageButton, _super);
+        function TwoImageButton(image, image2, event, soundId) {
+            _super.call(this, image, event, soundId);
+            this.enableAnimation = false;
+            if (image2 != null) {
+                this.background2 = gameui.AssetsManager.getBitmap(image2);
+                this.addChildAt(this.background2, 0);
+                this.centralizeImage(this.background2);
+                this.background2.visible = false;
+            }
+        }
+        TwoImageButton.prototype.onOut = function (Event) {
+            _super.prototype.onOut.call(this, Event);
+            this.background2.visible = false;
+            this.background.visible = true;
+        };
+        TwoImageButton.prototype.onPress = function (Event) {
+            _super.prototype.onPress.call(this, Event);
+            this.background2.visible = true;
+            this.background.visible = false;
+        };
+        return TwoImageButton;
+    })(ImageButton);
+    gameui.TwoImageButton = TwoImageButton;
     var TextButton = (function (_super) {
         __extends(TextButton, _super);
         function TextButton(text, font, color, background, event, soundId) {
@@ -668,6 +700,31 @@ var gameui;
         return TextButton;
     })(ImageButton);
     gameui.TextButton = TextButton;
+    var TwoImageButtonBitmapText = (function (_super) {
+        __extends(TwoImageButtonBitmapText, _super);
+        function TwoImageButtonBitmapText(text, bitmapFontId, color, background1, background2, event, soundId) {
+            if (color === void 0) { color = 0xffffff; }
+            _super.call(this, background1, background2, event, soundId);
+            //add text into it.
+            text = text.toUpperCase();
+            this.bitmapText = gameui.AssetsManager.getBitmapText(text, bitmapFontId, color);
+            this.addChild(this.bitmapText);
+            this.bitmapText.pivot.x = this.bitmapText.textWidth / 2;
+            this.bitmapText.pivot.y = this.bitmapText.textHeight / 2;
+            this.bitmapText.y = 10;
+            this.createHitArea();
+        }
+        TwoImageButtonBitmapText.prototype.onOut = function (Event) {
+            _super.prototype.onOut.call(this, Event);
+            this.bitmapText.y = 10;
+        };
+        TwoImageButtonBitmapText.prototype.onPress = function (Event) {
+            _super.prototype.onPress.call(this, Event);
+            this.bitmapText.y = 0;
+        };
+        return TwoImageButtonBitmapText;
+    })(TwoImageButton);
+    gameui.TwoImageButtonBitmapText = TwoImageButtonBitmapText;
     var BitmapTextButton = (function (_super) {
         __extends(BitmapTextButton, _super);
         function BitmapTextButton(text, bitmapFontId, background, event, soundId) {
@@ -4920,7 +4977,8 @@ var FlipPlus;
                 });
             };
             MainMenu.prototype.addPlayButton = function () {
-                var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", function () {
+                //var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
+                var playBt = new gameui.TwoImageButtonBitmapText(StringResources["mm_play"], "fontStrong", 0xbf5110, "btplay_idle", "btplay_press", function () {
                     FlipPlus.FlipPlusGame.showProjectLevelsMenu();
                 });
                 playBt.interactive = true;
@@ -5161,8 +5219,8 @@ var FlipPlus;
                     content.y = 250;
                     this.setContent(content);
                     var char = 0;
-                    textDO.text = text;
-                    return;
+                    //textDO.text = text;
+                    //return;
                     var i = setInterval(function () {
                         textDO.text = "";
                         textDO.text = text.substring(0, char++);

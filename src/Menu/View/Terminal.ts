@@ -211,8 +211,8 @@ module FlipPlus.Menu.View
 
             var char = 0;
 
-            textDO.text = text;
-            return;
+            //textDO.text = text;
+            //return;
             var i = setInterval(() => {
                 textDO.text = "";
                 textDO.text = text.substring(0, char++);

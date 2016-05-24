@@ -155,7 +155,8 @@ module FlipPlus.Menu {
         }
 
         private addPlayButton() {
-            var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
+            //var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
+            var playBt = new gameui.TwoImageButtonBitmapText(StringResources["mm_play"], "fontStrong", 0xbf5110, "btplay_idle","btplay_press", () => {
                 FlipPlus.FlipPlusGame.showProjectLevelsMenu(); 
             } )
             playBt.interactive = true;

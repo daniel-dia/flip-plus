@@ -17,7 +17,6 @@ module gameui {
 
         private pressed = false;
         
-
         constructor(event?: (event?: any) => any, soundId?: string) {
             super();
             this.event = event;
@@ -49,15 +48,16 @@ module gameui {
             }
         }
         
-        private onOut(Event: any) {
+        protected onOut(Event: any) {
             if (this.pressed) {
                 this.pressed = false;
+                if (!this.enableAnimation) return
                 this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
                 createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
             }
         }
 
-        private onPress(Event: any) {
+        protected onPress(Event: any) {
             if (this.pressed) return;
             this.pressed = true;
 
@@ -92,9 +92,7 @@ module gameui {
         constructor(image: string, event?: (event?: any) => any, soundId?: string) {
             super(event, soundId);
 
-           
-           
-            //adds image into it
+           //adds image into it
             if (image != null) {
 
                 this.background = <PIXI.Sprite>AssetsManager.getBitmap(image);
@@ -102,26 +100,62 @@ module gameui {
 
                 //Sets the image into the pivot center.
                 if (this.background.getBounds()) {
-                    this.centralizeImage();
+                    this.centralizeImage(this.background );
                 }
                 else
                     if (this.background["image"])
-                        this.background["image"].onload = () => { this.centralizeImage() }
+                        this.background["image"].onload = () => { this.centralizeImage(this.background ) }
             }
 
 
             this.createHitArea();
         }
+        
+        //Sets the image into the pivot center.
+        protected centralizeImage(image: PIXI.Sprite) {
+            if (!image.getBounds()) return;
 
-        centralizeImage() {
-            this.width = this.background.getBounds().width;
-            this.height = this.background.getBounds().height;
-            this.background.pivot.x = this.width / 2;
-            this.background.pivot.y = this.height / 2;
+            image.pivot.x = image.getBounds().width / 2;
+            image.pivot.y = image.getBounds().height / 2;
+
+            if (this.centered) return;
+            this.width =  image.getBounds().width;
+            this.height = image.getBounds().height;
             this.centered = true;
         }
     }
 
+
+    export class TwoImageButton extends ImageButton {
+
+        public background2: PIXI.Sprite;
+
+        constructor(image: string, image2: string, event?: (event?: any) => any, soundId?: string) {
+            super(image, event, soundId);
+
+            this.enableAnimation = false;
+            if (image2 != null) {
+                this.background2 = <PIXI.Sprite>AssetsManager.getBitmap(image2);
+                this.addChildAt(this.background2, 0);
+                this.centralizeImage(this.background2);
+                this.background2.visible = false;
+            }
+        }
+
+        protected onOut(Event: any) {
+            super.onOut(Event);
+            this.background2.visible = false;
+            this.background.visible = true;
+        }
+
+        protected onPress(Event: any) {
+            super.onPress(Event);
+            this.background2.visible = true;
+            this.background.visible = false;
+        }
+    }
+
+    
     export class TextButton extends ImageButton {
 
         public text: PIXI.Text;
@@ -144,6 +178,36 @@ module gameui {
             this.createHitArea();
 
             this.createHitArea();
+        }
+
+
+    }
+
+    export class TwoImageButtonBitmapText extends TwoImageButton {
+        public bitmapText: PIXI.extras.BitmapText;
+
+        constructor(text: string, bitmapFontId: string, color:number=0xffffff, background1?: string, background2?: string, event?: (event?: any) => any, soundId?: string) {
+            super(background1, background2, event, soundId);
+
+            //add text into it.
+            text = text.toUpperCase();
+            
+            this.bitmapText = AssetsManager.getBitmapText(text, bitmapFontId,color);
+            this.addChild(this.bitmapText);
+            this.bitmapText.pivot.x = this.bitmapText.textWidth / 2;
+            this.bitmapText.pivot.y = this.bitmapText.textHeight / 2;
+            this.bitmapText.y = 10;
+            this.createHitArea();
+        }
+
+        protected onOut(Event: any) {
+            super.onOut(Event);
+            this.bitmapText.y = 10;
+        }
+
+        protected onPress(Event: any) {
+            super.onPress(Event);
+            this.bitmapText.y = 0;
         }
     }
 
