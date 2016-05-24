@@ -10,9 +10,10 @@ module FlipPlus.Menu {
 
         private productInfo: Array<any> = [
             { productId: "50parts",   description: "50",   productAlias: "50",   title: "50",   localizedPrice: "U$ 0,99" },
-            { productId: "200parts",  description: "200",  productAlias: "200",  title: "200",  localizedPrice: "U$ 1,99" },
             { productId: "500parts",  description: "500",  productAlias: "500",  title: "500",  localizedPrice: "U$ 3,99" },
             { productId: "1000parts", description: "1000", productAlias: "1000", title: "1000", localizedPrice: "U$ 4,99" },
+            { productId: "200parts", description: "200", productAlias: "200", title: "200", localizedPrice: "U$ 1,99" },
+            
 
             //{ productId: "p100",  description: "100",  productAlias: "100", title: "100", localizedPrice: "U$ 1,99" },
         ];
@@ -28,6 +29,8 @@ module FlipPlus.Menu {
             this.initializeStore();
 
             this.coinsIndicator.interactive = false;
+
+            this.fillProducts(this.productInfo,null);
         }
 
         //#region Interface =====================================================================================
@@ -46,6 +49,16 @@ module FlipPlus.Menu {
             var dic = {};
             this.productsListItems = <Array<View.ProductListItem>>dic;
             this.showLoaded();
+ 
+
+            function sortByKey(array, key) {
+                return array.sort(function (a, b) {
+                    var x = a[key]; var y = b[key];
+                    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+                });
+            }
+
+            productList = sortByKey(productList, 'localizedPrice');
 
             for (var p in productList) {
                 var productListItem = this.createProduct(productList[p], inappsService);
@@ -65,7 +78,7 @@ module FlipPlus.Menu {
             // add function callback
             productListItem.addEventListener("pressed",
                 () => {
-                    inappsService.purchase(product.productId, 1);
+                    if (inappsService) inappsService.purchase(product.productId, 1);
                     productListItem.setNotAvaliable();
                 });
 
@@ -175,7 +188,6 @@ module FlipPlus.Menu {
             });
         }
  
-        
         // verify product avaliability
         private updateProductsAvaliability() {
 
