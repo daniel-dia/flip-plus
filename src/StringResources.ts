@@ -153,7 +153,7 @@
         no: "No",
     },
 
-    endingText: "Ending Text",
+    endingText: "You did it, congratulations! Now we have many friends in the pirate factory. I hope you had fun!",
 
     botsDescription: {
         Bot01 :"Description",
@@ -440,7 +440,7 @@ var stringResources_pt = {
 
     },
 
-    endingText:"Texto do Final",
+    endingText:"Você conseguiu, parabéns! Agora temos muitos amigos na fábrica pirata. Espero que tenha se divertido!",
     botsDescription: {
    /* S-N3S   */   Bot01: "The number one, conhecido por ser o protótipo dos demais robôs com inteligência artificial, feitos com ligas metálicas leves e densas. Com alto teor de metal fluído em seus tubos conectantes para melhor desempenho na hora da partida do seu motor. Sua visão melhorou depois de trocado sua tela por LCD",
    /* R-MS    */   Bot02: "Com ligas de leveduras leves pode estar em qualquer lugar para embolorar sua vida. Criado a partir da micologia grega está entre nós há séculos",

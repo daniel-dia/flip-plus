@@ -1393,12 +1393,12 @@ var FlipPlus;
             function LevelScreen(leveldata) {
                 var _this = this;
                 _super.call(this);
-                //window.onkeydown =  (e) => {
-                //    if (e.char == "s") {
-                //        this.win(0, 0);
-                //        window.onkeydown = null;
-                //    }
-                //};
+                window.onkeydown = function (e) {
+                    if (e.char == "s") {
+                        _this.win(0, 0);
+                        window.onkeydown = null;
+                    }
+                };
                 this.itemsFunctions = {};
                 this.clicks = 0;
                 // Store level data;
@@ -5153,6 +5153,34 @@ var FlipPlus;
                     clearInterval(this.rotationInterval);
                     var content = new PIXI.Container();
                     var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
+                    textDO.maxWidth = 920;
+                    textDO.x = -500;
+                    textDO.y = -330;
+                    content.addChild(textDO);
+                    content.x = 420;
+                    content.y = 250;
+                    this.setContent(content);
+                    var char = 0;
+                    textDO.text = text;
+                    return;
+                    var i = setInterval(function () {
+                        textDO.text = "";
+                        textDO.text = text.substring(0, char++);
+                        gameui.AudiosManager.playSound("terminalChar", true);
+                        if (char > text.length)
+                            clearInterval(i);
+                    }, 40);
+                    this.rotationInterval = setInterval(function () {
+                        _this.startBonusRotation();
+                    }, timeout);
+                };
+                Terminal.prototype.setTextImediate = function (text, timeout) {
+                    var _this = this;
+                    if (timeout === void 0) { timeout = 8000; }
+                    this.currentAction = null;
+                    clearInterval(this.rotationInterval);
+                    var content = new PIXI.Container();
+                    var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     textDO.maxWidth = 820;
                     textDO.x = -400;
                     textDO.y = -250;
@@ -5161,8 +5189,6 @@ var FlipPlus;
                     content.y = 250;
                     this.setContent(content);
                     var char = 0;
-                    textDO.text = text;
-                    return;
                     var i = setInterval(function () {
                         textDO.text = "";
                         textDO.text = text.substring(0, char++);
@@ -8961,7 +8987,7 @@ var StringResources = {
         yes: "Yes",
         no: "No"
     },
-    endingText: "Ending Text",
+    endingText: "You did it, congratulations! Now we have many friends in the pirate factory. I hope you had fun!",
     botsDescription: {
         Bot01: "Description",
         Bot02: "Description",
@@ -9206,7 +9232,7 @@ var stringResources_pt = {
         yes: "Sim",
         no: "Não"
     },
-    endingText: "Texto do Final",
+    endingText: "Você conseguiu, parabéns! Agora temos muitos amigos na fábrica pirata. Espero que tenha se divertido!",
     botsDescription: {
         /* S-N3S   */ Bot01: "The number one, conhecido por ser o protótipo dos demais robôs com inteligência artificial, feitos com ligas metálicas leves e densas. Com alto teor de metal fluído em seus tubos conectantes para melhor desempenho na hora da partida do seu motor. Sua visão melhorou depois de trocado sua tela por LCD",
         /* R-MS    */ Bot02: "Com ligas de leveduras leves pode estar em qualquer lugar para embolorar sua vida. Criado a partir da micologia grega está entre nós há séculos",

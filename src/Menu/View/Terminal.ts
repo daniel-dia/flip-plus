@@ -190,7 +190,7 @@ module FlipPlus.Menu.View
             return content;
         }
 
-        public setText(text: string,timeout:number=8000) {
+        public setText(text: string, timeout: number = 8000) {
 
             this.currentAction = null;
 
@@ -198,9 +198,9 @@ module FlipPlus.Menu.View
 
             var content = new PIXI.Container();
             var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
-            textDO.maxWidth = 820;
-            textDO.x =  - 400;
-            textDO.y = - 250;
+            textDO.maxWidth = 920;
+            textDO.x = - 500;
+            textDO.y = - 330;
 
             content.addChild(textDO);
 
@@ -222,7 +222,43 @@ module FlipPlus.Menu.View
             }, 40);
 
             this.rotationInterval = setInterval(() => {
-               this.startBonusRotation()
+                this.startBonusRotation()
+            }, timeout);
+
+
+        }
+
+        public setTextImediate(text: string, timeout: number = 8000) {
+
+            this.currentAction = null;
+
+            clearInterval(this.rotationInterval);
+
+            var content = new PIXI.Container();
+            var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
+            textDO.maxWidth = 820;
+            textDO.x = - 400;
+            textDO.y = - 250;
+
+            content.addChild(textDO);
+
+            content.x = 420;
+            content.y = 250;
+
+            this.setContent(content);
+
+            var char = 0;
+             
+            var i = setInterval(() => {
+                textDO.text = "";
+                textDO.text = text.substring(0, char++);
+                gameui.AudiosManager.playSound("terminalChar", true);
+                if (char > text.length)
+                    clearInterval(i);
+            }, 40);
+
+            this.rotationInterval = setInterval(() => {
+                this.startBonusRotation()
             }, timeout);
 
 
