@@ -170,17 +170,17 @@ module FlipPlus {
 
         public static showActionLevelsMenu() {
 
-
-            // set wich leve manager to use
-            this.gameMode = GameMode.ACTION;
-            this.levelsManager = this.actionLevelsManager;
-
-            //create a new levels menu, if needed
-            if (this.actionlevelsMenu == undefined)
-                this.actionlevelsMenu = new Menu.WorkshopMenuAction(this.levelsManager);
-
-            //switch screens
-            this.gameScreen.switchScreen(this.actionlevelsMenu);
+           //
+           // // set wich leve manager to use
+           // this.gameMode = GameMode.ACTION;
+           // this.levelsManager = this.actionLevelsManager;
+           //
+           // //create a new levels menu, if needed
+           // if (this.actionlevelsMenu == undefined)
+           //     this.actionlevelsMenu = new Menu.WorkshopMenuAction(this.levelsManager);
+           //
+           // //switch screens
+           // this.gameScreen.switchScreen(this.actionlevelsMenu);
         }
 
         public static showBonus(bonusId: string) {
@@ -259,26 +259,35 @@ module FlipPlus {
  
         }
 
-        private static verifyGameEnd() {
+        public static verifyGameEnd() {
+            
             // verifies if all projects are complete
             var projects = this.levelsManager.getAllProjects();
             var completeAllProjects = true;
             for (var p in projects) if (!projects[p].UserData.complete) completeAllProjects = false;
-            if (completeAllProjects) this.showEnding();
-        }
 
-        private static showEnding() {
-            alert("congrats");
-            //TODO better
+            return completeAllProjects;
         }
-
+        
         public static completeProject() {
-            var currentProjectID = FlipPlusGame.levelsManager.getCurrentProject().name;
-            FlipPlusGame.showMainScreen({ bot: currentProjectID});
-            FlipPlusGame.levelsManager.setCurrentProject(null);
-            FlipPlusGame.verifyGameEnd();
-        }
 
+            // get current completed bot
+            var currentProjectID = FlipPlusGame.levelsManager.getCurrentProject().name;
+
+            // unset current bot
+            FlipPlusGame.levelsManager.setCurrentProject(null);
+
+            // set parameter to make bot to interactive with user
+            var parameters = { bot: currentProjectID };
+
+            // verify if all game is complete  and show special phrase
+            if (FlipPlusGame.verifyGameEnd())
+                parameters["gameEnd"] = true;
+            
+            // shows main menu
+            FlipPlusGame.showMainScreen(parameters);
+        }
+ 
         public static looseLevel() {
             if(this.gameMode == GameMode.PROJECTS)
                 this.showProjectLevelsMenu(null, { loose: true });

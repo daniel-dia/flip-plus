@@ -60,7 +60,7 @@ module FlipPlus.GamePlay {
         private trySuggestHelp() {
             if (this.helped) return;
 
-            var plays = this.levelData.userdata.playedTimes;
+            var plays = this.levelData.userdata.playedTimes-1;
             var invertsInitial = this.initialInvertedBlocks.length;
             var inverts = this.levelLogic.board.getInvertedBlocksCount();
 

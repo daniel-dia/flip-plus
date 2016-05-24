@@ -8,6 +8,10 @@ echo ------------------------------------------------------
 timeout 2
 "C:\Program Files\7-Zip\7z" d CocoonPackage.zip *.xmp -r
 timeout 2
+"C:\Program Files\7-Zip\7z" d CocoonPackage.zip *.tmp -r
+timeout 2
+"C:\Program Files\7-Zip\7z" d CocoonPackage.zip *.map -r
+timeout 2
 echo ------------------------------------------------------
 "C:\Program Files\7-Zip\7z" d CocoonPackage.zip *.bat -r
 timeout 2

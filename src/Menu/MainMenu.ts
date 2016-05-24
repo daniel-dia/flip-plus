@@ -85,6 +85,10 @@ module FlipPlus.Menu {
                 setTimeout(() => { this.myBots.animateBot(parameters.bot); }, 500);
             }
 
+            if (parameters && parameters.gameEnd) {
+                setTimeout(() => { this.myBots.playEndGame(); }, 1000);
+            }
+
             // updates parts counter
             this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
 

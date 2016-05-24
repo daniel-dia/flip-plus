@@ -138,6 +138,14 @@ module FlipPlus.Robots {
             }
         }
 
+        //show a robot on screen by name
+        private hideRobot(botId: string) {
+            var robotMC = this.myBots[botId];
+            if (robotMC != null) {
+                robotMC.visible = false;
+            }
+        }
+
         //play robot alert animation
         public alertRobot(botId: string) {
             var robotMC = this.myBots[botId];
@@ -178,6 +186,12 @@ module FlipPlus.Robots {
             this.showRobot("Bot01b");
             FlipPlusGame.mainScreen.terminal.setText(StringResources.it_text2,60000);
             //this.popup.showBotText(StringResources.it_text2,6000,1000);
+        }
+
+        public playEndGame() {
+            this.hideRobot("Bot01");
+            this.showRobot("Bot01b");
+            FlipPlusGame.mainScreen.terminal.setText(StringResources.endingText, 60000);
         }
 
         public clear() {
