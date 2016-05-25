@@ -74,15 +74,15 @@ module FlipPlus.UserData {
             }
 
             //calculates number
-            var price = Math.pow(base, timesUsed+1) * levelSetId * factor;
+            var price = Math.pow(base, timesUsed+1) * levelSetId * factor * 0.5;
 
             //roud the number
             if (price > 300) price = Math.ceil(price / 100) * 100;
-            if (price > 100) price = Math.ceil(price / 50) * 50;
-            if (price > 50) price = Math.ceil(price / 20) * 20;
-            if (price > 30) price = Math.ceil(price / 10) * 10;
-            if (price > 7) price = Math.ceil(price / 5) * 5;
-            if (price > 5) price = Math.ceil(price / 2) * 2;
+            if (price > 100) price = Math.ceil(price / 50)  *  50;
+            if (price > 50) price =  Math.ceil(price / 20)  *  20;
+            if (price > 30) price =  Math.ceil(price / 10)  *  10;
+            if (price > 7) price =   Math.ceil(price / 5)   *  5;
+            if (price > 5) price =   Math.ceil(price / 2)   *  2;
             price = Math.ceil(price)
 
             return price;

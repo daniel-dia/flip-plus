@@ -1188,7 +1188,7 @@ var FlipPlus;
                         break;
                 }
                 //calculates number
-                var price = Math.pow(base, timesUsed + 1) * levelSetId * factor;
+                var price = Math.pow(base, timesUsed + 1) * levelSetId * factor * 0.5;
                 //roud the number
                 if (price > 300)
                     price = Math.ceil(price / 100) * 100;
@@ -7115,7 +7115,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 1.0.0";
+var version = "v 1.0.1";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
