@@ -23,5 +23,17 @@
             else
                 return 0;
         }
+
+        public getBonusTimer(bonusId: string) {
+
+        }
+
+        public getBonusUnlocked(bonusId: string) {
+            return true;
+        }
+
+        public setTimerTo30(){
+            // TODO
+        }
     }
 } 
