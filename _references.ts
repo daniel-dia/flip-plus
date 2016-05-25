@@ -1,5 +1,3 @@
-
-
 /// <reference path="typing/createjs/createjs.d.ts" />
 /// <reference path="typing/pixi.js.d.ts" />
  
@@ -55,7 +53,6 @@
 /// <reference path="src/Menu/View/LevelThumb.ts" />
 /// <reference path="src/Menu/View/StarsIndicator.ts" />
 /// <reference path="src/Menu/View/CoinsIndicator.ts" />
-/// <reference path="src/Menu/View/ProjectItem.ts" />
 /// <reference path="src/Menu/View/ProjectProgressIndicator.ts" />
 /// <reference path="src/Menu/View/ProjectStarsIndicator.ts" />
 

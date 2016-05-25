@@ -28,8 +28,7 @@ module FlipPlus {
 
         // Managers
         public static levelsManager:        Levels.LevelsManager;
-        public static BotsLevelManager:     Levels.LevelsManager;
-        public static actionLevelsManager:  Levels.LevelsManager;
+        public static bonusManager:         Bonus.BonusManager;
 
         // Screens
         private static titleScreen: gameui.ScreenState;
@@ -40,9 +39,6 @@ module FlipPlus {
         public static mainScreen:           Menu.MainMenu;
         public static optionsMenu:          gameui.ScreenState;
         public static loadingScreen:        Menu.Loading;
-
-        // current game mode
-        private static gameMode: GameMode;
 
         // ----------------------------- Initialization -------------------------------------------//
 
@@ -74,12 +70,7 @@ module FlipPlus {
             CocoonAds.initialize(); 
 
             //managers
-            this.BotsLevelManager    = new Levels.LevelsManager(levelsData, this.levelsUserDataManager);
-            this.actionLevelsManager = new Levels.ActionLevelsManager(ActionLevelsData, this.levelsUserDataManager);
-            this.levelsManager = this.BotsLevelManager;
-
-            // gameMode
-            this.gameMode = GameMode.PROJECTS;
+            this.levelsManager = new Levels.LevelsManager(levelsData, this.levelsUserDataManager);
 
            // give 10 coins to user first time
             if (!this.storyData.getStoryPlayed("coins")){
@@ -141,10 +132,6 @@ module FlipPlus {
                
         public static showProjectLevelsMenu(project?: Levels.BotLevelsSet, parameters?: any) {
 
-            // set wich leve manager to use
-            this.gameMode = GameMode.PROJECTS;
-            this.levelsManager = this.BotsLevelManager;
-
             //verifies the current projet
             if (project == null)
                 project = this.levelsManager.getCurrentProject();
@@ -166,21 +153,6 @@ module FlipPlus {
 
             //switch screens
             this.gameScreen.switchScreen(this.workshopMenu, parameters);
-        }
-
-        public static showActionLevelsMenu() {
-
-           //
-           // // set wich leve manager to use
-           // this.gameMode = GameMode.ACTION;
-           // this.levelsManager = this.actionLevelsManager;
-           //
-           // //create a new levels menu, if needed
-           // if (this.actionlevelsMenu == undefined)
-           //     this.actionlevelsMenu = new Menu.WorkshopMenuAction(this.levelsManager);
-           //
-           // //switch screens
-           // this.gameScreen.switchScreen(this.actionlevelsMenu);
         }
 
         public static showBonus(bonusId: string) {
@@ -238,12 +210,6 @@ module FlipPlus {
 
         public static completeLevel(complete: boolean = false, firstTime: boolean=false) {
 
-            //if depreciated action mode
-            if (this.gameMode == GameMode.ACTION) {
-                this.showActionLevelsMenu();
-                return;
-            }
-
             // shows workshop with the proper parameters
             this.showProjectLevelsMenu(null, { complete: complete, freeze: firstTime, firstTime: firstTime });
                              
@@ -289,17 +255,11 @@ module FlipPlus {
         }
  
         public static looseLevel() {
-            if(this.gameMode == GameMode.PROJECTS)
-                this.showProjectLevelsMenu(null, { loose: true });
-            else
-                this.showActionLevelsMenu();
+            this.showProjectLevelsMenu(null, { loose: true });
         }
 
         public static exitLevel() {
-            if (this.gameMode == GameMode.PROJECTS)
-                this.showProjectLevelsMenu();
-            else
-                this.showActionLevelsMenu();
+            this.showProjectLevelsMenu();
         }
 
         public static showNextLevel() {
@@ -363,11 +323,6 @@ module FlipPlus {
         public static isFree():boolean {
             return true;
         }
-    }
-
-    enum GameMode {
-        PROJECTS,
-        ACTION
     }
 }
 

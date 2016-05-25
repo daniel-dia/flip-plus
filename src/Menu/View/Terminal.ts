@@ -268,7 +268,7 @@ module FlipPlus.Menu.View
             for (var b in this.bonuses) {
                 var bonusId = this.bonuses[b];
                 var timer = FlipPlusGame.timersData.getTimer(bonusId);
-                var unlockedBots = FlipPlusGame.BotsLevelManager.getFinihedProjects().length;
+                var unlockedBots = FlipPlusGame.levelsManager.getFinihedProjects().length;
                  
 
                 //if there is a bonus ready, shows it
@@ -321,9 +321,9 @@ module FlipPlus.Menu.View
                 var text;
                 timeout = FlipPlusGame.timersData.getTimer(bonusId);
 
-                var unlockedBots = FlipPlusGame.BotsLevelManager.getFinihedProjects().length;
+                var unlockedBots = FlipPlusGame.levelsManager.getFinihedProjects().length;
 
-                if (unlockedBots < bonusData[bonusId].unlock) {
+                if ( unlockedBots < bonusData[bonusId].unlock) {
                     text = StringResources.bonusLocked;
                     this.currentAction = null;
                 }
