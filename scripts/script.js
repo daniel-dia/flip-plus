@@ -4898,6 +4898,8 @@ var FlipPlus;
             };
             MainMenu.prototype.activate = function (parameters) {
                 var _this = this;
+                if (Math.random() > 0.98)
+                    setTimeout(function () { FlipPlus.FlipPlusGame.showSpecialOffer(_this); }, 1000);
                 _super.prototype.activate.call(this);
                 // animate logo
                 var x = 370;
@@ -7444,7 +7446,6 @@ var FlipPlus;
                 this.initializeScreen();
                 this.initializeStore();
                 this.coinsIndicator.interactive = false;
-                this.fillProducts(this.productInfo, null);
             }
             //#region Interface =====================================================================================
             ShopMenu.prototype.initializeScreen = function () {
@@ -7542,17 +7543,17 @@ var FlipPlus;
                     this.showError();
                     return;
                 }
-                var inappsService = Cocoon["InApp"];
+                this.inappsService = Cocoon["InApp"];
                 // Service initialization
-                inappsService.initialize({ autofinish: true }, function (error) {
+                this.inappsService.initialize({ autofinish: true }, function (error) {
                     console.log("initialized Store" + error);
-                    inappsService.fetchProducts(_this.productIdList, function (products, error) {
+                    _this.inappsService.fetchProducts(_this.productIdList, function (products, error) {
                         console.log("fetchProducts" + error);
                         _this.products = products;
-                        _this.fillProducts(products, inappsService);
+                        _this.fillProducts(products, _this.inappsService);
                     });
                 });
-                inappsService.on("purchase", {
+                this.inappsService.on("purchase", {
                     start: function (productId) {
                         _this.getProductListItem(productId).setPurchasing();
                         _this.lockUI();
@@ -7693,20 +7694,22 @@ var FlipPlus;
     (function (Menu) {
         var SpecialOfferMenu = (function (_super) {
             __extends(SpecialOfferMenu, _super);
-            function SpecialOfferMenu(previousScreen) {
-                _super.call(this, previousScreen);
-                this.productIdList = ["100"];
+            function SpecialOfferMenu() {
+                _super.apply(this, arguments);
+                this.productIdList = ["100parts"];
             }
             // add all products in the list
-            SpecialOfferMenu.prototype.fillProducts = function (productList) {
-                var bt = new gameui.ImageButton("menu/specialOffer");
+            SpecialOfferMenu.prototype.fillProducts = function (productList, inappsService) {
+                var _this = this;
+                _super.prototype.fillProducts.call(this, productList, inappsService);
+                var bt = new gameui.ImageButton("menu/specialOffer", function () {
+                    if (_this.inappsService)
+                        _this.inappsService.purchase(productList[0].productId, 1);
+                    bt.fadeOut();
+                });
                 this.content.addChild(bt);
-                // add function callback
-                bt.addEventListener("mousedown", function (event) { Cocoon.Store.purchase(productList[0].productId); });
-                // adds Value
-                bt.addChild(gameui.AssetsManager.getBitmapText(productList[0].localizedPrice, "fontWhite").set({ x: -210, y: 255 }));
-                // adds buy text
-                bt.addChild(gameui.AssetsManager.getBitmapText(StringResources.menus.buy, "fontBlue").set({ x: 165, y: 250 }));
+                // adds price
+                bt.addChild(gameui.AssetsManager.getBitmapText(productList[0].localizedPrice, "fontStrong").set({ x: -210, y: 190 }));
             };
             SpecialOfferMenu.prototype.buildHeader = function (title, previousScreen, color) {
                 _super.prototype.buildHeader.call(this, StringResources.menus.specialOffer, previousScreen, color);

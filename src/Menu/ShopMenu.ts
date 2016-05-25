@@ -7,14 +7,13 @@ module FlipPlus.Menu {
         private statusText: PIXI.extras.BitmapText;
         private loadingObject: PIXI.DisplayObject;
         private products: Array<any>;
+        protected inappsService;
 
         private productInfo: Array<any> = [
             { productId: "50parts",   description: "50",   productAlias: "50",   title: "50",   localizedPrice: "U$ 0,99" },
             { productId: "500parts",  description: "500",  productAlias: "500",  title: "500",  localizedPrice: "U$ 3,99" },
             { productId: "1000parts", description: "1000", productAlias: "1000", title: "1000", localizedPrice: "U$ 4,99" },
             { productId: "200parts", description: "200", productAlias: "200", title: "200", localizedPrice: "U$ 1,99" },
-            
-
             //{ productId: "p100",  description: "100",  productAlias: "100", title: "100", localizedPrice: "U$ 1,99" },
         ];
 
@@ -30,7 +29,6 @@ module FlipPlus.Menu {
 
             this.coinsIndicator.interactive = false;
 
-            this.fillProducts(this.productInfo,null);
         }
 
         //#region Interface =====================================================================================
@@ -76,9 +74,8 @@ module FlipPlus.Menu {
             this.productsListItems[product.productId] = productListItem;
           
             // add function callback
-            productListItem.addEventListener("pressed",
-                () => {
-                    if (inappsService) inappsService.purchase(product.productId, 1);
+            productListItem.addEventListener("pressed",() => {
+                if (inappsService) inappsService.purchase(product.productId, 1);
                     productListItem.setNotAvaliable();
                 });
 
@@ -150,24 +147,24 @@ module FlipPlus.Menu {
                 return;
             }
 
-            var inappsService = Cocoon["InApp"];
+            this.inappsService = Cocoon["InApp"];
 
             // Service initialization
             
-            inappsService.initialize({autofinish: true},
+            this.inappsService.initialize({autofinish: true},
                 (error) => {
                     console.log("initialized Store" + error)
 
-                    inappsService.fetchProducts(this.productIdList,  (products, error) => {
+                    this.inappsService.fetchProducts(this.productIdList,  (products, error) => {
                         console.log("fetchProducts" + error)
     
                         this.products = products;
-                        this.fillProducts(products, inappsService);
+                        this.fillProducts(products, this.inappsService);
                     });
                 }
             );
 
-            inappsService.on("purchase", {
+            this.inappsService.on("purchase", {
                 start: (productId) => {
                     this.getProductListItem(productId).setPurchasing();
                     this.lockUI();

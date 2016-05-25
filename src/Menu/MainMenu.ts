@@ -52,6 +52,11 @@ module FlipPlus.Menu {
         }
 
         public activate(parameters) {
+
+            if (Math.random() > 0.98)
+                setTimeout(() => { FlipPlusGame.showSpecialOffer(this); }, 1000)
+            
+
             super.activate();
             
             // animate logo
