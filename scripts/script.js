@@ -3668,8 +3668,8 @@ var FlipPlus;
                     //Text
                     this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");
                     this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");
-                    this.text1.x = defaultWidth * 0.13;
-                    this.text3.x = defaultWidth * 0.79;
+                    this.text1.x = defaultWidth * 0.11;
+                    this.text3.x = defaultWidth * 0.795;
                     //this.text1.textAlign = this.text2.textAlign = this.text3.textAlign = "center";
                     this.text1.y = this.text3.y = 55;
                     this.addChild(this.text1);
@@ -6575,6 +6575,8 @@ var FlipPlus;
                     //set Hit Area
                     var hit = new PIXI.Graphics().beginFill(0xFF0000, 0).drawRect(0, 0, defaultWidth, defaultHeight);
                     this.addChild(hit);
+                    this.interactive = true;
+                    this.interactiveChildren = true;
                     //shows the popus
                     this.closeinterval = setTimeout(function () {
                         gameui.AudiosManager.playSound("Open");
@@ -6602,6 +6604,8 @@ var FlipPlus;
                     this.removesClickIndicator();
                     //dispatch a event for parent objects
                     this.emit("onclose");
+                    this.interactive = false;
+                    this.interactiveChildren = false;
                 };
                 Popup.prototype.addsClickIndicator = function () {
                     //add click indicator
@@ -8343,9 +8347,11 @@ var FlipPlus;
                     acceptBt.x = defaultWidth / 4 * 3;
                     acceptBt.y = 1150;
                     //add stuff on button
-                    acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + item).set({ x: -170, y: -20 }));
-                    acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_coin").set({ x: 90, y: 10, scaleX: 0.8, scaleY: 0.8 }));
-                    acceptBt.addChild(gameui.AssetsManager.getBitmapText(price.toString(), "fontWhite").set({ x: 10 }));
+                    acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_" + item).set({ x: -300, y: -60 }));
+                    var value = gameui.AssetsManager.getBitmapText(price.toString(), "fontWhite");
+                    value.set({ x: acceptBt.bitmapText.x - acceptBt.bitmapText.regX });
+                    acceptBt.addChild(value);
+                    acceptBt.addChild(gameui.AssetsManager.getBitmap("puzzle/icon_coin").set({ x: value.x + value.textWidth + 20, y: 10, scaleX: 0.8, scaleY: 0.8 }));
                 };
                 return PopupHelper;
             })(View.Popup);

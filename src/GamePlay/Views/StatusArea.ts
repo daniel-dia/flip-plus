@@ -65,8 +65,8 @@ module FlipPlus.GamePlay.Views {
             this.text1 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");
             this.text3 = gameui.AssetsManager.getBitmapText(StringResources.menus.loading.toUpperCase(), "fontWhite");      
                         
-            this.text1.x = defaultWidth * 0.13; 
-             this.text3.x = defaultWidth * 0.79;
+            this.text1.x = defaultWidth * 0.11; 
+            this.text3.x = defaultWidth * 0.795;
 
             //this.text1.textAlign = this.text2.textAlign = this.text3.textAlign = "center";
 
@@ -94,7 +94,8 @@ module FlipPlus.GamePlay.Views {
         }
 
         public setText1(text: string) {
-            this.bg1.visible = !(text == "" || text == null); this.text1.text = text;
+            this.bg1.visible = !(text == "" || text == null);
+            this.text1.text = text;
         }
 
         public setText3(text: string) {

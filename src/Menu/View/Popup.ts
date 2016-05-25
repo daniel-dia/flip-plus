@@ -315,6 +315,9 @@ module FlipPlus.Menu.View {
             var hit = new PIXI.Graphics().beginFill(0xFF0000,0).drawRect(0, 0, defaultWidth, defaultHeight);
             this.addChild(hit);
        
+            this.interactive = true;
+            this.interactiveChildren = true;
+
             //shows the popus
             this.closeinterval = setTimeout(() => {
 
@@ -350,6 +353,8 @@ module FlipPlus.Menu.View {
             this.removesClickIndicator();
             //dispatch a event for parent objects
             this.emit("onclose");
+            this.interactive = false;
+            this.interactiveChildren = false;
         }
 
         protected addsClickIndicator() {
