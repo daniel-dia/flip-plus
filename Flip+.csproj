@@ -1468,7 +1468,6 @@
     <TypeScriptCompile Include="src\Menu\SlideShow.ts" />
     <TypeScriptCompile Include="src\Menu\SpecialOfferMenu.ts" />
     <TypeScriptCompile Include="src\Menu\TitleScreen.ts" />
-    <TypeScriptCompile Include="src\Menu\View\BonusItem.ts" />
     <TypeScriptCompile Include="src\Menu\View\CoinsIndicator.ts" />
     <TypeScriptCompile Include="src\Menu\View\LevelGrid.ts" />
     <TypeScriptCompile Include="src\Menu\View\LevelThumb.ts" />
@@ -1479,7 +1478,6 @@
     <TypeScriptCompile Include="src\Menu\View\Popup.ts" />
     <TypeScriptCompile Include="src\Menu\View\PopupBot.ts" />
     <TypeScriptCompile Include="src\Menu\View\PopupHelper.ts" />
-    <TypeScriptCompile Include="src\Menu\View\ProjectItem.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProjectProgressIndicator.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProjectStarsIndicator.ts" />
     <TypeScriptCompile Include="src\Menu\View\ProjectWorkshopView.ts" />
