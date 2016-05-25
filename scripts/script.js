@@ -5070,8 +5070,6 @@ var FlipPlus;
                 function Terminal() {
                     var _this = this;
                     _super.call(this);
-                    // chance to get a sale
-                    this.saleChance = 0.00;
                     this.intervalTimeout = 5000;
                     this.bonuses = ["Bonus1", "Bonus2", "Bonus3"];
                     //set informations container
@@ -5123,10 +5121,7 @@ var FlipPlus;
                 };
                 // Activate, Or show bonus, or show a sale.
                 Terminal.prototype.activate = function () {
-                    if (Math.random() < this.saleChance)
-                        this.showSale();
-                    else
-                        this.showBonusStatus();
+                    this.showBonusStatus();
                 };
                 // Stops all processing in the terminal
                 Terminal.prototype.desactivate = function () {
@@ -5257,11 +5252,6 @@ var FlipPlus;
                     this.rotationInterval = setInterval(function () {
                         _this.startBonusRotation();
                     }, timeout);
-                };
-                // #endregion
-                // #region sale
-                Terminal.prototype.showSale = function () {
-                    this.setTextIcon("SALE", "Sale", "buy for 1usd", "partsicon");
                 };
                 // #endregion
                 // #region bonus

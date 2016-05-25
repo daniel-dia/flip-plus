@@ -8,14 +8,10 @@ module FlipPlus.Menu.View
         private textBox: PIXI.extras.BitmapText;
         private staticFX: PIXI.DisplayObject;
         private mymask: PIXI.Sprite;
-        
-        
+                
         // current Actions
         private currentAction: string;
         private currentParameter: string;
-
-        // chance to get a sale
-        private saleChance = 0.00;
 
         // interval for changing bonus
         private rotationInterval: number;
@@ -87,11 +83,7 @@ module FlipPlus.Menu.View
 
         // Activate, Or show bonus, or show a sale.
         public activate() {
-
-            if (Math.random() < this.saleChance)
-                this.showSale();
-            else
-                this.showBonusStatus();
+            this.showBonusStatus();
         }
         
         // Stops all processing in the terminal
@@ -265,14 +257,7 @@ module FlipPlus.Menu.View
         }
 
         // #endregion
-
-        // #region sale
-
-        private showSale() {
-            this.setTextIcon("SALE","Sale", "buy for 1usd", "partsicon");
-        }
-        // #endregion
-
+ 
         // #region bonus
 
         // show bonus rotation or bonus ready
