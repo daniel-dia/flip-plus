@@ -320,7 +320,6 @@ var imageManifest = [
         //popup
         { id: "popups/popup", src: "popups/popup.png" },
         { id: "popups/message", src: "popups/message.png" },
-        { id: "popups/popupTutorial", src: "popups/popupbot.png" },
 
 ];
 

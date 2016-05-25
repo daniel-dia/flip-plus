@@ -1450,12 +1450,12 @@ var FlipPlus;
             function LevelScreen(leveldata) {
                 var _this = this;
                 _super.call(this);
-                window.onkeydown = function (e) {
-                    if (e.char == "s") {
-                        _this.win(0, 0);
-                        window.onkeydown = null;
-                    }
-                };
+                // window.onkeydown =  (e) => {
+                //     if (e.char == "s") {
+                //         this.win(0, 0);
+                //         window.onkeydown = null;
+                //     }
+                // };
                 this.itemsFunctions = {};
                 this.clicks = 0;
                 // Store level data;
