@@ -212,6 +212,7 @@ module FlipPlus.Menu {
 
                 case "100parts":
                     FlipPlusGame.coinsData.increaseAmount(100);
+                    FlipPlusGame.bonusManager.setHalfTime(true);
                     FlipPlusGame.storyData.setStoryPlayed("halfTime");
                     break;
             }

@@ -267,12 +267,9 @@ module FlipPlus.Menu.View
             // verifies in all bonuses if there is one ready.
             for (var b in this.bonuses) {
                 var bonusId = this.bonuses[b];
-                var timer = FlipPlusGame.timersData.getTimer(bonusId);
-                var unlockedBots = FlipPlusGame.levelsManager.getFinihedProjects().length;
-                 
-
+                
                 //if there is a bonus ready, shows it
-                if (timer <= 0 && !(unlockedBots < bonusData[bonusId].unlock)) {
+                if (FlipPlusGame.bonusManager.getBonusAvaliable(bonusId)) {
                     bonusready = bonusId;
                     break;
                 }
@@ -308,9 +305,8 @@ module FlipPlus.Menu.View
 
         // show a single bonus timeout info.
         private showBonusInfo(bonusId: string) {
-            
-            var timeout = FlipPlusGame.timersData.getTimer(bonusId);
-            var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", this.toHHMMSS(timeout));
+
+            var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", "");
 
             this.currentParameter = bonusId;
             this.currentAction = "bonus";
@@ -319,26 +315,25 @@ module FlipPlus.Menu.View
             var update = () => {
 
                 var text;
-                timeout = FlipPlusGame.timersData.getTimer(bonusId);
+                var timeout = FlipPlusGame.bonusManager.getBonusTimeoutSeconds(bonusId);
 
-                var unlockedBots = FlipPlusGame.levelsManager.getFinihedProjects().length;
-
-                if ( unlockedBots < bonusData[bonusId].unlock) {
+                if (!FlipPlusGame.bonusManager.getBonusUnlocked(bonusId)) {
                     text = StringResources.bonusLocked;
                     this.currentAction = null;
                 }
-               
-                else if (timeout > 0) {
+
+                else if (!FlipPlusGame.bonusManager.getBonusTimeReady(bonusId)) {
                     text = this.toHHMMSS(timeout);
                     this.currentAction = null;
                 }
-                else {
+
+                else if (FlipPlusGame.bonusManager.getBonusAvaliable(bonusId)) {
                     this.currentParameter = bonusId;
                     this.currentAction = "bonus";
                     text = StringResources.mm_play;
                 }
-                var iconTextDO = <PIXI.extras.BitmapText>content.getChildByName("iconText")
 
+                var iconTextDO = <PIXI.extras.BitmapText>content.getChildByName("iconText")
                 iconTextDO.text = text;
             }
 
@@ -348,14 +343,12 @@ module FlipPlus.Menu.View
             update();
 
             
-                var iconTextDO = <PIXI.extras.BitmapText>content.getChildByName("iconText")
-                var iconDO = <PIXI.extras.BitmapText>content.getChildByName("icon")
+            var iconTextDO = <PIXI.extras.BitmapText>content.getChildByName("iconText")
+            var iconDO = <PIXI.extras.BitmapText>content.getChildByName("icon")
 
-                iconTextDO.pivot.x = iconTextDO.getLocalBounds().width / 2 * iconTextDO.scaleX;
-                iconDO.x = - iconTextDO.width / 2 - 20;
-                iconTextDO.x = iconDO.width / 2 + 20;
-            
-
+            iconTextDO.pivot.x = iconTextDO.getLocalBounds().width / 2 * iconTextDO.scaleX;
+            iconDO.x = - iconTextDO.width / 2 - 20;
+            iconTextDO.x = iconDO.width / 2 + 20;
         }
  
         // #endregion

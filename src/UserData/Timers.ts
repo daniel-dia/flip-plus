@@ -29,7 +29,7 @@ module FlipPlus.UserData {
         }
 
         //sets a new timer 
-        //only sets if timer is spanned //TODO eh esta palavra mesmo?
+        //only sets if timer is spanned
         public setTimer(name: string, minutes: number=0,seconds:number=0) {
 
             //verifies if timer is active
@@ -44,8 +44,6 @@ module FlipPlus.UserData {
             //save to storage
             this.saveTimers(this.timers);
         }
-
-
 
         //------------------------Security-------------------------
         private lastTime: number;

@@ -850,6 +850,7 @@ var FlipPlus;
             this.gameScreen = new gameui.GameScreen("gameDiv", defaultWidth, defaultHeight, 60);
             // userData
             this.levelsUserDataManager = new FlipPlus.UserData.LevelsUserDataManager();
+            this.bonusManager = new FlipPlus.Bonus.BonusManager(bonusData);
             this.settingsUserData = new FlipPlus.UserData.SettingsUserDataManager();
             this.coinsData = new FlipPlus.UserData.Coins();
             this.storyData = new FlipPlus.UserData.Story();
@@ -934,8 +935,8 @@ var FlipPlus;
             this.gameScreen.switchScreen(this.workshopMenu, parameters);
         };
         FlipPlusGame.showBonus = function (bonusId) {
-            var timer = FlipPlusGame.timersData.getTimer(bonusId);
-            //  if (timer != 0) return;
+            if (!this.bonusManager.getBonusAvaliable(bonusId))
+                return;
             var bonusScreen;
             switch (bonusId) {
                 case "Bonus1":
@@ -949,11 +950,11 @@ var FlipPlus;
                     break;
                 default:
             }
-            //restart time
-            var timeout = bonusData[bonusId].timeOut;
-            if (FlipPlusGame.storyData.getStoryPlayed("halfTime"))
-                timeout = timeout / 2;
-            this.timersData.setTimer(bonusId, timeout);
+            // verify if player purchased halfTime bonus
+            var halfTime = FlipPlusGame.storyData.getStoryPlayed("halfTime");
+            // restart bonus timer
+            FlipPlusGame.bonusManager.restartBonusTimer(bonusId, halfTime);
+            // goes to Bonus screen
             this.gameScreen.switchScreen(bonusScreen);
         };
         FlipPlusGame.showLevel = function (level, parameters) {
@@ -1223,7 +1224,7 @@ var FlipPlus;
                 return Math.floor((this.timers[name] - this.getLastTime()) / 1000);
             };
             //sets a new timer 
-            //only sets if timer is spanned //TODO eh esta palavra mesmo?
+            //only sets if timer is spanned
             Timers.prototype.setTimer = function (name, minutes, seconds) {
                 //verifies if timer is active
                 //if (this.getTimer(name) > 0) return;
@@ -4456,32 +4457,50 @@ var FlipPlus;
     (function (Bonus) {
         // Class
         var BonusManager = (function () {
-            function BonusManager() {
-                this.bonusTimers = [];
+            function BonusManager(bonusData) {
+                this.bonusData = bonusData;
             }
-            //set time for bonus
-            BonusManager.prototype.setBonustime = function (bonusId, time) {
-                if (bonusId === void 0) { bonusId = "bonus"; }
-                if (!time)
-                    time = Date.now();
-                this.bonusTimers[bonusId] = time;
+            // get seconds left to the next release
+            BonusManager.prototype.getBonusTimeoutSeconds = function (bonusId) {
+                return FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
             };
-            //get seconds left to the next release
-            BonusManager.prototype.getBonusSecondsLeft = function (bonusId) {
-                if (bonusId === void 0) { bonusId = "bonus"; }
-                var time = this.bonusTimers[bonusId];
-                if (time)
-                    return Math.floor(time - Date.now() / 1000);
-                else
-                    return 0;
+            // set seconds left to the next release
+            BonusManager.prototype.setBonusTimeoutMinutes = function (bonusId, time) {
+                FlipPlus.FlipPlusGame.timersData.setTimer(bonusId, time);
             };
-            BonusManager.prototype.getBonusTimer = function (bonusId) {
+            // restart a bonus timer, and cut time in a half 
+            BonusManager.prototype.restartBonusTimer = function (bonusId, half) {
+                if (half === void 0) { half = false; }
+                var timeOut = this.bonusData[bonusId].timeOut;
+                if (half)
+                    timeOut = timeOut / 2;
+                FlipPlus.FlipPlusGame.timersData.setTimer(bonusId, timeOut);
             };
+            // restart all bonus timer, and cut time in a half 
+            BonusManager.prototype.restartAllBonusTimers = function (half) {
+                if (half === void 0) { half = false; }
+                for (var bonusId in this.bonusData)
+                    this.restartBonusTimer(bonusId, half);
+            };
+            // get if a bonus can be playable in the current Level
             BonusManager.prototype.getBonusUnlocked = function (bonusId) {
+                var unlockedBots = FlipPlus.FlipPlusGame.levelsManager.getFinihedProjects().length;
+                return this.bonusData[bonusId].unlock <= unlockedBots;
+            };
+            // get if a bonus timespan is done
+            BonusManager.prototype.getBonusTimeReady = function (bonusId) {
+                var timer = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
+                if (timer != 0)
+                    return false;
                 return true;
             };
-            BonusManager.prototype.setTimerTo30 = function () {
-                // TODO
+            // get if bonus is avaliable
+            BonusManager.prototype.getBonusAvaliable = function (bonusId) {
+                return this.getBonusTimeReady(bonusId) && this.getBonusUnlocked(bonusId);
+            };
+            BonusManager.prototype.setHalfTime = function (halfTime) {
+                for (var bonusId in this.bonusData)
+                    this.setBonusTimeoutMinutes(bonusId, this.getBonusTimeoutSeconds(bonusId) / 60 / 2);
             };
             return BonusManager;
         })();
@@ -5235,10 +5254,8 @@ var FlipPlus;
                     // verifies in all bonuses if there is one ready.
                     for (var b in this.bonuses) {
                         var bonusId = this.bonuses[b];
-                        var timer = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
-                        var unlockedBots = FlipPlus.FlipPlusGame.levelsManager.getFinihedProjects().length;
                         //if there is a bonus ready, shows it
-                        if (timer <= 0 && !(unlockedBots < bonusData[bonusId].unlock)) {
+                        if (FlipPlus.FlipPlusGame.bonusManager.getBonusAvaliable(bonusId)) {
                             bonusready = bonusId;
                             break;
                         }
@@ -5268,24 +5285,22 @@ var FlipPlus;
                 // show a single bonus timeout info.
                 Terminal.prototype.showBonusInfo = function (bonusId) {
                     var _this = this;
-                    var timeout = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
-                    var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", this.toHHMMSS(timeout));
+                    var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", "");
                     this.currentParameter = bonusId;
                     this.currentAction = "bonus";
                     // update texts
                     var update = function () {
                         var text;
-                        timeout = FlipPlus.FlipPlusGame.timersData.getTimer(bonusId);
-                        var unlockedBots = FlipPlus.FlipPlusGame.levelsManager.getFinihedProjects().length;
-                        if (unlockedBots < bonusData[bonusId].unlock) {
+                        var timeout = FlipPlus.FlipPlusGame.bonusManager.getBonusTimeoutSeconds(bonusId);
+                        if (!FlipPlus.FlipPlusGame.bonusManager.getBonusUnlocked(bonusId)) {
                             text = StringResources.bonusLocked;
                             _this.currentAction = null;
                         }
-                        else if (timeout > 0) {
+                        else if (!FlipPlus.FlipPlusGame.bonusManager.getBonusTimeReady(bonusId)) {
                             text = _this.toHHMMSS(timeout);
                             _this.currentAction = null;
                         }
-                        else {
+                        else if (FlipPlus.FlipPlusGame.bonusManager.getBonusAvaliable(bonusId)) {
                             _this.currentParameter = bonusId;
                             _this.currentAction = "bonus";
                             text = StringResources.mm_play;
@@ -7473,6 +7488,7 @@ var FlipPlus;
                         break;
                     case "100parts":
                         FlipPlus.FlipPlusGame.coinsData.increaseAmount(100);
+                        FlipPlus.FlipPlusGame.bonusManager.setHalfTime(true);
                         FlipPlus.FlipPlusGame.storyData.setStoryPlayed("halfTime");
                         break;
                 }

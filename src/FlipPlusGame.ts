@@ -1,4 +1,5 @@
 declare var levelsData;
+declare var bonusData;
 declare var ActionLevelsData: Array<FlipPlus.Levels.BotLevelsSet>
 
 declare function getAssetsManifest(assetscale:number):Array<any>;
@@ -50,6 +51,7 @@ module FlipPlus {
 
             // userData
             this.levelsUserDataManager = new UserData.LevelsUserDataManager();
+            this.bonusManager = new Bonus.BonusManager(bonusData);
             this.settingsUserData = new UserData.SettingsUserDataManager();
             this.coinsData = new UserData.Coins();
             this.storyData = new UserData.Story();
@@ -157,10 +159,8 @@ module FlipPlus {
 
         public static showBonus(bonusId: string) {
 
-            var timer = FlipPlusGame.timersData.getTimer(bonusId);
+         if (!this.bonusManager.getBonusAvaliable(bonusId)) return;
 
-            //  if (timer != 0) return;
- 
             var bonusScreen: Bonus.BonusScreen;
             switch (bonusId) {
                 case "Bonus1":
@@ -175,12 +175,13 @@ module FlipPlus {
                 default:
             }
 
+            // verify if player purchased halfTime bonus
+            var halfTime = FlipPlusGame.storyData.getStoryPlayed("halfTime");
 
-            //restart time
-            var timeout = bonusData[bonusId].timeOut;
-            if (FlipPlusGame.storyData.getStoryPlayed("halfTime")) timeout = timeout / 2;
-            this.timersData.setTimer(bonusId, timeout);
-
+            // restart bonus timer
+            FlipPlusGame.bonusManager.restartBonusTimer(bonusId, halfTime);
+            
+            // goes to Bonus screen
             this.gameScreen.switchScreen(bonusScreen);
         }
 
@@ -210,7 +211,7 @@ module FlipPlus {
 
         public static completeLevel(complete: boolean = false, firstTime: boolean=false) {
 
-            // shows workshop with the proper parameters
+        // shows workshop with the proper parameters
             this.showProjectLevelsMenu(null, { complete: complete, freeze: firstTime, firstTime: firstTime });
                              
             // if first time, do an animation and goes to the next level, or show the completed bot   
