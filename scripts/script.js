@@ -5720,6 +5720,8 @@ var FlipPlus;
                 CoinsIndicator.prototype.createCoinEffect = function (x, y, coins, inverse) {
                     var _this = this;
                     if (inverse === void 0) { inverse = false; }
+                    // limit coins to 10
+                    coins = Math.min(coins, 10);
                     var interval = 1000 / coins;
                     for (var c = 0; c <= coins; c++) {
                         var coin = this.addCoinIcon();

@@ -23,6 +23,9 @@ module FlipPlus.Menu.View {
         }
 
         public createCoinEffect(x: number, y: number, coins: number, inverse: boolean=false) {
+            
+            // limit coins to 10
+            coins = Math.min(coins, 10);
 
             var interval = 1000 / coins;
             for (var c = 0; c <= coins; c++) {
