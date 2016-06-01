@@ -2870,10 +2870,10 @@ var levelsData = [
             "height": 7,
             "theme": "yellow",
             "type": "time",
-            "time": 20,
+            "time": 60,
 			"puzzlesToSolve":10,
             "randomMinMoves": 15,
-            "randomMaxMoves": "17"
+            "randomMaxMoves": 17
         }
       ]
   },
