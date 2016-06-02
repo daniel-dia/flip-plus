@@ -1436,8 +1436,7 @@ var levelsData =
               "height": 5,
               "theme": "purple",
               "type": "puzzle",
-              "randomMinMoves": 15,
-              "randomMaxMoves": 17
+              "blocksData": [24, 32, 1, 9, 17, 25, 2, 10, 26, 3, 28, 5, 21, 22, 15, 23]
           },
           {
               "width": 6,
@@ -1560,8 +1559,7 @@ var levelsData =
               "height": 5,
               "theme": "yellow",
               "type": "puzzle",
-              "randomMinMoves": 12,
-              "randomMaxMoves": 14
+              "blocksData": [0, 1, 6, 11, 16, 21, 12, 22, 3, 13, 18, 9], 
           }]
    },
    //17
@@ -1582,8 +1580,7 @@ var levelsData =
               "height": 5,
               "theme": "green",
               "type": "puzzle",
-              "randomMinMoves": 13,
-              "randomMaxMoves": 15
+              "blocksData": [5, 20, 6, 11, 7, 3, 8, 18, 23, 4, 9, 14, 19, 24]
           },
           {
               "width": 5,
@@ -1607,8 +1604,7 @@ var levelsData =
               "height": 5,
               "theme": "purple",
               "type": "puzzle",
-              "randomMinMoves": 20,
-              "randomMaxMoves": 20
+              "blocksData": [5, 10, 15, 20, 1, 6, 11, 16, 21, 7, 12, 17, 3, 8, 13, 18, 4, 9, 14, 19]
           },
           {
               "width": 6,
@@ -1649,8 +1645,7 @@ var levelsData =
               "height": 7,
               "theme": "yellow",
               "type": "puzzle",
-              "randomMinMoves": 20,
-              "randomMaxMoves": 25
+              "blocksData": [0, 35, 42, 1, 29, 36, 2, 30, 37, 44, 17, 24, 31, 38, 32, 19, 26, 33, 40, 13, 20, 34, 41]
           }]
    },
    //18
@@ -1665,8 +1660,7 @@ var levelsData =
               "height": 8,
               "theme": "green",
               "type": "puzzle",
-              "randomMinMoves": 20,
-              "randomMaxMoves": 20
+              "blocksData": [17, 33, 2, 18, 42, 3, 11, 27, 35, 12, 28, 29, 45, 6, 38, 46, 7, 31, 39, 47]
           },
           {
               "width": 8,
@@ -1698,8 +1692,7 @@ var levelsData =
               "height": 3,
               "theme": "purple",
               "type": "puzzle",
-              "randomMinMoves": 16,
-              "randomMaxMoves": 16
+              "blocksData": [0, 8, 16, 1, 9, 17, 10, 18, 3, 19, 4, 20, 5, 21, 22, 15]
           },
           {
               "width": 5,
