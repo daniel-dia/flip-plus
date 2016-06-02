@@ -23,7 +23,7 @@ module FlipPlus.GamePlay {
 
             this.initialInvertedBlocks = levelData.blocksData;
 
-            if (levelData.randomMinMoves && levelData.randomMaxMoves) {
+            if (!levelData.blocksData && levelData.randomMinMoves && levelData.randomMaxMoves) {
                 this.initialInvertedBlocks = this.levelLogic.board.setRandomBoard(levelData.randomMinMoves, levelData.randomMaxMoves);
             }
 

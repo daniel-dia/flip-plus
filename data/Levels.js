@@ -600,9 +600,6 @@ var levelsData =
               "type": "moves",
               "theme": "yellow",
               "moves": 2,
-              "time": 30,
-              "randomMaxMoves": 5,
-              "randomMinMoves": 4,
               "blocksData": [0, 20, 4, 24],
               "name": "5/7"
           },
@@ -612,9 +609,6 @@ var levelsData =
               "type": "moves",
               "theme": "yellow",
               "moves": 3,
-              "time": 25,
-              "randomMaxMoves": 2,
-              "randomMinMoves": 2,
               "blocksData": [0, 9, 18, 2, 11, 20],
               "name": "5/8"
           }]
@@ -762,9 +756,6 @@ var levelsData =
               "type": "moves",
               "theme": "yellow",
               "moves": 4,
-              "time": 25,
-              "randomMaxMoves": 2,
-              "randomMinMoves": 2,
               "blocksData": [0, 19, 2, 27, 10, 29],
               "name": "5/9"
           },
@@ -852,12 +843,8 @@ var levelsData =
           {
               "width": 5,
               "height": 5,
-              "type": "time",
+              "type": "puzzle",
               "theme": "purple",
-              "time": 30,
-              "puzzlesToSolve": 5,
-              "randomMaxMoves": 8,
-              "randomMinMoves": 6,
               "blocksData": [16, 21, 7, 22, 23, 9],
               "name": "8/6"
           },
@@ -960,11 +947,6 @@ var levelsData =
               "type": "puzzle",
               "theme": "yellow",
               "moves": 7,
-              "time": 25,
-              "puzzlesToSolve": 3,
-              "randomMaxMoves": 9,
-              "randomMinMoves": 8,
-              "hiddenBlocks": [],
               "blocksData": [12, 18, 24, 7, 19, 2, 8, 14, 3, 33, 28, 34, 35],
               "name": "9/7"
           },
@@ -1052,10 +1034,6 @@ var levelsData =
               "height": 4,
               "type": "puzzle",
               "theme": "yellow",
-              "puzzlesToSolve": 1,
-              "randomMaxMoves": 9,
-              "randomMinMoves": 9,
-              "hiddenBlocks": [],
               "blocksData": [7, 21, 1, 15, 9, 23, 10, 17, 4, 25, 19],
               "name": "10/7"
           },
@@ -1065,10 +1043,6 @@ var levelsData =
               "type": "moves",
               "theme": "yellow",
               "moves": 5,
-              "time": 12,
-              "randomMaxMoves": 8,
-              "randomMinMoves": 8,
-              "hiddenBlocks": [],
               "blocksData": [5, 15, 6, 11, 2, 22, 13, 18, 9, 19],
               "name": "10/8"
           },
@@ -1201,8 +1175,7 @@ var levelsData =
               "time": 15,
               "puzzlesToSolve": 5,
               "randomMaxMoves": 4,
-              "randomMinMoves": 4,
-              "blocksData": [9, 14, 7, 11, 15],
+              "randomMinMoves": 4, 
               "name": "11/0"
           },
           {
@@ -1235,8 +1208,7 @@ var levelsData =
               "time": 22,
               "puzzlesToSolve": 3,
               "randomMaxMoves": 10,
-              "randomMinMoves": 10,
-              "blocksData": [24, 27, 35, 4, 36, 6, 30, 7, 31, 39, 55, 63],
+              "randomMinMoves": 10, 
               "name": "11/3"
           },
           {
@@ -1737,13 +1709,9 @@ var levelsData =
    }]
 
 
-
-
-
 function levelsHealth() {
 
     printTitle("levels com blocks vazios ( retirar )");
-
     for (var p in levelsData) {
         pr = levelsData[p]
         for (var l in pr.levels) {
@@ -1753,7 +1721,6 @@ function levelsHealth() {
     }
 
     printTitle("Puzzle sem blocos");
-
     for (var p in levelsData) {
         pr = levelsData[p]
         for (var l in pr.levels) {
@@ -1761,15 +1728,6 @@ function levelsHealth() {
             if (lv.type == "puzzle" && !lv.blocksData) printLevel(p, l, lv)
         }
     }
-
-    // console.log("\n------------------Não time com blocos ------------------");
-    // for (var p in levelsData) {
-    //     pr = levelsData[p]
-    //     for (var l in pr.levels) {
-    //         lv = pr.levels[l]
-    //         if (lv.type != "puzzle" && lv.blocksData) printLevel(p,l,lv)
-    //     }
-    // }
 
     printTitle("Levels puzzle com random O_o")
     for (var p in levelsData) {
@@ -1789,7 +1747,6 @@ function levelsHealth() {
         }
     }
 
-
     printTitle("time attack sem random")
     for (var p in levelsData) {
         pr = levelsData[p]
@@ -1805,16 +1762,6 @@ function levelsHealth() {
         for (var l in pr.levels) {
             lv = pr.levels[l]
             if (lv.type == "time" && lv.blocksData) printLevel(p, l, lv)
-        }
-    }
-
-
-    printTitle("moves com random")
-    for (var p in levelsData) {
-        pr = levelsData[p]
-        for (var l in pr.levels) {
-            lv = pr.levels[l]
-            if (lv.type == "moves" && lv.randomMaxMoves) printLevel(p, l, lv)
         }
     }
 
@@ -1835,5 +1782,5 @@ function printTitle(title) {
     console.log("\n_________________________" + title + "_________________________");
 }
 
-levelsHealth();
+//levelsHealth();
 
