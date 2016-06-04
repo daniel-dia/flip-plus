@@ -107,6 +107,9 @@
 
     bonusLocked: "Build more Bots",
 
+    ratingTitle: "Are you enjoying?",
+    ratingText: "Please rate this game!",
+
     menus: {
         highScore: "High Score",
         loading: "loading",
@@ -392,6 +395,9 @@ var stringResources_pt = {
     leave: "Sair",
     
     bonusLocked: "Monte mais Robôs",
+
+    ratingTitle: "Está gostando?",
+    ratingText: "Deixe sua avaliação!",
 
     menus: {
         highScore: "Recorde",
