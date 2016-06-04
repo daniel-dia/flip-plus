@@ -17,7 +17,7 @@
             this.addChild(bg);
 
             // create Title
-            var titleDO = gameui.AssetsManager.getBitmapText(StringResources.ratingText, "fontStrong");
+            var titleDO = gameui.AssetsManager.getBitmapText(StringResources.ratingTitle.toUpperCase(), "fontStrong");
             this.addChild(titleDO);
             titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
             titleDO.x = defaultWidth / 2;

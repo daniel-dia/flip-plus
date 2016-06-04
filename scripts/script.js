@@ -8207,7 +8207,7 @@ var FlipPlus;
                     bg.y = 100;
                     this.addChild(bg);
                     // create Title
-                    var titleDO = gameui.AssetsManager.getBitmapText(StringResources.ratingText, "fontStrong");
+                    var titleDO = gameui.AssetsManager.getBitmapText(StringResources.ratingTitle.toUpperCase(), "fontStrong");
                     this.addChild(titleDO);
                     titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
                     titleDO.x = defaultWidth / 2;
@@ -8914,8 +8914,8 @@ var StringResources = {
     continue: "Continue",
     leave: "Leave",
     bonusLocked: "Build more Bots",
-    ratingTitle: "Are you enjoying?",
-    ratingText: "Please rate this game!",
+    ratingTitle: "Review",
+    ratingText: "Are you enjoying?\nPlease share your review!",
     menus: {
         highScore: "High Score",
         loading: "loading",
@@ -9161,8 +9161,8 @@ var stringResources_pt = {
     continue: "Continuar",
     leave: "Sair",
     bonusLocked: "Monte mais Robôs",
-    ratingTitle: "Está gostando?",
-    ratingText: "Deixe sua avaliação!",
+    ratingTitle: "Opinião",
+    ratingText: "Está gostando do jogo?\nCompartilhe sua opinião!",
     menus: {
         highScore: "Recorde",
         loading: "Carregando",
