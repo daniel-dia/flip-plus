@@ -15,6 +15,9 @@ module FlipPlus.Menu {
         private playBt: PIXI.DisplayObject;
         private logo: PIXI.DisplayObject;
 
+        private confirmPopup: View.PopupConfirm;
+        private ratingPopup: View.PopupRating;
+
         protected coinsIndicator: Menu.View.CoinsIndicator;
 
         constructor() {
@@ -53,11 +56,18 @@ module FlipPlus.Menu {
 
         public activate(parameters) {
 
-            if (Math.random() > 0.98)
-                setTimeout(() => { FlipPlusGame.showSpecialOffer(this); }, 1000)
-            
-
             super.activate();
+
+            //verify if user unlocked at least 2 projects to ask it for rating
+            if (FlipPlusGame.levelsManager.getUnlockedProjects().length >= 2 && !FlipPlusGame.storyData.getStoryPlayed("rating"))
+                this.askUserForRating();
+
+            // show sales randomly
+            else if (Math.random() > 0.98)
+                setTimeout(() => { FlipPlusGame.showSpecialOffer(this); }, 1000)
+
+            FlipPlusGame.showSpecialOffer(this);
+           
             
             // animate logo
             var x = 370;
@@ -105,6 +115,15 @@ module FlipPlus.Menu {
             this.myBots.clear();
         }
       
+        private askUserForRating() {
+            FlipPlusGame.storyData.setStoryPlayed("rating");
+            var confirmPopup = new View.PopupRating();
+            this.overlay.addChild(confirmPopup);
+            confirmPopup.showRatingMessage(() => {
+                alert("OK");
+            });
+        }
+        
         private addLogo() {
             this.logo = new PIXI.extras.TilingSprite(gameui.AssetsManager.getLoadedImage("logo"), 795, 260);
             this.header.addChild(this.logo);
