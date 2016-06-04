@@ -23,12 +23,10 @@ module FlipPlus.Menu.View {
         protected addCloseCallback() {
             this.once("click", () => {
                 this.closePopUp();
-                clearTimeout(this.closeinterval);
             });
 
             this.once("tap", () => {
-                this.closePopUp();
-                clearTimeout(this.closeinterval);
+                this.closePopUp(); 
             });
         }
 
@@ -325,8 +323,7 @@ module FlipPlus.Menu.View {
                 this.fadeIn(1, 0.5);
 
             }, delay);;
-
-
+            
             //add callback
             if (!this.disabledInput)
                 setTimeout(() => {
@@ -351,6 +348,9 @@ module FlipPlus.Menu.View {
             //hide the popup{
             this.fadeOut(1, 0.5);
             this.removesClickIndicator();
+
+            if (this.closeinterval) clearTimeout(this.closeinterval);
+            
             //dispatch a event for parent objects
             this.emit("onclose");
             this.interactive = false;
