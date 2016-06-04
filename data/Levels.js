@@ -1172,7 +1172,7 @@ var levelsData =
               "height": 4,
               "type": "time",
               "theme": "green",
-              "time": 15,
+              "time": 25,
               "puzzlesToSolve": 5,
               "randomMaxMoves": 4,
               "randomMinMoves": 4, 
@@ -1183,7 +1183,7 @@ var levelsData =
               "height": 7,
               "type": "time",
               "theme": "green",
-              "time": 20,
+              "time": 25,
               "puzzlesToSolve": 20,
               "randomMaxMoves": 1,
               "randomMinMoves": 1,
@@ -1194,7 +1194,7 @@ var levelsData =
               "height": 5,
               "type": "time",
               "theme": "green",
-              "time": 2,
+              "time": 5,
               "puzzlesToSolve": 1,
               "randomMaxMoves": 4,
               "randomMinMoves": 4,
@@ -1205,7 +1205,7 @@ var levelsData =
               "height": 8,
               "type": "time",
               "theme": "green",
-              "time": 22,
+              "time": 25,
               "puzzlesToSolve": 3,
               "randomMaxMoves": 10,
               "randomMinMoves": 10, 
@@ -1438,10 +1438,10 @@ var levelsData =
               "height": 7,
               "theme": "yellow",
               "type": "time",
-              "time": 20,
-              "puzzlesToSolve": 10,
-              "randomMinMoves": 15,
-              "randomMaxMoves": 17
+              "time": 40,
+              "puzzlesToSolve": 2,
+              "randomMinMoves": 10,
+              "randomMaxMoves": 12
           }]
    },
    //16
@@ -1782,5 +1782,5 @@ function printTitle(title) {
     console.log("\n_________________________" + title + "_________________________");
 }
 
-//levelsHealth();
+levelsHealth();
 
