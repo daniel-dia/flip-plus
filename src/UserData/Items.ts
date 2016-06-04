@@ -11,14 +11,14 @@ class Items {
 module FlipPlus.UserData {
 
     // Class
-    export class ItemsManager{
+    export class ItemsManager {
 
         private itensDictionary: any;
 
         //defines existent Itens
         //TODO shall not be in userData
         public static itemsNames: Array<string> = [Items.TAP, Items.HINT, Items.SKIP, Items.SOLVE, Items.TIME];
-        
+
         constructor() {
             var data = localStorage.getItem(storagePrefix + "items");
             if (data)
@@ -39,21 +39,21 @@ module FlipPlus.UserData {
             localStorage.setItem(storagePrefix + "items", JSON.stringify(this.itensDictionary));
         }
 
-        public increaseItemQuantity(item: string, value: number= 1) {
+        public increaseItemQuantity(item: string, value: number = 1) {
             if (value < 1) return;
             var iq: number = this.getItemQuantity(item);
             if (iq >= 10) return;
             this.setQuantityItem(item, value + iq);
         }
 
-        public decreaseItemQuantity(item: string, value: number= 1) {
+        public decreaseItemQuantity(item: string, value: number = 1) {
             if (value < 1) return;
             var iq: number = this.getItemQuantity(item);
-            if (iq<value) return;
-            this.setQuantityItem(item, iq-value);
+            if (iq < value) return;
+            this.setQuantityItem(item, iq - value);
         }
 
-        public static calculateItemPrice(item: string, levelSetId: number, timesUsed: number =  0) {
+        public static calculateItemPrice(item: string, levelSetId: number, timesUsed: number = 0) {
             var base = 2.2;
             var factor = 0.3;
 
@@ -67,25 +67,49 @@ module FlipPlus.UserData {
                     factor = 1;
                     timesUsed = 2;
                     break;
-                
+
                 case Items.HINT:
                     factor = 0.3;
                     break;
             }
 
             //calculates number
-            var price = Math.pow(base, timesUsed+1) * levelSetId * factor * 0.5;
+            var price = Math.pow(base, timesUsed + 1) * levelSetId * factor ;
 
             //roud the number
             if (price > 300) price = Math.ceil(price / 100) * 100;
-            if (price > 100) price = Math.ceil(price / 50)  *  50;
-            if (price > 50) price =  Math.ceil(price / 20)  *  20;
-            if (price > 30) price =  Math.ceil(price / 10)  *  10;
-            if (price > 7) price =   Math.ceil(price / 5)   *  5;
-            if (price > 5) price =   Math.ceil(price / 2)   *  2;
+            if (price > 100) price = Math.ceil(price / 50) * 50;
+            if (price > 50) price = Math.ceil(price / 20) * 20;
+            if (price > 30) price = Math.ceil(price / 10) * 10;
+            if (price > 7) price = Math.ceil(price / 5) * 5;
+            if (price > 5) price = Math.ceil(price / 2) * 2;
             price = Math.ceil(price)
 
             return price;
+        }
+
+        public static printItemsPrices() {
+
+            for (var p = 1; p <= 18; p++)
+                console.log(
+                    p + " - \t" +
+                    this.calculateItemPrice(Items.HINT, p, 0) + "\t" +
+                    this.calculateItemPrice(Items.HINT, p, 1) + "\t" +
+                    this.calculateItemPrice(Items.HINT, p, 2) + "\t" +
+                    this.calculateItemPrice(Items.HINT, p, 3) + "\t" +
+                    this.calculateItemPrice(Items.HINT, p, 4) + "\t"
+                );
+
+            for (var p = 1; p <= 18; p++)
+                console.log(
+                    p + " - \t" +
+                    this.calculateItemPrice(Items.TAP, p, 0) + "\t" +
+                    this.calculateItemPrice(Items.TAP, p, 1) + "\t" +
+                    this.calculateItemPrice(Items.TAP, p, 2) + "\t" +
+                    this.calculateItemPrice(Items.TAP, p, 3) + "\t" +
+                    this.calculateItemPrice(Items.TAP, p, 4) + "\t"
+                );
+
         }
     }
 }
