@@ -347,7 +347,7 @@ module FlipPlus.GamePlay {
         protected getItemPrice(item): number {
             
             var timesUsed = this.itemTimes[item];
-            var levelSetId = this.levelData.projectId+1;
+            var levelSetId = parseInt(this.levelData.projectId) + 1;
             return UserData.ItemsManager.calculateItemPrice(item, levelSetId, timesUsed);
         }
 
@@ -421,7 +421,7 @@ module FlipPlus.GamePlay {
                 //show text effect
                 this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
                 this.pauseGame(false);
-                this.popup.showtextBuy(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints, this);
+                this.popup.showtextBuy(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints, this,90000);
                 this.popup.once("onclose", () => { this.unPauseGame(false) });
                 return false;
             }
