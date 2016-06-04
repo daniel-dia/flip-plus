@@ -63,7 +63,9 @@ module gameui {
             createjs.Tween.removeTweens(this);
         }
 
-        public fadeIn(scaleX: number= 0.5, scaleY: number= 0.5) {
+        public fadeIn(scaleX: number = 0.5, scaleY: number = 0.5) {
+
+            this.resetFade()
             if (this.visible = true) this.antX = null;
 
             if (!this.scale.x) this.scale.x = 1;
