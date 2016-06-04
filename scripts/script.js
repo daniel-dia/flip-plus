@@ -435,6 +435,7 @@ var gameui;
             var _this = this;
             if (scaleX === void 0) { scaleX = 0.5; }
             if (scaleY === void 0) { scaleY = 0.5; }
+            this.resetFade();
             if (this.visible = true)
                 this.antX = null;
             if (!this.scale.x)
@@ -1153,7 +1154,7 @@ var FlipPlus;
                         break;
                 }
                 //calculates number
-                var price = Math.pow(base, timesUsed + 1) * levelSetId * factor * 0.5;
+                var price = Math.pow(base, timesUsed + 1) * levelSetId * factor;
                 //roud the number
                 if (price > 300)
                     price = Math.ceil(price / 100) * 100;
@@ -1169,6 +1170,22 @@ var FlipPlus;
                     price = Math.ceil(price / 2) * 2;
                 price = Math.ceil(price);
                 return price;
+            };
+            ItemsManager.printItemsPrices = function () {
+                for (var p = 1; p <= 18; p++)
+                    console.log(p + " - \t" +
+                        this.calculateItemPrice(Items.HINT, p, 0) + "\t" +
+                        this.calculateItemPrice(Items.HINT, p, 1) + "\t" +
+                        this.calculateItemPrice(Items.HINT, p, 2) + "\t" +
+                        this.calculateItemPrice(Items.HINT, p, 3) + "\t" +
+                        this.calculateItemPrice(Items.HINT, p, 4) + "\t");
+                for (var p = 1; p <= 18; p++)
+                    console.log(p + " - \t" +
+                        this.calculateItemPrice(Items.TAP, p, 0) + "\t" +
+                        this.calculateItemPrice(Items.TAP, p, 1) + "\t" +
+                        this.calculateItemPrice(Items.TAP, p, 2) + "\t" +
+                        this.calculateItemPrice(Items.TAP, p, 3) + "\t" +
+                        this.calculateItemPrice(Items.TAP, p, 4) + "\t");
             };
             //defines existent Itens
             //TODO shall not be in userData
@@ -1649,7 +1666,7 @@ var FlipPlus;
             // get item value based on how many times it has been used.
             LevelScreen.prototype.getItemPrice = function (item) {
                 var timesUsed = this.itemTimes[item];
-                var levelSetId = this.levelData.projectId + 1;
+                var levelSetId = parseInt(this.levelData.projectId) + 1;
                 return FlipPlus.UserData.ItemsManager.calculateItemPrice(item, levelSetId, timesUsed);
             };
             // list all item prices
@@ -1718,7 +1735,7 @@ var FlipPlus;
                     //show text effect
                     this.textEffext.showtext(StringResources["desc_item_" + item].toUpperCase());
                     this.pauseGame(false);
-                    this.popup.showtextBuy(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints, this);
+                    this.popup.showtextBuy(StringResources.gp_noMoreSkip, StringResources.gp_noMoreHints, this, 90000);
                     this.popup.once("onclose", function () { _this.unPauseGame(false); });
                     return false;
                 }
@@ -1892,7 +1909,7 @@ var FlipPlus;
                 else
                     levelData.blocksData = [];
                 this.initialInvertedBlocks = levelData.blocksData;
-                if (levelData.randomMinMoves && levelData.randomMaxMoves) {
+                if (!levelData.blocksData && levelData.randomMinMoves && levelData.randomMaxMoves) {
                     this.initialInvertedBlocks = this.levelLogic.board.setRandomBoard(levelData.randomMinMoves, levelData.randomMaxMoves);
                 }
                 //draw blocks
@@ -2379,35 +2396,42 @@ var FlipPlus;
                 this.createMenu();
                 this.startGame(levelData);
                 // update overlay
-                this.statusArea.setText1("0/" + this.puzzlesToSolve.toString());
+                this.statusArea.setText1("1/" + this.puzzlesToSolve.toString());
             }
             LevelTimeAttack.prototype.createsTimer = function () {
                 var _this = this;
                 //Creates Timer
                 this.timer = new Timer(1000);
-                this.timer.addEventListener(TimerEvent.TIMER, function (e) {
-                    _this.currentTime--;
-                    _this.statusArea.setText3(_this.currentTime.toString());
-                    if (_this.currentTime <= 0) {
-                        // suggest more time
-                        _this.timer.stop();
-                        _this.boardSprite.mouseEnabled = false;
-                        _this.popupHelper.showItemMessage(Items.TIME, _this.getItemPrice(Items.TIME), function () {
-                            _this.useItem(Items.TIME);
+                this.timer.addEventListener(TimerEvent.TIMER, function (e) { _this.timeTick(); });
+            };
+            LevelTimeAttack.prototype.timeTick = function () {
+                var _this = this;
+                if (this.currentTime > 0)
+                    this.currentTime--;
+                this.statusArea.setText3(this.currentTime.toString());
+                if (this.currentTime <= 0) {
+                    // suggest more time
+                    this.timer.stop();
+                    this.boardSprite.mouseEnabled = false;
+                    this.popupHelper.showItemMessage(Items.TIME, this.getItemPrice(Items.TIME), function () {
+                        if (_this.useItem(Items.TIME)) {
                             _this.boardSprite.mouseEnabled = true;
-                            _this.timer.start();
-                        }, function () {
-                            gameui.AudiosManager.playSound("Power Down");
-                            _this.statusArea.setText3(StringResources.gp_pz_statusEnd);
-                            _this.message.showtext(StringResources.gp_pz_timeUP);
-                            _this.loose();
-                        });
-                    }
-                    if (_this.currentTime == 4) {
-                        // play sound
-                        gameui.AudiosManager.playSound("Ticking Clock");
-                    }
-                });
+                            _this.continueTimer();
+                        }
+                    }, function () {
+                        gameui.AudiosManager.playSound("Power Down");
+                        _this.statusArea.setText3(StringResources.gp_pz_statusEnd);
+                        _this.message.showtext(StringResources.gp_pz_timeUP);
+                        _this.loose();
+                    });
+                }
+                // play sound
+                if (this.currentTime == 5)
+                    gameui.AudiosManager.playSound("Ticking Clock");
+            };
+            LevelTimeAttack.prototype.continueTimer = function () {
+                this.timer.start();
+                this.timeTick();
             };
             LevelTimeAttack.prototype.createMenu = function () {
                 var _this = this;
@@ -2424,7 +2448,7 @@ var FlipPlus;
                 createjs.Tween.removeTweens(this.boardSprite);
                 createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(function () {
                     // update overlay
-                    _this.statusArea.setText1(_this.currentPuzzle.toString() + "/" + _this.puzzlesToSolve.toString());
+                    _this.statusArea.setText1((_this.currentPuzzle + 1).toString() + "/" + _this.puzzlesToSolve.toString());
                     // updates logic
                     _this.currentPuzzle++;
                     _this.createNewPuzzle(_this.currentPuzzle);
@@ -2471,24 +2495,27 @@ var FlipPlus;
             LevelTimeAttack.prototype.unPauseGame = function (changeMenu) {
                 if (changeMenu === void 0) { changeMenu = true; }
                 _super.prototype.unPauseGame.call(this, changeMenu);
-                this.timer.start();
+                this.continueTimer();
             };
             LevelTimeAttack.prototype.useItemTime = function () {
                 this.currentTime += 10;
             };
             LevelTimeAttack.prototype.activate = function (parameters) {
                 var _this = this;
-                _super.prototype.activate.call(this);
-                this.boardSprite.visible = false;
-                //shows popup
-                this.popup.showTimeAttack(this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString());
-                this.popup.once("onclose", function () {
-                    _this.boardSprite.visible = true;
-                    //shows puzzle
-                    if (parameters)
-                        _this.animatePuzzle(parameters);
-                    _this.timer.start();
-                });
+                // only if have a time (game not loose yet)
+                if (this.currentTime > 0) {
+                    _super.prototype.activate.call(this);
+                    this.boardSprite.visible = false;
+                    //shows popup
+                    this.popup.showTimeAttack(this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString());
+                    this.popup.once("onclose", function () {
+                        _this.boardSprite.visible = true;
+                        //shows puzzle
+                        if (parameters)
+                            _this.animatePuzzle(parameters);
+                        _this.continueTimer();
+                    });
+                }
             };
             return LevelTimeAttack;
         })(GamePlay.LevelScreen);
@@ -4889,9 +4916,13 @@ var FlipPlus;
             };
             MainMenu.prototype.activate = function (parameters) {
                 var _this = this;
-                if (Math.random() > 0.98)
-                    setTimeout(function () { FlipPlus.FlipPlusGame.showSpecialOffer(_this); }, 1000);
                 _super.prototype.activate.call(this);
+                //verify if user unlocked at least 2 projects to ask it for rating
+                if (FlipPlus.FlipPlusGame.levelsManager.getUnlockedProjects().length >= 2 && !FlipPlus.FlipPlusGame.storyData.getStoryPlayed("rating"))
+                    this.askUserForRating();
+                else if (Math.random() > 0.98)
+                    setTimeout(function () { FlipPlus.FlipPlusGame.showSpecialOffer(_this); }, 1000);
+                FlipPlus.FlipPlusGame.showSpecialOffer(this);
                 // animate logo
                 var x = 370;
                 var y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
@@ -4926,6 +4957,14 @@ var FlipPlus;
                 _super.prototype.desactivate.call(this, parameters);
                 this.terminal.desactivate();
                 this.myBots.clear();
+            };
+            MainMenu.prototype.askUserForRating = function () {
+                FlipPlus.FlipPlusGame.storyData.setStoryPlayed("rating");
+                var confirmPopup = new Menu.View.PopupRating();
+                this.overlay.addChild(confirmPopup);
+                confirmPopup.showRatingMessage(function () {
+                    alert("OK");
+                });
             };
             MainMenu.prototype.addLogo = function () {
                 this.logo = new PIXI.extras.TilingSprite(gameui.AssetsManager.getLoadedImage("logo"), 795, 260);
@@ -6237,11 +6276,9 @@ var FlipPlus;
                     var _this = this;
                     this.once("click", function () {
                         _this.closePopUp();
-                        clearTimeout(_this.closeinterval);
                     });
                     this.once("tap", function () {
                         _this.closePopUp();
-                        clearTimeout(_this.closeinterval);
                     });
                 };
                 // public method to invoke the popup
@@ -6493,6 +6530,8 @@ var FlipPlus;
                     //hide the popup{
                     this.fadeOut(1, 0.5);
                     this.removesClickIndicator();
+                    if (this.closeinterval)
+                        clearTimeout(this.closeinterval);
                     //dispatch a event for parent objects
                     this.emit("onclose");
                     this.interactive = false;
@@ -6998,7 +7037,7 @@ var Analytics = (function () {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader('Content-Type', 'text/plain');
-        xhr.setRequestHeader('Content-Length', JSON.stringify(data).length.toString());
+        //xhr.setRequestHeader('Content-Length', JSON.stringify(data).length.toString());
         xhr.setRequestHeader("Authorization", header_auth_hex);
         //xhr.addEventListener('load', function (e) {console.log("anl");}, false);
         xhr.send(JSON.stringify(data));
@@ -8151,6 +8190,82 @@ var FlipPlus;
     (function (Menu) {
         var View;
         (function (View) {
+            // View Class
+            var PopupRating = (function (_super) {
+                __extends(PopupRating, _super);
+                function PopupRating() {
+                    _super.apply(this, arguments);
+                }
+                PopupRating.prototype.showRatingMessage = function (accept) {
+                    var _this = this;
+                    this.showsPopup(0, 0);
+                    //clean display Object
+                    this.removeChildren();
+                    //draw background
+                    var bg = gameui.AssetsManager.getBitmap("popups/popup");
+                    bg.x = 0;
+                    bg.y = 100;
+                    this.addChild(bg);
+                    // create Title
+                    var titleDO = gameui.AssetsManager.getBitmapText(StringResources.ratingText, "fontStrong");
+                    this.addChild(titleDO);
+                    titleDO.pivot.x = titleDO.getLocalBounds().width / 2;
+                    titleDO.x = defaultWidth / 2;
+                    titleDO.y = 450;
+                    // create a text
+                    var textDO = gameui.AssetsManager.getBitmapText(StringResources.ratingText, "fontWhite");
+                    this.addChild(textDO);
+                    textDO.pivot.x = textDO.getLocalBounds().width / 2;
+                    textDO.x = defaultWidth / 2;
+                    textDO.y = 650;
+                    // Add Buttons
+                    for (var i = 0; i < 5; i++) {
+                        var bt = new gameui.ImageButton("starsicon", function (e) {
+                            _this.closePopUp();
+                            if (e.target.rate > 2)
+                                _this.gotoStore();
+                        });
+                        bt["rate"] = i + 1;
+                        bt.y = 1100;
+                        bt.x = 370 + 200 * i;
+                        this.addChild(bt);
+                    }
+                };
+                PopupRating.prototype.gotoStore = function () {
+                    var IOS_RATING_URL = "http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=519623307&onlyLatestVersion=false&type=Purple+Software";
+                    var ANDROID_RATING_URL = "market://details?id=com.diastudio.flipplus";
+                    var ratingURL = null;
+                    var os = "web";
+                    if (Cocoon && Cocoon.getPlatform())
+                        os = Cocoon.getPlatform();
+                    if (os == "ios")
+                        ratingURL = IOS_RATING_URL;
+                    if (os == "android")
+                        ratingURL = ANDROID_RATING_URL;
+                    if (os == "windows") {
+                        Windows.System.Launcher.launchUriAsync(new Windows.Foundation.Uri("ms-windows-store:REVIEW?PFN=DIAStudio.JoinJelly_gs119xcmtqkqr"));
+                        return;
+                    }
+                    // opens URL
+                    if (typeof Cocoon !== 'undefined')
+                        Cocoon.App.openURL(ratingURL);
+                    else if (typeof Windows !== 'undefined')
+                        Windows.System.Launcher.launchUriAsync(new Windows.Foundation.Uri(ratingURL));
+                    else
+                        window.open(ratingURL);
+                };
+                return PopupRating;
+            })(View.Popup);
+            View.PopupRating = PopupRating;
+        })(View = Menu.View || (Menu.View = {}));
+    })(Menu = FlipPlus.Menu || (FlipPlus.Menu = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var Menu;
+    (function (Menu) {
+        var View;
+        (function (View) {
             var ProductListItem = (function (_super) {
                 __extends(ProductListItem, _super);
                 function ProductListItem(productId, name, description, localizedPrice, image) {
@@ -8799,6 +8914,8 @@ var StringResources = {
     continue: "Continue",
     leave: "Leave",
     bonusLocked: "Build more Bots",
+    ratingTitle: "Are you enjoying?",
+    ratingText: "Please rate this game!",
     menus: {
         highScore: "High Score",
         loading: "loading",
@@ -9044,6 +9161,8 @@ var stringResources_pt = {
     continue: "Continuar",
     leave: "Sair",
     bonusLocked: "Monte mais Robôs",
+    ratingTitle: "Está gostando?",
+    ratingText: "Deixe sua avaliação!",
     menus: {
         highScore: "Recorde",
         loading: "Carregando",
