@@ -16,42 +16,49 @@ module FlipPlus.GamePlay {
             this.startGame(levelData);
 
             // update overlay
-            this.statusArea.setText1( "0/" + this.puzzlesToSolve.toString());
+            this.statusArea.setText1( "1/" + this.puzzlesToSolve.toString());
          }
 
         private createsTimer() {
             //Creates Timer
             this.timer = new Timer(1000);
+            this.timer.addEventListener(TimerEvent.TIMER, (e) => { this.timeTick();} );
+        }
 
-            this.timer.addEventListener(TimerEvent.TIMER, (e) => {
-                this.currentTime--;
-                this.statusArea.setText3(this.currentTime.toString());
+        private timeTick() {
+            if (this.currentTime > 0) this.currentTime--;
 
-                if (this.currentTime <= 0) {
+            this.statusArea.setText3(this.currentTime.toString());
 
-                    // suggest more time
-                    this.timer.stop();
-                    this.boardSprite.mouseEnabled = false;
-                    this.popupHelper.showItemMessage(Items.TIME, this.getItemPrice(Items.TIME),
-                        () => {
-                            this.useItem(Items.TIME);
+            if (this.currentTime <= 0) {
+
+                // suggest more time
+                this.timer.stop();
+                this.boardSprite.mouseEnabled = false;
+                this.popupHelper.showItemMessage(Items.TIME, this.getItemPrice(Items.TIME),
+                    () => {
+                        if (this.useItem(Items.TIME)) {
                             this.boardSprite.mouseEnabled = true;
-                            this.timer.start();
-                        },
-                        () => {
-                            gameui.AudiosManager.playSound("Power Down");
-                            this.statusArea.setText3(StringResources.gp_pz_statusEnd);
-                            this.message.showtext(StringResources.gp_pz_timeUP);
-                            this.loose();
-                        });
 
- 
-                }
-                if (this.currentTime == 4) {
-                    // play sound
-                    gameui.AudiosManager.playSound("Ticking Clock");
-                }
-            });
+                            this.continueTimer()
+                        }
+                    },
+                    () => {
+                        gameui.AudiosManager.playSound("Power Down");
+                        this.statusArea.setText3(StringResources.gp_pz_statusEnd);
+                        this.message.showtext(StringResources.gp_pz_timeUP);
+                        this.loose();
+                    });
+            }
+
+            // play sound
+            if (this.currentTime == 5) gameui.AudiosManager.playSound("Ticking Clock");
+
+        }
+
+        private continueTimer() {
+            this.timer.start();
+            this.timeTick();
         }
 
         private createMenu() {
@@ -69,7 +76,7 @@ module FlipPlus.GamePlay {
             createjs.Tween.get(this.boardSprite).to({ x: defaultX - defaultWidth }, 250, createjs.Ease.quadIn).call(() => {
 
                 // update overlay
-                this.statusArea.setText1(this.currentPuzzle.toString() + "/" + this.puzzlesToSolve.toString());
+                this.statusArea.setText1((this.currentPuzzle+1).toString() + "/" + this.puzzlesToSolve.toString());
 
                 // updates logic
                 this.currentPuzzle++;
@@ -129,7 +136,7 @@ module FlipPlus.GamePlay {
 
         protected unPauseGame(changeMenu: boolean = true) {
             super.unPauseGame(changeMenu);
-            this.timer.start();
+            this.continueTimer()
         }
  
         protected useItemTime() {
@@ -137,20 +144,23 @@ module FlipPlus.GamePlay {
         }
 
         activate(parameters?: any) {
-            super.activate();
+           
 
-            this.boardSprite.visible = false;
-            //shows popup
-            this.popup.showTimeAttack( this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString()); 
-            this.popup.once("onclose", () => {
+            // only if have a time (game not loose yet)
+            if (this.currentTime > 0) {
+                super.activate();
 
-                this.boardSprite.visible = true;
-                //shows puzzle
-                if (parameters) this.animatePuzzle(parameters);
-                this.timer.start();
-            });
+                this.boardSprite.visible = false;
+                //shows popup
+                this.popup.showTimeAttack(this.levelData.time.toString(), this.levelData.puzzlesToSolve.toString());
+                this.popup.once("onclose", () => {
 
-
+                    this.boardSprite.visible = true;
+                    //shows puzzle
+                    if (parameters) this.animatePuzzle(parameters);
+                    this.continueTimer();
+                });
+            }
         }
     }
 }
