@@ -127,7 +127,7 @@ class Analytics {
         xhr.open("POST", url, true)
 
         xhr.setRequestHeader('Content-Type', 'text/plain');
-        xhr.setRequestHeader('Content-Length', JSON.stringify(data).length.toString());
+        //xhr.setRequestHeader('Content-Length', JSON.stringify(data).length.toString());
         xhr.setRequestHeader("Authorization", header_auth_hex);
         //xhr.addEventListener('load', function (e) {console.log("anl");}, false);
 
