@@ -17,7 +17,8 @@ module FlipPlus.Menu {
             this.content.addChild(bt);
 
             // adds price
-            bt.addChild(gameui.AssetsManager.getBitmapText(productList[0].localizedPrice,"fontStrong").set({ x: -210, y: 190}));
+            if (productList[0])
+                bt.addChild(gameui.AssetsManager.getBitmapText(productList[0].localizedPrice,"fontStrong").set({ x: -210, y: 190}));
          }
 
         protected buildHeader(title, previousScreen, color?: string) {
