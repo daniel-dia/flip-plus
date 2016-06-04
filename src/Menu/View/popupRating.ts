@@ -5,10 +5,12 @@
 
         public showRatingMessage(accept:()=>void) {
 
-            this.showsPopup(0,0);
-
             //clean display Object
             this.removeChildren();
+
+            this.showsPopup(0,0);
+
+
 
             //draw background
             var bg = gameui.AssetsManager.getBitmap("popups/popup")
