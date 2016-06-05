@@ -66,9 +66,6 @@ module FlipPlus.Menu {
             else if (Math.random() > 0.98)
                 setTimeout(() => { FlipPlusGame.showSpecialOffer(this); }, 1000)
 
-            //setTimeout(() => { FlipPlusGame.showSpecialOffer(this); }, 1000)
-           
-            
             // animate logo
             var x = 370;
             var y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;

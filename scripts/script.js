@@ -4922,7 +4922,6 @@ var FlipPlus;
                     this.askUserForRating();
                 else if (Math.random() > 0.98)
                     setTimeout(function () { FlipPlus.FlipPlusGame.showSpecialOffer(_this); }, 1000);
-                //setTimeout(() => { FlipPlusGame.showSpecialOffer(this); }, 1000)
                 // animate logo
                 var x = 370;
                 var y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
@@ -7505,10 +7504,9 @@ var FlipPlus;
                         _this.unlockUI();
                     },
                     complete: function (purchaseInfo) {
-                        _this.fullFillPurchase(purchaseInfo.productId);
+                        _this.fullFillPurchase(purchaseInfo.productId, _this.inappsService);
                         _this.updateUI();
                         _this.unlockUI();
-                        _this.animateItem(purchaseInfo.productId);
                         _this.getProductListItem(purchaseInfo.productId).setPurchased(true);
                         _this.getProductListItem(purchaseInfo.productId).setPurchased();
                     }
@@ -7518,7 +7516,9 @@ var FlipPlus;
             ShopMenu.prototype.updateProductsAvaliability = function () {
             };
             // show that product is consumed
-            ShopMenu.prototype.fullFillPurchase = function (productId) {
+            ShopMenu.prototype.fullFillPurchase = function (productId, inAppsService) {
+                var _this = this;
+                inAppsService.consume(productId, 1);
                 switch (productId) {
                     case "50parts":
                         FlipPlus.FlipPlusGame.coinsData.increaseAmount(50);
@@ -7538,7 +7538,9 @@ var FlipPlus;
                         FlipPlus.FlipPlusGame.storyData.setStoryPlayed("halfTime");
                         break;
                 }
-                this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
+                setTimeout(function () { _this.animateItem(productId); }, 500);
+                ;
+                setTimeout(function () { _this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount()); }, 1000);
                 return true;
             };
             return ShopMenu;

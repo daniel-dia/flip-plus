@@ -179,11 +179,10 @@ module FlipPlus.Menu {
                     this.getProductListItem(productId).setNormal();
                     this.unlockUI();
                 },
-                complete: (purchaseInfo) =>{
-                    this.fullFillPurchase(purchaseInfo.productId);
+                complete: (purchaseInfo) => {
+                    this.fullFillPurchase(purchaseInfo.productId, this.inappsService);
                     this.updateUI();
                     this.unlockUI();
-                    this.animateItem(purchaseInfo.productId);
 
                     this.getProductListItem(purchaseInfo.productId).setPurchased(true);
                     this.getProductListItem(purchaseInfo.productId).setPurchased();
@@ -197,8 +196,10 @@ module FlipPlus.Menu {
         }
 
         // show that product is consumed
-        private fullFillPurchase(productId: string): boolean {
+        private fullFillPurchase(productId: string, inAppsService): boolean {
 
+            inAppsService.consume(productId, 1)
+            
             switch (productId) {
                 case "50parts":
                     FlipPlusGame.coinsData.increaseAmount(50);
@@ -223,7 +224,8 @@ module FlipPlus.Menu {
                     break;
             }
 
-            this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
+            setTimeout(() => { this.animateItem(productId) }, 500);;
+            setTimeout(() => { this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount()) }, 1000);
 
             return true;
         }
