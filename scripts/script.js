@@ -5754,6 +5754,13 @@ var FlipPlus;
                 CoinsIndicator.prototype.updateAmmount = function (newQuantity, tween) {
                     if (tween === void 0) { tween = true; }
                     this.coinsTextField.text = newQuantity.toString();
+                    this.updateItemsPositions();
+                };
+                CoinsIndicator.prototype.updateItemsPositions = function () {
+                    var newScale = (this.coinsTextField.getLocalBounds().width + 220) / 380;
+                    this.bg.scaleX = Math.max(newScale, 1);
+                    // centralize in screen
+                    this.x = defaultWidth / 2 - this.getLocalBounds().width / 2;
                 };
                 CoinsIndicator.prototype.createCoinEffect = function (x, y, coins, inverse) {
                     var _this = this;
@@ -5788,10 +5795,9 @@ var FlipPlus;
                 CoinsIndicator.prototype.addCoinIcon = function () {
                     var icon = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
                     icon.scale.x = icon.scale.y = 0.9;
-                    icon.pivot.x = 119 / 2;
                     icon.pivot.y = 93 / 2;
-                    icon.x = -120 + icon.pivot.x;
-                    icon.y = +35 + icon.pivot.y;
+                    icon.x = 45;
+                    icon.y = 35 + icon.pivot.y;
                     icon.name = "icon";
                     this.addChild(icon);
                     return icon;
@@ -5799,12 +5805,12 @@ var FlipPlus;
                 //add objects to View
                 CoinsIndicator.prototype.buildView = function () {
                     // add Background
-                    var bg = gameui.AssetsManager.getBitmap("partshud");
-                    bg.pivot.x = 190;
-                    this.addChild(bg);
-                    var icon = this.addCoinIcon();
+                    this.bg = gameui.AssetsManager.getBitmap("partshud");
+                    this.bg.pivot.x = 0;
+                    this.addChild(this.bg);
+                    this.icon = this.addCoinIcon();
                     this.coinsTextField = gameui.AssetsManager.getBitmapText("0", "fontWhite");
-                    this.coinsTextField.x = 50;
+                    this.coinsTextField.x = 170;
                     this.coinsTextField.y = 30;
                     this.addChild(this.coinsTextField);
                 };

@@ -4,7 +4,8 @@ module FlipPlus.Menu.View {
     export class CoinsIndicator extends gameui.Button{
 
         private coinsTextField: PIXI.extras.BitmapText;
-
+        private bg: PIXI.Sprite;
+        private icon: PIXI.Sprite;
         private fx: FlipPlus.Effects;
         
         // Constructor
@@ -20,6 +21,16 @@ module FlipPlus.Menu.View {
         //updates Parts indicator amount
         public updateAmmount(newQuantity: number, tween:boolean=true) {
             this.coinsTextField.text = newQuantity.toString();
+            this.updateItemsPositions();
+        }
+
+        public updateItemsPositions() {
+            var newScale = (this.coinsTextField.getLocalBounds().width + 220) / 380;
+
+            this.bg.scaleX = Math.max(newScale, 1);
+
+            // centralize in screen
+            this.x = defaultWidth / 2 - this.getLocalBounds().width / 2;
         }
 
         public createCoinEffect(x: number, y: number, coins: number, inverse: boolean=false) {
@@ -55,13 +66,12 @@ module FlipPlus.Menu.View {
             }
         }
 
-        private addCoinIcon(): PIXI.DisplayObject {
+        private addCoinIcon(): PIXI.Sprite {
             var icon = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
             icon.scale.x = icon.scale.y = 0.9;
-            icon.pivot.x = 119/2;
-            icon.pivot.y = 93 / 2;
-            icon.x = -120 + icon.pivot.x;
-            icon.y = +35 + icon.pivot.y;
+            icon.pivot.y = 93/2;
+            icon.x = 45;
+            icon.y = 35 + icon.pivot.y;
             icon.name = "icon";
             this.addChild(icon);
             return icon;
@@ -71,14 +81,14 @@ module FlipPlus.Menu.View {
         private buildView() {
 
             // add Background
-            var bg = gameui.AssetsManager.getBitmap("partshud");
-            bg.pivot.x = 190;
-            this.addChild(bg);
+            this.bg = gameui.AssetsManager.getBitmap("partshud");
+            this.bg.pivot.x = 0;
+            this.addChild(this.bg);
 
-            var icon = this.addCoinIcon();
+            this.icon = this.addCoinIcon();
 
             this.coinsTextField = gameui.AssetsManager.getBitmapText("0", "fontWhite");
-            this.coinsTextField.x = 50;
+            this.coinsTextField.x = 170;
             this.coinsTextField.y = 30;
             this.addChild(this.coinsTextField);
 
