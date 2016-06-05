@@ -30,7 +30,7 @@ module FlipPlus.Menu.View {
             this.bg.scaleX = Math.max(newScale, 1);
 
             // centralize in screen
-            this.x = defaultWidth / 2 - this.getLocalBounds().width / 2;
+            this.x = defaultWidth / 2 - this.bg.getLocalBounds().width / 2;
         }
 
         public createCoinEffect(x: number, y: number, coins: number, inverse: boolean=false) {

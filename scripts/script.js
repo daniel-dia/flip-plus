@@ -5760,7 +5760,7 @@ var FlipPlus;
                     var newScale = (this.coinsTextField.getLocalBounds().width + 220) / 380;
                     this.bg.scaleX = Math.max(newScale, 1);
                     // centralize in screen
-                    this.x = defaultWidth / 2 - this.getLocalBounds().width / 2;
+                    this.x = defaultWidth / 2 - this.bg.getLocalBounds().width / 2;
                 };
                 CoinsIndicator.prototype.createCoinEffect = function (x, y, coins, inverse) {
                     var _this = this;
