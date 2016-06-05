@@ -24,7 +24,7 @@
             }
 
             // adds text
-            this.addChild(gameui.AssetsManager.getBitmapText(name, "fontStrong", 0x333071, 1.1).set({ x: -160, y: -70 }));
+            this.addChild(gameui.AssetsManager.getBitmapText(name, "fontStrong", 0x333071).set({ x: -160, y: -70 }));
             this.purchaseButton = new gameui.ImageButton("menu/purchaseButton", () => { this.emit("pressed"); });
             this.purchaseButton.x = 370;
 

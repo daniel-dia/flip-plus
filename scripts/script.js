@@ -4922,7 +4922,7 @@ var FlipPlus;
                     this.askUserForRating();
                 else if (Math.random() > 0.98)
                     setTimeout(function () { FlipPlus.FlipPlusGame.showSpecialOffer(_this); }, 1000);
-                FlipPlus.FlipPlusGame.showSpecialOffer(this);
+                //setTimeout(() => { FlipPlusGame.showSpecialOffer(this); }, 1000)
                 // animate logo
                 var x = 370;
                 var y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
@@ -7044,7 +7044,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 1.0.1";
+var version = "v 1.0.4";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
@@ -7371,7 +7371,7 @@ var FlipPlus;
     (function (Menu) {
         var ShopMenu = (function (_super) {
             __extends(ShopMenu, _super);
-            function ShopMenu(previousScreen) {
+            function ShopMenu(previousScreen, products) {
                 _super.call(this, StringResources.menus.shop, previousScreen, "menu/titleRed");
                 this.productInfo = [
                     { productId: "50parts", description: "50", productAlias: "50", title: "50", localizedPrice: "U$ 0,99" },
@@ -7379,17 +7379,20 @@ var FlipPlus;
                     { productId: "1000parts", description: "1000", productAlias: "1000", title: "1000", localizedPrice: "U$ 4,99" },
                     { productId: "200parts", description: "200", productAlias: "200", title: "200", localizedPrice: "U$ 1,99" },
                 ];
-                this.productIdList = ["50parts", "200parts", "500parts", "1000parts"];
+                if (!products)
+                    products = ["50parts", "200parts", "500parts", "1000parts"];
                 this.initializeScreen();
-                this.initializeStore();
+                this.initializeStore(products);
                 this.coinsIndicator.interactive = false;
             }
             //#region Interface =====================================================================================
             ShopMenu.prototype.initializeScreen = function () {
                 this.loadingObject = new PIXI.Container();
+                this.productsContainer = new PIXI.Container();
                 this.statusText = gameui.AssetsManager.getBitmapText(StringResources.menus.errorShop, "fontBlue");
                 this.content.addChild(this.loadingObject);
                 this.content.addChild(this.statusText);
+                this.content.addChild(this.productsContainer);
                 this.statusText.y = -400;
                 this.statusText.regX = this.statusText.textWidth / 2;
             };
@@ -7410,12 +7413,14 @@ var FlipPlus;
                     var productListItem = this.createProduct(productList[p], inappsService);
                     productListItem.y = p * 320 - 380;
                     productListItem.x = 0;
-                    this.content.addChild(productListItem);
+                    this.productsContainer.addChild(productListItem);
                 }
             };
             // add a single product in the list
             ShopMenu.prototype.createProduct = function (product, inappsService) {
-                var productListItem = new Menu.View.ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice, "store/" + product.productId);
+                var title = product.title;
+                title = title.split(" (")[0];
+                var productListItem = new Menu.View.ProductListItem(product.productId, title, product.description, product.localizedPrice, "store/" + product.productId);
                 this.productsListItems[product.productId] = productListItem;
                 // add function callback
                 productListItem.addEventListener("pressed", function () {
@@ -7473,7 +7478,7 @@ var FlipPlus;
             //#endregion 
             //#region Store =====================================================================================
             // initialize product listing
-            ShopMenu.prototype.initializeStore = function () {
+            ShopMenu.prototype.initializeStore = function (products) {
                 var _this = this;
                 this.showLoading();
                 if (!Cocoon || !Cocoon["InApp"]) {
@@ -7484,7 +7489,7 @@ var FlipPlus;
                 // Service initialization
                 this.inappsService.initialize({ autofinish: true }, function (error) {
                     console.log("initialized Store" + error);
-                    _this.inappsService.fetchProducts(_this.productIdList, function (products, error) {
+                    _this.inappsService.fetchProducts(products, function (products, error) {
                         console.log("fetchProducts" + error);
                         _this.products = products;
                         _this.fillProducts(products, _this.inappsService);
@@ -7632,22 +7637,24 @@ var FlipPlus;
     (function (Menu) {
         var SpecialOfferMenu = (function (_super) {
             __extends(SpecialOfferMenu, _super);
-            function SpecialOfferMenu() {
-                _super.apply(this, arguments);
-                this.productIdList = ["100parts"];
+            function SpecialOfferMenu(previousScreen) {
+                _super.call(this, previousScreen, ["100parts"]);
             }
             // add all products in the list
             SpecialOfferMenu.prototype.fillProducts = function (productList, inappsService) {
                 var _this = this;
                 _super.prototype.fillProducts.call(this, productList, inappsService);
+                this.productsContainer.visible = false;
                 var bt = new gameui.ImageButton("menu/specialOffer", function () {
                     if (_this.inappsService)
                         _this.inappsService.purchase(productList[0].productId, 1);
                     bt.fadeOut();
+                    _this.productsContainer.visible = true;
                 });
                 this.content.addChild(bt);
                 // adds price
-                bt.addChild(gameui.AssetsManager.getBitmapText(productList[0].localizedPrice, "fontStrong").set({ x: -210, y: 190 }));
+                if (productList[0])
+                    bt.addChild(gameui.AssetsManager.getBitmapText(productList[0].localizedPrice, "fontStrong").set({ x: -210, y: 190 }));
             };
             SpecialOfferMenu.prototype.buildHeader = function (title, previousScreen, color) {
                 _super.prototype.buildHeader.call(this, StringResources.menus.specialOffer, previousScreen, color);
@@ -8198,9 +8205,9 @@ var FlipPlus;
                 }
                 PopupRating.prototype.showRatingMessage = function (accept) {
                     var _this = this;
-                    this.showsPopup(0, 0);
                     //clean display Object
                     this.removeChildren();
+                    this.showsPopup(0, 0);
                     //draw background
                     var bg = gameui.AssetsManager.getBitmap("popups/popup");
                     bg.x = 0;
@@ -8284,7 +8291,7 @@ var FlipPlus;
                         this.addChild(i);
                     }
                     // adds text
-                    this.addChild(gameui.AssetsManager.getBitmapText(name, "fontStrong", 0x333071, 1.1).set({ x: -160, y: -70 }));
+                    this.addChild(gameui.AssetsManager.getBitmapText(name, "fontStrong", 0x333071).set({ x: -160, y: -70 }));
                     this.purchaseButton = new gameui.ImageButton("menu/purchaseButton", function () { _this.emit("pressed"); });
                     this.purchaseButton.x = 370;
                     // adds price

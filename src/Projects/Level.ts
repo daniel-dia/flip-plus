@@ -8,7 +8,7 @@ module FlipPlus.Levels {
         public leveld: number;
 
         // Project Identification
-        public projectId: number;
+        public projectId: any;
 
         // ================= parameters =========================================
 

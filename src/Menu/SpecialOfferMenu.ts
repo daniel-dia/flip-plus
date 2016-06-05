@@ -3,15 +3,19 @@
 module FlipPlus.Menu {
     export class SpecialOfferMenu extends ShopMenu {
 
-        protected productIdList = ["100parts"];
+        constructor(previousScreen: gameui.ScreenState) {
+            super(previousScreen, ["100parts"]);
+        }
 
         // add all products in the list
         protected fillProducts(productList: Array<any>, inappsService:any) {
             super.fillProducts(productList, inappsService);
+            this.productsContainer.visible = false;
 
             var bt = new gameui.ImageButton("menu/specialOffer", () => {
                 if (this.inappsService) this.inappsService.purchase(productList[0].productId, 1);
                 bt.fadeOut();
+                this.productsContainer.visible = true;
             });
 
             this.content.addChild(bt);

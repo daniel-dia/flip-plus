@@ -2,11 +2,13 @@
 
 module FlipPlus.Menu {
     export class ShopMenu extends GenericMenu {
-
+        
         private productsListItems: Array<View.ProductListItem>;
         private statusText: PIXI.extras.BitmapText;
         private loadingObject: PIXI.DisplayObject;
         private products: Array<any>;
+
+        protected productsContainer: PIXI.Container;
         protected inappsService;
 
         private productInfo: Array<any> = [
@@ -17,15 +19,15 @@ module FlipPlus.Menu {
             //{ productId: "p100",  description: "100",  productAlias: "100", title: "100", localizedPrice: "U$ 1,99" },
         ];
 
-        protected productIdList = ["50parts", "200parts", "500parts", "1000parts"];
-
-        constructor(previousScreen: gameui.ScreenState) {
+        constructor(previousScreen: gameui.ScreenState, products?: Array<string>) {
 
             super(StringResources.menus.shop, previousScreen, "menu/titleRed");
 
+            if (!products) products = ["50parts", "200parts", "500parts", "1000parts"];
+            
             this.initializeScreen();
 
-            this.initializeStore();
+            this.initializeStore(products);
 
             this.coinsIndicator.interactive = false;
 
@@ -35,9 +37,11 @@ module FlipPlus.Menu {
 
         protected initializeScreen() {
             this.loadingObject = new PIXI.Container();
+            this.productsContainer = new PIXI.Container();
             this.statusText = gameui.AssetsManager.getBitmapText(StringResources.menus.errorShop, "fontBlue");
             this.content.addChild(this.loadingObject);
             this.content.addChild(this.statusText);
+            this.content.addChild(this.productsContainer);
             this.statusText.y = -400;
             this.statusText.regX = this.statusText.textWidth / 2;
         }
@@ -62,14 +66,16 @@ module FlipPlus.Menu {
                 var productListItem = this.createProduct(productList[p], inappsService);
                 productListItem.y = p * 320 - 380;
                 productListItem.x = 0;
-                this.content.addChild(productListItem);
+                this.productsContainer.addChild(productListItem);
             }
         }
 
         // add a single product in the list
         protected createProduct(product: any, inappsService:any): PIXI.DisplayObject {
 
-            var productListItem = new View.ProductListItem(product.productId, product.title.replace("(Flip +)", ""), product.description, product.localizedPrice, "store/" + product.productId);
+            var title:string = product.title;
+            title = title.split(" (")[0];
+            var productListItem = new View.ProductListItem(product.productId, title, product.description, product.localizedPrice, "store/" + product.productId);
 
             this.productsListItems[product.productId] = productListItem;
           
@@ -138,7 +144,7 @@ module FlipPlus.Menu {
         //#region Store =====================================================================================
 
         // initialize product listing
-        private initializeStore() {
+        private initializeStore(products: Array<string>) {
 
             this.showLoading();
 
@@ -155,7 +161,7 @@ module FlipPlus.Menu {
                 (error) => {
                     console.log("initialized Store" + error)
 
-                    this.inappsService.fetchProducts(this.productIdList,  (products, error) => {
+                    this.inappsService.fetchProducts(products,  (products, error) => {
                         console.log("fetchProducts" + error)
     
                         this.products = products;

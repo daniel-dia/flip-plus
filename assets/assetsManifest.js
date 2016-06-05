@@ -314,6 +314,7 @@ var imageManifest = [
         { src: "store/50parts.png", id: "store/50parts" },
         { src: "store/200parts.png", id: "store/200parts" },
         { src: "store/500parts.png", id: "store/500parts" },
+        { src: "store/200parts.png", id: "store/100parts" },
         { src: "store/1000parts.png", id: "store/1000parts" },
 
 
