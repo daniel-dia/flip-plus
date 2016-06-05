@@ -60,7 +60,7 @@ module FlipPlus.Menu {
 
             //verify if user unlocked at least 2 projects to ask it for rating
             if (FlipPlusGame.levelsManager.getUnlockedProjects().length >= 4 && !FlipPlusGame.storyData.getStoryPlayed("rating"))
-                this.askUserForRating();
+                setTimeout(() => { this.askUserForRating(); }, 2000);
 
             // show sales randomly
             else if (Math.random() > 0.98)
