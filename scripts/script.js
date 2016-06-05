@@ -4985,15 +4985,15 @@ var FlipPlus;
                 this.menu.addEventListener("back", function () { _this.back(); });
                 this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
                 this.header.addChild(this.menu);
-                if (!win) {
-                    //adds menu button
-                    var achBt = new gameui.ImageButton("AchBt", function () {
-                        FlipPlus.FlipPlusGame.gameServices.showAchievements();
-                    });
-                    achBt.y = -90;
-                    achBt.x = defaultWidth - 130;
-                    this.footer.addChild(achBt);
-                }
+                //if (!win) {
+                //adds menu button
+                var achBt = new gameui.ImageButton("AchBt", function () {
+                    FlipPlus.FlipPlusGame.gameServices.showAchievements();
+                });
+                achBt.y = -90;
+                achBt.x = defaultWidth - 130;
+                this.footer.addChild(achBt);
+                //}
             };
             MainMenu.prototype.addTerminal = function () {
                 this.terminal = new Menu.View.Terminal();
