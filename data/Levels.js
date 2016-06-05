@@ -1,5 +1,4 @@
 ﻿/* bot names
- 
 
 S-N3S
 R-MS
@@ -615,7 +614,7 @@ var levelsData =
    },
    //07
    {
-       "name": "Bot14",
+       "name": "Bot07",
        "cost": 16,
        "nickName": "R-GH",
        "levels": [
@@ -697,7 +696,7 @@ var levelsData =
    },
    //08
    {
-       "name": "Bot07",
+       "name": "Bot08",
        "cost": 18,
        "nickName": "ME64-x",
        "levels": [
@@ -1067,7 +1066,7 @@ var levelsData =
    },
    //12
    {
-       "name": "Bot08",
+       "name": "Bot12",
        "cost": 29,
        "nickName": "K0N-6",
        "levels": [
@@ -1163,7 +1162,7 @@ var levelsData =
    },
    //13
    {
-       "name": "Bot12",
+       "name": "Bot13",
        "cost": 32,
        "nickName": "S-H06",
        "levels": [
@@ -1268,7 +1267,7 @@ var levelsData =
    },
    //14
    {
-       "name": "Bot13",
+       "name": "Bot14",
        "cost": 34,
        "nickName": "D-D1",
        "levels": [
@@ -1774,7 +1773,6 @@ function levelsHealth() {
         }
     }
 }
-
 function printLevel(p, l, lv) {
     console.log(" - " + (parseInt(p) + 1) + " - " + (parseInt(l) + 1) + " - " + lv.type + " - " + lv.blocksData);
 }

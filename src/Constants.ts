@@ -1,4 +1,4 @@
-var version = "v 1.0.6"
+var version = "v 1.0.7"
 
 var defaultWidth = 1536;
 var defaultHeight = 2048;
@@ -39,6 +39,7 @@ var contantsAndroid = {
     ACH_Bot16: 'CgkIs9-2xP4KEAIQEA',
     ACH_Bot17: 'CgkIs9-2xP4KEAIQEQ',
     ACH_Bot18: 'CgkIs9-2xP4KEAIQEg',
+
     CLIENT_ID: '377563754419',
     
 }

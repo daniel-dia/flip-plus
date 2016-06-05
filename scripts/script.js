@@ -7049,7 +7049,7 @@ var Analytics = (function () {
     };
     return Analytics;
 })();
-var version = "v 1.0.6";
+var version = "v 1.0.7";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
