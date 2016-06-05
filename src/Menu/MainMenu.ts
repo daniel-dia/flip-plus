@@ -144,7 +144,7 @@ module FlipPlus.Menu {
             this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(); });
             this.header.addChild(this.menu);
 
-            //if (!win) {
+            if (!win) {
                 //adds menu button
                 var achBt: gameui.ImageButton = new gameui.ImageButton("AchBt", () => {
                     FlipPlusGame.gameServices.showAchievements();
@@ -152,7 +152,7 @@ module FlipPlus.Menu {
                 achBt.y = -90;
                 achBt.x = defaultWidth - 130;
                 this.footer.addChild(achBt);
-            //}
+            }
 
         }
         
