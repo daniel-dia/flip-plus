@@ -1,1 +1,1 @@
-http-server -p 8080
+http-server -p 80

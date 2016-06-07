@@ -235,13 +235,13 @@ module FlipPlus.GamePlay {
         // #region  GamePlay methods =========================================================================================================
 
         protected exit() {
-            FlipPlusGame.analytics.logLevelExit(this.levelData.name, Date.now() - this.startedTime, this.clicks);
+            FlipPlusGame.analytics.logLevelExit(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes);
             FlipPlusGame.exitLevel();
             gameui.AudiosManager.playSound("Power Down")
         }
 
         protected restart() {
-            FlipPlusGame.analytics.logLevelRestart(this.levelData.name, Date.now() - this.startedTime, this.clicks);
+            FlipPlusGame.analytics.logLevelRestart(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, Date.now() - this.startedTime, this.clicks);
             FlipPlusGame.replayLevel();
             gameui.AudiosManager.playSound("Power Down")
         }

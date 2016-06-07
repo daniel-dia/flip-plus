@@ -1,8 +1,9 @@
-﻿declare var Cocoon: any;
+﻿ 
+declare var Cocoon: any;
 
 module FlipPlus.Menu {
     export class ShopMenu extends GenericMenu {
-        
+
         private productsListItems: Array<View.ProductListItem>;
         private statusText: PIXI.extras.BitmapText;
         private loadingObject: PIXI.DisplayObject;
@@ -12,8 +13,8 @@ module FlipPlus.Menu {
         protected inappsService;
 
         private productInfo: Array<any> = [
-            { productId: "50parts",   description: "50",   productAlias: "50",   title: "50",   localizedPrice: "U$ 0,99" },
-            { productId: "500parts",  description: "500",  productAlias: "500",  title: "500",  localizedPrice: "U$ 3,99" },
+            { productId: "50parts", description: "50", productAlias: "50", title: "50", localizedPrice: "U$ 0,99" },
+            { productId: "500parts", description: "500", productAlias: "500", title: "500", localizedPrice: "U$ 3,99" },
             { productId: "1000parts", description: "1000", productAlias: "1000", title: "1000", localizedPrice: "U$ 4,99" },
             { productId: "200parts", description: "200", productAlias: "200", title: "200", localizedPrice: "U$ 1,99" },
             //{ productId: "p100",  description: "100",  productAlias: "100", title: "100", localizedPrice: "U$ 1,99" },
@@ -24,7 +25,7 @@ module FlipPlus.Menu {
             super(StringResources.menus.shop, previousScreen, "menu/titleRed");
 
             if (!products) products = ["50parts", "200parts", "500parts", "1000parts"];
-            
+
             this.initializeScreen();
 
             this.initializeStore(products);
@@ -51,7 +52,7 @@ module FlipPlus.Menu {
             var dic = {};
             this.productsListItems = <Array<View.ProductListItem>>dic;
             this.showLoaded();
- 
+
 
             function sortByKey(array, key) {
                 return array.sort(function (a, b) {
@@ -71,19 +72,19 @@ module FlipPlus.Menu {
         }
 
         // add a single product in the list
-        protected createProduct(product: any, inappsService:any): PIXI.DisplayObject {
+        protected createProduct(product: any, inappsService: any): PIXI.DisplayObject {
 
-            var title:string = product.title;
+            var title: string = product.title;
             title = title.split(" (")[0];
             var productListItem = new View.ProductListItem(product.productId, title, product.description, product.localizedPrice, "store/" + product.productId);
 
             this.productsListItems[product.productId] = productListItem;
           
             // add function callback
-            productListItem.addEventListener("pressed",() => {
+            productListItem.addEventListener("pressed", () => {
                 if (inappsService) inappsService.purchase(product.productId, 1);
-                    productListItem.setNotAvaliable();
-                });
+                productListItem.setNotAvaliable();
+            });
 
             return productListItem;
         }
@@ -130,14 +131,14 @@ module FlipPlus.Menu {
         }
 
         // animate footer item
-        private animateItem(productId: string) { 
+        private animateItem(productId: string) {
             var price = 5;
             var bt: View.ProductListItem = this.productsListItems[productId];
-            
-            if (bt) this.coinsIndicator.createCoinEffect(bt.x - 458, bt.y + 1125 - this.header.y - 100, price,true);
-            else    this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price, true);
 
-         }
+            if (bt) this.coinsIndicator.createCoinEffect(bt.x - 458, bt.y + 1125 - this.header.y - 100, price, true);
+            else this.coinsIndicator.createCoinEffect(0, 1024 - this.header.y, price, true);
+
+        }
 
         //#endregion 
         
@@ -148,7 +149,7 @@ module FlipPlus.Menu {
 
             this.showLoading();
 
-            if (!Cocoon || !Cocoon["InApp"]) {
+            if (typeof Cocoon == "undefined" || !Cocoon || !Cocoon["InApp"]) {
                 this.showError();
                 return;
             }
@@ -157,13 +158,13 @@ module FlipPlus.Menu {
 
             // Service initialization
             
-            this.inappsService.initialize({autofinish: true},
+            this.inappsService.initialize({ autofinish: true },
                 (error) => {
                     console.log("initialized Store" + error)
 
-                    this.inappsService.fetchProducts(products,  (products, error) => {
+                    this.inappsService.fetchProducts(products, (products, error) => {
                         console.log("fetchProducts" + error)
-    
+
                         this.products = products;
                         this.fillProducts(products, this.inappsService);
                     });
@@ -171,21 +172,27 @@ module FlipPlus.Menu {
             );
 
             this.inappsService.on("purchase", {
+
                 start: (productId) => {
                     this.getProductListItem(productId).setPurchasing();
                     this.lockUI();
                 },
-                error: (productId, error) =>{
+
+                error: (productId, error) => {
                     this.getProductListItem(productId).setNormal();
                     this.unlockUI();
                 },
+
                 complete: (purchaseInfo) => {
+
+                    // analytics
+                    FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, this.products[purchaseInfo.productId].price, this.products[purchaseInfo.productId].localizedPrice, purchaseInfo.transactionId);
+
                     this.fullFillPurchase(purchaseInfo.productId, this.inappsService);
                     this.updateUI();
                     this.unlockUI();
 
                     this.getProductListItem(purchaseInfo.productId).setPurchased(true);
-                    this.getProductListItem(purchaseInfo.productId).setPurchased();
                 }
             });
         }
@@ -199,7 +206,7 @@ module FlipPlus.Menu {
         private fullFillPurchase(productId: string, inAppsService): boolean {
 
             inAppsService.consume(productId, 1)
-            
+
             switch (productId) {
                 case "50parts":
                     FlipPlusGame.coinsData.increaseAmount(50);
