@@ -72,7 +72,7 @@ module FlipPlus.GamePlay {
 
             // analytics
             this.startedTime = Date.now();
-            FlipPlusGame.analytics.logLevelStart(this.levelData.name)
+            FlipPlusGame.analytics.logLevelStart(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes)
                 
             // menu back option
             this.onback = () => {
@@ -263,7 +263,9 @@ module FlipPlus.GamePlay {
         protected win(col: number, row: number, messageText: boolean= true) {
 
             // analytics
-            FlipPlusGame.analytics.logLevelWin(this.levelData.name, (Date.now() - this.startedTime), this.clicks)
+            var time = (Date.now() - this.startedTime)
+            //FlipPlusGame.analytics.logLevelWin(this.levelData.name, time , this.clicks)
+            FlipPlusGame.analytics.logLevelWin(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks)
 
             // freze the board
             this.boardSprite.mouseEnabled = false;
@@ -328,7 +330,9 @@ module FlipPlus.GamePlay {
 
         protected loose() {
 
-            FlipPlusGame.analytics.logLevelLoose(this.levelData.name, Date.now() - this.startedTime, this.clicks)
+            var time = (Date.now() - this.startedTime)
+            //FlipPlusGame.analytics.logLevelLoose(this.levelData.name, time, this.clicks)
+            FlipPlusGame.analytics.logLevelLoose(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks)
 
             this.boardSprite.mouseEnabled = false;
 
@@ -367,12 +371,12 @@ module FlipPlus.GamePlay {
         // use an item
         protected useItem(item: string, parameters?:any, free?: boolean): boolean {
 
-            //analytics
-            FlipPlusGame.analytics.logUsedItem(item, this.levelData.name);
-
             // define item value based on how many times it was used on the level
             var price = this.getItemPrice(item);
 
+            //analytics
+            FlipPlusGame.analytics.logUsedItem(item, this.levelData.name, price);
+            
             // if item is skip and the level was already skipped, then does not waste parts.
             if (item == Items.SKIP && (this.levelData.userdata.skip || this.levelData.userdata.solved))
                 price = 0;
