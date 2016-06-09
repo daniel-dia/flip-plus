@@ -69,7 +69,6 @@ module FlipPlus {
             // analytics
             FlipPlusGame.counterData.increaseCounter("sessions");
             var session_num = FlipPlusGame.counterData.getCounter("sessions");
-
             this.analytics = new Analytics(session_num);
             this.analytics.logGameStart();
 
