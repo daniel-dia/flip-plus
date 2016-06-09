@@ -1581,12 +1581,12 @@ var FlipPlus;
             // #endregion
             // #region  GamePlay methods =========================================================================================================
             LevelScreen.prototype.exit = function () {
-                FlipPlus.FlipPlusGame.analytics.logLevelExit(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes);
+                FlipPlus.FlipPlusGame.analytics.logProgressionExit(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes);
                 FlipPlus.FlipPlusGame.exitLevel();
                 gameui.AudiosManager.playSound("Power Down");
             };
             LevelScreen.prototype.restart = function () {
-                FlipPlus.FlipPlusGame.analytics.logLevelRestart(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, Date.now() - this.startedTime, this.clicks);
+                FlipPlus.FlipPlusGame.analytics.logProgressionRestart(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, Date.now() - this.startedTime, this.clicks);
                 FlipPlus.FlipPlusGame.replayLevel();
                 gameui.AudiosManager.playSound("Power Down");
             };
@@ -1606,7 +1606,7 @@ var FlipPlus;
                 // analytics
                 var time = (Date.now() - this.startedTime);
                 //FlipPlusGame.analytics.logLevelWin(this.levelData.name, time , this.clicks)
-                FlipPlus.FlipPlusGame.analytics.logLevelWin(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks);
+                FlipPlus.FlipPlusGame.analytics.logProfessionWin(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks);
                 // freze the board
                 this.boardSprite.mouseEnabled = false;
                 // play a win sound
@@ -1657,7 +1657,7 @@ var FlipPlus;
             LevelScreen.prototype.loose = function () {
                 var time = (Date.now() - this.startedTime);
                 //FlipPlusGame.analytics.logLevelLoose(this.levelData.name, time, this.clicks)
-                FlipPlus.FlipPlusGame.analytics.logLevelLoose(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks);
+                FlipPlus.FlipPlusGame.analytics.logProfressionLoose(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks);
                 this.boardSprite.mouseEnabled = false;
                 this.gameplayMenu.fadeOut();
                 this.boardSprite.lock();
@@ -6956,34 +6956,35 @@ var Analytics = (function () {
     }
     // #region Level events
     Analytics.prototype.logLevelUnlock = function (levelId) {
-        this.sendDesignEvent("level", "unlock", 1, levelId);
+        this.sendDesignEvent("level:unlock:" + levelId);
     };
     Analytics.prototype.logLevelBlockClick = function (levelId, blockX, blockY) {
-        this.sendDesignEvent("level", "blockclick", 1, levelId, blockX, blockY);
+        // this.sendDesignEvent("level", "blockclick", 1, levelId, blockX, blockY);
     };
+    // #endregion
+    // #region progressions
     Analytics.prototype.logLevelStart = function (projectId, levelId, atempts) {
-        //this.sendDesignEvent("level", "start", 1, levelId);
         this.sendProgressionEvent(projectId, levelId, atempts);
     };
-    Analytics.prototype.logLevelWin = function (projectId, levelId, atempts, time, clicks) {
+    Analytics.prototype.logProfessionWin = function (projectId, levelId, atempts, time, clicks) {
         //this.sendDesignEvent("level", "complete", 1, levelId);
         //this.sendDesignEvent("click", "complete", clicks, levelId);
         //this.sendDesignEvent("time", "complete", time / 1000, levelId);
         this.sendProgressionEvent(projectId, levelId, atempts, true);
     };
-    Analytics.prototype.logLevelRestart = function (projectId, levelId, atempts, time, clicks) {
+    Analytics.prototype.logProgressionRestart = function (projectId, levelId, atempts, time, clicks) {
         //this.sendDesignEvent("level", "restart", 1, levelId);
         //this.sendDesignEvent("click", "restart", clicks, levelId);
         //this.sendDesignEvent("time", "restart", time / 1000, levelId);
         this.sendProgressionEvent(projectId, levelId, atempts, false, true);
     };
-    Analytics.prototype.logLevelExit = function (projectId, levelId, atempts, time, clicks) {
+    Analytics.prototype.logProgressionExit = function (projectId, levelId, atempts, time, clicks) {
         //this.sendDesignEvent("level", "exit", 1, levelId);
         //this.sendDesignEvent("click", "exit", clicks, levelId);
         //this.sendDesignEvent("time", "exit", time / 1000, levelId);
         this.sendProgressionEvent(projectId, levelId, atempts, false, true);
     };
-    Analytics.prototype.logLevelLoose = function (projectId, levelId, atempts, time, clicks) {
+    Analytics.prototype.logProfressionLoose = function (projectId, levelId, atempts, time, clicks) {
         //   this.sendDesignEvent("level", "loose", 1, levelId);
         //   this.sendDesignEvent("click", "loose", clicks, levelId);
         //   this.sendDesignEvent("time", "loose", time / 1000, levelId);
@@ -6992,19 +6993,19 @@ var Analytics = (function () {
     // #endregion
     // #region others events
     Analytics.prototype.logGameStart = function () {
-        this.sendDesignEvent("game", "start");
+        this.sendUserEvent();
     };
     Analytics.prototype.logBotClick = function (botId) {
-        this.sendDesignEvent("bot", botId, 1);
+        this.sendDesignEvent("botClick:" + botId);
     };
     // #endregion
     // #region resources
     Analytics.prototype.logUsedItem = function (itemId, levelId, price) {
-        this.sendDesignEvent("item", itemId, 1, levelId);
+        this.sendDesignEvent("item:" + itemId + ":" + levelId);
         this.sendResourceEvent("Sink", "parts", price, itemId, itemId);
     };
     Analytics.prototype.logBonusParts = function (bonusid, parts) {
-        this.sendDesignEvent("bonus", "parts", parts, bonusid);
+        this.sendDesignEvent("bonus:" + bonusid + ":parts", parts);
         this.sendResourceEvent("Source", "parts", parts);
     };
     // #endregion
@@ -7013,25 +7014,23 @@ var Analytics = (function () {
         var price_number = parseFloat(price);
         var cents = price_number * 100;
         var currency = getCurrencyFromLocalizedPrice(localizedPrice);
-        alert(cents + " " + currency);
         this.sendBusinessEvent(itemType + ":" + itemId, cents, currency, transaction_num);
     };
     // #endregion
     // #region send event 
-    Analytics.prototype.levelStart = function (project, level, attempt_num) {
+    Analytics.prototype.sendlevelStart = function (project, level, attempt_num) {
         this.sendProgressionEvent(project, level, attempt_num);
     };
-    Analytics.prototype.levelComplete = function (project, level, attempt_num) {
+    Analytics.prototype.sendlevelComplete = function (project, level, attempt_num) {
         this.sendProgressionEvent(project, level, attempt_num, true);
     };
-    Analytics.prototype.levelFail = function (project, level, attempt_num) {
+    Analytics.prototype.sendlevelFail = function (project, level, attempt_num) {
         this.sendProgressionEvent(project, level, attempt_num, false, true);
     };
     Analytics.prototype.sendResourceEvent = function (flowType, virtualCurrency, amount, itemType, itemId) {
         var category = "resource";
         //normalize numbers
         var event_id = flowType + ":" + virtualCurrency + ":" + itemType + ":" + itemId;
-        // get Status
         // compose Message
         var message = {
             "event_id": event_id,
@@ -7057,8 +7056,7 @@ var Analytics = (function () {
         // compose Message
         var message = {
             "event_id": status + ":" + project_st + ":" + level_st,
-            "attempt_num": 1,
-            "score": 1
+            "attempt_num": 1
         };
         this.sendMessage(message, category);
     };
@@ -7070,91 +7068,133 @@ var Analytics = (function () {
             "amount": amount,
             "cart_type": "",
             "transaction_num": transaction_num,
-            "currency": currency,
-            "receipt_info": {
-                "receipt": 1,
-                "store": 1,
-                "signature": 1
-            }
+            "currency": currency
         };
         this.sendMessage(message, category);
     };
-    Analytics.prototype.sendDesignEvent = function (eventId, subEventId, value, level, x, y) {
+    Analytics.prototype.sendUserEvent = function () {
+        var category = "user";
+        // compose Message
+        var message = {};
+        this.sendMessage(message, category);
+    };
+    Analytics.prototype.sendDesignEvent = function (eventId, value) {
         if (value === void 0) { value = 1; }
         var category = "design";
+        // compose Message
         var message = {
-            "user_id": this.getUser(),
-            "session_id": this.getSession(),
-            "build": this.getBuild(),
-            "event_id": eventId + ":" + subEventId,
+            "event_id": eventId,
             "value": value
         };
-        if (level)
-            message["area"] = level;
-        if (y)
-            message["y"] = y;
-        if (x)
-            message["x"] = x;
         this.sendMessage(message, category);
+    };
+    // send a ajax message
+    Analytics.prototype.sendMessage = function (message, category) {
+        var device = this.getDevice();
+        message["device"] = device.device;
+        message["v"] = 2;
+        message["user_id"] = this.getUser();
+        message["client_ts"] = Date.now();
+        message["sdk_version"] = "rest api v2";
+        message["os_version"] = device.os_version;
+        message["manufacturer"] = device.manufacturer;
+        message["platform"] = device.platform;
+        message["session_id"] = this.getSession();
+        message["session_num"] = 1; //parseInt( this.getSession());
+        message["build"] = this.getBuild();
+        message["category"] = category;
+        var game_key = '5ae563d276c09115caa349071cdc9e7e';
+        var secret_key = '6efb4b569a3de9ed4c769d1f50236b0d10bee99d';
+        var url = 'HTTP://api.gameanalytics.com/v2/' + game_key + '/events';
+        //// sandbox
+        //game_key = "5c6bcb5402204249437fb5a7a80a4959"
+        //secret_key = "16813a12f718bc5c620f56944e1abc3ea13ccbac"
+        //url = 'http://sandbox-api.gameanalytics.com/v2/' + game_key + '/events';
+        var data = JSON.stringify([message]);
+        var hash = CryptoJS.HmacSHA256(data, secret_key).toString(CryptoJS.enc.Base64);
+        // actualy sends the message
+        this.postMessage(data, url, hash);
+    };
+    Analytics.prototype.postMessage = function (data, url, hash) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader("Authorization", hash);
+        //xhr.setRequestHeader('Content-Encoding', 'gzip');
+        //xhr.setRequestHeader('Content-Length', data.length.toString());
+        //xhr.addEventListener('load', function (e) {alert(e.target["response"]);});
+        //xhr.addEventListener("error", function (e) {});
+        xhr.send(data);
     };
     // #endregion
     // #region Session Variables
+    Analytics.prototype.guid = function () {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
+    };
     Analytics.prototype.getUser = function () {
         if (!this.userId)
             this.userId = localStorage.getItem("dia_userID");
         if (!this.userId) {
-            this.userId = Math.floor(Math.random() * 9999999999).toString();
+            this.userId = this.guid();
             localStorage.setItem("dia_userID", this.userId);
         }
         return this.userId;
     };
     Analytics.prototype.getSession = function () {
         if (!this.sessionId)
-            this.sessionId = Math.floor(Math.random() * 9999999999).toString();
+            this.sessionId = this.guid();
         return this.sessionId;
     };
     Analytics.prototype.getBuild = function () {
         return version;
     };
-    // #endregion
-    // #region ponst Event
-    Analytics.prototype.sendMessage = function (message, category) {
-        message["category"] = category;
-        message["user_id"] = this.getUser();
-        message["session_id"] = this.getSession();
-        message["build"] = this.getBuild();
-        var json_message = JSON.stringify(message);
-        var md5_msg = CryptoJS.MD5(json_message + Analytics.secret_key);
-        var header_auth_hex = CryptoJS.enc.Hex.stringify(md5_msg);
-        var url = 'http://api-eu.gameanalytics.com/1/' + Analytics.game_key + '/' + category;
-        this.postAjax(url, message, header_auth_hex);
+    Analytics.prototype.getDevice = function () {
+        if (typeof Cocoon != "undefined") {
+            var device = Cocoon.Device.getDeviceInfo();
+            return {
+                device: device.model,
+                os_version: device.os + " " + device.version,
+                manufacturer: device.brand,
+                platform: device.os
+            };
+        }
+        else if (typeof Windows != "undefined")
+            return {
+                device: "Windows Phone",
+                os_version: "Windows",
+                manufacturer: "Microsoft",
+                platform: "Windows Phone"
+            };
+        else {
+            return {
+                device: "Web",
+                os_version: "webplayer 0.0",
+                manufacturer: "Web",
+                platform: "webplayer"
+            };
+        }
     };
-    Analytics.prototype.postAjax = function (url, data, header_auth_hex) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader('Content-Type', 'text/plain');
-        //xhr.setRequestHeader('Content-Length', JSON.stringify(data).length.toString());
-        xhr.setRequestHeader("Authorization", header_auth_hex);
-        xhr.addEventListener('load', function (e) {
-            alert(e.target["response"]);
-        }, false);
-        xhr.send(JSON.stringify(data));
-    };
-    Analytics.game_key = '1fc43682061946f75bfbecd4bbb2718b';
-    Analytics.secret_key = '9b4ab4006d241ab5042eb3a730eec6c3e171d483';
-    Analytics.data_api_key = 'd519f8572c1893fb49873fa2345d444c03afa172';
     return Analytics;
 })();
 function getCurrencyFromLocalizedPrice(localizedPrice) {
+    var currency = "USD";
+    var symbol = "";
     for (var c in currencies)
         if (localizedPrice.indexOf(currencies[c]) > -1)
-            return c;
-    return "USD";
+            if (symbol.length < currencies[c].length) {
+                currency = c;
+                symbol = currencies[c];
+            }
+    return currency;
 }
 var currencies = {
-    "USD": "$",
     "CAD": "CA$",
-    "EUR": "€",
     "AED": "AED",
     "AFN": "Af",
     "ALL": "ALL",
@@ -7264,12 +7304,14 @@ var currencies = {
     "UYU": "$U",
     "UZS": "UZS",
     "VEF": "Bs.F.",
-    "VND": "₫",
     "XAF": "FCFA",
     "XOF": "CFA",
     "YER": "YR",
     "ZAR": "R",
-    "ZMK": "ZK"
+    "ZMK": "ZK",
+    "USD": "$",
+    "EUR": "€",
+    "VND": "₫"
 };
 var version = "v 1.0.7";
 var defaultWidth = 1536;
@@ -7718,7 +7760,9 @@ var FlipPlus;
                     console.log("initialized Store" + error);
                     _this.inappsService.fetchProducts(products, function (products, error) {
                         console.log("fetchProducts" + error);
-                        _this.products = products;
+                        _this.products = {};
+                        for (var p in products)
+                            _this.products[products[p].productId] = products[p];
                         _this.fillProducts(products, _this.inappsService);
                     });
                 });
@@ -7732,12 +7776,12 @@ var FlipPlus;
                         _this.unlockUI();
                     },
                     complete: function (purchaseInfo) {
-                        // analytics
-                        FlipPlus.FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, _this.products[purchaseInfo.productId].price, _this.products[purchaseInfo.productId].localizedPrice, purchaseInfo.transactionId);
                         _this.fullFillPurchase(purchaseInfo.productId, _this.inappsService);
                         _this.updateUI();
                         _this.unlockUI();
                         _this.getProductListItem(purchaseInfo.productId).setPurchased(true);
+                        // analytics
+                        FlipPlus.FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, _this.products[purchaseInfo.productId].price, _this.products[purchaseInfo.productId].localizedPrice, 1); //TODO FIX
                     }
                 });
             };

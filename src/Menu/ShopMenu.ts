@@ -7,7 +7,7 @@ module FlipPlus.Menu {
         private productsListItems: Array<View.ProductListItem>;
         private statusText: PIXI.extras.BitmapText;
         private loadingObject: PIXI.DisplayObject;
-        private products: Array<any>;
+        private products: any;
 
         protected productsContainer: PIXI.Container;
         protected inappsService;
@@ -165,7 +165,10 @@ module FlipPlus.Menu {
                     this.inappsService.fetchProducts(products, (products, error) => {
                         console.log("fetchProducts" + error)
 
-                        this.products = products;
+                        this.products = {};
+
+                        for (var p in products) this.products[products[p].productId] = products[p];
+
                         this.fillProducts(products, this.inappsService);
                     });
                 }
@@ -185,14 +188,14 @@ module FlipPlus.Menu {
 
                 complete: (purchaseInfo) => {
 
-                    // analytics
-                    FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, this.products[purchaseInfo.productId].price, this.products[purchaseInfo.productId].localizedPrice, purchaseInfo.transactionId);
-
                     this.fullFillPurchase(purchaseInfo.productId, this.inappsService);
                     this.updateUI();
                     this.unlockUI();
 
                     this.getProductListItem(purchaseInfo.productId).setPurchased(true);
+
+                    // analytics
+                    FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, this.products[purchaseInfo.productId].price, this.products[purchaseInfo.productId].localizedPrice, 1); //TODO FIX
                 }
             });
         }

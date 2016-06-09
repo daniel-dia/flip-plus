@@ -1417,7 +1417,8 @@
     </Content>
     <Content Include="scripts\ads.js" />
     <Content Include="scripts\createjs-2015.05.21.min.js" />
-    <Content Include="scripts\md5.js" />
+    <Content Include="scripts\enc-base64.js" />
+    <Content Include="scripts\hmac-sha256.js" />
     <Content Include="scripts\pixi-flash.js" />
     <Content Include="scripts\PIXIpatch.js" />
     <Content Include="scripts\pixi.js" />

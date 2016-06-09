@@ -235,13 +235,13 @@ module FlipPlus.GamePlay {
         // #region  GamePlay methods =========================================================================================================
 
         protected exit() {
-            FlipPlusGame.analytics.logLevelExit(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes);
+            FlipPlusGame.analytics.logProgressionExit(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes);
             FlipPlusGame.exitLevel();
             gameui.AudiosManager.playSound("Power Down")
         }
 
         protected restart() {
-            FlipPlusGame.analytics.logLevelRestart(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, Date.now() - this.startedTime, this.clicks);
+            FlipPlusGame.analytics.logProgressionRestart(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, Date.now() - this.startedTime, this.clicks);
             FlipPlusGame.replayLevel();
             gameui.AudiosManager.playSound("Power Down")
         }
@@ -265,7 +265,7 @@ module FlipPlus.GamePlay {
             // analytics
             var time = (Date.now() - this.startedTime)
             //FlipPlusGame.analytics.logLevelWin(this.levelData.name, time , this.clicks)
-            FlipPlusGame.analytics.logLevelWin(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks)
+            FlipPlusGame.analytics.logProfessionWin(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks)
 
             // freze the board
             this.boardSprite.mouseEnabled = false;
@@ -332,7 +332,7 @@ module FlipPlus.GamePlay {
 
             var time = (Date.now() - this.startedTime)
             //FlipPlusGame.analytics.logLevelLoose(this.levelData.name, time, this.clicks)
-            FlipPlusGame.analytics.logLevelLoose(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks)
+            FlipPlusGame.analytics.logProfressionLoose(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks)
 
             this.boardSprite.mouseEnabled = false;
 
