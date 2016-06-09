@@ -3907,8 +3907,9 @@ var FlipPlus;
                 // show ads and 
                 var musicVol = gameui.AudiosManager.getMusicVolume();
                 gameui.AudiosManager.setMusicVolume(0);
-                CocoonAds.show(function () {
+                CocoonAds.show(function (displayed, status) {
                     gameui.AudiosManager.setMusicVolume(musicVol);
+                    FlipPlus.FlipPlusGame.analytics.logAds(status);
                 });
             };
             return BonusScreen;
@@ -6860,14 +6861,14 @@ var CocoonAds = (function () {
     CocoonAds.show = function (callback) {
         if (!this.interstitial) {
             if (callback)
-                callback();
+                callback(false, "not_Initialized");
             return;
         }
         if (this.getStatus() == CocoonAds.STATUS.READY) {
             this.debug("show");
             this.interstitial.on("dismiss", function (e) {
                 if (callback)
-                    callback(true);
+                    callback(true, "displayed");
             });
             this.interstitial.show();
         }
@@ -6875,7 +6876,7 @@ var CocoonAds = (function () {
             this.debug("not loaded yet");
             this.load();
             if (callback)
-                callback();
+                callback(false, "not_Loaded");
         }
     };
     CocoonAds.getStatus = function () {
@@ -6996,6 +6997,9 @@ var Analytics = (function () {
     };
     // #endregion
     // #region others events
+    Analytics.prototype.logAds = function (status) {
+        this.sendDesignEvent("ads:" + status);
+    };
     Analytics.prototype.logGameStart = function () {
         this.sendUserEvent();
     };

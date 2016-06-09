@@ -246,8 +246,9 @@
             // show ads and 
             var musicVol = gameui.AudiosManager.getMusicVolume();
             gameui.AudiosManager.setMusicVolume(0);
-            CocoonAds.show(() => {
+            CocoonAds.show((displayed,status) => {
                 gameui.AudiosManager.setMusicVolume(musicVol);
+                FlipPlusGame.analytics.logAds(status);
             });
             
 

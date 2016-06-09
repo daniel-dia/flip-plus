@@ -13,11 +13,11 @@ class Analytics {
     // #region Level events
     
     public logLevelUnlock(levelId: string) {
-        this.sendDesignEvent("level:unlock:"+ levelId);
+        this.sendDesignEvent("level:unlock:" + levelId);
     }
-    
+
     public logLevelBlockClick(levelId: string, blockX: number, blockY: number) {
-       // this.sendDesignEvent("level", "blockclick", 1, levelId, blockX, blockY);
+        // this.sendDesignEvent("level", "blockclick", 1, levelId, blockX, blockY);
     }
 
         
@@ -62,6 +62,11 @@ class Analytics {
     // #endregion
 
     // #region others events
+ 
+    public logAds(status: string) {
+        this.sendDesignEvent("ads:" + status);
+    }
+ 
 
     public logGameStart() {
         this.sendUserEvent();

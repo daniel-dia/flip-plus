@@ -3,27 +3,31 @@
 //fp ios 1a895b1b280d48d88ab5ddce11633701
 
 class CocoonAds  {
-    private static interstitial
     private static status: CocoonAds.STATUS; 
+    private static interstitial
     private static ad_timeout;
-    
-    public static show(callback?: (any?) => void) {
+
+    public static show(callback?: (displayed: boolean, status?: string) => void) {
 
         if (!this.interstitial) {
-            if (callback) callback();
+            if (callback) callback(false,"not_Initialized");
             return;
         }
 
         if (this.getStatus() == CocoonAds.STATUS.READY) {
             this.debug("show")
+
             this.interstitial.on("dismiss", (e) => {
-                if (callback) callback(true);
+                if (callback) callback(true,"displayed");
             });
+
             this.interstitial.show()
         } else {
+
             this.debug("not loaded yet");
             this.load();
-            if (callback) callback();
+
+            if (callback) callback(false,"not_Loaded");
         }
     }
 
