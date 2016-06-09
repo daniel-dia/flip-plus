@@ -22,8 +22,7 @@ class Analytics {
 
         
     // #endregion
-
-    
+        
     // #region progressions
     
     public logLevelStart(projectId: number, levelId: number, atempts: number) {
@@ -238,8 +237,6 @@ class Analytics {
 
     // #endregion
  
-
-
     // #region Session Variables
 
     private guid() {
@@ -255,11 +252,11 @@ class Analytics {
 
     private getUser(): string {
 
-        if (!this.userId) this.userId = localStorage.getItem("dia_userID");
+        if (!this.userId) this.userId = localStorage.getItem("flipp_userID");
 
         if (!this.userId) {
             this.userId = this.guid();
-            localStorage.setItem("dia_userID", this.userId);
+            localStorage.setItem("flipp_userID", this.userId);
         }
 
         return this.userId;
