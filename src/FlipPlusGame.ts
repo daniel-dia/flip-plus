@@ -19,6 +19,7 @@ module FlipPlus {
         public static timersData: UserData.Timers;
         public static coinsData: UserData.Coins;
         public static storyData: UserData.Story;
+        public static counterData: UserData.Counters;
 
         // Social
         public static gameServices: GameServices;
@@ -56,6 +57,7 @@ module FlipPlus {
             this.coinsData = new UserData.Coins();
             this.storyData = new UserData.Story();
             this.timersData = new UserData.Timers();
+            this.counterData = new UserData.Counters();
 
             // load options
             gameui.AudiosManager.setSoundVolume(this.settingsUserData.getSoundfx());
@@ -65,7 +67,10 @@ module FlipPlus {
             this.gameServices = new GameServices();
             
             // analytics
-            this.analytics = new Analytics();
+            FlipPlusGame.counterData.increaseCounter("sessions");
+            var session_num = FlipPlusGame.counterData.getCounter("sessions");
+
+            this.analytics = new Analytics(session_num);
             this.analytics.logGameStart();
 
             // initialize ads

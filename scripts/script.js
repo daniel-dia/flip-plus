@@ -856,13 +856,16 @@ var FlipPlus;
             this.coinsData = new FlipPlus.UserData.Coins();
             this.storyData = new FlipPlus.UserData.Story();
             this.timersData = new FlipPlus.UserData.Timers();
+            this.counterData = new FlipPlus.UserData.Counters();
             // load options
             gameui.AudiosManager.setSoundVolume(this.settingsUserData.getSoundfx());
             gameui.AudiosManager.setMusicVolume(this.settingsUserData.getMusic());
             // game service
             this.gameServices = new FlipPlus.GameServices();
             // analytics
-            this.analytics = new Analytics();
+            FlipPlusGame.counterData.increaseCounter("sessions");
+            var session_num = FlipPlusGame.counterData.getCounter("sessions");
+            this.analytics = new Analytics(session_num);
             this.analytics.logGameStart();
             // initialize ads
             CocoonAds.initialize();
@@ -6952,7 +6955,8 @@ var CocoonAds;
     var STATUS = CocoonAds.STATUS;
 })(CocoonAds || (CocoonAds = {}));
 var Analytics = (function () {
-    function Analytics() {
+    function Analytics(sessionNum) {
+        this.sessionNum = sessionNum;
     }
     // #region Level events
     Analytics.prototype.logLevelUnlock = function (levelId) {
@@ -7100,7 +7104,7 @@ var Analytics = (function () {
         message["manufacturer"] = device.manufacturer;
         message["platform"] = device.platform;
         message["session_id"] = this.getSession();
-        message["session_num"] = 1; //parseInt( this.getSession());
+        message["session_num"] = this.sessionNum;
         message["build"] = this.getBuild();
         message["category"] = category;
         var game_key = '5ae563d276c09115caa349071cdc9e7e';
@@ -7781,7 +7785,9 @@ var FlipPlus;
                         _this.unlockUI();
                         _this.getProductListItem(purchaseInfo.productId).setPurchased(true);
                         // analytics
-                        FlipPlus.FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, _this.products[purchaseInfo.productId].price, _this.products[purchaseInfo.productId].localizedPrice, 1); //TODO FIX
+                        FlipPlus.FlipPlusGame.counterData.increaseCounter("purchases");
+                        var transaction_num = FlipPlus.FlipPlusGame.counterData.getCounter("purchases");
+                        FlipPlus.FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, _this.products[purchaseInfo.productId].price, _this.products[purchaseInfo.productId].localizedPrice, transaction_num);
                     }
                 });
             };
@@ -9666,6 +9672,39 @@ var FlipPlus;
             return Coins;
         })();
         UserData.Coins = Coins;
+    })(UserData = FlipPlus.UserData || (FlipPlus.UserData = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var UserData;
+    (function (UserData) {
+        var Counters = (function () {
+            function Counters() {
+                this.counterPrefix = "counter_";
+            }
+            Counters.prototype.getCounter = function (counterId) {
+                var counter_str = localStorage.getItem(this.counterPrefix + counterId);
+                if (counter_str) {
+                    var counter = parseInt(counter_str);
+                    if (!isNaN(counter))
+                        return counter;
+                }
+                return 0;
+            };
+            Counters.prototype.setCounter = function (counterId, value) {
+                localStorage.setItem(this.counterPrefix + counterId, value.toString());
+            };
+            Counters.prototype.increaseCounter = function (counterId) {
+                var counter = this.getCounter(counterId);
+                counter++;
+                this.setCounter(counterId, counter);
+            };
+            Counters.prototype.resetCounter = function (counterId) {
+                this.setCounter(counterId, 0);
+            };
+            return Counters;
+        })();
+        UserData.Counters = Counters;
     })(UserData = FlipPlus.UserData || (FlipPlus.UserData = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;

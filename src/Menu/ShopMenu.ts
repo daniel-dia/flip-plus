@@ -195,7 +195,9 @@ module FlipPlus.Menu {
                     this.getProductListItem(purchaseInfo.productId).setPurchased(true);
 
                     // analytics
-                    FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, this.products[purchaseInfo.productId].price, this.products[purchaseInfo.productId].localizedPrice, 1); //TODO FIX
+                    FlipPlusGame.counterData.increaseCounter("purchases");
+                    var transaction_num = FlipPlusGame.counterData.getCounter("purchases");
+                    FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, this.products[purchaseInfo.productId].price, this.products[purchaseInfo.productId].localizedPrice, transaction_num);
                 }
             });
         }

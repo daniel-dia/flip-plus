@@ -4,7 +4,12 @@ class Analytics {
 
     private userId: string;
     private sessionId: string;
-        
+    private sessionNum: number;
+
+    constructor(sessionNum) {
+        this.sessionNum = sessionNum;
+    }
+
     // #region Level events
     
     public logLevelUnlock(levelId: string) {
@@ -199,7 +204,7 @@ class Analytics {
         message["manufacturer"] = device.manufacturer;
         message["platform"] = device.platform;
         message["session_id"] = this.getSession();
-        message["session_num"] = 1;//parseInt( this.getSession());
+        message["session_num"] = this.sessionNum;
         message["build"] = this.getBuild();
         message["category"] = category;
 
