@@ -5,6 +5,7 @@ module FlipPlus.Menu {
 
         constructor(previousScreen: gameui.ScreenState) {
             super(previousScreen, ["100parts"]);
+            FlipPlusGame.analytics.logSpecialOfferShow();
         }
 
         // add all products in the list
@@ -16,6 +17,7 @@ module FlipPlus.Menu {
                 if (this.inappsService) this.inappsService.purchase(productList[0].productId, 1);
                 bt.fadeOut();
                 this.productsContainer.visible = true;
+                FlipPlusGame.analytics.logSpecialOfferClick();
             });
 
             this.content.addChild(bt);

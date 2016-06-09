@@ -1,5 +1,5 @@
 @echo off
-del LudeiPackage.zip
+del CocoonPackage_low.zip
 
 "C:\Program Files\7-Zip\7z" a CocoonPackage_low.zip index.html assets scripts style data fonts
 timeout 2
@@ -23,5 +23,4 @@ timeout 2
 "C:\Program Files\7-Zip\7z" d CocoonPackage_low.zip assets/imagens
 timeout 2
 "C:\Program Files\7-Zip\7z" d CocoonPackage_low.zip assets/images@1x
-
 timeout 2

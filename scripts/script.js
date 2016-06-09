@@ -4928,8 +4928,8 @@ var FlipPlus;
                 //verify if user unlocked at least 2 projects to ask it for rating
                 if (FlipPlus.FlipPlusGame.levelsManager.getUnlockedProjects().length >= 4 && !FlipPlus.FlipPlusGame.storyData.getStoryPlayed("rating"))
                     setTimeout(function () { _this.askUserForRating(); }, 2000);
-                else if (Math.random() > 0.98)
-                    setTimeout(function () { FlipPlus.FlipPlusGame.showSpecialOffer(_this); }, 1000);
+                else if (FlipPlus.FlipPlusGame.levelsManager.getUnlockedProjects().length >= 2 && Math.random() > 0.98)
+                    setTimeout(function () { FlipPlus.FlipPlusGame.showSpecialOffer(_this); }, 400);
                 // animate logo
                 var x = 370;
                 var y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
@@ -7000,6 +7000,12 @@ var Analytics = (function () {
     Analytics.prototype.logAds = function (status) {
         this.sendDesignEvent("ads:" + status);
     };
+    Analytics.prototype.logSpecialOfferShow = function () {
+        this.sendDesignEvent("sale:displayed");
+    };
+    Analytics.prototype.logSpecialOfferClick = function () {
+        this.sendDesignEvent("sale:clicked");
+    };
     Analytics.prototype.logGameStart = function () {
         this.sendUserEvent();
     };
@@ -7924,6 +7930,7 @@ var FlipPlus;
             __extends(SpecialOfferMenu, _super);
             function SpecialOfferMenu(previousScreen) {
                 _super.call(this, previousScreen, ["100parts"]);
+                FlipPlus.FlipPlusGame.analytics.logSpecialOfferShow();
             }
             // add all products in the list
             SpecialOfferMenu.prototype.fillProducts = function (productList, inappsService) {
@@ -7935,6 +7942,7 @@ var FlipPlus;
                         _this.inappsService.purchase(productList[0].productId, 1);
                     bt.fadeOut();
                     _this.productsContainer.visible = true;
+                    FlipPlus.FlipPlusGame.analytics.logSpecialOfferClick();
                 });
                 this.content.addChild(bt);
                 // adds price

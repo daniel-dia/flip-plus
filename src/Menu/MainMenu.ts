@@ -63,8 +63,8 @@ module FlipPlus.Menu {
                 setTimeout(() => { this.askUserForRating(); }, 2000);
 
             // show sales randomly
-            else if (Math.random() > 0.98)
-                setTimeout(() => { FlipPlusGame.showSpecialOffer(this); }, 1000)
+            else if (FlipPlusGame.levelsManager.getUnlockedProjects().length >= 2 && Math.random() > 0.98)
+                setTimeout(() => { FlipPlusGame.showSpecialOffer(this); }, 400)
 
             // animate logo
             var x = 370;

@@ -66,6 +66,14 @@ class Analytics {
     public logAds(status: string) {
         this.sendDesignEvent("ads:" + status);
     }
+
+    public logSpecialOfferShow() {
+        this.sendDesignEvent("sale:displayed");
+    }
+
+    public logSpecialOfferClick() {
+        this.sendDesignEvent("sale:clicked");
+    }
  
 
     public logGameStart() {
