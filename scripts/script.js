@@ -1,4 +1,4 @@
-﻿var images;
+var images;
 var gameui;
 (function (gameui) {
     // Class
@@ -7180,10 +7180,10 @@ var Analytics = (function () {
         }
         else if (typeof Windows != "undefined")
             return {
-                device: "Windows Phone",
-                os_version: "Windows",
+                device: "windows",
+                os_version: "windows 10.0",
                 manufacturer: "Microsoft",
-                platform: "Windows Phone"
+                platform: "windows"
             };
         else {
             return {
