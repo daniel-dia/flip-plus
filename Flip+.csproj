@@ -1427,6 +1427,7 @@
     <Content Include="scripts\setMobileScale.js" />
     <Content Include="scripts\socialServices.js" />
     <Content Include="scripts\timer.js" />
+    <Content Include="scripts\WindowsInAppService.js" />
     <Content Include="style\main.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

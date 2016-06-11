@@ -1,4 +1,4 @@
-﻿ 
+﻿declare var WindowsInappsService: any; 
 declare var Cocoon: any;
 
 module FlipPlus.Menu {
@@ -8,7 +8,7 @@ module FlipPlus.Menu {
         private statusText: PIXI.extras.BitmapText;
         private loadingObject: PIXI.DisplayObject;
         private products: any;
-
+        private productsIds: Array<string>;
         protected productsContainer: PIXI.Container;
         protected inappsService;
 
@@ -145,72 +145,83 @@ module FlipPlus.Menu {
         //#region Store =====================================================================================
 
         // initialize product listing
-        private initializeStore(products: Array<string>) {
+        private initializeStore(productsIds: Array<string>) {
+            this.productsIds = productsIds;
 
+            // show loading info
             this.showLoading();
 
-            if (typeof Cocoon == "undefined" || !Cocoon || !Cocoon["InApp"]) {
-                this.showError();
-                return;
+            // if there are no store avaliable
+            if (typeof Cocoon != "undefined")
+                this.inappsService = Cocoon["InApp"];
+
+            else if (typeof Windows != "undefined")
+                this.inappsService = WindowsInappsService;
+            else {
+                this.showError(); return;
             }
 
-            this.inappsService = Cocoon["InApp"];
-
             // Service initialization
-            
-            this.inappsService.initialize({ autofinish: true },
-                (error) => {
-                    console.log("initialized Store" + error)
-
-                    this.inappsService.fetchProducts(products, (products, error) => {
-                        console.log("fetchProducts" + error)
-
-                        this.products = {};
-
-                        for (var p in products) this.products[products[p].productId] = products[p];
-
-                        this.fillProducts(products, this.inappsService);
-                    });
-                }
-            );
+            this.inappsService.initialize({ autofinish: true }, (error) => { this.onStoreInitializated(error) });
 
             this.inappsService.on("purchase", {
-
-                start: (productId) => {
-                    this.getProductListItem(productId).setPurchasing();
-                    this.lockUI();
-                },
-
-                error: (productId, error) => {
-                    this.getProductListItem(productId).setNormal();
-                    this.unlockUI();
-                },
-
-                complete: (purchaseInfo) => {
-
-                    this.fullFillPurchase(purchaseInfo.productId, this.inappsService);
-                    this.updateUI();
-                    this.unlockUI();
-
-                    this.getProductListItem(purchaseInfo.productId).setPurchased(true);
-
-                    // analytics
-                    FlipPlusGame.counterData.increaseCounter("purchases");
-                    var transaction_num = FlipPlusGame.counterData.getCounter("purchases");
-                    FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, this.products[purchaseInfo.productId].price, this.products[purchaseInfo.productId].localizedPrice, transaction_num);
-                }
+                start: (productId) => { this.onPurchaseStart(productId); },
+                error: (productId, error) => { this.onPurchaseError(productId, error) },
+                complete: (purchaseInfo)  => { this.onPurchaseComplete(purchaseInfo) }
             });
         }
  
+        // on store initalizated callback
+        private onStoreInitializated(error) {
+            console.log("initialized Store" + error)
+            this.inappsService.fetchProducts(this.productsIds, (products, error) => { this.onFetchProducts(products, error); });
+        }
+
+        // on fetch productscallback
+        private onFetchProducts(products, error) {
+            console.log("fetchProducts" + error)
+            this.products = {};
+            for (var p in products) this.products[products[p].productId] = products[p];
+            this.fillProducts(products, this.inappsService);
+        }
+
+        // on purchase start callback
+        private onPurchaseStart(productId) { 
+            this.getProductListItem(productId).setPurchasing();
+            this.lockUI();
+        }
+
+        // on purchase error callback
+        private onPurchaseError(productId, error) { 
+            this.getProductListItem(productId).setNormal();
+            this.unlockUI();
+        }
+
+        // on purchase complete callback
+        private onPurchaseComplete(purchaseInfo) { 
+
+            this.fullFillPurchase(purchaseInfo.productId, purchaseInfo.transactionId, this.inappsService);
+            this.updateUI();
+            this.unlockUI();
+
+            this.getProductListItem(purchaseInfo.productId).setPurchased(true);
+
+            // analytics
+            FlipPlusGame.counterData.increaseCounter("purchases");
+            var transaction_num = FlipPlusGame.counterData.getCounter("purchases");
+            FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, this.products[purchaseInfo.productId].price, this.products[purchaseInfo.productId].localizedPrice, transaction_num);
+
+        }
+        
         // verify product avaliability
         private updateProductsAvaliability() {
 
         }
 
         // show that product is consumed
-        private fullFillPurchase(productId: string, inAppsService): boolean {
+        private fullFillPurchase(productId: string, transactionId: string, inAppsService): boolean {
 
-            inAppsService.consume(productId, 1)
+            inAppsService.consume(productId, 1, () => { }, transactionId);
 
             switch (productId) {
                 case "50parts":

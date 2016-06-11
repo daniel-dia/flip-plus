@@ -7761,53 +7761,70 @@ var FlipPlus;
             //#endregion 
             //#region Store =====================================================================================
             // initialize product listing
-            ShopMenu.prototype.initializeStore = function (products) {
+            ShopMenu.prototype.initializeStore = function (productsIds) {
                 var _this = this;
+                this.productsIds = productsIds;
+                // show loading info
                 this.showLoading();
-                if (typeof Cocoon == "undefined" || !Cocoon || !Cocoon["InApp"]) {
+                // if there are no store avaliable
+                if (typeof Cocoon != "undefined")
+                    this.inappsService = Cocoon["InApp"];
+                else if (typeof Windows != "undefined")
+                    this.inappsService = WindowsInappsService;
+                else {
                     this.showError();
                     return;
                 }
-                this.inappsService = Cocoon["InApp"];
                 // Service initialization
-                this.inappsService.initialize({ autofinish: true }, function (error) {
-                    console.log("initialized Store" + error);
-                    _this.inappsService.fetchProducts(products, function (products, error) {
-                        console.log("fetchProducts" + error);
-                        _this.products = {};
-                        for (var p in products)
-                            _this.products[products[p].productId] = products[p];
-                        _this.fillProducts(products, _this.inappsService);
-                    });
-                });
+                this.inappsService.initialize({ autofinish: true }, function (error) { _this.onStoreInitializated(error); });
                 this.inappsService.on("purchase", {
-                    start: function (productId) {
-                        _this.getProductListItem(productId).setPurchasing();
-                        _this.lockUI();
-                    },
-                    error: function (productId, error) {
-                        _this.getProductListItem(productId).setNormal();
-                        _this.unlockUI();
-                    },
-                    complete: function (purchaseInfo) {
-                        _this.fullFillPurchase(purchaseInfo.productId, _this.inappsService);
-                        _this.updateUI();
-                        _this.unlockUI();
-                        _this.getProductListItem(purchaseInfo.productId).setPurchased(true);
-                        // analytics
-                        FlipPlus.FlipPlusGame.counterData.increaseCounter("purchases");
-                        var transaction_num = FlipPlus.FlipPlusGame.counterData.getCounter("purchases");
-                        FlipPlus.FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, _this.products[purchaseInfo.productId].price, _this.products[purchaseInfo.productId].localizedPrice, transaction_num);
-                    }
+                    start: function (productId) { _this.onPurchaseStart(productId); },
+                    error: function (productId, error) { _this.onPurchaseError(productId, error); },
+                    complete: function (purchaseInfo) { _this.onPurchaseComplete(purchaseInfo); }
                 });
+            };
+            // on store initalizated callback
+            ShopMenu.prototype.onStoreInitializated = function (error) {
+                var _this = this;
+                console.log("initialized Store" + error);
+                this.inappsService.fetchProducts(this.productsIds, function (products, error) { _this.onFetchProducts(products, error); });
+            };
+            // on fetch productscallback
+            ShopMenu.prototype.onFetchProducts = function (products, error) {
+                console.log("fetchProducts" + error);
+                this.products = {};
+                for (var p in products)
+                    this.products[products[p].productId] = products[p];
+                this.fillProducts(products, this.inappsService);
+            };
+            // on purchase start callback
+            ShopMenu.prototype.onPurchaseStart = function (productId) {
+                this.getProductListItem(productId).setPurchasing();
+                this.lockUI();
+            };
+            // on purchase error callback
+            ShopMenu.prototype.onPurchaseError = function (productId, error) {
+                this.getProductListItem(productId).setNormal();
+                this.unlockUI();
+            };
+            // on purchase complete callback
+            ShopMenu.prototype.onPurchaseComplete = function (purchaseInfo) {
+                this.fullFillPurchase(purchaseInfo.productId, purchaseInfo.transactionId, this.inappsService);
+                this.updateUI();
+                this.unlockUI();
+                this.getProductListItem(purchaseInfo.productId).setPurchased(true);
+                // analytics
+                FlipPlus.FlipPlusGame.counterData.increaseCounter("purchases");
+                var transaction_num = FlipPlus.FlipPlusGame.counterData.getCounter("purchases");
+                FlipPlus.FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, this.products[purchaseInfo.productId].price, this.products[purchaseInfo.productId].localizedPrice, transaction_num);
             };
             // verify product avaliability
             ShopMenu.prototype.updateProductsAvaliability = function () {
             };
             // show that product is consumed
-            ShopMenu.prototype.fullFillPurchase = function (productId, inAppsService) {
+            ShopMenu.prototype.fullFillPurchase = function (productId, transactionId, inAppsService) {
                 var _this = this;
-                inAppsService.consume(productId, 1);
+                inAppsService.consume(productId, 1, function () { }, transactionId);
                 switch (productId) {
                     case "50parts":
                         FlipPlus.FlipPlusGame.coinsData.increaseAmount(50);
