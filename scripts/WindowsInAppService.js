@@ -3,7 +3,7 @@
 WindowsInappsService.callbacks = {};
 
 WindowsInappsService.initialize = function (parameters, onInitialized, simulated) {
-    simulated = true;
+    simulated = false;
     if (typeof Windows == "undefined") return;
     if (simulated) currentApp = Windows.ApplicationModel.Store.CurrentAppSimulator;
     else currentApp = Windows.ApplicationModel.Store.CurrentApp;
