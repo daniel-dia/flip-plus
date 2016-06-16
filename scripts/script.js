@@ -8025,7 +8025,10 @@ var FlipPlus;
             TitleScreen.prototype.back = function () {
                 var confirmText = StringResources.menus.exitConfirm;
                 this.popup.showConfirmMessage(confirmText, function () {
-                    navigator["app"].exitApp();
+                    if (navigator["app"])
+                        navigator["app"].exitApp();
+                    else
+                        window.close();
                 });
             };
             return TitleScreen;

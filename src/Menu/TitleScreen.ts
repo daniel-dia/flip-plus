@@ -49,7 +49,8 @@ module FlipPlus.Menu {
         public back() {
             var confirmText = StringResources.menus.exitConfirm;
             this.popup.showConfirmMessage(confirmText, () => {
-                navigator["app"].exitApp();
+                if (navigator["app"]) navigator["app"].exitApp();
+                else window.close();
             });
         }
     }
