@@ -876,10 +876,18 @@ var FlipPlus;
                 this.storyData.setStoryPlayed("coins");
                 this.coinsData.setAmount(10);
             }
-            // add back button 
+            // add back button  cocoon
             document.addEventListener("backbutton", function () {
                 return _this.gameScreen.sendBackButtonEvent();
             }, false);
+            // add back button Windows 
+            systemNavigationManager = Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+            systemNavigationManager.appViewBackButtonVisibility = 0;
+            systemNavigationManager.onbackrequested = function (e) {
+                // Navigate back in your webview. 
+                e.handled = true; // Notifies OS that you've handled the back button event.
+                return _this.gameScreen.sendBackButtonEvent();
+            };
             //setTimeout(() => { this.tests(); }, 4000); return
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
@@ -7327,7 +7335,7 @@ var currencies = {
     "EUR": "€",
     "VND": "₫"
 };
-var version = "v 1.0.13";
+var version = "v 1.0.14";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";

@@ -18,7 +18,7 @@ WindowsInappsService.fetchProducts = function (products, callback) {
     // send start callback
     //WindowsDoNativeCallback("onProductsFetchStarted")();
 
-    currentApp.loadListingInformationAsync().then(
+    currentApp.loadListingInformationByProductIdsAsync(products).then(
     function (listing) {
         var productListing = [];
         //create a new products array
