@@ -16,6 +16,8 @@ module gameui {
 
         public bgmusic: createjs.SoundInstance;
 
+        public transitioning: boolean
+
 		public onback: ()=>void;
 
         constructor() {

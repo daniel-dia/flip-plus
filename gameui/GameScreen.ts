@@ -144,7 +144,8 @@ module gameui {
                 oldScreen.view.interactive = false;
                 newScreen.view.interactiveChildren = false;
                 oldScreen.view.interactiveChildren = false;
-                
+                oldScreen.transitioning = true;
+                newScreen.transitioning = true;
                 //and transition = fade
                 if (transition.type && transition.type != "none") {
 
@@ -170,6 +171,8 @@ module gameui {
                         oldScreen.view.interactive = true;
                         newScreen.view.interactiveChildren = true;
                         oldScreen.view.interactiveChildren = true;
+                        oldScreen.transitioning = false;
+                        newScreen.transitioning = false;
 
                         this.removeOldScreen(oldScreen)
                         oldScreen = null;
@@ -224,7 +227,7 @@ module gameui {
 		
         // send hw back button event
         public sendBackButtonEvent(): boolean {
-            if (this.currentScreen && this.currentScreen.onback) {
+            if (this.currentScreen && this.currentScreen.onback && !this.currentScreen.transitioning) {
                 this.currentScreen.onback();
                 return false;
             }

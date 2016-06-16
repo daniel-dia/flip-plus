@@ -222,6 +222,8 @@ var gameui;
                 oldScreen.view.interactive = false;
                 newScreen.view.interactiveChildren = false;
                 oldScreen.view.interactiveChildren = false;
+                oldScreen.transitioning = true;
+                newScreen.transitioning = true;
                 //and transition = fade
                 if (transition.type && transition.type != "none") {
                     //fade between transitions
@@ -242,6 +244,8 @@ var gameui;
                         oldScreen.view.interactive = true;
                         newScreen.view.interactiveChildren = true;
                         oldScreen.view.interactiveChildren = true;
+                        oldScreen.transitioning = false;
+                        newScreen.transitioning = false;
                         _this.removeOldScreen(oldScreen);
                         oldScreen = null;
                     });
@@ -281,7 +285,7 @@ var gameui;
         };
         // send hw back button event
         GameScreen.prototype.sendBackButtonEvent = function () {
-            if (this.currentScreen && this.currentScreen.onback) {
+            if (this.currentScreen && this.currentScreen.onback && !this.currentScreen.transitioning) {
                 this.currentScreen.onback();
                 return false;
             }
