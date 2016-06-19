@@ -90,13 +90,15 @@ module FlipPlus {
             }, false);
 
             // add back button Windows 
-            systemNavigationManager = Windows.UI.Core.SystemNavigationManager.getForCurrentView();
-            systemNavigationManager.appViewBackButtonVisibility = 0;
-            systemNavigationManager.onbackrequested = (e) => {
-                // Navigate back in your webview. 
-                e.handled = true; // Notifies OS that you've handled the back button event.
-                return this.gameScreen.sendBackButtonEvent();
-            };
+            if (typeof Windows != "undefined") {
+                var systemNavigationManager = Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+                systemNavigationManager.appViewBackButtonVisibility = 0;
+                systemNavigationManager.onbackrequested = (e) => {
+                    // Navigate back in your webview. 
+                    e.handled = true; // Notifies OS that you've handled the back button event.
+                    return this.gameScreen.sendBackButtonEvent();
+                };
+            }
 
             //setTimeout(() => { this.tests(); }, 4000); return
 

@@ -4,10 +4,12 @@ module FlipPlus.Menu {
     export class TitleScreen extends gameui.ScreenState {
 
         private popup: View.PopupConfirm;
+        private menu: View.ScreenMenu;
 
         constructor() {
             super();
 
+            this.addMenu();
             this.addBeach();
 
             this.content.interactive = true 
@@ -26,6 +28,15 @@ module FlipPlus.Menu {
             this.onback = () => { this.back(); };
  
        }
+
+        private addMenu() {
+
+            this.menu = new View.ScreenMenu();
+            this.menu.addEventListener("back", () => { this.back() });
+            this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(); });
+            this.header.addChild(this.menu);
+ 
+        }
 
         private beach: PIXI.DisplayObject;
 

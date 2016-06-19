@@ -885,13 +885,15 @@ var FlipPlus;
                 return _this.gameScreen.sendBackButtonEvent();
             }, false);
             // add back button Windows 
-            systemNavigationManager = Windows.UI.Core.SystemNavigationManager.getForCurrentView();
-            systemNavigationManager.appViewBackButtonVisibility = 0;
-            systemNavigationManager.onbackrequested = function (e) {
-                // Navigate back in your webview. 
-                e.handled = true; // Notifies OS that you've handled the back button event.
-                return _this.gameScreen.sendBackButtonEvent();
-            };
+            if (typeof Windows != "undefined") {
+                var systemNavigationManager = Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+                systemNavigationManager.appViewBackButtonVisibility = 0;
+                systemNavigationManager.onbackrequested = function (e) {
+                    // Navigate back in your webview. 
+                    e.handled = true; // Notifies OS that you've handled the back button event.
+                    return _this.gameScreen.sendBackButtonEvent();
+                };
+            }
             //setTimeout(() => { this.tests(); }, 4000); return
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
@@ -7339,7 +7341,7 @@ var currencies = {
     "EUR": "€",
     "VND": "₫"
 };
-var version = "v 1.0.16";
+var version = "v 1.0.17";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
@@ -7995,6 +7997,7 @@ var FlipPlus;
             function TitleScreen() {
                 var _this = this;
                 _super.call(this);
+                this.addMenu();
                 this.addBeach();
                 this.content.interactive = true;
                 var tap = function () {
@@ -8007,6 +8010,13 @@ var FlipPlus;
                 this.overlay.addChild(this.popup);
                 this.onback = function () { _this.back(); };
             }
+            TitleScreen.prototype.addMenu = function () {
+                var _this = this;
+                this.menu = new Menu.View.ScreenMenu();
+                this.menu.addEventListener("back", function () { _this.back(); });
+                this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
+                this.header.addChild(this.menu);
+            };
             TitleScreen.prototype.addBeach = function () {
                 var logo = new lib_logo.LogoScreen();
                 this.content.addChild(logo);
