@@ -50,7 +50,7 @@
 
         private gotoStore() {
             
-            var IOS_RATING_URL = "http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=519623307&onlyLatestVersion=false&type=Purple+Software";
+            var IOS_RATING_URL = "http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=982090337&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8";
             var ANDROID_RATING_URL = "market://details?id=com.diastudio.flipplus";
             var ratingURL = null;
 
