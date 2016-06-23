@@ -7341,7 +7341,7 @@ var currencies = {
     "EUR": "€",
     "VND": "₫"
 };
-var version = "v 1.0.17";
+var version = "v 1.0.18";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
@@ -8012,10 +8012,13 @@ var FlipPlus;
             }
             TitleScreen.prototype.addMenu = function () {
                 var _this = this;
-                this.menu = new Menu.View.ScreenMenu();
-                this.menu.addEventListener("back", function () { _this.back(); });
-                this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
-                this.header.addChild(this.menu);
+                if (typeof Cocoon != "undefined")
+                    if (Cocoon.getPlatform() != 'ios') {
+                        this.menu = new Menu.View.ScreenMenu();
+                        this.menu.addEventListener("back", function () { _this.back(); });
+                        this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
+                        this.header.addChild(this.menu);
+                    }
             };
             TitleScreen.prototype.addBeach = function () {
                 var logo = new lib_logo.LogoScreen();

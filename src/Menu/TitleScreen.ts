@@ -31,10 +31,14 @@ module FlipPlus.Menu {
 
         private addMenu() {
 
-            this.menu = new View.ScreenMenu();
-            this.menu.addEventListener("back", () => { this.back() });
-            this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(); });
-            this.header.addChild(this.menu);
+            if (typeof Cocoon != "undefined")
+                if (Cocoon.getPlatform() != 'ios') {
+
+                    this.menu = new View.ScreenMenu();
+                    this.menu.addEventListener("back", () => { this.back() });
+                    this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(); });
+                    this.header.addChild(this.menu);
+                }
  
         }
 
