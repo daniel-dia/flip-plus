@@ -7341,7 +7341,7 @@ var currencies = {
     "EUR": "€",
     "VND": "₫"
 };
-var version = "v 1.0.18";
+var version = "v 1.0.20";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
@@ -9212,7 +9212,7 @@ var StringResources = {
     ws_Locked: "LOCKED",
     ws_NotFree: "NOT FREE",
     gp_noMoreSkip: "No more parts",
-    gp_noMoreHints: "You get itens buy playing the time\nbonus on the projects screen",
+    gp_noMoreHints: "You get itens by playing the \nbonus on the projects screen",
     gp_finishPuzzle: "Well done",
     gp_pz_Popup1Title: "Time Attack",
     gp_pz_Popup1Text1: "Solve",
@@ -9233,7 +9233,7 @@ var StringResources = {
     Bonus2: "Bonus 2",
     b2_noMoreChances: "",
     b2_finish: "Well done!",
-    Bonus3_title: "Capitain's chest",
+    Bonus3_title: "Captain's chest",
     Bonus3: "Bonus 3",
     b3_finish: "Well done!",
     b3_noMoreChances: "No more chances",

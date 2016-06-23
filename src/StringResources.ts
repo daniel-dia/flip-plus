@@ -48,7 +48,7 @@
     ws_NotFree: "NOT FREE",
 
     gp_noMoreSkip: "No more parts",
-    gp_noMoreHints: "You get itens buy playing the time\nbonus on the projects screen",
+    gp_noMoreHints: "You get itens by playing the \nbonus on the projects screen",
     gp_finishPuzzle: "Well done",
 
     gp_pz_Popup1Title: "Time Attack",
@@ -74,7 +74,7 @@
     b2_noMoreChances: "",
     b2_finish: "Well done!",
 
-    Bonus3_title: "Capitain's chest",
+    Bonus3_title: "Captain's chest",
     Bonus3: "Bonus 3",
     b3_finish: "Well done!",
     b3_noMoreChances: "No more chances",
