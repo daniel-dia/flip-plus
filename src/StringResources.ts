@@ -58,9 +58,9 @@
     gp_pz_statusEnd: "END",
     gp_pz_timeUP: "Time's up",
 
-    gp_mv_Popup1Title: "Flip Challenge",
+    gp_mv_Popup1Title: "Moves Challenge",
     gp_mv_Popup1Text1: "Solve in",
-    gp_mv_Popup1Text3: "taps",
+    gp_mv_Popup1Text3: "Moves",
     gp_mv_statusEnd: "END",
     gp_mv_noMoreMoves: "No more moves",
 

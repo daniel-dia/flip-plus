@@ -2307,7 +2307,7 @@ var FlipPlus;
                 if (this.levelData.puzzlesToSolve > 1)
                     this.gameplayMenu.addItemsButtons([Items.SOLVE]);
                 //adds buttons and items
-                this.gameplayMenu.addItemsButtons([Items.TAP, Items.HINT]);
+                this.gameplayMenu.addItemsButtons([Items.HINT]);
                 this.gameplayMenu.addEventListener(Items.TAP, function () { _this.useItem(Items.TAP); });
                 this.gameplayMenu.addEventListener(Items.SOLVE, function () { _this.useItem(Items.SOLVE); });
                 this.gameplayMenu.addEventListener(Items.HINT, function () { _this.useItem(Items.HINT); });
@@ -9220,9 +9220,9 @@ var StringResources = {
     gp_pz_Popup1Text3: "seconds",
     gp_pz_statusEnd: "END",
     gp_pz_timeUP: "Time's up",
-    gp_mv_Popup1Title: "Flip Challenge",
+    gp_mv_Popup1Title: "Moves Challenge",
     gp_mv_Popup1Text1: "Solve in",
-    gp_mv_Popup1Text3: "taps",
+    gp_mv_Popup1Text3: "Moves",
     gp_mv_statusEnd: "END",
     gp_mv_noMoreMoves: "No more moves",
     Bonus1_title: "Pick 3 Barrels",

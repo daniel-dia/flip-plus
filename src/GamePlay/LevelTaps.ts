@@ -14,7 +14,7 @@
                 this.gameplayMenu.addItemsButtons([Items.SOLVE]);
             
             //adds buttons and items
-            this.gameplayMenu.addItemsButtons([Items.TAP, Items.HINT]);
+            this.gameplayMenu.addItemsButtons([Items.HINT]);
 
 
             this.gameplayMenu.addEventListener(Items.TAP, () => { this.useItem(Items.TAP) });
