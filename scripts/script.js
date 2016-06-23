@@ -8012,13 +8012,12 @@ var FlipPlus;
             }
             TitleScreen.prototype.addMenu = function () {
                 var _this = this;
-                if (typeof Cocoon != "undefined")
-                    if (Cocoon.getPlatform() != 'ios') {
-                        this.menu = new Menu.View.ScreenMenu();
-                        this.menu.addEventListener("back", function () { _this.back(); });
-                        this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
-                        this.header.addChild(this.menu);
-                    }
+                this.menu = new Menu.View.ScreenMenu();
+                this.menu.addEventListener("back", function () { _this.back(); });
+                this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
+                this.header.addChild(this.menu);
+                if (typeof Cocoon != "undefined" && Cocoon.getPlatform() == 'ios')
+                    this.menu.visible = false;
             };
             TitleScreen.prototype.addBeach = function () {
                 var logo = new lib_logo.LogoScreen();
