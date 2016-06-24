@@ -7341,7 +7341,7 @@ var currencies = {
     "EUR": "€",
     "VND": "₫"
 };
-var version = "v 1.0.20";
+var version = "v 1.0.21";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
@@ -9241,9 +9241,9 @@ var StringResources = {
     desc_item_hint: "Hint",
     desc_item_skip: "Skip",
     desc_item_solve: "Solve board",
-    help_restart: "Are you lost?\nIn the pause menu you can restart!",
+    help_restart: "Are you lost?\nYou can restart\nIn the pause menu!",
     help_hint: "Are you lost?\nUse hints!",
-    help_skip: "Don't worry, you\ncan use parts\nto skip this board and move on!",
+    help_skip: "Don't worry, you\ncan use parts\nto skip this board\nand move on!",
     help_time: "Don't worry, you\ncan use parts\nto get more time!",
     help_touch: "Don't worry, you\ncan use parts\nto get more taps!",
     help_restart_bt: "Great!",
