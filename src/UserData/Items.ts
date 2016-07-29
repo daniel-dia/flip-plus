@@ -27,6 +27,7 @@ module FlipPlus.UserData {
             else this.itensDictionary = new Object();
         }
 
+        // set current item for a user
         public getItemQuantity(item: string): number {
             if (this.itensDictionary[item])
                 return this.itensDictionary[item];
@@ -34,11 +35,13 @@ module FlipPlus.UserData {
                 return 0;
         }
 
+        // set number of a item
         public setQuantityItem(item: string, value: number) {
             this.itensDictionary[item] = value;
             localStorage.setItem(storagePrefix + "items", JSON.stringify(this.itensDictionary));
         }
 
+        // decrease items quantity (when earned in bonus)
         public increaseItemQuantity(item: string, value: number = 1) {
             if (value < 1) return;
             var iq: number = this.getItemQuantity(item);
@@ -46,6 +49,7 @@ module FlipPlus.UserData {
             this.setQuantityItem(item, value + iq);
         }
 
+        // decrease items quantity (when purchased)
         public decreaseItemQuantity(item: string, value: number = 1) {
             if (value < 1) return;
             var iq: number = this.getItemQuantity(item);
@@ -53,6 +57,7 @@ module FlipPlus.UserData {
             this.setQuantityItem(item, iq - value);
         }
 
+        // calculate item price based in level number and quantity of item used
         public static calculateItemPrice(item: string, levelSetId: number, timesUsed: number = 0) {
             var base = 2.2;
             var factor = 0.3;
@@ -88,6 +93,7 @@ module FlipPlus.UserData {
             return price;
         }
 
+        // print item prices for debug
         public static printItemsPrices() {
 
             for (var p = 1; p <= 18; p++)

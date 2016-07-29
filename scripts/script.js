@@ -1126,16 +1126,19 @@ var FlipPlus;
                 else
                     this.itensDictionary = new Object();
             }
+            // set current item for a user
             ItemsManager.prototype.getItemQuantity = function (item) {
                 if (this.itensDictionary[item])
                     return this.itensDictionary[item];
                 else
                     return 0;
             };
+            // set number of a item
             ItemsManager.prototype.setQuantityItem = function (item, value) {
                 this.itensDictionary[item] = value;
                 localStorage.setItem(storagePrefix + "items", JSON.stringify(this.itensDictionary));
             };
+            // decrease items quantity (when earned in bonus)
             ItemsManager.prototype.increaseItemQuantity = function (item, value) {
                 if (value === void 0) { value = 1; }
                 if (value < 1)
@@ -1145,6 +1148,7 @@ var FlipPlus;
                     return;
                 this.setQuantityItem(item, value + iq);
             };
+            // decrease items quantity (when purchased)
             ItemsManager.prototype.decreaseItemQuantity = function (item, value) {
                 if (value === void 0) { value = 1; }
                 if (value < 1)
@@ -1154,6 +1158,7 @@ var FlipPlus;
                     return;
                 this.setQuantityItem(item, iq - value);
             };
+            // calculate item price based in level number and quantity of item used
             ItemsManager.calculateItemPrice = function (item, levelSetId, timesUsed) {
                 if (timesUsed === void 0) { timesUsed = 0; }
                 var base = 2.2;
@@ -1190,6 +1195,7 @@ var FlipPlus;
                 price = Math.ceil(price);
                 return price;
             };
+            // print item prices for debug
             ItemsManager.printItemsPrices = function () {
                 for (var p = 1; p <= 18; p++)
                     console.log(p + " - \t" +
