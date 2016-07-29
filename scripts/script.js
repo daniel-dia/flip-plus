@@ -102,7 +102,6 @@ var gameui;
                 if (!this.loader.resources[name])
                     return null;
             return this.loader.resources[name].texture;
-            return null;
         };
         //return a sprite according to the image
         AssetsManager.getMovieClip = function (name) {
@@ -357,14 +356,12 @@ var gameui;
             }
             else {
                 this.background.y = headerY;
-                if (false) {
-                    this.background.x = -(width * scale - width) / 2;
-                    this.background.scale.x = this.background.scale.y = scale;
-                }
-                else {
-                    this.background.x = 0;
-                    this.background.scaleY = scale;
-                }
+                //if (false) {
+                //	this.background.x = -(width * scale - width) / 2;
+                //	this.background.scale.x = this.background.scale.y = scale;
+                //} else {
+                this.background.x = 0;
+                this.background.scaleY = scale;
             }
             ///Check
             //  var mask = new PIXI.Graphics().beginFill(0x000000).drawRect(0, -(heigth - defaultHeight) / 2, width, heigth)
@@ -895,7 +892,7 @@ var FlipPlus;
                 };
             }
             //setTimeout(() => { this.unlo(); }, 4000); return
-            this.unlockAll();
+            //this.unlockAll();
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
             this.gameScreen.switchScreen(this.loadingScreen);
@@ -1031,7 +1028,7 @@ var FlipPlus;
             // unset current bot
             FlipPlusGame.levelsManager.setCurrentProject(null);
             // set parameter to make bot to interactive with user
-            var parameters = { bot: currentProjectID };
+            var parameters = { bot: currentProjectID, botComplete: true };
             // verify if all game is complete  and show special phrase
             if (FlipPlusGame.verifyGameEnd())
                 parameters["gameEnd"] = true;
@@ -4981,7 +4978,16 @@ var FlipPlus;
                 }
                 // if is a new bot, animate it after 0.5 sec
                 if (parameters && parameters.bot && parameters.bot != "Bot01") {
+                    // disable play bt
+                    this.playBt.interactive = false;
+                    // show bot line
                     setTimeout(function () { _this.myBots.animateBot(parameters.bot); }, 500);
+                    // show ads
+                    setTimeout(function () {
+                        CocoonAds.show(function () {
+                            _this.playBt.interactive = true;
+                        });
+                    }, 4000);
                 }
                 if (parameters && parameters.gameEnd) {
                     setTimeout(function () { _this.myBots.playEndGame(); }, 1000);

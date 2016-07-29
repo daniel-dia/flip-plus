@@ -120,7 +120,6 @@ module gameui {
             if (this.loader)
                 if (!this.loader.resources[name]) return null;
                 return this.loader.resources[name].texture;
-            return null;
         }
         
         //return a sprite according to the image

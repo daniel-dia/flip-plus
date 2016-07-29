@@ -102,7 +102,7 @@ module FlipPlus {
 
             //setTimeout(() => { this.unlo(); }, 4000); return
 
-            this.unlockAll();
+            //this.unlockAll();
 
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
@@ -263,11 +263,10 @@ module FlipPlus {
             FlipPlusGame.levelsManager.setCurrentProject(null);
 
             // set parameter to make bot to interactive with user
-            var parameters = { bot: currentProjectID };
+            var parameters = { bot: currentProjectID, botComplete: true };
 
             // verify if all game is complete  and show special phrase
-            if (FlipPlusGame.verifyGameEnd())
-                parameters["gameEnd"] = true;
+            if (FlipPlusGame.verifyGameEnd()) parameters["gameEnd"] = true;
             
             // shows main menu
             FlipPlusGame.showMainScreen(parameters);

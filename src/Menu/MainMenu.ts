@@ -1,6 +1,3 @@
-declare function ad_show(callback);
-declare function ad_initialize();
-
 module FlipPlus.Menu {
 
     export class MainMenu extends gameui.ScreenState {
@@ -94,7 +91,19 @@ module FlipPlus.Menu {
 
             // if is a new bot, animate it after 0.5 sec
             if (parameters && parameters.bot && parameters.bot != "Bot01") {
+
+                // disable play bt
+                this.playBt.interactive = false;
+
+                // show bot line
                 setTimeout(() => { this.myBots.animateBot(parameters.bot); }, 500);
+
+                // show ads
+                setTimeout(() => {
+                    CocoonAds.show(() => {
+                        this.playBt.interactive = true;
+                    })
+                }, 4000);
             }
 
             if (parameters && parameters.gameEnd) {

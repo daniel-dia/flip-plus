@@ -62,13 +62,13 @@ module gameui {
             } else {
                 this.background.y = headerY;
 
-				if (false) {
-					this.background.x = -(width * scale - width) / 2;
-					this.background.scale.x = this.background.scale.y = scale;
-				} else {
+				//if (false) {
+				//	this.background.x = -(width * scale - width) / 2;
+				//	this.background.scale.x = this.background.scale.y = scale;
+				//} else {
 					this.background.x = 0;
 					this.background.scaleY = scale;
-				}
+				//}
             }
 
 
