@@ -85,6 +85,8 @@ class CocoonAds  {
 
             this.setCallbacks();
 
+            this.load();
+
         }, false);
        
     }
