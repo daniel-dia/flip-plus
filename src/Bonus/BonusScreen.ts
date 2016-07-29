@@ -243,13 +243,16 @@
             // back to main screen
             this.back();
 
-            // show ads and 
-            var musicVol = gameui.AudiosManager.getMusicVolume();
-            gameui.AudiosManager.setMusicVolume(0);
-            CocoonAds.show((displayed,status) => {
-                gameui.AudiosManager.setMusicVolume(musicVol);
-                FlipPlusGame.analytics.logAds(status);
-            });
+            // show ads 
+            if (FlipPlusGame.storyData.getStoryPlayed("purchased"))
+            {
+                var musicVol = gameui.AudiosManager.getMusicVolume();
+                gameui.AudiosManager.setMusicVolume(0);
+                CocoonAds.show((displayed, status) => {
+                    gameui.AudiosManager.setMusicVolume(musicVol);
+                    FlipPlusGame.analytics.logAds(status);
+                });
+            }
             
 
         }

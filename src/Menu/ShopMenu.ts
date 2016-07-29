@@ -45,6 +45,14 @@ module FlipPlus.Menu {
             this.content.addChild(this.productsContainer);
             this.statusText.y = -400;
             this.statusText.regX = this.statusText.textWidth / 2;
+
+            var disclaimer = gameui.AssetsManager.getBitmapText(StringResources.menus.buyRemoveAds, "fontWhite",0xffffff,0.9);
+            disclaimer.y = -150;
+            disclaimer.x = 768;
+            disclaimer.regX = disclaimer.textWidth / 2;
+            this.footer.addChild(disclaimer);
+
+
         }
 
         // add all products in the list
@@ -206,10 +214,13 @@ module FlipPlus.Menu {
 
             this.getProductListItem(purchaseInfo.productId).setPurchased(true);
 
-            // analytics
+            // Analytics
             FlipPlusGame.counterData.increaseCounter("purchases");
             var transaction_num = FlipPlusGame.counterData.getCounter("purchases");
             FlipPlusGame.analytics.purchaseParts("parts", purchaseInfo.productId, this.products[purchaseInfo.productId].price, this.products[purchaseInfo.productId].localizedPrice, transaction_num);
+
+            // Story
+            FlipPlusGame.storyData.setStoryPlayed("purchased");
 
         }
         

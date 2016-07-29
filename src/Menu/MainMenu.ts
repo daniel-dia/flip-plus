@@ -93,12 +93,14 @@ module FlipPlus.Menu {
             if (parameters && parameters.bot && parameters.bot != "Bot01") {
 
                 // disable play bt
-                this.playBt.interactive = false;
+                if (!FlipPlusGame.storyData.getStoryPlayed("purchased"))
+                    this.playBt.interactive = false;
 
                 // show bot line
                 setTimeout(() => { this.myBots.animateBot(parameters.bot); }, 500);
 
                 // show ads
+                if (!FlipPlusGame.storyData.getStoryPlayed("purchased"))
                 setTimeout(() => {
                     CocoonAds.show(() => {
                         this.playBt.interactive = true;

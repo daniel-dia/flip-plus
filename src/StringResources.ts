@@ -141,6 +141,7 @@
         specialOffer: "Special Offer",
         shop: "shop",
         buy: "Buy",
+        buyRemoveAds: "Any purchase removes ads",
         playerName: "Player Name",
 
         playerNameDesc: "Type your name for the leaderboards.",
@@ -433,6 +434,7 @@ var stringResources_pt = {
         tutorial: "Tutorial",
         shop: "Compras",
         buy: "obter",
+        buyRemoveAds: "Qualquer compra remove as propagandas",
         specialOffer:"Oferta!",
         playerName: "Nome do Jogador",
 
