@@ -35,7 +35,6 @@ var levelsData =
    {
        "nickName": "S-N3S",
        "name": "Bot01",
-       "cost": 0,
        "levels": [
           {
               "name": "0/0",
@@ -177,7 +176,6 @@ var levelsData =
    {
        "nickName": "SUP-MS",
        "name": "Bot02",
-       "cost": 3,
        "levels": [
           {
               "width": 5,
@@ -258,7 +256,6 @@ var levelsData =
    {
        "nickName": "P1K-4",
        "name": "Bot03",
-       "cost": 5,
        "levels": [
           {
               "name": "2/2",
@@ -352,7 +349,6 @@ var levelsData =
    {
        "nickName": "L-1NK",
        "name": "Bot04",
-       "cost": 8,
        "levels": [
           {
               "name": "3/0",
@@ -439,7 +435,6 @@ var levelsData =
    //05 - B00-M
    {
        "name": "Bot05",
-       "cost": 10,
        "nickName": "B00-M",
        "levels": [
           {
@@ -528,7 +523,6 @@ var levelsData =
    //06 - K-R8Y
    {
        "name": "Bot06",
-       "cost": 13,
        "nickName": "K-R8Y",
        "levels": [
           {
@@ -628,7 +622,6 @@ var levelsData =
    //07 - ME64-X
    {
        "name": "Bot07",
-       "cost": 16,
        "nickName": "ME64-X",
        "levels": [
           {
@@ -710,7 +703,6 @@ var levelsData =
    //08 - K0N-6
    {
        "name": "Bot08",
-       "cost": 18,
        "nickName": "K0N-6",
        "levels": [
           {
@@ -794,7 +786,6 @@ var levelsData =
    //09 - B-GH
    {
        "name": "Bot09",
-       "cost": 21,
        "nickName": "B-GH",
        "levels": [
           {
@@ -886,7 +877,6 @@ var levelsData =
    //10 - BJ-KZ
    {
        "name": "Bot10",
-       "cost": 24,
        "nickName": "BJ-KZ",
        "levels": [
           {
@@ -988,7 +978,6 @@ var levelsData =
    //11 - 1UP
    {
        "name": "Bot11",
-       "cost": 26,
        "nickName": "1UP",
        "levels": [
           {
@@ -1074,7 +1063,6 @@ var levelsData =
    //12 - S-H06
    {
        "name": "Bot12",
-       "cost": 29,
        "nickName": "S-H06",
        "levels": [
           {
@@ -1170,7 +1158,6 @@ var levelsData =
    //13 - D-D1
    {
        "name": "Bot13",
-       "cost": 32,
        "nickName": "D-D1",
        "levels": [
           {
@@ -1275,7 +1262,6 @@ var levelsData =
    //14 - R-GH
    {
        "name": "Bot14",
-       "cost": 34,
        "nickName": "R-GH",
        "levels": [
           {
@@ -1368,7 +1354,6 @@ var levelsData =
    //15 - P4C-M
    {
        "name": "Bot15",
-       "cost": 37,
        "nickName": "P4C-M",
        "levels": [
           {
@@ -1453,7 +1438,6 @@ var levelsData =
    //16 - G-GH
    {
        "name": "Bot16",
-       "cost": 40,
        "nickName": "G-GH",
        "levels": [
           {
@@ -1543,7 +1527,6 @@ var levelsData =
    //17 - T-BLK
    {
        "name": "Bot17",
-       "cost": 42,
        "nickName": "T-BLK",
        "levels": [
           {
@@ -1629,7 +1612,6 @@ var levelsData =
    //18 - Y0S-1
    {
        "name": "Bot18",
-       "cost": 45,
        "nickName": "Y0S-1",
        "levels": [
           {

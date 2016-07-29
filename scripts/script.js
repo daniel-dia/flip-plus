@@ -6046,6 +6046,9 @@ var FlipPlus;
                         delete data[p].levels[l].userdata;
                     }
                 }
+                // set project stars costs
+                for (var i = 0; i < data.length; i++)
+                    data[i].cost = Math.ceil(0.8 * 3 * i);
                 // automatically fix names
                 this.fixName(data);
                 // save data
@@ -6064,18 +6067,18 @@ var FlipPlus;
                         var level = data[p].levels[l];
                         // adds LevelId and ProjectId properties
                         level.projectId = p;
-                        level.leveld = l;
+                        level.leveld = parseInt(l);
                         // Fix level name
                         level.name = add40((parseInt(p) + 1) * 100 + (parseInt(l) + 1));
                     }
                 }
             };
             // ------------------------------- manager Levels ----------------------------------------
-            //get current Level 
+            // get current Level 
             LevelsManager.prototype.getCurrentLevel = function () {
                 return this.currentLevel;
             };
-            //set current level
+            // set current level
             LevelsManager.prototype.setCurrentLevel = function (level) {
                 this.currentLevel = level;
                 for (var p in this.levelsData) {
@@ -6085,11 +6088,11 @@ var FlipPlus;
                     }
                 }
             };
-            //undo a level
+            // undo a level
             LevelsManager.prototype.undoLevel = function (level) {
                 level.userdata.solved = false;
             };
-            //skip a project
+            // skip a project
             LevelsManager.prototype.skipLevel = function (level) {
                 if (level == null)
                     return;
@@ -6097,42 +6100,42 @@ var FlipPlus;
                 //if the level is not solved yet
                 if (!level.userdata.solved) {
                     level.userdata.skip = true;
-                    //updates next level
+                    // updates next level
                     var nextLevel = this.getNextLevel();
                     if (nextLevel != null)
                         this.unlockLevel(nextLevel);
-                    //updates project info
+                    // updates project info
                     this.updateProjectUserData(this.getCurrentProject());
-                    //save user data
+                    // save user data
                     this.levelsUserDataManager.saveLevelData(level);
                     this.levelsUserDataManager.saveProjectData(this.getCurrentProject());
                 }
             };
-            //Finish a project.
+            // Finish a project.
             LevelsManager.prototype.completeLevel = function (level) {
-                //updates level;
+                // updates level;
                 level.userdata.solved = true;
                 level.userdata.skip = false;
                 level.userdata.unlocked = true;
-                //updates next level
+                // updates next level
                 var nextLevel = this.getNextLevel();
                 if (nextLevel != null)
                     this.unlockLevel(nextLevel);
-                //updates project info
+                // updates project info
                 this.updateProjectUserData(this.getCurrentProject());
-                //save user data
+                // save user data
                 this.levelsUserDataManager.saveLevelData(level);
                 this.levelsUserDataManager.saveProjectData(this.getCurrentProject());
             };
-            //get next level inside a project
+            // get next level inside a project
             LevelsManager.prototype.getNextLevel = function () {
-                //get current project and level
+                // get current project and level
                 var project = this.getCurrentProject();
                 var level = this.getCurrentLevel();
                 //if is not on a project or level return null
                 if (project == null || level == null)
                     return null;
-                //seek for all levels in the project
+                // seek for all levels in the project
                 // -1 is to avoid the "last" project and stack overflow
                 var levels = project.levels;
                 for (var l = 0; l < levels.length - 1; l++)
@@ -6143,22 +6146,22 @@ var FlipPlus;
                 return null;
             };
             // ------------------------------- manager Projects ----------------------------------------
-            //get current Project
+            // get current Project
             LevelsManager.prototype.getCurrentProject = function () { return this.currentProject; };
-            //set current project
+            // set current project
             LevelsManager.prototype.setCurrentProject = function (project) { this.currentProject = project; };
-            //Get all Projects
+            // get all Projects
             LevelsManager.prototype.getAllProjects = function () {
                 return this.levelsData;
             };
-            //get a single project by name
+            // get a single project by name
             LevelsManager.prototype.getProjectByName = function (name) {
                 for (var p in this.levelsData)
                     if (this.levelsData[p].name == name)
                         return this.levelsData[p];
                 return null;
             };
-            //get all finished Projects
+            // get all finished Projects
             LevelsManager.prototype.getFinihedProjects = function () {
                 this.updateProjectsUserData();
                 //return array with avaliable projects
@@ -6169,7 +6172,7 @@ var FlipPlus;
                         finishedProjects.push(this.levelsData[i]);
                 return finishedProjects;
             };
-            //get highest active project
+            // get highest active project
             LevelsManager.prototype.getHighestProject = function () {
                 this.updateProjectsUserData();
                 var highest = 1;
@@ -6181,7 +6184,7 @@ var FlipPlus;
                 }
                 return highest;
             };
-            //get all unlockedProjects
+            // get all unlockedProjects
             LevelsManager.prototype.getUnlockedProjects = function () {
                 this.updateProjectsUserData();
                 //return array with avaliable projects
@@ -6192,7 +6195,7 @@ var FlipPlus;
                         unlockedProjects.push(this.levelsData[i]);
                 return unlockedProjects;
             };
-            //getProjectStars
+            // getProjectStars
             LevelsManager.prototype.getStarsCount = function () {
                 var stars = 0;
                 for (var p in this.levelsData)
@@ -6200,27 +6203,29 @@ var FlipPlus;
                         stars += this.levelsData[p].UserData.stars;
                 return stars;
             };
-            //unlock a project based on user parts ballance
+            // unlock a project based on user parts ballance
             LevelsManager.prototype.unlockProject = function (project) {
-                //unlock project user data
+                // unlock project user data
                 project.UserData.unlocked = true;
-                //unlocks first level of project
+                // unlocks first level of project
                 this.unlockLevel(project.levels[0]);
-                //save user data
+                // save user data
                 this.levelsUserDataManager.saveProjectData(project);
                 this.levelsUserDataManager.saveLevelData(project.levels[0]);
             };
+            // unlock next project
             LevelsManager.prototype.unlockNextProject = function (project) {
                 var nextProject = this.getNextProject(project);
                 this.unlockProject(nextProject);
             };
+            // get next project
             LevelsManager.prototype.getNextProject = function (project) {
                 var projects = this.getAllProjects();
                 for (var p = 0; p < projects.length - 1; p++)
                     if (projects[p] == project)
                         return projects[p + 1];
             };
-            //unlock a level inside a project
+            // unlock a level inside a project
             LevelsManager.prototype.unlockLevel = function (level) {
                 // analytics
                 if (!level.userdata.unlocked)
@@ -6229,7 +6234,7 @@ var FlipPlus;
                 level.userdata.unlocked = true;
                 this.levelsUserDataManager.saveLevelData(level);
             };
-            //Finish a project.
+            // Finish a project.
             LevelsManager.prototype.completeProject = function (project) {
                 //TODO colocar isso em outro lugar
                 // set played the intro when a project is complete
@@ -6244,12 +6249,19 @@ var FlipPlus;
                 FlipPlus.FlipPlusGame.levelsUserDataManager.saveProjectData(project);
                 FlipPlus.FlipPlusGame.levelsUserDataManager.saveProjectData(nextProject);
             };
-            //Updates user data project status
+            // unlocks projects based on stars
+            LevelsManager.prototype.updateUnlockedProjects = function () {
+                var stars = this.getStarsCount();
+                for (var p in this.levelsData)
+                    if (this.levelsData[p].cost <= stars)
+                        this.unlockProject(this.levelsData[p]);
+            };
+            // updates user data project status
             LevelsManager.prototype.updateProjectsUserData = function () {
                 for (var i = 0; i < this.levelsData.length; i++)
                     this.updateProjectUserData(this.levelsData[i]);
             };
-            //Updates user data project status
+            // updates user data project status
             LevelsManager.prototype.updateProjectUserData = function (project) {
                 var solvedLevels = 0;
                 //count solved levels
@@ -6274,7 +6286,7 @@ var FlipPlus;
                     if (temp[i])
                         stars++;
                 }
-                //updates project stars count
+                // updates project stars count
                 project.UserData.stars = stars;
                 //complete Project
                 if (solvedLevels == project.levels.length)
