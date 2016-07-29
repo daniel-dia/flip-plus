@@ -125,6 +125,7 @@ module FlipPlus {
 
         // test debug 
         public static unlockAll() {
+            this.coinsData.setAmount(999);
             var ps = this.levelsManager.getAllProjects();
             for (var p in ps) {
                 ps[p].UserData.unlocked = true;

@@ -9,13 +9,12 @@
 
         constructor(levelData: Levels.Level) {
             super(levelData);
-            
-            if (this.levelData.puzzlesToSolve > 1) 
+
+            if (this.levelData.puzzlesToSolve > 1)
                 this.gameplayMenu.addItemsButtons([Items.SOLVE]);
-            
+
             //adds buttons and items
             this.gameplayMenu.addItemsButtons([Items.HINT]);
-
 
             this.gameplayMenu.addEventListener(Items.TAP, () => { this.useItem(Items.TAP) });
             this.gameplayMenu.addEventListener(Items.SOLVE, () => { this.useItem(Items.SOLVE); })
@@ -24,29 +23,20 @@
 
             this.moves = this.levelData.moves;
 
-            if (levelData.blocksData && levelData.blocksData.length>0) {
+            if (levelData.blocksData && levelData.blocksData.length > 0) {
                 this.levelLogic.board.setInvertedBlocks(levelData.blocksData)
                 this.levelData.puzzlesToSolve = 1;
             }
             else {
-                
                 if (!this.levelData.puzzlesToSolve) this.levelData.puzzlesToSolve = 1;
                 this.randomBoard(this.levelData.randomMinMoves, this.levelData.randomMaxMoves);
-
             }
 
-            
             this.puzzlesToSolve = levelData.puzzlesToSolve;
-
-            
-
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-            
-            //set default puzzles to solve
-            //this.popup.showTimeAttack(StringResources.gp_mv_Popup1Title, StringResources.gp_mv_Popup1Text1, this.levelData.moves.toString(), this.levelData.puzzlesToSolve.toString(), StringResources.gp_mv_Popup1Text2, StringResources.gp_mv_Popup1Text3); 
-            this.popup.showTaps(this.levelData.moves.toString()); 
 
-            
+            this.popup.showTaps(this.levelData.moves.toString());
+
             this.statusArea.setMode("moves");
             this.statusArea.setText3(this.moves.toString());
         }
@@ -57,7 +47,7 @@
         public userInput(col: number, row: number) {
             super.userInput(col, row);
 
-            
+
             if (!this.levelLogic.verifyWin()) {
                 //verifies if is a multiTouch
                 if (Date.now() - this.lastTouchTime > 110 || !this.lastTouchTime)
@@ -65,28 +55,27 @@
 
                 this.lastTouchTime = Date.now();
 
-                
                 setTimeout(() => {
                     if (!this.loosing)
                         if (!this.levelLogic.verifyWin()) {
                             //loses game, if moves is over
                             if (this.moves <= 0) {
                                 this.message.showtext(StringResources.gp_mv_noMoreMoves);
-                                
+
                                 // play sound
                                 gameui.AudiosManager.playSound("Power Down");
-                                
+
                                 this.loose();
                                 this.loosing = true;
                             }
-                    }
-                },110)
+                        }
+                }, 110)
             }
 
             //updates moves count
             this.statusArea.setText3(this.moves.toString());
 
-            
+
         }
 
         //Overriding methods.
@@ -131,13 +120,13 @@
                     this.levelLogic.board.invertCross(
                         i % this.levelLogic.board.width,
                         Math.floor(i / this.levelLogic.board.width)
-                        );
+                    );
             }
 
             this.levelLogic.board.initializePrizes(2);
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
         }
-        
+
         //========================== items ==================================
         private useItemTouch() {
             this.moves += 2;

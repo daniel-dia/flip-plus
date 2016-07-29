@@ -9,12 +9,13 @@ module FlipPlus.GamePlay {
         protected puzzlesToSolve: number = 0;
         protected currentTime;
         protected timer;
+        protected initialTime;
 
         constructor(levelData: Levels.Level) {
             super(levelData);
             this.createMenu();
             this.startGame(levelData);
-
+            this.initialTime = levelData.time;
             // update overlay
             this.statusArea.setText1( "1/" + this.puzzlesToSolve.toString());
          }
@@ -35,11 +36,12 @@ module FlipPlus.GamePlay {
                 // suggest more time
                 this.timer.stop();
                 this.boardSprite.mouseEnabled = false;
+                this.boardSprite.lock();
                 this.popupHelper.showItemMessage(Items.TIME, this.getItemPrice(Items.TIME),
                     () => {
                         if (this.useItem(Items.TIME)) {
                             this.boardSprite.mouseEnabled = true;
-
+                            this.boardSprite.unlock ();
                             this.continueTimer()
                         }
                     },
@@ -48,7 +50,7 @@ module FlipPlus.GamePlay {
                         this.statusArea.setText3(StringResources.gp_pz_statusEnd);
                         this.message.showtext(StringResources.gp_pz_timeUP);
                         this.loose();
-                    });
+                    }, null, "+" + this.initialTime + "s");
             }
 
             // play sound
@@ -140,7 +142,7 @@ module FlipPlus.GamePlay {
         }
  
         protected useItemTime() {
-            this.currentTime += 10;
+            this.currentTime += this.initialTime;
         }
 
         activate(parameters?: any) {

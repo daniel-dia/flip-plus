@@ -915,6 +915,7 @@ var FlipPlus;
         };
         // test debug 
         FlipPlusGame.unlockAll = function () {
+            this.coinsData.setAmount(999);
             var ps = this.levelsManager.getAllProjects();
             for (var p in ps) {
                 ps[p].UserData.unlocked = true;
@@ -2325,8 +2326,6 @@ var FlipPlus;
                 }
                 this.puzzlesToSolve = levelData.puzzlesToSolve;
                 this.boardSprite.updateSprites(this.levelLogic.board.blocks);
-                //set default puzzles to solve
-                //this.popup.showTimeAttack(StringResources.gp_mv_Popup1Title, StringResources.gp_mv_Popup1Text1, this.levelData.moves.toString(), this.levelData.puzzlesToSolve.toString(), StringResources.gp_mv_Popup1Text2, StringResources.gp_mv_Popup1Text3); 
                 this.popup.showTaps(this.levelData.moves.toString());
                 this.statusArea.setMode("moves");
                 this.statusArea.setText3(this.moves.toString());
@@ -2417,6 +2416,7 @@ var FlipPlus;
                 this.puzzlesToSolve = 0;
                 this.createMenu();
                 this.startGame(levelData);
+                this.initialTime = levelData.time;
                 // update overlay
                 this.statusArea.setText1("1/" + this.puzzlesToSolve.toString());
             }
@@ -2435,9 +2435,11 @@ var FlipPlus;
                     // suggest more time
                     this.timer.stop();
                     this.boardSprite.mouseEnabled = false;
+                    this.boardSprite.lock();
                     this.popupHelper.showItemMessage(Items.TIME, this.getItemPrice(Items.TIME), function () {
                         if (_this.useItem(Items.TIME)) {
                             _this.boardSprite.mouseEnabled = true;
+                            _this.boardSprite.unlock();
                             _this.continueTimer();
                         }
                     }, function () {
@@ -2445,7 +2447,7 @@ var FlipPlus;
                         _this.statusArea.setText3(StringResources.gp_pz_statusEnd);
                         _this.message.showtext(StringResources.gp_pz_timeUP);
                         _this.loose();
-                    });
+                    }, null, "+" + this.initialTime + "s");
                 }
                 // play sound
                 if (this.currentTime == 5)
@@ -2520,7 +2522,7 @@ var FlipPlus;
                 this.continueTimer();
             };
             LevelTimeAttack.prototype.useItemTime = function () {
-                this.currentTime += 10;
+                this.currentTime += this.initialTime;
             };
             LevelTimeAttack.prototype.activate = function (parameters) {
                 var _this = this;
@@ -8483,7 +8485,7 @@ var FlipPlus;
                     bt.x = 1000;
                     bt.y = 1100;
                 };
-                PopupHelper.prototype.showItemMessage = function (item, price, accept, cancel, customImage) {
+                PopupHelper.prototype.showItemMessage = function (item, price, accept, cancel, customImage, customText) {
                     var _this = this;
                     this.showsPopup(0, 0);
                     //clean display Object
@@ -8496,6 +8498,8 @@ var FlipPlus;
                     // create a text
                     var textDO = gameui.AssetsManager.getBitmapText(StringResources["help_" + item], "fontWhite");
                     this.addChild(textDO);
+                    if (customText)
+                        textDO.text = textDO.text + "\n" + customText;
                     textDO.pivot.x = textDO.getLocalBounds().width / 2;
                     textDO.y = 550;
                     textDO.x = 1100;

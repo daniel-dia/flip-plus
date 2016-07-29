@@ -48,7 +48,7 @@ module FlipPlus.Menu.View {
 
         }
 
-        public showItemMessage(item: string, price: number, accept: () => void, cancel: () => void, customImage?: string) {
+        public showItemMessage(item: string, price: number, accept: () => void, cancel: () => void, customImage?: string, customText?: string) {
             this.showsPopup(0, 0);
 
             //clean display Object
@@ -63,6 +63,7 @@ module FlipPlus.Menu.View {
             // create a text
             var textDO = gameui.AssetsManager.getBitmapText(StringResources["help_" + item], "fontWhite");
             this.addChild(textDO);
+            if (customText) textDO.text = textDO.text + "\n" + customText; 
             textDO.pivot.x = textDO.getLocalBounds().width / 2;
             
             textDO.y = 550;
