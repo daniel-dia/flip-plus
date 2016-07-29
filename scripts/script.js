@@ -753,8 +753,8 @@ var gameui;
             if (text === void 0) { text = ""; }
             if (font === void 0) { font = null; }
             if (align === void 0) { align = "center"; }
-            this.align = align;
             _super.call(this, text, font, color, background, event, soundId);
+            this.align = align;
             //loads icon Image
             this.icon = gameui.AssetsManager.getBitmap(icon);
             this.addChild(this.icon);
@@ -796,8 +796,8 @@ var gameui;
             if (text === void 0) { text = ""; }
             if (font === void 0) { font = null; }
             if (align === void 0) { align = "center"; }
-            this.align = align;
             _super.call(this, text, font, background, event, soundId);
+            this.align = align;
             //loads icon Image
             this.icon = gameui.AssetsManager.getBitmap(icon);
             this.addChild(this.icon);

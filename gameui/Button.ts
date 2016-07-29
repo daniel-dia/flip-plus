@@ -237,9 +237,9 @@ module gameui {
         public icon: PIXI.DisplayObject;
 
         constructor(icon: string = "", text = "", font: string = null, color?: number, background?: string, event?: (event?: any) => any, soundId?: string, align: string = "center") {
-            this.align = align;
-
             super(text, font, color, background, event, soundId);
+
+            this.align = align;
 
             //loads icon Image
             this.icon = AssetsManager.getBitmap(icon);
@@ -288,9 +288,9 @@ module gameui {
         public icon: PIXI.DisplayObject;
 
         constructor(icon: string = "", text = "", font: string = null, background?: string, event?: (event?: any) => any, soundId?: string, align: string = "center") {
-            this.align = align;
-
             super(text, font, background, event, soundId);
+
+            this.align = align;
 
             //loads icon Image
             this.icon = AssetsManager.getBitmap(icon);
