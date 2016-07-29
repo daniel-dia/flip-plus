@@ -70,7 +70,7 @@ module FlipPlus.UserData {
 
                 case Items.SKIP:
                     factor = 1;
-                    timesUsed = 2;
+                    timesUsed = 1.5;
                     break;
 
                 case Items.HINT:

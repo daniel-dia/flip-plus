@@ -81,7 +81,7 @@ module FlipPlus {
            // give 10 coins to user first time
             if (!this.storyData.getStoryPlayed("coins")){
                 this.storyData.setStoryPlayed("coins")
-                this.coinsData.setAmount(10);
+                this.coinsData.setAmount(15);
             }            
 
             // add back button  cocoon

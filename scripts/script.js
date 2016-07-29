@@ -878,7 +878,7 @@ var FlipPlus;
             // give 10 coins to user first time
             if (!this.storyData.getStoryPlayed("coins")) {
                 this.storyData.setStoryPlayed("coins");
-                this.coinsData.setAmount(10);
+                this.coinsData.setAmount(15);
             }
             // add back button  cocoon
             document.addEventListener("backbutton", function () {
@@ -1171,7 +1171,7 @@ var FlipPlus;
                         break;
                     case Items.SKIP:
                         factor = 1;
-                        timesUsed = 2;
+                        timesUsed = 1.5;
                         break;
                     case Items.HINT:
                         factor = 0.3;
