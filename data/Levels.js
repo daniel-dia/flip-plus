@@ -31,7 +31,7 @@ Bot unlocked
 */
 var levelsData =
     [
-   //01
+   //01 - S-N3S
    {
        "nickName": "S-N3S",
        "name": "Bot01",
@@ -173,9 +173,9 @@ var levelsData =
                  }]
           }]
    },
-   //02
+   //02 - SUP-MS
    {
-       "nickName": "R-MS",
+       "nickName": "SUP-MS",
        "name": "Bot02",
        "cost": 3,
        "levels": [
@@ -254,7 +254,7 @@ var levelsData =
               "blocksData": [22, 10, 24, 38, 26]
           }]
    },
-   //03
+   //03 - P1K-4
    {
        "nickName": "P1K-4",
        "name": "Bot03",
@@ -348,7 +348,7 @@ var levelsData =
               "randomMinMoves": 2
           }]
    },
-   //04
+   //04 - L-1NK
    {
        "nickName": "L-1NK",
        "name": "Bot04",
@@ -436,7 +436,7 @@ var levelsData =
               "blocksData": [0, 19, 8, 21, 10, 29]
           }]
    },
-   //05
+   //05 - B00-M
    {
        "name": "Bot05",
        "cost": 10,
@@ -504,20 +504,19 @@ var levelsData =
               "name": "4/9"
           },
           {
-              "name": "3/9",
-              "width": 6,
-              "height": 4,
-              "type": "puzzle",
-              "theme": "yellow",
-              "blocksData": [0, 18, 8, 15, 5, 23]
-          },
+                "width": 4,
+                "height": 4,
+                "theme": "yellow",
+                "type": "puzzle",
+                "blocksData": [5, 9, 6, 10]
+            },
           {
-              "width": 4,
-              "height": 4,
-              "theme": "yellow",
-              "type": "puzzle",
-              "blocksData": [5, 9, 6, 10]
-          },
+                "width": 6,
+                "height": 4,
+                "type": "puzzle",
+                "theme": "yellow",
+                "blocksData": [0, 18, 8, 15, 5, 23]
+            },
           {
               "width": 7,
               "height": 3,
@@ -526,7 +525,7 @@ var levelsData =
               "blocksData": [0, 8, 16, 10, 18, 12, 6]
           }]
    },
-   //06
+   //06 - K-R8Y
    {
        "name": "Bot06",
        "cost": 13,
@@ -573,7 +572,7 @@ var levelsData =
               "height": 6,
               "theme": "purple",
               "type": "time",
-              "time": 20,
+              "time": 21,
               "puzzlesToSolve": 16,
               "randomMinMoves": 1,
               "randomMaxMoves": 1
@@ -600,7 +599,21 @@ var levelsData =
               "theme": "yellow",
               "moves": 2,
               "blocksData": [0, 20, 4, 24],
-              "name": "5/7"
+              "name": "5/7",
+              "tutorial": [
+                   {
+                       "text": "tut_6_1_text",
+                       "title": "tut_6_1_title",
+                       "image": "tutorial"
+                   },
+                   //{
+                   //    "clicks": [0,4]
+                   //},
+                   {
+                       "atEnd": true,
+                       "text": "tut_6_2_title",
+                       "title": "tut_6_2_title"
+                   }]
           },
           {
               "width": 3,
@@ -612,11 +625,11 @@ var levelsData =
               "name": "5/8"
           }]
    },
-   //07
+   //07 - ME64-X
    {
        "name": "Bot07",
        "cost": 16,
-       "nickName": "R-GH",
+       "nickName": "ME64-X",
        "levels": [
           {
               "width": 5,
@@ -694,11 +707,11 @@ var levelsData =
               "blocksData": [0, 5, 1, 6, 12, 18]
           }]
    },
-   //08
+   //08 - K0N-6
    {
        "name": "Bot08",
        "cost": 18,
-       "nickName": "ME64-x",
+       "nickName": "K0N-6",
        "levels": [
           {
               "width": 5,
@@ -772,13 +785,13 @@ var levelsData =
               "height": 5,
               "theme": "yellow",
               "type": "time",
-              "time": 12,
+              "time": 25,
               "puzzlesToSolve": 3,
               "randomMinMoves": 5,
               "randomMaxMoves": 5
           }]
    },
-   //09
+   //09 - B-GH
    {
        "name": "Bot09",
        "cost": 21,
@@ -787,20 +800,15 @@ var levelsData =
           {
               "width": 1,
               "height": 8,
-              "type": "moves",
               "theme": "green",
-              "moves": 4,
-              "blocksData": [0, 2, 3, 5, 6],
-              "name": "8/0"
+              "blocksData": [0, 2, 3, 5, 6]
           },
           {
               "width": 2,
               "height": 4,
-              "type": "moves",
               "theme": "green",
               "moves": 4,
-              "blocksData": [0, 4, 6, 3],
-              "name": "8/1"
+              "blocksData": [0, 4, 6, 3]
           },
           {
               "width": 3,
@@ -875,7 +883,7 @@ var levelsData =
               "name": "8/9"
           }]
    },
-   //10
+   //10 - BJ-KZ
    {
        "name": "Bot10",
        "cost": 24,
@@ -912,11 +920,10 @@ var levelsData =
               "type": "time",
               "theme": "purple",
               "time": 45,
-              "puzzlesToSolve": 6,
+              "puzzlesToSolve": 4,
               "randomMaxMoves": 8,
               "randomMinMoves": 8,
-              "hiddenBlocks": [],
-              "name": "9/3"
+              
           },
           {
               "width": 5,
@@ -978,11 +985,11 @@ var levelsData =
               "blocksData": [6, 12, 24, 1, 13, 32, 33, 4, 16, 11, 17, 29]
           }]
    },
-   //11
+   //11 - 1UP
    {
        "name": "Bot11",
        "cost": 26,
-       "nickName": "BMS-M",
+       "nickName": "1UP",
        "levels": [
           {
               "width": 6,
@@ -1064,11 +1071,11 @@ var levelsData =
               "randomMaxMoves": 5
           }]
    },
-   //12
+   //12 - S-H06
    {
        "name": "Bot12",
        "cost": 29,
-       "nickName": "K0N-6",
+       "nickName": "S-H06",
        "levels": [
           {
               "width": 8,
@@ -1160,11 +1167,11 @@ var levelsData =
               "name": "7/9"
           }]
    },
-   //13
+   //13 - D-D1
    {
        "name": "Bot13",
        "cost": 32,
-       "nickName": "S-H06",
+       "nickName": "D-D1",
        "levels": [
           {
               "width": 4,
@@ -1265,11 +1272,11 @@ var levelsData =
               "name": "11/9"
           }]
    },
-   //14
+   //14 - R-GH
    {
        "name": "Bot14",
        "cost": 34,
-       "nickName": "D-D1",
+       "nickName": "R-GH",
        "levels": [
           {
               "width": 6,
@@ -1358,7 +1365,7 @@ var levelsData =
               "randomMaxMoves": 10
           }]
    },
-   //15
+   //15 - P4C-M
    {
        "name": "Bot15",
        "cost": 37,
@@ -1443,7 +1450,7 @@ var levelsData =
               "randomMaxMoves": 12
           }]
    },
-   //16
+   //16 - G-GH
    {
        "name": "Bot16",
        "cost": 40,
@@ -1533,7 +1540,7 @@ var levelsData =
               "blocksData": [0, 1, 6, 11, 16, 21, 12, 22, 3, 13, 18, 9], 
           }]
    },
-   //17
+   //17 - T-BLK
    {
        "name": "Bot17",
        "cost": 42,
@@ -1619,7 +1626,7 @@ var levelsData =
               "blocksData": [0, 35, 42, 1, 29, 36, 2, 30, 37, 44, 17, 24, 31, 38, 32, 19, 26, 33, 40, 13, 20, 34, 41]
           }]
    },
-   //18
+   //18 - Y0S-1
    {
        "name": "Bot18",
        "cost": 45,

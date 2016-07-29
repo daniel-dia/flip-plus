@@ -53,11 +53,28 @@ module FlipPlus.GamePlay {
                 });
             }
 
-            //create for block click item
+            //create for block item clicks
+            if (step.clicks) {
+
+                var listeners = new Array<PIXI.EventEmitter>();
+                for (var c in step.clicks) {
+                    //this.boardSprite.tutorialHighlightBlocks(step.clicks[c]);
+                    //this.gameplayMenu.tutorial_lockAllButtons();
+                    //
+                    //this.boardSprite.once("ontutorialclick", next);
+                    //
+                    //var next = ()=>{
+                    //    this.playNextTurorialStep();
+                    //    this.gameplayMenu.tutorial_unlockAllButtons();
+                    //}
+                }
+            }
+
+            //create for block item click
             if (step.click != undefined) {
                 this.boardSprite.tutorialHighlightBlocks(step.click);
                 this.gameplayMenu.tutorial_lockAllButtons();
-                var listener3 = this.boardSprite.once("ontutorialclick", () => {
+                var listener5 = this.boardSprite.once("ontutorialclick", () => {
                     this.playNextTurorialStep();
                     this.gameplayMenu.tutorial_unlockAllButtons();
                 });

@@ -87,6 +87,7 @@ module FlipPlus.Levels {
         image?: string;
         item?: string;
         click?: number;
+        clicks?: Array<number>;
         parameter?: any;
         atEnd?: boolean;
     }

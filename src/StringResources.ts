@@ -34,6 +34,12 @@
     tut_5_1_title: "Bot S-N3S",
     tut_5_1_text: "finish this board\nto complete S-N3S repairs!",
 
+    tut_6_1_title: "Moves",
+    tut_6_1_text: "Tap 2 blocks at the same time",
+    tut_6_2_title: "Moves",
+    tut_6_2_text: "You can flip 2 or more blocks in the same move",
+
+
     mm_play: "PLAY",
 
     op_back: "Back",
@@ -322,6 +328,10 @@ var stringResources_pt = {
     tut_5_1_title: "Bot S-N3S",
     tut_5_1_text: "Termine essa tela para\nfinalizar os reparos no S-N3S!",
 
+    tut_6_1_title: "Movimentos",
+    tut_6_1_text: "Toque em 2 blocos ao mesmo tempo",
+    tut_6_2_title: "Movimentos",
+    tut_6_2_text: "Voce pode virar mais de 1 bloco com o mesmo movimento!",
 
     mm_play: "JOGAR",
 

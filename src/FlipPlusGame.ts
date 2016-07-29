@@ -100,7 +100,9 @@ module FlipPlus {
                 };
             }
 
-            //setTimeout(() => { this.tests(); }, 4000); return
+            //setTimeout(() => { this.unlo(); }, 4000); return
+
+            this.unlockAll();
 
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
