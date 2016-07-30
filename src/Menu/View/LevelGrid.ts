@@ -7,6 +7,7 @@ module FlipPlus.Menu.View {
         private thumbs: LevelThumb[];
         private gridCreated: boolean;
         private infoText: PIXI.extras.BitmapText;
+        private starCost: PIXI.DisplayObject;
 
         //Constructor
         constructor(project: FlipPlus.Levels.BotLevelsSet) {
@@ -68,6 +69,7 @@ module FlipPlus.Menu.View {
             }
         }
 
+        // update grid
         private updateGrid(project: Levels.BotLevelsSet) {
 
             if ((!FlipPlusGame.isFree() && project.free) || (FlipPlusGame.isFree())) {
@@ -81,22 +83,48 @@ module FlipPlus.Menu.View {
 
         // Add Locked Text
         private showLockedText() {
-            if (!this.infoText) this.infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontWhite");
+            if (!this.infoText)
+                this.infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontWhite");
+
             this.infoText.pivot.x = this.infoText.getLocalBounds().width / 2;
-            this.infoText.y = 210;
+            this.infoText.y = 150;
             this.infoText.x = (defaultWidth-this.x*2 )/ 2;
             this.addChild(this.infoText);
+
+            this.addCost();
+        }
+
+        // add Cost indication
+        private addCost() {
+
+            if (!this.starCost) {
+                var starCost = new PIXI.Container();
+                var cost = gameui.AssetsManager.getBitmapText("x " + this.project.cost.toString(), "fontWhite");
+                var star = gameui.AssetsManager.getBitmap("starsicon");
+                starCost.addChild(star);
+                starCost.addChild(cost);
+
+                star.x = -70;
+                cost.x = 70;
+
+                this.starCost = starCost
+            }
+
+            this.starCost.y = 300;
+            this.starCost.x = (defaultWidth - this.x * 2) / 2 - 60;
+            this.addChild(this.starCost);
         }
 
         // Add "not free" text
         private showNotFreeText() {
             if (!this.infoText) this.infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontWhite");
             this.infoText.pivot.x = this.infoText.getLocalBounds().width / 2;
-            this.infoText.y = 210;
+            this.infoText.y = 100;
             this.infoText.x = (defaultWidth - this.x * 2) / 2;
             this.addChild(this.infoText);
         }
-        
+
+        // update user data
         public updateUserData() {
 
             this.updateGrid(this.project);
@@ -108,7 +136,6 @@ module FlipPlus.Menu.View {
                 var chapter: Levels.BotLevelsSet = this.project;
                  
                 this.thumbs[i].updateUserData();
-
             }
         }
     }

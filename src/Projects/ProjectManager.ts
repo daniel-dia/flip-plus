@@ -127,6 +127,9 @@ module FlipPlus.Levels {
             if (nextLevel != null)
                 this.unlockLevel(nextLevel);
 
+            // unlock project by Stars
+            this.updateUnlockedProjectsByStars();
+
             // updates project info
             this.updateProjectUserData(this.getCurrentProject());
            
@@ -194,7 +197,26 @@ module FlipPlus.Levels {
         }
 
         // get highest active project
-        public getHighestProject(): number {
+        public getHighestProjectIndex(): number {
+            this.updateProjectsUserData();
+            var highest = 1;
+
+            //verifies all projects and add the non complete to array, till reach max number
+            for (var i: number = 0; i < this.levelsData.length; i++) {
+                highest = i;
+                if (!this.levelsData[i].UserData.complete) break;
+            }
+
+            return highest;
+        }
+
+        // get the current project index
+        public getCurrentProjectIndex(): number {
+            return this.getAllProjects().indexOf(this.getCurrentProject());
+        }
+        
+        // get first non completed project
+        public getFirstNonCompleted(): number {
             this.updateProjectsUserData();
             var highest = 1;
 
@@ -295,13 +317,12 @@ module FlipPlus.Levels {
         }
 
         // unlocks projects based on stars
-        public updateUnlockedProjects() {
+        public updateUnlockedProjectsByStars() {
             var stars = this.getStarsCount();
 
             for (var p in this.levelsData)
                 if (this.levelsData[p].cost <= stars)
                     this.unlockProject(this.levelsData[p]);
-
         }
 
         // updates user data project status

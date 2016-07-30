@@ -4784,16 +4784,13 @@ var FlipPlus;
                 this.factorySound = gameui.AudiosManager.playSound("Factory Ambience", true, 0, 0, 0, 0.4);
                 // update enabled Projects
                 this.addProjects(this.levelsManager.getAllProjects());
-                var page = FlipPlus.FlipPlusGame.levelsManager.getHighestProject();
-                var current = this.levelsManager.getCurrentProject();
-                if (current) {
-                    for (var i = 0; i < this.projectViews.length; i++) {
-                        var project = this.levelsManager.getProjectByName(this.projectViews[i].name);
-                        if (project == current)
-                            page = i;
-                    }
-                }
-                page = Math.min(this.projectViews.length - 1, page);
+                // get first non completed project 
+                var page = FlipPlus.FlipPlusGame.levelsManager.getFirstNonCompleted();
+                // get player current project
+                var current = FlipPlus.FlipPlusGame.levelsManager.getCurrentProjectIndex();
+                // get minimun project
+                if (current > 0)
+                    page = Math.min(current, page);
                 //goto current project
                 this.pagesSwipe.gotoPage(page);
                 //activate current project
@@ -5595,6 +5592,7 @@ var FlipPlus;
                         this.addObject(levelThumb);
                     }
                 };
+                // update grid
                 LevelGrid.prototype.updateGrid = function (project) {
                     if ((!FlipPlus.FlipPlusGame.isFree() && project.free) || (FlipPlus.FlipPlusGame.isFree())) {
                         if (project.UserData.unlocked)
@@ -5610,19 +5608,37 @@ var FlipPlus;
                     if (!this.infoText)
                         this.infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontWhite");
                     this.infoText.pivot.x = this.infoText.getLocalBounds().width / 2;
-                    this.infoText.y = 210;
+                    this.infoText.y = 150;
                     this.infoText.x = (defaultWidth - this.x * 2) / 2;
                     this.addChild(this.infoText);
+                    this.addCost();
+                };
+                // add Cost indication
+                LevelGrid.prototype.addCost = function () {
+                    if (!this.starCost) {
+                        var starCost = new PIXI.Container();
+                        var cost = gameui.AssetsManager.getBitmapText("x " + this.project.cost.toString(), "fontWhite");
+                        var star = gameui.AssetsManager.getBitmap("starsicon");
+                        starCost.addChild(star);
+                        starCost.addChild(cost);
+                        star.x = -70;
+                        cost.x = 70;
+                        this.starCost = starCost;
+                    }
+                    this.starCost.y = 300;
+                    this.starCost.x = (defaultWidth - this.x * 2) / 2 - 60;
+                    this.addChild(this.starCost);
                 };
                 // Add "not free" text
                 LevelGrid.prototype.showNotFreeText = function () {
                     if (!this.infoText)
                         this.infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontWhite");
                     this.infoText.pivot.x = this.infoText.getLocalBounds().width / 2;
-                    this.infoText.y = 210;
+                    this.infoText.y = 100;
                     this.infoText.x = (defaultWidth - this.x * 2) / 2;
                     this.addChild(this.infoText);
                 };
+                // update user data
                 LevelGrid.prototype.updateUserData = function () {
                     this.updateGrid(this.project);
                     //get User data from storage
@@ -6206,6 +6222,8 @@ var FlipPlus;
                 var nextLevel = this.getNextLevel();
                 if (nextLevel != null)
                     this.unlockLevel(nextLevel);
+                // unlock project by Stars
+                this.updateUnlockedProjectsByStars();
                 // updates project info
                 this.updateProjectUserData(this.getCurrentProject());
                 // save user data
@@ -6258,7 +6276,23 @@ var FlipPlus;
                 return finishedProjects;
             };
             // get highest active project
-            LevelsManager.prototype.getHighestProject = function () {
+            LevelsManager.prototype.getHighestProjectIndex = function () {
+                this.updateProjectsUserData();
+                var highest = 1;
+                //verifies all projects and add the non complete to array, till reach max number
+                for (var i = 0; i < this.levelsData.length; i++) {
+                    highest = i;
+                    if (!this.levelsData[i].UserData.complete)
+                        break;
+                }
+                return highest;
+            };
+            // get the current project index
+            LevelsManager.prototype.getCurrentProjectIndex = function () {
+                return this.getAllProjects().indexOf(this.getCurrentProject());
+            };
+            // get first non completed project
+            LevelsManager.prototype.getFirstNonCompleted = function () {
                 this.updateProjectsUserData();
                 var highest = 1;
                 //verifies all projects and add the non complete to array, till reach max number
@@ -6335,7 +6369,7 @@ var FlipPlus;
                 FlipPlus.FlipPlusGame.levelsUserDataManager.saveProjectData(nextProject);
             };
             // unlocks projects based on stars
-            LevelsManager.prototype.updateUnlockedProjects = function () {
+            LevelsManager.prototype.updateUnlockedProjectsByStars = function () {
                 var stars = this.getStarsCount();
                 for (var p in this.levelsData)
                     if (this.levelsData[p].cost <= stars)

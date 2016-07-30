@@ -210,17 +210,14 @@ module FlipPlus.Menu {
             // update enabled Projects
             this.addProjects(this.levelsManager.getAllProjects());
 
-            var page = FlipPlusGame.levelsManager.getHighestProject();
-            var current = this.levelsManager.getCurrentProject();
+            // get first non completed project 
+            var page = FlipPlusGame.levelsManager.getFirstNonCompleted();
 
-            if (current) {
-                for (var i = 0; i < this.projectViews.length; i++) {
-                    var project = this.levelsManager.getProjectByName(this.projectViews[i].name);
-                    if (project == current) page = i;
-                }
-            }
+            // get player current project
+            var current = FlipPlusGame.levelsManager.getCurrentProjectIndex();
 
-            page = Math.min(this.projectViews.length - 1, page);
+            // get minimun project
+            if (current > 0) page = Math.min(current, page);
 
             //goto current project
             this.pagesSwipe.gotoPage(page);
