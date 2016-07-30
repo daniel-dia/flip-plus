@@ -69,7 +69,7 @@ module FlipPlus.Menu {
             //this.addCoinsIndicator();
         }
 
-        //Adds menu to screen;
+        // adds menu to screen;
         private addMenu() {
             this.menu = new View.ScreenMenu();
 
@@ -82,7 +82,7 @@ module FlipPlus.Menu {
 
         }
 
-        //adds all projects in swipe view
+        // adds all projects in swipe view
         protected addProjects(projects) {
 
             //add every project
@@ -98,6 +98,7 @@ module FlipPlus.Menu {
             }
         }
 
+        // add coins indicator
         private addCoinsIndicator() {
             // parts Indicator
             this.coinsIndicator = new Menu.View.CoinsIndicator(() => {
@@ -109,8 +110,7 @@ module FlipPlus.Menu {
             this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
         }
 
-
-
+        // disabe interaction
         public disableInteraction() {
             this.view.interactiveChildren = false;
             this.content.interactiveChildren = false;
@@ -122,6 +122,7 @@ module FlipPlus.Menu {
             this.paginationButtons.visible = false
         }
 
+        // enable interaction
         public enableInteraction() {
             this.view.interactiveChildren = true;
             this.content.interactiveChildren = true;
@@ -133,6 +134,7 @@ module FlipPlus.Menu {
             this.paginationButtons.visible = true
         }
 
+        // Open one level
         private openLevel(level: Levels.Level, parameters) {
 
             //cancel click in case of drag
@@ -146,6 +148,7 @@ module FlipPlus.Menu {
                     FlipPlusGame.showLevel(level, parameters);
         }
 
+        // public back
         public back() {
             FlipPlus.FlipPlusGame.showMainScreen();
         }

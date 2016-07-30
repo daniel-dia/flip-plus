@@ -4672,7 +4672,7 @@ var FlipPlus;
                 this.content.addChild(this.message);
                 //this.addCoinsIndicator();
             };
-            //Adds menu to screen;
+            // adds menu to screen;
             WorkshopMenu.prototype.addMenu = function () {
                 var _this = this;
                 this.menu = new Menu.View.ScreenMenu();
@@ -4682,7 +4682,7 @@ var FlipPlus;
                 this.menu.addEventListener("back", function () { _this.back(); });
                 this.header.addChild(this.menu);
             };
-            //adds all projects in swipe view
+            // adds all projects in swipe view
             WorkshopMenu.prototype.addProjects = function (projects) {
                 //add every project
                 var _this = this;
@@ -4694,6 +4694,7 @@ var FlipPlus;
                     this.projectsContainer.addChild(projectView);
                 }
             };
+            // add coins indicator
             WorkshopMenu.prototype.addCoinsIndicator = function () {
                 var _this = this;
                 // parts Indicator
@@ -4704,6 +4705,7 @@ var FlipPlus;
                 this.coinsIndicator.x = defaultWidth / 2;
                 this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
             };
+            // disabe interaction
             WorkshopMenu.prototype.disableInteraction = function () {
                 this.view.interactiveChildren = false;
                 this.content.interactiveChildren = false;
@@ -4714,6 +4716,7 @@ var FlipPlus;
                 this.menu.visible = false;
                 this.paginationButtons.visible = false;
             };
+            // enable interaction
             WorkshopMenu.prototype.enableInteraction = function () {
                 this.view.interactiveChildren = true;
                 this.content.interactiveChildren = true;
@@ -4724,6 +4727,7 @@ var FlipPlus;
                 this.menu.visible = true;
                 this.paginationButtons.visible = true;
             };
+            // Open one level
             WorkshopMenu.prototype.openLevel = function (level, parameters) {
                 //cancel click in case of drag
                 if (this.pagesSwipe.cancelClick)
@@ -4734,6 +4738,7 @@ var FlipPlus;
                     if (level.userdata.unlocked)
                         FlipPlus.FlipPlusGame.showLevel(level, parameters);
             };
+            // public back
             WorkshopMenu.prototype.back = function () {
                 FlipPlus.FlipPlusGame.showMainScreen();
             };
