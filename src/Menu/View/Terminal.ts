@@ -8,7 +8,8 @@ module FlipPlus.Menu.View
         private textBox: PIXI.extras.BitmapText;
         private staticFX: PIXI.DisplayObject;
         private mymask: PIXI.Sprite;
-                
+        private highlight: PIXI.DisplayObject;
+
         // current Actions
         private currentAction: string;
         private currentParameter: string;
@@ -24,30 +25,35 @@ module FlipPlus.Menu.View
         {
             super();
 
-            //set informations container
+            // set informations container
             this.screenContaier = new PIXI.Container();
             this.addChild(this.content);
             this.addChild(this.screenContaier);
 
-            //textBox
+            // textBox
             this.textBox = gameui.AssetsManager.getBitmapText("", "fontWhite");
             this.screenContaier.addChild(this.textBox);
 
-            //set its own position
+            // set its own position
             this.x = 361;
             this.y = 451;
 
-            //add static
+            // add static
             this.staticFX = gameui.AssetsManager.getBitmap("static");
             this.addChild(this.staticFX);
             this.staticFX.set({ x: -60, y: -73 });
 
-            //add static
+            // add Mask
             this.mymask = gameui.AssetsManager.getBitmap("terminalMask");
             this.addChild(this.mymask);
             this.mymask.set({ x: -60, y: -73 });
             this.mask = this.mymask;
-            this.staticFX.alpha = 0.1;
+
+            // add Highlight Effect
+            this.highlight = gameui.AssetsManager.getBitmap("terminalMask");
+            this.addChild(this.highlight);
+            this.highlight.set({ x: -60, y: -73 });
+            this.highlight.visible = false;
             
             // add click callback
             this.on("tap", () => { this.interaction() });
@@ -136,7 +142,7 @@ module FlipPlus.Menu.View
 
             var content = new PIXI.Container();
             
-            var titleDO = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong");
+            var titleDO = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong",0xffffff,1.5);
             var iconTextDO = gameui.AssetsManager.getBitmapText(iconText.toUpperCase(), "fontWhite");
             var iconDO = gameui.AssetsManager.getBitmap(icon);
             var textDO = gameui.AssetsManager.getBitmapText(text, "fontWhite");
@@ -145,8 +151,7 @@ module FlipPlus.Menu.View
             titleDO.regY = titleDO.textHeight / 2;
             titleDO.y = fl;
             titleDO.name = "title";
-            titleDO.scaleX = titleDO.scaleY = 850 / Math.max(titleDO.textWidth, 850)
-
+            titleDO.scaleX = titleDO.scaleY = 1050 / Math.max(titleDO.textWidth * titleDO.scaleX, 1050) * titleDO.scaleX
 
             textDO.regX = textDO.textWidth / 2;
             textDO.regY = textDO.textHeight / 2;
@@ -156,7 +161,7 @@ module FlipPlus.Menu.View
             iconTextDO.regX = iconTextDO.textWidth / 2;
             iconTextDO.regY = iconTextDO.textHeight / 2;
             iconTextDO.name = "iconText";
-            iconTextDO.scaleX = titleDO.scaleY = 850 / Math.max(titleDO.textWidth, 850)
+            iconTextDO.scaleX = iconTextDO.scaleY = 850 / Math.max(iconTextDO.textWidth, 850)
 
             iconDO.regX = iconDO.width / 2;
             iconDO.regY = iconDO.height / 2;
@@ -256,6 +261,19 @@ module FlipPlus.Menu.View
 
         }
 
+        private highlightBonus() {
+            this.highlight.visible = true;
+            if (!createjs.Tween.hasActiveTweens(this.highlight)) {
+                var x = new createjs.Tween(this.highlight)
+                    .to({ alpha: 0.7 }, 100).to({ alpha: 0 }, 900,createjs.Ease.quadOut)
+                    .to({ alpha: 0.7 }, 100).to({ alpha: 0 }, 900,createjs.Ease.quadOut)
+                    .to({ alpha: 0.7 }, 100).to({ alpha: 0 }, 900,createjs.Ease.quadOut)
+                    .call(() => {
+                        this.highlight.visible = false;
+                    });
+            }
+        }
+
         // #endregion
  
         // #region bonus
@@ -311,6 +329,8 @@ module FlipPlus.Menu.View
             this.currentParameter = bonusId;
             this.currentAction = "bonus";
 
+            var highlighted = false;
+
             // update texts
             var update = () => {
 
@@ -331,6 +351,8 @@ module FlipPlus.Menu.View
                     this.currentParameter = bonusId;
                     this.currentAction = "bonus";
                     text = StringResources.mm_play;
+                    if (!highlighted) this.highlightBonus();
+                    highlighted = true;
                 }
 
                 var iconTextDO = <PIXI.extras.BitmapText>content.getChildByName("iconText")
@@ -380,8 +402,6 @@ module FlipPlus.Menu.View
 
         // #endregion
 
-        public highlightBonus() {
-        }
-    
+
     }
 }

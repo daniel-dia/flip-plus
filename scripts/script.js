@@ -89,10 +89,9 @@ var gameui;
             if (size === void 0) { size = 1; }
             var bitmapText = new PIXI.extras.BitmapText(text, { font: bitmapFontId });
             bitmapText.tint = color;
-            bitmapText.scaleX = bitmapText.scaleY = size;
             bitmapText.maxLineHeight = 100;
-            ///CHECK bitmapText.letterSpacing = 7;
             bitmapText.interactiveChildren = AssetsManager.defaultMouseEnabled;
+            bitmapText.scaleX = bitmapText.scaleY = size;
             return bitmapText;
         };
         //Get a preloaded Image from assets
@@ -5041,7 +5040,7 @@ var FlipPlus;
             MainMenu.prototype.showSpecialFeatures = function () {
                 var _this = this;
                 // Hightlight bonus 
-                if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("bonus")) {
+                if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("bonus") && FlipPlus.FlipPlusGame.coinsData.getAmount() < 5) {
                     this.lock();
                     setTimeout(function () {
                         _this.terminal.highlightBonus();
@@ -5188,26 +5187,30 @@ var FlipPlus;
                     _super.call(this);
                     this.intervalTimeout = 5000;
                     this.bonuses = ["Bonus1", "Bonus2", "Bonus3"];
-                    //set informations container
+                    // set informations container
                     this.screenContaier = new PIXI.Container();
                     this.addChild(this.content);
                     this.addChild(this.screenContaier);
-                    //textBox
+                    // textBox
                     this.textBox = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     this.screenContaier.addChild(this.textBox);
-                    //set its own position
+                    // set its own position
                     this.x = 361;
                     this.y = 451;
-                    //add static
+                    // add static
                     this.staticFX = gameui.AssetsManager.getBitmap("static");
                     this.addChild(this.staticFX);
                     this.staticFX.set({ x: -60, y: -73 });
-                    //add static
+                    // add Mask
                     this.mymask = gameui.AssetsManager.getBitmap("terminalMask");
                     this.addChild(this.mymask);
                     this.mymask.set({ x: -60, y: -73 });
                     this.mask = this.mymask;
-                    this.staticFX.alpha = 0.1;
+                    // add Highlight Effect
+                    this.highlight = gameui.AssetsManager.getBitmap("terminalMask");
+                    this.addChild(this.highlight);
+                    this.highlight.set({ x: -60, y: -73 });
+                    this.highlight.visible = false;
                     // add click callback
                     this.on("tap", function () { _this.interaction(); });
                     this.on("click", function () { _this.interaction(); });
@@ -5282,7 +5285,7 @@ var FlipPlus;
                     var ll = 110;
                     var md = (fl + ll) / 2;
                     var content = new PIXI.Container();
-                    var titleDO = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong");
+                    var titleDO = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong", 0xffffff, 1.5);
                     var iconTextDO = gameui.AssetsManager.getBitmapText(iconText.toUpperCase(), "fontWhite");
                     var iconDO = gameui.AssetsManager.getBitmap(icon);
                     var textDO = gameui.AssetsManager.getBitmapText(text, "fontWhite");
@@ -5290,7 +5293,7 @@ var FlipPlus;
                     titleDO.regY = titleDO.textHeight / 2;
                     titleDO.y = fl;
                     titleDO.name = "title";
-                    titleDO.scaleX = titleDO.scaleY = 850 / Math.max(titleDO.textWidth, 850);
+                    titleDO.scaleX = titleDO.scaleY = 1050 / Math.max(titleDO.textWidth * titleDO.scaleX, 1050) * titleDO.scaleX;
                     textDO.regX = textDO.textWidth / 2;
                     textDO.regY = textDO.textHeight / 2;
                     textDO.y = md;
@@ -5298,7 +5301,7 @@ var FlipPlus;
                     iconTextDO.regX = iconTextDO.textWidth / 2;
                     iconTextDO.regY = iconTextDO.textHeight / 2;
                     iconTextDO.name = "iconText";
-                    iconTextDO.scaleX = titleDO.scaleY = 850 / Math.max(titleDO.textWidth, 850);
+                    iconTextDO.scaleX = iconTextDO.scaleY = 850 / Math.max(iconTextDO.textWidth, 850);
                     iconDO.regX = iconDO.width / 2;
                     iconDO.regY = iconDO.height / 2;
                     iconDO.name = "icon";
@@ -5369,6 +5372,19 @@ var FlipPlus;
                         _this.startBonusRotation();
                     }, timeout);
                 };
+                Terminal.prototype.highlightBonus = function () {
+                    var _this = this;
+                    this.highlight.visible = true;
+                    if (!createjs.Tween.hasActiveTweens(this.highlight)) {
+                        var x = new createjs.Tween(this.highlight)
+                            .to({ alpha: 0.7 }, 100).to({ alpha: 0 }, 900, createjs.Ease.quadOut)
+                            .to({ alpha: 0.7 }, 100).to({ alpha: 0 }, 900, createjs.Ease.quadOut)
+                            .to({ alpha: 0.7 }, 100).to({ alpha: 0 }, 900, createjs.Ease.quadOut)
+                            .call(function () {
+                            _this.highlight.visible = false;
+                        });
+                    }
+                };
                 // #endregion
                 // #region bonus
                 // show bonus rotation or bonus ready
@@ -5411,6 +5427,7 @@ var FlipPlus;
                     var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", "");
                     this.currentParameter = bonusId;
                     this.currentAction = "bonus";
+                    var highlighted = false;
                     // update texts
                     var update = function () {
                         var text;
@@ -5427,6 +5444,9 @@ var FlipPlus;
                             _this.currentParameter = bonusId;
                             _this.currentAction = "bonus";
                             text = StringResources.mm_play;
+                            if (!highlighted)
+                                _this.highlightBonus();
+                            highlighted = true;
                         }
                         var iconTextDO = content.getChildByName("iconText");
                         iconTextDO.text = text;
@@ -5466,9 +5486,6 @@ var FlipPlus;
                     }
                     var time = s_hours + ':' + s_minutes + ':' + s_seconds;
                     return time;
-                };
-                // #endregion
-                Terminal.prototype.highlightBonus = function () {
                 };
                 return Terminal;
             }(PIXI.Container));

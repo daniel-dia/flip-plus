@@ -66,8 +66,7 @@ module gameui {
             this.loader.add(id, fontFile)
             this.loader.load();
         }
-
-
+        
         // cleans all sprites in the bitmap array;
         public static cleanAssets() {
             if (images)
@@ -107,12 +106,10 @@ module gameui {
         public static getBitmapText(text: string, bitmapFontId: string, color:number= 0xffffff, size:number=1): PIXI.extras.BitmapText { 
             var bitmapText = new PIXI.extras.BitmapText(text, { font: bitmapFontId });
             bitmapText.tint = color;
-            bitmapText.scaleX = bitmapText.scaleY = size;
             bitmapText.maxLineHeight = 100;
-            ///CHECK bitmapText.letterSpacing = 7;
             bitmapText.interactiveChildren = AssetsManager.defaultMouseEnabled;
+            bitmapText.scaleX = bitmapText.scaleY = size;
             return bitmapText;
-            
         }
 
         //Get a preloaded Image from assets
@@ -138,13 +135,9 @@ module gameui {
             var mc = new PIXI.extras.MovieClip(textures);
 
             //mc.play();
-            return mc
-
-            
+            return mc;
         }
 
-
-
-        // #endregion
+        // #endregion 
     }
 }
