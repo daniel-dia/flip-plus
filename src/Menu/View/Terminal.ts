@@ -142,7 +142,10 @@ module FlipPlus.Menu.View
             createjs.Tween.get(content).to({ scaleX: 0, scaleY: 3, alpha: 0 }).wait(200).to({ scaleX: 0.8, scaleY: 0.8, alpha: 1}, 200, createjs.Ease.quadOut);
         }
 
-        public setTextIcon(title: string, text: string, icon: string, iconText: string ) {
+        public setTextIcon(title: string, text: string, icon: string, iconText: string) {
+
+            clearInterval(this.rotationTimeout);
+
             var space = 20;
             var firstLine = -210;
             var lastLine = 110;

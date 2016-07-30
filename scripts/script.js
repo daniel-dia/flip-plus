@@ -5286,6 +5286,7 @@ var FlipPlus;
                     createjs.Tween.get(content).to({ scaleX: 0, scaleY: 3, alpha: 0 }).wait(200).to({ scaleX: 0.8, scaleY: 0.8, alpha: 1 }, 200, createjs.Ease.quadOut);
                 };
                 Terminal.prototype.setTextIcon = function (title, text, icon, iconText) {
+                    clearInterval(this.rotationTimeout);
                     var space = 20;
                     var firstLine = -210;
                     var lastLine = 110;
