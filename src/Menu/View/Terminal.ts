@@ -261,7 +261,7 @@ module FlipPlus.Menu.View
 
         }
 
-        private highlightBonus() {
+        private hightlighTerminal() {
             this.highlight.visible = true;
             if (!createjs.Tween.hasActiveTweens(this.highlight)) {
                 var x = new createjs.Tween(this.highlight)
@@ -351,7 +351,7 @@ module FlipPlus.Menu.View
                     this.currentParameter = bonusId;
                     this.currentAction = "bonus";
                     text = StringResources.mm_play;
-                    if (!highlighted) this.highlightBonus();
+                    if (!highlighted) this.hightlighTerminal();
                     highlighted = true;
                 }
 

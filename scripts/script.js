@@ -5372,7 +5372,7 @@ var FlipPlus;
                         _this.startBonusRotation();
                     }, timeout);
                 };
-                Terminal.prototype.highlightBonus = function () {
+                Terminal.prototype.hightlighTerminal = function () {
                     var _this = this;
                     this.highlight.visible = true;
                     if (!createjs.Tween.hasActiveTweens(this.highlight)) {
@@ -5445,7 +5445,7 @@ var FlipPlus;
                             _this.currentAction = "bonus";
                             text = StringResources.mm_play;
                             if (!highlighted)
-                                _this.highlightBonus();
+                                _this.hightlighTerminal();
                             highlighted = true;
                         }
                         var iconTextDO = content.getChildByName("iconText");
