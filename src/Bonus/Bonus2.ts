@@ -127,7 +127,7 @@
             this.cardsContainer = cardsContainer;
 
             //for each cards
-            for (var c in cards) {
+            for (var c = 0; c < cards.length; c++) {
                 var card =new Card(cards[c]);
                 card.x = c % cols * width;
                 card.y = Math.floor(c / cols) * height;

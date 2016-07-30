@@ -379,6 +379,9 @@ module FlipPlus.Menu.View
         }
 
         // #endregion
+
+        public highlightBonus() {
+        }
     
     }
 }

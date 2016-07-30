@@ -244,7 +244,7 @@
 
             //delay and hide others barrels and show other barrels content
             setTimeout(() => {
-                for (var barrel in this.barrels) 
+                for (var barrel = 0; barrel < this.barrels.length; barrel ++) 
                 createjs.Tween.get(this.barrels[barrel]).wait(barrel * 100).to({ alpha: 0 }, 150);
             }, 1000);
 

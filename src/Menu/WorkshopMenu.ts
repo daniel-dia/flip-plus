@@ -13,20 +13,20 @@ module FlipPlus.Menu {
         private paginationButtons: PIXI.Container;
 
         private factorySound: createjs.SoundInstance;
-        
+
         protected coinsIndicator: Menu.View.CoinsIndicator;
 
         //inertia fx
         private offset = 0;
         private lastx = 0;
-        
+
         // projects manager
         private levelsManager: Levels.LevelsManager;
 
         // Constructor
         constructor(levelsManager: Levels.LevelsManager) {
 
-            super(); 
+            super();
 
             this.levelsManager = levelsManager;
 
@@ -37,7 +37,7 @@ module FlipPlus.Menu {
             this.onback = () => { this.back(); };
 
         }
-        
+
         //--------------------- Initialization ---------------------
 
         private addObjects() {
@@ -46,19 +46,19 @@ module FlipPlus.Menu {
             this.content.addChild(bg);
             bg.scale.y = 1.3310546875;
             bg.y = -339;
-            
+
             //create projects container
             this.projectsContainer = new PIXI.Container();
-            
+
             //creates projectViews array
             this.projectViews = new Array();
 
             //add to view
             this.content.addChild(this.projectsContainer);
-  
+
             //add menu
             this.addMenu();
-            
+
             //adds popup and messages
             this.popup = new View.Popup();
             this.content.addChild(this.popup);
@@ -72,12 +72,12 @@ module FlipPlus.Menu {
         //Adds menu to screen;
         private addMenu() {
             this.menu = new View.ScreenMenu();
-            
+
             //TODO fazer camada intermediaria
             //TODO o options sempre volta pro menu principal. O_o
-            
+
             this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(this); });
-            this.menu.addEventListener("back", () => { this.back();});
+            this.menu.addEventListener("back", () => { this.back(); });
             this.header.addChild(this.menu);
 
         }
@@ -86,16 +86,16 @@ module FlipPlus.Menu {
         protected addProjects(projects) {
 
             //add every project
-          
-            for (var p = this.projectViews.length; p < projects.length;p++) {
+
+            for (var p = this.projectViews.length; p < projects.length; p++) {
                 var projectView = new View.ProjectWorkshopView(projects[p]);
                 this.projectViews.push(projectView);
-                
-                projectView.x = defaultWidth * p; 
+
+                projectView.x = defaultWidth * p;
                 projectView.addEventListener("levelClick", (e: any) => { this.openLevel(e.level, e.parameters) });
-               
+
                 this.projectsContainer.addChild(projectView);
-            }   
+            }
         }
 
         private addCoinsIndicator() {
@@ -113,8 +113,8 @@ module FlipPlus.Menu {
 
         public disableInteraction() {
             this.view.interactiveChildren = false;
-            this.content.interactiveChildren  = false;
-            this.header.interactiveChildren  = false;
+            this.content.interactiveChildren = false;
+            this.header.interactiveChildren = false;
             this.footer.interactiveChildren = false;
             this.overlay.interactiveChildren = false;
             this.view.interactive = false;
@@ -123,7 +123,7 @@ module FlipPlus.Menu {
         }
 
         public enableInteraction() {
-            this.view.interactiveChildren = true; 
+            this.view.interactiveChildren = true;
             this.content.interactiveChildren = true;
             this.header.interactiveChildren = true;
             this.footer.interactiveChildren = true;
@@ -175,11 +175,11 @@ module FlipPlus.Menu {
 
             this.content.addChild(this.paginationButtons);
 
-        }           
- 
+        }
+
         //--Behaviour-----------------------------------------------------------
 
-        public redim(headerY: number, footerY: number, width: number,height:number) {
+        public redim(headerY: number, footerY: number, width: number, height: number) {
             super.redim(headerY, footerY, width, height);
 
             for (var pv in this.projectViews)
@@ -188,7 +188,7 @@ module FlipPlus.Menu {
 
         public desactivate(parameters?: any) {
             super.desactivate(parameters);
-            if (this.factorySound){
+            if (this.factorySound) {
                 this.factorySound.stop();
                 delete this.factorySound;
             }
@@ -202,8 +202,8 @@ module FlipPlus.Menu {
             //this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
 
             // play music
-            this.factorySound = gameui.AudiosManager.playSound("Factory Ambience",true,0,0,0,0.4);
-            
+            this.factorySound = gameui.AudiosManager.playSound("Factory Ambience", true, 0, 0, 0, 0.4);
+
             // update enabled Projects
             this.addProjects(this.levelsManager.getAllProjects());
 
@@ -211,7 +211,7 @@ module FlipPlus.Menu {
             var current = this.levelsManager.getCurrentProject();
 
             if (current) {
-                for (var i in this.projectViews) {
+                for (var i = 0; i < this.projectViews.length; i++) {
                     var project = this.levelsManager.getProjectByName(this.projectViews[i].name);
                     if (project == current) page = i;
                 }
@@ -223,9 +223,11 @@ module FlipPlus.Menu {
             this.pagesSwipe.gotoPage(page);
 
             //activate current project
-            for (var p in this.projectViews)
-                if (p == page) this.projectViews[p].activate(parameters);
-                else           this.projectViews[p].activate();
+            for (var p = 0; p < this.projectViews.length; p++)
+                if (p == page)
+                    this.projectViews[p].activate(parameters);
+                else
+                    this.projectViews[p].activate();
 
         }
     }

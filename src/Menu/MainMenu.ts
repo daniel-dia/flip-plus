@@ -55,66 +55,28 @@ module FlipPlus.Menu {
 
             super.activate();
 
-            //verify if user unlocked at least 2 projects to ask it for rating
-            if (FlipPlusGame.levelsManager.getUnlockedProjects().length >= 4 && !FlipPlusGame.storyData.getStoryPlayed("rating"))
-                setTimeout(() => { this.askUserForRating(); }, 2000);
-
-            // show sales randomly
-            else if (FlipPlusGame.levelsManager.getUnlockedProjects().length >= 2 && Math.random() > 0.98)
-                setTimeout(() => { FlipPlusGame.showSpecialOffer(this); }, 400)
-
-            // animate logo
-            var x = 370;
-            var y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
-            createjs.Tween.get(this.logo).to({ y: -230, rotation: -0.5 }).to({ y: y, x: x, rotation: 0 }, 1500, createjs.Ease.bounceOut);
+            // special Features
+            this.showSpecialFeatures();
 
             // play BgSound
             gameui.AudiosManager.playMusic("Music Dot Robot");
-            
-            // Verifies if it is the first time playing
-            if (!FlipPlusGame.storyData.getStoryPlayed("intro")) { 
-                this.myBots.playIntroPartA();
-            
-            }
-            else if (!FlipPlusGame.storyData.getStoryPlayed("intro2")) {
-                FlipPlusGame.storyData.setStoryPlayed("intro2")
-                this.myBots.playIntroPartB();
-            }
-            else {
-
-                //updates robots lobby
-                this.myBots.update();
-
-                // updates terminal
-                this.terminal.activate();
-            }
-
-            // if is a new bot, animate it after 0.5 sec
-            if (parameters && parameters.bot && parameters.bot != "Bot01") {
-
-                // disable play bt
-                if (!FlipPlusGame.storyData.getStoryPlayed("purchased"))
-                    this.playBt.interactive = false;
-
-                // show bot line
-                setTimeout(() => { this.myBots.animateBot(parameters.bot); }, 500);
-
-                // show ads
-                if (!FlipPlusGame.storyData.getStoryPlayed("purchased"))
-                setTimeout(() => {
-                    CocoonAds.show(() => {
-                        this.playBt.interactive = true;
-                    })
-                }, 4000);
-            }
-
-            if (parameters && parameters.gameEnd) {
-                setTimeout(() => { this.myBots.playEndGame(); }, 1000);
-            }
 
             // updates parts counter
             this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
 
+            // update bots animations
+            this.updateBotsAnimations();
+
+            // animate logo
+            this.animateLogo();
+            
+            // if is a new bot
+            if (parameters && parameters.bot && parameters.bot != "Bot01") 
+                this.showCompletedBot(parameters.bot);
+            
+            // if game completed
+            if (parameters && parameters.gameEnd) 
+                this.showCompletedAllBots();
         }
 
         public desactivate(parameters?: any) {
@@ -203,7 +165,95 @@ module FlipPlus.Menu {
             FlipPlus.FlipPlusGame.showTitleScreen();
         }
 
-        //------------Robots Behaviour ---------------------------------
+        //------------ Other Geatures --------------------------------
+
+        private showSpecialFeatures() {
+            
+            // Hightlight bonus 
+            if (!FlipPlusGame.storyData.getStoryPlayed("bonus")) {
+
+                this.lock();
+
+                setTimeout(() => {
+                    this.terminal.highlightBonus();
+                    this.unlock();
+                }, 1000);
+            }
+
+            // verify if user unlocked at least 2 projects to ask it for rating
+            else if (FlipPlusGame.levelsManager.getUnlockedProjects().length >= 4 && !FlipPlusGame.storyData.getStoryPlayed("rating")) {
+                setTimeout(() => { this.askUserForRating(); }, 2000);
+            }
+
+            // show sales randomly
+            else if (FlipPlusGame.levelsManager.getUnlockedProjects().length >= 2 && Math.random() > 0.98) {
+                setTimeout(() => { FlipPlusGame.showSpecialOffer(this); }, 400)
+            }
+        }
+
+        private lock() {
+            this.playBt.interactive = false;
+            this.menu.interactive = false;
+        }
+
+        private unlock() {
+            this.playBt.interactive = true;
+            this.menu.interactive = true;
+        }
+
+        private showCompletedBot(botId:string) {
+
+            // show bot line
+            setTimeout(() => { this.myBots.animateBot(botId); }, 500);
+
+            // show ads (if there is not purchases)
+            if (!FlipPlusGame.storyData.getStoryPlayed("purchased")) {
+                this.lock();
+                setTimeout(() => {
+                    CocoonAds.show(() => {
+                        this.unlock();
+                    })
+                }, 4000);
+            }
+
+        }
+
+        private showCompletedAllBots() {
+            setTimeout(() => {
+                this.myBots.playEndGame();
+            }, 1000);
+        }
+
+        private updateBotsAnimations() {
+
+            // Verifies if it is the first time playing
+            if (!FlipPlusGame.storyData.getStoryPlayed("intro")) {
+                this.myBots.playIntroPartA();
+            }
+            else if (!FlipPlusGame.storyData.getStoryPlayed("intro2")) {
+                FlipPlusGame.storyData.setStoryPlayed("intro2")
+                this.myBots.playIntroPartB();
+            }
+            else {
+
+                //updates robots lobby
+                this.myBots.update();
+
+                // updates terminal
+                this.terminal.activate();
+            }
+        }
+
+        private animateLogo() {
+            var x = 370;
+            var y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
+
+            createjs.Tween.get(this.logo)
+                .to({ y: -230, rotation: -0.5 })
+                .to({ y: y, x: x, rotation: 0 }, 1500, createjs.Ease.bounceOut);
+        }
+
+        //------------ Robots Behaviour --------------------------------
 
         private robotClick(robot: string) {
             // play bot sound

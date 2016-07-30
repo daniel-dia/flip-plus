@@ -70,7 +70,7 @@ module gameui {
 
         // cleans all sprites in the bitmap array;
         public static cleanAssets() {
-            if (images);
+            if (images)
             for (var i in images) {
                 var img = <any>images[i]
                 if (img.dispose)img.dispose();

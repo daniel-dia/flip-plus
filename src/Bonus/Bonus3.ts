@@ -172,7 +172,7 @@
             var itemsDo = [];
 
             //create items objects
-            for (var i in items) {
+            for (var i = 0; i < items.length; i++) {
 
                 FlipPlusGame.coinsData.increaseAmount(1);
 

@@ -71,7 +71,7 @@ module FlipPlus.Menu {
 
             productList = sortByKey(productList, 'localizedPrice');
 
-            for (var p in productList) {
+            for (var p = 0; p < productList.length; p ++) {
                 var productListItem = this.createProduct(productList[p], inappsService);
                 productListItem.y = p * 320 - 380;
                 productListItem.x = 0;

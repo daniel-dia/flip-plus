@@ -19,7 +19,8 @@ module FlipPlus.Menu.View {
             this.pagesContainer.hitArea = null;
 
             //configure pages
-            for (var i in pages) pages[i].x = this.pagewidth * i;
+            for (var i = 0; i < pages.length; i++)
+                pages[i].x = this.pagewidth * i;
 
             //adds event
             var xpos;
@@ -119,8 +120,8 @@ module FlipPlus.Menu.View {
 		}
 
 		private showOlnyPage(id: number,margin:number=0) {
-			//hide all other pages
-			for (var i in this.pages)
+            //hide all other pages
+            for (var i = 0; i < this.pages.length; i ++)
 				if (i == id || i == id - margin || i == id + margin)
 					this.showPage(i)
 				else

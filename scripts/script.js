@@ -56,13 +56,12 @@ var gameui;
         // cleans all sprites in the bitmap array;
         AssetsManager.cleanAssets = function () {
             if (images)
-                ;
-            for (var i in images) {
-                var img = images[i];
-                if (img.dispose)
-                    img.dispose();
-                delete images[i];
-            }
+                for (var i in images) {
+                    var img = images[i];
+                    if (img.dispose)
+                        img.dispose();
+                    delete images[i];
+                }
         };
         // return loaded image array
         AssetsManager.getImagesArray = function () {
@@ -4144,7 +4143,7 @@ var FlipPlus;
                     this.barrelsItens[b].visible = true;
                 //delay and hide others barrels and show other barrels content
                 setTimeout(function () {
-                    for (var barrel in _this.barrels)
+                    for (var barrel = 0; barrel < _this.barrels.length; barrel++)
                         createjs.Tween.get(_this.barrels[barrel]).wait(barrel * 100).to({ alpha: 0 }, 150);
                 }, 1000);
                 setTimeout(function () { _super.prototype.endBonus.call(_this); }, 3500);
@@ -4257,7 +4256,7 @@ var FlipPlus;
                 cardsContainer.y = 135 + 400;
                 this.cardsContainer = cardsContainer;
                 //for each cards
-                for (var c in cards) {
+                for (var c = 0; c < cards.length; c++) {
                     var card = new Card(cards[c]);
                     card.x = c % cols * width;
                     card.y = Math.floor(c / cols) * height;
@@ -4484,7 +4483,7 @@ var FlipPlus;
                 var items = this.selectRandomItems(numItems);
                 var itemsDo = [];
                 //create items objects
-                for (var i in items) {
+                for (var i = 0; i < items.length; i++) {
                     FlipPlus.FlipPlusGame.coinsData.increaseAmount(1);
                     var itemObj = this.createItem(items[i]);
                     itemObj.set({ x: defaultWidth / 2, y: defaultHeight / 2 - 100, alpha: 0 });
@@ -4784,7 +4783,7 @@ var FlipPlus;
                 var page = FlipPlus.FlipPlusGame.levelsManager.getHighestProject();
                 var current = this.levelsManager.getCurrentProject();
                 if (current) {
-                    for (var i in this.projectViews) {
+                    for (var i = 0; i < this.projectViews.length; i++) {
                         var project = this.levelsManager.getProjectByName(this.projectViews[i].name);
                         if (project == current)
                             page = i;
@@ -4794,7 +4793,7 @@ var FlipPlus;
                 //goto current project
                 this.pagesSwipe.gotoPage(page);
                 //activate current project
-                for (var p in this.projectViews)
+                for (var p = 0; p < this.projectViews.length; p++)
                     if (p == page)
                         this.projectViews[p].activate(parameters);
                     else
@@ -4951,53 +4950,23 @@ var FlipPlus;
                 this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
             };
             MainMenu.prototype.activate = function (parameters) {
-                var _this = this;
                 _super.prototype.activate.call(this);
-                //verify if user unlocked at least 2 projects to ask it for rating
-                if (FlipPlus.FlipPlusGame.levelsManager.getUnlockedProjects().length >= 4 && !FlipPlus.FlipPlusGame.storyData.getStoryPlayed("rating"))
-                    setTimeout(function () { _this.askUserForRating(); }, 2000);
-                else if (FlipPlus.FlipPlusGame.levelsManager.getUnlockedProjects().length >= 2 && Math.random() > 0.98)
-                    setTimeout(function () { FlipPlus.FlipPlusGame.showSpecialOffer(_this); }, 400);
-                // animate logo
-                var x = 370;
-                var y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
-                createjs.Tween.get(this.logo).to({ y: -230, rotation: -0.5 }).to({ y: y, x: x, rotation: 0 }, 1500, createjs.Ease.bounceOut);
+                // special Features
+                this.showSpecialFeatures();
                 // play BgSound
                 gameui.AudiosManager.playMusic("Music Dot Robot");
-                // Verifies if it is the first time playing
-                if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro")) {
-                    this.myBots.playIntroPartA();
-                }
-                else if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro2")) {
-                    FlipPlus.FlipPlusGame.storyData.setStoryPlayed("intro2");
-                    this.myBots.playIntroPartB();
-                }
-                else {
-                    //updates robots lobby
-                    this.myBots.update();
-                    // updates terminal
-                    this.terminal.activate();
-                }
-                // if is a new bot, animate it after 0.5 sec
-                if (parameters && parameters.bot && parameters.bot != "Bot01") {
-                    // disable play bt
-                    if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("purchased"))
-                        this.playBt.interactive = false;
-                    // show bot line
-                    setTimeout(function () { _this.myBots.animateBot(parameters.bot); }, 500);
-                    // show ads
-                    if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("purchased"))
-                        setTimeout(function () {
-                            CocoonAds.show(function () {
-                                _this.playBt.interactive = true;
-                            });
-                        }, 4000);
-                }
-                if (parameters && parameters.gameEnd) {
-                    setTimeout(function () { _this.myBots.playEndGame(); }, 1000);
-                }
                 // updates parts counter
                 this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
+                // update bots animations
+                this.updateBotsAnimations();
+                // animate logo
+                this.animateLogo();
+                // if is a new bot
+                if (parameters && parameters.bot && parameters.bot != "Bot01")
+                    this.showCompletedBot(parameters.bot);
+                // if game completed
+                if (parameters && parameters.gameEnd)
+                    this.showCompletedAllBots();
             };
             MainMenu.prototype.desactivate = function (parameters) {
                 _super.prototype.desactivate.call(this, parameters);
@@ -5068,7 +5037,76 @@ var FlipPlus;
             MainMenu.prototype.back = function () {
                 FlipPlus.FlipPlusGame.showTitleScreen();
             };
-            //------------Robots Behaviour ---------------------------------
+            //------------ Other Geatures --------------------------------
+            MainMenu.prototype.showSpecialFeatures = function () {
+                var _this = this;
+                // Hightlight bonus 
+                if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("bonus")) {
+                    this.lock();
+                    setTimeout(function () {
+                        _this.terminal.highlightBonus();
+                        _this.unlock();
+                    }, 1000);
+                }
+                else if (FlipPlus.FlipPlusGame.levelsManager.getUnlockedProjects().length >= 4 && !FlipPlus.FlipPlusGame.storyData.getStoryPlayed("rating")) {
+                    setTimeout(function () { _this.askUserForRating(); }, 2000);
+                }
+                else if (FlipPlus.FlipPlusGame.levelsManager.getUnlockedProjects().length >= 2 && Math.random() > 0.98) {
+                    setTimeout(function () { FlipPlus.FlipPlusGame.showSpecialOffer(_this); }, 400);
+                }
+            };
+            MainMenu.prototype.lock = function () {
+                this.playBt.interactive = false;
+                this.menu.interactive = false;
+            };
+            MainMenu.prototype.unlock = function () {
+                this.playBt.interactive = true;
+                this.menu.interactive = true;
+            };
+            MainMenu.prototype.showCompletedBot = function (botId) {
+                var _this = this;
+                // show bot line
+                setTimeout(function () { _this.myBots.animateBot(botId); }, 500);
+                // show ads (if there is not purchases)
+                if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("purchased")) {
+                    this.lock();
+                    setTimeout(function () {
+                        CocoonAds.show(function () {
+                            _this.unlock();
+                        });
+                    }, 4000);
+                }
+            };
+            MainMenu.prototype.showCompletedAllBots = function () {
+                var _this = this;
+                setTimeout(function () {
+                    _this.myBots.playEndGame();
+                }, 1000);
+            };
+            MainMenu.prototype.updateBotsAnimations = function () {
+                // Verifies if it is the first time playing
+                if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro")) {
+                    this.myBots.playIntroPartA();
+                }
+                else if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro2")) {
+                    FlipPlus.FlipPlusGame.storyData.setStoryPlayed("intro2");
+                    this.myBots.playIntroPartB();
+                }
+                else {
+                    //updates robots lobby
+                    this.myBots.update();
+                    // updates terminal
+                    this.terminal.activate();
+                }
+            };
+            MainMenu.prototype.animateLogo = function () {
+                var x = 370;
+                var y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
+                createjs.Tween.get(this.logo)
+                    .to({ y: -230, rotation: -0.5 })
+                    .to({ y: y, x: x, rotation: 0 }, 1500, createjs.Ease.bounceOut);
+            };
+            //------------ Robots Behaviour --------------------------------
             MainMenu.prototype.robotClick = function (robot) {
                 // play bot sound
                 FlipPlus.Robots.MyBots.playRobotSound(robot);
@@ -5428,6 +5466,9 @@ var FlipPlus;
                     }
                     var time = s_hours + ':' + s_minutes + ':' + s_seconds;
                     return time;
+                };
+                // #endregion
+                Terminal.prototype.highlightBonus = function () {
                 };
                 return Terminal;
             }(PIXI.Container));
@@ -7749,7 +7790,7 @@ var FlipPlus;
                     });
                 }
                 productList = sortByKey(productList, 'localizedPrice');
-                for (var p in productList) {
+                for (var p = 0; p < productList.length; p++) {
                     var productListItem = this.createProduct(productList[p], inappsService);
                     productListItem.y = p * 320 - 380;
                     productListItem.x = 0;
@@ -8212,7 +8253,7 @@ var FlipPlus;
                     this.pagesContainer.interactive = true;
                     this.pagesContainer.hitArea = null;
                     //configure pages
-                    for (var i in pages)
+                    for (var i = 0; i < pages.length; i++)
                         pages[i].x = this.pagewidth * i;
                     //adds event
                     var xpos;
@@ -8300,7 +8341,7 @@ var FlipPlus;
                 PagesSwiper.prototype.showOlnyPage = function (id, margin) {
                     if (margin === void 0) { margin = 0; }
                     //hide all other pages
-                    for (var i in this.pages)
+                    for (var i = 0; i < this.pages.length; i++)
                         if (i == id || i == id - margin || i == id + margin)
                             this.showPage(i);
                         else
