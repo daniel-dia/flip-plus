@@ -5043,7 +5043,6 @@ var FlipPlus;
                 if (!FlipPlus.FlipPlusGame.storyData.getStoryPlayed("bonus") && FlipPlus.FlipPlusGame.coinsData.getAmount() < 5) {
                     this.lock();
                     setTimeout(function () {
-                        _this.terminal.highlightBonus();
                         _this.unlock();
                     }, 1000);
                 }
@@ -5225,8 +5224,13 @@ var FlipPlus;
                     this.hitArea = new PIXI.Rectangle(0, 0, 976, 527);
                 }
                 Terminal.prototype.interaction = function () {
-                    if (this.currentAction)
-                        this.emit(this.currentAction, this.currentParameter);
+                    if (this.currentAction) {
+                        if (this.currentAction == "next") {
+                        }
+                        else {
+                            this.emit(this.currentAction, this.currentParameter);
+                        }
+                    }
                 };
                 Terminal.prototype.effectClickOn = function () {
                     if (!this.currentAction)
@@ -5281,36 +5285,37 @@ var FlipPlus;
                 };
                 Terminal.prototype.setTextIcon = function (title, text, icon, iconText) {
                     var space = 20;
-                    var fl = -210;
-                    var ll = 110;
-                    var md = (fl + ll) / 2;
+                    var firstLine = -210;
+                    var lastLine = 110;
+                    var middleLine = (firstLine + lastLine) / 2;
                     var content = new PIXI.Container();
-                    var titleDO = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong", 0xffffff, 1.5);
-                    var iconTextDO = gameui.AssetsManager.getBitmapText(iconText.toUpperCase(), "fontWhite");
+                    var titleDO = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong", 0xffffff, 1);
+                    var smallText = gameui.AssetsManager.getBitmapText(iconText.toUpperCase(), "fontWhite");
                     var iconDO = gameui.AssetsManager.getBitmap(icon);
                     var textDO = gameui.AssetsManager.getBitmapText(text, "fontWhite");
+                    titleDO.y = firstLine;
                     titleDO.regX = titleDO.textWidth / 2;
                     titleDO.regY = titleDO.textHeight / 2;
-                    titleDO.y = fl;
                     titleDO.name = "title";
-                    titleDO.scaleX = titleDO.scaleY = 1050 / Math.max(titleDO.textWidth * titleDO.scaleX, 1050) * titleDO.scaleX;
-                    textDO.regX = textDO.textWidth / 2;
-                    textDO.regY = textDO.textHeight / 2;
-                    textDO.y = md;
-                    textDO.name = "text";
-                    iconTextDO.regX = iconTextDO.textWidth / 2;
-                    iconTextDO.regY = iconTextDO.textHeight / 2;
-                    iconTextDO.name = "iconText";
-                    iconTextDO.scaleX = iconTextDO.scaleY = 850 / Math.max(iconTextDO.textWidth, 850);
+                    titleDO.scaleX = titleDO.scaleY = 950 / Math.max(titleDO.textWidth * titleDO.scaleX, 950) * titleDO.scaleX;
+                    iconDO.y = firstLine;
                     iconDO.regX = iconDO.width / 2;
                     iconDO.regY = iconDO.height / 2;
+                    iconDO.scaleX = iconDO.scaleY = 1;
                     iconDO.name = "icon";
-                    iconDO.x = -iconTextDO.width / 2 - space;
-                    iconTextDO.x = iconDO.width / 2 + space;
-                    iconDO.y = ll;
-                    iconTextDO.y = ll;
+                    iconDO.x = -(titleDO.width) / 2 - space;
+                    titleDO.x = iconDO.width * iconDO.scaleX / 2 + space;
+                    textDO.regX = textDO.textWidth / 2;
+                    textDO.regY = textDO.textHeight / 2;
+                    textDO.y = middleLine;
+                    textDO.name = "text";
+                    smallText.y = lastLine;
+                    smallText.regX = smallText.textWidth / 2;
+                    smallText.regY = smallText.textHeight / 2;
+                    smallText.name = "iconText";
+                    smallText.scaleX = smallText.scaleY = 850 / Math.max(smallText.textWidth, 850);
                     content.addChild(titleDO);
-                    content.addChild(iconTextDO);
+                    content.addChild(smallText);
                     content.addChild(iconDO);
                     content.addChild(textDO);
                     content.x = 420;
@@ -5421,6 +5426,9 @@ var FlipPlus;
                             currentBonus = 0;
                     }, this.intervalTimeout);
                 };
+                // shows next bonus
+                Terminal.prototype.nextBonus = function () {
+                };
                 // show a single bonus timeout info.
                 Terminal.prototype.showBonusInfo = function (bonusId) {
                     var _this = this;
@@ -5434,11 +5442,11 @@ var FlipPlus;
                         var timeout = FlipPlus.FlipPlusGame.bonusManager.getBonusTimeoutSeconds(bonusId);
                         if (!FlipPlus.FlipPlusGame.bonusManager.getBonusUnlocked(bonusId)) {
                             text = StringResources.bonusLocked;
-                            _this.currentAction = null;
+                            _this.currentAction = "next";
                         }
                         else if (!FlipPlus.FlipPlusGame.bonusManager.getBonusTimeReady(bonusId)) {
                             text = _this.toHHMMSS(timeout);
-                            _this.currentAction = null;
+                            _this.currentAction = "next";
                         }
                         else if (FlipPlus.FlipPlusGame.bonusManager.getBonusAvaliable(bonusId)) {
                             _this.currentParameter = bonusId;
@@ -5455,11 +5463,12 @@ var FlipPlus;
                         clearInterval(this.secondsIntevalUpdate);
                     this.secondsIntevalUpdate = setInterval(update, 500);
                     update();
-                    var iconTextDO = content.getChildByName("iconText");
-                    var iconDO = content.getChildByName("icon");
-                    iconTextDO.pivot.x = iconTextDO.getLocalBounds().width / 2 * iconTextDO.scaleX;
-                    iconDO.x = -iconTextDO.width / 2 - 20;
-                    iconTextDO.x = iconDO.width / 2 + 20;
+                    var smallText = content.getChildByName("iconText");
+                    //var iconDO = <PIXI.extras.BitmapText>content.getChildByName("icon")
+                    //
+                    smallText.pivot.x = smallText.getLocalBounds().width / 2 * smallText.scaleX;
+                    //iconDO.x = - smallText.width / 2 - 20;
+                    //smallText.x = iconDO.width / 2 + 20;
                 };
                 // #endregion
                 // #region ending

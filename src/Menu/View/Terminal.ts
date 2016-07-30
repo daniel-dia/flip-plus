@@ -73,7 +73,14 @@ module FlipPlus.Menu.View
         }
 
         private interaction() {
-            if (this.currentAction) this.emit(this.currentAction, this.currentParameter) 
+            if (this.currentAction) {
+                if (this.currentAction == "next") {
+
+                }
+                else {
+                    this.emit(this.currentAction, this.currentParameter)
+                }
+            }
         }
 
         private effectClickOn() {
@@ -136,46 +143,46 @@ module FlipPlus.Menu.View
 
         public setTextIcon(title: string, text: string, icon: string, iconText: string ) {
             var space = 20;
-            var fl = -210;
-            var ll = 110;
-            var md = (fl + ll) / 2;
+            var firstLine = -210;
+            var lastLine = 110;
+            var middleLine = (firstLine + lastLine) / 2;
 
             var content = new PIXI.Container();
             
-            var titleDO = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong",0xffffff,1.5);
-            var iconTextDO = gameui.AssetsManager.getBitmapText(iconText.toUpperCase(), "fontWhite");
+            var titleDO = gameui.AssetsManager.getBitmapText(title.toUpperCase(), "fontStrong",0xffffff,1);
+            var smallText = gameui.AssetsManager.getBitmapText(iconText.toUpperCase(), "fontWhite");
             var iconDO = gameui.AssetsManager.getBitmap(icon);
             var textDO = gameui.AssetsManager.getBitmapText(text, "fontWhite");
 
+            titleDO.y = firstLine;
             titleDO.regX = titleDO.textWidth / 2;
             titleDO.regY = titleDO.textHeight / 2;
-            titleDO.y = fl;
+
             titleDO.name = "title";
-            titleDO.scaleX = titleDO.scaleY = 1050 / Math.max(titleDO.textWidth * titleDO.scaleX, 1050) * titleDO.scaleX
+            titleDO.scaleX = titleDO.scaleY = 950 / Math.max(titleDO.textWidth * titleDO.scaleX, 950) * titleDO.scaleX
 
-            textDO.regX = textDO.textWidth / 2;
-            textDO.regY = textDO.textHeight / 2;
-            textDO.y = md
-            textDO.name = "text";
-            
-            iconTextDO.regX = iconTextDO.textWidth / 2;
-            iconTextDO.regY = iconTextDO.textHeight / 2;
-            iconTextDO.name = "iconText";
-            iconTextDO.scaleX = iconTextDO.scaleY = 850 / Math.max(iconTextDO.textWidth, 850)
-
+            iconDO.y = firstLine;
             iconDO.regX = iconDO.width / 2;
             iconDO.regY = iconDO.height / 2;
+            iconDO.scaleX = iconDO.scaleY = 1;
             iconDO.name = "icon";
 
-            iconDO.x = - iconTextDO.width / 2 - space;
-            iconTextDO.x = iconDO.width / 2 + space;
-            iconDO.y =     ll;
-            iconTextDO.y = ll;
+            iconDO.x = -(titleDO.width) / 2 - space
+            titleDO.x = iconDO.width * iconDO.scaleX / 2 + space;
             
+            textDO.regX = textDO.textWidth / 2;
+            textDO.regY = textDO.textHeight / 2;
+            textDO.y = middleLine
+            textDO.name = "text";
 
+            smallText.y = lastLine;
+            smallText.regX = smallText.textWidth / 2;
+            smallText.regY = smallText.textHeight / 2;
+            smallText.name = "iconText";
+            smallText.scaleX = smallText.scaleY = 850 / Math.max(smallText.textWidth, 850)
 
             content.addChild(titleDO);
-            content.addChild(iconTextDO);
+            content.addChild(smallText);
             content.addChild(iconDO);
             content.addChild(textDO);
             
@@ -321,6 +328,10 @@ module FlipPlus.Menu.View
             }, this.intervalTimeout);
         }
 
+        // shows next bonus
+        private nextBonus() {
+        }
+
         // show a single bonus timeout info.
         private showBonusInfo(bonusId: string) {
 
@@ -339,12 +350,12 @@ module FlipPlus.Menu.View
 
                 if (!FlipPlusGame.bonusManager.getBonusUnlocked(bonusId)) {
                     text = StringResources.bonusLocked;
-                    this.currentAction = null;
+                    this.currentAction = "next";
                 }
 
                 else if (!FlipPlusGame.bonusManager.getBonusTimeReady(bonusId)) {
                     text = this.toHHMMSS(timeout);
-                    this.currentAction = null;
+                    this.currentAction = "next";
                 }
 
                 else if (FlipPlusGame.bonusManager.getBonusAvaliable(bonusId)) {
@@ -364,13 +375,12 @@ module FlipPlus.Menu.View
 
             update();
 
-            
-            var iconTextDO = <PIXI.extras.BitmapText>content.getChildByName("iconText")
-            var iconDO = <PIXI.extras.BitmapText>content.getChildByName("icon")
-
-            iconTextDO.pivot.x = iconTextDO.getLocalBounds().width / 2 * iconTextDO.scaleX;
-            iconDO.x = - iconTextDO.width / 2 - 20;
-            iconTextDO.x = iconDO.width / 2 + 20;
+            var smallText = <PIXI.extras.BitmapText>content.getChildByName("iconText")
+            //var iconDO = <PIXI.extras.BitmapText>content.getChildByName("icon")
+            //
+            smallText.pivot.x = smallText.getLocalBounds().width / 2 * smallText.scaleX;
+            //iconDO.x = - smallText.width / 2 - 20;
+            //smallText.x = iconDO.width / 2 + 20;
         }
  
         // #endregion

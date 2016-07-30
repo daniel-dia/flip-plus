@@ -173,7 +173,6 @@ module FlipPlus.Menu {
             if (!FlipPlusGame.storyData.getStoryPlayed("bonus") && FlipPlusGame.coinsData.getAmount() < 5) {
                 this.lock();
                 setTimeout(() => {
-                    this.terminal.highlightBonus();
                     this.unlock();
                 }, 1000);
             }
