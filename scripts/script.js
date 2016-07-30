@@ -5184,8 +5184,9 @@ var FlipPlus;
                 function Terminal() {
                     var _this = this;
                     _super.call(this);
-                    this.intervalTimeout = 5000;
+                    this.intervalTimeoutSeconds = 5000;
                     this.bonuses = ["Bonus1", "Bonus2", "Bonus3"];
+                    this.currentBonus = 0;
                     // set informations container
                     this.screenContaier = new PIXI.Container();
                     this.addChild(this.content);
@@ -5226,6 +5227,7 @@ var FlipPlus;
                 Terminal.prototype.interaction = function () {
                     if (this.currentAction) {
                         if (this.currentAction == "next") {
+                            this.showNextBonus();
                         }
                         else {
                             this.emit(this.currentAction, this.currentParameter);
@@ -5251,8 +5253,8 @@ var FlipPlus;
                     // clear current interval
                     if (this.secondsIntevalUpdate)
                         clearInterval(this.secondsIntevalUpdate);
-                    if (this.rotationInterval)
-                        clearInterval(this.rotationInterval);
+                    if (this.rotationTimeout)
+                        clearInterval(this.rotationTimeout);
                 };
                 // #endregion
                 // #region content
@@ -5327,7 +5329,7 @@ var FlipPlus;
                     var _this = this;
                     if (timeout === void 0) { timeout = 8000; }
                     this.currentAction = null;
-                    clearInterval(this.rotationInterval);
+                    clearInterval(this.rotationTimeout);
                     var content = new PIXI.Container();
                     var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     textDO.maxWidth = 920;
@@ -5347,15 +5349,15 @@ var FlipPlus;
                         if (char > text.length)
                             clearInterval(i);
                     }, 40);
-                    this.rotationInterval = setInterval(function () {
-                        _this.startBonusRotation();
+                    this.rotationTimeout = setInterval(function () {
+                        _this.showNextBonus();
                     }, timeout);
                 };
                 Terminal.prototype.setTextImediate = function (text, timeout) {
                     var _this = this;
                     if (timeout === void 0) { timeout = 8000; }
                     this.currentAction = null;
-                    clearInterval(this.rotationInterval);
+                    clearInterval(this.rotationTimeout);
                     var content = new PIXI.Container();
                     var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
                     textDO.maxWidth = 820;
@@ -5373,8 +5375,8 @@ var FlipPlus;
                         if (char > text.length)
                             clearInterval(i);
                     }, 40);
-                    this.rotationInterval = setInterval(function () {
-                        _this.startBonusRotation();
+                    this.rotationTimeout = setInterval(function () {
+                        _this.showNextBonus();
                     }, timeout);
                 };
                 Terminal.prototype.hightlighTerminal = function () {
@@ -5407,27 +5409,21 @@ var FlipPlus;
                     if (bonusready)
                         this.showBonusInfo(bonusready);
                     else
-                        this.startBonusRotation();
-                };
-                // starts bonus channels rotations
-                Terminal.prototype.startBonusRotation = function () {
-                    var _this = this;
-                    // clear current interval
-                    if (this.rotationInterval)
-                        clearInterval(this.rotationInterval);
-                    // set a new rotation interval
-                    this.showBonusInfo(this.bonuses[0]);
-                    var currentBonus = 1;
-                    this.rotationInterval = setInterval(function () {
-                        // show a bonus current timer info in loop.
-                        _this.showBonusInfo(_this.bonuses[currentBonus]);
-                        currentBonus++;
-                        if (currentBonus >= _this.bonuses.length)
-                            currentBonus = 0;
-                    }, this.intervalTimeout);
+                        this.showNextBonus();
                 };
                 // shows next bonus
-                Terminal.prototype.nextBonus = function () {
+                Terminal.prototype.showNextBonus = function () {
+                    var _this = this;
+                    // clear current interval
+                    if (this.rotationTimeout)
+                        clearInterval(this.rotationTimeout);
+                    this.showBonusInfo(this.bonuses[this.currentBonus++]);
+                    if (this.currentBonus >= this.bonuses.length)
+                        this.currentBonus = 0;
+                    this.rotationTimeout = setTimeout(function () {
+                        // show a bonus current timer info in loop.
+                        _this.showNextBonus();
+                    }, this.intervalTimeoutSeconds);
                 };
                 // show a single bonus timeout info.
                 Terminal.prototype.showBonusInfo = function (bonusId) {

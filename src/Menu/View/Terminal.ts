@@ -15,11 +15,12 @@ module FlipPlus.Menu.View
         private currentParameter: string;
 
         // interval for changing bonus
-        private rotationInterval: number;
+        private rotationTimeout: number;
         private secondsIntevalUpdate: number;
-        private intervalTimeout = 5000;
+        private intervalTimeoutSeconds = 5000;
         private bonuses = ["Bonus1", "Bonus2", "Bonus3"];
-            
+        private currentBonus: number = 0;
+
         // #region initialization    
         constructor()
         {
@@ -75,7 +76,7 @@ module FlipPlus.Menu.View
         private interaction() {
             if (this.currentAction) {
                 if (this.currentAction == "next") {
-
+                    this.showNextBonus();
                 }
                 else {
                     this.emit(this.currentAction, this.currentParameter)
@@ -103,7 +104,7 @@ module FlipPlus.Menu.View
         public desactivate() {
             // clear current interval
             if (this.secondsIntevalUpdate)   clearInterval(this.secondsIntevalUpdate);
-            if (this.rotationInterval) clearInterval(this.rotationInterval);
+            if (this.rotationTimeout) clearInterval(this.rotationTimeout);
         }
               
         // #endregion
@@ -198,7 +199,7 @@ module FlipPlus.Menu.View
 
             this.currentAction = null;
 
-            clearInterval(this.rotationInterval);
+            clearInterval(this.rotationTimeout);
 
             var content = new PIXI.Container();
             var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
@@ -225,8 +226,8 @@ module FlipPlus.Menu.View
                     clearInterval(i);
             }, 40);
 
-            this.rotationInterval = setInterval(() => {
-                this.startBonusRotation()
+            this.rotationTimeout = setInterval(() => {
+                this.showNextBonus()
             }, timeout);
 
 
@@ -236,7 +237,7 @@ module FlipPlus.Menu.View
 
             this.currentAction = null;
 
-            clearInterval(this.rotationInterval);
+            clearInterval(this.rotationTimeout);
 
             var content = new PIXI.Container();
             var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
@@ -261,8 +262,8 @@ module FlipPlus.Menu.View
                     clearInterval(i);
             }, 40);
 
-            this.rotationInterval = setInterval(() => {
-                this.startBonusRotation()
+            this.rotationTimeout = setInterval(() => {
+                this.showNextBonus()
             }, timeout);
 
 
@@ -303,33 +304,22 @@ module FlipPlus.Menu.View
             if (bonusready)
                 this.showBonusInfo(bonusready)
             else
-                this.startBonusRotation();
+                this.showNextBonus();
         } 
 
-        // starts bonus channels rotations
-        private startBonusRotation() {
-            
-            // clear current interval
-            if (this.rotationInterval) clearInterval(this.rotationInterval);
-
-            // set a new rotation interval
-            this.showBonusInfo(this.bonuses[0]);
-            var currentBonus = 1;
-            this.rotationInterval = setInterval(() => {
-
-                // show a bonus current timer info in loop.
-                this.showBonusInfo(this.bonuses[currentBonus]);
-
-                currentBonus++;
-
-                if (currentBonus >= this.bonuses.length)
-                    currentBonus = 0;
-
-            }, this.intervalTimeout);
-        }
-
         // shows next bonus
-        private nextBonus() {
+        private showNextBonus() {
+            // clear current interval
+            if (this.rotationTimeout) clearInterval(this.rotationTimeout);
+
+            this.showBonusInfo(this.bonuses[this.currentBonus++]);
+            if (this.currentBonus >= this.bonuses.length) this.currentBonus = 0;
+
+            this.rotationTimeout = setTimeout(() => {
+                // show a bonus current timer info in loop.
+                this.showNextBonus();
+
+            }, this.intervalTimeoutSeconds);
         }
 
         // show a single bonus timeout info.
