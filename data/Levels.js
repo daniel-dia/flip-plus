@@ -122,7 +122,8 @@ var levelsData =
               "tutorial": [
                  {
                      "text": "tut_4_1_text",
-                     "title": "tut_4_1_title"
+                     "title": "tut_4_1_title",
+                     "image": "tutorialHint"
                  },
                  {
                      "item": "hint",
