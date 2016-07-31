@@ -264,7 +264,7 @@ module FlipPlus.Levels {
             project.UserData.unlocked = true;
 
             // unlocks all level of project
-            for (var l = 0; l = project.levels.length; l++)
+            for (var l = 0; l < project.levels.length; l++)
                 this.unlockLevel(project.levels[l]);
 
             // save user data
