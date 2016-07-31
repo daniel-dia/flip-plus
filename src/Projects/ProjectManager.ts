@@ -31,7 +31,9 @@ module FlipPlus.Levels {
             for (var p in data) { for (var l in data[p].levels) { delete data[p].levels[l].userdata } }
             
             // set project stars costs
-            for (var i = 0; i < data.length; i++) data[i].cost = Math.ceil(0.8 * 3 * i);
+            for (var i = 0; i < data.length; i++) {
+                data[i].cost = Math.ceil(0.8 * 3 * i);
+            }
 
             // automatically fix names
             this.fixName(data);

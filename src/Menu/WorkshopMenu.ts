@@ -201,6 +201,7 @@ module FlipPlus.Menu {
 
             super.activate();
 
+
             // update coins
             //this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
 
@@ -209,6 +210,9 @@ module FlipPlus.Menu {
 
             // update enabled Projects
             this.addProjects(this.levelsManager.getAllProjects());
+
+            // unlock project based on stars
+            FlipPlusGame.levelsManager.updateUnlockedProjectsByStars();
 
             // get first non completed project 
             var page = FlipPlusGame.levelsManager.getFirstNonCompleted();

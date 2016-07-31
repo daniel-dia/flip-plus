@@ -97,18 +97,23 @@ module FlipPlus.Menu.View {
         // add Cost indication
         private addCost() {
 
-            if (!this.starCost) {
-                var starCost = new PIXI.Container();
-                var cost = gameui.AssetsManager.getBitmapText("x " + this.project.cost.toString(), "fontWhite");
-                var star = gameui.AssetsManager.getBitmap("starsicon");
-                starCost.addChild(star);
-                starCost.addChild(cost);
-
-                star.x = -70;
-                cost.x = 70;
-
-                this.starCost = starCost
+            if (this.starCost) {
+                this.removeChild(this.starCost)
+                delete this.starCost;
             }
+
+            var currentStars = FlipPlusGame.levelsManager.getStarsCount();
+
+            var starCost = new PIXI.Container();
+            var cost = gameui.AssetsManager.getBitmapText("x " + currentStars + "/" + this.project.cost.toString(), "fontWhite");
+            var star = gameui.AssetsManager.getBitmap("starsicon");
+            starCost.addChild(star);
+            starCost.addChild(cost);
+
+            star.x = -70;
+            cost.x = 70;
+
+            this.starCost = starCost
 
             this.starCost.y = 300;
             this.starCost.x = (defaultWidth - this.x * 2) / 2 - 60;
