@@ -599,7 +599,7 @@ var levelsData =
                    {
                        "text": "tut_6_1_text",
                        "title": "tut_6_1_title",
-                       "image": "tutorial"
+                       "image": "TutorialTaps"
                    },
                    //{
                    //    "clicks": [0,4]
