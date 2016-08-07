@@ -5622,16 +5622,24 @@ var FlipPlus;
                         delete this.starCost;
                     }
                     var currentStars = FlipPlus.FlipPlusGame.levelsManager.getStarsCount();
+                    var levelCost = this.project.cost;
                     var starCost = new PIXI.Container();
-                    var cost = gameui.AssetsManager.getBitmapText("x " + currentStars + "/" + this.project.cost.toString(), "fontWhite");
-                    var star = gameui.AssetsManager.getBitmap("starsicon");
-                    starCost.addChild(star);
-                    starCost.addChild(cost);
-                    star.x = -70;
-                    cost.x = 70;
+                    var left = levelCost - currentStars;
+                    var text = StringResources.ws_Unlock;
+                    text = text.replace('{0}', left.toString());
+                    var half = text.split("{1}")[0];
+                    var costText = gameui.AssetsManager.getBitmapText(half, "fontWhite");
+                    var starSprite = gameui.AssetsManager.getBitmap("starsicon");
+                    starCost.addChild(starSprite);
+                    starCost.addChild(costText);
+                    var size1 = costText.textWidth;
+                    costText.text = text;
+                    var sizetotal = costText.getLocalBounds().width;
+                    costText.x = -sizetotal / 2;
+                    starSprite.x = costText.x + size1;
                     this.starCost = starCost;
                     this.starCost.y = 300;
-                    this.starCost.x = (defaultWidth - this.x * 2) / 2 - 60;
+                    this.starCost.x = (defaultWidth - this.x * 2) / 2;
                     this.addChild(this.starCost);
                 };
                 // Add "not free" text
@@ -6333,8 +6341,11 @@ var FlipPlus;
                 // unlock project user data
                 project.UserData.unlocked = true;
                 // unlocks all level of project
-                for (var l = 0; l < project.levels.length; l++)
-                    this.unlockLevel(project.levels[l]);
+                if (project.name == "Bot01")
+                    this.unlockLevel(project.levels[0]);
+                else
+                    for (var l = 0; l < project.levels.length; l++)
+                        this.unlockLevel(project.levels[l]);
                 // save user data
                 this.levelsUserDataManager.saveProjectData(project);
                 this.levelsUserDataManager.saveLevelData(project.levels[0]);
@@ -9370,6 +9381,7 @@ var StringResources = {
     pr_notStarsText: "you only have # stars.\nYou need at least stars #\nto unlock this project\nplay more levels to earn stars.",
     pr_notTimeText: "Not Yet.#You must wait # before play this bonus level",
     ws_Locked: "LOCKED",
+    ws_Unlock: "Get {0} more   {1}  to unlock",
     ws_NotFree: "NOT FREE",
     gp_noMoreSkip: "No more parts",
     gp_noMoreHints: "You get itens by playing the \nbonus on the projects screen",
@@ -9622,6 +9634,7 @@ var stringResources_pt = {
     pr_notStarsText: "Você tem # estrelas e precisa\nde # estrelas para desbloquear.\nJogue mais para ganhar estrelas.",
     pr_notTimeText: "Ainda não. Você deve esperar # antes de jogar este bônus",
     ws_Locked: "BLOQUEADO",
+    ws_Unlock: "Ganhe mais {0}  {1}  para jogar",
     ws_NotFree: "Não gratúito",
     gp_noMoreSkip: "Acabaram as peças",
     gp_noMoreHints: "Você pode ganhar mais items jogando\nos bonus na tela projetos",

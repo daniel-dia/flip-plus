@@ -2,13 +2,13 @@ declare var levelsData;
 declare var bonusData;
 declare var ActionLevelsData: Array<FlipPlus.Levels.BotLevelsSet>
 
-declare function getAssetsManifest(assetscale:number):Array<any>;
+declare function getAssetsManifest(assetscale: number): Array<any>;
 //declare var spriteSheets;
 
-module FlipPlus { 
+module FlipPlus {
 
     // Main game Class
-    export class FlipPlusGame  {
+    export class FlipPlusGame {
 
         // game screen
         public static gameScreen: gameui.GameScreen;
@@ -29,18 +29,18 @@ module FlipPlus {
         public static analytics: Analytics;
 
         // Managers
-        public static levelsManager:        Levels.LevelsManager;
-        public static bonusManager:         Bonus.BonusManager;
+        public static levelsManager: Levels.LevelsManager;
+        public static bonusManager: Bonus.BonusManager;
 
         // Screens
         private static titleScreen: gameui.ScreenState;
         private static workshopMenu: Menu.WorkshopMenu;
-        private static actionlevelsMenu:    gameui.ScreenState;
-        private static levelScreeen:        gameui.ScreenState;
+        private static actionlevelsMenu: gameui.ScreenState;
+        private static levelScreeen: gameui.ScreenState;
 
-        public static mainScreen:           Menu.MainMenu;
-        public static optionsMenu:          gameui.ScreenState;
-        public static loadingScreen:        Menu.Loading;
+        public static mainScreen: Menu.MainMenu;
+        public static optionsMenu: gameui.ScreenState;
+        public static loadingScreen: Menu.Loading;
 
         // ----------------------------- Initialization -------------------------------------------//
 
@@ -48,7 +48,7 @@ module FlipPlus {
 
             //Cocoon.Utils.setNPOTEnabled(true);
 
-            this.gameScreen = new gameui.GameScreen("gameDiv", defaultWidth, defaultHeight,60);
+            this.gameScreen = new gameui.GameScreen("gameDiv", defaultWidth, defaultHeight, 60);
 
             // userData
             this.levelsUserDataManager = new UserData.LevelsUserDataManager();
@@ -65,7 +65,7 @@ module FlipPlus {
 
             // game service
             this.gameServices = new GameServices();
-            
+
             // analytics
             FlipPlusGame.counterData.increaseCounter("sessions");
             var session_num = FlipPlusGame.counterData.getCounter("sessions");
@@ -73,16 +73,16 @@ module FlipPlus {
             this.analytics.logGameStart();
 
             // initialize ads
-            CocoonAds.initialize(); 
+            CocoonAds.initialize();
 
             //managers
             this.levelsManager = new Levels.LevelsManager(levelsData, this.levelsUserDataManager);
 
-           // give 10 coins to user first time
-            if (!this.storyData.getStoryPlayed("coins")){
+            // give 10 coins to user first time
+            if (!this.storyData.getStoryPlayed("coins")) {
                 this.storyData.setStoryPlayed("coins")
                 this.coinsData.setAmount(15);
-            }            
+            }
 
             // add back button  cocoon
             document.addEventListener("backbutton", () => {
@@ -107,7 +107,7 @@ module FlipPlus {
             //go to First Screen
             this.loadingScreen = new FlipPlus.Menu.Loading();
             this.gameScreen.switchScreen(this.loadingScreen);
-            
+
             // loading screen
             this.loadingScreen.loaded = () => {
                 if (levelCreatorMode == true && !levelCreatorTestMode)
@@ -133,23 +133,23 @@ module FlipPlus {
                 ps[p].UserData.stars = 3;
                 for (var l in ps[p].levels) {
                     ps[p].levels[l].userdata.solved = true;
-                    ps[p].levels[l].userdata.unlocked = true;    
+                    ps[p].levels[l].userdata.unlocked = true;
                 }
             }
         }
 
         // ----------------------------- Game Methods ---------------------------------------------//
-        
-        public static toLevelCreator(level?:Levels.Level,callback?) {
+
+        public static toLevelCreator(level?: Levels.Level, callback?) {
             if (!level) {
                 level = new Levels.Level();
                 level.width = 0;
                 level.height = 0;
             }
-            
-            this.gameScreen.switchScreen(new GamePlay.LevelCreator2(level, callback), null, { type: "none",time:0 });
+
+            this.gameScreen.switchScreen(new GamePlay.LevelCreator2(level, callback), null, { type: "none", time: 0 });
         }
-               
+
         public static showProjectLevelsMenu(project?: Levels.BotLevelsSet, parameters?: any) {
 
             //verifies the current projet
@@ -167,9 +167,9 @@ module FlipPlus {
             // freeze if is needed
             if (parameters && parameters.freeze)
                 this.workshopMenu.disableInteraction();
-            else 
+            else
                 this.workshopMenu.enableInteraction();
-            
+
 
             //switch screens
             this.gameScreen.switchScreen(this.workshopMenu, parameters);
@@ -177,7 +177,7 @@ module FlipPlus {
 
         public static showBonus(bonusId: string) {
 
-         if (!this.bonusManager.getBonusAvaliable(bonusId)) return;
+            if (!this.bonusManager.getBonusAvaliable(bonusId)) return;
 
             var bonusScreen: Bonus.BonusScreen;
             switch (bonusId) {
@@ -198,7 +198,7 @@ module FlipPlus {
 
             // restart bonus timer
             FlipPlusGame.bonusManager.restartBonusTimer(bonusId, halfTime);
-            
+
             // goes to Bonus screen
             this.gameScreen.switchScreen(bonusScreen);
         }
@@ -227,25 +227,25 @@ module FlipPlus {
             return null;
         }
 
-        public static completeLevel(complete: boolean = false, firstTime: boolean=false) {
+        public static completeLevel(complete: boolean = false, firstTime: boolean = false) {
 
-        // shows workshop with the proper parameters
+            // shows workshop with the proper parameters
             this.showProjectLevelsMenu(null, { complete: complete, freeze: firstTime, firstTime: firstTime });
-                             
+
             // if first time, do an animation and goes to the next level, or show the completed bot   
             if (!firstTime) return;
 
-            if (this.levelsManager.getCurrentProject().UserData.complete && firstTime) 
+            if (this.levelsManager.getCurrentProject().UserData.complete && firstTime)
                 //if complete changes to myBotScreen
-                setTimeout(() => {this.completeProject();}, 6000);
-            else 
+                setTimeout(() => { this.completeProject(); }, 6000);
+            else
                 //or goes to the next level
-                setTimeout(() => {this.showNextLevel();}, 1500);
- 
+                setTimeout(() => { this.showNextLevel(); }, 1500);
+
         }
 
         public static verifyGameEnd() {
-            
+
             // verifies if all projects are complete
             var projects = this.levelsManager.getAllProjects();
             var completeAllProjects = true;
@@ -253,7 +253,7 @@ module FlipPlus {
 
             return completeAllProjects;
         }
-        
+
         public static completeProject() {
 
             // get current completed bot
@@ -267,11 +267,11 @@ module FlipPlus {
 
             // verify if all game is complete  and show special phrase
             if (FlipPlusGame.verifyGameEnd()) parameters["gameEnd"] = true;
-            
+
             // shows main menu
             FlipPlusGame.showMainScreen(parameters);
         }
- 
+
         public static looseLevel() {
             this.showProjectLevelsMenu(null, { loose: true });
         }
@@ -290,7 +290,7 @@ module FlipPlus {
                 this.exitLevel();
         }
 
-        public static skipLevel(complete: boolean= false) {
+        public static skipLevel(complete: boolean = false) {
             var currentLevel = this.levelsManager.getCurrentLevel();
 
             this.levelsManager.skipLevel(currentLevel);
@@ -298,17 +298,17 @@ module FlipPlus {
             ///this.showProjectLevelsMenu(null, { complete: complete });
         }
 
-        public static showMainScreen(parameters?:any) {
+        public static showMainScreen(parameters?: any) {
             if (this.mainScreen == null) this.mainScreen = new Menu.MainMenu();
             if (this.gameScreen.currentScreen == this.titleScreen || this.gameScreen.currentScreen == this.loadingScreen)
                 this.gameScreen.switchScreen(this.mainScreen, parameters, { type: "zoomIn", time: 500 });
-            else 
+            else
                 this.gameScreen.switchScreen(this.mainScreen, parameters);
         }
 
         public static showTitleScreen() {
             if (!this.titleScreen) this.titleScreen = new Menu.TitleScreen();
-            this.gameScreen.switchScreen(this.titleScreen, null, { type: "zoomOut", time:500 });
+            this.gameScreen.switchScreen(this.titleScreen, null, { type: "zoomOut", time: 500 });
         }
 
         public static showShopMenu(previousScreen: gameui.ScreenState) {
@@ -338,13 +338,13 @@ module FlipPlus {
 
         // ---------------------------- license --------------------------------------------------//
 
-        public static isFree():boolean {
+        public static isFree(): boolean {
             return true;
         }
     }
 }
 
-if(window["cordova"])
+if (window["cordova"])
     document.addEventListener('deviceready', function () { FlipPlus.FlipPlusGame.initializeGame() }, false);
 else
     window.onload = function () { FlipPlus.FlipPlusGame.initializeGame() }

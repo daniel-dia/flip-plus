@@ -51,6 +51,7 @@
     pr_notTimeText: "Not Yet.#You must wait # before play this bonus level",
 
     ws_Locked: "LOCKED",
+    ws_Unlock: "Get {0} more   {1}  to unlock",
     ws_NotFree: "NOT FREE",
 
     gp_noMoreSkip: "No more parts",
@@ -345,6 +346,7 @@ var stringResources_pt = {
     pr_notTimeText: "Ainda não. Você deve esperar # antes de jogar este bônus",
 
     ws_Locked: "BLOQUEADO",
+    ws_Unlock: "Ganhe mais {0}  {1}  para jogar",
     ws_NotFree: "Não gratúito",
 
     gp_noMoreSkip: "Acabaram as peças",

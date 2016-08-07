@@ -126,6 +126,7 @@ module FlipPlus.Levels {
 
             // updates next level
             var nextLevel: Levels.Level = this.getNextLevel();
+
             if (nextLevel != null)
                 this.unlockLevel(nextLevel);
 
@@ -264,8 +265,11 @@ module FlipPlus.Levels {
             project.UserData.unlocked = true;
 
             // unlocks all level of project
-            for (var l = 0; l < project.levels.length; l++)
-                this.unlockLevel(project.levels[l]);
+            if (project.name == "Bot01")
+                this.unlockLevel(project.levels[0]);
+            else
+                for (var l = 0; l < project.levels.length; l++)
+                    this.unlockLevel(project.levels[l]);
 
             // save user data
             this.levelsUserDataManager.saveProjectData(project);
