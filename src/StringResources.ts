@@ -39,7 +39,6 @@
     tut_6_2_title: "Moves",
     tut_6_2_text: "You can flip 2 or more blocks in the same move",
 
-
     mm_play: "PLAY",
 
     op_back: "Back",

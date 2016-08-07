@@ -32,7 +32,7 @@ module FlipPlus.Levels {
             
             // set project stars costs
             for (var i = 0; i < data.length; i++) {
-                data[i].cost = Math.ceil(0.8 * 3 * i);
+                data[i].cost = Math.ceil(0.85 * 3 * i);
             }
 
             // automatically fix names
