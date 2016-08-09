@@ -1,4 +1,4 @@
-var version = "v 1.1.00"
+var version = "v 1.1.5"
 
 var defaultWidth = 1536;
 var defaultHeight = 2048;
