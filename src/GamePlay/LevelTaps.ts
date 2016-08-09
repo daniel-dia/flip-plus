@@ -35,15 +35,21 @@
             this.puzzlesToSolve = levelData.puzzlesToSolve;
             this.boardSprite.updateSprites(this.levelLogic.board.blocks);
 
-            this.popup.showTaps(this.levelData.moves.toString());
-
             this.statusArea.setMode("moves");
             this.statusArea.setText3(this.moves.toString());
         }
 
+        activate(parameters?: any) {
+
+            this.popup.showTaps(this.levelData.moves.toString());
+            this.popup.once("onclose", () => {
+                super.activate(parameters);
+            })
+        }
 
         //threat user input
         private loosing = false;
+
         public userInput(col: number, row: number) {
             super.userInput(col, row);
 

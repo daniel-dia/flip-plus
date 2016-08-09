@@ -352,9 +352,11 @@ module FlipPlus.Menu.View {
             if (this.closeinterval) clearTimeout(this.closeinterval);
             
             //dispatch a event for parent objects
-            this.emit("onclose");
             this.interactive = false;
             this.interactiveChildren = false;
+            
+            this.emit("onclose");
+            
         }
 
         protected addsClickIndicator() {

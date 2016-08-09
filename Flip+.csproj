@@ -1455,7 +1455,6 @@
     <TypeScriptCompile Include="src\GamePlay\Logic\Block.ts" />
     <TypeScriptCompile Include="src\GamePlay\Logic\Board.ts" />
     <TypeScriptCompile Include="src\GamePlay\Logic\Level.ts" />
-    <TypeScriptCompile Include="src\GamePlay\Tutorial.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\BlockSprite.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\BoardSprite.ts" />
     <TypeScriptCompile Include="src\GamePlay\Views\GameplayMenu.ts" />

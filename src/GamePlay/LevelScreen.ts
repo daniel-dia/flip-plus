@@ -34,6 +34,13 @@ module FlipPlus.GamePlay {
         private startedTime: number;
         private clicks: number;
 
+        // Tutorial
+        private currentTutorialStep: number = 0;
+        private tutorialSteps: Array<Levels.tutorialStep>;
+        private tutorialStepsEnd: Array<Levels.tutorialStep>;
+        private endTutorial: () => any;
+        private tutorialOldWin: any;
+
         // #endregion
 
         // #region Initialization methodos ==================================================================================================
@@ -81,6 +88,9 @@ module FlipPlus.GamePlay {
                 else
                     this.pauseGame();
             };
+
+            // initialize tutorials
+            this.initializeTutorial(leveldata);
 
         }
         // #endregion
@@ -264,6 +274,7 @@ module FlipPlus.GamePlay {
 
             // analytics
             var time = (Date.now() - this.startedTime)
+
             //FlipPlusGame.analytics.logLevelWin(this.levelData.name, time , this.clicks)
             FlipPlusGame.analytics.logProfessionWin(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks)
 
@@ -558,21 +569,20 @@ module FlipPlus.GamePlay {
         // #region  Screen ===================================================================================================================
 
         public activate(parameters?: any) {
-
             super.activate(parameters);
+
+            //start tutorial steps (if any)
+            this.activateTutorial();
+
             if (parameters) this.animatePuzzle(parameters);
-
-
+            
             // play music
             gameui.AudiosManager.playMusic("Music Minimal Tech");
-
             
-
             // updates Items buttons labels Quantity on footer
             this.coinsIndicator.updateAmmount(FlipPlusGame.coinsData.getAmount());
             this.gameplayMenu.updateItemsPrice(this.listItemPrices());
-
-
+            
             // update hints already used
             if (this.levelData.userdata.hints)
                 for (var h in this.levelData.userdata.hints)
@@ -608,7 +618,134 @@ module FlipPlus.GamePlay {
 
 
             }
+
         }
+        // #endregion
+
+        // #region Tutorial =================================================================================================================
+
+        // initiate tutorial
+        private initializeTutorial(levelData: Levels.Level) {
+
+            this.tutorialSteps = [];
+            this.tutorialStepsEnd = []
+
+            this.endTutorial = () => {
+                this.boardSprite.tutorialRelease();
+            }
+
+            for (var t in levelData.tutorial) 
+                if (levelData.tutorial[t].atEnd)
+                    this.tutorialStepsEnd.push(levelData.tutorial[t]);
+                else
+                    this.tutorialSteps.push(levelData.tutorial[t]);
+
+            this.initializeTutorialEnd();
+        }
+
+        private activateTutorial() {
+            this.playNextTurorialStep();
+        }
+
+        // create tutorial steps and callbacks
+        private executeTutorialActions(step: Levels.tutorialStep) {
+
+            //create for text step
+            if (step.text) {
+
+                var text =  StringResources[step.text];
+                var title = StringResources[step.title];
+                var image = step.image;
+                this.boardSprite.lock();
+                
+                this.popup.showTextImage(title, text, image);
+                var listener = this.popup.once("onclose", () => {
+                    this.playNextTurorialStep();
+                    this.boardSprite.unlock();
+                });
+            }
+
+            //create for menu item step
+            if (step.item) {
+                this.boardSprite.tutorialLockBlocks();
+                this.gameplayMenu.tutorial_HighlightItem(step.item, step.parameter);
+                var listener2 = this.gameplayMenu.once(step.item, () => {
+                    this.boardSprite.tutorialRelease();
+                    this.gameplayMenu.tutorial_unlockAllButtons();
+                    this.playNextTurorialStep();
+                });
+            }
+
+            //create for block item clicks
+            if (step.clicks) {
+
+                var listeners = new Array<PIXI.EventEmitter>();
+                for (var c in step.clicks) {
+                    //this.boardSprite.tutorialHighlightBlocks(step.clicks[c]);
+                    //this.gameplayMenu.tutorial_lockAllButtons();
+                    //
+                    //this.boardSprite.once("ontutorialclick", next);
+                    //
+                    //var next = ()=>{
+                    //    this.playNextTurorialStep();
+                    //    this.gameplayMenu.tutorial_unlockAllButtons();
+                    //}
+                }
+            }
+
+            //create for block item click
+            if (step.click != undefined) {
+                this.boardSprite.tutorialHighlightBlocks(step.click);
+                this.gameplayMenu.tutorial_lockAllButtons();
+                var listener5 = this.boardSprite.once("ontutorialclick", () => {
+                    this.playNextTurorialStep();
+                    this.gameplayMenu.tutorial_unlockAllButtons();
+                });
+            }
+        }
+
+        // play next tutorial step
+        private playNextTurorialStep() {
+
+            //Execute one more tutorial step
+            if (this.currentTutorialStep < this.tutorialSteps.length) {
+                this.executeTutorialActions(this.tutorialSteps[this.currentTutorialStep]);
+                this.currentTutorialStep++;
+            }
+            else
+                this.endTutorial();
+
+        }
+
+        // tutorial at Win // TODO
+        private initializeTutorialEnd() {
+            this.tutorialOldWin = this.win;
+            
+            var tutorialWin = (col: number, row: number) => {
+
+                if (this.tutorialStepsEnd.length == 0)
+                    this.tutorialOldWin(col, row);
+                else {
+                    this.boardSprite.mouseEnabled = false;
+
+                    setTimeout(() => {
+                        this.currentTutorialStep = 0;
+                        this.tutorialSteps = this.tutorialStepsEnd;
+
+                        this.playNextTurorialStep();
+
+                        this.endTutorial = () => {
+                            this.tutorialOldWin(col, row, false);
+                        }
+
+                    }, 500);
+                }
+            }
+
+            this.win = tutorialWin;
+        }
+
+
         // #endregion
     }
 }

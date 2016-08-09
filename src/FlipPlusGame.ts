@@ -217,7 +217,7 @@ module FlipPlus {
                 case "moves": case "flip": case "combo":
                     return new GamePlay.LevelTaps(level);
                 case "tutorial":
-                    return new GamePlay.Tutorial(level);
+                    return new GamePlay.LevelPuzzle(level);
                 case "time":
                     return new GamePlay.LevelTimeAttack(level);
                 case "action":

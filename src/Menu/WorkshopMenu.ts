@@ -221,7 +221,7 @@ module FlipPlus.Menu {
             var current = FlipPlusGame.levelsManager.getCurrentProjectIndex();
 
             // get minimun project
-            if (current > 0) page = Math.min(current, page);
+            if (current >= 0) page = Math.min(current, page);
 
             //goto current project
             this.pagesSwipe.gotoPage(page);
