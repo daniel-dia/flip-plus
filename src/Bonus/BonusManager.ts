@@ -35,7 +35,7 @@
 
         // get if a bonus can be playable in the current Level
         public getBonusUnlocked(bonusId) {
-            var unlockedBots = FlipPlusGame.levelsManager.getFinihedProjects().length;
+            var unlockedBots = FlipPlusGame.levelsManager.getFinihedProjectsCount();
             return this.bonusData[bonusId].unlock <= unlockedBots;
         }
 

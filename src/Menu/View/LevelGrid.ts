@@ -85,6 +85,8 @@ module FlipPlus.Menu.View {
         // Add Locked Text
         private showLockedText() {
 
+            
+
             // create container
             if (!this.infoContainer) {
                 this.infoContainer = new PIXI.Container();
@@ -100,25 +102,29 @@ module FlipPlus.Menu.View {
             var infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontWhite");
             infoText.pivot.x = infoText.getLocalBounds().width / 2;
             infoText.y = 150;
-            infoText.x = (defaultWidth-this.x*2 )/ 2;
-            this.infoContainer.addChild(infoText);
+            infoText.x = (defaultWidth - this.x * 2) / 2;
 
-            // ads cost
-            this.addCost();
+            // add to the container
+            this.infoContainer.addChild(infoText);
+            this.infoContainer.addChild(this.addCost());
+                        
         }
 
         // add Cost indication
-        private addCost() {
+        private addCost(): PIXI.Container{
+
+            var starCost = new PIXI.Container();
 
             var currentStars = FlipPlusGame.levelsManager.getStarsCount();
             var levelCost = this.project.cost;
-            var starCost = new PIXI.Container();
+            
             var left = levelCost - currentStars;
             var text = StringResources.ws_Unlock;
             text = text.replace('{0}', left.toString());
             var half = text.split("{1}")[0];
             var costText   = gameui.AssetsManager.getBitmapText(half, "fontWhite");
             var starSprite = gameui.AssetsManager.getBitmap("starsicon");
+
             starCost.addChild(starSprite);
             starCost.addChild(costText);
 
@@ -130,8 +136,9 @@ module FlipPlus.Menu.View {
             starSprite.x = costText.x + size1;
 
             starCost.y = 300;
-            starCost.x = (defaultWidth - this.x*2) / 2 ;
-            this.infoContainer.addChild(starCost);
+            starCost.x = (defaultWidth - this.x * 2) / 2;
+
+            return (starCost);
         }
 
         // Add "not free" text

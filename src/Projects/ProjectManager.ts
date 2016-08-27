@@ -13,6 +13,7 @@ module FlipPlus.Levels {
 
         protected levelsUserDataManager: UserData.LevelsUserDataManager;
 
+        private unlockedCount: number;
         // ------------------------------- initialization ----------------------------------------//
 
         constructor(data: Array<BotLevelsSet>, userData: UserData.LevelsUserDataManager) {
@@ -263,17 +264,19 @@ module FlipPlus.Levels {
 
             // unlock project user data
             project.UserData.unlocked = true;
-
-            // unlocks all level of project
-            this.unlockLevel(project.levels[0]);
-
-            // if (project.name != "Bot01")
-            //     for (var l = 0; l < project.levels.length; l++)
-            //         this.unlockLevel(project.levels[l]);
-
-            // save user data
             this.levelsUserDataManager.saveProjectData(project);
+
+            // unlocks first level of project
+            this.unlockLevel(project.levels[0]);
             this.levelsUserDataManager.saveLevelData(project.levels[0]);
+
+            // unlocks all levels of project
+            // if (project.name != "Bot01")
+            //     for (var l = 0; l < project.levels.length; l++){
+            //         this.unlockLevel(project.levels[l]);
+            //         this.levelsUserDataManager.saveLevelData(project.levels[l]);
+            //     }
+            
         }
 
         // unlock next project
@@ -314,13 +317,12 @@ module FlipPlus.Levels {
             project.UserData.complete = true;
             this.levelsUserDataManager.saveProjectData(project);
 
-            // unlock next project (No more stars count)
-            var nextProject = this.getNextProject(project);
-            this.unlockProject(nextProject);
-
             FlipPlusGame.levelsUserDataManager.saveProjectData(project);
-            FlipPlusGame.levelsUserDataManager.saveProjectData(nextProject);
 
+            // unlock next project (No more stars count)
+            // var nextProject = this.getNextProject(project);
+            // this.unlockProject(nextProject);
+            // FlipPlusGame.levelsUserDataManager.saveProjectData(nextProject);
         }
 
         // unlocks projects based on stars
@@ -334,8 +336,16 @@ module FlipPlus.Levels {
 
         // updates user data project status
         public updateProjectsUserData() {
+            this.updateUnlockedProjectsByStars();
             for (var i = 0; i < this.levelsData.length; i++)
                 this.updateProjectUserData(this.levelsData[i]);
+
+            var unlockeds = 0;
+            for (var p = 0; p++; p < this.levelsData.length)
+                if (this.levelsData[p].UserData.complete)
+                    unlockeds++;
+
+            this.unlockedCount = unlockeds;
         }
 
         // updates user data project status
@@ -345,11 +355,12 @@ module FlipPlus.Levels {
 
             //count solved levels
             for (var l = 0; l < project.levels.length; l++)
-                if (project.levels[l].userdata.solved   ||
-                    project.levels[l].userdata.skip     ||
-                    project.levels[l].userdata.item     )
+                if (project.levels[l].userdata.solved ||
+                    project.levels[l].userdata.skip ||
+                    project.levels[l].userdata.item) {
 
                     solvedLevels++;
+                }
 
             //calculate percentage
             project.UserData.percent = solvedLevels / project.levels.length;
@@ -364,17 +375,19 @@ module FlipPlus.Levels {
 
                 if (!level.userdata.solved || level.userdata.item) temp[level.theme] = false;
             }
-            for (var i in temp) {
-                if (temp[i]) stars++;
-            }
+
+            for (var i in temp) if (temp[i]) stars++;
 
             // updates project stars count
             project.UserData.stars = stars;
  
             //complete Project
-            if (solvedLevels == project.levels.length)
-                this.completeProject(project);
-
+            project.UserData.complete = (solvedLevels >= project.levels.length);
         }
-    }
+
+        public getFinihedProjectsCount(): number {
+            if (this.unlockedCount) return this.unlockedCount;
+            return 0;
+        }
+    } 
 }
