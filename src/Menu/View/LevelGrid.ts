@@ -6,9 +6,8 @@ module FlipPlus.Menu.View {
         private project: Levels.BotLevelsSet;
         private thumbs: LevelThumb[];
         private gridCreated: boolean;
-        private infoText: PIXI.extras.BitmapText;
-        private starCost: PIXI.DisplayObject;
-
+        private infoContainer: PIXI.Container;
+        
         //Constructor
         constructor(project: FlipPlus.Levels.BotLevelsSet) {
             super(5, 2, 1190, 476);
@@ -27,7 +26,7 @@ module FlipPlus.Menu.View {
             this.gridCreated = true;
 
             // removes infoText
-            if (this.infoText) this.removeChild(this.infoText);
+            if (this.infoContainer) this.infoContainer.visible = false;
            
             //creates a icon tiles
             for (var i = 0; i < chapter.levels.length; i++) {
@@ -73,8 +72,10 @@ module FlipPlus.Menu.View {
         private updateGrid(project: Levels.BotLevelsSet) {
 
             if ((!FlipPlusGame.isFree() && project.free) || (FlipPlusGame.isFree())) {
-                if (project.UserData.unlocked)
+                if (project.UserData.unlocked) {
+                    if (this.infoContainer) this.infoContainer.visible = false;
                     this.createLevelsThumbs(project);
+                }
                 else
                     this.showLockedText();
             } else
@@ -83,24 +84,31 @@ module FlipPlus.Menu.View {
 
         // Add Locked Text
         private showLockedText() {
-            if (!this.infoText)
-                this.infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontWhite");
 
-            this.infoText.pivot.x = this.infoText.getLocalBounds().width / 2;
-            this.infoText.y = 150;
-            this.infoText.x = (defaultWidth-this.x*2 )/ 2;
-            this.addChild(this.infoText);
+            // create container
+            if (!this.infoContainer) {
+                this.infoContainer = new PIXI.Container();
+                this.addChild(this.infoContainer);
+            }
 
+            this.infoContainer.visible = true;
+
+            // clear container
+            this.infoContainer.removeChildren();
+
+            // adds text
+            var infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_Locked, "fontWhite");
+            infoText.pivot.x = infoText.getLocalBounds().width / 2;
+            infoText.y = 150;
+            infoText.x = (defaultWidth-this.x*2 )/ 2;
+            this.infoContainer.addChild(infoText);
+
+            // ads cost
             this.addCost();
         }
 
         // add Cost indication
         private addCost() {
-
-            if (this.starCost) {
-                this.removeChild(this.starCost)
-                delete this.starCost;
-            }
 
             var currentStars = FlipPlusGame.levelsManager.getStarsCount();
             var levelCost = this.project.cost;
@@ -120,21 +128,19 @@ module FlipPlus.Menu.View {
 
             costText.x = -sizetotal/2;
             starSprite.x = costText.x + size1;
-            
 
-            this.starCost = starCost
-            this.starCost.y = 300;
-            this.starCost.x = (defaultWidth - this.x*2) / 2 ;
-            this.addChild(this.starCost);
+            starCost.y = 300;
+            starCost.x = (defaultWidth - this.x*2) / 2 ;
+            this.infoContainer.addChild(starCost);
         }
 
         // Add "not free" text
         private showNotFreeText() {
-            if (!this.infoText) this.infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontWhite");
-            this.infoText.pivot.x = this.infoText.getLocalBounds().width / 2;
-            this.infoText.y = 100;
-            this.infoText.x = (defaultWidth - this.x * 2) / 2;
-            this.addChild(this.infoText);
+            var infoText = gameui.AssetsManager.getBitmapText(StringResources.ws_NotFree, "fontWhite");
+            infoText.pivot.x = infoText.getLocalBounds().width / 2;
+            infoText.y = 100;
+            infoText.x = (defaultWidth - this.x * 2) / 2;
+            this.infoContainer.addChild(infoText);
         }
 
         // update user data
