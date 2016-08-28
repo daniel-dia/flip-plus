@@ -992,6 +992,8 @@ var FlipPlus;
                     return new FlipPlus.GamePlay.LevelTimeAttack(level);
                 case "action":
                     return new FlipPlus.GamePlay.LevelAction(level);
+                default:
+                    return new FlipPlus.GamePlay.LevelPuzzle(level);
             }
             return null;
         };
