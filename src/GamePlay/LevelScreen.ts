@@ -49,12 +49,11 @@ module FlipPlus.GamePlay {
 
             super();
 
-            // window.onkeydown =  (e) => {
-            //     if (e.char == "s") {
-            //         this.win(0, 0);
-            //         window.onkeydown = null;
-            //     }
-            // };
+            window.onkeydown = (e) => {
+                if (e.char == "s") {
+                    this.win(0, 0);
+                }
+            };
 
             this.itemsFunctions = {};
             this.clicks = 0;
@@ -271,7 +270,7 @@ module FlipPlus.GamePlay {
         }
 
         protected win(col: number, row: number, messageText: boolean= true) {
-
+            window.onkeydown = null;
             // analytics
             var time = (Date.now() - this.startedTime)
 

@@ -256,8 +256,14 @@ module FlipPlus {
 
         public static completeProject() {
 
+            // set played the intro when a project is complete
+            FlipPlusGame.storyData.setStoryPlayed("intro");
+
             // get current completed bot
             var currentProjectID = FlipPlusGame.levelsManager.getCurrentProject().name;
+
+            // complete project data
+            this.levelsManager.completeProject(FlipPlusGame.levelsManager.getCurrentProject());
 
             // unset current bot
             FlipPlusGame.levelsManager.setCurrentProject(null);
@@ -270,6 +276,8 @@ module FlipPlus {
 
             // shows main menu
             FlipPlusGame.showMainScreen(parameters);
+
+
         }
 
         public static looseLevel() {

@@ -308,10 +308,6 @@ module FlipPlus.Levels {
         // Finish a project.
         public completeProject(project: BotLevelsSet): void {
 
-            //TODO colocar isso em outro lugar
-            // set played the intro when a project is complete
-            FlipPlusGame.storyData.setStoryPlayed("intro");
-
             if (project.UserData.complete == true) return;
 
             project.UserData.complete = true;
