@@ -995,7 +995,6 @@ var FlipPlus;
                 default:
                     return new FlipPlus.GamePlay.LevelPuzzle(level);
             }
-            return null;
         };
         FlipPlusGame.completeLevel = function (complete, firstTime) {
             var _this = this;

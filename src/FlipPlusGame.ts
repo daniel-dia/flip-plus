@@ -224,10 +224,7 @@ module FlipPlus {
                     return new GamePlay.LevelAction(level);
                 default:
                     return new GamePlay.LevelPuzzle(level);
-
             }
-
-            return null;
         }
 
         public static completeLevel(complete: boolean = false, firstTime: boolean = false) {
