@@ -4805,7 +4805,7 @@ var FlipPlus;
                 var current = FlipPlus.FlipPlusGame.levelsManager.getCurrentProjectIndex();
                 // get minimun project
                 if (current >= 0)
-                    page = Math.min(current, page);
+                    page = current;
                 //goto current project
                 this.pagesSwipe.gotoPage(page);
                 //activate current project
