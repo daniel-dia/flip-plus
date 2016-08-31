@@ -1,7 +1,7 @@
 ﻿var StringResources = {
     ld: "Loading",
 
-    it_text1: "N3-S needs\nrepair\nplase nPLAY to repair",
+    it_text1: "Hello, human! I am N3-S!\nI need repairs.\n\nPlase PLAY to repair",
     it_text2: "alone = bad\nfriends = good\nPLAY = + friends",
 
     tut_1_1_title: "The plus shape",
@@ -296,7 +296,7 @@
 var stringResources_pt = {
     ld: "Carregando",
 
-    it_text1: "N3-S precisa de reparos\n\nJOGAR para reparar",
+    it_text1: "Olá, humano, Eu sou N3-S. \n Preciso de reparos\n\nJOGAR para reparar",
     it_text2: "sozinho = ruim\namigos = bom\n\nJOGAR = + amigos",
 
     tut_1_1_title: "Forma de cruz",
