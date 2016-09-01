@@ -5926,7 +5926,10 @@ var FlipPlus;
                     var newScale = (this.coinsTextField.getLocalBounds().width + 220) / 380;
                     this.bg.scaleX = Math.max(newScale, 1);
                     // centralize in screen
-                    this.x = defaultWidth / 2 - this.bg.getLocalBounds().width / 2;
+                    //this.x = defaultWidth / 2 - this.bg.getLocalBounds().width / 2;
+                    // centralize contents
+                    var w = this.contents.getLocalBounds().width;
+                    this.contents.regX = w / 2;
                 };
                 CoinsIndicator.prototype.createCoinEffect = function (x, y, coins, inverse) {
                     var _this = this;
@@ -5935,7 +5938,7 @@ var FlipPlus;
                     coins = Math.min(coins, 10);
                     var interval = 1000 / coins;
                     for (var c = 0; c <= coins; c++) {
-                        var coin = this.addCoinIcon();
+                        var coin = this.createIcon();
                         var dest = { x: x, y: y };
                         var orign = { x: coin.x, y: coin.y };
                         // adds random position on the destination if is inverse
@@ -5958,27 +5961,37 @@ var FlipPlus;
                             createjs.Tween.get(coin).wait(interval / 3 * (c - 1)).to(orign).to(dest, 500, createjs.Ease.quadInOut).call(call);
                     }
                 };
-                CoinsIndicator.prototype.addCoinIcon = function () {
+                CoinsIndicator.prototype.createIcon = function () {
                     var icon = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
                     icon.scale.x = icon.scale.y = 0.9;
                     icon.pivot.y = 93 / 2;
-                    icon.x = 45;
                     icon.y = 35 + icon.pivot.y;
                     icon.name = "icon";
-                    this.addChild(icon);
                     return icon;
+                };
+                CoinsIndicator.prototype.createText = function () {
+                    var coinsTextField = gameui.AssetsManager.getBitmapText("0", "fontWhite");
+                    coinsTextField.x = 130;
+                    coinsTextField.y = 30;
+                    return coinsTextField;
+                };
+                CoinsIndicator.prototype.createBG = function () {
+                    var bg = gameui.AssetsManager.getBitmap("partshud");
+                    bg.pivot.x = 380 / 2;
+                    return bg;
                 };
                 //add objects to View
                 CoinsIndicator.prototype.buildView = function () {
                     // add Background
-                    this.bg = gameui.AssetsManager.getBitmap("partshud");
-                    this.bg.pivot.x = 0;
+                    this.bg = this.createBG();
                     this.addChild(this.bg);
-                    this.icon = this.addCoinIcon();
-                    this.coinsTextField = gameui.AssetsManager.getBitmapText("0", "fontWhite");
-                    this.coinsTextField.x = 170;
-                    this.coinsTextField.y = 30;
-                    this.addChild(this.coinsTextField);
+                    // add contents
+                    this.contents = new PIXI.Container();
+                    this.addChild(this.contents);
+                    this.icon = this.createIcon();
+                    this.coinsTextField = this.createText();
+                    this.contents.addChild(this.icon);
+                    this.contents.addChild(this.coinsTextField);
                 };
                 return CoinsIndicator;
             }(gameui.Button));

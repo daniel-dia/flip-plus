@@ -3,6 +3,7 @@ module FlipPlus.Menu.View {
     // View Class
     export class CoinsIndicator extends gameui.Button{
 
+        private contents: PIXI.Container;
         private coinsTextField: PIXI.extras.BitmapText;
         private bg: PIXI.Sprite;
         private icon: PIXI.Sprite;
@@ -30,7 +31,11 @@ module FlipPlus.Menu.View {
             this.bg.scaleX = Math.max(newScale, 1);
 
             // centralize in screen
-            this.x = defaultWidth / 2 - this.bg.getLocalBounds().width / 2;
+            //this.x = defaultWidth / 2 - this.bg.getLocalBounds().width / 2;
+
+            // centralize contents
+            var w = this.contents.getLocalBounds().width;
+            this.contents.regX = w / 2;
         }
 
         public createCoinEffect(x: number, y: number, coins: number, inverse: boolean=false) {
@@ -40,7 +45,7 @@ module FlipPlus.Menu.View {
 
             var interval = 1000 / coins;
             for (var c = 0; c <= coins; c++) {
-                var coin = this.addCoinIcon();
+                var coin = this.createIcon();
 
                 var dest  = { x: x, y: y };
                 var orign = { x: coin.x, y: coin.y }
@@ -66,31 +71,43 @@ module FlipPlus.Menu.View {
             }
         }
 
-        private addCoinIcon(): PIXI.Sprite {
+        private createIcon(): PIXI.Sprite {
             var icon = gameui.AssetsManager.getBitmap("puzzle/icon_coin");
             icon.scale.x = icon.scale.y = 0.9;
             icon.pivot.y = 93/2;
-            icon.x = 45;
             icon.y = 35 + icon.pivot.y;
             icon.name = "icon";
-            this.addChild(icon);
             return icon;
         }
+        
+        private createText(): PIXI.extras.BitmapText {
+            var coinsTextField = gameui.AssetsManager.getBitmapText("0", "fontWhite");
+            coinsTextField.x = 130;
+            coinsTextField.y = 30;
+            return coinsTextField;
+        }
 
+        private createBG(): PIXI.Sprite {
+            var bg = gameui.AssetsManager.getBitmap("partshud");
+            bg.pivot.x = 380/2;
+            return bg;
+        }
         //add objects to View
         private buildView() {
-
+                       
             // add Background
-            this.bg = gameui.AssetsManager.getBitmap("partshud");
-            this.bg.pivot.x = 0;
+            this.bg = this.createBG();
             this.addChild(this.bg);
 
-            this.icon = this.addCoinIcon();
+            // add contents
+            this.contents = new PIXI.Container();
+            this.addChild(this.contents);
+            
+            this.icon = this.createIcon();
+            this.coinsTextField = this.createText();
 
-            this.coinsTextField = gameui.AssetsManager.getBitmapText("0", "fontWhite");
-            this.coinsTextField.x = 170;
-            this.coinsTextField.y = 30;
-            this.addChild(this.coinsTextField);
+            this.contents.addChild(this.icon);
+            this.contents.addChild(this.coinsTextField);
 
         }
     }
