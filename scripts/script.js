@@ -1637,7 +1637,8 @@ var FlipPlus;
                 //FlipPlusGame.analytics.logLevelWin(this.levelData.name, time , this.clicks)
                 FlipPlus.FlipPlusGame.analytics.logProfessionWin(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks);
                 // freze the board
-                this.boardSprite.mouseEnabled = false;
+                this.boardSprite.interactive = false;
+                this.boardSprite.interactiveChildren = false;
                 // play a win sound
                 gameui.AudiosManager.playSound("final");
                 //verifies if user already completed this level and verifies if player used any item in the game
@@ -4798,7 +4799,7 @@ var FlipPlus;
                 // update enabled Projects
                 this.addProjects(this.levelsManager.getAllProjects());
                 // unlock project based on stars
-                FlipPlus.FlipPlusGame.levelsManager.updateUnlockedProjectsByStars();
+                FlipPlus.FlipPlusGame.levelsManager.updateProjectsUserData();
                 // get first non completed project 
                 var page = FlipPlus.FlipPlusGame.levelsManager.getFirstNonCompleted();
                 // get player current project
@@ -5028,6 +5029,7 @@ var FlipPlus;
                 }
             };
             MainMenu.prototype.addTerminal = function () {
+                FlipPlus.FlipPlusGame.levelsManager.updateProjectsUserData();
                 this.terminal = new Menu.View.Terminal();
                 this.terminal.x = 361;
                 this.terminal.y = 451;
@@ -6416,7 +6418,7 @@ var FlipPlus;
                 for (var i = 0; i < this.levelsData.length; i++)
                     this.updateProjectUserData(this.levelsData[i]);
                 var unlockeds = 0;
-                for (var p = 0; p++; p < this.levelsData.length)
+                for (var p = 0; p < this.levelsData.length; p++)
                     if (this.levelsData[p].UserData.complete)
                         unlockeds++;
                 this.unlockedCount = unlockeds;

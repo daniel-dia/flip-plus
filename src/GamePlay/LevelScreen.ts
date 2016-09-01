@@ -278,7 +278,8 @@ module FlipPlus.GamePlay {
             FlipPlusGame.analytics.logProfessionWin(this.levelData.projectId, this.levelData.leveld, this.levelData.userdata.playedTimes, time, this.clicks)
 
             // freze the board
-            this.boardSprite.mouseEnabled = false;
+            this.boardSprite.interactive = false;
+            this.boardSprite.interactiveChildren = false;
 
             // play a win sound
             gameui.AudiosManager.playSound("final");

@@ -322,7 +322,7 @@ module FlipPlus.Levels {
         }
 
         // unlocks projects based on stars
-        public updateUnlockedProjectsByStars() {
+        private updateUnlockedProjectsByStars() {
             var stars = this.getStarsCount();
 
             for (var p in this.levelsData)
@@ -337,7 +337,7 @@ module FlipPlus.Levels {
                 this.updateProjectUserData(this.levelsData[i]);
 
             var unlockeds = 0;
-            for (var p = 0; p++; p < this.levelsData.length)
+            for (var p = 0; p < this.levelsData.length; p++)
                 if (this.levelsData[p].UserData.complete)
                     unlockeds++;
 

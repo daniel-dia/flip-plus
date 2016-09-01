@@ -212,7 +212,7 @@ module FlipPlus.Menu {
             this.addProjects(this.levelsManager.getAllProjects());
 
             // unlock project based on stars
-            FlipPlusGame.levelsManager.updateUnlockedProjectsByStars();
+            FlipPlusGame.levelsManager.updateProjectsUserData();
 
             // get first non completed project 
             var page = FlipPlusGame.levelsManager.getFirstNonCompleted();

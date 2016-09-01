@@ -130,6 +130,9 @@ module FlipPlus.Menu {
         }
         
         private addTerminal() {
+
+            FlipPlusGame.levelsManager.updateProjectsUserData();
+
             this.terminal = new View.Terminal();
             this.terminal.x = 361;
             this.terminal.y = 451;
