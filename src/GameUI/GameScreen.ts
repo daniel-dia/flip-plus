@@ -2,8 +2,8 @@
 declare function setMobileScale(a: number);
 declare var assetscale: number;
 declare function requestAnimationFrame(callback: any): void;
-declare var win;
-win = false;
+declare var notCocoon;
+notCocoon = false;
 //TODO remove universal variable defaultWidth and DefaultHeigth
 
 module gameui {
@@ -21,6 +21,8 @@ module gameui {
         private canvasWidth: number;
         private canvasHeight: number;
 
+        private currentScale: number;
+
         //Screen arrangement
         public headerPosition: number;
         public footerPosition: number;
@@ -34,19 +36,24 @@ module gameui {
 
         //screen content
         private screenContainer: PIXI.Container;
-         
+
+        // atualização da tela
+        private time: number;
+
+
         //-----------------------------------------------------------------------
 
-        constructor(divId: string, gameWidth: number, gameHeight?: number, fps: number = 60) {
+        constructor(divId: string, gameWidth: number, gameHeight?: number, fps: number = 60, legacy: boolean = false) {
 
             this.defaultWidth = gameWidth;
             this.defaultHeight = gameHeight;
 
             // create a renderer instance.
             PIXIstage = new PIXI.Container();
-            PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { backgroundColor: 0 });
-            var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer);
-            
+            //PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { legacy: legacy });
+            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight);//, { backgroundColor: 0 });
+            //var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer);
+
             // add the renderer view element to the DOM
             document.getElementById(divId).appendChild(PIXIrenderer.view);
 
@@ -57,31 +64,33 @@ module gameui {
             this.resizeGameScreen(window.innerWidth, window.innerHeight);
             window.onresize = () => { this.resizeGameScreen(window.innerWidth, window.innerHeight); };
 
-            //if is not cocoon, then .. its windows
-            if (!window["Cocoon"]) win = true;
-            updateFn = this.update
             createjs.Tween["_inited"] = true;
-            requestAnimationFrame(updateFn);
+
+            //if is not cocoon, then .. its windows
+            if (!window["Cocoon"]) notCocoon = true;
+            updateFn = this.update
+            updateFn();
         }
 
 
-        // atualização da tela
-        private time;
-        private update(timestamp) {
-
+        private update(timestamp: number): void {
+            if (!timestamp) timestamp = Date.now();
             if (!this.time) this.time = timestamp;
+
             var delta = timestamp - this.time;
             this.time = timestamp;
+            var fps = 60
+            var delay = Math.min(1000 / fps, (1000 / fps - delta))
 
             createjs.Tween.tick(delta, false);
             PIXIrenderer.render(PIXIstage);
 
-            // gambiarra para o edge dar prioridade pros toques no Windows Mobile 10
-            if (win) setTimeout(function () { setTimeout(function () { requestAnimationFrame(updateFn); }, 0); }, 0);
-            
-            
-            else requestAnimationFrame(updateFn);
-           
+            //opera de modo diferente se não for cocoon
+            if (notCocoon)
+                setTimeout(updateFn, delay);
+            else
+                requestAnimationFrame(updateFn);
+
         }
 
         // switch current screen, optionaly with a pre defined transition
@@ -127,21 +136,19 @@ module gameui {
 
                     case "zoomOut":
                         scale = 1 / 5;
-                        x = (defaultWidth  )*2;
-                        y = (defaultHeight )*2;
+                        x = (defaultWidth) * 2;
+                        y = (defaultHeight) * 2;
                         alpha = 0;
                         break;
 
                     case "zoomIn":
                         scale = 5;
-                        x = -(defaultWidth  / 2);
+                        x = -(defaultWidth / 2);
                         y = -(defaultHeight / 2);
                         alpha = 0;
                         break;
                 }
 
-                newScreen.view.interactive = false;
-                oldScreen.view.interactive = false;
                 newScreen.view.interactiveChildren = false;
                 oldScreen.view.interactiveChildren = false;
                 oldScreen.transitioning = true;
@@ -149,12 +156,12 @@ module gameui {
                 //and transition = fade
                 if (transition.type && transition.type != "none") {
 
-                     //fade between transitions
+                    //fade between transitions
                     newScreen.view.alpha = alpha;
                     newScreen.view.x = -x;
                     newScreen.view.y = -y;
-                    newScreen.view.scaleX = 1/scale;
-                    newScreen.view.scaleY = 1/scale;
+                    newScreen.view.scaleX = 1 / scale;
+                    newScreen.view.scaleY = 1 / scale;
 
                     oldScreen.view.alpha = 1;
                     oldScreen.view.x = 0;
@@ -167,8 +174,6 @@ module gameui {
                         oldScreen.view.set({ scaleX: 1, scaleY: 1, alpha: 0, x: 0, y: 0 })
                         newScreen.view.set({ scaleX: 1, scaleY: 1, alpha: 1, x: 0, y: 0 })
 
-                        newScreen.view.interactive = true;
-                        oldScreen.view.interactive = true;
                         newScreen.view.interactiveChildren = true;
                         oldScreen.view.interactiveChildren = true;
                         oldScreen.transitioning = false;
@@ -204,34 +209,22 @@ module gameui {
         }
 
         // resize GameScreen to a diferent scale
-        public resizeGameScreen(deviceWidth: number, deviceHeight: number, updateCSS: boolean = true) {
+        public resizeGameScreen(deviceWidth: number, deviceHeight: number) {
 
-            
             //keep aspect ratio 
             if (this.defaultHeight) {
-                var aspect = this.defaultWidth / this.defaultHeight;
+                var defaultAspect = this.defaultWidth / this.defaultHeight;
                 var aspectReal = deviceWidth / deviceHeight;
 
-                if (aspectReal > aspect) {
+                if (aspectReal > defaultAspect) {
                     var s = deviceHeight / this.defaultHeight;
                     deviceWidth = this.defaultWidth * s;
                 }
             }
 
             PIXIrenderer.resize(deviceWidth, deviceHeight);
-            // this.PIXIrenderer.width = deviceWidth;
-            // this.PIXIrenderer.height = deviceHeight;
 
             this.updateViewerScale(deviceWidth, deviceHeight, this.defaultWidth, this.defaultHeight);
-        }
-		
-        // send hw back button event
-        public sendBackButtonEvent(): boolean {
-            if (this.currentScreen && this.currentScreen.onback && !this.currentScreen.transitioning) {
-                this.currentScreen.onback();
-                return false;
-            }
-            else return true
         }
 
         // updates screen viewer scale
@@ -242,16 +235,23 @@ module gameui {
             this.currentWidth = realWidth / scale;
             this.defaultWidth = defaultWidth;
 
-            //set header and footer positions
+            // set header and footer positions
             this.headerPosition = -(this.currentHeight - defaultHeight) / 2;
             this.footerPosition = defaultHeight + (this.currentHeight - defaultHeight) / 2;
 
-            //set the viewer offset to centralize in window
+            // set the viewer offset to centralize in window
             this.screenContainer.scaleX = this.screenContainer.scaleY = scale;
             this.screenContainer.y = this.viewerOffset = (this.currentHeight - defaultHeight) / 2 * scale;
 
-            //updates current screen
+            // updates current screen
             if (this.currentScreen) this.currentScreen.redim(this.headerPosition, this.footerPosition, this.currentWidth, this.currentHeight);
+
+            // update corrent scale
+            this.currentScale = scale;
+        }
+
+        public getCurrentScale() {
+            return this.currentScale;
         }
 
         // deletes old screen
@@ -263,7 +263,14 @@ module gameui {
             }
         }
 
-
+        // send hw back button event
+        public sendBackButtonEvent(): boolean {
+            if (this.currentScreen && this.currentScreen.onback && !this.currentScreen.transitioning) {
+                this.currentScreen.onback();
+                return false;
+            }
+            else return true
+        }
     }
 }
 

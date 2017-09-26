@@ -80,15 +80,15 @@
 
         private presdown(event: PIXI.interaction.InteractionEvent)  {
             if (this.locked) return;
-            event.target.pressed = true;
+            event.target["pressed"] = true;
             this.preInvertCross(<BlockSprite>event.target);
         }
 
         private tap(event: PIXI.interaction.InteractionEvent) {
-            if (!event.target.pressed) return;
+            if (!event.target["pressed"]) return;
             if (this.locked) return;
 
-            event.target.pressed = false;
+            event.target["pressed"] = false;
             this.preInvertRelease(<BlockSprite>event.target);
             
             // get block
@@ -107,8 +107,8 @@
         }
 
         private pressRelease(event: PIXI.interaction.InteractionEvent)  {
-            if (!event.target.pressed) return;
-            event.target.pressed = false;
+            if (!event.target["pressed"]) return;
+            event.target["pressed"] = false;
             this.preInvertRelease(<BlockSprite>event.target);
         }
 

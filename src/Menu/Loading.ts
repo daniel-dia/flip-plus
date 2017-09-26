@@ -27,52 +27,47 @@ module FlipPlus.Menu {
 
             // only HiRes if iOS
             if (window["Cocoon"]) {
-                if(Cocoon.getPlatform() === 'ios')
+                if (Cocoon.getPlatform() === 'ios')
                     assetscale = 1;
             }
 
             if (window.innerWidth <= 1070) assetscale = 0.5;
             if (window.innerWidth <= 384) assetscale = 0.25;
-            if (levelCreatorMode) { assetscale = 1 }
+            //if (levelCreatorMode) { assetscale = 1 }
 
             this.preLoad();
-        } 
-        
+        }
+
         private preLoad() {
 
             var imagePath = "assets/images@" + assetscale + "x/";
-            
-            //creates load complete action
-            gameui.AssetsManager.onComplete = () => {
-                this.addBeach();
+
+
+            gameui.AssetsManager.loadAssets(logoManifest, imagePath);
+
+            gameui.AssetsManager.load(() => {
+                  this.addBeach();
                 gameui.AssetsManager.reset();
                 this.load();
-
-            }
-            gameui.AssetsManager.loadAssets(logoManifest, imagePath);
-        } 
+            });
+        }
 
         private load() {
             var imagePath = "assets/images@" + assetscale + "x/";
             var audioPath = "assets/sound/";
 
-            //creates load complete action
-            gameui.AssetsManager.onComplete = () => {
-                if (this.loaded) this.loaded();
-            }
-        
             //add update % functtion
             gameui.AssetsManager.onProgress = (progress: number) => {
                 loadinBar.update(progress)
             };
-            
+
             //load audio
-            if (!levelCreatorMode && typeof WPAudioManager == 'undefined') {
+            if (typeof WPAudioManager == 'undefined') {
                 createjs.Sound.alternateExtensions = ["mp3"];
                 createjs.Sound.registerSounds(audioManifest, audioPath);
             }
 
-             
+
             gameui.AssetsManager.loadAssets(imageManifest, imagePath);
             gameui.AssetsManager.loadFontSpriteSheet("fontWhite", "fontWhite.fnt");
             gameui.AssetsManager.loadFontSpriteSheet("fontBlue", "fontBlue.fnt");
@@ -92,9 +87,13 @@ module FlipPlus.Menu {
             loadinBar.x = defaultWidth / 2;
             loadinBar.y = defaultHeight / 2 + 500;
 
+            gameui.AssetsManager.load(() => {
+                if (this.loaded)
+                    this.loaded();
+            })
 
         }
-        
+
         private addBeach() {
             var logo = new lib_logo.LogoScreen();
             this.content.addChild(logo);
@@ -109,7 +108,7 @@ module FlipPlus.Menu {
             super.redim(headerY, footerY, width, height);
             if (this.beach) this.beach.y = -headerY / 4 - 616 + 77 / 4 + 9;
         }
-        
+
     }
 
 
@@ -134,7 +133,7 @@ module FlipPlus.Menu {
             //text.pivot.x = text.getLocalBounds().width / 2;
             bar.pivot.x = Math.floor(bg.pivot.x = w / 2)
             bar.pivot.y = Math.floor(bg.pivot.y = h / 2)
-            
+
             //text.y = -200;
 
             this.barMask = new PIXI.Graphics().beginFill(0xFF0000, 1).drawRect(0, -h / 2, w, h).endFill();;

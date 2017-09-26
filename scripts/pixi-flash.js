@@ -50,13 +50,13 @@
  * @namespace pixiflash
  */
 (function (window) {
-    /**
+	/**
 	 * Utilities for converting 
 	 * @class utils
 	 */
     var utils = {};
 
-    /**
+	/**
 	 * Convert the loaded texture atlas to images
 	 * @method addImages
 	 * @static
@@ -74,7 +74,7 @@
         }
     };
 
-    /**
+	/**
 	 * Convert a string color "#ffffff" to int 0xffffff
 	 * @method colorToHex
 	 * @private
@@ -86,8 +86,8 @@
             // Remove "rgba(" and ")" and turn into array
             color = color.substring(5, color.length - 1).split(',');
             color = 65536 * parseInt(color[0]) +
-				256 * parseInt(color[1]) +
-				parseInt(color[2]);
+                256 * parseInt(color[1]) +
+                parseInt(color[2]);
         }
         else {
             color = parseInt(color.replace(/^#/, ''), 16);
@@ -104,54 +104,9 @@
  * @namespace pixiflash
  */
 (function (undefined) {
-    var AbstractFilter = PIXI.AbstractFilter;
+    var PixiCMFilter = PIXI.filters.ColorMatrixFilter;
 
-    //Modified colorMatrix.frag from PIXI to avoid having color offsets mess with transparency
-    var COLOR_FRAG =
-	"precision mediump float;" +
-	"varying vec2 vTextureCoord;" +
-	"uniform sampler2D uSampler;" +
-	"uniform float m[25];" +
-	"void main(void)" +
-	"{" +
-	"vec4 c = texture2D(uSampler, vTextureCoord);" +
-	"gl_FragColor.r = (m[0] * c.r);" +
-	"    gl_FragColor.r += (m[1] * c.g);" +
-	"    gl_FragColor.r += (m[2] * c.b);" +
-	"    gl_FragColor.r += (m[3] * c.a);" +
-	"    gl_FragColor.r += m[4] * c.a;" +
-	"gl_FragColor.g = (m[5] * c.r);" +
-	"    gl_FragColor.g += (m[6] * c.g);" +
-	"    gl_FragColor.g += (m[7] * c.b);" +
-	"    gl_FragColor.g += (m[8] * c.a);" +
-	"    gl_FragColor.g += m[9] * c.a;" +
-	" gl_FragColor.b = (m[10] * c.r);" +
-	"    gl_FragColor.b += (m[11] * c.g);" +
-	"    gl_FragColor.b += (m[12] * c.b);" +
-	"    gl_FragColor.b += (m[13] * c.a);" +
-	"    gl_FragColor.b += m[14] * c.a;" +
-	" gl_FragColor.a = (m[15] * c.r);" +
-	"    gl_FragColor.a += (m[16] * c.g);" +
-	"    gl_FragColor.a += (m[17] * c.b);" +
-	"    gl_FragColor.a += (m[18] * c.a);" +
-	"    gl_FragColor.a += m[19] * c.a;" +
-	"}";
-
-    //uniform from PIXI.ColorMatrixFilter
-    var UNIFORMS =
-	{
-	    m: {
-	        type: '1fv', value: [
-	            1, 0, 0, 0, 0,
-	            0, 1, 0, 0, 0,
-	            0, 0, 1, 0, 0,
-	            0, 0, 0, 1, 0
-	        ]
-	    }
-	};
-
-
-    /**
+	/**
 	 * The class to emulate some of the functionality of createjs.ColorFilter (multiplicative values only -Advanced Color option in Flash)
 	 * (acts only as a container for multiplicative values, to be  used by DisplayObject)
 	 * @class ColorFilter
@@ -178,16 +133,16 @@
             this.tint = (Math.round(r * max) << 16) | (Math.round(g * max) << 8) | Math.round(b * max);
         }
         else {
-            AbstractFilter.call(this, null, COLOR_FRAG, UNIFORMS);
+            PixiCMFilter.call(this);
             this.isTintOnly = false;
             this.uniforms.m.value = [r, 0, 0, 0, rO / 255,
-									0, g, 0, 0, gO / 255,
-									0, 0, b, 0, bO / 255,
-									0, 0, 0, a, aO / 255];
+                0, g, 0, 0, gO / 255,
+                0, 0, b, 0, bO / 255,
+                0, 0, 0, a, aO / 255];
         }
     };
 
-    var s = AbstractFilter.prototype;
+    var s = PixiCMFilter.prototype;
     var p = ColorFilter.prototype = Object.create(s);
 
     pixiflash.ColorFilter = ColorFilter;
@@ -198,7 +153,7 @@
  * @namespace pixiflash
  */
 (function (undefined) {
-    /**
+	/**
 	 * A class that stores values output by Flash for the actual color matrix filter.
 	 * @class ColorMatrix
 	 * @param {Number} brightness Amount to adjust brightness by, as a value to add from -255 to 255
@@ -221,55 +176,9 @@
  * @namespace pixiflash
  */
 (function (undefined) {
-    var AbstractFilter = PIXI.AbstractFilter;
     var PixiCMFilter = PIXI.filters.ColorMatrixFilter;
 
-    //Modified colorMatrix.frag from PIXI to avoid having color offsets mess with transparency
-    var COLOR_FRAG =
-	"precision mediump float;" +
-	"varying vec2 vTextureCoord;" +
-	"uniform sampler2D uSampler;" +
-	"uniform float m[25];" +
-	"void main(void)" +
-	"{" +
-	"vec4 c = texture2D(uSampler, vTextureCoord);" +
-	"gl_FragColor.r = (m[0] * c.r);" +
-	"    gl_FragColor.r += (m[1] * c.g);" +
-	"    gl_FragColor.r += (m[2] * c.b);" +
-	"    gl_FragColor.r += (m[3] * c.a);" +
-	"    gl_FragColor.r += m[4] * c.a;" +
-	"gl_FragColor.g = (m[5] * c.r);" +
-	"    gl_FragColor.g += (m[6] * c.g);" +
-	"    gl_FragColor.g += (m[7] * c.b);" +
-	"    gl_FragColor.g += (m[8] * c.a);" +
-	"    gl_FragColor.g += m[9] * c.a;" +
-	" gl_FragColor.b = (m[10] * c.r);" +
-	"    gl_FragColor.b += (m[11] * c.g);" +
-	"    gl_FragColor.b += (m[12] * c.b);" +
-	"    gl_FragColor.b += (m[13] * c.a);" +
-	"    gl_FragColor.b += m[14] * c.a;" +
-	" gl_FragColor.a = (m[15] * c.r);" +
-	"    gl_FragColor.a += (m[16] * c.g);" +
-	"    gl_FragColor.a += (m[17] * c.b);" +
-	"    gl_FragColor.a += (m[18] * c.a);" +
-	"    gl_FragColor.a += m[19] * c.a;" +
-	"}";
-
-    //uniform from PIXI.ColorMatrixFilter
-    var UNIFORMS =
-	{
-	    m: {
-	        type: '1fv', value: [
-	            1, 0, 0, 0, 0,
-	            0, 1, 0, 0, 0,
-	            0, 0, 1, 0, 0,
-	            0, 0, 0, 1, 0
-	        ]
-	    }
-	};
-
-
-    /**
+	/**
 	 * The class to emulate some the functionality of the AdjustColor filter in Flash. This is a
 	 * modified version of PIXI.filters.ColorMatrixFilter, with the same fragment shader as
 	 * pixiflash.ColorFilter and a constructor to automatically apply the parameters from the
@@ -278,7 +187,7 @@
 	 * @param {pixiflash.ColorMatrix} colorData The ColorMatrix object containing color settings.
 	 */
     var ColorMatrixFilter = function (colorData) {
-        AbstractFilter.call(this, null, COLOR_FRAG, UNIFORMS);
+        PixiCMFilter.call(this);
 
         //values are handled in a specific order: hue, contrast, brightness, saturation
         if (colorData.hue !== 0) {
@@ -292,9 +201,9 @@
         if (colorData.brightness !== 0) {
             var b = colorData.brightness / 255;
             var matrix = [1, 0, 0, 0, b,
-							0, 1, 0, 0, b,
-							0, 0, 1, 0, b,
-							0, 0, 0, 1, 0];
+                0, 1, 0, 0, b,
+                0, 0, 1, 0, b,
+                0, 0, 0, 1, 0];
             this._loadMatrix(matrix, true);
         }
         if (colorData.saturation !== 0) {
@@ -302,7 +211,7 @@
         }
     };
 
-    var s = AbstractFilter.prototype;
+    var s = PixiCMFilter.prototype;
     var p = ColorMatrixFilter.prototype = Object.create(s);
 
     pixiflash.ColorMatrixFilter = ColorMatrixFilter;
@@ -314,7 +223,7 @@
  */
 (function (undefined) {
     var PixiBlur = PIXI.filters.BlurFilter;
-    /**
+	/**
 	 * The class to translate the functionality of createjs.BlurFilter to PIXI.filters.BlurFilter.
 	 * This will only function in WebGL.
 	 * @class BlurFilter
@@ -345,7 +254,7 @@
     var ColorFilter = pixiflash.ColorFilter;
     var uniqueId = 0;
 
-    /**
+	/**
 	*  Mixins for the display objects used for bridging CreateJS over to PIXI.
 	*  @class DisplayObject
 	*/
@@ -354,13 +263,13 @@
 
         //mark these objects so that we can recognize them internally.
         this._isPixiFlash = true;
-        /**
+		/**
 		 * x and y skew of the display object, with values in radians.
 		 * @property {PIXI.Point} skew
 		 */
         this.skew = new Point();
 
-        /**
+		/**
 		 * Rotation of the display object, with values in radians.
 		 * @property {Number} rotation
 		 */
@@ -374,7 +283,7 @@
         this._cachedRotY = 0;
         this._cachedRotX = 0;
 
-        /**
+		/**
 		 * If false, the tick will not run on this display object (or its children). This can provide some performance benefits.
 		 * In addition to preventing the "tick" event from being dispatched, it will also prevent tick related updates
 		 * on some display objects (ex. Sprite & MovieClip frame advancing, DOMElement visibility handling).
@@ -403,247 +312,265 @@
     var PI_2 = Math.PI * 2;
 
     Object.defineProperties(p,
-	{
-	    /**
-		 * Private array of filters - for interpretation of CJS ColorFilters as PIXI tint
-		 * @property {Array} _filters
-		 */
-	    _filters:
-		{
-		    enumerable: true,
-		    get: function () { return this.__filters; },
-		    set: function (value) {
-		        if (!value) {
-		            this.__filters = null;
-		        }
-		        else if (value.length == 1 && value[0] instanceof ColorFilter && value[0].isTintOnly) {
-		            //ColorFilter added by CJS exporter - convert to PIXI tint
-		            this.tint = value[0].tint;
-		            this.__filters = null;
-		        }
-		        else {
-		            //make a copy, strip out any possible ColorFilters
-		            this.__filters = [];
-		            for (var i = 0; i < value.length; ++i) {
-		                if (value[i] instanceof ColorFilter && value[i].isTintOnly) {
-		                    //ColorFilter added by CJS exporter - convert to PIXI tint
-		                    this.tint = value[i].tint;
-		                }
-		                else {
-		                    //normal PIXI filter or our wrapper for one?
-		                    this.__filters.push(value[i]);
-		                }
-		            }
-		        }
-		    }
-		},
-	    /**
-		 * Tint to apply to this display object - Interpreted from CJS ColorFilter (multiplicative only)
-		 * @property {UInt} tint
-		 */
-	    tint:
-		{
-		    enumerable: true,
-		    get: function () {
-		        var parent = this.parent;
-		        if (parent && parent._isPixiFlash) {
-		            var selfTint = this._selfTint;
-		            var parentTint = parent.tint;
+        {
+            /**
+             * Private array of filters - for interpretation of CJS ColorFilters as PIXI tint
+             * @property {Array} _filters
+             */
+            _filters:
+            {
+                enumerable: true,
+                get: function () { return this.__filters; },
+                set: function (value) {
+                    if (!value) {
+                        this.__filters = null;
+                    }
+                    else if (value.length == 1 && value[0] instanceof ColorFilter && value[0].isTintOnly) {
+                        //ColorFilter added by CJS exporter - convert to PIXI tint
+                        this._tintRGB = this.tint = value[0].tint;
+                        this.__filters = null;
+                    }
+                    else {
+                        //make a copy, strip out any possible ColorFilters
+                        this.__filters = [];
+                        for (var i = 0; i < value.length; ++i) {
+                            if (value[i] instanceof ColorFilter && value[i].isTintOnly) {
+                                //ColorFilter added by CJS exporter - convert to PIXI tint
+                                this._tintRGB = this.tint = value[i].tint;
+                            }
+                            else {
+                                //normal PIXI filter or our wrapper for one?
+                                this.__filters.push(value[i]);
+                            }
+                        }
+                    }
+                }
+            },
 
-		            if (selfTint == 0xFFFFFF)
-		                this._lastComputedTint = parentTint;
-		            else if (parentTint == 0xFFFFFF)
-		                this._lastComputedTint = selfTint;
-		            else if (selfTint != this._lastSelfTint || parentTint != this._lastParentTint) {
-		                //calculate tint first time
-		                var max = 255;
-		                var parentR = (parentTint >> 16) & 0xff;
-		                var parentG = (parentTint >> 8) & 0xff;
-		                var parentB = parentTint & 0xff;
-		                var selfR = (selfTint >> 16) & 0xff;
-		                var selfG = (selfTint >> 8) & 0xff;
-		                var selfB = selfTint & 0xff;
+            /**
+            * Tint to apply to this display object - Interpreted from CJS ColorFilter (multiplicative only)
+            * @property {UInt} tint
+            */
 
-		                this._lastComputedTint = (Math.round((parentR * selfR) / max) << 16) | (Math.round((parentG * selfG) / max) << 8) | Math.round((parentB * selfB) / max);
-		            }
 
-		            this._lastSelfTint = selfTint;
-		            this._lastParentTint = parentTint;
+            _tintRGB:
+            {
+                enumerable: true,
+                get: function () {
+                    return 0xFFFFFF;
+                },
+                set: function (value) {}
+            },
 
-		            return this._lastComputedTint;
-		        }
-		        else {
-		            return this._selfTint;
-		        }
-		    },
-		    set: function (value) {
-		        this._selfTint = value;
-		    }
-		},
-	    /**
-		 * The x skew value of the display object, in degrees.
-		 * This property provides parity with CreateJS display objects.
-		 * @property {Number} skewX
-		 */
-	    skewX:
-		{
-		    enumerable: true,
-		    get: function () { return this.skew.x * RAD_TO_DEG; },
-		    set: function (value) {
-		        this.skew.x = value * DEG_TO_RAD;
-		    }
-		},
-	    /**
-		 * The y skew value of the display object, in degrees.
-		 * This property provides parity with CreateJS display objects.
-		 * @property {Number} skewY
-		 */
-	    skewY:
-		{
-		    enumerable: true,
-		    get: function () { return this.skew.y * RAD_TO_DEG; },
-		    set: function (value) {
-		        this.skew.y = value * DEG_TO_RAD;
-		    }
-		},
-	    /**
-		 * The rotation of the display object, in degrees.
-		 * This overrides the radian degrees of the PIXI display objects so that
-		 * tweening exported from Flash will work correctly.
-		 * @property {Number} rotation
-		 */
-	    rotation:
-		{
-		    enumerable: true,
-		    get: function () { return this._rotation * RAD_TO_DEG; },
-		    set: function (value) {
-		        this._rotation = value * DEG_TO_RAD;
-		    }
-		},
-	    /**
-		 * The x scale value of the display object.
-		 * This property provides parity with CreateJS display objects.
-		 * @property {Number} scaleX
-		 */
-	    scaleX:
-		{
-		    enumerable: true,
-		    get: function () { return this.scale.x; },
-		    set: function (value) {
-		        this.scale.x = value;
-		    }
-		},
-	    /**
-		 * The y scale value of the display object.
-		 * This property provides parity with CreateJS display objects.
-		 * @property {Number} scaleY
-		 */
-	    scaleY:
-		{
-		    enumerable: true,
-		    get: function () { return this.scale.y; },
-		    set: function (value) {
-		        this.scale.y = value;
-		    }
-		},
-	    /**
-		 * The x value of the registration, or pivot, point.
-		 * This property provides parity with CreateJS display objects.
-		 * @property {Number} regX
-		 */
-	    regX:
-		{
-		    enumerable: true,
-		    get: function () { return this.pivot.x; },
-		    set: function (value) {
-		        this.pivot.x = value;
-		    }
-		},
-	    /**
-		 * The y value of the registration, or pivot, point.
-		 * This property provides parity with CreateJS display objects.
-		 * @property {Number} regY
-		 */
-	    regY:
-		{
-		    enumerable: true,
-		    get: function () { return this.pivot.y; },
-		    set: function (value) {
-		        this.pivot.y = value;
-		    }
-		},
+            /**
+             * Tint to apply to this display object - Interpreted from CJS ColorFilter (multiplicative only)
+             * @property {UInt} tint
+             */
 
-	    /**
-		 * The drawing graphics, these are necessary
-		 * for the compability with EaselJS Flash exports.
-		 * @property {pixiflash.Shape|pixiflash.Sprite} mask
-		 */
-	    mask: {
-	        enumerable: true,
-	        get: function () {
-	            return this._mask;
-	        },
-	        set: function (mask) {
-	            var _maskShape = this._maskShape;
-	            //if the old mask is a shape and is not the new mask, remove it
-	            if (_maskShape && mask != _maskShape) {
-	                if (--_maskShape._maskUses < 1) {
-	                    if (_maskShape.parent)
-	                        _maskShape.parent.removeChild(_maskShape);
-	                }
-	                _maskShape.off('graphicsChanged', this.onShapeChanged);
-	            }
-	            if (this._mask) {
-	                //is this safe if a mask is reused multiple places?
-	                this._mask.renderable = true;
-	            }
-	            // If the mask is a shape apply the graphics as the shape
-	            if (mask && mask instanceof pixiflash.Shape) {
-	                if (!this.boundMaskChanged) {
-	                    this.boundMaskChanged = true;
-	                    this.onShapeChanged = this.onShapeChanged.bind(this);
-	                    this.onAddedWithMask = this.onAddedWithMask.bind(this);
-	                }
-	                if (_maskShape != mask) {
-	                    _maskShape = this._maskShape = mask;
-	                    ++_maskShape._maskUses;
-	                    _maskShape.on('graphicsChanged', this.onShapeChanged);
-	                }
-	                if (mask.graphics.graphicsData.length) {
-	                    this._mask = mask.graphics;
-	                }
-	                else
-	                    this._mask = null;
-	            }
-	            else {
-	                this._mask = mask;
-	            }
-	            if (!mask) {
 
-	                if (this._hasAddedEvent) {
-	                    this.off("added", this.onAddedWithMask);
-	                    this._hasAddedEvent = false;
-	                }
-	            }
-	            if (this._mask) {
-	                // Wait until we're add and then add the mask
-	                // on the same container as this display object
-	                if (!this.parent) {
-	                    //only add event if it isn't already included
-	                    if (!this._hasAddedEvent) {
-	                        this._hasAddedEvent = true;
-	                        this.once("added", this.onAddedWithMask);
-	                    }
-	                }
-	                else {
-	                    if (mask.parent != this.parent)
-	                        this.parent.addChild(mask);
-	                }
-	                this._mask.renderable = false;
-	            }
-	        }
-	    }
-	});
+            tint:
+            {
+                enumerable: true,
+                get: function () {
+                    var parent = this.parent;
+                    if (parent && parent._isPixiFlash) {
+                        var selfTint = this._selfTint;
+                        var parentTint = parent.tint;
+
+                        if (selfTint == 0xFFFFFF)
+                            this._lastComputedTint = parentTint;
+                        else if (parentTint == 0xFFFFFF)
+                            this._lastComputedTint = selfTint;
+                        else if (selfTint != this._lastSelfTint || parentTint != this._lastParentTint) {
+                            //calculate tint first time
+                            var max = 255;
+                            var parentR = (parentTint >> 16) & 0xff;
+                            var parentG = (parentTint >> 8) & 0xff;
+                            var parentB = parentTint & 0xff;
+                            var selfR = (selfTint >> 16) & 0xff;
+                            var selfG = (selfTint >> 8) & 0xff;
+                            var selfB = selfTint & 0xff;
+
+                            this._lastComputedTint = (Math.round((parentR * selfR) / max) << 16) | (Math.round((parentG * selfG) / max) << 8) | Math.round((parentB * selfB) / max);
+                        }
+
+                        this._lastSelfTint = selfTint;
+                        this._lastParentTint = parentTint;
+
+                        return this._lastComputedTint;
+                    }
+                    else {
+                        return this._selfTint;
+                    }
+                },
+                set: function (value) {
+                    this._selfTint = value;
+                }
+            },
+            /**
+             * The x skew value of the display object, in degrees.
+             * This property provides parity with CreateJS display objects.
+             * @property {Number} skewX
+             */
+            skewX:
+            {
+                enumerable: true,
+                get: function () { return this.skew.x * RAD_TO_DEG; },
+                set: function (value) {
+                    this.skew.x = value * DEG_TO_RAD;
+                }
+            },
+            /**
+             * The y skew value of the display object, in degrees.
+             * This property provides parity with CreateJS display objects.
+             * @property {Number} skewY
+             */
+            skewY:
+            {
+                enumerable: true,
+                get: function () { return this.skew.y * RAD_TO_DEG; },
+                set: function (value) {
+                    this.skew.y = value * DEG_TO_RAD;
+                }
+            },
+            /**
+             * The rotation of the display object, in degrees.
+             * This overrides the radian degrees of the PIXI display objects so that
+             * tweening exported from Flash will work correctly.
+             * @property {Number} rotation
+             */
+            rotation:
+            {
+                enumerable: true,
+                get: function () { return this._rotation * RAD_TO_DEG; },
+                set: function (value) {
+                    this._rotation = value * DEG_TO_RAD;
+                }
+            },
+            /**
+             * The x scale value of the display object.
+             * This property provides parity with CreateJS display objects.
+             * @property {Number} scaleX
+             */
+            scaleX:
+            {
+                enumerable: true,
+                get: function () { return this.scale.x; },
+                set: function (value) {
+                    this.scale.x = value;
+                }
+            },
+            /**
+             * The y scale value of the display object.
+             * This property provides parity with CreateJS display objects.
+             * @property {Number} scaleY
+             */
+            scaleY:
+            {
+                enumerable: true,
+                get: function () { return this.scale.y; },
+                set: function (value) {
+                    this.scale.y = value;
+                }
+            },
+            /**
+             * The x value of the registration, or pivot, point.
+             * This property provides parity with CreateJS display objects.
+             * @property {Number} regX
+             */
+            regX:
+            {
+                enumerable: true,
+                get: function () { return this.pivot.x; },
+                set: function (value) {
+                    this.pivot.x = value;
+                }
+            },
+            /**
+             * The y value of the registration, or pivot, point.
+             * This property provides parity with CreateJS display objects.
+             * @property {Number} regY
+             */
+            regY:
+            {
+                enumerable: true,
+                get: function () { return this.pivot.y; },
+                set: function (value) {
+                    this.pivot.y = value;
+                }
+            },
+
+            /**
+             * The drawing graphics, these are necessary
+             * for the compability with EaselJS Flash exports.
+             * @property {pixiflash.Shape|pixiflash.Sprite} mask
+             */
+            mask: {
+                enumerable: true,
+                get: function () {
+                    return this._mask;
+                },
+                set: function (mask) {
+                    var _maskShape = this._maskShape;
+                    //if the old mask is a shape and is not the new mask, remove it
+                    if (_maskShape && mask != _maskShape) {
+                        if (--_maskShape._maskUses < 1) {
+                            if (_maskShape.parent)
+                                _maskShape.parent.removeChild(_maskShape);
+                        }
+                        _maskShape.off('graphicsChanged', this.onShapeChanged);
+                    }
+                    if (this._mask) {
+                        //is this safe if a mask is reused multiple places?
+                        this._mask.renderable = true;
+                    }
+                    // If the mask is a shape apply the graphics as the shape
+                    if (mask && mask instanceof pixiflash.Shape) {
+                        if (!this.boundMaskChanged) {
+                            this.boundMaskChanged = true;
+                            this.onShapeChanged = this.onShapeChanged.bind(this);
+                            this.onAddedWithMask = this.onAddedWithMask.bind(this);
+                        }
+                        if (_maskShape != mask) {
+                            _maskShape = this._maskShape = mask;
+                            ++_maskShape._maskUses;
+                            _maskShape.on('graphicsChanged', this.onShapeChanged);
+                        }
+                        if (mask.graphics.graphicsData.length) {
+                            this._mask = mask.graphics;
+                        }
+                        else
+                            this._mask = null;
+                    }
+                    else {
+                        this._mask = mask;
+                    }
+                    if (!mask) {
+
+                        if (this._hasAddedEvent) {
+                            this.off("added", this.onAddedWithMask);
+                            this._hasAddedEvent = false;
+                        }
+                    }
+                    if (this._mask) {
+                        // Wait until we're add and then add the mask
+                        // on the same container as this display object
+                        if (!this.parent) {
+                            //only add event if it isn't already included
+                            if (!this._hasAddedEvent) {
+                                this._hasAddedEvent = true;
+                                this.once("added", this.onAddedWithMask);
+                            }
+                        }
+                        else {
+                            if (mask.parent != this.parent)
+                                this.parent.addChild(mask);
+                        }
+                        this._mask.renderable = false;
+                    }
+                }
+            }
+        });
 
     p.onAddedWithMask = function () {
         if (!this._mask) return;
@@ -652,7 +579,7 @@
             this.parent.addChild(mask);
     };
 
-    /**
+	/**
 	 * Dummy function for CJS export compatibility
 	 * @method cache
 	 */
@@ -660,7 +587,7 @@
         //don't do anything!
     };
 
-    /**
+	/**
 	 * Graphics object was updated on the shape dynamically, update the mask
 	 * @method onShapeChanged
 	 * @private
@@ -680,8 +607,8 @@
 
         // temporary matrix variables
         var a, b, c, d, tx, ty,
-			rotY = this._rotation + skew.y,
-			rotX = this._rotation + skew.x;
+            rotY = this._rotation + skew.y,
+            rotX = this._rotation + skew.x;
 
         // so if rotation is between 0 then we can simplify the multiplication process...
         if (rotY % PI_2 || rotX % PI_2) {
@@ -782,10 +709,10 @@
  */
 (function (undefined) {
     var PixiContainer = PIXI.Container,
-		DisplayObject = pixiflash.DisplayObject,
-		SharedTicker = PIXI.ticker.shared;
+        DisplayObject = pixiflash.DisplayObject,
+        SharedTicker = PIXI.ticker.shared;
 
-    /**
+	/**
 	 * The class to emulate createjs.Container
 	 * @class Container
 	 * @extends PIXI.Container
@@ -794,7 +721,7 @@
         PixiContainer.call(this);
         DisplayObject.call(this);
 
-        /**
+		/**
 		 * If false, the tick will not be propagated to children of this Container. This can provide some performance benefits.
 		 * In addition to preventing the "tick" event from being dispatched, it will also prevent tick related updates
 		 * on some display objects (ex. Sprite & MovieClip frame advancing, DOMElement visibility handling).
@@ -833,27 +760,21 @@
 
     p._onAdded = function () {
         if (!this.parent._isPixiFlash) {
-            if (!this.added) {
-                SharedTicker.add(this._tickListener); 
-                //createjs.Ticker.addEventListener("tick", this._tickListener);
-                this.added = true;
-            }
+            SharedTicker.add(this._tickListener);
         }
     };
 
     p._tickListener = function (tickerDeltaTime) {
-        if (!this.worldVisible) return;
-        var ms = tickerDeltaTime.delta / SharedTicker.speed / PIXI.TARGET_FPMS;
+        var ms = tickerDeltaTime / SharedTicker.speed / PIXI.settings.TARGET_FPMS;
         this._tick(ms);
     };
 
     p._onRemoved = function () {
         if (this._tickListener)
             SharedTicker.remove(this._tickListener);
-            //createjs.Ticker.removeEventListener("tick", this._tickListener);
     };
 
-    /**
+	/**
 	 * @method _tick
 	 * @param {Number} delta Time elapsed since the previous tick, in milliseconds.
 	 * @protected
@@ -871,14 +792,13 @@
     };
 
     p.__Container_destroy = p.destroy;
-    p.destroy = function (destroyChildren) {
+    p.destroy = function (destroyParams) {
         if (this._tickListener) {
-            //createjs.Ticker.removeEventListener("tick", this._tickListener);
             SharedTicker.remove(this._tickListener);
             this._tickListener = null;
         }
 
-        this.__Container_destroy(destroyChildren);
+        this.__Container_destroy(destroyParams);
     };
 
     pixiflash.Container = Container;
@@ -890,9 +810,9 @@
  */
 (function (undefined) {
     var Sprite = PIXI.Sprite,
-		DisplayObject = pixiflash.DisplayObject;
+        DisplayObject = pixiflash.DisplayObject;
 
-    /**
+	/**
 	 * The class to emulate createjs.Bitmap
 	 * @class Bitmap
 	 * @extends PIXI.Sprite
@@ -921,14 +841,14 @@
  */
 (function (undefined) {
     var Container = PIXI.Container,
-		DisplayObject = pixiflash.DisplayObject,
-		Timeline = createjs.Timeline,
-		Tween = createjs.Tween,
-		SharedTicker = PIXI.ticker.shared;
+        DisplayObject = pixiflash.DisplayObject,
+        Timeline = createjs.Timeline,
+        Tween = createjs.Tween,
+        SharedTicker = PIXI.ticker.shared;
 
     //*** Note: the vast majority of the code here is from EaselJS's MovieClip class.
 
-    /*
+	/*
 	* MovieClip
 	* Visit http://createjs.com/ for documentation, updates and examples.
 	*
@@ -956,7 +876,7 @@
 	* OTHER DEALINGS IN THE SOFTWARE.
 	*/
 
-    /**
+	/**
 	 * The class to emulate createjs.MovieClip, requires TweenJS
 	 * @class MovieClip
 	 * @extends PIXI.Container
@@ -969,7 +889,7 @@
 
         this.tickChildren = true;
 
-        /**
+		/**
 		 * Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).
 		 * See each constant for a description of the behaviour.
 		 * @property mode
@@ -978,7 +898,7 @@
 		 **/
         this.mode = mode || MovieClip.INDEPENDENT;
 
-        /**
+		/**
 		 * Specifies what the first frame to play in this movieclip, or the only frame to display if mode is SINGLE_FRAME.
 		 * @property startPosition
 		 * @type Number
@@ -986,7 +906,7 @@
 		 */
         this.startPosition = startPosition || 0;
 
-        /**
+		/**
 		 * Indicates whether this MovieClip should loop when it reaches the end of its timeline.
 		 * @property loop
 		 * @type Boolean
@@ -994,7 +914,7 @@
 		 */
         this.loop = loop;
 
-        /**
+		/**
 		 * The current frame of the movieclip.
 		 * @property currentFrame
 		 * @type Number
@@ -1003,7 +923,7 @@
 		 */
         this.currentFrame = 0;
 
-        /**
+		/**
 		 * The TweenJS Timeline that is associated with this MovieClip. This is created automatically when the MovieClip
 		 * instance is initialized. Animations are created by adding <a href="http://tweenjs.com">TweenJS</a> Tween
 		 * instances to the timeline.
@@ -1029,7 +949,7 @@
 		 */
         this.timeline = new Timeline(null, labels, { paused: true, position: startPosition, useTicks: true });
 
-        /**
+		/**
 		 * If true, the MovieClip's position will not advance when ticked.
 		 * @property paused
 		 * @type Boolean
@@ -1037,7 +957,7 @@
 		 */
         this.paused = false;
 
-        /**
+		/**
 		 * If true, actions in this MovieClip's tweens will be run when the playhead advances.
 		 * @property actionsEnabled
 		 * @type Boolean
@@ -1045,7 +965,7 @@
 		 */
         this.actionsEnabled = true;
 
-        /**
+		/**
 		 * If true, the MovieClip will automatically be reset to its first frame whenever the timeline adds
 		 * it back onto the display list. This only applies to MovieClip instances with mode=INDEPENDENT.
 		 * <br><br>
@@ -1059,7 +979,7 @@
 		 */
         this.autoReset = true;
 
-        /**
+		/**
 		 * @property _synchOffset
 		 * @type Number
 		 * @default 0
@@ -1067,7 +987,7 @@
 		 */
         this._synchOffset = 0;
 
-        /**
+		/**
 		 * @property _prevPos
 		 * @type Number
 		 * @default -1
@@ -1075,7 +995,7 @@
 		 */
         this._prevPos = -1; // TODO: evaluate using a ._reset Boolean prop instead of -1.
 
-        /**
+		/**
 		 * @property _prevPosition
 		 * @type Number
 		 * @default 0
@@ -1083,7 +1003,7 @@
 		 */
         this._prevPosition = 0;
 
-        /**
+		/**
 		* Note - changed from default: When the MovieClip is framerate independent, this is the time
 		* elapsed from frame 0 in seconds.
 		* @property _t
@@ -1093,7 +1013,7 @@
 		*/
         this._t = 0;
 
-        /**
+		/**
 		* By default MovieClip instances advance one frame per tick. Specifying a framerate for the MovieClip
 		* will cause it to advance based on elapsed time between ticks as appropriate to maintain the target
 		* framerate.
@@ -1103,7 +1023,7 @@
 		* @default 0
 		**/
         this._framerate = 0;
-        /**
+		/**
 		* When the MovieClip is framerate independent, this is the total time in seconds for the animation.
 		* @property _duration
 		* @type Number
@@ -1112,7 +1032,7 @@
 		*/
         this._duration = 0;
 
-        /**
+		/**
 		 * List of display objects that are actively being managed by the MovieClip.
 		 * @property _managed
 		 * @type Object
@@ -1142,7 +1062,7 @@
         MovieClip.inited = true;
     };
 
-    /**
+	/**
 	 * The MovieClip will advance independently of its parent, even if its parent is paused.
 	 * This is the default mode.
 	 * @property INDEPENDENT
@@ -1153,7 +1073,7 @@
 	 **/
     MovieClip.INDEPENDENT = "independent";
 
-    /**
+	/**
 	 * The MovieClip will only display a single frame (as determined by the startPosition property).
 	 * @property SINGLE_FRAME
 	 * @static
@@ -1163,7 +1083,7 @@
 	 **/
     MovieClip.SINGLE_FRAME = "single";
 
-    /**
+	/**
 	 * The MovieClip will be advanced only when its parent advances and will be synched to the position of
 	 * the parent MovieClip.
 	 * @property SYNCHED
@@ -1183,28 +1103,21 @@
 
     p._onAdded = function () {
         if (!this.parent._isPixiFlash) {
-            if (!this.added) {
-                SharedTicker.add(this._tickListener); console.log("added");
-                //createjs.Ticker.addEventListener("tick", this._tickListener);
-                this.added = true;
-            }
+            SharedTicker.add(this._tickListener);
         }
     };
 
     p._tickListener = function (tickerDeltaTime) {
-        //if (!this.worldVisible) return;
-        var ms = tickerDeltaTime.delta  / SharedTicker.speed / PIXI.TARGET_FPMS;
+        var ms = tickerDeltaTime / SharedTicker.speed / PIXI.settings.TARGET_FPMS;
         this._tick(ms);
     };
 
     p._onRemoved = function () {
         if (this._tickListener)
-            //createjs.Ticker.removeEventListener("tick", this._tickListener);
             SharedTicker.remove(this._tickListener);
-        //this.added = false;
     };
 
-    /**
+	/**
 	 * Use the {{#crossLink "MovieClip/labels:property"}}{{/crossLink}} property instead.
 	 * @method getLabels
 	 * @return {Array}
@@ -1214,7 +1127,7 @@
         return this.timeline.getLabels();
     };
 
-    /**
+	/**
 	 * Use the {{#crossLink "MovieClip/currentLabel:property"}}{{/crossLink}} property instead.
 	 * @method getCurrentLabel
 	 * @return {String}
@@ -1225,7 +1138,7 @@
         return this.timeline.getCurrentLabel();
     };
 
-    /**
+	/**
 	 * Returns an array of objects with label and position (aka frame) properties, sorted by position.
 	 * Shortcut to TweenJS: Timeline.getLabels();
 	 * @property labels
@@ -1233,7 +1146,7 @@
 	 * @readonly
 	 **/
 
-    /**
+	/**
 	 * Returns the name of the label on or immediately before the current frame. See TweenJS: Timeline.getCurrentLabel()
 	 * for more information.
 	 * @property currentLabel
@@ -1247,7 +1160,7 @@
         });
     } catch (e) { }
 
-    /**
+	/**
 	* When the MovieClip is framerate independent, this is the time elapsed from frame 0 in seconds.
 	* @property elapsedTime
 	* @type Number
@@ -1263,7 +1176,7 @@
         }
     });
 
-    /**
+	/**
 	* By default MovieClip instances advance one frame per tick. Specifying a framerate for the MovieClip
 	* will cause it to advance based on elapsed time between ticks as appropriate to maintain the target
 	* framerate.
@@ -1292,7 +1205,7 @@
         }
     });
 
-    /**
+	/**
 	 * Sets paused to false.
 	 * @method play
 	 **/
@@ -1300,7 +1213,7 @@
         this.paused = false;
     };
 
-    /**
+	/**
 	 * Sets paused to true.
 	 * @method stop
 	 **/
@@ -1308,7 +1221,7 @@
         this.paused = true;
     };
 
-    /**
+	/**
 	 * Advances this movie clip to the specified position or label and sets paused to false.
 	 * @method gotoAndPlay
 	 * @param {String|Number} positionOrLabel The animation name or frame number to go to.
@@ -1318,7 +1231,7 @@
         this._goto(positionOrLabel);
     };
 
-    /**
+	/**
 	 * Advances this movie clip to the specified position or label and sets paused to true.
 	 * @method gotoAndStop
 	 * @param {String|Number} positionOrLabel The animation or frame name to go to.
@@ -1328,7 +1241,7 @@
         this._goto(positionOrLabel);
     };
 
-    /**
+	/**
 	 * Advances the playhead. This occurs automatically each tick by default.
 	 * @param [time] {Number} The amount of time in ms to advance by. Only applicable if framerate is set.
 	 * @method advance
@@ -1365,7 +1278,7 @@
         }
     };
 
-    /**
+	/**
 	 * @method _tick
 	 * @param {Number} delta Time elapsed since the previous tick, in milliseconds.
 	 * function.
@@ -1390,7 +1303,7 @@
         }
     };
 
-    /**
+	/**
 	 * @method _goto
 	 * @param {String|Number} positionOrLabel The animation name or frame number to go to.
 	 * @protected
@@ -1409,7 +1322,7 @@
         this._updateTimeline();
     };
 
-    /**
+	/**
 	 * @method _reset
 	 * @private
 	 **/
@@ -1419,7 +1332,7 @@
         this.currentFrame = 0;
     };
 
-    /**
+	/**
 	 * @method _updateTimeline
 	 * @protected
 	 **/
@@ -1469,7 +1382,7 @@
         }
     };
 
-    /**
+	/**
 	 * @method _setState
 	 * @param {Array} state
 	 * @param {Number} offset
@@ -1486,7 +1399,7 @@
         }
     };
 
-    /**
+	/**
 	 * Adds a child to the timeline, and sets it up as a managed child.
 	 * @method _addManagedChild
 	 * @param {MovieClip} child The child MovieClip to manage
@@ -1507,19 +1420,18 @@
     };
 
     p.__Container_destroy = p.destroy;
-    p.destroy = function (destroyChildren) {
+    p.destroy = function (destroyParams) {
         if (this._tickListener) {
             SharedTicker.remove(this._tickListener);
-            //createjs.Ticker.removeEventListener("tick", this._tickListener);
             this._tickListener = null;
         }
 
-        this.__Container_destroy(destroyChildren);
+        this.__Container_destroy(destroyParams);
     };
 
     pixiflash.MovieClip = MovieClip;
 
-    /**
+	/**
 	 * This plugin works with <a href="http://tweenjs.com" target="_blank">TweenJS</a> to prevent the startPosition
 	 * property from tweening.
 	 * @private
@@ -1530,13 +1442,13 @@
         throw ("MovieClipPlugin cannot be instantiated.");
     }
 
-    /**
+	/**
 	 * @method priority
 	 * @private
 	 **/
     MovieClipPlugin.priority = 100; // very high priority, should run first
 
-    /**
+	/**
 	 * @method install
 	 * @private
 	 **/
@@ -1544,7 +1456,7 @@
         Tween.installPlugin(MovieClipPlugin, ["startPosition"]);
     };
 
-    /**
+	/**
 	 * @method init
 	 * @param {Tween} tween
 	 * @param {String} prop
@@ -1555,7 +1467,7 @@
         return value;
     };
 
-    /**
+	/**
 	 * @method step
 	 * @private
 	 **/
@@ -1563,7 +1475,7 @@
         // unused.
     };
 
-    /**
+	/**
 	 * @method tween
 	 * @param {Tween} tween
 	 * @param {String} prop
@@ -1591,7 +1503,7 @@
     var Texture = PIXI.Texture;
     var Loader = PIXI.loaders.Loader;
 
-    /**
+	/**
 	 * SpriteSheet for export from flash
 	 * @class SpriteSheet
 	 * @constructor
@@ -1600,14 +1512,14 @@
 	 * @param {Array} data.frames The collection of frames
 	 */
     var SpriteSheet = function (data) {
-        /**
+		/**
 		 * The collection of frames
 		 * @property {Array} frames
 		 * @private
 		 */
         this.frames = [];
 
-        /**
+		/**
 		 * The global id of the spriteshet
 		 * @property {String} _id
 		 * @private
@@ -1622,7 +1534,7 @@
     // Reference to prototype
     var p = SpriteSheet.prototype;
 
-    /**
+	/**
 	 * Add the frames data
 	 * @method _addFrames
 	 * @private
@@ -1635,18 +1547,18 @@
         for (var frame, i = 0; i < data.frames.length; i++) {
             frame = data.frames[i];
             this.frames.push(new Texture(
-				data.images[frame[4] || 0],
-				new Rectangle(
-					frame[0],
-					frame[1],
-					frame[2],
-					frame[3]
-				)
-			));
+                data.images[frame[4] || 0],
+                new Rectangle(
+                    frame[0],
+                    frame[1],
+                    frame[2],
+                    frame[3]
+                )
+            ));
         }
     };
 
-    /**
+	/**
 	 * Get a frame of the spritesheet
 	 * @method getFrame
 	 * @param {int} index The index or frame to get
@@ -1655,7 +1567,7 @@
         return this.frames[index] || null;
     };
 
-    /**
+	/**
 	 * Destroy the spritesheet
 	 * @method destroy
 	 */
@@ -1672,7 +1584,7 @@
         }
     };
 
-    /**
+	/**
 	 * Get a frame of the spritesheet
 	 * @method addToGlobal
 	 * @param {String} id The id of the spritesheet
@@ -1685,7 +1597,7 @@
         window.ss[id] = this;
     };
 
-    /**
+	/**
 	 * Create a spritesheet
 	 * @method fromData
 	 * @static
@@ -1745,9 +1657,9 @@
  */
 (function (undefined) {
     var PixiSprite = PIXI.Sprite,
-		DisplayObject = pixiflash.DisplayObject;
+        DisplayObject = pixiflash.DisplayObject;
 
-    /**
+	/**
 	 * The class to emulate createjs.Sprite
 	 * @class Sprite
 	 * @extends PIXI.Sprite
@@ -1756,7 +1668,7 @@
         PixiSprite.call(this);
         DisplayObject.call(this);
 
-        /**
+		/**
 		 * The spritesheet to use
 		 * @property {pixiflash.SpriteSheet} spriteSheet
 		 */
@@ -1772,7 +1684,7 @@
     //constructor for backwards/Flash exporting compatibility
     p.initialize = Sprite;
 
-    /**
+	/**
 	 * Goto and stop on a frame
 	 * @method gotoAndStop
 	 * @param {int} frame The frame index
@@ -1802,10 +1714,10 @@
  */
 (function (undefined) {
     var PixiGraphics = PIXI.Graphics,
-		utils = pixiflash.utils,
-		DisplayObject = pixiflash.DisplayObject;
+        utils = pixiflash.utils,
+        DisplayObject = pixiflash.DisplayObject;
 
-    /**
+	/**
 	 * The class to emulate createjs.Graphics
 	 * @class Graphics
 	 * @extends PIXI.Graphics
@@ -1847,7 +1759,7 @@
         "7": 59, "8": 60, "9": 61, "+": 62, "/": 63
     };
 
-    /**
+	/**
 	 * Moves the drawing point to the specified position. A tiny API method "mt" also exists.
 	 * @method mt
 	 * @param {Number} x The x coordinate the drawing point should move to.
@@ -1856,7 +1768,7 @@
 	 **/
     p.mt = p.moveTo;
 
-    /**
+	/**
 	 * Draws a line from the current drawing point to the specified position, which become the new current drawing
 	 * point. A tiny API method "lt" also exists.
 	 *
@@ -1872,7 +1784,7 @@
         return this.op().lineTo(x, y);
     };
 
-    /**
+	/**
 	 * Draws a bezier curve from the current drawing point to (x, y) using the control points (cp1x, cp1y) and (cp2x,
 	 * cp2y). For detailed information, read the
 	 * <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#dom-context-2d-beziercurveto">
@@ -1890,7 +1802,7 @@
         return this.op().bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
     };
 
-    /**
+	/**
 	 * Shortcut to drawRect.
 	 * @method dr
 	 * @param {Number} x
@@ -1901,7 +1813,7 @@
 	 * @chainable
 	 * @protected
 	 **/
-    /**
+	/**
 	 * Shortcut to drawRect.
 	 * @method r
 	 * @param {Number} x
@@ -1914,7 +1826,7 @@
 	 **/
     p.dr = p.r = p.drawRect;
 
-    /**
+	/**
 	 * Shortcut to drawRoundedRect.
 	 * @method rr
 	 * @param {Number} x
@@ -1928,7 +1840,7 @@
 	 **/
     p.rr = p.drawRoundedRect;
 
-    /**
+	/**
 	 * Shortcut to drawRoundRectComplex. Not supported by pixiflash
 	 * @method rc
 	 * @param {Number} x
@@ -1947,7 +1859,7 @@
         return this.rr(x, y, w, h, radiusTL);
     };
 
-    /**
+	/**
 	 * Shortcut to drawCircle.
 	 * @method dc
 	 * @param {Number} x x coordinate center point of circle.
@@ -1959,7 +1871,7 @@
 	 **/
     p.dc = p.drawCircle;
 
-    /**
+	/**
 	 * Shortcut to arc.
 	 * @method a
 	 * @param {Number} x
@@ -1976,7 +1888,7 @@
         return this.op().arc(x, y, radius, startAngle, endAngle, anticlockwise);
     };
 
-    /**
+	/**
 	 * Shortcut to arcTo.
 	 * @method at
 	 * @param {Number} x1
@@ -1992,7 +1904,7 @@
         return this.op().arcTo(x1, y1, x2, y2, radius);
     };
 
-    /**
+	/**
 	 * Override the draw ellipse method
 	 * @method  de
 	 * @param  {Number} x      [description]
@@ -2005,7 +1917,7 @@
         return this.drawEllipse(x + width / 2, y + height / 2, width / 2, height / 2);
     };
 
-    /**
+	/**
 	 * Draws a quadratic curve from the current drawing point to (x, y) using the control point (cpx, cpy). For detailed
 	 * information, read the <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#dom-context-2d-quadraticcurveto">
 	 * whatwg spec</a>. A tiny API method "qt" also exists.
@@ -2020,7 +1932,7 @@
         return this.op().quadraticCurveTo(cpx, cpy, x, y);
     };
 
-    /**
+	/**
 	 * Closes the current path, effectively drawing a line from the current drawing point to the first drawing point specified
 	 * since the fill or stroke was last set. A tiny API method "cp" also exists.
 	 * @method cp
@@ -2034,7 +1946,7 @@
         return this;
     };
 
-    /**
+	/**
 	 * Open path method for drawing, ensure that the draw shape is not closed
 	 * @method op
 	 * @private
@@ -2049,7 +1961,7 @@
         return this;
     };
 
-    /**
+	/**
 	 * Begins a fill with the specified color. This ends the current sub-path. A tiny API method "f" also exists.
 	 * @method f
 	 * @param {String} color A CSS compatible color value (ex. "red", "#FF0000", or "rgba(255,0,0,0.5)"). Setting to
@@ -2068,7 +1980,7 @@
         return this;
     };
 
-    /**
+	/**
 	 * Placeholder method for a linear fill. Pixi does not support linear fills,
 	 * so we just pick the first color in colorArray
 	 * @method lf
@@ -2082,7 +1994,7 @@
         return this.f(colorArray[0]);
     };
 
-    /**
+	/**
 	 * Placeholder method for a radial fill. Pixi does not support radial fills,
 	 * so we just pick the first color in colorArray
 	 * @method rf
@@ -2096,7 +2008,7 @@
         return this.f(colorArray[0]);
     };
 
-    /**
+	/**
 	 * Placeholder method for a beginBitmapFill. Pixi does not support bitmap fills.
 	 * @method bf
 	 * @return {pixiflash.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
@@ -2108,7 +2020,7 @@
         return this.f("#000000");
     };
 
-    /**
+	/**
 	 * Placeholder method for a setStrokeDash. Pixi does not support dashed strokes.
 	 * @method sd
 	 * @return {pixiflash.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
@@ -2120,7 +2032,7 @@
         return this;
     };
 
-    /**
+	/**
 	 * Placeholder method for a beginBitmapStroke. Pixi does not support bitmap strokes.
 	 * @method bs
 	 * @return {pixiflash.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
@@ -2132,7 +2044,7 @@
         return this;
     };
 
-    /**
+	/**
 	 * Placeholder method for a beginLinearGradientStroke. Pixi does not support gradient strokes.
 	 * @method ls
 	 * @return {pixiflash.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
@@ -2144,7 +2056,7 @@
         return this;
     };
 
-    /**
+	/**
 	 * Placeholder method for a beginRadialGradientStroke. Pixi does not support gradient strokes.
 	 * @method rs
 	 * @return {pixiflash.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
@@ -2156,7 +2068,7 @@
         return this;
     };
 
-    /**
+	/**
 	 * Sets the stroke style. Like all drawing methods, this can be chained, so you can define
 	 * the stroke style and color in a single line of code like so:
 	 *
@@ -2182,7 +2094,7 @@
         return this;
     };
 
-    /**
+	/**
 	 * Begins a stroke with the specified color. This ends the current sub-path. A tiny API method "s" also exists.
 	 * @method s
 	 * @param {String} color A CSS compatible color value (ex. "#FF0000", "red", or "rgba(255,0,0,0.5)"). Setting to
@@ -2197,7 +2109,7 @@
         return this;
     };
 
-    /**
+	/**
 	 * Decodes a compact encoded path string into a series of draw instructions.
 	 * This format is not intended to be human readable, and is meant for use by authoring tools.
 	 * The format uses a base64 character set, with each character representing 6 bits, to define a series of draw
@@ -2238,11 +2150,11 @@
             this.beginFill();
         }
         var instructions = [
-			this.mt,
-			this.lt,
-			this.qt,
-			this.bt,
-			this.cp
+            this.mt,
+            this.lt,
+            this.qt,
+            this.bt,
+            this.cp
         ];
         var paramCount = [2, 2, 4, 6, 0];
         var i = 0, l = str.length;
@@ -2278,7 +2190,7 @@
         return this;
     };
 
-    /**
+	/**
 	 * Get the alpha color from color string
 	 * @method alphaFromColor
 	 * @private
@@ -2287,9 +2199,9 @@
     var alphaFromColor = function (color) {
         if (/^rgba\(/.test(color)) {
             return parseFloat(color.substring(
-				color.lastIndexOf(',') + 1,
-				color.lastIndexOf(')')
-			));
+                color.lastIndexOf(',') + 1,
+                color.lastIndexOf(')')
+            ));
         }
         return 1;
     };
@@ -2301,10 +2213,10 @@
  */
 (function (undefined) {
     var Container = PIXI.Container,
-		Graphics = pixiflash.Graphics,
-		DisplayObject = pixiflash.DisplayObject;
+        Graphics = pixiflash.Graphics,
+        DisplayObject = pixiflash.DisplayObject;
 
-    /**
+	/**
 	 * The class to emulate createjs.Shape
 	 * @class Shape
 	 * @extends PIXI.Container
@@ -2334,36 +2246,36 @@
     // Assign to namespace
     pixiflash.Shape = Shape;
 
-    /**
+	/**
 	 * The drawing graphics, these are necessary
 	 * for the compability with EaselJS Flash exports.
 	 * @property {pixiflash.Graphics} graphics
 	 */
     Object.defineProperty(p, "graphics",
-	{
-	    get: function () {
-	        return this._graphics;
-	    },
-	    set: function (graphics) {
-	        if (this._graphics) {
-	            this.removeChild(this._graphics);
-	        }
-	        this._graphics = graphics;
-	        if (graphics) {
-	            this.addChild(graphics);
-	        }
-	        this.emit('graphicsChanged', this);
-	    }
-	});
+        {
+            get: function () {
+                return this._graphics;
+            },
+            set: function (graphics) {
+                if (this._graphics) {
+                    this.removeChild(this._graphics);
+                }
+                this._graphics = graphics;
+                if (graphics) {
+                    this.addChild(graphics);
+                }
+                this.emit('graphicsChanged', this);
+            }
+        });
 
-    /**
+	/**
 	 * Override for the destroy
 	 * @method  destroy
-	 * @param  {Boolean} recursive If we should destroy the children of this shape
+	 * @param  {Object} destroyParams Parameters for destruction. See PIXI.Container.destroy()
 	 */
-    p.destroy = function (recursive) {
+    p.destroy = function (destroyParams) {
         this.graphics = null;
-        s.destroy.call(this, recursive);
+        s.destroy.call(this, destroyParams);
     };
 
 }());
@@ -2373,9 +2285,9 @@
  */
 (function (undefined) {
     var PixiText = PIXI.Text,
-		DisplayObject = pixiflash.DisplayObject;
+        DisplayObject = pixiflash.DisplayObject;
 
-    /**
+	/**
 	 * The class to emulate createjs.Text
 	 * @class Text
 	 * @extends PIXI.Text
@@ -2393,66 +2305,66 @@
     var p = Text.prototype = Object.create(PixiText.prototype);
 
     Object.defineProperties(p,
-	{
-	    /**
-		 * The text align
-		 * @property {String} textAlign 
-		 */
-	    textAlign:
-		{
-		    set: function (align) {
-		        if (align == "center")
-		            this.anchor.x = 0.5;
-		        else if (align == "right")
-		            this.anchor.x = 1;
-		        else
-		            this.anchor.x = 0;
+        {
+            /**
+             * The text align
+             * @property {String} textAlign 
+             */
+            textAlign:
+            {
+                set: function (align) {
+                    if (align == "center")
+                        this.anchor.x = 0.5;
+                    else if (align == "right")
+                        this.anchor.x = 1;
+                    else
+                        this.anchor.x = 0;
 
-		        this.style.align = align;
-		    },
-		    get: function () {
-		        return this.style.align;
-		    }
-		},
-	    /**
-		 * The text line height
-		 * @property {Number} lineHeight 
-		 */
-	    lineHeight:
-		{
-		    set: function (lineHeight) {
-		        this.style.lineHeight = lineHeight;
-		    },
-		    get: function () {
-		        return this.style.lineHeight;
-		    }
-		},
-	    /**
-		 * The text line width
-		 * @property {Number} lineWidth 
-		 */
-	    lineWidth:
-		{
-		    set: function (wordWrapWidth) {
-		        this.style.wordWrapWidth = wordWrapWidth;
-		    },
-		    get: function () {
-		        return this.style.wordWrapWidth;
-		    }
-		},
-	    shadow:
-		{
-		    set: function (shadow) {
-		        this.style.dropShadow = !!shadow;
-		        if (shadow) {
-		            this.style.dropShadowColor = shadow.color;
-		            // CreateJS can't handle these
-		            // this.style.dropShadowAngle = shadow.angle;
-		            // this.style.dropShadowDistance = shadow.distance;
-		        }
-		    }
-		}
-	});
+                    this.style.align = align;
+                },
+                get: function () {
+                    return this.style.align;
+                }
+            },
+            /**
+             * The text line height
+             * @property {Number} lineHeight 
+             */
+            lineHeight:
+            {
+                set: function (lineHeight) {
+                    this.style.lineHeight = lineHeight;
+                },
+                get: function () {
+                    return this.style.lineHeight;
+                }
+            },
+            /**
+             * The text line width
+             * @property {Number} lineWidth 
+             */
+            lineWidth:
+            {
+                set: function (wordWrapWidth) {
+                    this.style.wordWrapWidth = wordWrapWidth;
+                },
+                get: function () {
+                    return this.style.wordWrapWidth;
+                }
+            },
+            shadow:
+            {
+                set: function (shadow) {
+                    this.style.dropShadow = !!shadow;
+                    if (shadow) {
+                        this.style.dropShadowColor = shadow.color;
+                        // CreateJS can't handle these
+                        // this.style.dropShadowAngle = shadow.angle;
+                        // this.style.dropShadowDistance = shadow.distance;
+                    }
+                }
+            }
+        });
 
     // Mixin the display object
     DisplayObject.mixin(p);
@@ -2472,7 +2384,7 @@
     // Import classes
     var utils = pixiflash.utils;
 
-    /**
+	/**
 	 * The class to emulate createjs.Shadow
 	 * @class Shadow
 	 */

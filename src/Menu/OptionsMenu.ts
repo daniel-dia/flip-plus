@@ -4,10 +4,8 @@ module FlipPlus.Menu {
         private popup: View.PopupConfirm;
 
         constructor(previousScreen?: gameui.ScreenState) {
-            if (!previousScreen) previousScreen = FlipPlusGame.mainScreen;
-            this.originY = 1;
-            this.originX = defaultWidth; 
-            super(StringResources.menus.menu, previousScreen);
+            
+            super(StringResources.menus.menu, previousScreen, null, 40, defaultWidth-40);
             
             this.popup = new View.PopupConfirm();
             this.overlay.addChild(this.popup);

@@ -12,9 +12,9 @@
         private matchesFound: number;
 
         constructor(itemsArray: Array<string>, sufix: string= "1") {
+            super(itemsArray, "Bonus2");
             this.cards = [];
             this.matchesFound = 0;
-            super(itemsArray, "Bonus2");
         }
 
         addObjects() {

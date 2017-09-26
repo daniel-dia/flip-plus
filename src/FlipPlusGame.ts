@@ -45,9 +45,7 @@ module FlipPlus {
         // ----------------------------- Initialization -------------------------------------------//
 
         public static initializeGame() {
-
-            //Cocoon.Utils.setNPOTEnabled(true);
-
+            
             this.gameScreen = new gameui.GameScreen("gameDiv", defaultWidth, defaultHeight, 60);
 
             // userData
@@ -110,10 +108,7 @@ module FlipPlus {
 
             // loading screen
             this.loadingScreen.loaded = () => {
-                if (levelCreatorMode == true && !levelCreatorTestMode)
-                    this.toLevelCreator()
-                else
-                    this.showMainScreen();
+                this.showMainScreen();
             }
         }
 
@@ -139,16 +134,6 @@ module FlipPlus {
         }
 
         // ----------------------------- Game Methods ---------------------------------------------//
-
-        public static toLevelCreator(level?: Levels.Level, callback?) {
-            if (!level) {
-                level = new Levels.Level();
-                level.width = 0;
-                level.height = 0;
-            }
-
-            this.gameScreen.switchScreen(new GamePlay.LevelCreator2(level, callback), null, { type: "none", time: 0 });
-        }
 
         public static showProjectLevelsMenu(project?: Levels.BotLevelsSet, parameters?: any) {
 

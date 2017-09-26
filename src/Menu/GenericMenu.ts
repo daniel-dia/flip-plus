@@ -5,8 +5,10 @@
         protected originY: number;
         protected coinsIndicator: Menu.View.CoinsIndicator;
 
-        constructor(title: string, previousScreen: gameui.ScreenState, color?: string) {
+        constructor(title: string, previousScreen: gameui.ScreenState, color?: string, originX:number = null, originY:number = null) {
             super();
+            
+            if (!previousScreen) previousScreen = FlipPlusGame.mainScreen;
 
             if (!this.originX) this.originX = defaultWidth / 2;
             if (!this.originY) this.originY = defaultHeight / 2;

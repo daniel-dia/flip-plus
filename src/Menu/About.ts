@@ -6,10 +6,11 @@ module FlipPlus.Menu {
         private currentY
 
         constructor(previousScreen?: gameui.ScreenState) {
-            if (!previousScreen) previousScreen = FlipPlusGame.mainScreen;
-            this.originY = defaultHeight / 2 + 200;
-            this.originX = defaultWidth / 2;
-            super(StringResources.menus.about, previousScreen);
+            
+            var originY = defaultHeight / 2 + 200;
+            var originX = defaultWidth / 2;
+
+            super(StringResources.menus.about, previousScreen,null, originX, originY);
             
             this.currentY = -500;
             // add studio

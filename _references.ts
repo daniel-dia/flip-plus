@@ -1,13 +1,13 @@
 /// <reference path="typing/createjs/createjs.d.ts" />
 /// <reference path="typing/pixi.js.d.ts" />
  
-/// <reference path="gameui/AssetsManager.ts" />
-/// <reference path="gameui/GameScreen.ts" />
-/// <reference path="gameui/ScreenState.ts" />
-/// <reference path="gameui/UIItem.ts" />
-/// <reference path="gameui/Grid.ts" /> 
-/// <reference path="gameui/Transition.ts" />
-/// <reference path="gameui/Button.ts" />
+/// <reference path="src/GameUI/AssetsManager.ts" />
+/// <reference path="src/GameUI/GameScreen.ts" />
+/// <reference path="src/GameUI/ScreenState.ts" />
+/// <reference path="src/GameUI/UIItem.ts" />
+/// <reference path="src/GameUI/Grid.ts" /> 
+/// <reference path="src/GameUI/Transition.ts" />
+/// <reference path="src/GameUI/Button.ts" />
 
 
 /*scripts*/
@@ -25,7 +25,6 @@
 /// <reference path="src/GamePlay/levelcreator2.ts" />
 /// <reference path="src/GamePlay/leveltaps.ts" />
 /// <reference path="src/GamePlay/leveltimeattack.ts" />
-/// <reference path="src/GamePlay/Tutorial.ts" />
 
 /// <reference path="src/GamePlay/Logic/Block.ts" />
 /// <reference path="src/GamePlay/Logic/Board.ts" />

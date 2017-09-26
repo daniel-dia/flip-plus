@@ -94,7 +94,7 @@ module FlipPlus.UserData {
 
         //loads and set the last utilization time,
         private loadLastTime(): number {
-            var value = localStorage.getItem(storagePrefix + "LastTime")
+            var value = parseInt(localStorage.getItem(storagePrefix + "LastTime"));
             if (!value) value = Date.now();
             return value;
         }

@@ -12,8 +12,8 @@
         private positions:Array<any>
 
         constructor(itemsArray: Array<string>, sufix: string = "1") {
-            this.positions = [{ x: 120, y: 402 }, { x: 927, y: 350 }, { x: 562, y: 646 }, { x: 195, y: 872 }, { x: 1056, y: 784 }, { x: 632, y: 1142 }, { x: 137, y: 1322 }, { x: 1047, y: 1347 }];
             super(itemsArray, "Bonus1");
+            this.positions = [{ x: 120, y: 402 }, { x: 927, y: 350 }, { x: 562, y: 646 }, { x: 195, y: 872 }, { x: 1056, y: 784 }, { x: 632, y: 1142 }, { x: 137, y: 1322 }, { x: 1047, y: 1347 }];
         }
 
         addObjects() {

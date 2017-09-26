@@ -590,5 +590,5 @@ var stringResources_pt = {
  
 }
 
-var language = navigator.language || navigator.userLanguage;
+var language = navigator.language || navigator["userLanguage"];
 if (language == "pt-BR") var StringResources = stringResources_pt;

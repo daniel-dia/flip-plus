@@ -23,22 +23,14 @@ module gameui {
 
             this.interactive = true;
 
-            if (event) {
-                this.on("click", this.event);
-                this.on("tap", this.event);
-            }
+            if (event) this.on("pointertap", this.event);
             
-            this.on("mousedown",  (event: any) => { this.onPress(event);})
-            this.on("touchstart", (event: any) => { this.onPress(event);})
-
-            this.on("touchend", (event: any) => { this.onOut(event); })
-            this.on("mouseup", (event: any) => { this.onOut(event); })
-            this.on("mouseupoutside", (event: any) => { this.onOut(event); });
-            this.on("touchendoutside", (event: any) => { this.onOut(event); });
+            this.on("pointerdown", (event: any) => { this.onPress(event);})
+            this.on("pointerup", (event: any) => { this.onOut(event); })
+            this.on("pointerupoutside", (event: any) => { this.onOut(event); });
             
             this.soundId = soundId;
-
-
+            
         }
 
         public returnStatus(): void {
@@ -166,7 +158,7 @@ module gameui {
             //add text into it.
             text = text.toUpperCase();
 
-            this.text = new PIXI.Text(text, { font: font, fill: color, align: "center", textBaseline: "middle" });
+            this.text = new PIXI.Text(text, { fontStyle: font, fill: color, align: "center", textBaseline: "middle" });
            
             //createHitArea
             if (background == null) {
@@ -224,7 +216,7 @@ module gameui {
             this.bitmapText = AssetsManager.getBitmapText(text, bitmapFontId);
             this.addChild(this.bitmapText);
             this.bitmapText.pivot.x = this.bitmapText.textWidth / 2;
-            this.bitmapText.pivot.y = this.bitmapText.textHeight / 2;
+            this.bitmapText.pivot.y = this.bitmapText.textHeight / 2 + 20;
 
             this.createHitArea();
         }

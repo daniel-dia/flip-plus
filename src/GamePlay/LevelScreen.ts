@@ -679,7 +679,7 @@ module FlipPlus.GamePlay {
             //create for block item clicks
             if (step.clicks) {
 
-                var listeners = new Array<PIXI.EventEmitter>();
+                var listeners = new Array<PIXI.utils.EventEmitter>();
                 for (var c in step.clicks) {
                     //this.boardSprite.tutorialHighlightBlocks(step.clicks[c]);
                     //this.gameplayMenu.tutorial_lockAllButtons();

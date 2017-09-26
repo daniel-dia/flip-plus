@@ -22,7 +22,7 @@
 
         private fx: FlipPlus.Effects;
 
-        constructor(itemsArray: Array<string>, bonusId: string = "1") {
+        constructor(itemsArray: Array<string>, bonusId: string = "1", positions = []) {
             super();
 
             this.itemsArray = itemsArray;

@@ -16,16 +16,10 @@
     <TargetFrameworkProfile />
     <UseIISExpress>true</UseIISExpress>
     <UseGlobalApplicationHostFile />
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="gameui\AssetsManager.ts" />
-    <TypeScriptCompile Include="gameui\AudioManager.ts" />
-    <TypeScriptCompile Include="gameui\Button.ts" />
-    <TypeScriptCompile Include="gameui\GameScreen.ts" />
-    <TypeScriptCompile Include="gameui\Grid.ts" />
-    <TypeScriptCompile Include="gameui\ScreenState.ts" />
-    <TypeScriptCompile Include="gameui\Transition.ts" />
-    <TypeScriptCompile Include="gameui\UIItem.ts" />
     <Content Include="assets\assetsManifest.js" />
     <Content Include="assets\Bonus1.js" />
     <Content Include="assets\Bonus3.js" />
@@ -1432,6 +1426,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="src\ads.ts" />
+    <TypeScriptCompile Include="src\GameUI\AssetsManager.ts" />
+    <TypeScriptCompile Include="src\GameUI\AudioManager.ts" />
+    <TypeScriptCompile Include="src\GameUI\Button.ts" />
+    <TypeScriptCompile Include="src\GameUI\GameScreen.ts" />
+    <TypeScriptCompile Include="src\GameUI\Grid.ts" />
+    <TypeScriptCompile Include="src\GameUI\ScreenState.ts" />
+    <TypeScriptCompile Include="src\GameUI\Transition.ts" />
+    <TypeScriptCompile Include="src\GameUI\UIItem.ts" />
     <TypeScriptCompile Include="src\Menu\About.ts" />
     <TypeScriptCompile Include="src\Menu\View\popupRating.ts" />
     <TypeScriptCompile Include="src\Menu\View\popupConfirm.ts" />
@@ -1506,7 +1508,9 @@
     <TypeScriptCompile Include="typing\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="typing\createjs\createjs.d.ts" />
     <TypeScriptCompile Include="typing\easeljs\easeljs.d.ts" />
+    <TypeScriptCompile Include="typing\pixi-filters.d.ts" />
     <TypeScriptCompile Include="typing\pixi.js.d.ts" />
+    <TypeScriptCompile Include="typing\pixi.patch.d.ts" />
     <TypeScriptCompile Include="typing\preloadjs\preloadjs.d.ts" />
     <TypeScriptCompile Include="typing\soundjs\soundjs.d.ts" />
     <TypeScriptCompile Include="typing\tweenjs\tweenjs.d.ts" />

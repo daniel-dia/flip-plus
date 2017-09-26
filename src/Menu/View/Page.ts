@@ -17,7 +17,7 @@
 
         public hidePage() {
             this.pageVisibility = this.visible = false;
-            if (this.pageVisibility == true) if (this.onHidePage) this.onHidePage();
+            if (this.pageVisibility) if (this.onHidePage) this.onHidePage();
             
         }
 

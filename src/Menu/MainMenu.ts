@@ -32,9 +32,9 @@ module FlipPlus.Menu {
             this.addPlayButton();
 
             this.addMyBots();
-             
+
             this.addMenu();
-            
+
             this.addCoinsIndicator();
 
             this.onback = () => { this.back(); };
@@ -69,13 +69,13 @@ module FlipPlus.Menu {
 
             // animate logo
             this.animateLogo();
-            
+
             // if is a new bot
-            if (parameters && parameters.bot && parameters.bot != "Bot01") 
+            if (parameters && parameters.bot && parameters.bot != "Bot01")
                 this.showCompletedBot(parameters.bot);
-            
+
             // if game completed
-            if (parameters && parameters.gameEnd) 
+            if (parameters && parameters.gameEnd)
                 this.showCompletedAllBots();
         }
 
@@ -84,7 +84,7 @@ module FlipPlus.Menu {
             this.terminal.desactivate();
             this.myBots.clear();
         }
-      
+
         private askUserForRating() {
             FlipPlusGame.storyData.setStoryPlayed("rating");
             var confirmPopup = new View.PopupRating();
@@ -93,21 +93,21 @@ module FlipPlus.Menu {
                 alert("OK");
             });
         }
-        
+
         private addLogo() {
             this.logo = new PIXI.extras.TilingSprite(gameui.AssetsManager.getLoadedImage("logo"), 795, 260);
             this.header.addChild(this.logo);
-            
+
             this.logo.x = 370;
             this.logo.y = 50 - FlipPlus.FlipPlusGame.gameScreen.headerPosition / 2;
         }
-    
+
         private addMyBots() {
             this.myBots = new Robots.MyBots(FlipPlusGame.levelsManager);
             this.content.addChild(this.myBots);
             this.myBots.on("robot", (BotId) => {
                 this.robotClick(BotId);
-           });
+            });
         }
 
         private addMenu() {
@@ -116,19 +116,18 @@ module FlipPlus.Menu {
             this.menu.addEventListener("back", () => { this.back() });
             this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(); });
             this.header.addChild(this.menu);
+            
+            //adds menu button
+            var achBt: gameui.ImageButton = new gameui.ImageButton("AchBt", () => {
+                FlipPlusGame.gameServices.showAchievements();
+            });
+            achBt.y = -90;
+            achBt.x = defaultWidth - 130;
+            this.footer.addChild(achBt);
 
-            if (!win) {
-                //adds menu button
-                var achBt: gameui.ImageButton = new gameui.ImageButton("AchBt", () => {
-                    FlipPlusGame.gameServices.showAchievements();
-                });
-                achBt.y = -90;
-                achBt.x = defaultWidth - 130;
-                this.footer.addChild(achBt);
-            }
 
         }
-        
+
         private addTerminal() {
 
             FlipPlusGame.levelsManager.updateProjectsUserData();
@@ -145,7 +144,7 @@ module FlipPlus.Menu {
 
                 // when bonus finishes the ads is shown
                 FlipPlusGame.showBonus(bonusId);
-                
+
             });
 
 
@@ -153,9 +152,9 @@ module FlipPlus.Menu {
 
         private addPlayButton() {
             //var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
-            var playBt = new gameui.TwoImageButtonBitmapText(StringResources["mm_play"], "fontStrong", 0xbf5110, "btplay_idle","btplay_press", () => {
-                FlipPlus.FlipPlusGame.showProjectLevelsMenu(); 
-            } )
+            var playBt = new gameui.TwoImageButtonBitmapText(StringResources["mm_play"], "fontStrong", 0xbf5110, "btplay_idle", "btplay_press", () => {
+                FlipPlus.FlipPlusGame.showProjectLevelsMenu();
+            })
             playBt.interactive = true;
             this.content.addChild(playBt);
             playBt.x = 800;
@@ -171,7 +170,7 @@ module FlipPlus.Menu {
         //------------ Other Geatures --------------------------------
 
         private showSpecialFeatures() {
-            
+
             // Hightlight bonus 
             if (!FlipPlusGame.storyData.getStoryPlayed("bonus") && FlipPlusGame.coinsData.getAmount() < 5) {
                 this.lock();
@@ -201,7 +200,7 @@ module FlipPlus.Menu {
             this.menu.interactive = true;
         }
 
-        private showCompletedBot(botId:string) {
+        private showCompletedBot(botId: string) {
 
             // show bot line
             setTimeout(() => { this.myBots.animateBot(botId); }, 500);
@@ -265,7 +264,7 @@ module FlipPlus.Menu {
                 this.terminal.setText(phrases[index]);
             }
         }
-        
+
         public showNewBot(botId: string) {
             //this.myBots.castNewEffect(botId);
             //this.terminal.setText("Novo Amigo");
