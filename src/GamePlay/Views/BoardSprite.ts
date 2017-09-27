@@ -56,43 +56,37 @@
 
                     this.blocksSprites[col][row] = blockSprite;
 
-                    //Add it to the board sprite
+                    // Add it to the board sprite
                     this.addChild(blockSprite);
-
+                    
                     blockSprite.interactive = true;
                 
-                    //Add event listener to the boardSprite
-
-                     
-
-                    blockSprite.on("mousedown", (event: any) => { this.presdown(event); })
-                    blockSprite.on("touchstart", (event: any) => { this.presdown(event); })
-
-                    blockSprite.on("touchend", (event: any) => { this.tap(event); })
-                    blockSprite.on("mouseup", (event: any) => { this.tap(event); })
-
-                    blockSprite.on("mouseupoutside", (event: any) => {  this.pressRelease(event); });
-                    blockSprite.on("touchendoutside", (event: any) => { this.pressRelease(event); });
-
-                }
+                    // Add event listener to the boardSprite
+                    blockSprite.on("pointerdown", (event: any) => { this.presdown(event); })
+                    blockSprite.on("pointerup", (event: any) => { this.tap(event); })
+                    blockSprite.on("pointerupoutside", (event: any) => { this.pressRelease(event); });
+                 }
             }
         }
 
-        private presdown(event: PIXI.interaction.InteractionEvent)  {
+        private presdown(event: PIXI.interaction.InteractionEvent) {
+            var target = event.currentTarget;
             if (this.locked) return;
-            event.target["pressed"] = true;
-            this.preInvertCross(<BlockSprite>event.target);
+            target["pressed"] = true;
+            this.preInvertCross(<BlockSprite>target);
         }
 
         private tap(event: PIXI.interaction.InteractionEvent) {
-            if (!event.target["pressed"]) return;
+            var target = event.currentTarget;
+
+            if (!target["pressed"]) return;
             if (this.locked) return;
 
-            event.target["pressed"] = false;
-            this.preInvertRelease(<BlockSprite>event.target);
+            target["pressed"] = false;
+            this.preInvertRelease(<BlockSprite>target);
             
             // get block
-            var b: BlockSprite = <BlockSprite>event.target;
+            var b: BlockSprite = <BlockSprite>target;
             this.callback(b.col, b.row);
 
             // play a Radom Sounds
@@ -106,10 +100,11 @@
             }    
         }
 
-        private pressRelease(event: PIXI.interaction.InteractionEvent)  {
-            if (!event.target["pressed"]) return;
-            event.target["pressed"] = false;
-            this.preInvertRelease(<BlockSprite>event.target);
+        private pressRelease(event: PIXI.interaction.InteractionEvent) {
+            var target = event.currentTarget;
+            if (!target["pressed"]) return;
+            target["pressed"] = false;
+            this.preInvertRelease(<BlockSprite>target);
         }
 
         //update a SingleCross

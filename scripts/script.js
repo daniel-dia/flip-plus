@@ -3279,34 +3279,33 @@ var FlipPlus;
                             //Creates block Sprite
                             var blockSprite = new Views.BlockSprite(col, row, theme, levelType);
                             this.blocksSprites[col][row] = blockSprite;
-                            //Add it to the board sprite
+                            // Add it to the board sprite
                             this.addChild(blockSprite);
                             blockSprite.interactive = true;
-                            //Add event listener to the boardSprite
-                            blockSprite.on("mousedown", function (event) { _this.presdown(event); });
-                            blockSprite.on("touchstart", function (event) { _this.presdown(event); });
-                            blockSprite.on("touchend", function (event) { _this.tap(event); });
-                            blockSprite.on("mouseup", function (event) { _this.tap(event); });
-                            blockSprite.on("mouseupoutside", function (event) { _this.pressRelease(event); });
-                            blockSprite.on("touchendoutside", function (event) { _this.pressRelease(event); });
+                            // Add event listener to the boardSprite
+                            blockSprite.on("pointerdown", function (event) { _this.presdown(event); });
+                            blockSprite.on("pointerup", function (event) { _this.tap(event); });
+                            blockSprite.on("pointerupoutside", function (event) { _this.pressRelease(event); });
                         }
                     }
                 };
                 BoardSprite.prototype.presdown = function (event) {
+                    var target = event.currentTarget;
                     if (this.locked)
                         return;
-                    event.target["pressed"] = true;
-                    this.preInvertCross(event.target);
+                    target["pressed"] = true;
+                    this.preInvertCross(target);
                 };
                 BoardSprite.prototype.tap = function (event) {
-                    if (!event.target["pressed"])
+                    var target = event.currentTarget;
+                    if (!target["pressed"])
                         return;
                     if (this.locked)
                         return;
-                    event.target["pressed"] = false;
-                    this.preInvertRelease(event.target);
+                    target["pressed"] = false;
+                    this.preInvertRelease(target);
                     // get block
-                    var b = event.target;
+                    var b = target;
                     this.callback(b.col, b.row);
                     // play a Radom Sounds
                     var randomsound = Math.ceil(Math.random() * 4);
@@ -3318,10 +3317,11 @@ var FlipPlus;
                     }
                 };
                 BoardSprite.prototype.pressRelease = function (event) {
-                    if (!event.target["pressed"])
+                    var target = event.currentTarget;
+                    if (!target["pressed"])
                         return;
-                    event.target["pressed"] = false;
-                    this.preInvertRelease(event.target);
+                    target["pressed"] = false;
+                    this.preInvertRelease(target);
                 };
                 //update a SingleCross
                 BoardSprite.prototype.updateCross = function (blocks, col, row) {
