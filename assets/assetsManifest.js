@@ -17,8 +17,9 @@
 ]
 
 var imageManifest = [
-        
-        { src :"tutorial.png", id:"tutorial"},
+
+        { src: "finger.png", id: "finger" },
+        { src: "tutorial.png", id: "tutorial" },
         { src: "tutorialHint.png", id: "tutorialHint" },
         { src: "TutorialTaps.png", id: "TutorialTaps" },
         { src: "Logo Small Round.png", id: "Logo Small Round" },
