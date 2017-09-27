@@ -10,7 +10,7 @@
         private callback: (col: number, row: number) => void;
 
         //indicator
-        private tutorialIndicator: PIXI.extras.MovieClip;
+        private finger: FlipPlus.DisplayObjects.Finger;
 
         constructor(levelWidth: number, levelHeight: number, levelTheme: string,levelType?:string) {
             super();
@@ -29,11 +29,8 @@
             this.pivot.y = boardHeight / 2;
 
             //load click indicator
-            this.tutorialIndicator = gameui.AssetsManager.getMovieClip("touch")
-            this.tutorialIndicator.pivot.x = this.tutorialIndicator.pivot.y = -55;
-            this.tutorialIndicator.mouseEnabled = false;
-            this.addChild(this.tutorialIndicator);
-            this.tutorialIndicator.visible = false;
+            this.finger = new FlipPlus.DisplayObjects.Finger ();
+            this.addChild(this.finger);
         }
 
         //initializes the effectss sprites
@@ -157,13 +154,7 @@
             var block = this.getBlockById(blockId);
             block.tutorialHighLight();
 
-            this.tutorialIndicator.visible = true;
-            this.tutorialIndicator.x = block.x - 100;
-            this.tutorialIndicator.y = block.y - 100;
-            this.tutorialIndicator.interactive = false;
-            this.tutorialIndicator.interactiveChildren = false;
-            this.tutorialIndicator.hitArea = new PIXI.Rectangle(0, 0, 0, 0);
-            this.tutorialIndicator.play();
+            this.finger.show(block.x + BlockSprite.defaultBlockSize / 2, block.y + BlockSprite.defaultBlockSize / 2);
             
         }
         
@@ -175,10 +166,7 @@
                 block.tutorialUnlock();
             }
 
-
-            this.tutorialIndicator.visible = false;
-
-
+            this.finger.hide();
         }
 
         public tutorialLockBlocks() {
