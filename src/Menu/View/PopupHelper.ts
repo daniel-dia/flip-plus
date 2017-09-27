@@ -8,7 +8,7 @@ module FlipPlus.Menu.View {
             super(true);
         }
 
-        public showRestartMessage() {
+        public showRestartMessage(restart:()=>void) {
 
             this.showsPopup(0, 0);
 
@@ -20,31 +20,39 @@ module FlipPlus.Menu.View {
             bg.x = 0;
             bg.y = 100;
             this.addChild(bg);
-
+          
             // create a text
             var textDO = gameui.AssetsManager.getBitmapText(StringResources.help_restart, "fontWhite");
             this.addChild(textDO);
             textDO.pivot.x = textDO.getLocalBounds().width / 2;
-            textDO.x = defaultWidth / 2;
-            
+            textDO.y = 550;
+            textDO.x = 1100;
+
             // add Image
             var img = gameui.AssetsManager.getBitmap("menu/imrestart")
             this.addChild(img)
             img.x = 80
-            img.y = 540;
-
-            // updates title and text values
-      
-            textDO.y = 550;
-            textDO.x = 1000;
-
+            img.y = 740;
+            img.pivot.y = img.getLocalBounds().height / 2;
+ 
             // Add Buttons
-            var bt = new gameui.BitmapTextButton(StringResources.help_restart_bt, "fontWhite", "menu/btoptions", () => {
+            var cancelButton = new gameui.BitmapTextButton(StringResources.help_cancel_bt, "fontWhite", "menu/btoptions", () => {
                 this.closePopUp();
             });
-            this.addChild(bt);
-            bt.x = 1000;
-            bt.y = 1100;
+            this.addChild(cancelButton);
+            cancelButton.x = defaultWidth / 4
+            cancelButton.y = 1150
+
+            // Add Restart Buttons
+            
+            var acceptBt = new gameui.IconBitmapTextButton("menu/icrestart", StringResources.help_restart_bt, "fontWhite", "menu/btoptions", () => {
+                this.closePopUp();
+                restart();
+            });
+            this.addChild(acceptBt);
+            acceptBt.bitmapText.x += 160;
+            acceptBt.x = defaultWidth / 4 * 3
+            acceptBt.y = 1150;
 
         }
 

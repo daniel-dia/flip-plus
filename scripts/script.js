@@ -2103,7 +2103,10 @@ var FlipPlus;
             };
             // show a message asking for user to restart
             LevelPuzzle.prototype.showRestartMessage = function () {
-                this.popupHelper.showRestartMessage();
+                var _this = this;
+                this.popupHelper.showRestartMessage(function () {
+                    _this.restart();
+                });
             };
             // show a message asking for user to skip
             LevelPuzzle.prototype.showSkipMessage = function () {
@@ -8871,7 +8874,7 @@ var FlipPlus;
                 function PopupHelper() {
                     return _super.call(this, true) || this;
                 }
-                PopupHelper.prototype.showRestartMessage = function () {
+                PopupHelper.prototype.showRestartMessage = function (restart) {
                     var _this = this;
                     this.showsPopup(0, 0);
                     //clean display Object
@@ -8885,22 +8888,30 @@ var FlipPlus;
                     var textDO = gameui.AssetsManager.getBitmapText(StringResources.help_restart, "fontWhite");
                     this.addChild(textDO);
                     textDO.pivot.x = textDO.getLocalBounds().width / 2;
-                    textDO.x = defaultWidth / 2;
+                    textDO.y = 550;
+                    textDO.x = 1100;
                     // add Image
                     var img = gameui.AssetsManager.getBitmap("menu/imrestart");
                     this.addChild(img);
                     img.x = 80;
-                    img.y = 540;
-                    // updates title and text values
-                    textDO.y = 550;
-                    textDO.x = 1000;
+                    img.y = 740;
+                    img.pivot.y = img.getLocalBounds().height / 2;
                     // Add Buttons
-                    var bt = new gameui.BitmapTextButton(StringResources.help_restart_bt, "fontWhite", "menu/btoptions", function () {
+                    var cancelButton = new gameui.BitmapTextButton(StringResources.help_cancel_bt, "fontWhite", "menu/btoptions", function () {
                         _this.closePopUp();
                     });
-                    this.addChild(bt);
-                    bt.x = 1000;
-                    bt.y = 1100;
+                    this.addChild(cancelButton);
+                    cancelButton.x = defaultWidth / 4;
+                    cancelButton.y = 1150;
+                    // Add Restart Buttons
+                    var acceptBt = new gameui.IconBitmapTextButton("menu/icrestart", StringResources.help_restart_bt, "fontWhite", "menu/btoptions", function () {
+                        _this.closePopUp();
+                        restart();
+                    });
+                    this.addChild(acceptBt);
+                    acceptBt.bitmapText.x += 150;
+                    acceptBt.x = defaultWidth / 4 * 3;
+                    acceptBt.y = 1150;
                 };
                 PopupHelper.prototype.showItemMessage = function (item, price, accept, cancel, customImage, customText) {
                     var _this = this;
@@ -9459,7 +9470,7 @@ var StringResources = {
     help_skip: "Don't worry, you\ncan use parts\nto skip this board\nand move on!",
     help_time: "Don't worry, you\ncan use parts\nto get more time!",
     help_touch: "Don't worry, you\ncan use parts\nto get more taps!",
-    help_restart_bt: "Great!",
+    help_restart_bt: "Restart",
     help_cancel_bt: "Not now",
     help_time_bt: "More Time",
     help_touch_bt: "More Taps",

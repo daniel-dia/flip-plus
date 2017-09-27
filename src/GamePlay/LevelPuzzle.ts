@@ -87,7 +87,9 @@ module FlipPlus.GamePlay {
 
         // show a message asking for user to restart
         private showRestartMessage() {
-            this.popupHelper.showRestartMessage();
+            this.popupHelper.showRestartMessage(() => {
+                this.restart();
+            });
         }
 
         // show a message asking for user to skip

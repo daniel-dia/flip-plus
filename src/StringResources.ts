@@ -97,7 +97,7 @@
     help_time: "Don't worry, you\ncan use parts\nto get more time!",
     help_touch: "Don't worry, you\ncan use parts\nto get more taps!",
 
-    help_restart_bt: "Great!",
+    help_restart_bt: "Restart",
     help_cancel_bt: "Not now",
     help_time_bt: "More Time",
     help_touch_bt: "More Taps",
