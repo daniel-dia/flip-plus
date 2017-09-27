@@ -1426,6 +1426,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="src\ads.ts" />
+    <TypeScriptCompile Include="src\DisplayObjects\HIghlught.ts" />
+    <TypeScriptCompile Include="src\DisplayObjects\Finger.ts" />
     <TypeScriptCompile Include="src\GameUI\AssetsManager.ts" />
     <TypeScriptCompile Include="src\GameUI\AudioManager.ts" />
     <TypeScriptCompile Include="src\GameUI\Button.ts" />

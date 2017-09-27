@@ -8,9 +8,8 @@ module FlipPlus.GamePlay.Views {
         private parameters: any;
 
         private items: Array<string>;
-
-        private tutorial_highlightSprite: PIXI.extras.MovieClip
-        private tutorial_finger: PIXI.Sprite;
+        
+        private tutorial_finger: FlipPlus.DisplayObjects.Finger;
 
         private currentItem:number;
         private xstart = 320;
@@ -33,14 +32,7 @@ module FlipPlus.GamePlay.Views {
 
         //adds tutorial touch indicator
         private addTutorialIndicator() {
-            this.tutorial_highlightSprite = gameui.AssetsManager.getMovieClip("touch")
-            this.tutorial_highlightSprite.visible = false;
-
-            this.tutorial_finger = gameui.AssetsManager.getBitmap("finger")
-            this.tutorial_finger.visible = false;
-            this.tutorial_finger.regX = 75;
-            this.tutorial_finger.regY = 40;
-
+            this.tutorial_finger = new FlipPlus.DisplayObjects.Finger()
         }
 
         //creates all menu butons
@@ -99,28 +91,8 @@ module FlipPlus.GamePlay.Views {
 
             //highlight the item
             this.addChild(this.tutorial_finger);
-            this.tutorial_finger.visible = true;
-            this.tutorial_finger.mouseEnabled = false;
-            this.tutorial_finger.rotation = 200 * Math.PI / 180;
-            createjs.Tween.removeTweens(this.tutorial_finger)
-            createjs.Tween.get(this.tutorial_finger)
-                .to({ scaleX: 1.3, scaleY: 1.3 }, 500, createjs.Ease.quadInOut)
-                .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.quadInOut)
-                .loop = true;
-
-            this.tutorial_highlightSprite.visible = true;
-            this.tutorial_highlightSprite.play();
-            this.addChild(this.tutorial_highlightSprite);
-            this.tutorial_highlightSprite.mouseEnabled = false;
-            this.tutorial_highlightSprite.hitArea = new PIXI.Rectangle(0, 0, 1, 1);
+            this.tutorial_finger.showDown(this.buttons[itemId].x, this.buttons[itemId].y);
             
-
-            this.tutorial_highlightSprite.x = this.buttons[itemId].x;
-            this.tutorial_highlightSprite.y = this.buttons[itemId].y - 160;
-
-            this.tutorial_finger.x = this.buttons[itemId].x;
-            this.tutorial_finger.y = this.buttons[itemId].y - 100;
-
             //define parameter for feedback
             this.parameters[itemId] = parameter;
         }
@@ -145,17 +117,7 @@ module FlipPlus.GamePlay.Views {
         }
 
         private stopTutorialsAnimation() {
-                    
-            this.tutorial_finger.scaleX = this.tutorial_finger.scaleY = 1;
-            createjs.Tween.removeTweens(this.tutorial_finger);
-            createjs.Tween.get(this.tutorial_finger).to({ alpha: 0 }, 500).call(() => {
-                this.tutorial_finger.alpha = 1;
-                this.tutorial_finger.visible = false;
-            });
-            this.tutorial_highlightSprite.visible = false;
-            this.tutorial_highlightSprite.stop();
+            this.tutorial_finger.hide();
         }
-
-
     }
 }
