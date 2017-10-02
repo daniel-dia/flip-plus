@@ -34,6 +34,8 @@
 /// <reference path="src/GamePlay/Views/GameplayMenu.ts" />
 /// <reference path="src/GamePlay/Views/StatusArea.ts" />
 
+/// <reference path="src/displayobjects/notification.ts" />
+
 /// <reference path="src/bonus/bonusscreen.ts" />
 /// <reference path="src/bonus/bonus1.ts" />
 /// <reference path="src/bonus/bonus2.ts" />
