@@ -749,7 +749,7 @@ var gameui;
             _this.bitmapText = gameui.AssetsManager.getBitmapText(text, bitmapFontId);
             _this.addChild(_this.bitmapText);
             _this.bitmapText.pivot.x = _this.bitmapText.textWidth / 2;
-            _this.bitmapText.pivot.y = _this.bitmapText.textHeight / 2 + 20;
+            _this.bitmapText.pivot.y = _this.bitmapText.textHeight / 2;
             _this.createHitArea();
             return _this;
         }
@@ -4930,10 +4930,15 @@ var FlipPlus;
                 _this.addPlayButton();
                 _this.addMyBots();
                 _this.addMenu();
+                _this.addNotification();
                 _this.addCoinsIndicator();
                 _this.onback = function () { _this.back(); };
                 return _this;
             }
+            MainMenu.prototype.addNotification = function () {
+                this.bonusNotification = new FlipPlus.DisplayObjects.BonusNotification();
+                this.header.addChild(this.bonusNotification);
+            };
             MainMenu.prototype.addCoinsIndicator = function () {
                 var _this = this;
                 // parts Indicator
@@ -4945,6 +4950,7 @@ var FlipPlus;
                 this.coinsIndicator.updateAmmount(FlipPlus.FlipPlusGame.coinsData.getAmount());
             };
             MainMenu.prototype.activate = function (parameters) {
+                var _this = this;
                 _super.prototype.activate.call(this);
                 // special Features
                 this.showSpecialFeatures();
@@ -4962,6 +4968,7 @@ var FlipPlus;
                 // if game completed
                 if (parameters && parameters.gameEnd)
                     this.showCompletedAllBots();
+                setTimeout(function () { _this.bonusNotification.show(); }, 2000);
             };
             MainMenu.prototype.desactivate = function (parameters) {
                 _super.prototype.desactivate.call(this, parameters);
@@ -4996,6 +5003,7 @@ var FlipPlus;
                 this.menu.addEventListener("back", function () { _this.back(); });
                 this.menu.addEventListener("menu", function () { FlipPlus.FlipPlusGame.showOptions(); });
                 this.header.addChild(this.menu);
+                this.menu.y += 90;
                 //adds menu button
                 var achBt = new gameui.ImageButton("AchBt", function () {
                     FlipPlus.FlipPlusGame.gameServices.showAchievements();
@@ -7467,7 +7475,7 @@ var currencies = {
     "EUR": "€",
     "VND": "₫"
 };
-var version = "v 1.2.2";
+var version = "v 1.5.5";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
 var defaultFont = "'Exo 2.0'";
@@ -7524,6 +7532,102 @@ var constantsiOS = {
     ACH_Bot17: 'Bot17',
     ACH_Bot18: 'Bot18'
 };
+var FlipPlus;
+(function (FlipPlus) {
+    var DisplayObjects;
+    (function (DisplayObjects) {
+        var Finger = (function (_super) {
+            __extends(Finger, _super);
+            function Finger() {
+                var _this = _super.call(this) || this;
+                _this.finger = gameui.AssetsManager.getBitmap("finger");
+                _this.finger.regX = 75;
+                _this.finger.regY = -100;
+                _this.addChild(_this.finger);
+                _this.visible = false;
+                _this.interactive = false;
+                _this.interactiveChildren = false;
+                _this.toUp();
+                _this.highlight = new DisplayObjects.Highlight();
+                _this.addChild(_this.highlight);
+                return _this;
+            }
+            Finger.prototype.showDown = function (x, y) {
+                if (x === void 0) { x = 0; }
+                if (y === void 0) { y = 0; }
+                this.show(x, y);
+                this.toDown();
+            };
+            Finger.prototype.showUp = function (x, y) {
+                if (x === void 0) { x = 0; }
+                if (y === void 0) { y = 0; }
+                this.show(x, y);
+                this.toUp();
+            };
+            Finger.prototype.show = function (x, y) {
+                if (x === void 0) { x = 0; }
+                if (y === void 0) { y = 0; }
+                this.x = x;
+                this.y = y;
+                this.highlight.show();
+                this.fadeIn();
+                createjs.Tween.removeTweens(this.finger);
+                createjs.Tween.get(this.finger)
+                    .to({ scaleX: 1.1, scaleY: 1.1 }, 500, createjs.Ease.quadInOut)
+                    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.quadInOut)
+                    .loop = true;
+            };
+            Finger.prototype.hide = function () {
+                this.highlight.hide();
+                createjs.Tween.removeTweens(this.finger);
+                this.finger.scaleX = this.finger.scaleY = 1;
+                this.fadeOut();
+            };
+            Finger.prototype.toDown = function () {
+                this.finger.rotation = 200 * Math.PI / 180;
+            };
+            Finger.prototype.toUp = function () {
+                this.finger.rotation = 330 * Math.PI / 180;
+            };
+            return Finger;
+        }(gameui.UIItem));
+        DisplayObjects.Finger = Finger;
+    })(DisplayObjects = FlipPlus.DisplayObjects || (FlipPlus.DisplayObjects = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var DisplayObjects;
+    (function (DisplayObjects) {
+        var Highlight = (function (_super) {
+            __extends(Highlight, _super);
+            function Highlight() {
+                var _this = _super.call(this) || this;
+                _this.highlight = gameui.AssetsManager.getMovieClip("touch");
+                _this.addChild(_this.highlight);
+                _this.visible = false;
+                _this.interactive = false;
+                _this.interactiveChildren = false;
+                _this.highlight.regX = _this.highlight.regY = 252 / 2;
+                _this.highlight.hitArea = new PIXI.Rectangle(0, 0, 1, 1);
+                return _this;
+            }
+            Highlight.prototype.show = function (x, y) {
+                if (x === void 0) { x = 0; }
+                if (y === void 0) { y = 0; }
+                this.x = x;
+                this.y = y;
+                this.fadeIn();
+                this.highlight.play();
+            };
+            Highlight.prototype.hide = function () {
+                this.highlight.stop();
+                this.fadeOut();
+            };
+            return Highlight;
+        }(gameui.UIItem));
+        DisplayObjects.Highlight = Highlight;
+    })(DisplayObjects = FlipPlus.DisplayObjects || (FlipPlus.DisplayObjects = {}));
+})(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
 (function (FlipPlus) {
     var GamePlay;
@@ -10013,96 +10117,83 @@ var FlipPlus;
 (function (FlipPlus) {
     var DisplayObjects;
     (function (DisplayObjects) {
-        var Finger = (function (_super) {
-            __extends(Finger, _super);
-            function Finger() {
+        var BonusNotification = (function (_super) {
+            __extends(BonusNotification, _super);
+            function BonusNotification() {
                 var _this = _super.call(this) || this;
-                _this.finger = gameui.AssetsManager.getBitmap("finger");
-                _this.finger.regX = 75;
-                _this.finger.regY = -100;
-                _this.addChild(_this.finger);
-                _this.visible = false;
-                _this.interactive = false;
-                _this.interactiveChildren = false;
-                _this.toUp();
-                _this.highlight = new DisplayObjects.Highlight();
-                _this.addChild(_this.highlight);
+                _this.y = BonusNotification.TopClosed;
+                _this.Background = gameui.AssetsManager.getBitmap("popups/Notification");
+                _this.addChild(_this.Background);
+                _this.content = new PIXI.Container();
+                _this.addChild(_this.content);
+                _this.content.y = 378 / 2;
+                _this.Image = gameui.AssetsManager.getBitmap("store/200parts");
+                _this.content.addChild(_this.Image);
+                _this.Image.regY = 208 / 2;
+                _this.Image.regX = 304 / 2;
+                _this.Image.x = 250;
+                _this.Text = gameui.AssetsManager.getBitmapText("SEU BONUS\nESTÁ PRONTO!", "fontWhite");
+                _this.content.addChild(_this.Text);
+                _this.Text.pivot.x = _this.Text.textWidth / 2;
+                _this.Text.pivot.y = _this.Text.textHeight / 2;
+                _this.Text.x = defaultWidth / 2;
+                _this.Text.align = 'center';
+                _this.Botao = new gameui.BitmapTextButton("Play", "fontWhite", "menu/btmusicon", function () { _this.emit("play"); });
+                _this.content.addChild(_this.Botao);
+                _this.Botao.x = defaultWidth - 250;
+                _this.hide();
+                _this.addInteractivity();
                 return _this;
             }
-            Finger.prototype.showDown = function (x, y) {
-                if (x === void 0) { x = 0; }
-                if (y === void 0) { y = 0; }
-                this.show(x, y);
-                this.toDown();
+            BonusNotification.prototype.addInteractivity = function () {
+                var _this = this;
+                this.interactive = true;
+                var previousPoint = 0;
+                var moving = false;
+                var start = function (e) {
+                    moving = true;
+                    previousPoint = e.data.getLocalPosition(_this.parent).y;
+                };
+                var end = function (e) {
+                    moving = false;
+                    if (_this.y < BonusNotification.Top - BonusNotification.Delta)
+                        _this.hide();
+                    else
+                        _this.show();
+                };
+                var move = function (e) {
+                    if (!moving)
+                        return;
+                    var point = e.data.getLocalPosition(_this.parent).y;
+                    _this.y += point - previousPoint;
+                    _this.y = Math.min(BonusNotification.Top, _this.y);
+                    previousPoint = point;
+                };
+                this.on("pointerdown", start);
+                this.on("pointerup", end);
+                this.on("pointerupoutside", end);
+                this.on("pointermove", move);
             };
-            Finger.prototype.showUp = function (x, y) {
-                if (x === void 0) { x = 0; }
-                if (y === void 0) { y = 0; }
-                this.show(x, y);
-                this.toUp();
+            BonusNotification.prototype.show = function () {
+                createjs.Tween.removeTweens(this);
+                this.visible = true;
+                //this.y = BonusNotification.TopClosed;
+                createjs.Tween.get(this)
+                    .to({ y: BonusNotification.Top }, 500, createjs.Ease.quadOut);
             };
-            Finger.prototype.show = function (x, y) {
-                if (x === void 0) { x = 0; }
-                if (y === void 0) { y = 0; }
-                this.x = x;
-                this.y = y;
-                this.highlight.show();
-                this.fadeIn();
-                createjs.Tween.removeTweens(this.finger);
-                createjs.Tween.get(this.finger)
-                    .to({ scaleX: 1.1, scaleY: 1.1 }, 500, createjs.Ease.quadInOut)
-                    .to({ scaleX: 1, scaleY: 1 }, 500, createjs.Ease.quadInOut)
-                    .loop = true;
+            BonusNotification.prototype.hide = function () {
+                createjs.Tween.removeTweens(this);
+                this.visible = true;
+                //this.y = BonusNotification.Top;
+                createjs.Tween.get(this)
+                    .to({ y: BonusNotification.TopClosed }, 500, createjs.Ease.quadOut);
             };
-            Finger.prototype.hide = function () {
-                this.highlight.hide();
-                createjs.Tween.removeTweens(this.finger);
-                this.finger.scaleX = this.finger.scaleY = 1;
-                this.fadeOut();
-            };
-            Finger.prototype.toDown = function () {
-                this.finger.rotation = 200 * Math.PI / 180;
-            };
-            Finger.prototype.toUp = function () {
-                this.finger.rotation = 330 * Math.PI / 180;
-            };
-            return Finger;
-        }(gameui.UIItem));
-        DisplayObjects.Finger = Finger;
-    })(DisplayObjects = FlipPlus.DisplayObjects || (FlipPlus.DisplayObjects = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var DisplayObjects;
-    (function (DisplayObjects) {
-        var Highlight = (function (_super) {
-            __extends(Highlight, _super);
-            function Highlight() {
-                var _this = _super.call(this) || this;
-                _this.highlight = gameui.AssetsManager.getMovieClip("touch");
-                _this.addChild(_this.highlight);
-                _this.visible = false;
-                _this.interactive = false;
-                _this.interactiveChildren = false;
-                _this.highlight.regX = _this.highlight.regY = 252 / 2;
-                _this.highlight.hitArea = new PIXI.Rectangle(0, 0, 1, 1);
-                return _this;
-            }
-            Highlight.prototype.show = function (x, y) {
-                if (x === void 0) { x = 0; }
-                if (y === void 0) { y = 0; }
-                this.x = x;
-                this.y = y;
-                this.fadeIn();
-                this.highlight.play();
-            };
-            Highlight.prototype.hide = function () {
-                this.highlight.stop();
-                this.fadeOut();
-            };
-            return Highlight;
-        }(gameui.UIItem));
-        DisplayObjects.Highlight = Highlight;
+            return BonusNotification;
+        }(PIXI.Container));
+        BonusNotification.Top = 0;
+        BonusNotification.TopClosed = -391;
+        BonusNotification.Delta = 100;
+        DisplayObjects.BonusNotification = BonusNotification;
     })(DisplayObjects = FlipPlus.DisplayObjects || (FlipPlus.DisplayObjects = {}));
 })(FlipPlus || (FlipPlus = {}));
 //# sourceMappingURL=script.js.map

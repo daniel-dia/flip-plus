@@ -15,6 +15,7 @@ module FlipPlus.Menu {
         private confirmPopup: View.PopupConfirm;
         private ratingPopup: View.PopupRating;
 
+        private bonusNotification: FlipPlus.DisplayObjects.BonusNotification;
         protected coinsIndicator: Menu.View.CoinsIndicator;
 
         constructor() {
@@ -35,9 +36,19 @@ module FlipPlus.Menu {
 
             this.addMenu();
 
+            this.addNotification();
+
             this.addCoinsIndicator();
 
+           
+
             this.onback = () => { this.back(); };
+
+        }
+
+        private addNotification() {
+            this.bonusNotification = new FlipPlus.DisplayObjects.BonusNotification();
+            this.header.addChild(this.bonusNotification);
         }
 
         private addCoinsIndicator() {
@@ -77,6 +88,8 @@ module FlipPlus.Menu {
             // if game completed
             if (parameters && parameters.gameEnd)
                 this.showCompletedAllBots();
+
+            setTimeout(() => { this.bonusNotification.show(); }, 2000);
         }
 
         public desactivate(parameters?: any) {
@@ -107,7 +120,7 @@ module FlipPlus.Menu {
             this.content.addChild(this.myBots);
             this.myBots.on("robot", (BotId) => {
                 this.robotClick(BotId);
-            });
+            }); 
         }
 
         private addMenu() {
@@ -116,7 +129,7 @@ module FlipPlus.Menu {
             this.menu.addEventListener("back", () => { this.back() });
             this.menu.addEventListener("menu", () => { FlipPlus.FlipPlusGame.showOptions(); });
             this.header.addChild(this.menu);
-            
+            this.menu.y += 90;
             //adds menu button
             var achBt: gameui.ImageButton = new gameui.ImageButton("AchBt", () => {
                 FlipPlusGame.gameServices.showAchievements();
