@@ -10,44 +10,44 @@
         }
 
         // get seconds left to the next release
-        public getBonusTimeoutSeconds(bonusId: string): number {
+        public getBonusTimeoutSeconds(bonusId: string = "Bonus"): number {
             return FlipPlusGame.timersData.getTimer(bonusId);
         }
 
         // set seconds left to the next release
-        public setBonusTimeoutMinutes(bonusId: string,time:number) {
-            FlipPlusGame.timersData.setTimer(bonusId,time);
+        public setBonusTimeoutMinutes(bonusId: string = "Bonus", time: number = 120) {
+            FlipPlusGame.timersData.setTimer(bonusId, time);
         }
 
         // restart a bonus timer, and cut time in a half 
-        public restartBonusTimer(bonusId: string, half: boolean = false) {
+        public restartBonusTimer(bonusId: string = "Bonus", half: boolean = false) {
             var timeOut = this.bonusData[bonusId].timeOut;
             if (half) timeOut = timeOut / 2;
             FlipPlusGame.timersData.setTimer(bonusId, timeOut);
         }
 
         // restart all bonus timer, and cut time in a half 
-        public restartAllBonusTimers(half: boolean=false) {
+        public restartAllBonusTimers(half: boolean = false) {
             for (var bonusId in this.bonusData)
                 this.restartBonusTimer(bonusId, half);
         }
 
 
         // get if a bonus can be playable in the current Level
-        public getBonusUnlocked(bonusId) {
+        public getBonusUnlocked(bonusId = "Bonus") {
             var unlockedBots = FlipPlusGame.levelsManager.getFinihedProjectsCount();
             return this.bonusData[bonusId].unlock <= unlockedBots;
         }
 
         // get if a bonus timespan is done
-        public getBonusTimeReady(bonusId) {
+        public getBonusTimeReady(bonusId = "Bonus") {
             var timer = FlipPlusGame.timersData.getTimer(bonusId);
             if (timer != 0) return false;
             return true;
         }
 
         // get if bonus is avaliable
-        public getBonusAvaliable(bonusId: string) {
+        public getBonusAvaliable(bonusId: string = "Bonus") {
             return this.getBonusTimeReady(bonusId) && this.getBonusUnlocked(bonusId);
         }
 

@@ -24,6 +24,7 @@ module FlipPlus.Menu {
             var bg = gameui.AssetsManager.getBitmap("mybotsbg");
             bg.y = -339;
             bg.scale.y = 1.3310546875;
+
             this.content.addChild(bg);
 
             this.addLogo();
@@ -40,15 +41,22 @@ module FlipPlus.Menu {
 
             this.addCoinsIndicator();
 
-           
-
             this.onback = () => { this.back(); };
-
         }
 
         private addNotification() {
-            this.bonusNotification = new FlipPlus.DisplayObjects.BonusNotification();
+            this.bonusNotification = new FlipPlus.DisplayObjects.BonusNotification(FlipPlusGame.bonusManager);
             this.header.addChild(this.bonusNotification);
+
+            this.bonusNotification.on("play", (bonusId) => {
+
+                //// loads ads and show bonus
+                //CocoonAds.load();
+
+                // when bonus finishes the ads is shown
+                FlipPlusGame.showBonus("Bonus1");
+
+            });
         }
 
         private addCoinsIndicator() {
@@ -89,7 +97,8 @@ module FlipPlus.Menu {
             if (parameters && parameters.gameEnd)
                 this.showCompletedAllBots();
 
-            setTimeout(() => { this.bonusNotification.show(); }, 2000);
+            if (FlipPlusGame.bonusManager.getBonusUnlocked())
+                setTimeout(() => { this.bonusNotification.show(); }, 1000);
         }
 
         public desactivate(parameters?: any) {
@@ -120,7 +129,7 @@ module FlipPlus.Menu {
             this.content.addChild(this.myBots);
             this.myBots.on("robot", (BotId) => {
                 this.robotClick(BotId);
-            }); 
+            });
         }
 
         private addMenu() {
