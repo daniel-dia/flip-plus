@@ -54,7 +54,7 @@ module FlipPlus.Menu {
                 //CocoonAds.load();
 
                 // when bonus finishes the ads is shown
-                FlipPlusGame.showBonus("Bonus1");
+                FlipPlusGame.showBonusRoulette();
 
             });
         }
@@ -97,7 +97,7 @@ module FlipPlus.Menu {
             if (parameters && parameters.gameEnd)
                 this.showCompletedAllBots();
 
-            if (FlipPlusGame.bonusManager.getBonusUnlocked())
+            if (FlipPlusGame.bonusManager.getBonusTimeReady("Bonus1"))
                 setTimeout(() => { this.bonusNotification.show(); }, 1000);
         }
 

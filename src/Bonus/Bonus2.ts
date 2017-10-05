@@ -13,11 +13,11 @@
 
         constructor(itemsArray: Array<string>, sufix: string= "1") {
             super(itemsArray, "Bonus2");
-            this.cards = [];
             this.matchesFound = 0;
         }
 
         addObjects() {
+            this.cards = [];
             super.addObjects();
             var cards = this.generateCards(12, 5, ["coin", "coin", "coin", "2coin", "3coin"]);
             this.pairs = 5;

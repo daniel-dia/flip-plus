@@ -160,6 +160,20 @@ module FlipPlus {
             this.gameScreen.switchScreen(this.workshopMenu, parameters);
         }
 
+        public static showBonusRoulette() {
+            var screen = new Bonus.BonusRouletteScreen();
+
+            // verify if player purchased halfTime bonus
+            var halfTime = FlipPlusGame.storyData.getStoryPlayed("halfTime");
+
+            // restart bonus timer
+            FlipPlusGame.bonusManager.restartBonusTimer("Bonus", halfTime);
+
+            // goes to Bonus screen
+            this.gameScreen.switchScreen(screen);
+
+        }
+
         public static showBonus(bonusId: string) {
 
             if (!this.bonusManager.getBonusAvaliable(bonusId)) return;

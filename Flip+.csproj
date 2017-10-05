@@ -1426,6 +1426,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="src\ads.ts" />
+    <TypeScriptCompile Include="src\Bonus\BonusRouletteScreen.ts" />
+    <TypeScriptCompile Include="src\DisplayObjects\Monitor.ts" />
     <TypeScriptCompile Include="src\DisplayObjects\Notification.ts" />
     <TypeScriptCompile Include="src\DisplayObjects\BonusNotification.ts" />
     <TypeScriptCompile Include="src\DisplayObjects\HIghlught.ts" />

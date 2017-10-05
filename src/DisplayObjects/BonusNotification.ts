@@ -35,10 +35,7 @@ module FlipPlus.DisplayObjects {
 
         private updateBonusInfo() {
 
-            var nextTime = this.bonusManager.getBonusTimeoutSeconds();
-
-            var currentTime = Date.now();
-            var seconds = nextTime - currentTime;
+            var seconds = this.bonusManager.getBonusTimeoutSeconds("Bonus1");
 
             if (seconds <= 0)
                 this.setBonusReadyText();
@@ -47,7 +44,7 @@ module FlipPlus.DisplayObjects {
         }
 
         private setCountDownText(seconds: number) {
-            this.Text.text = this.toHHMMSS(seconds);
+            this.Text.text = "PRÓXIMO BONUS\n" + this.toHHMMSS(seconds);
             this.Text.pivot.x = this.Text.textWidth / 2;
             this.Text.pivot.y = this.Text.textHeight / 2;
             this.PlayButton.visible = false;

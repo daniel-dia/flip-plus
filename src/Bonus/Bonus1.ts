@@ -9,16 +9,16 @@
 
         private items: Array<string>;
         private remaningInteraction: number;
-        private positions:Array<any>
+
 
         constructor(itemsArray: Array<string>, sufix: string = "1") {
             super(itemsArray, "Bonus1");
-            this.positions = [{ x: 120, y: 402 }, { x: 927, y: 350 }, { x: 562, y: 646 }, { x: 195, y: 872 }, { x: 1056, y: 784 }, { x: 632, y: 1142 }, { x: 137, y: 1322 }, { x: 1047, y: 1347 }];
         }
 
         addObjects() {
             super.addObjects();
-            this.addBarrels();
+
+            this.addBarrels([{ x: 120, y: 402 }, { x: 927, y: 350 }, { x: 562, y: 646 }, { x: 195, y: 872 }, { x: 1056, y: 784 }, { x: 632, y: 1142 }, { x: 137, y: 1322 }, { x: 1047, y: 1347 }]);
 
             var bg = this.background.getChildByName("background");
             bg.scale.x = bg.scale.y = 4;
@@ -32,45 +32,45 @@
         }
 
         // adds barrels to the scene
-        private addBarrels(barrelsCount:number=8, cols:number=3) {
+        private addBarrels(positions: Array<any>, barrelsCount: number = 8, cols: number = 3) {
 
             //initialize arrays
             this.barrels = [];
             this.barrelsItens = [];
             this.contentShadow = [];
-            
+
             //adds barrels
             for (var b = 0; b < barrelsCount; b++) {
-                var barrel = this.createBarrel(b, this.positions[b]);
-                
+                var barrel = this.createBarrel(b, positions[b]);
+
                 // save obj to local array
                 this.barrels.push(barrel);
 
                 // instantiate a new container for barrel content
                 var itemContainer = new PIXI.Container();
-                itemContainer.x = this.positions[b].x + 150;
-                itemContainer.y = this.positions[b].y + 100;
+                itemContainer.x = positions[b].x + 150;
+                itemContainer.y = positions[b].y + 100;
                 this.barrelsItens.push(itemContainer);
-          
+
                 // instantiate a new shadow for content
                 var shadow = new PIXI.Graphics().beginFill(0x000).drawEllipse(0, 0, 100, 30);
                 shadow.alpha = 0.2;
-                shadow.x = this.positions[b].x + 150;
-                shadow.y = this.positions[b].y + 230;
+                shadow.x = positions[b].x + 150;
+                shadow.y = positions[b].y + 230;
                 this.contentShadow.push(shadow);
-                
+
                 // adds to scene
                 this.content.addChild(shadow);
-                this.content.addChild(itemContainer);  
+                this.content.addChild(itemContainer);
                 this.content.addChild(barrel);
             }
         }
 
         // create a new barrel object                
-        private createBarrel(id,position): gameui.Button {
+        private createBarrel(id, position): gameui.Button {
 
             var barrel = new gameui.Button((event: any) => { this.barrelTap(event) });
-            
+
             //adds Barrel 
             var spriteBarrel = gameui.AssetsManager.getBitmap("Bonus1/barrel" + id);
             spriteBarrel.rotation = 10 / Math.PI / 180;
@@ -87,8 +87,8 @@
             var bn = barrel.getBounds();
             var spriteWater = gameui.AssetsManager.getMovieClip("agua");
             barrel.addChild(spriteWater);
-            spriteWater.x =-60;
-            spriteWater.y =225;
+            spriteWater.x = -60;
+            spriteWater.y = 225;
             spriteWater.gotoAndPlay(Math.random() * 120)
 
 
@@ -96,11 +96,11 @@
             barrel.pivot.x = 180;
             barrel.pivot.y = 180;
             barrel.x = position.x + 180;
-            barrel.y = position.y +180;
-            
+            barrel.y = position.y + 180;
+
             //animate barrel
             createjs.Tween.get(barrel, { loop: true })
-                .to({ x: position.x + 180  })
+                .to({ x: position.x + 180 })
                 .wait(Math.random() * 2000)
                 .to({ x: position.x + 180 - 30 }, 2000, createjs.Ease.quadInOut)
                 .wait(Math.random() * 2000)
@@ -110,11 +110,11 @@
             if (Math.random() > 0.5) barrel.scale.x = -1;
 
             return barrel;
-                
+
         }
 
         // shuffle a new Game
-        private setNewGame(itemsCount: number= 6) {
+        private setNewGame(itemsCount: number = 6) {
 
             var barrelsCount: number = 8;
 
@@ -162,7 +162,7 @@
         }
 
         // radomizes itens into a array
-        private randomItensInArray(itemsCount: number= 3, arrayLength: number= 9) : Array<string> {
+        private randomItensInArray(itemsCount: number = 3, arrayLength: number = 9): Array<string> {
             var finalList: Array<string> = []
 
             //randomize itens in barrels
@@ -175,7 +175,7 @@
                 //select and remove a barrel from a list, and set a item to it
                 var index = Math.floor(Math.random() * indexesLists.length);
                 var barrelId = indexesLists[index];
-                indexesLists.splice(index,1);
+                indexesLists.splice(index, 1);
 
                 //set a random item to the selected barrel
                 finalList[barrelId] = this.getRandomItem();
@@ -215,7 +215,7 @@
                 gameui.AudiosManager.playSound("Correct Answer");
                 this.userAquireItem(this.items[barrelId]);
                 this.animateItemToHeader(this.barrelsItens[barrelId].getChildByName("item"));
-                createjs.Tween.get(this.contentShadow[barrelId]).to({alpha:0},600);
+                createjs.Tween.get(this.contentShadow[barrelId]).to({ alpha: 0 }, 600);
             }
             else {
                 this.animateItemObjectIdle(this.barrelsItens[barrelId]);
@@ -228,7 +228,7 @@
             this.remaningInteraction--;
             if (this.remaningInteraction <= 0) {
                 this.endBonus();
-                 
+
             }
         }
 
@@ -237,15 +237,15 @@
             //locks barrels interactions
             for (var barrel in this.barrels)
                 this.barrels[barrel].interactive = false;
- 
+
             //adds objects in barrel
             for (var b = 0; b < this.barrels.length; b++)
-                this.barrelsItens[b].visible = true;               
+                this.barrelsItens[b].visible = true;
 
             //delay and hide others barrels and show other barrels content
             setTimeout(() => {
-                for (var barrel = 0; barrel < this.barrels.length; barrel ++) 
-                createjs.Tween.get(this.barrels[barrel]).wait(barrel * 100).to({ alpha: 0 }, 150);
+                for (var barrel = 0; barrel < this.barrels.length; barrel++)
+                    createjs.Tween.get(this.barrels[barrel]).wait(barrel * 100).to({ alpha: 0 }, 150);
             }, 1000);
 
             setTimeout(() => { super.endBonus(); }, 3500);

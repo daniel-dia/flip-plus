@@ -41,7 +41,7 @@
             this.header.addChild(this.partsIndicator);
             this.partsIndicator.x = defaultWidth / 2;
             
-            //adds bonus objc
+            //adds bonus objects
             this.addObjects();
  
             //adds message
