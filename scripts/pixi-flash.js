@@ -439,14 +439,14 @@
              * tweening exported from Flash will work correctly.
              * @property {Number} rotation
              */
-            rotation:
-            {
-                enumerable: true,
-                get: function () { return this._rotation * RAD_TO_DEG; },
-                set: function (value) {
-                    this._rotation = value * DEG_TO_RAD;
-                }
-            },
+            //rotation_d:
+            //{
+            //    enumerable: true,
+            //    get: function () { return this.rotation * RAD_TO_DEG; },
+            //    set: function (value) {
+            //        this.rotation = value * DEG_TO_RAD;
+            //    }
+            //},
             /**
              * The x scale value of the display object.
              * This property provides parity with CreateJS display objects.
@@ -611,7 +611,7 @@
             rotX = this._rotation + skew.x;
 
         // so if rotation is between 0 then we can simplify the multiplication process...
-        if (rotY % PI_2 || rotX % PI_2) {
+        if (!(rotY % PI_2 || rotX % PI_2)) {
             // check to see if the rotation is the same as the previous render. This means we only need to use sin and cos when rotation actually changes
             if (rotX !== this._cachedRotX || rotY !== this._cachedRotY) {
                 // cache new values
@@ -676,7 +676,7 @@
         this.position.y = y || 0;
         this.scale.x = !scaleX ? 1 : scaleX;
         this.scale.y = !scaleY ? 1 : scaleY;
-        this.rotation = rotation || 0;
+        this.rotation_d = rotation || 0;
         this.skewX = skewX || 0;
         this.skewY = skewY || 0;
         this.pivot.x = regX || 0;

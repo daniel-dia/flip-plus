@@ -97,8 +97,12 @@ module FlipPlus.Menu {
             if (parameters && parameters.gameEnd)
                 this.showCompletedAllBots();
 
-            if (FlipPlusGame.bonusManager.getBonusTimeReady("Bonus1"))
-                setTimeout(() => { this.bonusNotification.show(); }, 1000);
+            if (FlipPlusGame.storyData.getStoryPlayed("intro2")) {
+                if (FlipPlusGame.bonusManager.getBonusTimeReady("Bonus1"))
+                    setTimeout(() => { this.bonusNotification.show(); }, 1000);
+            }
+            else
+                this.bonusNotification.visible = false;
         }
 
         public desactivate(parameters?: any) {

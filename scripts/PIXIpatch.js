@@ -41,10 +41,10 @@
     },
     rotation_d: {
         get: function () {
-            return this.rotation * 180 / Math.PI;
+            return this.rotation * (180 / Math.PI);
         },
         set: function (v) {
-            this.rotation = v / 180 * Math.PI;
+            this.rotation = v / (180  / Math.PI);
         }
     },
     set:{

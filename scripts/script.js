@@ -5057,8 +5057,12 @@ var FlipPlus;
                 // if game completed
                 if (parameters && parameters.gameEnd)
                     this.showCompletedAllBots();
-                if (FlipPlus.FlipPlusGame.bonusManager.getBonusTimeReady("Bonus1"))
-                    setTimeout(function () { _this.bonusNotification.show(); }, 1000);
+                if (FlipPlus.FlipPlusGame.storyData.getStoryPlayed("intro2")) {
+                    if (FlipPlus.FlipPlusGame.bonusManager.getBonusTimeReady("Bonus1"))
+                        setTimeout(function () { _this.bonusNotification.show(); }, 1000);
+                }
+                else
+                    this.bonusNotification.visible = false;
             };
             MainMenu.prototype.desactivate = function (parameters) {
                 _super.prototype.desactivate.call(this, parameters);
