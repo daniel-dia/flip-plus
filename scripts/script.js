@@ -5269,7 +5269,6 @@ var FlipPlus;
             //View
             var Terminal = (function (_super) {
                 __extends(Terminal, _super);
-                // #region initialization    
                 function Terminal() {
                     var _this = _super.call(this) || this;
                     _this.intervalTimeoutSeconds = 5000;
@@ -5316,7 +5315,6 @@ var FlipPlus;
                 Terminal.prototype.interaction = function () {
                     if (this.currentAction) {
                         if (this.currentAction == "next") {
-                            this.showNextBonus();
                         }
                         else {
                             this.emit(this.currentAction, this.currentParameter);
@@ -5335,7 +5333,7 @@ var FlipPlus;
                 };
                 // Activate, Or show bonus, or show a sale.
                 Terminal.prototype.activate = function () {
-                    this.showBonusStatus();
+                    //this.showBonusStatus();
                 };
                 // Stops all processing in the terminal
                 Terminal.prototype.desactivate = function () {
@@ -5345,8 +5343,6 @@ var FlipPlus;
                     if (this.rotationTimeout)
                         clearInterval(this.rotationTimeout);
                 };
-                // #endregion
-                // #region content
                 // set a container graphic into the Terminal.
                 Terminal.prototype.setContent = function (content) {
                     var _this = this;
@@ -5416,7 +5412,6 @@ var FlipPlus;
                     return content;
                 };
                 Terminal.prototype.setText = function (text, timeout) {
-                    var _this = this;
                     if (timeout === void 0) { timeout = 8000; }
                     this.currentAction = null;
                     clearInterval(this.rotationTimeout);
@@ -5439,12 +5434,8 @@ var FlipPlus;
                         if (char > text.length)
                             clearInterval(i);
                     }, 40);
-                    this.rotationTimeout = setInterval(function () {
-                        _this.showNextBonus();
-                    }, timeout);
                 };
                 Terminal.prototype.setTextImediate = function (text, timeout) {
-                    var _this = this;
                     if (timeout === void 0) { timeout = 8000; }
                     this.currentAction = null;
                     clearInterval(this.rotationTimeout);
@@ -5465,9 +5456,6 @@ var FlipPlus;
                         if (char > text.length)
                             clearInterval(i);
                     }, 40);
-                    this.rotationTimeout = setInterval(function () {
-                        _this.showNextBonus();
-                    }, timeout);
                 };
                 Terminal.prototype.hightlighTerminal = function () {
                     var _this = this;
@@ -5482,87 +5470,9 @@ var FlipPlus;
                         });
                     }
                 };
-                // #endregion
-                // #region bonus
-                // show bonus rotation or bonus ready
-                Terminal.prototype.showBonusStatus = function () {
-                    var bonusready;
-                    // verifies in all bonuses if there is one ready.
-                    for (var b in this.bonuses) {
-                        var bonusId = this.bonuses[b];
-                        //if there is a bonus ready, shows it
-                        if (FlipPlus.FlipPlusGame.bonusManager.getBonusAvaliable(bonusId)) {
-                            bonusready = bonusId;
-                            break;
-                        }
-                    }
-                    if (bonusready)
-                        this.showBonusInfo(bonusready);
-                    else
-                        this.showNextBonus();
-                };
-                // shows next bonus
-                Terminal.prototype.showNextBonus = function () {
-                    var _this = this;
-                    // clear current interval
-                    if (this.rotationTimeout)
-                        clearInterval(this.rotationTimeout);
-                    this.showBonusInfo(this.bonuses[this.currentBonus++]);
-                    if (this.currentBonus >= this.bonuses.length)
-                        this.currentBonus = 0;
-                    this.rotationTimeout = setTimeout(function () {
-                        // show a bonus current timer info in loop.
-                        _this.showNextBonus();
-                    }, this.intervalTimeoutSeconds);
-                };
-                // show a single bonus timeout info.
-                Terminal.prototype.showBonusInfo = function (bonusId) {
-                    var _this = this;
-                    var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", "");
-                    this.currentParameter = bonusId;
-                    this.currentAction = "bonus";
-                    var highlighted = false;
-                    // update texts
-                    var update = function () {
-                        var text;
-                        var timeout = FlipPlus.FlipPlusGame.bonusManager.getBonusTimeoutSeconds(bonusId);
-                        if (!FlipPlus.FlipPlusGame.bonusManager.getBonusUnlocked(bonusId)) {
-                            text = StringResources.bonusLocked;
-                            _this.currentAction = "next";
-                        }
-                        else if (!FlipPlus.FlipPlusGame.bonusManager.getBonusTimeReady(bonusId)) {
-                            text = _this.toHHMMSS(timeout);
-                            _this.currentAction = "next";
-                        }
-                        else if (FlipPlus.FlipPlusGame.bonusManager.getBonusAvaliable(bonusId)) {
-                            _this.currentParameter = bonusId;
-                            _this.currentAction = "bonus";
-                            text = StringResources.mm_play;
-                            if (!highlighted)
-                                _this.hightlighTerminal();
-                            highlighted = true;
-                        }
-                        var iconTextDO = content.getChildByName("iconText");
-                        iconTextDO.text = text;
-                    };
-                    if (this.secondsIntevalUpdate)
-                        clearInterval(this.secondsIntevalUpdate);
-                    this.secondsIntevalUpdate = setInterval(update, 500);
-                    update();
-                    var smallText = content.getChildByName("iconText");
-                    //var iconDO = <PIXI.extras.BitmapText>content.getChildByName("icon")
-                    //
-                    smallText.pivot.x = smallText.getLocalBounds().width / 2 * smallText.scaleX;
-                    //iconDO.x = - smallText.width / 2 - 20;
-                    //smallText.x = iconDO.width / 2 + 20;
-                };
-                // #endregion
-                // #region ending
                 Terminal.prototype.showEnding = function () {
                     this.setText(StringResources.endingText, 1000);
                 };
-                // #endregion
-                // #region utils
                 Terminal.prototype.toHHMMSS = function (sec_num) {
                     var hours = Math.floor(sec_num / 3600);
                     var minutes = Math.floor((sec_num - (hours * 3600)) / 60);

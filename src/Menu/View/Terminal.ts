@@ -21,7 +21,6 @@ module FlipPlus.Menu.View
         private bonuses = ["Bonus1", "Bonus2", "Bonus3"];
         private currentBonus: number = 0;
 
-        // #region initialization    
         constructor()
         {
             super();
@@ -76,7 +75,7 @@ module FlipPlus.Menu.View
         private interaction() {
             if (this.currentAction) {
                 if (this.currentAction == "next") {
-                    this.showNextBonus();
+                     
                 }
                 else {
                     this.emit(this.currentAction, this.currentParameter)
@@ -97,7 +96,7 @@ module FlipPlus.Menu.View
 
         // Activate, Or show bonus, or show a sale.
         public activate() {
-            this.showBonusStatus();
+            //this.showBonusStatus();
         }
         
         // Stops all processing in the terminal
@@ -106,10 +105,6 @@ module FlipPlus.Menu.View
             if (this.secondsIntevalUpdate)   clearInterval(this.secondsIntevalUpdate);
             if (this.rotationTimeout) clearInterval(this.rotationTimeout);
         }
-              
-        // #endregion
-
-        // #region content
 
         // set a container graphic into the Terminal.
         public setContent(content: PIXI.Container) {
@@ -229,9 +224,7 @@ module FlipPlus.Menu.View
                     clearInterval(i);
             }, 40);
 
-            this.rotationTimeout = setInterval(() => {
-                this.showNextBonus()
-            }, timeout);
+ 
 
 
         }
@@ -265,11 +258,7 @@ module FlipPlus.Menu.View
                     clearInterval(i);
             }, 40);
 
-            this.rotationTimeout = setInterval(() => {
-                this.showNextBonus()
-            }, timeout);
-
-
+  
         }
 
         private hightlighTerminal() {
@@ -284,111 +273,11 @@ module FlipPlus.Menu.View
                     });
             }
         }
-
-        // #endregion
  
-        // #region bonus
-
-        // show bonus rotation or bonus ready
-        public showBonusStatus() {
-
-            var bonusready: string;
-            // verifies in all bonuses if there is one ready.
-            for (var b in this.bonuses) {
-                var bonusId = this.bonuses[b];
-                
-                //if there is a bonus ready, shows it
-                if (FlipPlusGame.bonusManager.getBonusAvaliable(bonusId)) {
-                    bonusready = bonusId;
-                    break;
-                }
-            }
-            
-            if (bonusready)
-                this.showBonusInfo(bonusready)
-            else
-                this.showNextBonus();
-        } 
-
-        // shows next bonus
-        private showNextBonus() {
-            // clear current interval
-            if (this.rotationTimeout) clearInterval(this.rotationTimeout);
-
-            this.showBonusInfo(this.bonuses[this.currentBonus++]);
-            if (this.currentBonus >= this.bonuses.length) this.currentBonus = 0;
-
-            this.rotationTimeout = setTimeout(() => {
-                // show a bonus current timer info in loop.
-                this.showNextBonus();
-
-            }, this.intervalTimeoutSeconds);
-        }
-
-        // show a single bonus timeout info.
-        private showBonusInfo(bonusId: string) {
-
-            var content = this.setTextIcon(StringResources[bonusId], StringResources[bonusId + "_title"], "partsicon", "");
-
-            this.currentParameter = bonusId;
-            this.currentAction = "bonus";
-
-            var highlighted = false;
-
-            // update texts
-            var update = () => {
-
-                var text;
-                var timeout = FlipPlusGame.bonusManager.getBonusTimeoutSeconds(bonusId);
-
-                if (!FlipPlusGame.bonusManager.getBonusUnlocked(bonusId)) {
-                    text = StringResources.bonusLocked;
-                    this.currentAction = "next";
-                }
-
-                else if (!FlipPlusGame.bonusManager.getBonusTimeReady(bonusId)) {
-                    text = this.toHHMMSS(timeout);
-                    this.currentAction = "next";
-                }
-
-                else if (FlipPlusGame.bonusManager.getBonusAvaliable(bonusId)) {
-                    this.currentParameter = bonusId;
-                    this.currentAction = "bonus";
-                    text = StringResources.mm_play;
-                    if (!highlighted) this.hightlighTerminal();
-                    highlighted = true;
-                }
-
-                var iconTextDO = <PIXI.extras.BitmapText>content.getChildByName("iconText")
-                iconTextDO.text = text;
-            }
-
-            if (this.secondsIntevalUpdate) clearInterval(this.secondsIntevalUpdate);
-            this.secondsIntevalUpdate = setInterval(update, 500);
-
-            update();
-
-            var smallText = <PIXI.extras.BitmapText>content.getChildByName("iconText")
-            //var iconDO = <PIXI.extras.BitmapText>content.getChildByName("icon")
-            //
-            smallText.pivot.x = smallText.getLocalBounds().width / 2 * smallText.scaleX;
-            //iconDO.x = - smallText.width / 2 - 20;
-            //smallText.x = iconDO.width / 2 + 20;
-        }
- 
-        // #endregion
-
-        // #region ending
-
         public showEnding() {
             this.setText(StringResources.endingText, 1000);
         }
-
-
-        // #endregion
-
-        // #region utils
-
+         
         private toHHMMSS(sec_num: number): string {
             var hours = Math.floor(sec_num / 3600);
             var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
@@ -402,9 +291,7 @@ module FlipPlus.Menu.View
             var time = s_hours + ':' + s_minutes + ':' + s_seconds;
             return time;
         }
-
-        // #endregion
-
+ 
 
     }
 }
