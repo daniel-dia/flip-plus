@@ -340,6 +340,7 @@ var imageManifest = [
 var audioManifest = [
 
     //Sound
+    { id: "roulette", src: "roulette.ogg" },
     { id: "Music Dot Robot", src: "Music Dot Robot.ogg" },
     { id: "terminal", src: "terminal.ogg" },
     { id: "terminalChar", src: "terminalChar.ogg" },

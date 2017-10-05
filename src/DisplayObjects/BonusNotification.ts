@@ -17,13 +17,13 @@ module FlipPlus.DisplayObjects {
             this.Image.regX = 304 / 2;
             this.Image.x = 250;
 
-            this.Text = gameui.AssetsManager.getBitmapText("SEU BONUS\nESTA PRONTO!", "fontWhite");
+            this.Text = gameui.AssetsManager.getBitmapText("", "fontWhite");
             this.Text.pivot.x = this.Text.textWidth / 2;
             this.Text.pivot.y = this.Text.textHeight / 2;
             this.Text.x = defaultWidth / 2;
             this.Text.align = 'center';
 
-            this.PlayButton = new gameui.BitmapTextButton("Play", "fontWhite", "menu/btmusicon", () => { this.emit("play"); });
+            this.PlayButton = new gameui.BitmapTextButton(StringResources.mm_play, "fontWhite", "menu/btmusicon", () => { this.emit("play"); });
             this.PlayButton.x = defaultWidth - 250;
 
             this.content.addChild(this.Text)
@@ -35,7 +35,7 @@ module FlipPlus.DisplayObjects {
 
         private updateBonusInfo() {
 
-            var seconds = this.bonusManager.getBonusTimeoutSeconds("Bonus1");
+            var seconds = this.bonusManager.getBonusTimeoutSeconds();
 
             if (seconds <= 0)
                 this.setBonusReadyText();
@@ -44,14 +44,14 @@ module FlipPlus.DisplayObjects {
         }
 
         private setCountDownText(seconds: number) {
-            this.Text.text = "PRÓXIMO BONUS\n" + this.toHHMMSS(seconds);
+            this.Text.text = StringResources.Bonus_next +"\n" + this.toHHMMSS(seconds);
             this.Text.pivot.x = this.Text.textWidth / 2;
             this.Text.pivot.y = this.Text.textHeight / 2;
             this.PlayButton.visible = false;
         }
 
         private setBonusReadyText() {
-            this.Text.text = "SEU BONUS\nESTA PRONTO!"
+            this.Text.text = StringResources.Bonus_ready; 
             this.Text.pivot.x = this.Text.textWidth / 2;
             this.Text.pivot.y = this.Text.textHeight / 2;
             this.PlayButton.visible = true;

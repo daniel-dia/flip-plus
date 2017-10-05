@@ -176,7 +176,7 @@ module FlipPlus {
 
         public static showBonus(bonusId: string) {
 
-            if (!this.bonusManager.getBonusAvaliable(bonusId)) return;
+            //if (!this.bonusManager.getBonusAvaliable(bonusId)) return;
 
             var bonusScreen: Bonus.BonusScreen;
             switch (bonusId) {
@@ -197,6 +197,8 @@ module FlipPlus {
 
             // restart bonus timer
             FlipPlusGame.bonusManager.restartBonusTimer(bonusId, halfTime);
+            FlipPlusGame.bonusManager.restartBonusTimer("Bonus", halfTime);
+
 
             // goes to Bonus screen
             this.gameScreen.switchScreen(bonusScreen);

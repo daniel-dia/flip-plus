@@ -70,6 +70,9 @@
     gp_mv_statusEnd: "END",
     gp_mv_noMoreMoves: "No more moves",
 
+    Bonus_ready: "BONUS\nIS READY!",
+    Bonus_next: "NEXT BONUS IN",
+    
     Bonus1_title: "Pick 3 Barrels",
     Bonus1: "Bonus 1",
     b1_popup1Ttitle: "Pick 3 Barrels",
@@ -364,6 +367,11 @@ var stringResources_pt = {
     gp_mv_Popup1Text3: "movimentos",
     gp_mv_statusEnd: "fim",
     gp_mv_noMoreMoves: "Acabou",
+
+
+    Bonus_ready: "SEU BONUS\nESTA PRONTO!",
+    Bonus_next: "PRÓXIMO BONUS",
+
 
     Bonus1_title: "Escolha 3 Barris",
     Bonus1: "Bonus 1",

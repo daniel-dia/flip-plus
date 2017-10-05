@@ -10,6 +10,7 @@ module FlipPlus.DisplayObjects {
 
         private screen: PIXI.Container;
 
+
         public constructor() {
             super();
 
@@ -42,7 +43,25 @@ module FlipPlus.DisplayObjects {
             this.staticFX.visible = false;
             this.screen.addChild(this.staticFX);
 
+            this.addPlayButton();
+
         }
+
+        private addPlayButton() {
+            //var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
+            var playBt = new gameui.TwoImageButtonBitmapText(StringResources["mm_play"], "fontStrong", 0xbf5110, "btplay_idle", "btplay_press", () => {
+                this.emit("play")
+            });
+
+            playBt.interactive = true;
+            playBt.x = 542;
+            playBt.y = 800;
+            this.addChild(playBt);
+        }
+
+
+        // --- // 
+
 
         private doStaticFX() {
             // animates static
@@ -69,10 +88,10 @@ module FlipPlus.DisplayObjects {
             this.doStaticFX();
 
             // play Sound
-            gameui.AudiosManager.playSound("terminal")
+            gameui.AudiosManager.playSound("terminal",true,0,0,0,0.5)
 
             // animates in the new content
-            createjs.Tween.get(content) 
+            createjs.Tween.get(content)
                 .to({ scaleX: 0, scaleY: 3, alpha: 0 })
                 .wait(100)
                 .to({ scaleX: 1, scaleY: 1, alpha: 1 }, 100, createjs.Ease.quadOut);
