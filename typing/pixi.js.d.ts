@@ -741,7 +741,7 @@ declare module PIXI {
     // renderers
 
     export interface IRendererOptions {
-
+        legacy?: boolean,
         view?: HTMLCanvasElement;
         transparent?: boolean;
         autoResize?: boolean;

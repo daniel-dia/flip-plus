@@ -46,7 +46,7 @@ module FlipPlus {
 
         public static initializeGame() {
             
-            this.gameScreen = new gameui.GameScreen("gameDiv", defaultWidth, defaultHeight, 60);
+            this.gameScreen = new gameui.GameScreen("gameDiv", defaultWidth, defaultHeight, 60,true);
 
             // userData
             this.levelsUserDataManager = new UserData.LevelsUserDataManager();

@@ -59,6 +59,7 @@
         public createCompletedBot() {
             // remove fill and stroke
             this.fill.visible = false;
+            this.fill.mask = null;
             this.stroke.visible = false
             this.removeChild(this.fill);
             this.removeChild(this.stroke);

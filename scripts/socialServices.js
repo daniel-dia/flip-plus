@@ -1,10 +1,11 @@
 ﻿var waitingLogin
 
 function initSocialServices() {
-
+    return;
     //Get specific social service form platform
     if (Cocoon.getPlatform() === 'ios') {
-   
+
+
         socialService = Cocoon.Social.GameCenter.getSocialInterface();
         //multiplayerService = gc.getMultiplayerInterface();
         usingGameCenter = true;

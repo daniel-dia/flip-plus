@@ -50,9 +50,10 @@ module gameui {
 
             // create a renderer instance.
             PIXIstage = new PIXI.Container();
-            //PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { legacy: legacy });
-            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight);//, { backgroundColor: 0 });
-            //var interactionManager = new PIXI.interaction.InteractionManager(PIXIrenderer);
+
+            PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { legacy: legacy});
+            //PIXIrenderer = new PIXI.CanvasRenderer(gameWidth, gameHeight, { legacy: legacy });
+            //PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { legacy: legacy }); 
 
             // add the renderer view element to the DOM
             document.getElementById(divId).appendChild(PIXIrenderer.view);

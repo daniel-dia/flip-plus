@@ -1,6 +1,6 @@
 /*!
- * pixi.js - v4.5.5
- * Compiled Fri, 08 Sep 2017 16:23:44 UTC
+ * pixi.js - v4.5.6
+ * Compiled Wed, 20 Sep 2017 21:09:30 UTC
  *
  * pixi.js is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -8277,7 +8277,7 @@ exports.__esModule = true;
  * @name VERSION
  * @type {string}
  */
-var VERSION = exports.VERSION = '4.5.5';
+var VERSION = exports.VERSION = '4.5.6';
 
 /**
  * Two Pi.
@@ -20828,6 +20828,7 @@ var Sprite = function (_Container) {
     Sprite.prototype._onTextureUpdate = function _onTextureUpdate() {
         this._textureID = -1;
         this._textureTrimmedID = -1;
+        this.cachedTint = 0xFFFFFF;
 
         // so if _width is 0 then width was not set..
         if (this._width) {
@@ -27742,7 +27743,6 @@ function isWebGLSupported() {
 
         var success = !!(gl && gl.getContextAttributes().stencil);
         var success = !!(gl);
-
         if (gl) {
             var loseContext = gl.getExtension('WEBGL_lose_context');
 
@@ -29986,6 +29986,7 @@ var AnimatedSprite = function (_core$Sprite) {
     AnimatedSprite.prototype.updateTexture = function updateTexture() {
         this._texture = this._textures[this.currentFrame];
         this._textureID = -1;
+        this.cachedTint = 0xFFFFFF;
 
         if (this.onFrameChange) {
             this.onFrameChange(this.currentFrame);
@@ -30953,15 +30954,6 @@ var TilingSprite = function (_core$Sprite) {
         _this._canvasPattern = null;
 
         /**
-         * flag indicating the texture has changed but hasn't
-         * been updated yet
-         *
-         * @member {boolean}
-         * @private
-         */
-        _this._textureDirtyFlag = true;
-
-        /**
          * transform that is applied to UV to get the texture coords
          *
          * @member {PIXI.extras.TextureTransform}
@@ -31002,7 +30994,7 @@ var TilingSprite = function (_core$Sprite) {
         if (this.uvTransform) {
             this.uvTransform.texture = this._texture;
         }
-        this._textureDirtyFlag = true;
+        this.cachedTint = 0xFFFFFF;
     };
 
     /**
@@ -31026,7 +31018,6 @@ var TilingSprite = function (_core$Sprite) {
 
         renderer.setObjectRenderer(renderer.plugins[this.pluginName]);
         renderer.plugins[this.pluginName].render(this);
-        this._textureDirtyFlag = false;
     };
 
     /**
@@ -31053,23 +31044,20 @@ var TilingSprite = function (_core$Sprite) {
         var modY = this.tilePosition.y / this.tileScale.y % texture._frame.height * baseTextureResolution;
 
         // create a nice shiny pattern!
-        if (this._textureDirtyFlag) {
+        if (this._textureID !== this._texture._updateID || this.cachedTint !== this.tint) {
+            this._textureID = this._texture._updateID;
             // cut an object from a spritesheet..
             var tempCanvas = new core.CanvasRenderTarget(texture._frame.width, texture._frame.height, baseTextureResolution);
 
             // Tint the tiling sprite
             if (this.tint !== 0xFFFFFF) {
-                if (this.cachedTint !== this.tint) {
-                    this.cachedTint = this.tint;
-
-                    this.tintedTexture = _CanvasTinter2.default.getTintedTexture(this, this.tint);
-                }
+                this.tintedTexture = _CanvasTinter2.default.getTintedTexture(this, this.tint);
                 tempCanvas.context.drawImage(this.tintedTexture, 0, 0);
             } else {
                 tempCanvas.context.drawImage(baseTexture.source, -texture._frame.x * baseTextureResolution, -texture._frame.y * baseTextureResolution);
             }
+            this.cachedTint = this.tint;
             this._canvasPattern = tempCanvas.context.createPattern(tempCanvas.canvas, 'repeat');
-            this._textureDirtyFlag = false;
         }
 
         // set context state..
@@ -37110,7 +37098,7 @@ var NineSlicePlane = function (_Plane) {
         this.updateHorizontalVertices();
         this.updateVerticalVertices();
 
-        this.dirty = true;
+        this.dirty++;
 
         this.multiplyUvs();
     };
@@ -37330,7 +37318,7 @@ var Plane = function (_Mesh) {
         this.uvs = new Float32Array(uvs);
         this.colors = new Float32Array(colors);
         this.indices = new Uint16Array(indices);
-        this.indexDirty = true;
+        this.indexDirty++;
 
         this.multiplyUvs();
     };
@@ -38136,19 +38124,23 @@ var ParticleContainer = function (_core$Container) {
     _inherits(ParticleContainer, _core$Container);
 
     /**
-     * @param {number} [maxSize=15000] - The maximum number of particles that can be renderer by the container.
+     * @param {number} [maxSize=1500] - The maximum number of particles that can be rendered by the container.
+     *  Affects size of allocated buffers.
      * @param {object} [properties] - The properties of children that should be uploaded to the gpu and applied.
      * @param {boolean} [properties.scale=false] - When true, scale be uploaded and applied.
      * @param {boolean} [properties.position=true] - When true, position be uploaded and applied.
      * @param {boolean} [properties.rotation=false] - When true, rotation be uploaded and applied.
      * @param {boolean} [properties.uvs=false] - When true, uvs be uploaded and applied.
-     * @param {boolean} [properties.alpha=false] - When true, alpha be uploaded and applied.
-     * @param {number} [batchSize=15000] - Number of particles per batch.
+     * @param {boolean} [properties.tint=false] - When true, alpha and tint be uploaded and applied.
+     * @param {number} [batchSize=16384] - Number of particles per batch. If less than maxSize, it uses maxSize instead.
+     * @param {boolean} [autoResize=true] If true, container allocates more batches in case
+     *  there are more than `maxSize` particles.
      */
     function ParticleContainer() {
         var maxSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1500;
         var properties = arguments[1];
         var batchSize = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 16384;
+        var autoResize = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
         _classCallCheck(this, ParticleContainer);
 
@@ -38214,6 +38206,13 @@ var ParticleContainer = function (_core$Container) {
          * @see PIXI.BLEND_MODES
          */
         _this.blendMode = core.BLEND_MODES.NORMAL;
+
+        /**
+         * If true, container allocates more batches in case there are more than `maxSize` particles.
+         * @member {boolean}
+         * @default false
+         */
+        _this.autoResize = autoResize;
 
         /**
          * Used for canvas renderering. If true then the elements will be positioned at the
@@ -38919,6 +38918,13 @@ var ParticleRenderer = function (_core$ObjectRenderer) {
                 amount = batchSize;
             }
 
+            if (j >= buffers.length) {
+                if (!container.autoResize) {
+                    break;
+                }
+                buffers.push(this._generateOneMoreBuffer(container));
+            }
+
             var buffer = buffers[j];
 
             // we always upload the dynamic
@@ -38956,6 +38962,23 @@ var ParticleRenderer = function (_core$ObjectRenderer) {
         }
 
         return buffers;
+    };
+
+    /**
+     * Creates one more particle buffer, because container has autoResize feature
+     *
+     * @param {PIXI.ParticleContainer} container - The container to render using this ParticleRenderer
+     * @return {PIXI.ParticleBuffer} generated buffer
+     * @private
+     */
+
+
+    ParticleRenderer.prototype._generateOneMoreBuffer = function _generateOneMoreBuffer(container) {
+        var gl = this.renderer.gl;
+        var batchSize = container._batchSize;
+        var dynamicPropertyFlags = container._properties;
+
+        return new _ParticleBuffer2.default(gl, this.properties, dynamicPropertyFlags, batchSize);
     };
 
     /**
