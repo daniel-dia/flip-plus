@@ -21,7 +21,7 @@ var gameui;
                 //this.loader.addEventListener("filestart", (evt: any) => { console.log("loading " + evt.item.src) })
                 this.loader.on("error ", function (evt) { console.log("error " + evt.item.src); });
                 this.loader.on("fileerror ", function (evt) { console.log("ferror " + evt.item.src); });
-                this.loader.on("progress", function (evt) { console.log("progress " + evt.progress); if (_this.onProgress)
+                this.loader.on("progress", function (evt) { if (_this.onProgress)
                     _this.onProgress(evt.progress); });
                 this.loader.on("fileload", function (evt) {
                     if (evt.item.type == "image")
@@ -145,9 +145,9 @@ var gameui;
             this.defaultHeight = gameHeight;
             // create a renderer instance.
             PIXIstage = new PIXI.Container();
-            PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { legacy: legacy });
+            //PIXIrenderer = new PIXI.WebGLRenderer(gameWidth, gameHeight, { legacy: legacy});
             //PIXIrenderer = new PIXI.CanvasRenderer(gameWidth, gameHeight, { legacy: legacy });
-            //PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { legacy: legacy }); 
+            PIXIrenderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, { legacy: legacy });
             // add the renderer view element to the DOM
             document.getElementById(divId).appendChild(PIXIrenderer.view);
             this.screenContainer = new PIXI.Container();
@@ -7480,6 +7480,88 @@ var currencies = {
     "EUR": "€",
     "VND": "₫"
 };
+var FlipPlus;
+(function (FlipPlus) {
+    var Bonus;
+    (function (Bonus) {
+        // Class
+        var BonusRouletteScreen = (function (_super) {
+            __extends(BonusRouletteScreen, _super);
+            function BonusRouletteScreen() {
+                var _this = _super.call(this) || this;
+                _this.addObjects();
+                return _this;
+            }
+            BonusRouletteScreen.prototype.addObjects = function () {
+                var _this = this;
+                this.bg = gameui.AssetsManager.getBitmap("BonusRoulette/bggeneric");
+                this.background.addChild(this.bg);
+                this.bg.scaleX = this.bg.scaleY = 4;
+                var titleDO = gameui.AssetsManager.getBitmapText("BONUS", "fontTitle");
+                this.content.addChild(titleDO);
+                titleDO.regX = titleDO.textWidth / 2;
+                titleDO.x = defaultWidth / 2;
+                titleDO.y = 200;
+                var textDO = gameui.AssetsManager.getBitmapText("Tap Play", "fontWhite");
+                this.content.addChild(textDO);
+                textDO.regX = textDO.textWidth / 2;
+                textDO.x = defaultWidth / 2;
+                textDO.y = 1600;
+                textDO.visible = false;
+                setTimeout(function () { textDO.visible = true; }, 5000);
+                this.light = gameui.AssetsManager.getBitmap("BonusRoulette/luzfundo");
+                this.background.addChild(this.light);
+                this.light.scaleX = this.light.scaleY = 3.5;
+                this.light.x = 768;
+                this.light.y = 1024;
+                this.light.regX = 768 / 2;
+                this.light.regY = 1024 / 2;
+                this.light.alpha = 0.15;
+                createjs.Tween.get(this.light).to({ rotation: Math.PI * 2 }, 6000).loop = true;
+                this.monitor = new FlipPlus.DisplayObjects.Monitor();
+                this.monitor.x = 768;
+                this.monitor.y = 1024;
+                this.content.addChild(this.monitor);
+                this.fx = new FlipPlus.Effects();
+                this.content.addChild(this.fx);
+                gameui.AudiosManager.playMusic("roulette");
+                setTimeout(function () { _this.startRoulette(); }, 500);
+            };
+            BonusRouletteScreen.prototype.startRoulette = function () {
+                var _this = this;
+                var bonus = ["Bonus1", "Bonus2", "Bonus3"];
+                var i = 0;
+                var interval = setInterval(function () {
+                    i = (i + Math.ceil(Math.random() * (bonus.length - 1))) % bonus.length;
+                    var preview = gameui.AssetsManager.getBitmap("BonusRoulette/" + bonus[i]);
+                    preview.regX = 969 / 2;
+                    preview.regY = 555 / 2;
+                    _this.monitor.setContent(preview);
+                }, 200);
+                this.monitor.once("play", function () {
+                    _this.fx.castEffect(768, 900, "Bolinhas", 5);
+                    gameui.AudiosManager.playSound("star");
+                    clearInterval(interval);
+                    setTimeout(function () {
+                        FlipPlus.FlipPlusGame.showBonus(bonus[i]);
+                    }, 1000);
+                });
+            };
+            //===========================================================
+            BonusRouletteScreen.prototype.activate = function (parameters) {
+                _super.prototype.activate.call(this, parameters);
+            };
+            BonusRouletteScreen.prototype.desactivate = function (parameters) {
+                createjs.Tween.removeTweens(this.light);
+            };
+            BonusRouletteScreen.prototype.back = function () {
+                return null;
+            };
+            return BonusRouletteScreen;
+        }(gameui.ScreenState));
+        Bonus.BonusRouletteScreen = BonusRouletteScreen;
+    })(Bonus = FlipPlus.Bonus || (FlipPlus.Bonus = {}));
+})(FlipPlus || (FlipPlus = {}));
 var version = "v 1.5.5";
 var defaultWidth = 1536;
 var defaultHeight = 2048;
@@ -7701,6 +7783,115 @@ var FlipPlus;
             return Highlight;
         }(gameui.UIItem));
         DisplayObjects.Highlight = Highlight;
+    })(DisplayObjects = FlipPlus.DisplayObjects || (FlipPlus.DisplayObjects = {}));
+})(FlipPlus || (FlipPlus = {}));
+var FlipPlus;
+(function (FlipPlus) {
+    var DisplayObjects;
+    (function (DisplayObjects) {
+        var Monitor = (function (_super) {
+            __extends(Monitor, _super);
+            function Monitor() {
+                var _this = _super.call(this) || this;
+                _this.regX = 1041 / 2;
+                _this.regY = 962 / 2;
+                // add Background
+                var background = gameui.AssetsManager.getBitmap("monitor");
+                _this.addChild(background);
+                // add screen contents
+                _this.screen = new PIXI.Container();
+                _this.screen.x = 39 + 969 / 2;
+                _this.screen.y = 30 + 555 / 2;
+                _this.addChild(_this.screen);
+                // mask screen
+                var mask = gameui.AssetsManager.getBitmap("terminalMask");
+                mask.regX = 484;
+                mask.regY = 277;
+                _this.screen.addChild(mask);
+                _this.screen.mask = mask;
+                // add Contents
+                _this.content = new PIXI.Container();
+                _this.screen.addChild(_this.content);
+                // add effects
+                _this.staticFX = gameui.AssetsManager.getBitmap("static");
+                _this.staticFX.visible = false;
+                _this.screen.addChild(_this.staticFX);
+                _this.addPlayButton();
+                return _this;
+            }
+            Monitor.prototype.addPlayButton = function () {
+                var _this = this;
+                //var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
+                var playBt = new gameui.TwoImageButtonBitmapText(StringResources["mm_play"], "fontStrong", 0xbf5110, "btplay_idle", "btplay_press", function () {
+                    _this.emit("play");
+                });
+                playBt.interactive = true;
+                playBt.x = 542;
+                playBt.y = 800;
+                this.addChild(playBt);
+            };
+            // --- // 
+            Monitor.prototype.doStaticFX = function () {
+                var _this = this;
+                // animates static
+                this.screen.addChild(this.staticFX);
+                this.staticFX.regX = 484;
+                this.staticFX.regY = 277;
+                this.staticFX.visible = true;
+                createjs.Tween.get(this.staticFX).
+                    to({ alpha: 0.1, y: -400 + 277 }, 30).
+                    to({ alpha: 0.7, y: -300 + 277 }, 30).
+                    to({ alpha: 0.1, y: -200 + 277 }, 30).
+                    to({ alpha: 0.7, y: -100 + 277 }, 30).
+                    to({ alpha: 0.1, y: 0 }, 50)
+                    .call(function () {
+                    _this.staticFX.visible = false;
+                });
+            };
+            Monitor.prototype.setContent = function (content) {
+                var _this = this;
+                var oldContent = this.content;
+                this.content = content;
+                this.screen.addChild(content);
+                this.doStaticFX();
+                // play Sound
+                gameui.AudiosManager.playSound("terminal", true, 0, 0, 0, 0.5);
+                // animates in the new content
+                createjs.Tween.get(content)
+                    .to({ scaleX: 0, scaleY: 3, alpha: 0 })
+                    .wait(100)
+                    .to({ scaleX: 1, scaleY: 1, alpha: 1 }, 100, createjs.Ease.quadOut);
+                // animates out the monitor content
+                if (oldContent)
+                    createjs.Tween.get(oldContent)
+                        .to({ scaleX: 3, scaleY: 0, alpha: 0 }, 100, createjs.Ease.quadOut)
+                        .call(function () { _this.screen.removeChild(oldContent); });
+            };
+            Monitor.prototype.setText = function (text, timeout) {
+                if (timeout === void 0) { timeout = 8000; }
+                var content = new PIXI.Container();
+                var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
+                textDO.maxWidth = 920;
+                textDO.x = -500;
+                textDO.y = -330;
+                content.addChild(textDO);
+                content.x = 420;
+                content.y = 250;
+                this.setContent(content);
+                var char = 0;
+                //textDO.text = text;
+                //return;
+                var i = setInterval(function () {
+                    textDO.text = "";
+                    textDO.text = text.substring(0, char++);
+                    gameui.AudiosManager.playSound("terminalChar", true);
+                    if (char > text.length)
+                        clearInterval(i);
+                }, 40);
+            };
+            return Monitor;
+        }(PIXI.Container));
+        DisplayObjects.Monitor = Monitor;
     })(DisplayObjects = FlipPlus.DisplayObjects || (FlipPlus.DisplayObjects = {}));
 })(FlipPlus || (FlipPlus = {}));
 var FlipPlus;
@@ -10192,196 +10383,5 @@ var FlipPlus;
         return Effects;
     }(PIXI.Container));
     FlipPlus.Effects = Effects;
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var Bonus;
-    (function (Bonus) {
-        // Class
-        var BonusRouletteScreen = (function (_super) {
-            __extends(BonusRouletteScreen, _super);
-            function BonusRouletteScreen() {
-                var _this = _super.call(this) || this;
-                _this.addObjects();
-                return _this;
-            }
-            BonusRouletteScreen.prototype.addObjects = function () {
-                var _this = this;
-                this.bg = gameui.AssetsManager.getBitmap("BonusRoulette/bggeneric");
-                this.background.addChild(this.bg);
-                this.bg.scaleX = this.bg.scaleY = 4;
-                var titleDO = gameui.AssetsManager.getBitmapText("BONUS", "fontTitle");
-                this.content.addChild(titleDO);
-                titleDO.regX = titleDO.textWidth / 2;
-                titleDO.x = defaultWidth / 2;
-                titleDO.y = 200;
-                var textDO = gameui.AssetsManager.getBitmapText("Tap Play", "fontWhite");
-                this.content.addChild(textDO);
-                textDO.regX = textDO.textWidth / 2;
-                textDO.x = defaultWidth / 2;
-                textDO.y = 1600;
-                textDO.visible = false;
-                setTimeout(function () { textDO.visible = true; }, 5000);
-                this.light = gameui.AssetsManager.getBitmap("BonusRoulette/luzfundo");
-                this.background.addChild(this.light);
-                this.light.scaleX = this.light.scaleY = 3.5;
-                this.light.x = 768;
-                this.light.y = 1024;
-                this.light.regX = 768 / 2;
-                this.light.regY = 1024 / 2;
-                this.light.alpha = 0.15;
-                createjs.Tween.get(this.light).to({ rotation: Math.PI * 2 }, 6000).loop = true;
-                this.monitor = new FlipPlus.DisplayObjects.Monitor();
-                this.monitor.x = 768;
-                this.monitor.y = 1024;
-                this.content.addChild(this.monitor);
-                this.fx = new FlipPlus.Effects();
-                this.content.addChild(this.fx);
-                gameui.AudiosManager.playMusic("roulette");
-                setTimeout(function () { _this.startRoulette(); }, 500);
-            };
-            BonusRouletteScreen.prototype.startRoulette = function () {
-                var _this = this;
-                var bonus = ["Bonus1", "Bonus2", "Bonus3"];
-                var i = 0;
-                var interval = setInterval(function () {
-                    i = (i + Math.ceil(Math.random() * (bonus.length - 1))) % bonus.length;
-                    var preview = gameui.AssetsManager.getBitmap("BonusRoulette/" + bonus[i]);
-                    preview.regX = 969 / 2;
-                    preview.regY = 555 / 2;
-                    _this.monitor.setContent(preview);
-                }, 200);
-                this.monitor.once("play", function () {
-                    _this.fx.castEffect(768, 900, "Bolinhas", 5);
-                    gameui.AudiosManager.playSound("star");
-                    clearInterval(interval);
-                    setTimeout(function () {
-                        FlipPlus.FlipPlusGame.showBonus(bonus[i]);
-                    }, 1000);
-                });
-            };
-            //===========================================================
-            BonusRouletteScreen.prototype.activate = function (parameters) {
-                _super.prototype.activate.call(this, parameters);
-            };
-            BonusRouletteScreen.prototype.desactivate = function (parameters) {
-                createjs.Tween.removeTweens(this.light);
-            };
-            BonusRouletteScreen.prototype.back = function () {
-                return null;
-            };
-            return BonusRouletteScreen;
-        }(gameui.ScreenState));
-        Bonus.BonusRouletteScreen = BonusRouletteScreen;
-    })(Bonus = FlipPlus.Bonus || (FlipPlus.Bonus = {}));
-})(FlipPlus || (FlipPlus = {}));
-var FlipPlus;
-(function (FlipPlus) {
-    var DisplayObjects;
-    (function (DisplayObjects) {
-        var Monitor = (function (_super) {
-            __extends(Monitor, _super);
-            function Monitor() {
-                var _this = _super.call(this) || this;
-                _this.regX = 1041 / 2;
-                _this.regY = 962 / 2;
-                // add Background
-                var background = gameui.AssetsManager.getBitmap("monitor");
-                _this.addChild(background);
-                // add screen contents
-                _this.screen = new PIXI.Container();
-                _this.screen.x = 39 + 969 / 2;
-                _this.screen.y = 30 + 555 / 2;
-                _this.addChild(_this.screen);
-                // mask screen
-                var mask = gameui.AssetsManager.getBitmap("terminalMask");
-                mask.regX = 484;
-                mask.regY = 277;
-                _this.screen.addChild(mask);
-                _this.screen.mask = mask;
-                // add Contents
-                _this.content = new PIXI.Container();
-                _this.screen.addChild(_this.content);
-                // add effects
-                _this.staticFX = gameui.AssetsManager.getBitmap("static");
-                _this.staticFX.visible = false;
-                _this.screen.addChild(_this.staticFX);
-                _this.addPlayButton();
-                return _this;
-            }
-            Monitor.prototype.addPlayButton = function () {
-                var _this = this;
-                //var playBt = new gameui.BitmapTextButton(StringResources["mm_play"], "fontTitle", "btplay_press", () => {
-                var playBt = new gameui.TwoImageButtonBitmapText(StringResources["mm_play"], "fontStrong", 0xbf5110, "btplay_idle", "btplay_press", function () {
-                    _this.emit("play");
-                });
-                playBt.interactive = true;
-                playBt.x = 542;
-                playBt.y = 800;
-                this.addChild(playBt);
-            };
-            // --- // 
-            Monitor.prototype.doStaticFX = function () {
-                var _this = this;
-                // animates static
-                this.screen.addChild(this.staticFX);
-                this.staticFX.regX = 484;
-                this.staticFX.regY = 277;
-                this.staticFX.visible = true;
-                createjs.Tween.get(this.staticFX).
-                    to({ alpha: 0.1, y: -400 + 277 }, 30).
-                    to({ alpha: 0.7, y: -300 + 277 }, 30).
-                    to({ alpha: 0.1, y: -200 + 277 }, 30).
-                    to({ alpha: 0.7, y: -100 + 277 }, 30).
-                    to({ alpha: 0.1, y: 0 }, 50)
-                    .call(function () {
-                    _this.staticFX.visible = false;
-                });
-            };
-            Monitor.prototype.setContent = function (content) {
-                var _this = this;
-                var oldContent = this.content;
-                this.content = content;
-                this.screen.addChild(content);
-                this.doStaticFX();
-                // play Sound
-                gameui.AudiosManager.playSound("terminal", true, 0, 0, 0, 0.5);
-                // animates in the new content
-                createjs.Tween.get(content)
-                    .to({ scaleX: 0, scaleY: 3, alpha: 0 })
-                    .wait(100)
-                    .to({ scaleX: 1, scaleY: 1, alpha: 1 }, 100, createjs.Ease.quadOut);
-                // animates out the monitor content
-                if (oldContent)
-                    createjs.Tween.get(oldContent)
-                        .to({ scaleX: 3, scaleY: 0, alpha: 0 }, 100, createjs.Ease.quadOut)
-                        .call(function () { _this.screen.removeChild(oldContent); });
-            };
-            Monitor.prototype.setText = function (text, timeout) {
-                if (timeout === void 0) { timeout = 8000; }
-                var content = new PIXI.Container();
-                var textDO = gameui.AssetsManager.getBitmapText("", "fontWhite");
-                textDO.maxWidth = 920;
-                textDO.x = -500;
-                textDO.y = -330;
-                content.addChild(textDO);
-                content.x = 420;
-                content.y = 250;
-                this.setContent(content);
-                var char = 0;
-                //textDO.text = text;
-                //return;
-                var i = setInterval(function () {
-                    textDO.text = "";
-                    textDO.text = text.substring(0, char++);
-                    gameui.AudiosManager.playSound("terminalChar", true);
-                    if (char > text.length)
-                        clearInterval(i);
-                }, 40);
-            };
-            return Monitor;
-        }(PIXI.Container));
-        DisplayObjects.Monitor = Monitor;
-    })(DisplayObjects = FlipPlus.DisplayObjects || (FlipPlus.DisplayObjects = {}));
 })(FlipPlus || (FlipPlus = {}));
 //# sourceMappingURL=script.js.map

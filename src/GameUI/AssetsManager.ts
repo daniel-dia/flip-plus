@@ -30,7 +30,7 @@ module gameui {
                 //this.loader.addEventListener("filestart", (evt: any) => { console.log("loading " + evt.item.src) })
                 this.loader.on("error ", (evt: any) => { console.log("error " + evt.item.src) })
                 this.loader.on("fileerror ", (evt: any) => { console.log("ferror " + evt.item.src) })
-                this.loader.on("progress", (evt: any) => { console.log("progress " + evt.progress); if (this.onProgress) this.onProgress(evt.progress) })
+                this.loader.on("progress", (evt: any) => {  if (this.onProgress) this.onProgress(evt.progress) })
                 this.loader.on("fileload", (evt: any): boolean => {
                     if (evt.item.type == "image")
                         images[evt.item.id] = <HTMLImageElement>evt.result;

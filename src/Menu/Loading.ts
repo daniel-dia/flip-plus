@@ -35,6 +35,7 @@ module FlipPlus.Menu {
             if (window.innerWidth <= 384) assetscale = 0.25;
             //if (levelCreatorMode) { assetscale = 1 }
 
+            
             this.preLoad();
         }
 
